@@ -1,0 +1,19 @@
+<h1>RESTer</h1>
+
+<h2>Request</h2>
+<div>
+    <div>
+        <label for="method">Method</label>
+        <input id="method" type="text" ng-model="request.method">
+    </div>
+    <div>
+        <label for="url">URL</label>
+        <input id="url" type="text" ng-model="request.url">
+    </div>
+    <div>
+        <input type="button" ng-click="load()" value="Load">
+    </div>
+</div>
+
+<h2>Response</h2>
+<code><pre>{{response}}</pre></code>

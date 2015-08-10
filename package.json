@@ -1,0 +1,29 @@
+{
+  "name": "rester",
+  "version": "0.0.1",
+  "title": "RESTer",
+  "description": "A powerful REST client.",
+  "homepage": "",
+  "permissions": {
+    "multiprocess": true
+  },
+  "author": "Jan Kühle <jkuehle90@gmail.com> (http://kuehle.me)",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": [],
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "connect": "^3.4.0",
+    "serve-static": "^1.10.0"
+  },
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "test": "jpm test",
+    "start": "jpm run",
+    "watch": "jpm watchpost --post-url http://127.0.0.1:8888",
+    "server": "node build/server.js"
+  }
+}
