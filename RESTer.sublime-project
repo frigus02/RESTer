@@ -7,5 +7,6 @@
     ],
 
     "tab_size": 4,
+    "detect_indentation": false,
     "translate_tabs_to_spaces": true
 }

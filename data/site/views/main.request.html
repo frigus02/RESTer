@@ -1,0 +1,53 @@
+<!-- Request -->
+<div layout="column">
+    <div layout="row" layout-align="space-between center" class="input-row">
+        <md-input-container>
+            <label>Method</label>
+            <md-select ng-model="request.method">
+                <md-option>DELETE</md-option>
+                <md-option>GET</md-option>
+                <md-option>HEAD</md-option>
+                <md-option>POST</md-option>
+                <md-option>PUT</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container flex>
+            <label>URL</label>
+            <input type="url" ng-model="request.url">
+        </md-input-container>
+        <md-button class="md-raised md-accent progress-button" ng-click="sendRequest()">
+            <span ng-hide="requestIsSending">Send</span>
+            <md-progress-circular ng-show="requestIsSending"
+                md-mode="indeterminate"
+                md-diameter="16"
+                class="progress-button"></md-progress-circular>
+        </md-button>
+    </div>
+
+    <md-tabs md-dynamic-height>
+        <md-tab label="Headers">
+            <header-input ng-model="request.headers"></header-input>
+        </md-tab>
+        <md-tab label="Body">
+            <md-input-container>
+                <label>Body</label>
+                <textarea ng-model="request.body"></textarea>
+            </md-input-container>
+        </md-tab>
+        <md-tab label="Authorization" ng-disabled="true">
+        </md-tab>
+    </md-tabs>
+</div>
+
+<!-- Response -->
+<div layout="column" ng-show="response">
+    <h3>Response</h3>
+    <md-tabs md-dynamic-height>
+        <md-tab label="Headers">
+            
+        </md-tab>
+        <md-tab label="Body">
+            <highlight-code code="{{response.text}}" format="true"></highlight-code>
+        </md-tab>
+    </md-tabs>
+</div>

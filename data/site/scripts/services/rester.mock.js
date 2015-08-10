@@ -17,7 +17,7 @@ angular.module('app')
                             'Content-Type': 'application/json;charset=UTF-8'
                         }
                     });
-                }, 100);
+                }, 500);
             });
         };
     }]);

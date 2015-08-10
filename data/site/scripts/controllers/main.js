@@ -1,17 +1,58 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rester', function ($scope, $rester) {
-        $scope.request = {
-            method: 'GET',
-            url: 'http://kuehle.me'
-        };
-        $scope.response = '';
+    .controller('MainCtrl', ['$scope', '$mdSidenav', '$state', function ($scope, $mdSidenav, $state) {
 
-        $scope.load = function () {
-            $rester.load($scope.request).then(function (text) {
-                $scope.response = JSON.stringify(text, null, 4);
-                $scope.$apply();
-            });
+        $scope.navItems = [
+            {
+                type: 'subheader',
+                title: 'Requests'
+            },
+            {
+                type: 'item',
+                title: 'New request',
+                targetState: 'main.request'
+            },
+            {
+                type: 'group',
+                title: 'Google Tasks',
+                expanded: false,
+                items: [
+                    {
+                        title: '/list'
+                    },
+                    {
+                        title: '/get/{id}'
+                    }
+                ]
+            },
+            {
+                type: 'divider'
+            },
+            {
+                type: 'item',
+                title: 'History',
+                targetState: 'main.history'
+            },
+            {
+                type: 'item',
+                title: 'About',
+                targetAction: function () {
+                    alert('About');
+                }
+            }
+        ];
+ 
+        $scope.toggleSidenav = function (menuId) {
+            $mdSidenav(menuId).toggle();
         };
+
+        $scope.getTitle = function () {
+            return ($state.current.data && $state.current.data.title) || 'RESTer';
+        };
+
+        $scope.getActions = function () {
+            return ($state.current.data && $state.current.data.actions) || [];
+        };
+
     }]);

@@ -1,19 +1,43 @@
-<h1>RESTer</h1>
+<div flex layout="row">
 
-<h2>Request</h2>
-<div>
-    <div>
-        <label for="method">Method</label>
-        <input id="method" type="text" ng-model="request.method">
+    <!-- Navigation -->
+    <md-sidenav class="md-sidenav-left" layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+        <md-toolbar class="nav-header">
+            <div class="md-toolbar-tools">
+                <h1>RESTer</h1>
+            </div>
+        </md-toolbar>
+
+        <md-content flex>
+            <navigation-list items="navItems"></navigation-list>
+        </md-content>
+    </md-sidenav>
+
+
+    <div flex layout="column">
+        
+        <!-- Toolbar -->
+        <md-toolbar class="md-whiteframe-z2">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" hide-gt-md ng-click="toggleSidenav('left')">
+                    <md-icon>menu</md-icon>
+                </md-button>
+                <h1>{{getTitle()}}</h1>
+
+                <div flex></div>
+
+                <md-button class="md-icon-button" ng-repeat="action in getActions()" ng-click="action.action()">
+                    <md-tooltip>{{action.title}}</md-tooltip>
+                    <md-icon>{{action.icon}}</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <!-- Content -->
+        <md-content flex layout="row" layout-align="center start" class="md-padding">
+            <div flex layout="column" class="main-content" ui-view></div>
+        </md-content>
+
     </div>
-    <div>
-        <label for="url">URL</label>
-        <input id="url" type="text" ng-model="request.url">
-    </div>
-    <div>
-        <input type="button" ng-click="load()" value="Load">
-    </div>
+
 </div>
-
-<h2>Response</h2>
-<code><pre>{{response}}</pre></code>

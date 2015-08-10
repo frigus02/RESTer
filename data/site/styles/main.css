@@ -1,0 +1,16 @@
+.nav-header {
+    background-color: #424242;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.md-toolbar-tools {
+    font-size: 24px;
+}
+
+.md-sidenav-left {
+    border-right: 1px solid #595959;
+}
+
+.main-content {
+    max-width: 1000px;
+}

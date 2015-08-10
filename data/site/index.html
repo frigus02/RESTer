@@ -1,16 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1" />
     <title>RESTer</title>
+    
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="bower_components/highlightjs/styles/darkula.css">
+
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/directives/highlight-code.css">
+    <link rel="stylesheet" href="styles/directives/navigation-list.css">
+    <link rel="stylesheet" href="styles/components/input-row.css">
+    <link rel="stylesheet" href="styles/components/progress-button.css">
 </head>
-<body ng-app="app">
-    <div ui-view></div>
+<body layout="row" ng-cloak>
+    <div flex layout="row" ui-view></div>
 
     <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="bower_components/angular-material/angular-material.min.js"></script>
+    <script src="bower_components/highlightjs/highlight.pack.min.js"></script>
     <script src="bower_components/ui-router/release/angular-ui-router.min.js"></script>
+    
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/main.request.js"></script>
+    <script src="scripts/controllers/main.history.js"></script>
+    <script src="scripts/directives/header-input.js"></script>
+    <script src="scripts/directives/highlight-code.js"></script>
+    <script src="scripts/directives/navigation-list.js"></script>
     <!--<script src="scripts/services/rester.js"></script>-->
     <script src="scripts/services/rester.mock.js"></script>
 </body>

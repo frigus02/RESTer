@@ -1,0 +1,10 @@
+.progress-button md-progress-circular {
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+}
+
+.progress-button .ng-hide {
+  	display: block !important;
+  	visibility: hidden !important;
+}

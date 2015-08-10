@@ -1,0 +1,26 @@
+navigation-list .md-button {
+    border-radius: 0;
+}
+
+.navigation-list-itemgroup .navigation-list-itemgroup__icon {
+    transition: transform 0.5s ease;
+}
+
+.navigation-list-itemgroup.expanded .navigation-list-itemgroup__icon {
+    transform: rotate(-180deg);
+}
+
+.navigation-list-itemgroup .navigation-list-itemgroup__subitems {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease;
+}
+
+.navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item {
+    min-height: 32px;
+}
+
+.navigation-list-itemgroup .navigation-list-itemgroup__subitems .md-list-item-inner {
+    min-height: 32px;
+    padding-left: 32px;
+}
