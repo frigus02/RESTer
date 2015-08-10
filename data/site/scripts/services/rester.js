@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$rester', ['$window', function ($window) {
+    .service('$rester', ['$window', '$q', function ($window, $q) {
         var self = this;
         var requests = {};
 
@@ -18,19 +18,17 @@ angular.module('app')
         });
 
         self.load = function (request) {
-            var id = Math.random();
+            var dfd = $q.defer(),
+                id = Math.random();
 
-            return new Promise(function(resolve, reject) {
-                requests[id] = {
-                    resolve,
-                    reject
-                };
+            requests[id] = dfd;
 
-                $window.postMessage({
-                    action: RESTer.actions.load,
-                    id: id,
-                    request: request
-                }, RESTer.origin);
-            });
+            $window.postMessage({
+                action: RESTer.actions.load,
+                id: id,
+                request: request
+            }, RESTer.origin);
+            
+            return dfd.promise;
         };
     }]);

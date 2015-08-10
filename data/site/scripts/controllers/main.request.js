@@ -34,7 +34,6 @@ angular.module('app')
                 .then(r => {
                     $scope.requestIsSending = false;
                     $scope.response = r;
-                    $scope.$apply();
                 })
                 .catch(e => {
                     $scope.requestIsSending = false;
