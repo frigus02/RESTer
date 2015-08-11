@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$mdSidenav', '$state', '$data',
-        function ($scope, $mdSidenav, $state, $data) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data',
+        function ($scope, $rootScope, $mdSidenav, $state, $data) {
 
             $scope.navItems = [];
 
@@ -81,6 +81,10 @@ angular.module('app')
             $scope.getActions = function () {
                 return ($state.current.data && $state.current.data.actions) || [];
             };
+
+            $scope.$watch('getTitle()', function () {
+                $rootScope.title = $scope.getTitle();
+            });
 
         }
     ]);
