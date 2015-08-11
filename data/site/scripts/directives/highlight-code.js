@@ -13,11 +13,12 @@ angular.module('app')
             restrict: 'E',
             scope: {
                 code: '@',
+                forceLanguage: '@',
                 format: '@'
             },
             template: `
                 <pre>
-                    <code class="hljs {{language}}" ng-bind-html="highlightedCode"></code>
+                    <code class="hljs language-{{language}}" ng-bind-html="highlightedCode"></code>
                 </pre>
             `,
             controller: function ($scope) {
@@ -28,7 +29,11 @@ angular.module('app')
 
                 function highlightCode() {
                     // http://highlightjs.readthedocs.org/en/latest/api.html#highlightauto-value-languagesubset
-                    var result = hljs.highlightAuto($scope.code);
+                    if ($scope.forceLanguage) {
+                        var result = hljs.highlight($scope.forceLanguage, $scope.code);
+                    } else {
+                        var result = hljs.highlightAuto($scope.code);
+                    }
 
                     if ($scope.$eval($scope.format) && CODE_FORMATTERS[result.language]) {
                         var formattedCode = CODE_FORMATTERS[result.language]($scope.code);

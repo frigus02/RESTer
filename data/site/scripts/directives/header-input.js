@@ -67,12 +67,26 @@ angular.module('app')
                 scope.headers = [];
 
                 ngModelCtrl.$render = function () {
-                    scope.headers = ngModelCtrl.$viewValue || [];
+                    scope.headers = _(ngModelCtrl.$viewValue || {})
+                        .pairs()
+                        .sortBy(0)
+                        .map(h => {
+                            return {
+                                name: h[0],
+                                value: h[1]
+                            };
+                        })
+                        .value();
                     ensureOneEmptyHeaderEntry();
                 };
 
                 scope.onHeaderUpdated = function () {
-                    ngModelCtrl.$setViewValue(scope.headers.filter(h => h.name));
+                    ngModelCtrl.$setViewValue(_(scope.headers)
+                        .map(h => {
+                            return [h.name, h.value];
+                        })
+                        .zipObject()
+                        .value());
                     ensureOneEmptyHeaderEntry();
                 };
 

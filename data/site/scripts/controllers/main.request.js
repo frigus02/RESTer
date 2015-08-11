@@ -31,7 +31,7 @@ angular.module('app')
                 title: null,
                 method: 'GET',
                 url: '',
-                headers: [],
+                headers: {},
                 body: ''
             };
 
@@ -52,7 +52,7 @@ angular.module('app')
                     })
                     .catch(e => {
                         $scope.requestIsSending = false;
-                        alert(e);
+                        $error.show(JSON.stringify(e));
                     });
             };
 
@@ -83,25 +83,22 @@ angular.module('app')
             };
 
             function saveRequest($event) {
-                if ($scope.request.collection && $scope.request.title) {
-                    $data.putRequest($scope.request);
-                } else {
-                    $mdDialog.show({
-                        targetEvent: $event,
-                        templateUrl: 'views/dialogs/save-request.html',
-                        controller: 'DialogSaveRequestCtrl'
-                    }).then(input => {
-                        $scope.request.collection = input.collection;
-                        $scope.request.title = input.title;
+                $mdDialog.show({
+                    targetEvent: $event,
+                    templateUrl: 'views/dialogs/save-request.html',
+                    controller: 'DialogSaveRequestCtrl',
+                    locals: $scope.request
+                }).then(input => {
+                    $scope.request.collection = input.collection;
+                    $scope.request.title = input.title;
 
-                        $data.putRequest($scope.request).then(() => {
-                            $state.go('main.request', {
-                                collection: $scope.request.collection,
-                                title: $scope.request.title
-                            })
-                        });
+                    $data.putRequest($scope.request).then(() => {
+                        $state.go('main.request', {
+                            collection: $scope.request.collection,
+                            title: $scope.request.title
+                        })
                     });
-                }
+                });
             }
 
             function showRequestHistory() {
