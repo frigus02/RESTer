@@ -1,0 +1,36 @@
+<md-dialog aria-label="List dialog">
+    <form name="saveRequest" novalidate>
+        <md-dialog-content>
+            <md-autocomplete
+                md-input-name="collection"
+                md-selected-item="collectionSelectedItem"
+                md-search-text="collection"
+                md-items="coll in queryCollections(collection)"
+                md-item-text="coll"
+                md-floating-label="Collection"
+                required>
+                <md-item-template>
+                    <span md-highlight-text="collection" md-highlight-flags="gi">{{coll}}</span>
+                </md-item-template>
+                <div ng-messages="saveRequest.collection.$error" ng-show="saveRequest.collection.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-autocomplete>
+            <md-input-container>
+                <label>Title</label>
+                <input name="title" type="text" ng-model="title" required>
+                <div ng-messages="saveRequest.title.$error" ng-show="saveRequest.title.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <div class="md-actions">
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="save()" class="md-primary" ng-disabled="!saveRequest.$valid">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

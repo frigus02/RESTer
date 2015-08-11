@@ -1,12 +1,12 @@
 const self = require('sdk/self');
 const buttons = require('sdk/ui/button/action');
 const tabs = require('sdk/tabs');
-const { load } = require('lib/request');
+const customrequest = require('lib/request');
 
 
-var button = buttons.ActionButton({
-    id: 'mozilla-link',
-    label: 'Visit Mozilla',
+buttons.ActionButton({
+    id: 'rester',
+    label: 'RESTer',
     icon: {
         '16': './site/images/icon16.png',
         '32': './site/images/icon32.png',
@@ -20,16 +20,16 @@ var button = buttons.ActionButton({
                     contentScriptFile: './site-content/rester.js'
                 });
 
-                worker.port.on('load', function (data) {
-                    load(data.request)
+                worker.port.on('sendRequest', function (data) {
+                    customrequest.send(data.request)
                         .then(function (response) {
-                            worker.port.emit('loadsuccess', {
+                            worker.port.emit('sendRequestSuccess', {
                                 id: data.id,
                                 response: response
                             });
                         })
                         .catch(function (error) {
-                            worker.port.emit('loaderror', {
+                            worker.port.emit('sendRequestError', {
                                 id: data.id,
                                 error: error
                             });

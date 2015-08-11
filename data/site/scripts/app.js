@@ -5,11 +5,12 @@ angular
         'ngAnimate',
         'ngAria',
         'ngMaterial',
+        'ngMessages',
         'ui.router'
     ])
     .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
         function($urlRouterProvider, $stateProvider, $mdThemingProvider) {
-            $urlRouterProvider.otherwise('/request');
+            $urlRouterProvider.otherwise('/request//');
             $stateProvider
                 .state('main', {
                     url: '/',
@@ -18,7 +19,7 @@ angular
                     abstract: true
                 })
                 .state('main.request', {
-                    url: 'request',
+                    url: 'request/:collection/:title',
                     templateUrl: 'views/main.request.html',
                     controller: 'RequestCtrl'
                 })

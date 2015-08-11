@@ -2,6 +2,23 @@ navigation-list .md-button {
     border-radius: 0;
 }
 
+
+navigation-list .md-subheader .md-subheader-content {
+	position: static;
+}
+
+navigation-list .md-subheader .md-subheader-content .md-button {
+	position: absolute;
+	top: 0;
+	right: -6px;
+	margin: 0;
+	line-height: 42px;
+	height: 42px;
+	width: 42px;
+	z-index: 1;
+}
+
+
 .navigation-list-itemgroup .navigation-list-itemgroup__icon {
     transition: transform 0.5s ease;
 }

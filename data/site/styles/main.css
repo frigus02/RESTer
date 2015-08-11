@@ -1,3 +1,8 @@
+body {
+	/* Some elements like tooltip and toast produce scrollbars as they show/hide. This removes them. */
+	overflow: hidden;
+}
+
 .nav-header {
     background-color: #424242;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);

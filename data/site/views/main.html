@@ -9,7 +9,7 @@
         </md-toolbar>
 
         <md-content flex>
-            <navigation-list items="navItems"></navigation-list>
+            <navigation-list items="navItems" item-clicked="toggleSidenav('left')"></navigation-list>
         </md-content>
     </md-sidenav>
 
@@ -26,7 +26,7 @@
 
                 <div flex></div>
 
-                <md-button class="md-icon-button" ng-repeat="action in getActions()" ng-click="action.action()">
+                <md-button class="md-icon-button" ng-repeat="action in getActions()" ng-click="action.action($event)">
                     <md-tooltip>{{action.title}}</md-tooltip>
                     <md-icon>{{action.icon}}</md-icon>
                 </md-button>

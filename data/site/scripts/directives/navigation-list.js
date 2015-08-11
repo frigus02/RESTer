@@ -6,14 +6,22 @@ angular.module('app')
         return {
             restrict: 'E',
             scope: {
-                items: '='
+                items: '=',
+                itemClicked: '&'
             },
             template: `
                 <md-list>
                     <span ng-repeat-start="item in items"></span>
 
                     <md-subheader ng-if="item.type === 'subheader'"
-                        class="md-no-sticky">{{item.title}}</md-subheader>
+                        class="md-no-sticky">
+                        {{item.title}}
+                        <md-button class="md-icon-button"
+                            ng-repeat="subitem in item.items"
+                            ng-click="invokeItem(subitem)">
+                            <md-icon>{{subitem.icon}}</md-icon>
+                        </md-button>
+                    </md-subheader>
 
                     <md-list-item ng-if="item.type === 'item'"
                         ng-click="invokeItem(item)">
@@ -42,8 +50,10 @@ angular.module('app')
             `,
             controller: function ($scope) {
                 $scope.invokeItem = function (item) {
+                    $scope.itemClicked({item: item});
+                    
                     if (item.targetState) {
-                        $state.go(item.targetState);
+                        $state.go(item.targetState, item.targetStateParams);
                     } else if (item.targetAction) {
                         item.targetAction();
                     }

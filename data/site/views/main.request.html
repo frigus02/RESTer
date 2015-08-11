@@ -41,13 +41,16 @@
 
 <!-- Response -->
 <div layout="column" ng-show="response">
-    <h3>Response</h3>
+    <h3 layout="row" layout-align="start center">
+        Response
+        <div class="badge {{getResponseBadgeModifierClass()}}">{{response.status}} {{response.statusText}}</div>
+    </h3>
     <md-tabs md-dynamic-height>
         <md-tab label="Headers">
-            
+            <highlight-code code="{{getFormattedResponseHeaders()}}"></highlight-code>
         </md-tab>
         <md-tab label="Body">
-            <highlight-code code="{{response.text}}" format="true"></highlight-code>
+            <highlight-code code="{{response.body}}" format="true"></highlight-code>
         </md-tab>
     </md-tabs>
 </div>

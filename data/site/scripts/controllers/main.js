@@ -1,58 +1,86 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$mdSidenav', '$state', function ($scope, $mdSidenav, $state) {
+    .controller('MainCtrl', ['$scope', '$mdSidenav', '$state', '$data',
+        function ($scope, $mdSidenav, $state, $data) {
 
-        $scope.navItems = [
-            {
-                type: 'subheader',
-                title: 'Requests'
-            },
-            {
-                type: 'item',
-                title: 'New request',
-                targetState: 'main.request'
-            },
-            {
-                type: 'group',
-                title: 'Google Tasks',
-                expanded: false,
-                items: [
-                    {
-                        title: '/list'
-                    },
-                    {
-                        title: '/get/{id}'
-                    }
-                ]
-            },
-            {
-                type: 'divider'
-            },
-            {
-                type: 'item',
-                title: 'History',
-                targetState: 'main.history'
-            },
-            {
-                type: 'item',
-                title: 'About',
-                targetAction: function () {
-                    alert('About');
-                }
+            $scope.navItems = [];
+
+            function buildNavigation() {
+                $data.getRequests().then(requests => {
+                    $scope.navItems = [];
+                    
+                    $scope.navItems.push({
+                        type: 'subheader',
+                        title: 'Requests',
+                        items: [
+                            {
+                                icon: 'add',
+                                targetState: 'main.request',
+                                targetStateParams: {
+                                    collection: null,
+                                    title: null
+                                }
+                            }
+                        ]
+                    });
+
+                    var requestNavItems = _(requests)
+                        .groupBy('collection')
+                        .pairs()
+                        .sortBy(0)
+                        .map(coll => {
+                            return {
+                                type: 'group',
+                                title: coll[0],
+                                expanded: false,
+                                items: _(coll[1]).sortBy('title').map(req => {
+                                    return {
+                                        title: req.title,
+                                        targetState: 'main.request',
+                                        targetStateParams: {
+                                            collection: req.collection,
+                                            title: req.title
+                                        }
+                                    };
+                                }).value()
+                            };
+                        })
+                        .value();
+
+                    $scope.navItems.push.apply($scope.navItems, requestNavItems);
+
+                    $scope.navItems.push({
+                        type: 'divider'
+                    }, {
+                        type: 'item',
+                        title: 'History',
+                        targetState: 'main.history'
+                    }, {
+                        type: 'item',
+                        title: 'About',
+                        targetAction: function () {
+                            alert('About');
+                        }
+                    });
+                });
             }
-        ];
- 
-        $scope.toggleSidenav = function (menuId) {
-            $mdSidenav(menuId).toggle();
-        };
 
-        $scope.getTitle = function () {
-            return ($state.current.data && $state.current.data.title) || 'RESTer';
-        };
+            buildNavigation();
+            $data.addChangeListener(buildNavigation);
 
-        $scope.getActions = function () {
-            return ($state.current.data && $state.current.data.actions) || [];
-        };
+     
+            $scope.toggleSidenav = function (menuId) {
+                $mdSidenav(menuId).toggle();
+            };
 
-    }]);
+            $scope.getTitle = function () {
+                return ($state.current.data && $state.current.data.title) || 'RESTer';
+            };
+
+            $scope.getActions = function () {
+                return ($state.current.data && $state.current.data.actions) || [];
+            };
+
+        }
+    ]);
