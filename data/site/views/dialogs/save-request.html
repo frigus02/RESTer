@@ -23,9 +23,12 @@
                     <div ng-message="required">This is required!</div>
                 </div>
             </md-input-container>
+            <md-checkbox ng-model="overwrite" ng-hide="isNew">
+                Overwrite existing request
+            </md-checkbox>
         </md-dialog-content>
         <div class="md-actions">
-            <md-button ng-click="cancel()">
+            <md-button ng-click="cancel()" class="md-primary">
                 Cancel
             </md-button>
             <md-button ng-click="save()" class="md-primary" ng-disabled="!saveRequest.$valid">

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogSaveRequestCtrl', ['$scope', '$mdDialog', '$data', 'collection', 'title',
-        function ($scope, $mdDialog, $data, collection, title) {
+    .controller('DialogSaveRequestCtrl', ['$scope', '$mdDialog', '$data', 'isNew', 'collection', 'title',
+        function ($scope, $mdDialog, $data, isNew, collection, title) {
 
             var collections = null;
 
@@ -11,8 +11,10 @@ angular.module('app')
                 return collections.filter(c => angular.lowercase(c).indexOf(lowercaseQuery) > -1);
             }
 
+            $scope.isNew = isNew;
             $scope.collection = collection;
             $scope.title = title;
+            $scope.overwrite = true;
 
             $scope.queryCollections = function (query) {
                 if (!query) return [];
@@ -35,7 +37,8 @@ angular.module('app')
             $scope.save = function() {
                 $mdDialog.hide({
                     collection: $scope.collection,
-                    title: $scope.title
+                    title: $scope.title,
+                    overwrite: $scope.overwrite
                 });
             }
 

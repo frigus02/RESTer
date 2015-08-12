@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$rester', ['$window', '$q', function ($window, $q) {
+    .service('$rester', ['$window', '$q', '$data', function ($window, $q, $data) {
         var self = this;
         var requests = {};
 
@@ -9,7 +9,7 @@ angular.module('app')
             if (event.origin !== RESTer.origin) return;
 
             if (event.data.action === RESTer.actions.sendRequestSuccess) {
-                requests[event.data.id].resolve(event.data.response);
+                requests[event.data.id].resolve(Object.assign(new $data.Response(), event.data.response));
                 requests[event.data.id] = undefined;
             } else if (event.data.action === RESTer.actions.sendRequestError) {
                 requests[event.data.id].reject(event.data.error);

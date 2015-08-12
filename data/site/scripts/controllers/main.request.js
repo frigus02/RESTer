@@ -10,14 +10,20 @@ angular.module('app')
                         title: 'Save request',
                         icon: 'save',
                         action: saveRequest
-                    },
-                    {
-                        title: 'View request history',
-                        icon: 'history',
-                        action: showRequestHistory
                     }
                 ]
             };
+
+            $scope.$watch('request.id', function () {
+                $state.current.data.actions.splice(1, 1);
+                if ($scope.request.hasOwnProperty('id')) {
+                    $state.current.data.actions.push({
+                        title: 'Delete request',
+                        icon: 'delete',
+                        action: deleteRequest
+                    });
+                }
+            });
 
             $scope.$watchGroup(['request.collection', 'request.title'], function () {
                 var collection = $scope.request.collection || '<no collection>',
@@ -26,22 +32,34 @@ angular.module('app')
                 $state.current.data.title = `${collection} / ${title}`;
             });
 
-            $scope.request = {
-                collection: null,
-                title: null,
-                method: 'GET',
-                url: '',
-                headers: {},
-                body: ''
-            };
+            $scope.request = new $data.Request();
+            $scope.response = null;
+            $scope.requestMethodSearch = '';
+            $scope.requestIsSending = false;
 
-            if ($stateParams.collection && $stateParams.title) {
-                $data.getRequest($stateParams.collection, $stateParams.title).then(r => {
+            if ($stateParams.id) {
+                $data.getRequest($stateParams.id).then(r => {
                     $scope.request = r;
                 });
+            } else if ($stateParams.request && $stateParams.response) {
+                $scope.request = $stateParams.request;
+                delete $scope.request.id;
+                $scope.response = $stateParams.response;
             }
 
-            $scope.requestIsSending = false;
+            $scope.queryRequestMethods = function (query) {
+                if (!query) return [];
+
+                var methods = ['DELETE', 'GET', 'HEAD', 'POST', 'PUT'],
+                    uppercaseQuery = angular.uppercase(query);
+
+                if (methods.indexOf(uppercaseQuery) === -1) {
+                    methods.push(uppercaseQuery);
+                    methods.sort();
+                }
+
+                return methods.filter(m => m.indexOf(uppercaseQuery) > -1);
+            };
 
             $scope.sendRequest = function () {
                 $scope.requestIsSending = true;
@@ -49,10 +67,16 @@ angular.module('app')
                     .then(r => {
                         $scope.requestIsSending = false;
                         $scope.response = r;
+
+                        $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
+                            time: new Date(),
+                            request: $scope.request,
+                            response: $scope.response
+                        }));
                     })
                     .catch(e => {
                         $scope.requestIsSending = false;
-                        $error.show(JSON.stringify(e));
+                        $error.show(e);
                     });
             };
 
@@ -71,38 +95,44 @@ angular.module('app')
                 }
             };
 
-            $scope.getFormattedResponseHeaders = function () {
-                if ($scope.response) {
-                    return _($scope.response.headers)
-                        .pairs()
-                        .sortBy(0)
-                        .map(h => `${h[0]}: ${h[1]}`)
-                        .value()
-                        .join('\r\n');
-                }
-            };
-
             function saveRequest($event) {
                 $mdDialog.show({
                     targetEvent: $event,
                     templateUrl: 'views/dialogs/save-request.html',
                     controller: 'DialogSaveRequestCtrl',
-                    locals: $scope.request
+                    locals: {
+                        isNew: !$scope.request.hasOwnProperty('id'),
+                        collection: $scope.request.collection,
+                        title: $scope.request.title
+                    }
                 }).then(input => {
                     $scope.request.collection = input.collection;
                     $scope.request.title = input.title;
+                    if (!input.overwrite) {
+                        delete $scope.request.id;
+                    }
 
                     $data.putRequest($scope.request).then(() => {
                         $state.go('main.request', {
-                            collection: $scope.request.collection,
-                            title: $scope.request.title
+                            id: $scope.request.id
                         })
                     });
                 });
             }
 
-            function showRequestHistory() {
-                
+            function deleteRequest($event) {
+                $mdDialog.show($mdDialog.confirm()
+                    .targetEvent($event)
+                    .content('Are you sure you want to delete the request?')
+                    .ok('Delete')
+                    .cancel('Cancel')
+                ).then(() => {
+                    $data.deleteRequest($scope.request).then(() => {
+                        $state.go('main.request', {
+                            id: null
+                        });
+                    });
+                });
             }
 
         }

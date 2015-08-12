@@ -1,19 +1,20 @@
 <!-- Request -->
 <div layout="column">
     <div layout="row" layout-align="space-between center" class="input-row">
-        <md-input-container>
-            <label>Method</label>
-            <md-select ng-model="request.method">
-                <md-option>DELETE</md-option>
-                <md-option>GET</md-option>
-                <md-option>HEAD</md-option>
-                <md-option>POST</md-option>
-                <md-option>PUT</md-option>
-            </md-select>
-        </md-input-container>
+        <md-autocomplete
+            md-selected-item="request.method"
+            md-search-text="requestMethodSearch"
+            md-items="method in queryRequestMethods(requestMethodSearch)"
+            md-item-text="method"
+            md-autoselect="true"
+            md-floating-label="Method">
+            <md-item-template>
+                <span md-highlight-text="requestMethodSearch" md-highlight-flags="gi">{{method}}</span>
+            </md-item-template>
+        </md-autocomplete>
         <md-input-container flex>
             <label>URL</label>
-            <input type="url" ng-model="request.url">
+            <input type="url" ng-model="request.url" focus>
         </md-input-container>
         <md-button class="md-raised md-accent progress-button" ng-click="sendRequest()">
             <span ng-hide="requestIsSending">Send</span>
@@ -47,7 +48,7 @@
     </h3>
     <md-tabs md-dynamic-height>
         <md-tab label="Headers">
-            <highlight-code code="{{getFormattedResponseHeaders()}}" force-language="http"></highlight-code>
+            <highlight-code code="{{response.getHeadersAsString()}}" force-language="http"></highlight-code>
         </md-tab>
         <md-tab label="Body">
             <highlight-code code="{{response.body}}" format="true"></highlight-code>

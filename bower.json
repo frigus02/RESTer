@@ -11,7 +11,7 @@
   "dependencies": {
     "angular": "~1.4.3",
     "ui-router": "~0.2.15",
-    "angular-material": "~0.10.1-rc5",
+    "angular-material": "~0.10.1",
     "highlightjs": "~8.7.0",
     "angular-messages": "~1.4.3",
     "lodash": "~3.10.1"

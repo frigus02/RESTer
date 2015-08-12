@@ -1,0 +1,16 @@
+<md-list>
+    <md-list-item class="md-3-line"
+        ng-repeat="entry in historyEntries | orderBy:'-time' track by entry.time"
+        ng-click="openHistoryEntry(entry)">
+        <div class="md-list-item-text">
+            <h3>{{entry.request.method}} {{entry.request.url}}</h3>
+            <h4>{{entry.response.status}} {{entry.response.statusText}}</h4>
+            <p>{{entry.time | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        </div>
+        <md-icon class="md-secondary material-icons"
+            aria-label="Delete history entry"
+            ng-click="deleteHistoryEntry(entry)">
+            delete
+        </md-icon>
+    </md-list-item>
+</md-list>

@@ -4,18 +4,37 @@ navigation-list .md-button {
 
 
 navigation-list .md-subheader .md-subheader-content {
-	position: static;
+    position: static;
 }
 
 navigation-list .md-subheader .md-subheader-content .md-button {
-	position: absolute;
-	top: 0;
-	right: -6px;
-	margin: 0;
-	line-height: 42px;
-	height: 42px;
-	width: 42px;
-	z-index: 1;
+    position: absolute;
+    top: -1px;
+    right: -6px;
+    margin: 0;
+    line-height: 42px;
+    height: 42px;
+    width: 42px;
+    z-index: 1;
+}
+
+
+navigation-list md-list-item .md-list-item-inner .navigation-list-item__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%
+}
+
+
+navigation-list md-list-item.active {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #00BCD4;
+}
+
+navigation-list md-list-item.active .md-button,
+navigation-list md-list-item.active button.md-no-style {
+    font-weight: bold;
 }
 
 
