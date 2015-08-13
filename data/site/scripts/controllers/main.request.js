@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$rester', '$data', '$mdDialog', '$error',
-        function ($scope, $state, $stateParams, $rester, $data, $mdDialog, $error) {
-        
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error',
+        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error) {
+
             $state.current.data = {
                 actions: [
                     {
@@ -32,20 +32,45 @@ angular.module('app')
                 $state.current.data.title = `${collection} / ${title}`;
             });
 
+            $scope.time = null;
             $scope.request = new $data.Request();
             $scope.response = null;
             $scope.requestMethodSearch = '';
             $scope.requestIsSending = false;
 
-            if ($stateParams.id) {
-                $data.getRequest($stateParams.id).then(r => {
-                    $scope.request = r;
-                });
-            } else if ($stateParams.request && $stateParams.response) {
-                $scope.request = $stateParams.request;
-                delete $scope.request.id;
-                $scope.response = $stateParams.response;
+            function updateState(newStateParams) {
+                $scope.requestIsSending = false;
+                $scope.requestMethodSearch = '';
+
+                if (newStateParams.historyId) {
+                    $data.getHistoryEntry(+newStateParams.historyId).then(historyEntry => {
+                        if (historyEntry.request.id != newStateParams.id) {
+                            $error.show();
+                            $state.go('main.request.new');
+                        } else {
+                            $scope.time = historyEntry.time;
+                            $scope.request = historyEntry.request;
+                            $scope.response = historyEntry.response;
+                        }
+                    });
+                } else if (newStateParams.id) {
+                    $data.getRequest(+newStateParams.id).then(request => {
+                        $scope.time = null;
+                        $scope.request = request;
+                        $scope.response = null;
+                    });
+                } else {
+                    $scope.time = null;
+                    $scope.request = new $data.Request();
+                    $scope.response = null;
+                }
             }
+
+            updateState($state.params);
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                toState.data = fromState.data;
+                updateState(toParams);
+            });
 
             $scope.queryRequestMethods = function (query) {
                 if (!query) return [];
@@ -64,15 +89,19 @@ angular.module('app')
             $scope.sendRequest = function () {
                 $scope.requestIsSending = true;
                 $rester.sendRequest($scope.request)
-                    .then(r => {
+                    .then(response => {
                         $scope.requestIsSending = false;
-                        $scope.response = r;
 
                         $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
                             time: new Date(),
                             request: $scope.request,
-                            response: $scope.response
-                        }));
+                            response: response
+                        })).then(historyId => {
+                            $state.go('main.request.history', {
+                                id: $scope.request.id,
+                                historyId: historyId
+                            });
+                        });
                     })
                     .catch(e => {
                         $scope.requestIsSending = false;
@@ -103,7 +132,8 @@ angular.module('app')
                     locals: {
                         isNew: !$scope.request.hasOwnProperty('id'),
                         collection: $scope.request.collection,
-                        title: $scope.request.title
+                        title: $scope.request.title,
+                        showHistoryWarning: $scope.request.hasOwnProperty('id') && $state.params.historyId
                     }
                 }).then(input => {
                     $scope.request.collection = input.collection;

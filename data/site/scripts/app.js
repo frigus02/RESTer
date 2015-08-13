@@ -10,7 +10,7 @@ angular
     ])
     .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
         function($urlRouterProvider, $stateProvider, $mdThemingProvider) {
-            $urlRouterProvider.otherwise('/request/');
+            $urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('main', {
                     url: '/',
@@ -19,13 +19,25 @@ angular
                     abstract: true
                 })
                 .state('main.request', {
-                    url: 'request/:id',
+                    url: '',
                     templateUrl: 'views/main.request.html',
                     controller: 'RequestCtrl',
+                    abstract: true
+                })
+                .state('main.request.new', {
+                    url: ''
+                })
+                .state('main.request.existing', {
+                    url: 'request/:id',
                     params: {
-                        time: undefined,
-                        request: undefined,
-                        response: undefined
+                        id: undefined
+                    }
+                })
+                .state('main.request.history', {
+                    url: 'request/:id/history/:historyId',
+                    params: {
+                        id: null,
+                        historyId: undefined
                     }
                 })
                 .state('main.history', {

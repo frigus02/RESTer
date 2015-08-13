@@ -23,8 +23,9 @@
                     <div ng-message="required">This is required!</div>
                 </div>
             </md-input-container>
-            <md-checkbox ng-model="overwrite" ng-hide="isNew">
+            <md-checkbox ng-model="overwrite" ng-hide="isNew" ng-class="{'md-warn': showHistoryWarning}">
                 Overwrite existing request
+                <div ng-show="showHistoryWarning">You are about to overwrite this entry with data from history.</div>
             </md-checkbox>
         </md-dialog-content>
         <div class="md-actions">

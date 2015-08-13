@@ -24,10 +24,7 @@ angular.module('app')
                         title: 'Requests',
                         action: {
                             icon: 'add',
-                            targetState: 'main.request',
-                            targetStateOptions: {
-                                inherit: false
-                            }
+                            targetState: 'main.request.new'
                         }
                     });
 
@@ -77,12 +74,9 @@ angular.module('app')
                     type: 'item',
                     id: request.id,
                     title: request.title,
-                    targetState: 'main.request',
+                    targetState: 'main.request.existing',
                     targetStateParams: {
                         id: request.id
-                    },
-                    targetStateOptions: {
-                        inherit: false
                     }
                 };
             }
@@ -92,12 +86,10 @@ angular.module('app')
                     type: 'item',
                     id: historyEntry.id,
                     title: `${$filter('date')(historyEntry.time, 'HH:mm:ss')} ${historyEntry.request.method} ${historyEntry.request.url}`,
-                    targetState: 'main.request',
+                    targetState: 'main.request.history',
                     targetStateParams: {
-                        id: undefined,
-                        time: historyEntry.time,
-                        request: historyEntry.request,
-                        response: historyEntry.response
+                        id: historyEntry.request.id,
+                        historyId: historyEntry.id
                     }
                 };
             }
@@ -166,7 +158,7 @@ angular.module('app')
             };
 
             $scope.getTitle = function () {
-                return ($state.current.data && $state.current.data.title) || 'RESTer';
+                return $state.current.data && $state.current.data.title;
             };
 
             $scope.getActions = function () {

@@ -156,7 +156,7 @@ angular.module('app')
                     transaction = createTransaction(db, ['requests'], dfd, request),
                     objectStore = transaction.objectStore('requests');
 
-                objectStore.get(+id).onsuccess = function (event) {
+                objectStore.get(id).onsuccess = function (event) {
                     Object.assign(request, event.target.result);
                 };
 
@@ -310,7 +310,7 @@ angular.module('app')
                     transaction = createTransaction(db, ['history'], dfd, entry),
                     objectStore = transaction.objectStore('history');
 
-                objectStore.get(+id).onsuccess = function (event) {
+                objectStore.get(id).onsuccess = function (event) {
                     Object.assign(entry, event.target.result);
                     entry.request = Object.assign(new self.Request(), entry.request);
                     entry.response = Object.assign(new self.Response(), entry.response);
