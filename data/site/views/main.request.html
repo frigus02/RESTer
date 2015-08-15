@@ -31,9 +31,14 @@
         </md-tab>
         <md-tab label="Body">
             <md-input-container>
-                <label>Body</label>
-                <textarea ng-model="request.body"></textarea>
+                <label>Language</label>
+                <md-select ng-model="bodyCodeMirrorOptions.mode">
+                    <md-option ng-value="{}" selected>Text</md-option>
+                    <md-option ng-value="{name: 'javascript', json: true}">JSON</md-option>
+                    <md-option ng-value="{name: 'xml'}">XML</md-option>
+                </md-select>
             </md-input-container>
+            <ui-codemirror ng-model="request.body" ui-codemirror-opts="bodyCodeMirrorOptions"></ui-codemirror>
         </md-tab>
         <md-tab label="Authorization" ng-disabled="true">
         </md-tab>

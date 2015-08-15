@@ -6,7 +6,8 @@ angular
         'ngAria',
         'ngMaterial',
         'ngMessages',
-        'ui.router'
+        'ui.router',
+        'ui.codemirror'
     ])
     .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
         function($urlRouterProvider, $stateProvider, $mdThemingProvider) {
