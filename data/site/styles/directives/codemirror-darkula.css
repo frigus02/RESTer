@@ -13,14 +13,8 @@
   color: #bababa !important;
   border: none;
 }
-.cm-s-darkula .CodeMirror-gutters {
-  color: #282a36;
-}
 .cm-s-darkula .CodeMirror-cursor {
-  border-left: solid thin #f8f8f0 !important;
-}
-.cm-s-darkula .CodeMirror-linenumber {
-  color: #6D8A88;
+  border-left: solid thin #bababa !important;
 }
 .cm-s-darkula .CodeMirror-focused .CodeMirror-selected,
 .cm-s-darkula .CodeMirror-line::selection,
