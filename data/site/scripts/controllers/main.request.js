@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error',
-        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error', '$filter',
+        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error, $filter) {
 
             $state.current.data = {
                 actions: [
@@ -25,11 +25,15 @@ angular.module('app')
                 }
             });
 
-            $scope.$watchGroup(['request.collection', 'request.title'], function () {
+            $scope.$watchGroup(['request.collection', 'request.title', 'time'], function () {
                 var collection = $scope.request.collection || '<no collection>',
-                    title = $scope.request.title || '<no title>';
+                    title = $scope.request.title || '<no title>',
+                    time = $scope.time ? $filter('date')($scope.time, 'yyyy-MM-dd HH:mm:ss') : '';
 
                 $state.current.data.title = `${collection} / ${title}`;
+                if (time) {
+                    $state.current.data.title += ` (${time})`;
+                }
             });
 
             $scope.time = null;
@@ -158,9 +162,7 @@ angular.module('app')
                     .cancel('Cancel')
                 ).then(() => {
                     $data.deleteRequest($scope.request).then(() => {
-                        $state.go('main.request', {
-                            id: null
-                        });
+                        $state.go('main.request.new');
                     });
                 });
             }
