@@ -1,8 +1,10 @@
 {
+  "id": "rester@kuehle.me",
   "name": "rester",
   "version": "0.0.1",
   "title": "RESTer",
   "description": "A powerful REST client.",
+  "icon": "icon.png",
   "homepage": "",
   "permissions": {
     "multiprocess": true
@@ -10,7 +12,7 @@
   "author": "Jan Kühle <jkuehle90@gmail.com> (http://kuehle.me)",
   "license": "MIT",
   "main": "index.js",
-  "dependencies": [],
+  "dependencies": {},
   "devDependencies": {
     "bower": "^1.4.1",
     "connect": "^3.4.0",
