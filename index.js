@@ -8,9 +8,9 @@ buttons.ActionButton({
     id: 'rester',
     label: 'RESTer',
     icon: {
-        '16': './site/images/icon16.png',
-        '32': './site/images/icon32.png',
-        '64': './site/images/icon64.png'
+        '16': './images/icon16.png',
+        '32': './images/icon32.png',
+        '64': './images/icon64.png'
     },
     onClick: function (state) {
         tabs.open({

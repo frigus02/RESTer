@@ -3,8 +3,7 @@
   "name": "rester",
   "version": "0.0.1",
   "title": "RESTer",
-  "description": "A powerful REST client.",
-  "icon": "icon.png",
+  "description": "A REST client for almost any web service.",
   "homepage": "",
   "permissions": {
     "multiprocess": true
@@ -19,12 +18,13 @@
     "serve-static": "^1.10.0"
   },
   "engines": {
-    "firefox": ">=38.0a1"
+    "firefox": ">=40.0"
   },
   "scripts": {
     "postinstall": "bower install",
     "test": "jpm test",
     "start": "jpm run",
+    "post": "jpm post --post-url http://127.0.0.1:8888",
     "watch": "jpm watchpost --post-url http://127.0.0.1:8888",
     "server": "node build/server.js"
   }

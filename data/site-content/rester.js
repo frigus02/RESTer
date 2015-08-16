@@ -3,14 +3,13 @@ var RESTer = {
         sendRequest: 'rester.sendRequest',
         sendRequestSuccess: 'rester.sendRequestSuccess',
         sendRequestError: 'rester.sendRequestError'
-    },
-    origin: 'resource://rester'
+    }
 };
 unsafeWindow.RESTer = cloneInto(RESTer, unsafeWindow);
 
 
 window.addEventListener('message', function(event) {
-    if (event.origin !== RESTer.origin) return;
+    if (event.origin !== window.location.origin) return;
 
     if (event.data.action === RESTer.actions.sendRequest) {
         self.port.emit('sendRequest', {
@@ -25,7 +24,7 @@ self.port.on('sendRequestSuccess', function (data) {
         action: RESTer.actions.sendRequestSuccess,
         id: data.id,
         response: data.response
-    }, RESTer.origin);
+    }, window.location.origin);
 });
 
 self.port.on('sendRequestError', function (data) {
@@ -33,5 +32,5 @@ self.port.on('sendRequestError', function (data) {
         action: RESTer.actions.sendRequestError,
         id: data.id,
         error: data.error
-    }, RESTer.origin);
+    }, window.location.origin);
 });

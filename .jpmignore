@@ -1,5 +1,6 @@
 build/
 node_modules/
+resources/
 test/
 .bowerrc
 .gitignore

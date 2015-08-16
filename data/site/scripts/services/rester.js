@@ -6,7 +6,7 @@ angular.module('app')
         var requests = {};
 
         $window.addEventListener('message', function(event) {
-            if (event.origin !== RESTer.origin) return;
+            if (event.origin !== $window.location.origin) return;
 
             if (event.data.action === RESTer.actions.sendRequestSuccess) {
                 requests[event.data.id].resolve(Object.assign(new $data.Response(), event.data.response));
@@ -27,7 +27,7 @@ angular.module('app')
                 action: RESTer.actions.sendRequest,
                 id: id,
                 request: request
-            }, RESTer.origin);
+            }, $window.location.origin);
             
             return dfd.promise;
         };
