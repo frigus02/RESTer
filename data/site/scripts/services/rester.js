@@ -8,10 +8,10 @@ angular.module('app')
         $window.addEventListener('message', function(event) {
             if (event.origin !== $window.location.origin) return;
 
-            if (event.data.action === RESTer.actions.sendRequestSuccess) {
+            if (event.data.action === 'rester.sendRequestSuccess') {
                 requests[event.data.id].resolve(Object.assign(new $data.Response(), event.data.response));
                 requests[event.data.id] = undefined;
-            } else if (event.data.action === RESTer.actions.sendRequestError) {
+            } else if (event.data.action === 'rester.sendRequestError') {
                 requests[event.data.id].reject(event.data.error);
                 requests[event.data.id] = undefined;
             }
@@ -24,7 +24,7 @@ angular.module('app')
             requests[id] = dfd;
 
             $window.postMessage({
-                action: RESTer.actions.sendRequest,
+                action: 'rester.sendRequest',
                 id: id,
                 request: request
             }, $window.location.origin);

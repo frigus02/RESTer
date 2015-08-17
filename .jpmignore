@@ -1,9 +1,12 @@
+.git/
+bower_components/
 build/
 node_modules/
 resources/
 test/
 .bowerrc
 .gitignore
+.jpmignore
 bower.json
 RESTer.sublime-workspace
 RESTer.sublime-project

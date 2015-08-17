@@ -14,7 +14,10 @@
   "dependencies": {},
   "devDependencies": {
     "bower": "^1.4.1",
+    "cheerio": "^0.19.0",
     "connect": "^3.4.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.4.2",
     "serve-static": "^1.10.0"
   },
   "engines": {
@@ -26,6 +29,7 @@
     "start": "jpm run",
     "post": "jpm post --post-url http://127.0.0.1:8888",
     "watch": "jpm watchpost --post-url http://127.0.0.1:8888",
-    "server": "node build/server.js"
+    "server": "node build/server.js",
+    "copybower": "node build/copy-bower.js"
   }
 }
