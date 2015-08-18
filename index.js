@@ -1,6 +1,7 @@
 const self = require('sdk/self');
 const buttons = require('sdk/ui/button/action');
 const tabs = require('sdk/tabs');
+const pageMod = require('sdk/page-mod');
 const customrequest = require('lib/request');
 
 
@@ -14,28 +15,30 @@ buttons.ActionButton({
     },
     onClick: function (state) {
         tabs.open({
-            url: './site/index.html',
-            onReady: function(tab) {
-                var worker = tab.attach({
-                    contentScriptFile: './site-content/rester.js'
-                });
+            url: './site/index.html'
+        });
+    }
+});
 
-                worker.port.on('sendRequest', function (data) {
-                    customrequest.send(data.request)
-                        .then(function (response) {
-                            worker.port.emit('sendRequestSuccess', {
-                                id: data.id,
-                                response: response
-                            });
-                        })
-                        .catch(function (error) {
-                            worker.port.emit('sendRequestError', {
-                                id: data.id,
-                                error: error
-                            });
-                        });
+pageMod.PageMod({
+    include: self.data.url('./site/index.html') + '*',
+    contentScriptFile: './site-content/rester.js',
+    attachTo: ['existing', 'top'],
+    onAttach: function(worker) {
+        worker.port.on('sendRequest', function (data) {
+            customrequest.send(data.request)
+                .then(function (response) {
+                    worker.port.emit('sendRequestSuccess', {
+                        id: data.id,
+                        response: response
+                    });
+                })
+                .catch(function (error) {
+                    worker.port.emit('sendRequestError', {
+                        id: data.id,
+                        error: error
+                    });
                 });
-            }
         });
     }
 });

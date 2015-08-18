@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "title": "RESTer",
   "description": "A REST client for almost any web service.",
-  "homepage": "",
+  "homepage": "https://github.com/frigus02/RESTer",
   "permissions": {
     "multiprocess": true
   },
