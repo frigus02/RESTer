@@ -153,7 +153,7 @@ angular.module('app')
                     }
 
                     $data.putRequest($scope.request).then(() => {
-                        $state.go('main.request', {
+                        $state.go('main.request.existing', {
                             id: $scope.request.id
                         })
                     });
