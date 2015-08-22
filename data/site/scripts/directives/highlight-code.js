@@ -16,11 +16,7 @@ angular.module('app')
                 forceLanguage: '@',
                 format: '@'
             },
-            template: `
-                <pre>
-                    <code class="hljs language-{{language}}" ng-bind-html="highlightedCode"></code>
-                </pre>
-            `,
+            templateUrl: 'views/directives/highlight-code.html',
             controller: function ($scope) {
                 $scope.language = '';
                 $scope.highlightedCode = '';

@@ -1,0 +1,29 @@
+<div layout="row" layout-align="space-between center" class="input-row" ng-repeat="header in headers">
+    <md-autocomplete flex
+        md-selected-item="header.$$selectedHeader"
+        md-search-text="header.name"
+        md-items="item in querySearchHeader(header.name)"
+        md-item-text="item.name"
+        md-floating-label="Name"
+        md-search-text-change="onHeaderUpdated()">
+        <md-item-template>
+            <span md-highlight-text="header.name" md-highlight-flags="gi">{{item.name}}</span>
+        </md-item-template>
+    </md-autocomplete>
+
+    <md-autocomplete flex
+        md-selected-item="header.$$selectedValue"
+        md-search-text="header.value"
+        md-items="item in querySearchHeaderValue(header.$$selectedHeader, header.value)"
+        md-item-text="item"
+        md-floating-label="Value"
+        md-search-text-change="onHeaderUpdated()">
+        <md-item-template>
+            <span md-highlight-text="header.value" md-highlight-flags="gi">{{item}}</span>
+        </md-item-template>
+    </md-autocomplete>
+
+    <md-button class="md-icon-button" ng-show="headers.length > 1" ng-click="removeHeader(header)">
+        <md-icon>remove</md-icon>
+    </md-button>
+</div>

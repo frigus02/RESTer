@@ -2,67 +2,59 @@
 
 angular.module('app')
     .directive('headerInput', [function () {
+
+        var COMMON_MIME_TYPES = [
+            'application/json',
+            'application/x-www-form-urlencoded',
+            'application/xhtml+xml',
+            'application/xml',
+            'text/html',
+            'text/plain',
+            'text/xml'
+        ];
         
+        var COMMON_CHARSETS = [
+            'utf-8',
+            'iso-8859-1'
+        ];
+
         var REQUEST_HEADERS = [
-            'Accept',
-            'Accept-Charset',
-            'Accept-Encoding',
-            'Accept-Language',
-            'Authorization',
-            'Cache-Control',
-            'Connection',
-            'Content-Type',
-            'Date',
-            'Expect',
-            'From',
-            'Host',
-            'If-Match',
-            'If-Modified-Since',
-            'If-None-Match',
-            'If-Range',
-            'If-Unmodified-Since',
-            'Max-Forwards',
-            'Pragma',
-            'Proxy-Authorization',
-            'Range',
-            'Referer',
-            'TE',
-            'Trailer',
-            'Transfer-Encoding',
-            'Upgrade',
-            'User-Agent',
-            'Via',
-            'Warning'
+            { name: 'Accept', suggestedValues: COMMON_MIME_TYPES },
+            { name: 'Accept-Charset', suggestedValues: COMMON_CHARSETS },
+            { name: 'Accept-Encoding', suggestedValues: ['gzip', 'deflate'] },
+            { name: 'Accept-Language' },
+            { name: 'Authorization' },
+            { name: 'Cache-Control', suggestedValues: ['no-cache'] },
+            { name: 'Connection', suggestedValues: ['close', 'keep-alive'] },
+            { name: 'Content-Type', suggestedValues: COMMON_MIME_TYPES },
+            { name: 'Date' },
+            { name: 'Expect' },
+            { name: 'From' },
+            { name: 'Host' },
+            { name: 'If-Match' },
+            { name: 'If-Modified-Since' },
+            { name: 'If-None-Match' },
+            { name: 'If-Range' },
+            { name: 'If-Unmodified-Since' },
+            { name: 'Max-Forwards' },
+            { name: 'Pragma' },
+            { name: 'Proxy-Authorization' },
+            { name: 'Range' },
+            { name: 'Referer' },
+            { name: 'TE' },
+            { name: 'Trailer' },
+            { name: 'Transfer-Encoding' },
+            { name: 'Upgrade' },
+            { name: 'User-Agent' },
+            { name: 'Via' },
+            { name: 'Warning' },
         ];
 
         return {
             restrict: 'E',
             require: 'ngModel',
             scope: true,
-            template: `
-                <div layout="row" layout-align="space-between center" class="input-row" ng-repeat="header in headers">
-                    <md-autocomplete flex
-                        md-selected-item="header.$$selectedItem"
-                        md-search-text="header.name"
-                        md-items="item in querySearch(header.name)"
-                        md-item-text="item"
-                        md-floating-label="Name"
-                        md-search-text-change="onHeaderUpdated()">
-                        <md-item-template>
-                            <span md-highlight-text="header.name" md-highlight-flags="gi">{{item}}</span>
-                        </md-item-template>
-                    </md-autocomplete>
-
-                    <md-input-container flex>
-                        <label>Value</label>
-                        <input type="text" ng-model="header.value" ng-change="onHeaderUpdated()">
-                    </md-input-container>
-
-                    <md-button class="md-icon-button" ng-show="headers.length > 1" ng-click="removeHeader(header)">
-                        <md-icon>remove</md-icon>
-                    </md-button>
-                </div>
-            `,
+            templateUrl: 'views/directives/header-input.html',
             link: function postLink(scope, element, attrs, ngModelCtrl) {
                 scope.headers = [];
 
@@ -73,7 +65,10 @@ angular.module('app')
                         .map(h => {
                             return {
                                 name: h[0],
-                                value: h[1]
+                                value: h[1],
+                                $$selectedHeader: REQUEST_HEADERS
+                                    .filter(rh => angular.lowercase(rh.name) === angular.lowercase(h[0]))
+                                    .pop()
                             };
                         })
                         .value();
@@ -82,9 +77,8 @@ angular.module('app')
 
                 scope.onHeaderUpdated = function () {
                     ngModelCtrl.$setViewValue(_(scope.headers)
-                        .map(h => {
-                            return [h.name, h.value];
-                        })
+                        .filter(h => h.name)
+                        .map(h => ([h.name, h.value]))
                         .zipObject()
                         .value());
                     ensureOneEmptyHeaderEntry();
@@ -100,7 +94,7 @@ angular.module('app')
                 };
 
                 function ensureOneEmptyHeaderEntry() {
-                    if (scope.headers.filter(h => !h.name && !h.value).length === 0) {
+                    if (scope.headers.filter(h => !h.name).length === 0) {
                         scope.headers.push({
                             name: '',
                             value: ''
@@ -109,11 +103,18 @@ angular.module('app')
                 }
             },
             controller: function ($scope) {
-                $scope.querySearch = function (query) {
+                $scope.querySearchHeader = function (query) {
                     if (!query) return [];
 
                     var lowercaseQuery = angular.lowercase(query);
-                    return REQUEST_HEADERS.filter(h => angular.lowercase(h).indexOf(lowercaseQuery) > -1);
+                    return REQUEST_HEADERS.filter(h => angular.lowercase(h.name).indexOf(lowercaseQuery) > -1);
+                };
+
+                $scope.querySearchHeaderValue = function (header, query) {
+                    if (!header || !header.suggestedValues || !query) return [];
+
+                    var lowercaseQuery = angular.lowercase(query);
+                    return header.suggestedValues.filter(v => angular.lowercase(v).indexOf(lowercaseQuery) > -1);
                 };
             }
         };
