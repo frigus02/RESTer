@@ -31,14 +31,13 @@ angular
                 .state('main.request.existing', {
                     url: 'request/:id',
                     params: {
-                        id: undefined
+                        id: null
                     }
                 })
-                .state('main.request.history', {
-                    url: 'request/:id/history/:historyId',
+                .state('main.request.existing.history', {
+                    url: '/history/:historyId',
                     params: {
-                        id: null,
-                        historyId: undefined
+                        historyId: null
                     }
                 })
                 .state('main.history', {

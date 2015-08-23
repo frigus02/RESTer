@@ -86,7 +86,7 @@ angular.module('app')
                     type: 'item',
                     id: historyEntry.id,
                     title: `${$filter('date')(historyEntry.time, 'HH:mm:ss')} ${historyEntry.request.method} ${historyEntry.request.url}`,
-                    targetState: 'main.request.history',
+                    targetState: 'main.request.existing.history',
                     targetStateParams: {
                         id: historyEntry.request.id,
                         historyId: historyEntry.id

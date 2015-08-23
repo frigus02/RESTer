@@ -14,7 +14,7 @@ angular.module('app')
         });
 
         $scope.openHistoryEntry = function (entry) {
-            $state.go('main.request.history', {
+            $state.go('main.request.existing.history', {
                 id: entry.request.id,
                 historyId: entry.id
             });

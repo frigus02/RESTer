@@ -55,7 +55,7 @@ angular.module('app')
                 if (newStateParams.historyId) {
                     $data.getHistoryEntry(+newStateParams.historyId).then(historyEntry => {
                         if (historyEntry.request.id != newStateParams.id) {
-                            $error.show();
+                            $error.show(`Specified request id (${newStateParams.id}) does not match the request id of the history entry (${historyEntry.request.id}).`);
                             $state.go('main.request.new');
                         } else {
                             $scope.time = historyEntry.time;
@@ -107,7 +107,7 @@ angular.module('app')
                             request: $scope.request,
                             response: response
                         })).then(historyId => {
-                            $state.go('main.request.history', {
+                            $state.go('main.request.existing.history', {
                                 id: $scope.request.id,
                                 historyId: historyId
                             });
