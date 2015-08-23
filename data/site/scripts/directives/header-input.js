@@ -52,19 +52,15 @@ angular.module('app')
 
         return {
             restrict: 'E',
-            require: 'ngModel',
-            scope: true,
+            scope: {
+                headers: '='
+            },
             templateUrl: 'views/directives/header-input.html',
-            link: function postLink(scope, element, attrs, ngModelCtrl) {
-                scope.headers = [];
+            link: function postLink(scope, element, attrs) {
+                scope.headersArray = [];
 
-                scope.$watch(
-                    function () { return ngModelCtrl.$viewValue; },
-                    function () { ngModelCtrl.$render(); },
-                    true);
-
-                ngModelCtrl.$render = function () {
-                    scope.headers = _(ngModelCtrl.$viewValue || {})
+                scope.$watch('headers', function () {
+                    scope.headersArray = _(scope.headers || {})
                         .pairs()
                         .sortBy(0)
                         .map(h => {
@@ -78,29 +74,29 @@ angular.module('app')
                         })
                         .value();
                     ensureOneEmptyHeaderEntry();
-                };
+                }, true);
 
                 scope.onHeaderUpdated = function () {
-                    ngModelCtrl.$setViewValue(_(scope.headers)
+                    scope.headers = _(scope.headersArray)
                         .filter(h => h.name)
                         .map(h => ([h.name, h.value]))
                         .zipObject()
-                        .value());
+                        .value();
                     ensureOneEmptyHeaderEntry();
                 };
 
                 scope.removeHeader = function (header) {
-                    var index = scope.headers.indexOf(header);
+                    var index = scope.headersArray.indexOf(header);
                     if (index > -1) {
-                        scope.headers.splice(index, 1);
+                        scope.headersArray.splice(index, 1);
                     }
 
                     scope.onHeaderUpdated();
                 };
 
                 function ensureOneEmptyHeaderEntry() {
-                    if (scope.headers.filter(h => !h.name).length === 0) {
-                        scope.headers.push({
+                    if (scope.headersArray.filter(h => !h.name).length === 0) {
+                        scope.headersArray.push({
                             name: '',
                             value: ''
                         });
