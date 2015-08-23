@@ -14,7 +14,7 @@ angular.module('app')
             function createNavigation() {
                 $q.all([
                     $data.getRequests(),
-                    $data.getHistoryEntries(5)
+                    $data.getHistoryEntries(-5)
                 ]).then(result => {
                     var [requests, historyEntries] = result;
                     $scope.navItems = [];

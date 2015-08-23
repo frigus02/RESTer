@@ -40,7 +40,8 @@
             </md-input-container>
             <ui-codemirror ng-model="request.body" ui-codemirror-opts="bodyCodeMirrorOptions"></ui-codemirror>
         </md-tab>
-        <md-tab label="Authorization" ng-disabled="true">
+        <md-tab label="Authorization">
+            <authorization-input></authorization-input>
         </md-tab>
     </md-tabs>
 </div>

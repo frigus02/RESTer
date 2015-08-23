@@ -51,4 +51,9 @@ angular
                 .primaryPalette('cyan')
                 .accentPalette('amber');
         }
+    ])
+    .run(['$authorization', '$authorizationProviderCustom',
+        function($authorization, $authorizationProviderCustom) {
+            $authorization.$$providers.push($authorizationProviderCustom);
+        }
     ]);

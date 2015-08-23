@@ -4,96 +4,6 @@ angular.module('app')
     .service('$data', ['$window', '$q', function ($window, $q) {
         var self = this,
             dataChangeListeners = [];
-        
-        // -------------------------------------------------------
-        // IDB helpers
-        // -------------------------------------------------------
-
-        function openDatabase() {
-            var dfd = $q.defer(),
-                request = $window.indexedDB.open('rester', 1);
-
-            request.onupgradeneeded = function(event) {
-                var db = event.target.result;
-                db.onerror = function (event) {
-                    dfd.reject('Error upgrading database: ' + event.target.errorCode);
-                };
-
-                var requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
-                requestsStore.createIndex('collection', 'collection', {unique: false});
-
-                var historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
-            };
-
-            request.onerror = function(event) {
-                dfd.reject('Error opening database: ' + event.target.errorCode);
-            };
-
-            request.onsuccess = function(event) {
-                dfd.resolve(event.target.result);
-            };
-
-            return dfd.promise;
-        }
-
-        function createTransaction(db, objectStores, dfd, result) {
-            var transaction = db.transaction(objectStores, 'readwrite');
-
-            transaction.oncomplete = function(event) {
-                if (typeof result === 'function') {
-                    result = result();
-                }
-
-                dfd.resolve(result);
-            };
-
-            transaction.onerror = function(event) {
-                dfd.reject('Error executing transaction: ' + event.target.errorCode);
-            };
-
-            return transaction;
-        }
-
-        function readAllEntriesIntoArray(cursorRequest, dfd, result, valueGetter, maxItems) {
-            if (!valueGetter) {
-                valueGetter = c => c.value;
-            }
-
-            cursorRequest.onsuccess = function(event) {
-                var cursor = event.target.result;
-                if (cursor && (!maxItems || result.length < maxItems)) {
-                    result.push(valueGetter(cursor));
-                    cursor.continue();
-                }
-            };
-
-            cursorRequest.onerror = function(event) {
-                dfd.reject('Error executing request: ' + event.target.errorCode);
-            };
-        }
-
-
-        // -------------------------------------------------------
-        // Change listeners
-        // -------------------------------------------------------
-
-        self.addChangeListener = function (listener) {
-            dataChangeListeners.push(listener);
-        };
-
-        function fireChangeListeners(changes) {
-            dataChangeListeners.forEach(l => { l(changes); });
-        }
-
-        function wrapFireChangeListenersForThen(action, item) {
-            return function () {
-                fireChangeListeners([{
-                    'action': action,
-                    'item': item
-                }]);
-            };
-        }
-
 
         // -------------------------------------------------------
         // Requests
@@ -110,14 +20,17 @@ angular.module('app')
          * @property {Object} headers - The request headers as key value pairs.
          * @property {String} body - The request body as string.
          */
-        self.Request = function () {
-            //this.id = 0;
-            this.collection = null;
-            this.title = null;
-            this.method = null;
-            this.url = null;
-            this.headers = {};
-            this.body = null;
+        self.Request = function (dbObject) {
+            if (dbObject) {
+                Object.assign(this, dbObject);
+            } else {
+                this.collection = null;
+                this.title = null;
+                this.method = null;
+                this.url = null;
+                this.headers = {};
+                this.body = null;
+            }
         };
 
         /**
@@ -129,17 +42,9 @@ angular.module('app')
          */
         self.putRequest = function (request) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    transaction = createTransaction(db, ['requests'], dfd, () => request.id),
-                    objectStore = transaction.objectStore('requests');
-                
-                objectStore.put(request).onsuccess = function (event) {
-                    request.id = event.target.result;
-                };
-
-                dfd.promise.then(wrapFireChangeListenersForThen('put', request));
-
-                return dfd.promise;
+                return createTransaction(db, ['requests'], function (transaction, objectStores) {
+                    return putEntityAndUpdateId(objectStores[0], request);
+                });
             });
         };
 
@@ -151,16 +56,9 @@ angular.module('app')
          */
         self.getRequest = function (id) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    request = new self.Request(),
-                    transaction = createTransaction(db, ['requests'], dfd, request),
-                    objectStore = transaction.objectStore('requests');
-
-                objectStore.get(id).onsuccess = function (event) {
-                    Object.assign(request, event.target.result);
-                };
-
-                return dfd.promise;
+                return createTransaction(db, ['requests'], function (transaction, objectStores) {
+                    return getEntity(objectStores[0], id, self.Request);
+                });
             });
         };
 
@@ -171,16 +69,9 @@ angular.module('app')
          */
         self.getRequests = function () {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    requests = [],
-                    transaction = createTransaction(db, ['requests'], dfd, requests),
-                    objectStore = transaction.objectStore('requests');
-
-                readAllEntriesIntoArray(objectStore.openCursor(), dfd, requests, c => {
-                    return Object.assign(new self.Request(), c.value);
+                return createTransaction(db, ['requests'], function (transaction, objectStores) {
+                    return getAllEntities(objectStores[0], self.Request);
                 });
-
-                return dfd.promise;
             });
         };
 
@@ -191,15 +82,10 @@ angular.module('app')
          */
         self.getRequestCollections = function () {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    collections = [],
-                    transaction = createTransaction(db, ['requests'], dfd, collections),
-                    objectStore = transaction.objectStore('requests'),
-                    index = objectStore.index('collection');
-
-                readAllEntriesIntoArray(index.openKeyCursor(null, 'nextunique'), dfd, collections, c => c.key);
-
-                return dfd.promise;
+                return createTransaction(db, ['requests'], function (transaction, objectStores) {
+                    var index = objectStore[0].index('collection');
+                    return getAllUniqueKeys(index);
+                });
             });
         };
 
@@ -211,15 +97,9 @@ angular.module('app')
          */
         self.deleteRequest = function (request) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    transaction = createTransaction(db, ['requests'], dfd),
-                    objectStore = transaction.objectStore('requests');
-                
-                objectStore.delete(request.id);
-
-                dfd.promise.then(wrapFireChangeListenersForThen('delete', request));
-
-                return dfd.promise;
+                return createTransaction(db, ['requests'], function (transaction, objectStores) {
+                    return deleteEntity(objectStores[0], request);
+                });
             });
         };
 
@@ -236,11 +116,15 @@ angular.module('app')
          * @property {Object} headers - The response headers as key value pairs.
          * @property {String} body - The response body as string.
          */
-        self.Response = function () {
-            this.status = 0;
-            this.statusText = null;
-            this.headers = {};
-            this.body = null;
+        self.Response = function (dbObject) {
+            if (dbObject) {
+                Object.assign(this, dbObject);
+            } else {
+                this.status = 0;
+                this.statusText = null;
+                this.headers = {};
+                this.body = null;
+            }
         };
 
         self.Response.prototype = {
@@ -267,11 +151,17 @@ angular.module('app')
          * @property {$data~Request} request - The executed request.
          * @property {$data~Response} response - The response.
          */
-        self.HistoryEntry = function (props) {
-            //this.id = 0;
-            this.time = 0;
-            this.request = null;
-            this.response = null;
+        self.HistoryEntry = function (dbObject) {
+            if (dbObject) {
+                this.id = dbObject.id;
+                this.time = dbObject.time;
+                this.request = new self.Request(dbObject.request);
+                this.response = new self.Response(dbObject.response);
+            } else {
+                this.time = 0;
+                this.request = null;
+                this.response = null;
+            }
         };
 
         /**
@@ -283,17 +173,9 @@ angular.module('app')
          */
         self.addHistoryEntry = function (entry) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    transaction = createTransaction(db, ['history'], dfd, () => entry.id),
-                    objectStore = transaction.objectStore('history');
-                
-                objectStore.add(entry).onsuccess = function (event) {
-                    entry.id = event.target.result;
-                };
-
-                dfd.promise.then(wrapFireChangeListenersForThen('add', entry));
-
-                return dfd.promise;
+                return createTransaction(db, ['history'], function (transaction, objectStores) {
+                    return addEntityAndUpdateId(objectStores[0], entry);
+                });
             });
         };
 
@@ -305,18 +187,9 @@ angular.module('app')
          */
         self.getHistoryEntry = function (id) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    entry = new self.HistoryEntry(),
-                    transaction = createTransaction(db, ['history'], dfd, entry),
-                    objectStore = transaction.objectStore('history');
-
-                objectStore.get(id).onsuccess = function (event) {
-                    Object.assign(entry, event.target.result);
-                    entry.request = Object.assign(new self.Request(), entry.request);
-                    entry.response = Object.assign(new self.Response(), entry.response);
-                };
-
-                return dfd.promise;
+                return createTransaction(db, ['history'], function (transaction, objectStores) {
+                    return getEntity(objectStores[0], id, self.HistoryEntry);
+                });
             });
         };
 
@@ -329,19 +202,9 @@ angular.module('app')
          */
         self.getHistoryEntries = function (top) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    historyEntries = [],
-                    transaction = createTransaction(db, ['history'], dfd, historyEntries),
-                    objectStore = transaction.objectStore('history');
-
-                readAllEntriesIntoArray(objectStore.openCursor(null, 'prev'), dfd, historyEntries, c => {
-                    var entry = Object.assign(new self.HistoryEntry(), c.value);
-                    entry.request = Object.assign(new self.Request(), entry.request);
-                    entry.response = Object.assign(new self.Response(), entry.response);
-                    return entry;
-                }, top);
-
-                return dfd.promise;
+                return createTransaction(db, ['history'], function (transaction, objectStores) {
+                    return getAllEntities(objectStores[0], self.HistoryEntry, top);
+                });
             });
         };
 
@@ -353,16 +216,277 @@ angular.module('app')
          */
         self.deleteHistoryEntry = function (entry) {
             return openDatabase().then(db => {
-                var dfd = $q.defer(),
-                    transaction = createTransaction(db, ['history'], dfd),
-                    objectStore = transaction.objectStore('history');
-                
-                objectStore.delete(entry.id);
-
-                dfd.promise.then(wrapFireChangeListenersForThen('delete', entry));
-
-                return dfd.promise;
+                return createTransaction(db, ['history'], function (transaction, objectStores) {
+                    return deleteEntity(objectStores[0], entry);
+                });
             });
         };
+
+
+        // -------------------------------------------------------
+        // Authorization Token Provider Configuration
+        // -------------------------------------------------------
+
+        /**
+         * @typedef $data~AuthorizationProviderConfiguration
+         * @type {Object}
+         * @property {Number} id - Unique id of the provider config.
+         * @property {String} title - Display name of the provider configuration.
+         * @property {Number} providerId - The id of the token provider, this
+         * configuration belongs to.
+         */
+        self.AuthorizationProviderConfiguration = function () {
+            if (dbObject) {
+                Object.assign(this, dbObject);
+            } else {
+                this.title = '';
+                this.providerId = 0;
+            }
+        };
+
+        self.putAuthorizationTokenProviderConfiguration = function (config) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
+                    return putEntityAndUpdateId(objectStores[0], config);
+                });
+            });
+        };
+
+        self.getAuthorizationTokenProviderConfigurations = function (providerId) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
+                    var index = objectStores[0].index('providerId');
+                    return getAllEntities(index, self.AuthorizationProviderConfiguration);
+                });
+            });
+        };
+
+        self.deleteAuthorizationTokenProviderConfiguration = function (config) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
+                    return deleteEntity(objectStores[0], config);
+                });
+            });
+        };
+
+
+        // -------------------------------------------------------
+        // Authorization Token
+        // -------------------------------------------------------
+
+        /**
+         * @typedef $data~AuthorizationToken
+         * @type {Object}
+         * @property {Number} id - Unique id of the token.
+         * @property {String} title - A human readable display name for the token.
+         * @property {String} scheme - The authorization scheme like "Basic" or
+         * "Bearer" as defined in https://tools.ietf.org/html/rfc2617.
+         * @property {String} token - The actual access token.
+         * @property {Date} expirationDate - An optional expiration date. The token
+         * will automatically be removed from database, when it is expired.
+         * @property {Number} providerId - The id of the token provider, which
+         * generated this token.
+         */
+        self.AuthorizationToken = function () {
+            if (dbObject) {
+                Object.assign(this, dbObject);
+            } else {
+                this.title = '';
+                this.scheme = '';
+                this.token = '';
+                this.expirationDate = null;
+                this.providerId = 0;
+            }
+        };
+
+        self.addAuthorizationToken = function (token) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['authTokens'], function (transaction, objectStores) {
+                    return addEntityAndUpdateId(objectStores[0], token);
+                });
+            });
+        };
+
+        self.getAuthorizationTokens = function () {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['authTokens'], function (transaction, objectStores) {
+                    return getAllEntities(objectStores[0], self.AuthorizationToken);
+                });
+            });
+        };
+
+        self.deleteAuthorizationToken = function (token) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['authTokens'], function (transaction, objectStores) {
+                    return deleteEntity(objectStores[0], token);
+                });
+            });
+        };
+
+
+        // -------------------------------------------------------
+        // Change listeners
+        // -------------------------------------------------------
+
+        self.addChangeListener = function (listener) {
+            dataChangeListeners.push(listener);
+        };
+
+        function fireChangeListeners(changes) {
+            dataChangeListeners.forEach(l => { l(changes); });
+        }
+
+        function wrapFireChangeListenersForThen(action, item) {
+            return function () {
+                fireChangeListeners([{
+                    'action': action,
+                    'item': item
+                }]);
+            };
+        }
+
+
+        // -------------------------------------------------------
+        // IDB helpers
+        // -------------------------------------------------------
+
+        function openDatabase() {
+            var dfd = $q.defer(),
+                request = $window.indexedDB.open('rester', 1);
+
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                db.onerror = function (event) {
+                    dfd.reject('Error upgrading database: ' + event.target.errorCode);
+                };
+
+                var requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
+                requestsStore.createIndex('collection', 'collection', {unique: false});
+
+                var historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
+
+                var authProviderConfigsStore = db.createObjectStore('authProviderConfigs', {keyPath: 'id', autoIncrement: true});
+                authProviderConfigsStore.createIndex('providerId', 'providerId', {unique: false});
+
+                var authTokensStore = db.createObjectStore('authTokens', {keyPath: 'id', autoIncrement: true});
+            };
+
+            request.onerror = function(event) {
+                dfd.reject('Error opening database: ' + event.target.errorCode);
+            };
+
+            request.onsuccess = function(event) {
+                dfd.resolve(event.target.result);
+            };
+
+            return dfd.promise;
+        }
+
+        function createTransaction(db, objectStoreNames, transactionContentCallback) {
+            var dfd = $q.defer(),
+                transaction = db.transaction(objectStoreNames, 'readwrite'),
+                objectStores = objectStoreNames.map(name => transaction.objectStore(name)),
+                result;
+
+            transaction.oncomplete = function(event) {
+                dfd.resolve(result);
+            };
+
+            transaction.onerror = function(event) {
+                dfd.reject('Error executing transaction: ' + event.target.errorCode);
+            };
+
+            result = transactionContentCallback(transaction, objectStores);
+
+            return dfd.promise;
+        }
+
+        function addEntityAndUpdateId(objectStore, entity) {
+            var dfd = $q.defer();
+
+            objectStore.add(entity).onsuccess = function (event) {
+                entity.id = event.target.result;
+
+                dfd.resolve(entity.id);
+            };
+
+            return dfd.promise.then(wrapFireChangeListenersForThen('add', entity));
+        }
+
+        function deleteEntity(objectStore, entity) {
+            var dfd = $q.defer();
+
+            objectStore.delete(entity).onsuccess = function (event) {
+                dfd.resolve();
+            };
+
+            return dfd.promise.then(wrapFireChangeListenersForThen('delete', entity));
+        }
+
+        function getEntity(objectStore, id, objectConstructor) {
+            var dfd = $q.defer();
+
+            objectStore.get(id).onsuccess = function (event) {
+                dfd.resolve(new objectConstructor(event.target.result));
+            };
+
+            return dfd.promise;
+        }
+
+        function getAllEntities(objectStoreOrIndex, objectConstructor, maxItems) {
+            var dfd = $q.defer(),
+                cursorRequest = objectStoreOrIndex.openCursor(null, +maxItems < 0 ? 'prev' : 'next'),
+                result = [];
+
+            cursorRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor && (!maxItems || result.length < Math.abs(maxItems))) {
+                    result.push(new objectConstructor(cursor.value));
+                    cursor.continue();
+                } else {
+                    dfd.resolve(result);
+                }
+            };
+
+            cursorRequest.onerror = function(event) {
+                dfd.reject('Error executing request: ' + event.target.errorCode);
+            };
+
+            return dfd.promise;
+        }
+
+        function getAllUniqueKeys(objectStoreOrIndex) {
+            var dfd = $q.defer(),
+                cursorRequest = objectStoreOrIndex.openKeyCursor(null, 'nextunique'),
+                result = [];
+
+            cursorRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    result.push(cursor.key);
+                    cursor.continue();
+                } else {
+                    dfd.resolve(result);
+                }
+            };
+
+            cursorRequest.onerror = function(event) {
+                dfd.reject('Error executing request: ' + event.target.errorCode);
+            };
+
+            return dfd.promise;
+        }
+
+        function putEntityAndUpdateId(objectStore, entity) {
+            var dfd = $q.defer();
+
+            objectStore.put(entity).onsuccess = function (event) {
+                entity.id = event.target.result;
+
+                dfd.resolve(entity.id);
+            };
+
+            return dfd.promise.then(wrapFireChangeListenersForThen('put', entity));
+        }
 
     }]);
