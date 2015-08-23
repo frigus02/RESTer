@@ -1,0 +1,49 @@
+<div ng-show="tokens.length > 0">
+    <h3>Use existing tokens</h3>
+    <md-list>
+        <md-list-item ng-repeat="token in tokens"
+            class="md-3-line" ng-class="{active: isTokenUsed(token)}"
+            ng-click="useToken(token)">
+            <div class="md-list-item-text">
+                <h3>{{token.title}}</h3>
+                <h4>{{getProviderById(token.providerId).title}}</h4>
+                <p>{{token.expirationDate | expirationDate}}</p>
+            </div>
+            <md-icon class="md-secondary material-icons"
+                aria-label="Delete token"
+                ng-click="deleteToken(token)">
+                delete
+            </md-icon>
+        </md-list-item>
+    </md-list>
+</div>
+
+<div ng-show="configurations.length > 0">
+    <h3>Generate new token</h3>
+    <md-list>
+        <md-list-item ng-repeat="config in configurations"
+            class="md-2-line"
+            ng-click="generateNewToken(config)">
+            <div class="md-list-item-text">
+                <h3>{{getProviderById(config.providerId).title}}</h3>
+                <p>{{config.title}}</p>
+            </div>
+            <md-icon class="md-secondary material-icons"
+                aria-label="Delete configuration"
+                ng-show="config.id"
+                ng-click="editConfiguration(config)">
+                edit
+            </md-icon>
+        </md-list-item>
+    </md-list>
+</div>
+
+<div ng-show="providers.length > 0">
+    <h3>Create new configuration</h3>
+    <md-list>
+        <md-list-item ng-repeat="provider in providers"
+            ng-click="createConfiguration(provider)">
+            <p>{{provider.title}}</p>
+        </md-list-item>
+    </md-list>
+</div>

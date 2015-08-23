@@ -41,17 +41,17 @@
             <ui-codemirror ng-model="request.body" ui-codemirror-opts="bodyCodeMirrorOptions"></ui-codemirror>
         </md-tab>
         <md-tab label="Authorization">
-            <authorization-input></authorization-input>
+            <authorization-input headers="request.headers"></authorization-input>
         </md-tab>
     </md-tabs>
 </div>
 
 <!-- Response -->
 <div layout="column" ng-show="response">
-    <h3 layout="row" layout-align="start center">
+    <h2 layout="row" layout-align="start center">
         Response
         <div class="badge {{getResponseBadgeModifierClass()}}">{{response.status}} {{response.statusText}}</div>
-    </h3>
+    </h2>
     <md-tabs md-dynamic-height>
         <md-tab label="Headers">
             <highlight-code code="{{response.getHeadersAsString()}}" force-language="http"></highlight-code>

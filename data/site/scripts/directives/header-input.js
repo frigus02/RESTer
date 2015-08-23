@@ -58,6 +58,11 @@ angular.module('app')
             link: function postLink(scope, element, attrs, ngModelCtrl) {
                 scope.headers = [];
 
+                scope.$watch(
+                    function () { return ngModelCtrl.$viewValue; },
+                    function () { ngModelCtrl.$render(); },
+                    true);
+
                 ngModelCtrl.$render = function () {
                     scope.headers = _(ngModelCtrl.$viewValue || {})
                         .pairs()

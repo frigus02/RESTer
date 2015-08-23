@@ -287,7 +287,7 @@ angular.module('app')
          * @property {Number} providerId - The id of the token provider, which
          * generated this token.
          */
-        self.AuthorizationToken = function () {
+        self.AuthorizationToken = function (dbObject) {
             if (dbObject) {
                 Object.assign(this, dbObject);
             } else {
@@ -352,7 +352,7 @@ angular.module('app')
 
         function openDatabase() {
             var dfd = $q.defer(),
-                request = $window.indexedDB.open('rester', 1);
+                request = $window.indexedDB.open('rester', 2);
 
             request.onupgradeneeded = function(event) {
                 var db = event.target.result;
@@ -360,15 +360,19 @@ angular.module('app')
                     dfd.reject('Error upgrading database: ' + event.target.errorCode);
                 };
 
-                var requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
-                requestsStore.createIndex('collection', 'collection', {unique: false});
+                if (event.newVersion === 1) {
+                    var requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
+                    requestsStore.createIndex('collection', 'collection', {unique: false});
 
-                var historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
+                    var historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
+                }
 
-                var authProviderConfigsStore = db.createObjectStore('authProviderConfigs', {keyPath: 'id', autoIncrement: true});
-                authProviderConfigsStore.createIndex('providerId', 'providerId', {unique: false});
+                if (event.newVersion === 2) {
+                    var authProviderConfigsStore = db.createObjectStore('authProviderConfigs', {keyPath: 'id', autoIncrement: true});
+                    authProviderConfigsStore.createIndex('providerId', 'providerId', {unique: false});
 
-                var authTokensStore = db.createObjectStore('authTokens', {keyPath: 'id', autoIncrement: true});
+                    var authTokensStore = db.createObjectStore('authTokens', {keyPath: 'id', autoIncrement: true});
+                }
             };
 
             request.onerror = function(event) {
@@ -416,7 +420,7 @@ angular.module('app')
         function deleteEntity(objectStore, entity) {
             var dfd = $q.defer();
 
-            objectStore.delete(entity).onsuccess = function (event) {
+            objectStore.delete(entity.id).onsuccess = function (event) {
                 dfd.resolve();
             };
 

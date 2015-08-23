@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$authorization', [function () {
+    .service('$authorization', ['$q', function ($q) {
         var self = this;
 
         /**
@@ -27,14 +27,14 @@ angular.module('app')
              * @returns {Promise.<$data~AuthorizationToken>} A promise, which
              * returns the authorization when it is resolved.
              */
-            generateToken: function (config) {},
+            generateToken: function (config) { return $q.reject(); },
 
             /**
              * Creates a new configuration. Will probably show a dialog to the user
              * asking for data.
              * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
              */
-            createConfiguration: function () {},
+            createConfiguration: function () { return $q.reject(); },
 
             /**
              * Edits the specified configuration. Will probably show a dialog to
@@ -42,7 +42,7 @@ angular.module('app')
              * @property {$data~AuthorizationProviderConfiguration} config
              * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
              */
-            editConfiguration: function (config) {}
+            editConfiguration: function (config) { return $q.reject(); }
         };
 
         self.$$providers = [];

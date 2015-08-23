@@ -1,0 +1,28 @@
+<md-dialog>
+    <form name="generateToken" novalidate>
+        <md-dialog-content>
+            <md-input-container>
+                <label>Scheme</label>
+                <input name="scheme" type="text" ng-model="token.scheme" required>
+                <div ng-messages="generateToken.scheme.$error" ng-show="generateToken.scheme.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Token</label>
+                <input name="token" type="text" ng-model="token.token" required>
+                <div ng-messages="generateToken.token.$error" ng-show="generateToken.token.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <div class="md-actions">
+            <md-button ng-click="cancel()" class="md-primary">
+                Cancel
+            </md-button>
+            <md-button ng-click="save()" class="md-primary" ng-disabled="!generateToken.$valid">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

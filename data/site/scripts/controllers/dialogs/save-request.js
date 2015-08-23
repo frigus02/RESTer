@@ -33,7 +33,7 @@ angular.module('app')
 
             $scope.cancel = function() {
                 $mdDialog.cancel();
-            }
+            };
 
             $scope.save = function() {
                 $mdDialog.hide({
@@ -41,7 +41,7 @@ angular.module('app')
                     title: $scope.title,
                     overwrite: $scope.overwrite
                 });
-            }
+            };
 
         }
     ]);
