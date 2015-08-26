@@ -1,0 +1,9 @@
+md-list-item.active {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #00BCD4;
+}
+
+md-list-item.active .md-button,
+md-list-item.active button.md-no-style {
+    font-weight: bold;
+}

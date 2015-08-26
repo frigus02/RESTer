@@ -15,6 +15,12 @@ angular.module('app')
                     $scope.tokens = tokens;
                 });
 
+                $scope.$watch('headers.Authorization', function () {
+                    $scope.tokens.forEach(token => {
+                        token.isUsed = $scope.headers.Authorization === `${token.scheme} ${token.token}`;
+                    });
+                });
+
                 $scope.configurations = [];
                 $scope.providers = [];
                 $authorization.getProviders().forEach(provider => {
@@ -37,12 +43,12 @@ angular.module('app')
                     return $authorization.getProviders().find(p => p.id === id);
                 }
 
-                $scope.useToken = function (token) {
-                    $scope.headers.Authorization = `${token.scheme} ${token.token}`;
-                };
-
-                $scope.isTokenUsed = function (token) {
-                    return $scope.headers.Authorization === `${token.scheme} ${token.token}`;
+                $scope.changeTokenUsage = function (token) {
+                    if (!token.isUsed) {
+                        delete $scope.headers.Authorization;
+                    } else {
+                        $scope.headers.Authorization = `${token.scheme} ${token.token}`;
+                    }
                 };
 
                 $scope.deleteToken = function (token) {

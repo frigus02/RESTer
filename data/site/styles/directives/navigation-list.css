@@ -27,17 +27,6 @@ navigation-list md-list-item .md-list-item-inner .navigation-list-item__text {
 }
 
 
-navigation-list md-list-item.active {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: #00BCD4;
-}
-
-navigation-list md-list-item.active .md-button,
-navigation-list md-list-item.active button.md-no-style {
-    font-weight: bold;
-}
-
-
 .navigation-list-itemgroup .navigation-list-itemgroup__icon {
     transition: transform 0.5s ease;
 }

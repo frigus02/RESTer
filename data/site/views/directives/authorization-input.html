@@ -2,8 +2,8 @@
     <h3>Use existing tokens</h3>
     <md-list>
         <md-list-item ng-repeat="token in tokens"
-            class="md-3-line" ng-class="{active: isTokenUsed(token)}"
-            ng-click="useToken(token)">
+            class="md-3-line" ng-class="{active: token.isUsed}">
+            <md-checkbox ng-model="token.isUsed" ng-change="changeTokenUsage(token)"></md-checkbox>
             <div class="md-list-item-text">
                 <h3>{{token.title}}</h3>
                 <h4>{{getProviderById(token.providerId).title}}</h4>
