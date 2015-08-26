@@ -38,7 +38,9 @@ angular.module('app')
 
             /**
              * Edits the specified configuration. Will probably show a dialog to
-             * the user asking for updated information.
+             * the user asking for updated information. When the result promise
+             * resolves to the string 'delete', this means the configuration should
+             * be deleted.
              * @property {$data~AuthorizationProviderConfiguration} config
              * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
              */

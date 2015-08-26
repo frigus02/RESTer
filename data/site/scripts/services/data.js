@@ -235,7 +235,7 @@ angular.module('app')
          * @property {Number} providerId - The id of the token provider, this
          * configuration belongs to.
          */
-        self.AuthorizationProviderConfiguration = function () {
+        self.AuthorizationProviderConfiguration = function (dbObject) {
             if (dbObject) {
                 Object.assign(this, dbObject);
             } else {
@@ -244,7 +244,7 @@ angular.module('app')
             }
         };
 
-        self.putAuthorizationTokenProviderConfiguration = function (config) {
+        self.putAuthorizationProviderConfiguration = function (config) {
             return openDatabase().then(db => {
                 return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
                     return putEntityAndUpdateId(objectStores[0], config);
@@ -252,7 +252,7 @@ angular.module('app')
             });
         };
 
-        self.getAuthorizationTokenProviderConfigurations = function (providerId) {
+        self.getAuthorizationProviderConfigurations = function (providerId) {
             return openDatabase().then(db => {
                 return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
                     var index = objectStores[0].index('providerId');
@@ -261,7 +261,7 @@ angular.module('app')
             });
         };
 
-        self.deleteAuthorizationTokenProviderConfiguration = function (config) {
+        self.deleteAuthorizationProviderConfiguration = function (config) {
             return openDatabase().then(db => {
                 return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
                     return deleteEntity(objectStores[0], config);

@@ -69,14 +69,23 @@ angular.module('app')
                 };
 
                 $scope.editConfiguration = function (config) {
-                    $scope.getProviderById(config.providerId).editConfiguration(config).then(config => {
-                        $data.putAuthorizationProviderConfiguration(config);
-                        
-                        var index = $scope.configurations.findIndex(c => c.id === config.id);
-                        if (index > 0) {
-                            $scope.configurations.splice(index, 1, config);
+                    $scope.getProviderById(config.providerId).editConfiguration(config).then(newConfig => {
+                        if (newConfig === 'delete') {
+                            $data.deleteAuthorizationProviderConfiguration(config).then(() {
+                                var index = $scope.configurations.findIndex(c => c.id === config.id);
+                                if (index > 0) {
+                                    $scope.configurations.splice(index, 1);
+                                }
+                            });
                         } else {
-                            $scope.configurations.push(config);
+                            $data.putAuthorizationProviderConfiguration(newConfig).then(() {
+                                var index = $scope.configurations.findIndex(c => c.id === config.id);
+                                if (index > 0) {
+                                    $scope.configurations.splice(index, 1, newConfig);
+                                } else {
+                                    $scope.configurations.push(newConfig);
+                                }
+                            });
                         }
                     });
                 };

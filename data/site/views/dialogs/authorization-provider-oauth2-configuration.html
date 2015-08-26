@@ -1,0 +1,70 @@
+<md-dialog>
+    <form name="configurationOAuth2" novalidate>
+        <md-dialog-content>
+            <md-input-container>
+                <label>Title</label>
+                <input name="title" type="text" ng-model="config.title" required>
+                <div class="input-description">A name for this configuration, only used to identity the config in RESTer.</div>
+                <div ng-messages="configurationOAuth2.title.$error" ng-show="configurationOAuth2.title.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Authorization endpoint</label>
+                <input name="authorizationEndpoint" type="url" ng-model="config.authorizationEndpoint" required>
+                <div ng-messages="configurationOAuth2.authorizationEndpoint.$error" ng-show="configurationOAuth2.authorizationEndpoint.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Response type</label>
+                <md-select ng-model="config.responseType" required>
+                    <md-option>code</md-option>
+                    <md-option>token</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container ng-if="config.responseType === 'code'">
+                <label>Access token endpoint</label>
+                <input name="accessTokenEndpoint" type="url" ng-model="config.accessTokenEndpoint" required>
+                <div ng-messages="configurationOAuth2.accessTokenEndpoint.$error" ng-show="configurationOAuth2.accessTokenEndpoint.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Client ID</label>
+                <input name="clientId" type="text" ng-model="config.clientId" required>
+                <div ng-messages="configurationOAuth2.clientId.$error" ng-show="configurationOAuth2.clientId.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Redirect URI</label>
+                <input name="redirectUri" type="url" ng-model="config.redirectUri" required>
+                <div class="input-description">Please provide any valid redirect uri for the OAuth 2 client. When this URL is loaded, RESTer fill grap the access token from the URL and finish the authorization flow.</div>
+                <div ng-messages="configurationOAuth2.redirectUri.$error" ng-show="configurationOAuth2.redirectUri.$touched">
+                    <div ng-message="required">This is required!</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Scope (optional)</label>
+                <input name="scope" type="text" ng-model="config.scope">
+            </md-input-container>
+            <md-input-container>
+                <label>State (optional)</label>
+                <input name="state" type="text" ng-model="config.state">
+            </md-input-container>
+        </md-dialog-content>
+        <div class="md-actions">
+            <md-button ng-click="delete()" class="md-warn neutral-action" ng-show="config.id">
+                Delete
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="cancel()" class="md-primary">
+                Cancel
+            </md-button>
+            <md-button ng-click="save()" class="md-primary" ng-disabled="!configurationOAuth2.$valid">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

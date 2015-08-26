@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogSaveRequestCtrl', ['$scope', '$mdDialog', '$data', 'isNew', 'collection', 'title', 'showHistoryWarning',
+    .controller('DialogSaveRequestCtrl', [
+        '$scope', '$mdDialog', '$data', 'isNew', 'collection', 'title', 'showHistoryWarning',
         function ($scope, $mdDialog, $data, isNew, collection, title, showHistoryWarning) {
 
             var collections = null;
