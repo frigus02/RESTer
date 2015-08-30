@@ -14,6 +14,12 @@ angular.module('app')
             } else if (event.data.action === 'rester.sendRequestError') {
                 requests[event.data.id].reject(event.data.error);
                 requests[event.data.id] = undefined;
+            } else if (event.data.action === 'rester.sendBrowserRequestSuccess') {
+                requests[event.data.id].resolve(event.data.response);
+                requests[event.data.id] = undefined;
+            } else if (event.data.action === 'rester.sendBrowserRequestError') {
+                requests[event.data.id].reject(event.data.error);
+                requests[event.data.id] = undefined;
             }
         });
 
@@ -25,6 +31,21 @@ angular.module('app')
 
             $window.postMessage({
                 action: 'rester.sendRequest',
+                id: id,
+                request: request
+            }, $window.location.origin);
+            
+            return dfd.promise;
+        };
+
+        self.sendBrowserRequest = function (request) {
+            var dfd = $q.defer(),
+                id = Math.random();
+
+            requests[id] = dfd;
+
+            $window.postMessage({
+                action: 'rester.sendBrowserRequest',
                 id: id,
                 request: request
             }, $window.location.origin);

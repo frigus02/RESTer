@@ -5,7 +5,7 @@ angular.module('app')
 
         return function (input) {
             if (input) {
-                return $filter('date')(input, 'yyyy-MM-dd HH:mm:ss');
+                return 'Expires ' + $filter('date')(input, 'yyyy-MM-dd HH:mm:ss');
             } else {
                 return 'Never expires';
             }

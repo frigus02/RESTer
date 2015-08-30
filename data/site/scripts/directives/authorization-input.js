@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .directive('authorizationInput', ['$authorization', '$data', function ($authorization, $data) {
+    .directive('authorizationInput', ['$authorization', '$data', '$error', function ($authorization, $data, $error) {
 
         return {
             restrict: 'E',
@@ -41,7 +41,11 @@ angular.module('app')
 
                 $scope.getProviderById = function (id) {
                     return $authorization.getProviders().find(p => p.id === id);
-                }
+                };
+
+                $scope.getConfigurationById = function (id) {
+                    return $scope.configurations.find(c => c.id === id);
+                };
 
                 $scope.changeTokenUsage = function (token) {
                     if (!token.isUsed) {
@@ -61,24 +65,30 @@ angular.module('app')
                 };
 
                 $scope.generateNewToken = function (config) {
-                    $scope.getProviderById(config.providerId).generateToken(config).then(token => {
-                        $data.addAuthorizationToken(token);
-                        $scope.tokens.push(token);
-                        $scope.useToken(token);
-                    });
+                    $scope.getProviderById(config.providerId).generateToken(config)
+                        .then(token => {
+                            $data.addAuthorizationToken(token);
+                            $scope.tokens.push(token);
+
+                            token.isUsed = true;
+                            $scope.changeTokenUsage(token);
+                        })
+                        .catch(error => {
+                            $error.show(error);
+                        });
                 };
 
                 $scope.editConfiguration = function (config) {
                     $scope.getProviderById(config.providerId).editConfiguration(config).then(newConfig => {
                         if (newConfig === 'delete') {
-                            $data.deleteAuthorizationProviderConfiguration(config).then(() {
+                            $data.deleteAuthorizationProviderConfiguration(config).then(() => {
                                 var index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1);
                                 }
                             });
                         } else {
-                            $data.putAuthorizationProviderConfiguration(newConfig).then(() {
+                            $data.putAuthorizationProviderConfiguration(newConfig).then(() => {
                                 var index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1, newConfig);

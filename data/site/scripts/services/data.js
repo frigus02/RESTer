@@ -295,6 +295,7 @@ angular.module('app')
                 this.scheme = '';
                 this.token = '';
                 this.expirationDate = null;
+                this.configurationId = 0;
                 this.providerId = 0;
             }
         };
@@ -414,7 +415,8 @@ angular.module('app')
                 dfd.resolve(entity.id);
             };
 
-            return dfd.promise.then(wrapFireChangeListenersForThen('add', entity));
+            dfd.promise.then(wrapFireChangeListenersForThen('add', entity));
+            return dfd.promise;
         }
 
         function deleteEntity(objectStore, entity) {
@@ -424,7 +426,8 @@ angular.module('app')
                 dfd.resolve();
             };
 
-            return dfd.promise.then(wrapFireChangeListenersForThen('delete', entity));
+            dfd.promise.then(wrapFireChangeListenersForThen('delete', entity));
+            return dfd.promise;
         }
 
         function getEntity(objectStore, id, objectConstructor) {
@@ -490,7 +493,8 @@ angular.module('app')
                 dfd.resolve(entity.id);
             };
 
-            return dfd.promise.then(wrapFireChangeListenersForThen('put', entity));
+            dfd.promise.then(wrapFireChangeListenersForThen('put', entity));
+            return dfd.promise;
         }
 
     }]);

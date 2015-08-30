@@ -7,7 +7,8 @@ angular
         'ngMaterial',
         'ngMessages',
         'ui.router',
-        'ui.codemirror'
+        'ui.codemirror',
+        'angular-jwt'
     ])
     .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
         function($urlRouterProvider, $stateProvider, $mdThemingProvider) {

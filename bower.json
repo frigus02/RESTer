@@ -8,6 +8,7 @@
     "highlightjs": "~8.7.0",
     "angular-messages": "~1.4.3",
     "lodash": "~3.10.1",
-    "angular-ui-codemirror": "~0.3.0"
+    "angular-ui-codemirror": "~0.3.0",
+    "angular-jwt": "~0.0.9"
   }
 }

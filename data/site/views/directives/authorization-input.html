@@ -6,7 +6,12 @@
             <md-checkbox ng-model="token.isUsed" ng-change="changeTokenUsage(token)"></md-checkbox>
             <div class="md-list-item-text">
                 <h3>{{token.title}}</h3>
-                <h4>{{getProviderById(token.providerId).title}}</h4>
+                <h4>
+                    {{getProviderById(token.providerId).title}}
+                    <span ng-if="token.configurationId">
+                        ({{getConfigurationById(token.configurationId).title}})
+                    </span>
+                </h4>
                 <p>{{token.expirationDate | expirationDate}}</p>
             </div>
             <md-icon class="md-secondary material-icons"

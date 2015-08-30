@@ -2,7 +2,8 @@ const self = require('sdk/self');
 const buttons = require('sdk/ui/button/action');
 const tabs = require('sdk/tabs');
 const pageMod = require('sdk/page-mod');
-const customrequest = require('lib/request');
+const customRequest = require('lib/request');
+const customBrowserRequest = require('lib/browser-request');
 
 
 buttons.ActionButton({
@@ -25,8 +26,9 @@ pageMod.PageMod({
     contentScriptFile: './site-content/rester.js',
     attachTo: ['existing', 'top'],
     onAttach: function(worker) {
+
         worker.port.on('sendRequest', function (data) {
-            customrequest.send(data.request)
+            customRequest.send(data.request)
                 .then(function (response) {
                     worker.port.emit('sendRequestSuccess', {
                         id: data.id,
@@ -40,5 +42,22 @@ pageMod.PageMod({
                     });
                 });
         });
+
+        worker.port.on('sendBrowserRequest', function (data) {
+            customBrowserRequest.send(data.request)
+                .then(function (response) {
+                    worker.port.emit('sendBrowserRequestSuccess', {
+                        id: data.id,
+                        response: response
+                    });
+                })
+                .catch(function (error) {
+                    worker.port.emit('sendBrowserRequestError', {
+                        id: data.id,
+                        error: error
+                    });
+                });
+        });
+
     }
 });

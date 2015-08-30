@@ -7,6 +7,10 @@ angular.module('app')
             
             $scope.config = config || new $data.AuthorizationProviderConfiguration();
 
+            $scope.flow = function (...flows) {
+                return flows.indexOf($scope.config.flow) > -1;
+            };
+
             $scope.cancel = function() {
                 $mdDialog.cancel();
             };
