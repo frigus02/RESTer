@@ -42,7 +42,7 @@ angular.module('app')
         self.sendBrowserRequest = function (request) {
             return $timeout(function() {
                 return {
-                    url: 'https://google.com?access_token=abc';
+                    url: 'https://google.com?access_token=abc'
                 };
             }, 2000);
         };

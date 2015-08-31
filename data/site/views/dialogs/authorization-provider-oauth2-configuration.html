@@ -24,6 +24,13 @@
                 </div>
             </md-input-container>
             <md-input-container ng-if="flow('code')">
+                <label>Access token method</label>
+                <md-select ng-model="config.accessTokenMethod" required>
+                    <md-option selected>POST</md-option>
+                    <md-option>GET</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container ng-if="flow('code')">
                 <label>Access token endpoint</label>
                 <input name="accessTokenEndpoint" type="url" ng-model="config.accessTokenEndpoint" required>
                 <div ng-messages="configurationOAuth2.accessTokenEndpoint.$error" ng-show="configurationOAuth2.accessTokenEndpoint.$touched">

@@ -7,11 +7,18 @@ angular.module('app')
             title: 'History'
         };
 
+        $scope.initialCount = 50;
         $scope.historyEntries = [];
 
-        $data.getHistoryEntries().then(entries => {
+        $data.getHistoryEntries(-$scope.initialCount).then(entries => {
             $scope.historyEntries = entries;
         });
+
+        $scope.loadAll = function () {
+            $data.getHistoryEntries().then(entries => {
+                $scope.historyEntries = entries;
+            });
+        };
 
         $scope.openHistoryEntry = function (entry) {
             $state.go('main.request.existing.history', {

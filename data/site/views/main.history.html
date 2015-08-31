@@ -1,5 +1,5 @@
 <md-list>
-    <md-list-item class="md-3-line"
+    <md-list-item class="md-3-line text-overflow-fix"
         ng-repeat="entry in historyEntries | orderBy:'-time' track by entry.time"
         ng-click="openHistoryEntry(entry)">
         <div class="md-list-item-text">
@@ -14,3 +14,9 @@
         </md-icon>
     </md-list-item>
 </md-list>
+
+<div layout="row" layout-align="center center">
+    <md-button class="md-raised md-primary" ng-click="loadAll()" ng-show="historyEntries.length === initialCount">
+        Load all (this may take a while)
+    </md-button>
+</div>

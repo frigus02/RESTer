@@ -74,7 +74,9 @@ angular.module('app')
                             $scope.changeTokenUsage(token);
                         })
                         .catch(error => {
-                            $error.show(error);
+                            if (error) {
+                                $error.show(error);
+                            }
                         });
                 };
 
