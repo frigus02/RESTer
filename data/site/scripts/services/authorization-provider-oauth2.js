@@ -73,7 +73,7 @@ angular.module('app')
                 }
 
                 return $rester.sendBrowserRequest({
-                    url: generateUri(config.authorizationEndpoint, params),
+                    url: generateUri(config.authorizationRequestEndpoint, params),
                     targetUrl: config.redirectUri
                 }).then(function (response) {
                     var url = new URL(response.url),
@@ -101,26 +101,34 @@ angular.module('app')
                 }
 
                 return $rester.sendBrowserRequest({
-                    url: generateUri(config.authorizationEndpoint, params),
+                    url: generateUri(config.authorizationRequestEndpoint, params),
                     targetUrl: config.redirectUri
                 }).then(function (response) {
                     var url = new URL(response.url);
 
                     if (url.searchParams.has('code')) {
-                        return $rester.sendRequest({
-                            method: 'POST',
-                            url: config.accessTokenEndpoint,
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
+                        var accessTokenRequest = {
+                                method: config.accessTokenRequestMethod,
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                }
                             },
-                            body: encodeQueryString({
+                            accessTokenRequestParams = {
                                 grant_type: 'authorization_code',
                                 code: url.searchParams.get('code'),
                                 redirect_uri: config.redirectUri,
                                 client_id: config.clientId,
                                 client_secret: config.clientSecret
-                            })
-                        });
+                            };
+
+                        if (config.accessTokenRequest.method === 'GET') {
+                            accessTokenRequest.url = generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
+                        } else {
+                            accessTokenRequest.url = config.accessTokenRequestEndpoint;
+                            accessTokenRequest.body = encodeQueryString(accessTokenRequestParams);
+                        }
+
+                        return $rester.sendRequest(accessTokenRequest);
                     } else if (url.searchParams.has('error')) {
                         var error = url.searchParams.get('error'),
                             errorDescription = url.searchParams.get('error_description'),

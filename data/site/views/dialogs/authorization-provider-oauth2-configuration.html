@@ -18,22 +18,22 @@
             </md-input-container>
             <md-input-container ng-if="flow('code', 'implicit')">
                 <label>Authorization endpoint</label>
-                <input name="authorizationEndpoint" type="url" ng-model="config.authorizationEndpoint" required>
-                <div ng-messages="configurationOAuth2.authorizationEndpoint.$error" ng-show="configurationOAuth2.authorizationEndpoint.$touched">
+                <input name="authorizationRequestEndpoint" type="url" ng-model="config.authorizationRequestEndpoint" required>
+                <div ng-messages="configurationOAuth2.authorizationRequestEndpoint.$error" ng-show="configurationOAuth2.authorizationRequestEndpoint.$touched">
                     <div ng-message="required">This is required!</div>
                 </div>
             </md-input-container>
             <md-input-container ng-if="flow('code')">
                 <label>Access token method</label>
-                <md-select ng-model="config.accessTokenMethod" required>
+                <md-select ng-model="config.accessTokenRequestMethod" required>
                     <md-option selected>POST</md-option>
                     <md-option>GET</md-option>
                 </md-select>
             </md-input-container>
             <md-input-container ng-if="flow('code')">
                 <label>Access token endpoint</label>
-                <input name="accessTokenEndpoint" type="url" ng-model="config.accessTokenEndpoint" required>
-                <div ng-messages="configurationOAuth2.accessTokenEndpoint.$error" ng-show="configurationOAuth2.accessTokenEndpoint.$touched">
+                <input name="accessTokenRequestEndpoint" type="url" ng-model="config.accessTokenRequestEndpoint" required>
+                <div ng-messages="configurationOAuth2.accessTokenRequestEndpoint.$error" ng-show="configurationOAuth2.accessTokenRequestEndpoint.$touched">
                     <div ng-message="required">This is required!</div>
                 </div>
             </md-input-container>
