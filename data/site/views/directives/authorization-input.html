@@ -1,9 +1,8 @@
 <div ng-show="tokens.length > 0">
     <h3>Use existing tokens</h3>
     <md-list>
-        <md-list-item ng-repeat="token in tokens"
-            class="md-3-line" ng-class="{active: token.isUsed}">
-            <md-checkbox ng-model="token.isUsed" ng-change="changeTokenUsage(token)"></md-checkbox>
+        <md-list-item class="md-3-line" ng-repeat="token in tokens">
+            <md-checkbox ng-model="token.isUsed" class="md-primary" ng-change="changeTokenUsage(token)"></md-checkbox>
             <div class="md-list-item-text">
                 <h3>{{token.title}}</h3>
                 <h4>

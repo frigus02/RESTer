@@ -13,13 +13,16 @@ angular.module('app')
                 $scope.tokens = [];
                 $data.getAuthorizationTokens().then(tokens => {
                     $scope.tokens = tokens;
+                    updateTokenIsUsedFlag();
                 });
 
-                $scope.$watch('headers.Authorization', function () {
+                function updateTokenIsUsedFlag() {
                     $scope.tokens.forEach(token => {
                         token.isUsed = $scope.headers.Authorization === `${token.scheme} ${token.token}`;
                     });
-                });
+                }
+
+                $scope.$watch('headers.Authorization', updateTokenIsUsedFlag);
 
                 $scope.configurations = [];
                 $scope.providers = [];

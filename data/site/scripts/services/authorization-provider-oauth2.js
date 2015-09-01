@@ -129,7 +129,7 @@ angular.module('app')
                                 client_secret: config.clientSecret
                             };
 
-                        if (config.accessTokenRequest.method === 'GET') {
+                        if (accessTokenRequest.method === 'GET') {
                             accessTokenRequest.url = generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
                         } else {
                             accessTokenRequest.url = config.accessTokenRequestEndpoint;
