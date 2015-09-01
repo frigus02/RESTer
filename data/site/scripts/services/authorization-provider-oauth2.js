@@ -76,16 +76,24 @@ angular.module('app')
                     url: generateUri(config.authorizationRequestEndpoint, params),
                     targetUrl: config.redirectUri
                 }).then(function (response) {
-                    var url = new URL(response.url),
-                        result = decodeQueryString(url.hash.substr(1));
+                    // Some oauth2 requests return the authorization response in the search
+                    // part of the url instead of the fragment part. So we just check both.
 
-                    if (result.access_token && result.token_type) {
-                        return createToken(config, result);
-                    } else if (result.error) {
-                        return $q.reject(`Authorization error: ${result.error} (Description: ${result.error_description}, URI: ${result.error_uri}).`);
+                    var url = new URL(response.url),
+                        resultFromHash = decodeQueryString(url.hash.substr(1)),
+                        resultFromSearch = decodeQueryString(url.search.substr(1));
+
+                    if (resultFromHash.access_token && resultFromHash.token_type) {
+                        return createToken(config, resultFromHash);
+                    } else if (resultFromSearch.access_token && resultFromSearch.token_type) {
+                        return createToken(config, resultFromSearch);
+                    } else if (resultFromHash.error) {
+                        return $q.reject(`Authorization error: ${resultFromHash.error} (Description: ${resultFromHash.error_description}, URI: ${resultFromHash.error_uri}).`);
+                    } else if (resultFromSearch.error) {
+                        return $q.reject(`Authorization error: ${resultFromSearch.error} (Description: ${resultFromSearch.error_description}, URI: ${resultFromSearch.error_uri}).`);
                     } else {
                         return $q.reject(`Invalid authorization response.`);
-                    }                    
+                    }
                 });
             }
 
