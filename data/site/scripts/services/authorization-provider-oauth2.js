@@ -38,11 +38,7 @@ angular.module('app')
                 token.providerId = 3;
                 token.configurationId = config.id;
 
-                if (tokenResponse.token_type !== 'Bearer') {
-                    throw new Error(`Unsupported token type ${tokenResponse.token_type}.`);
-                }
-
-                token.scheme = tokenResponse.token_type;
+                token.scheme = 'Bearer';
                 token.token = tokenResponse.access_token;
 
                 try {
