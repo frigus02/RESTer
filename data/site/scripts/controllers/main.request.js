@@ -42,12 +42,6 @@ angular.module('app')
             $scope.requestMethodSearch = '';
             $scope.requestIsSending = false;
 
-            $scope.bodyCodeMirrorOptions = {
-                mode: {},
-                indentUnit: 4,
-                theme: 'darkula'
-            };
-
             function updateState(newStateParams) {
                 $scope.requestIsSending = false;
                 $scope.requestMethodSearch = '';
@@ -119,7 +113,26 @@ angular.module('app')
                     });
             };
 
-            $scope.getResponseBadgeModifierClass = function() {
+            $scope.getRequestBodyCodeMirrorOptions = function () {
+                var contentTypeHeader = $scope.request.headers.find(h => angular.lowercase(h.name) === 'content-type'),
+                    contentType = contentTypeHeader && contentTypeHeader.value,
+                    lowercaseContentType = angular.lowercase(contentType) || '',
+                    mode = {};
+
+                if (lowercaseContentType.indexOf('json') > -1) {
+                    mode = { name: 'javascript', json: true };
+                } else if (lowercaseContentType.indexOf('xml') > -1) {
+                    mode = { name: 'xml' };
+                }
+
+                return {
+                    mode: mode,
+                    indentUnit: 4,
+                    theme: 'darkula'
+                };
+            };
+
+            $scope.getResponseBadgeModifierClass = function () {
                 if (!$scope.response) return;
 
                 var status = $scope.response.status;
