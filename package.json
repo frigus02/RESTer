@@ -14,6 +14,7 @@
   "dependencies": {},
   "devDependencies": {
     "bower": "^1.5.2",
+    "bower-update": "^0.1.0",
     "cheerio": "^0.19.0",
     "connect": "^3.4.0",
     "mkdirp": "^0.5.1",
