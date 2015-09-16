@@ -113,9 +113,9 @@ angular.module('app')
                     if (url.searchParams.has('code')) {
                         var accessTokenRequest = {
                                 method: config.accessTokenRequestMethod,
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                }
+                                headers: [
+                                    { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
+                                ]
                             },
                             accessTokenRequestParams = {
                                 grant_type: 'authorization_code',

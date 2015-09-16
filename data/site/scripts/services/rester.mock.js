@@ -19,21 +19,21 @@ angular.module('app')
                 return Object.assign(new $data.Response(), {
                     status: 200,
                     statusText: 'OK',
-                    headers: {
-                        'x-ratelimit-count': '111560435',
-                        'X-Firefox-Spdy': '3.1',
-                        'x-feedly-server': 'ap2-sv2',
-                        'x-feedly-processing-time': '7',
-                        'Vary': 'Accept-Encoding',
-                        'Server': 'cloudflare-nginx',
-                        'Pragma': 'no-cache',
-                        'Last-Modified': 'Tue Aug 11 05:17:18 PDT 2015',
-                        'Date': 'Tue, 11 Aug 2015 12:17:18 GMT',
-                        'Content-Type': 'application/json;charset=UTF-8',
-                        'Content-Encoding': 'gzip',
-                        'CF-RAY': '2143e066350226d2-FRA',
-                        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0'
-                    },
+                    headers: [
+                        { name: 'x-ratelimit-count', value: '111560435' },
+                        { name: 'X-Firefox-Spdy', value: '3.1' },
+                        { name: 'x-feedly-server', value: 'ap2-sv2' },
+                        { name: 'x-feedly-processing-time', value: '7' },
+                        { name: 'Vary', value: 'Accept-Encoding' },
+                        { name: 'Server', value: 'cloudflare-nginx' },
+                        { name: 'Pragma', value: 'no-cache' },
+                        { name: 'Last-Modified', value: 'Tue Aug 11 05:17:18 PDT 2015' },
+                        { name: 'Date', value: 'Tue, 11 Aug 2015 12:17:18 GMT' },
+                        { name: 'Content-Type', value: 'application/json;charset=UTF-8' },
+                        { name: 'Content-Encoding', value: 'gzip' },
+                        { name: 'CF-RAY', value: '2143e066350226d2-FRA' },
+                        { name: 'Cache-Control', value: 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0 ' }
+                    ],
                     body: mockData
                 });
             }, 500);

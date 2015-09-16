@@ -17,18 +17,20 @@ angular.module('app')
          * @property {String} title - THe request title.
          * @property {String} method - The HTTP method name (GET, POST, ...).
          * @property {String} url - The url.
-         * @property {Object} headers - The request headers as key value pairs.
+         * @property {Array} headers - The request headers as an array oj objects.
+         * Each object has the properties `name` and `value`.
          * @property {String} body - The request body as string.
          */
         self.Request = function (dbObject) {
             if (dbObject) {
                 Object.assign(this, dbObject);
+                this.headers = migrateHeadersObjectToArray(this.headers);
             } else {
                 this.collection = null;
                 this.title = null;
                 this.method = null;
                 this.url = null;
-                this.headers = {};
+                this.headers = [];
                 this.body = null;
             }
         };
@@ -113,16 +115,18 @@ angular.module('app')
          * @type {Object}
          * @property {Number} status - The HTTP status code.
          * @property {String} statusText - The status text.
-         * @property {Object} headers - The response headers as key value pairs.
+         * @property {Array} headers - The response headers as an array oj objects.
+         * Each object has the properties `name` and `value`.
          * @property {String} body - The response body as string.
          */
         self.Response = function (dbObject) {
             if (dbObject) {
                 Object.assign(this, dbObject);
+                this.headers = migrateHeadersObjectToArray(this.headers);
             } else {
                 this.status = 0;
                 this.statusText = null;
-                this.headers = {};
+                this.headers = [];
                 this.body = null;
             }
         };
@@ -130,9 +134,8 @@ angular.module('app')
         self.Response.prototype = {
             getHeadersAsString: function () {
                 return _(this.headers)
-                    .pairs()
-                    .sortBy(0)
-                    .map(h => `${h[0]}: ${h[1]}`)
+                    .sortBy('name')
+                    .map(h => `${h.name}: ${h.value}`)
                     .value()
                     .join('\n');
             }
@@ -357,6 +360,8 @@ angular.module('app')
 
             request.onupgradeneeded = function(event) {
                 var db = event.target.result;
+                var transaction = event.target.transaction;
+
                 db.onerror = function (event) {
                     dfd.reject('Error upgrading database: ' + event.target.errorCode);
                 };
@@ -495,6 +500,23 @@ angular.module('app')
 
             dfd.promise.then(wrapFireChangeListenersForThen('put', entity));
             return dfd.promise;
+        }
+
+
+        // -------------------------------------------------------
+        // Migration helpers
+        // -------------------------------------------------------
+
+        function migrateHeadersObjectToArray(headers) {
+            if (Array.isArray(headers)) return headers;
+
+            return _(headers)
+                .pairs()
+                .map(h => ({
+                    name: h[0],
+                    value: h[1]
+                }))
+                .value();
         }
 
     }]);

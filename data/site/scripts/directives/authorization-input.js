@@ -17,12 +17,28 @@ angular.module('app')
                 });
 
                 function updateTokenIsUsedFlag() {
+                    var authHeader = getAuthorizationHeaderValue();
                     $scope.tokens.forEach(token => {
-                        token.isUsed = $scope.headers.Authorization === `${token.scheme} ${token.token}`;
+                        token.isUsed = authHeader === `${token.scheme} ${token.token}`;
                     });
                 }
 
-                $scope.$watch('headers.Authorization', updateTokenIsUsedFlag);
+                function getAuthorizationHeaderValue() {
+                    var header = $scope.headers.find(h => h.name.toLowerCase() === 'authorization');
+                    return header && header.value;
+                }
+
+                function removeAuthorizationHeader() {
+                    var index = $scope.headers.findIndex(h => h.name.toLowerCase() === 'authorization');
+                    if (index > -1) {
+                        $scope.headers.splice(index, 1);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                $scope.$watch(getAuthorizationHeaderValue, updateTokenIsUsedFlag);
 
                 $scope.configurations = [];
                 $scope.providers = [];
@@ -51,10 +67,12 @@ angular.module('app')
                 };
 
                 $scope.changeTokenUsage = function (token) {
-                    if (!token.isUsed) {
-                        delete $scope.headers.Authorization;
-                    } else {
-                        $scope.headers.Authorization = `${token.scheme} ${token.token}`;
+                    while (removeAuthorizationHeader());
+                    if (token.isUsed) {
+                        $scope.headers.push({
+                            name: 'Authorization',
+                            value: `${token.scheme} ${token.token}`
+                        });
                     }
                 };
 

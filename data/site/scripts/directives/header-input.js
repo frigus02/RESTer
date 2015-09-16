@@ -57,51 +57,28 @@ angular.module('app')
             },
             templateUrl: 'views/directives/header-input.html',
             link: function postLink(scope, element, attrs) {
-                scope.headersArray = [];
+                scope.newHeader = { name: '', value: '' };
 
-                scope.$watch('headers', function () {
-                    scope.headersArray = _(scope.headers || {})
-                        .pairs()
-                        .sortBy(0)
-                        .map(h => {
-                            return {
-                                name: h[0],
-                                value: h[1],
-                                $$selectedHeader: REQUEST_HEADERS
-                                    .filter(rh => angular.lowercase(rh.name) === angular.lowercase(h[0]))
-                                    .pop()
-                            };
-                        })
-                        .value();
-                    ensureOneEmptyHeaderEntry();
+                scope.getPreparedHeaders = function () {
+                    var preparedHeaders = [];
+                    preparedHeaders.push(...scope.headers);
+                    preparedHeaders.push(scope.newHeader);
+                    return preparedHeaders;
+                };
+
+                scope.$watch('newHeader', function () {
+                    if (scope.newHeader.name || scope.newHeader.value) {
+                        scope.headers.push(scope.newHeader);
+                        scope.newHeader = { name: '', value: '' };
+                    }
                 }, true);
 
-                scope.onHeaderUpdated = function () {
-                    scope.headers = _(scope.headersArray)
-                        .filter(h => h.name)
-                        .map(h => ([h.name, h.value]))
-                        .zipObject()
-                        .value();
-                    ensureOneEmptyHeaderEntry();
-                };
-
                 scope.removeHeader = function (header) {
-                    var index = scope.headersArray.indexOf(header);
+                    var index = scope.headers.indexOf(header);
                     if (index > -1) {
-                        scope.headersArray.splice(index, 1);
+                        scope.headers.splice(index, 1);
                     }
-
-                    scope.onHeaderUpdated();
                 };
-
-                function ensureOneEmptyHeaderEntry() {
-                    if (scope.headersArray.filter(h => !h.name).length === 0) {
-                        scope.headersArray.push({
-                            name: '',
-                            value: ''
-                        });
-                    }
-                }
             },
             controller: function ($scope) {
                 $scope.querySearchHeader = function (query) {
@@ -111,11 +88,14 @@ angular.module('app')
                     return REQUEST_HEADERS.filter(h => angular.lowercase(h.name).indexOf(lowercaseQuery) > -1);
                 };
 
-                $scope.querySearchHeaderValue = function (header, query) {
-                    if (!header || !header.suggestedValues || !query) return [];
+                $scope.querySearchHeaderValue = function (headerName, query) {
+                    if (!headerName || !query) return [];
+
+                    var requestHeader = REQUEST_HEADERS.find(h => angular.lowercase(h.name) === angular.lowercase(headerName));
+                    if (!requestHeader || !requestHeader.suggestedValues) return [];
 
                     var lowercaseQuery = angular.lowercase(query);
-                    return header.suggestedValues.filter(v => angular.lowercase(v).indexOf(lowercaseQuery) > -1);
+                    return requestHeader.suggestedValues.filter(v => angular.lowercase(v).indexOf(lowercaseQuery) > -1);
                 };
             }
         };
