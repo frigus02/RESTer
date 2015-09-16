@@ -3,12 +3,12 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.3",
-    "ui-router": "~0.2.15",
-    "angular-material": "~0.10.1",
-    "highlightjs": "~8.7.0",
+    "angular-jwt": "~0.0.9",
+    "angular-material": "~0.11.0",
     "angular-messages": "~1.4.3",
-    "lodash": "~3.10.1",
     "angular-ui-codemirror": "~0.3.0",
-    "angular-jwt": "~0.0.9"
+    "highlightjs": "~8.7.0",
+    "lodash": "~3.10.1",
+    "ui-router": "~0.2.15"
   }
 }

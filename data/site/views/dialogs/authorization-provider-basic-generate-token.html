@@ -1,20 +1,22 @@
 <md-dialog>
     <form name="generateTokenBasic" novalidate>
         <md-dialog-content>
-            <md-input-container>
-                <label>User name</label>
-                <input name="userName" type="text" ng-model="userName" required>
-                <div ng-messages="generateTokenBasic.userName.$error" ng-show="generateTokenBasic.userName.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container>
-                <label>Password</label>
-                <input name="password" type="password" ng-model="password" required>
-                <div ng-messages="generateTokenBasic.password.$error" ng-show="generateTokenBasic.password.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
+            <div class="md-dialog-content-body">
+                <md-input-container>
+                    <label>User name</label>
+                    <input name="userName" type="text" ng-model="userName" required>
+                    <div ng-messages="generateTokenBasic.userName.$error" ng-show="generateTokenBasic.userName.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password</label>
+                    <input name="password" type="password" ng-model="password" required>
+                    <div ng-messages="generateTokenBasic.password.$error" ng-show="generateTokenBasic.password.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+            </div>
         </md-dialog-content>
         <div class="md-actions">
             <md-button ng-click="cancel()" class="md-primary">

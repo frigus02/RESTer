@@ -1,4 +1,5 @@
-navigation-list .md-button {
+navigation-list .md-button,
+navigation-list .md-button .md-ripple-container {
     border-radius: 0;
 }
 
@@ -18,6 +19,12 @@ navigation-list .md-subheader .md-subheader-content .md-button {
     z-index: 1;
 }
 
+navigation-list md-list-item,
+navigation-list md-list-item .md-list-item-inner,
+navigation-list md-list-item .md-no-style.md-button {
+    min-height: 48px;
+    height: 48px;
+}
 
 navigation-list md-list-item .md-list-item-inner .navigation-list-item__text {
     white-space: nowrap;
@@ -41,11 +48,13 @@ navigation-list md-list-item .md-list-item-inner .navigation-list-item__text {
     transition: height 0.5s ease;
 }
 
-.navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item {
-    min-height: 32px;
+.navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item,
+.navigation-list-itemgroup .navigation-list-itemgroup__subitems .md-list-item-inner,
+.navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item .md-no-style.md-button {
+    min-height: 38px;
+    height: 38px;
 }
 
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems .md-list-item-inner {
-    min-height: 32px;
-    padding-left: 32px;
+    padding-left: 38px;
 }

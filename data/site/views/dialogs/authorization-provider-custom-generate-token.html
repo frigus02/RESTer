@@ -1,20 +1,22 @@
 <md-dialog>
     <form name="generateTokenCustom" novalidate>
         <md-dialog-content>
-            <md-input-container>
-                <label>Scheme</label>
-                <input name="scheme" type="text" ng-model="token.scheme" required>
-                <div ng-messages="generateTokenCustom.scheme.$error" ng-show="generateTokenCustom.scheme.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container>
-                <label>Token</label>
-                <input name="token" type="text" ng-model="token.token" required>
-                <div ng-messages="generateTokenCustom.token.$error" ng-show="generateTokenCustom.token.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
+            <div class="md-dialog-content-body">
+                <md-input-container>
+                    <label>Scheme</label>
+                    <input name="scheme" type="text" ng-model="token.scheme" required>
+                    <div ng-messages="generateTokenCustom.scheme.$error" ng-show="generateTokenCustom.scheme.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Token</label>
+                    <input name="token" type="text" ng-model="token.token" required>
+                    <div ng-messages="generateTokenCustom.token.$error" ng-show="generateTokenCustom.token.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+            </div>
         </md-dialog-content>
         <div class="md-actions">
             <md-button ng-click="cancel()" class="md-primary">

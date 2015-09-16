@@ -1,68 +1,70 @@
 <md-dialog>
     <form name="configurationOAuth2" novalidate>
         <md-dialog-content>
-            <md-input-container>
-                <label>Title</label>
-                <input name="title" type="text" ng-model="config.title" required>
-                <div class="input-description">A name for this configuration, only used to identity the config in RESTer.</div>
-                <div ng-messages="configurationOAuth2.title.$error" ng-show="configurationOAuth2.title.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container>
-                <label>OAuth 2 Flow</label>
-                <md-select ng-model="config.flow" required>
-                    <md-option value="code">Authorization Code</md-option>
-                    <md-option value="implicit">Implicit</md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container ng-if="flow('code', 'implicit')">
-                <label>Authorization endpoint</label>
-                <input name="authorizationRequestEndpoint" type="url" ng-model="config.authorizationRequestEndpoint" required>
-                <div ng-messages="configurationOAuth2.authorizationRequestEndpoint.$error" ng-show="configurationOAuth2.authorizationRequestEndpoint.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container ng-if="flow('code')">
-                <label>Access token method</label>
-                <md-select ng-model="config.accessTokenRequestMethod" required>
-                    <md-option selected>POST</md-option>
-                    <md-option>GET</md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container ng-if="flow('code')">
-                <label>Access token endpoint</label>
-                <input name="accessTokenRequestEndpoint" type="url" ng-model="config.accessTokenRequestEndpoint" required>
-                <div ng-messages="configurationOAuth2.accessTokenRequestEndpoint.$error" ng-show="configurationOAuth2.accessTokenRequestEndpoint.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container ng-if="flow('code', 'implicit')">
-                <label>Client ID</label>
-                <input name="clientId" type="text" ng-model="config.clientId" required>
-                <div ng-messages="configurationOAuth2.clientId.$error" ng-show="configurationOAuth2.clientId.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container ng-if="flow('code')">
-                <label>Client Secret</label>
-                <input name="clientSecret" type="text" ng-model="config.clientSecret" required>
-                <div ng-messages="configurationOAuth2.clientSecret.$error" ng-show="configurationOAuth2.clientSecret.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container ng-if="flow('code', 'implicit')">
-                <label>Redirect URI</label>
-                <input name="redirectUri" type="url" ng-model="config.redirectUri" required>
-                <div class="input-description">Please provide any valid redirect uri for the OAuth 2 client. When this URL is loaded, RESTer fill grap the access token from the URL and finish the authorization flow.</div>
-                <div ng-messages="configurationOAuth2.redirectUri.$error" ng-show="configurationOAuth2.redirectUri.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-input-container ng-if="flow('code', 'implicit')">
-                <label>Scope (optional)</label>
-                <input name="scope" type="text" ng-model="config.scope">
-            </md-input-container>
+            <div class="md-dialog-content-body">
+                <md-input-container>
+                    <label>Title</label>
+                    <input name="title" type="text" ng-model="config.title" required>
+                    <div class="input-description">A name for this configuration, only used to identity the config in RESTer.</div>
+                    <div ng-messages="configurationOAuth2.title.$error" ng-show="configurationOAuth2.title.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>OAuth 2 Flow</label>
+                    <md-select ng-model="config.flow" required>
+                        <md-option value="code">Authorization Code</md-option>
+                        <md-option value="implicit">Implicit</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container ng-if="flow('code', 'implicit')">
+                    <label>Authorization endpoint</label>
+                    <input name="authorizationRequestEndpoint" type="url" ng-model="config.authorizationRequestEndpoint" required>
+                    <div ng-messages="configurationOAuth2.authorizationRequestEndpoint.$error" ng-show="configurationOAuth2.authorizationRequestEndpoint.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container ng-if="flow('code')">
+                    <label>Access token method</label>
+                    <md-select ng-model="config.accessTokenRequestMethod" required>
+                        <md-option selected>POST</md-option>
+                        <md-option>GET</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container ng-if="flow('code')">
+                    <label>Access token endpoint</label>
+                    <input name="accessTokenRequestEndpoint" type="url" ng-model="config.accessTokenRequestEndpoint" required>
+                    <div ng-messages="configurationOAuth2.accessTokenRequestEndpoint.$error" ng-show="configurationOAuth2.accessTokenRequestEndpoint.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container ng-if="flow('code', 'implicit')">
+                    <label>Client ID</label>
+                    <input name="clientId" type="text" ng-model="config.clientId" required>
+                    <div ng-messages="configurationOAuth2.clientId.$error" ng-show="configurationOAuth2.clientId.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container ng-if="flow('code')">
+                    <label>Client Secret</label>
+                    <input name="clientSecret" type="text" ng-model="config.clientSecret" required>
+                    <div ng-messages="configurationOAuth2.clientSecret.$error" ng-show="configurationOAuth2.clientSecret.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container ng-if="flow('code', 'implicit')">
+                    <label>Redirect URI</label>
+                    <input name="redirectUri" type="url" ng-model="config.redirectUri" required>
+                    <div class="input-description">Please provide any valid redirect uri for the OAuth 2 client. When this URL is loaded, RESTer fill grap the access token from the URL and finish the authorization flow.</div>
+                    <div ng-messages="configurationOAuth2.redirectUri.$error" ng-show="configurationOAuth2.redirectUri.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container ng-if="flow('code', 'implicit')">
+                    <label>Scope (optional)</label>
+                    <input name="scope" type="text" ng-model="config.scope">
+                </md-input-container>
+            </div>
         </md-dialog-content>
         <div class="md-actions">
             <md-button ng-click="delete()" class="md-warn neutral-action" ng-show="config.id">

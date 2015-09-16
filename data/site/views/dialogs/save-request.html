@@ -1,32 +1,34 @@
 <md-dialog>
     <form name="saveRequest" novalidate>
         <md-dialog-content>
-            <md-autocomplete
-                md-input-name="collection"
-                md-selected-item="collectionSelectedItem"
-                md-search-text="collection"
-                md-items="coll in queryCollections(collection)"
-                md-item-text="coll"
-                md-floating-label="Collection"
-                required>
-                <md-item-template>
-                    <span md-highlight-text="collection" md-highlight-flags="gi">{{coll}}</span>
-                </md-item-template>
-                <div ng-messages="saveRequest.collection.$error" ng-show="saveRequest.collection.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-autocomplete>
-            <md-input-container>
-                <label>Title</label>
-                <input name="title" type="text" ng-model="title" required>
-                <div ng-messages="saveRequest.title.$error" ng-show="saveRequest.title.$touched">
-                    <div ng-message="required">This is required!</div>
-                </div>
-            </md-input-container>
-            <md-checkbox ng-model="overwrite" ng-hide="isNew" ng-class="{'md-warn': showHistoryWarning}">
-                Overwrite existing request
-                <div ng-show="showHistoryWarning">You are about to overwrite this entry with data from history.</div>
-            </md-checkbox>
+            <div class="md-dialog-content-body">
+                <md-autocomplete
+                    md-input-name="collection"
+                    md-selected-item="collectionSelectedItem"
+                    md-search-text="collection"
+                    md-items="coll in queryCollections(collection)"
+                    md-item-text="coll"
+                    md-floating-label="Collection"
+                    required>
+                    <md-item-template>
+                        <span md-highlight-text="collection" md-highlight-flags="gi">{{coll}}</span>
+                    </md-item-template>
+                    <div ng-messages="saveRequest.collection.$error" ng-show="saveRequest.collection.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-autocomplete>
+                <md-input-container>
+                    <label>Title</label>
+                    <input name="title" type="text" ng-model="title" required>
+                    <div ng-messages="saveRequest.title.$error" ng-show="saveRequest.title.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-checkbox ng-model="overwrite" ng-hide="isNew" ng-class="{'md-warn': showHistoryWarning}">
+                    Overwrite existing request
+                    <div ng-show="showHistoryWarning">You are about to overwrite this entry with data from history.</div>
+                </md-checkbox>
+            </div>
         </md-dialog-content>
         <div class="md-actions">
             <md-button ng-click="cancel()" class="md-primary">

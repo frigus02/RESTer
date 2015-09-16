@@ -3,7 +3,7 @@ body {
 	overflow: hidden;
 }
 
-.nav-header {
+md-toolbar:not(.md-menu-toolbar).nav-header {
     background-color: #424242;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
