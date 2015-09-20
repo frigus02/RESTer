@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$q', '$filter',
-        function ($scope, $rootScope, $mdSidenav, $state, $data, $q, $filter) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$q', '$filter', 'hotkeys', '$mdDialog',
+        function ($scope, $rootScope, $mdSidenav, $state, $data, $q, $filter, hotkeys, $mdDialog) {
 
             $scope.navItems = [];
 
@@ -166,6 +166,20 @@ angular.module('app')
 
             $scope.$watch('getTitle()', function () {
                 $rootScope.title = $scope.getTitle();
+            });
+
+            hotkeys.bindTo($scope).add({
+                combo: 'p',
+                description: 'Quick search for requests.',
+                callback(event) {
+                    event.preventDefault();
+                    $mdDialog.show({
+                        templateUrl: 'views/dialogs/quick-open.html',
+                        controller: 'DialogQuickOpenCtrl',
+                        clickOutsideToClose: true,
+                        escapeToClose: true
+                    });
+                }
             });
 
         }

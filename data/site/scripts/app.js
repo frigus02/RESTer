@@ -8,10 +8,11 @@ angular
         'ngMessages',
         'ui.router',
         'ui.codemirror',
-        'angular-jwt'
+        'angular-jwt',
+        'cfp.hotkeys'
     ])
-    .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
-        function ($urlRouterProvider, $stateProvider, $mdThemingProvider) {
+    .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider', 'hotkeysProvider',
+        function ($urlRouterProvider, $stateProvider, $mdThemingProvider, hotkeysProvider) {
             $urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('main', {
@@ -51,6 +52,9 @@ angular
                 .dark()
                 .primaryPalette('cyan')
                 .accentPalette('amber');
+
+            // We provide a custom cheat sheet in the correct design.
+            hotkeysProvider.includeCheatSheet = false;
         }
     ])
     .run(['$authorization', '$authorizationProviderCustom', '$authorizationProviderBasic', '$authorizationProviderOAuth2',
