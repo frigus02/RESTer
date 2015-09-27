@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$q', '$filter', 'hotkeys', '$mdDialog',
-        function ($scope, $rootScope, $mdSidenav, $state, $data, $q, $filter, hotkeys, $mdDialog) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$q', '$filter', '$hotkeys', '$mdDialog',
+        function ($scope, $rootScope, $mdSidenav, $state, $data, $q, $filter, $hotkeys, $mdDialog) {
 
             $scope.navItems = [];
 
@@ -164,15 +164,20 @@ angular.module('app')
                 return $state.current.data && $state.current.data.actions || [];
             };
 
+            $scope.showShortcuts = function ($event) {
+                $event.preventDefault();
+                $hotkeys.showCheatSheet($event);
+            };
+
             $scope.$watch('getTitle()', function () {
                 $rootScope.title = $scope.getTitle();
             });
 
-            hotkeys.bindTo($scope).add({
-                combo: 'p',
+            $hotkeys.add(new $hotkeys.Hotkey({
+                combos: ['ctrl+o', 'ctrl+p'],
                 description: 'Quick search for requests.',
-                callback(event) {
-                    event.preventDefault();
+                allowInFormControls: true,
+                callback() {
                     $mdDialog.show({
                         templateUrl: 'views/dialogs/quick-open.html',
                         controller: 'DialogQuickOpenCtrl',
@@ -180,7 +185,7 @@ angular.module('app')
                         escapeToClose: true
                     });
                 }
-            });
+            }), $scope);
 
         }
     ]);

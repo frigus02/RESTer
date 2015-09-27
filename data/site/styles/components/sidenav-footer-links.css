@@ -1,0 +1,9 @@
+.sidenav-footer-links {
+	font-size: 0.75em;
+	padding: 8px;
+	text-align: center;
+}
+
+.sidenav-footer-links a {
+	color: rgba(255, 255, 255, 0.5);
+}

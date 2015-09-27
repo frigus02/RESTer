@@ -8,8 +8,12 @@
             </div>
         </md-toolbar>
 
-        <md-content flex>
-            <navigation-list items="navItems" item-clicked="toggleSidenav('left')"></navigation-list>
+        <md-content flex layout="column">
+            <navigation-list items="navItems" item-clicked="toggleSidenav('left')" flex></navigation-list>
+
+            <div class="sidenav-footer-links">
+                <a href="#" ng-click="showShortcuts($event)">Shortcuts</a>
+            </div>
         </md-content>
     </md-sidenav>
 

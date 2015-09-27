@@ -6,7 +6,7 @@ const fs = require('fs'),
       cheerio = require('cheerio');
 
 removeDataBowerComponents(function () {
-    getFileToCopyFromIndexHtml(function (paths) {
+    getFilesToCopyFromIndexHtml(function (paths) {
         paths.forEach(function (path) {
             copyFileFromBowerComponentsToData(path);
         });
@@ -14,17 +14,17 @@ removeDataBowerComponents(function () {
 });
 
 function removeDataBowerComponents(callback) {
-    console.log('Start removeDataBowerComponents');
+    console.log('Remove existing bower_components folder from data/site...');
 
     rimraf('data/site/bower_components/', function (err) {
         if (err) throw err;
-        console.log('Success removeDataBowerComponents');
         callback();
     });
 }
 
-function getFileToCopyFromIndexHtml(callback) {
-    console.log('Start getFileToCopyFromIndexHtml');
+function getFilesToCopyFromIndexHtml(callback) {
+    console.log('Reading data/site/index.html to find files to copy...');
+
     fs.readFile('data/site/index.html', function (err, data) {
         if (err) throw err;
 
@@ -41,27 +41,22 @@ function getFileToCopyFromIndexHtml(callback) {
             paths.push($(this).attr('href'));
         });
 
-        console.log('Success getFileToCopyFromIndexHtml');
-
         callback(paths);
     });
 }
 
 function copyFileFromBowerComponentsToData(path) {
-    let targetPath = 'data/site/' + path;
+    console.log('Copy file to data/site: ' + path);
 
-    console.log('Start copyFileFromBowerComponentsToData: ' + path);
+    let targetFilePath = 'data/site/' + path,
+        targetDirectoryPath = targetFilePath.substr(0, targetFilePath.lastIndexOf('/'));
 
     fs.readFile(path, function (err, data) {
         if (err) throw err;
-
-        mkdirp(targetPath.substr(0, targetPath.lastIndexOf('/')), function (err) {
+        mkdirp(targetDirectoryPath, function (err) {
             if (err) throw err;
-
-            fs.writeFile(targetPath, data, function (err) {
+            fs.writeFile(targetFilePath, data, function (err) {
                 if (err) throw err;
-
-                console.log('Success copyFileFromBowerComponentsToData: ' + path);
             });
         });
     });

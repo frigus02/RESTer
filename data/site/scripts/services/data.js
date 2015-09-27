@@ -38,6 +38,7 @@ angular.module('app')
         /**
          * Adds a new request to the database or updates an existing one with the
          * same collection and title.
+         *
          * @param {$data~Request} request - The request to save in database.
          * @returns {Promise.<Number>} A promise which gets resolved, when the request
          * was successfully saved and returns the new request id.
@@ -52,6 +53,7 @@ angular.module('app')
 
         /**
          * Return the full request object for the specified key.
+         *
          * @param {Number} id - The id of the request.
          * @returns {Promise.<$data~Request>} A promise which returns a the full request
          * object when resolved.
@@ -66,6 +68,7 @@ angular.module('app')
 
         /**
          * Returns all requests.
+         *
          * @returns {Promise.<Array<$data~Request>>} A promise which returns a list of
          * requests when resolved.
          */
@@ -79,6 +82,7 @@ angular.module('app')
 
         /**
          * Returns all collections, that were used in any request.
+         *
          * @returns {Promise.<Array<String>>} A promise which returns a list of
          * all used collections.
          */
@@ -93,6 +97,7 @@ angular.module('app')
 
         /**
          * Deletes an existing request from the database.
+         *
          * @param {$data~Request} request - The request to be deleted.
          * @returns {Promise} A promise which gets resolved, when the request was
          * successfully deleted.
@@ -170,6 +175,7 @@ angular.module('app')
         /**
          * Adds a new history entry to the database. If this entry is not unique
          * an exception is thrown.
+         *
          * @param {$data~HistoryEntry} entry - The new history entry.
          * @returns {Promise.<Number>} A promise, which gets resolved, when the entry
          * was successfully saved and returns the new history entry íd.
@@ -184,6 +190,7 @@ angular.module('app')
 
         /**
          * Return the full history entry object for the specified key.
+         *
          * @param {Number} id - The id of the history entry.
          * @returns {Promise.<$data~HistoryEntry>} A promise which returns a the
          * full history entry object when resolved.
@@ -198,6 +205,7 @@ angular.module('app')
 
         /**
          * Returns all history entries, including only a subset of all properties.
+         *
          * @param {Number=0} top - When specified, the method only returns this amount
          * of newest items.
          * @returns {Promise.<Array<$data~HistoryEntry>>} A promise which returns
@@ -213,6 +221,7 @@ angular.module('app')
 
         /**
          * Deletes an existing history entry from the database.
+         *
          * @param {$data~HistoryEntry} entry - The history entry to be deleted.
          * @returns {Promise} A promise which gets resolved, when the entry was
          * successfully deleted.

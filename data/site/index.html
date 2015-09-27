@@ -9,7 +9,6 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.min.css">
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="bower_components/highlightjs/styles/darkula.css">
@@ -26,6 +25,7 @@
     <link rel="stylesheet" href="styles/components/md-list-item-text-overflow-fix.css">
     <link rel="stylesheet" href="styles/components/neutral-action.css">
     <link rel="stylesheet" href="styles/components/progress-button.css">
+    <link rel="stylesheet" href="styles/components/sidenav-footer-links.css">
 </head>
 <body layout="row" ng-cloak>
     <div flex layout="row" ui-view></div>
@@ -33,7 +33,6 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="bower_components/angular-aria/angular-aria.min.js"></script>
-    <script src="bower_components/angular-hotkeys/build/hotkeys.min.js"></script>
     <script src="bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
     <script src="bower_components/angular-material/angular-material.min.js"></script>
     <script src="bower_components/angular-messages/angular-messages.min.js"></script>
@@ -44,6 +43,7 @@
     <script src="bower_components/highlightjs/highlight.pack.min.js"></script>
     <script src="bower_components/liquidmetal/liquidmetal.js"></script>
     <script src="bower_components/lodash/lodash.min.js"></script>
+    <script src="bower_components/mousetrap/mousetrap.min.js"></script>
     <script src="bower_components/ui-router/release/angular-ui-router.min.js"></script>
     
     <script type="application/javascript;version=1.7" src="scripts/app.js"></script>
@@ -53,6 +53,7 @@
     <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-basic-generate-token.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-custom-generate-token.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-oauth2-configuration.js"></script>
+    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/hotkey-cheat-sheet.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/quick-open.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/save-request.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/directives/authorization-input.js"></script>
@@ -66,6 +67,7 @@
     <script type="application/javascript;version=1.7" src="scripts/services/authorization-provider-oauth2.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/services/data.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/services/error.js"></script>
+    <script type="application/javascript;version=1.7" src="scripts/services/hotkeys.js"></script>
     <script type="application/javascript;version=1.7" src="scripts/services/rester.js"></script>
     <!--<script type="application/javascript;version=1.7" src="scripts/services/rester.mock.js"></script>-->
 </body>
