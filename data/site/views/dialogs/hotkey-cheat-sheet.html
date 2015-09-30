@@ -2,9 +2,13 @@
     <md-dialog-content>
         <h2 class="md-title">Shortcuts</h2>
         <div class="md-dialog-content-body">
-            <div ng-repeat="hotkey in hotkeys" class="hotkey">
-                <span ng-repeat="combo in hotkey.getFormattedCombos()" class="hotkey__combo">{{combo}}</span>
-                <span class="hotkey__description">{{hotkey.description}}</span>
+            <div class="hotkeys">
+                <div ng-repeat="hotkey in hotkeys" class="hotkey">
+                    <span class="hotkey__combos">
+                        <span ng-repeat="combo in hotkey.getFormattedCombos()" class="hotkey__combo">{{combo}}</span>
+                    </span>
+                    <span class="hotkey__description">{{hotkey.description}}</span>
+                </div>
             </div>
         </div>
     </md-dialog-content>

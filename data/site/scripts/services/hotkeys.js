@@ -1,7 +1,7 @@
 'use strict';
 
-// monkeypatch Mousetrap's stopCallback() function
-// this version doesn't return true when the element is an INPUT, SELECT, or TEXTAREA
+// Monkeypatch Mousetrap's stopCallback() function, so it  doesn't return true
+// when the element is an INPUT, SELECT, or TEXTAREA.
 Mousetrap.prototype.stopCallback = function(event, element, combo) {
     if ((' ' + element.className + ' ').indexOf(' mousetrap ') > -1) {
         return false;
@@ -13,7 +13,8 @@ Mousetrap.prototype.stopCallback = function(event, element, combo) {
 angular.module('app')
     .service('$hotkeys', ['$window', '$rootScope', '$mdDialog', function ($window, $rootScope, $mdDialog) {
         var self = this,
-            hotkeys = [];
+            hotkeys = [],
+            safeKeysForFormControls = ['ctrl', 'alt', 'meta', 'command', 'option', 'mod'];
 
         /**
          * @typedef $hotkeys~Hotkey
@@ -21,15 +22,11 @@ angular.module('app')
          * @param {Array<String>} combos - The mousetrap key bindings.
          * @param {String} description - A description for the cheat sheet.
          * @param {Function} callback - A method to call when key is pressed.
-         * @param {Boolean} allowInFormControls - A boolean indicating of the
-         * combos are allowed inside of INPUT, SELECT and TEXTAREA elements. Default
-         * is false.
          */
         self.Hotkey = function (props) {
             this.combos = props.combos || [];
             this.description = props.description || '';
             this.callback = props.callback;
-            this.allowInFormControls = !!props.allowInFormControls;
         }
 
         self.Hotkey.prototype.getFormattedCombos = function () {
@@ -69,11 +66,17 @@ angular.module('app')
          * the hotkey is removed.
          */
         self.add = function (hotkey, scope) {
-            Mousetrap.bind(hotkey.combos, function(event) {
-                event.preventDefault();
+            Mousetrap.bind(hotkey.combos, function(event, combo) {
+                var handleEvent = true,
+                    nodeName = event.target.nodeName.toUpperCase(),
+                    pressedKeys = combo.split(/[ +]/);
 
-                var nodeName = event.target.nodeName.toUpperCase();
-                if (hotkey.allowInFormControls || (nodeName !== 'INPUT' && nodeName !== 'SELECT' && nodeName !== 'TEXTAREA')) {
+                if (nodeName === 'INPUT' || nodeName === 'SELECT' || nodeName === 'TEXTAREA') {
+                    handleEvent = pressedKeys.some(key => safeKeysForFormControls.indexOf(key) > -1);
+                }
+
+                if (handleEvent) {
+                    event.preventDefault();
                     $rootScope.$applyAsync(function () {
                         hotkey.callback();
                     });

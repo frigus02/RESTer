@@ -1,5 +1,5 @@
 <md-dialog>
-    <form name="saveRequest" novalidate>
+    <form name="saveRequestForm" novalidate>
         <md-dialog-content>
             <div class="md-dialog-content-body">
                 <md-autocomplete
@@ -13,14 +13,14 @@
                     <md-item-template>
                         <span md-highlight-text="collection" md-highlight-flags="gi">{{coll}}</span>
                     </md-item-template>
-                    <div ng-messages="saveRequest.collection.$error" ng-show="saveRequest.collection.$touched">
+                    <div ng-messages="saveRequestForm.collection.$error" ng-show="saveRequestForm.collection.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-autocomplete>
                 <md-input-container>
                     <label>Title</label>
                     <input name="title" type="text" ng-model="title" required>
-                    <div ng-messages="saveRequest.title.$error" ng-show="saveRequest.title.$touched">
+                    <div ng-messages="saveRequestForm.title.$error" ng-show="saveRequestForm.title.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-input-container>
@@ -34,7 +34,7 @@
             <md-button ng-click="cancel()" class="md-primary">
                 Cancel
             </md-button>
-            <md-button ng-click="save()" class="md-primary" ng-disabled="!saveRequest.$valid">
+            <md-button ng-click="save()" class="md-primary" ng-disabled="!saveRequestForm.$valid">
                 Save
             </md-button>
         </div>

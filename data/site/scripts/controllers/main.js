@@ -174,9 +174,16 @@ angular.module('app')
             });
 
             $hotkeys.add(new $hotkeys.Hotkey({
-                combos: ['ctrl+o', 'ctrl+p'],
-                description: 'Quick search for requests.',
-                allowInFormControls: true,
+                combos: ['mod+m'],
+                description: 'New request.',
+                callback() {
+                    $state.go('main.request.new');
+                }
+            }), $scope);
+
+            $hotkeys.add(new $hotkeys.Hotkey({
+                combos: ['mod+o', 'mod+p'],
+                description: 'Open request.',
                 callback() {
                     $mdDialog.show({
                         templateUrl: 'views/dialogs/quick-open.html',

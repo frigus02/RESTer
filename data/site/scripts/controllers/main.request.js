@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error', '$filter',
-        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error, $filter) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error', '$filter', '$hotkeys',
+        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error, $filter, $hotkeys) {
 
             $state.current.data = {
                 actions: [
@@ -92,6 +92,8 @@ angular.module('app')
             };
 
             $scope.sendRequest = function () {
+                if (!$scope.requestForm.$valid) return;
+
                 $scope.requestIsSending = true;
                 $rester.sendRequest($scope.request)
                     .then(response => {
@@ -186,6 +188,18 @@ angular.module('app')
                     });
                 });
             }
+
+            $hotkeys.add(new $hotkeys.Hotkey({
+                combos: ['mod+s'],
+                description: 'Save the current request.',
+                callback: saveRequest
+            }), $scope);
+
+            $hotkeys.add(new $hotkeys.Hotkey({
+                combos: ['mod+enter'],
+                description: 'Send the current request.',
+                callback: $scope.sendRequest
+            }), $scope);
 
         }
     ]);

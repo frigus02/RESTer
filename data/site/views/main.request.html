@@ -1,5 +1,5 @@
 <!-- Request -->
-<div layout="column">
+<form name="requestForm" novalidate layout="column">
     <div layout="row" layout-align="space-between center" class="input-row">
         <md-autocomplete
             md-selected-item="request.method"
@@ -7,16 +7,17 @@
             md-items="method in queryRequestMethods(requestMethodSearch)"
             md-item-text="method"
             md-autoselect="true"
-            md-floating-label="Method">
+            md-floating-label="Method"
+            required>
             <md-item-template>
                 <span md-highlight-text="requestMethodSearch" md-highlight-flags="gi">{{method}}</span>
             </md-item-template>
         </md-autocomplete>
         <md-input-container flex>
             <label>URL</label>
-            <input type="url" ng-model="request.url" focus>
+            <input type="url" ng-model="request.url" required>
         </md-input-container>
-        <md-button class="md-raised md-accent progress-button" ng-click="sendRequest()">
+        <md-button class="md-raised md-accent progress-button" ng-click="sendRequest()" ng-disabled="!requestForm.$valid">
             <span ng-hide="requestIsSending">Send</span>
             <md-progress-circular ng-show="requestIsSending"
                 md-mode="indeterminate"
@@ -36,7 +37,7 @@
             <authorization-input headers="request.headers"></authorization-input>
         </md-tab>
     </md-tabs>
-</div>
+</form>
 
 <!-- Response -->
 <div layout="column" ng-show="response">

@@ -1,4 +1,15 @@
+.hotkeys {
+    display: table;
+    border-spacing: 8px;
+    border-collapse: separate;
+}
+
 .hotkey {
+    display: table-row;
+}
+
+.hotkey__combos {
+    display: table-cell;
 }
 
 .hotkey__combo {
@@ -9,13 +20,14 @@
     padding: 4px 8px;
     border-radius: 2px;
     display: inline-block;
-    margin: 4px;
+    margin-right: 4px;
     text-transform: capitalize;
 }
 
-.hotkey__combo:first-child {
-    margin-left: 0;
+.hotkey__combo:last-child {
+    margin-right: 0;
 }
 
 .hotkey__description {
+    display: table-cell;
 }
