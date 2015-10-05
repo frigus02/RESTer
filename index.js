@@ -1,9 +1,13 @@
-const self = require('sdk/self');
-const buttons = require('sdk/ui/button/action');
-const tabs = require('sdk/tabs');
-const pageMod = require('sdk/page-mod');
-const customRequest = require('lib/request');
-const customBrowserRequest = require('lib/browser-request');
+/* globals require: false */
+
+'use strict';
+
+const self = require('sdk/self'),
+      buttons = require('sdk/ui/button/action'),
+      tabs = require('sdk/tabs'),
+      pageMod = require('sdk/page-mod'),
+      customRequest = require('lib/request'),
+      customBrowserRequest = require('lib/browser-request');
 
 
 buttons.ActionButton({
@@ -14,7 +18,7 @@ buttons.ActionButton({
         '32': './images/icon32.png',
         '64': './images/icon64.png'
     },
-    onClick: function (state) {
+    onClick: function () {
         tabs.open({
             url: './site/index.html'
         });
@@ -25,7 +29,7 @@ pageMod.PageMod({
     include: self.data.url('./site/index.html') + '*',
     contentScriptFile: './site-content/rester.js',
     attachTo: ['existing', 'top'],
-    onAttach: function(worker) {
+    onAttach: function (worker) {
 
         worker.port.on('sendRequest', function (data) {
             customRequest.send(data.request)

@@ -51,7 +51,7 @@ angular.module('app')
                 }
 
                 if (tokenResponse.expires_in) {
-                    token.expirationDate = new Date(Date.now() + (tokenResponse.expires_in * 1000));
+                    token.expirationDate = new Date(Date.now() + tokenResponse.expires_in * 1000);
                 }
 
                 return token;

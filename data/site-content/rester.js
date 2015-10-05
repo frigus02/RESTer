@@ -1,4 +1,6 @@
-window.addEventListener('message', function(event) {
+'use strict';
+
+window.addEventListener('message', function (event) {
     if (event.origin !== window.location.origin) return;
 
     if (event.data.action === 'rester.sendRequest') {

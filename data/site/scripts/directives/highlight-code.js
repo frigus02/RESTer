@@ -24,15 +24,18 @@ angular.module('app')
                 $scope.$watchGroup(['code', 'format'], highlightCode);
 
                 function highlightCode() {
+                    var result,
+                        formattedCode;
+
                     // http://highlightjs.readthedocs.org/en/latest/api.html#highlightauto-value-languagesubset
                     if ($scope.forceLanguage) {
-                        var result = hljs.highlight($scope.forceLanguage, $scope.code);
+                        result = hljs.highlight($scope.forceLanguage, $scope.code);
                     } else {
-                        var result = hljs.highlightAuto($scope.code);
+                        result = hljs.highlightAuto($scope.code);
                     }
 
                     if ($scope.$eval($scope.format) && CODE_FORMATTERS[result.language]) {
-                        var formattedCode = CODE_FORMATTERS[result.language]($scope.code);
+                        formattedCode = CODE_FORMATTERS[result.language]($scope.code);
                         result = hljs.highlightAuto(formattedCode);
                     }
 

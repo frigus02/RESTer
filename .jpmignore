@@ -7,6 +7,9 @@ test/
 .bowerrc
 .gitignore
 .jpmignore
+.jscsrc
+.jshintrc
 bower.json
+OAUTH2-EXAMPLE-CONFIGS.md
 RESTer.sublime-workspace
 RESTer.sublime-project

@@ -18,7 +18,7 @@ angular.module('app')
                 ]).then(result => {
                     var [requests, historyEntries] = result;
                     $scope.navItems = [];
-                    
+
                     $scope.navItems.push({
                         type: 'subheader',
                         title: 'Requests',
@@ -56,7 +56,6 @@ angular.module('app')
                     historyNavItemsOffset = requestNavItemsOffset + requestNavItems.length + 2;
                     historyNavItems = historyEntries.map(createHistoryNavItem);
                     $scope.navItems.push.apply($scope.navItems, historyNavItems);
-                    
                 });
             }
 
@@ -152,7 +151,7 @@ angular.module('app')
             createNavigation();
             $data.addChangeListener(updateNavigation);
 
-     
+
             $scope.toggleSidenav = function (menuId) {
                 $mdSidenav(menuId).toggle();
             };
@@ -162,7 +161,7 @@ angular.module('app')
             };
 
             $scope.getActions = function () {
-                return ($state.current.data && $state.current.data.actions) || [];
+                return $state.current.data && $state.current.data.actions || [];
             };
 
             $scope.$watch('getTitle()', function () {

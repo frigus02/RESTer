@@ -12,7 +12,7 @@ angular.module('app')
             'text/plain',
             'text/xml'
         ];
-        
+
         var COMMON_CHARSETS = [
             'utf-8',
             'iso-8859-1'
@@ -47,7 +47,7 @@ angular.module('app')
             { name: 'Upgrade' },
             { name: 'User-Agent' },
             { name: 'Via' },
-            { name: 'Warning' },
+            { name: 'Warning' }
         ];
 
         return {
@@ -56,7 +56,7 @@ angular.module('app')
                 headers: '='
             },
             templateUrl: 'views/directives/header-input.html',
-            link: function postLink(scope, element, attrs) {
+            link: function postLink(scope) {
                 scope.newHeader = { name: '', value: '' };
 
                 scope.getPreparedHeaders = function () {

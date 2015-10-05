@@ -3,15 +3,15 @@
 angular.module('app')
     .controller('DialogAuthorizationProviderBasicGenerateTokenCtrl', ['$scope', '$mdDialog', '$data', '$window',
         function ($scope, $mdDialog, $data, $window) {
-            
+
             $scope.userName = '';
             $scope.password = '';
 
-            $scope.cancel = function() {
+            $scope.cancel = function () {
                 $mdDialog.cancel();
             };
 
-            $scope.save = function() {
+            $scope.save = function () {
                 var token = new $data.AuthorizationToken();
                 token.title = $scope.userName;
                 token.scheme = 'Basic';

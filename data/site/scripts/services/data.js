@@ -72,7 +72,7 @@ angular.module('app')
         self.getRequests = function () {
             return openDatabase().then(db => {
                 return createTransaction(db, ['requests'], function (transaction, objectStores) {
-                    return getAllEntities(objectStores[0], self.Request);
+                    return getAllEntities(objectStores[0], null, self.Request);
                 });
             });
         };
@@ -85,7 +85,7 @@ angular.module('app')
         self.getRequestCollections = function () {
             return openDatabase().then(db => {
                 return createTransaction(db, ['requests'], function (transaction, objectStores) {
-                    var index = objectStore[0].index('collection');
+                    var index = objectStores[0].index('collection');
                     return getAllUniqueKeys(index);
                 });
             });
@@ -206,7 +206,7 @@ angular.module('app')
         self.getHistoryEntries = function (top) {
             return openDatabase().then(db => {
                 return createTransaction(db, ['history'], function (transaction, objectStores) {
-                    return getAllEntities(objectStores[0], self.HistoryEntry, top);
+                    return getAllEntities(objectStores[0], null, self.HistoryEntry, top);
                 });
             });
         };
@@ -259,7 +259,7 @@ angular.module('app')
             return openDatabase().then(db => {
                 return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
                     var index = objectStores[0].index('providerId');
-                    return getAllEntities(index, self.AuthorizationProviderConfiguration);
+                    return getAllEntities(index, IDBKeyRange.only(providerId), self.AuthorizationProviderConfiguration);
                 });
             });
         };
@@ -314,7 +314,7 @@ angular.module('app')
         self.getAuthorizationTokens = function () {
             return openDatabase().then(db => {
                 return createTransaction(db, ['authTokens'], function (transaction, objectStores) {
-                    return getAllEntities(objectStores[0], self.AuthorizationToken);
+                    return getAllEntities(objectStores[0], null, self.AuthorizationToken);
                 });
             });
         };
@@ -337,7 +337,9 @@ angular.module('app')
         };
 
         function fireChangeListeners(changes) {
-            dataChangeListeners.forEach(l => { l(changes); });
+            dataChangeListeners.forEach(l => {
+                l(changes);
+            });
         }
 
         function wrapFireChangeListenersForThen(action, item) {
@@ -358,9 +360,8 @@ angular.module('app')
             var dfd = $q.defer(),
                 request = $window.indexedDB.open('rester', 2);
 
-            request.onupgradeneeded = function(event) {
+            request.onupgradeneeded = function (event) {
                 var db = event.target.result;
-                var transaction = event.target.transaction;
 
                 db.onerror = function (event) {
                     dfd.reject('Error upgrading database: ' + event.target.errorCode);
@@ -381,11 +382,11 @@ angular.module('app')
                 }
             };
 
-            request.onerror = function(event) {
+            request.onerror = function (event) {
                 dfd.reject('Error opening database: ' + event.target.errorCode);
             };
 
-            request.onsuccess = function(event) {
+            request.onsuccess = function (event) {
                 dfd.resolve(event.target.result);
             };
 
@@ -398,11 +399,11 @@ angular.module('app')
                 objectStores = objectStoreNames.map(name => transaction.objectStore(name)),
                 result;
 
-            transaction.oncomplete = function(event) {
+            transaction.oncomplete = function () {
                 dfd.resolve(result);
             };
 
-            transaction.onerror = function(event) {
+            transaction.onerror = function (event) {
                 dfd.reject('Error executing transaction: ' + event.target.errorCode);
             };
 
@@ -427,7 +428,7 @@ angular.module('app')
         function deleteEntity(objectStore, entity) {
             var dfd = $q.defer();
 
-            objectStore.delete(entity.id).onsuccess = function (event) {
+            objectStore.delete(entity.id).onsuccess = function () {
                 dfd.resolve();
             };
 
@@ -445,12 +446,12 @@ angular.module('app')
             return dfd.promise;
         }
 
-        function getAllEntities(objectStoreOrIndex, objectConstructor, maxItems) {
+        function getAllEntities(objectStoreOrIndex, range, objectConstructor, maxItems) {
             var dfd = $q.defer(),
-                cursorRequest = objectStoreOrIndex.openCursor(null, +maxItems < 0 ? 'prev' : 'next'),
+                cursorRequest = objectStoreOrIndex.openCursor(range, +maxItems < 0 ? 'prev' : 'next'),
                 result = [];
 
-            cursorRequest.onsuccess = function(event) {
+            cursorRequest.onsuccess = function (event) {
                 var cursor = event.target.result;
                 if (cursor && (!maxItems || result.length < Math.abs(maxItems))) {
                     result.push(new objectConstructor(cursor.value));
@@ -460,7 +461,7 @@ angular.module('app')
                 }
             };
 
-            cursorRequest.onerror = function(event) {
+            cursorRequest.onerror = function (event) {
                 dfd.reject('Error executing request: ' + event.target.errorCode);
             };
 
@@ -472,7 +473,7 @@ angular.module('app')
                 cursorRequest = objectStoreOrIndex.openKeyCursor(null, 'nextunique'),
                 result = [];
 
-            cursorRequest.onsuccess = function(event) {
+            cursorRequest.onsuccess = function (event) {
                 var cursor = event.target.result;
                 if (cursor) {
                     result.push(cursor.key);
@@ -482,7 +483,7 @@ angular.module('app')
                 }
             };
 
-            cursorRequest.onerror = function(event) {
+            cursorRequest.onerror = function (event) {
                 dfd.reject('Error executing request: ' + event.target.errorCode);
             };
 

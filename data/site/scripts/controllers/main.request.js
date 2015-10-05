@@ -71,7 +71,7 @@ angular.module('app')
             }
 
             updateState($state.params);
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
                 toState.data = fromState.data;
                 updateState(toParams);
             });
@@ -168,7 +168,7 @@ angular.module('app')
                     $data.putRequest($scope.request).then(() => {
                         $state.go('main.request.existing', {
                             id: $scope.request.id
-                        })
+                        });
                     });
                 });
             }

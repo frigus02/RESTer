@@ -2,7 +2,7 @@
 
 angular.module('app')
     .controller('HistoryCtrl', ['$scope', '$state', '$data', function ($scope, $state, $data) {
-        
+
         $state.current.data = {
             title: 'History'
         };
@@ -26,7 +26,7 @@ angular.module('app')
                 historyId: entry.id
             });
         };
-        
+
         $scope.deleteHistoryEntry = function (entry) {
             $data.deleteHistoryEntry(entry).then(() => {
                 var index = $scope.historyEntries.indexOf(entry);

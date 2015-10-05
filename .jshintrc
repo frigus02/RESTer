@@ -1,0 +1,19 @@
+{
+    "bitwise": true,
+    "curly": false,
+    "eqeqeq": true,
+    "es5": true,
+    "esnext": true,
+    "forin": true,
+    "freeze": true,
+    "futurehostile": true,
+    "globalstrict": true,
+    "latedef": "nofunc",
+    "noarg": true,
+    "nocomma": true,
+    "nonbsp": true,
+    "singleGroups": true,
+    "strict": true,
+    "undef": true,
+    "unused": true
+}

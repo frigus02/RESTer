@@ -2,10 +2,10 @@
 
 angular.module('app')
     .service('$rester', ['$window', '$q', '$data', function ($window, $q, $data) {
-        var self = this;
-        var requests = {};
+        var self = this,
+            requests = {};
 
-        $window.addEventListener('message', function(event) {
+        $window.addEventListener('message', function (event) {
             if (event.origin !== $window.location.origin) return;
 
             if (event.data.action === 'rester.sendRequestSuccess') {
@@ -34,7 +34,7 @@ angular.module('app')
                 id: id,
                 request: request
             }, $window.location.origin);
-            
+
             return dfd.promise;
         };
 
@@ -49,7 +49,7 @@ angular.module('app')
                 id: id,
                 request: request
             }, $window.location.origin);
-            
+
             return dfd.promise;
         };
     }]);

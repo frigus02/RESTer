@@ -11,7 +11,7 @@ angular
         'angular-jwt'
     ])
     .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
-        function($urlRouterProvider, $stateProvider, $mdThemingProvider) {
+        function ($urlRouterProvider, $stateProvider, $mdThemingProvider) {
             $urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('main', {
@@ -54,7 +54,7 @@ angular
         }
     ])
     .run(['$authorization', '$authorizationProviderCustom', '$authorizationProviderBasic', '$authorizationProviderOAuth2',
-        function($authorization, $authorizationProviderCustom, $authorizationProviderBasic, $authorizationProviderOAuth2) {
+        function ($authorization, $authorizationProviderCustom, $authorizationProviderBasic, $authorizationProviderOAuth2) {
             $authorization.$$providers.push(
                 $authorizationProviderCustom,
                 $authorizationProviderBasic,

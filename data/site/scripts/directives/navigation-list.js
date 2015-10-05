@@ -21,7 +21,7 @@ angular.module('app')
 
                 $scope.invokeItem = function (item) {
                     $scope.itemClicked({item: item});
-                    
+
                     if (item.targetState) {
                         $state.go(item.targetState, item.targetStateParams, item.targetStateOptions);
                     } else if (item.targetAction) {

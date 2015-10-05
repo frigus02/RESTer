@@ -20,7 +20,7 @@ angular.module('app')
 
             $scope.queryCollections = function (query) {
                 if (!query) return [];
-                
+
                 if (collections === null) {
                     return $data.getRequestCollections().then(result => {
                         collections = result;
@@ -32,11 +32,11 @@ angular.module('app')
                 }
             };
 
-            $scope.cancel = function() {
+            $scope.cancel = function () {
                 $mdDialog.cancel();
             };
 
-            $scope.save = function() {
+            $scope.save = function () {
                 $mdDialog.hide({
                     collection: $scope.collection,
                     title: $scope.title,
