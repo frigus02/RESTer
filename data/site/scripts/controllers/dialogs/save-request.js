@@ -5,10 +5,10 @@ angular.module('app')
         '$scope', '$mdDialog', '$data', 'isNew', 'collection', 'title', 'showHistoryWarning',
         function ($scope, $mdDialog, $data, isNew, collection, title, showHistoryWarning) {
 
-            var collections = null;
+            let collections = null;
 
             function getFilteredCollections(query) {
-                var lowercaseQuery = angular.lowercase(query);
+                let lowercaseQuery = angular.lowercase(query);
                 return collections.filter(c => angular.lowercase(c).indexOf(lowercaseQuery) > -1);
             }
 

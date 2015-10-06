@@ -17,24 +17,25 @@ angular.module('app')
                 });
 
                 function updateTokenIsUsedFlag() {
-                    var authHeader = getAuthorizationHeaderValue();
+                    let authHeader = getAuthorizationHeaderValue();
                     $scope.tokens.forEach(token => {
                         token.isUsed = authHeader === `${token.scheme} ${token.token}`;
                     });
                 }
 
                 function getAuthorizationHeaderValue() {
-                    var header = $scope.headers.find(h => h.name.toLowerCase() === 'authorization');
+                    let header = $scope.headers.find(h => h.name.toLowerCase() === 'authorization');
                     return header && header.value;
                 }
 
                 function removeAuthorizationHeader() {
-                    var index = $scope.headers.findIndex(h => h.name.toLowerCase() === 'authorization');
-                    if (index > -1) {
-                        $scope.headers.splice(index, 1);
-                        return true;
-                    } else {
-                        return false;
+                    while (true) {
+                        let index = $scope.headers.findIndex(h => h.name.toLowerCase() === 'authorization');
+                        if (index > -1) {
+                            $scope.headers.splice(index, 1);
+                        } else {
+                            break;
+                        }
                     }
                 }
 
@@ -67,7 +68,7 @@ angular.module('app')
                 };
 
                 $scope.changeTokenUsage = function (token) {
-                    while (removeAuthorizationHeader());
+                    removeAuthorizationHeader();
                     if (token.isUsed) {
                         $scope.headers.push({
                             name: 'Authorization',
@@ -78,7 +79,7 @@ angular.module('app')
 
                 $scope.deleteToken = function (token) {
                     $data.deleteAuthorizationToken(token).then(() => {
-                        var index = $scope.tokens.indexOf(token);
+                        let index = $scope.tokens.indexOf(token);
                         if (index > -1) {
                             $scope.tokens.splice(index, 1);
                         }
@@ -105,14 +106,14 @@ angular.module('app')
                     $scope.getProviderById(config.providerId).editConfiguration(config).then(newConfig => {
                         if (newConfig === 'delete') {
                             $data.deleteAuthorizationProviderConfiguration(config).then(() => {
-                                var index = $scope.configurations.findIndex(c => c.id === config.id);
+                                let index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1);
                                 }
                             });
                         } else {
                             $data.putAuthorizationProviderConfiguration(newConfig).then(() => {
-                                var index = $scope.configurations.findIndex(c => c.id === config.id);
+                                let index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1, newConfig);
                                 } else {

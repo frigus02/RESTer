@@ -3,7 +3,7 @@
 angular.module('app')
     .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$data',
         function ($authorization, $mdDialog, $rester, $q, jwtHelper, $data) {
-        
+
             function AuthorizationProviderOAuth2() {
                 $authorization.AuthorizationProvider.call(this, 3, 'OAuth 2', true);
             }
@@ -19,7 +19,7 @@ angular.module('app')
             function decodeQueryString(str) {
                 return _(str.split('&'))
                     .map(part => {
-                        var keyValue = part.split('=');
+                        let keyValue = part.split('=');
                         return [
                             keyValue[0],
                             decodeURIComponent(keyValue[1])
@@ -34,7 +34,7 @@ angular.module('app')
             }
 
             function createToken(config, tokenResponse) {
-                var token = new $data.AuthorizationToken();
+                let token = new $data.AuthorizationToken();
                 token.providerId = 3;
                 token.configurationId = config.id;
 
@@ -42,7 +42,7 @@ angular.module('app')
                 token.token = tokenResponse.access_token;
 
                 try {
-                    var tokenPayload = jwtHelper.decodeToken(tokenResponse.access_token),
+                    let tokenPayload = jwtHelper.decodeToken(tokenResponse.access_token),
                         name = tokenPayload.sub || tokenPayload.name || tokenPayload.name_id || tokenPayload.unique_name;
 
                     token.title = name;
@@ -58,7 +58,7 @@ angular.module('app')
             }
 
             function executeImplicitFlow(config) {
-                var params = {
+                let params = {
                     response_type: 'token',
                     client_id: config.clientId,
                     redirect_uri: config.redirectUri
@@ -75,7 +75,7 @@ angular.module('app')
                     // Some oauth2 requests return the authorization response in the search
                     // part of the url instead of the fragment part. So we just check both.
 
-                    var url = new URL(response.url),
+                    let url = new URL(response.url),
                         resultFromHash = decodeQueryString(url.hash.substr(1)),
                         resultFromSearch = decodeQueryString(url.search.substr(1));
 
@@ -94,7 +94,7 @@ angular.module('app')
             }
 
             function executeCodeFlow(config) {
-                var params = {
+                let params = {
                     response_type: 'code',
                     client_id: config.clientId,
                     redirect_uri: config.redirectUri
@@ -108,10 +108,10 @@ angular.module('app')
                     url: generateUri(config.authorizationRequestEndpoint, params),
                     targetUrl: config.redirectUri
                 }).then(function (response) {
-                    var url = new URL(response.url);
+                    let url = new URL(response.url);
 
                     if (url.searchParams.has('code')) {
-                        var accessTokenRequest = {
+                        let accessTokenRequest = {
                                 method: config.accessTokenRequestMethod,
                                 headers: [
                                     { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
@@ -134,7 +134,7 @@ angular.module('app')
 
                         return $rester.sendRequest(accessTokenRequest);
                     } else if (url.searchParams.has('error')) {
-                        var error = url.searchParams.get('error'),
+                        let error = url.searchParams.get('error'),
                             errorDescription = url.searchParams.get('error_description'),
                             errorUri = url.searchParams.get('error_uri');
 
@@ -143,7 +143,7 @@ angular.module('app')
                         return $q.reject(`Invalid authorization response.`);
                     }
                 }).then(function (response) {
-                    var body = JSON.parse(response.body);
+                    let body = JSON.parse(response.body);
                     if (response.status === 200) {
                         return createToken(config, body);
                     } else if (response.status === 400) {

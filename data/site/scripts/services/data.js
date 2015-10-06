@@ -2,7 +2,7 @@
 
 angular.module('app')
     .service('$data', ['$window', '$q', function ($window, $q) {
-        var self = this,
+        let self = this,
             dataChangeListeners = [];
 
         // -------------------------------------------------------
@@ -85,7 +85,7 @@ angular.module('app')
         self.getRequestCollections = function () {
             return openDatabase().then(db => {
                 return createTransaction(db, ['requests'], function (transaction, objectStores) {
-                    var index = objectStores[0].index('collection');
+                    let index = objectStores[0].index('collection');
                     return getAllUniqueKeys(index);
                 });
             });
@@ -258,8 +258,8 @@ angular.module('app')
         self.getAuthorizationProviderConfigurations = function (providerId) {
             return openDatabase().then(db => {
                 return createTransaction(db, ['authProviderConfigs'], function (transaction, objectStores) {
-                    var index = objectStores[0].index('providerId');
-                    return getAllEntities(index, IDBKeyRange.only(providerId), self.AuthorizationProviderConfiguration);
+                    let index = objectStores[0].index('providerId');
+                    return getAllEntities(index, $window.IDBKeyRange.only(providerId), self.AuthorizationProviderConfiguration);
                 });
             });
         };
@@ -357,28 +357,32 @@ angular.module('app')
         // -------------------------------------------------------
 
         function openDatabase() {
-            var dfd = $q.defer(),
+            let dfd = $q.defer(),
                 request = $window.indexedDB.open('rester', 2);
 
             request.onupgradeneeded = function (event) {
-                var db = event.target.result;
+                let db = event.target.result,
+                    requestsStore,
+                    historyStore,
+                    authProviderConfigsStore,
+                    authTokensStore;
 
                 db.onerror = function (event) {
                     dfd.reject('Error upgrading database: ' + event.target.errorCode);
                 };
 
                 if (event.newVersion === 1) {
-                    var requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
+                    requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
                     requestsStore.createIndex('collection', 'collection', {unique: false});
 
-                    var historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
+                    historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
                 }
 
                 if (event.newVersion === 2) {
-                    var authProviderConfigsStore = db.createObjectStore('authProviderConfigs', {keyPath: 'id', autoIncrement: true});
+                    authProviderConfigsStore = db.createObjectStore('authProviderConfigs', {keyPath: 'id', autoIncrement: true});
                     authProviderConfigsStore.createIndex('providerId', 'providerId', {unique: false});
 
-                    var authTokensStore = db.createObjectStore('authTokens', {keyPath: 'id', autoIncrement: true});
+                    authTokensStore = db.createObjectStore('authTokens', {keyPath: 'id', autoIncrement: true});
                 }
             };
 
@@ -394,7 +398,7 @@ angular.module('app')
         }
 
         function createTransaction(db, objectStoreNames, transactionContentCallback) {
-            var dfd = $q.defer(),
+            let dfd = $q.defer(),
                 transaction = db.transaction(objectStoreNames, 'readwrite'),
                 objectStores = objectStoreNames.map(name => transaction.objectStore(name)),
                 result;
@@ -413,7 +417,7 @@ angular.module('app')
         }
 
         function addEntityAndUpdateId(objectStore, entity) {
-            var dfd = $q.defer();
+            let dfd = $q.defer();
 
             objectStore.add(entity).onsuccess = function (event) {
                 entity.id = event.target.result;
@@ -426,7 +430,7 @@ angular.module('app')
         }
 
         function deleteEntity(objectStore, entity) {
-            var dfd = $q.defer();
+            let dfd = $q.defer();
 
             objectStore.delete(entity.id).onsuccess = function () {
                 dfd.resolve();
@@ -436,25 +440,25 @@ angular.module('app')
             return dfd.promise;
         }
 
-        function getEntity(objectStore, id, objectConstructor) {
-            var dfd = $q.defer();
+        function getEntity(objectStore, id, ObjectConstructor) {
+            let dfd = $q.defer();
 
             objectStore.get(id).onsuccess = function (event) {
-                dfd.resolve(new objectConstructor(event.target.result));
+                dfd.resolve(new ObjectConstructor(event.target.result));
             };
 
             return dfd.promise;
         }
 
-        function getAllEntities(objectStoreOrIndex, range, objectConstructor, maxItems) {
-            var dfd = $q.defer(),
+        function getAllEntities(objectStoreOrIndex, range, ObjectConstructor, maxItems) {
+            let dfd = $q.defer(),
                 cursorRequest = objectStoreOrIndex.openCursor(range, +maxItems < 0 ? 'prev' : 'next'),
                 result = [];
 
             cursorRequest.onsuccess = function (event) {
-                var cursor = event.target.result;
+                let cursor = event.target.result;
                 if (cursor && (!maxItems || result.length < Math.abs(maxItems))) {
-                    result.push(new objectConstructor(cursor.value));
+                    result.push(new ObjectConstructor(cursor.value));
                     cursor.continue();
                 } else {
                     dfd.resolve(result);
@@ -469,12 +473,12 @@ angular.module('app')
         }
 
         function getAllUniqueKeys(objectStoreOrIndex) {
-            var dfd = $q.defer(),
+            let dfd = $q.defer(),
                 cursorRequest = objectStoreOrIndex.openKeyCursor(null, 'nextunique'),
                 result = [];
 
             cursorRequest.onsuccess = function (event) {
-                var cursor = event.target.result;
+                let cursor = event.target.result;
                 if (cursor) {
                     result.push(cursor.key);
                     cursor.continue();
@@ -491,7 +495,7 @@ angular.module('app')
         }
 
         function putEntityAndUpdateId(objectStore, entity) {
-            var dfd = $q.defer();
+            let dfd = $q.defer();
 
             objectStore.put(entity).onsuccess = function (event) {
                 entity.id = event.target.result;

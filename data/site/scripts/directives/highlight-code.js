@@ -3,7 +3,7 @@
 angular.module('app')
     .directive('highlightCode', ['$sce', function ($sce) {
 
-        var CODE_FORMATTERS = {
+        const CODE_FORMATTERS = {
             'json': function (code) {
                 return JSON.stringify(JSON.parse(code), null, 4);
             }
@@ -24,7 +24,7 @@ angular.module('app')
                 $scope.$watchGroup(['code', 'format'], highlightCode);
 
                 function highlightCode() {
-                    var result,
+                    let result,
                         formattedCode;
 
                     // http://highlightjs.readthedocs.org/en/latest/api.html#highlightauto-value-languagesubset

@@ -6,7 +6,7 @@ angular.module('app')
 
             $scope.navItems = [];
 
-            var requestNavItems = [],
+            let requestNavItems = [],
                 requestNavItemsOffset = 0,
                 historyNavItems = [],
                 historyNavItemsOffset = 0;
@@ -16,7 +16,7 @@ angular.module('app')
                     $data.getRequests(),
                     $data.getHistoryEntries(-5)
                 ]).then(result => {
-                    var [requests, historyEntries] = result;
+                    let [requests, historyEntries] = result;
                     $scope.navItems = [];
 
                     $scope.navItems.push({
@@ -34,7 +34,7 @@ angular.module('app')
                         .pairs()
                         .sortBy(0)
                         .map(coll => {
-                            var collItem = createRequestCollectionNavItem(coll[0]);
+                            let collItem = createRequestCollectionNavItem(coll[0]);
                             collItem.items = _(coll[1]).sortBy('title').map(createRequestNavItem).value();
                             return collItem;
                         })
@@ -97,32 +97,32 @@ angular.module('app')
                 changes.forEach(change => {
                     if (change.item instanceof $data.Request) {
                         if (change.action === 'add' || change.action === 'put') {
-                            var collectionIndex = requestNavItemsOffset + _.sortedIndex(
+                            let collectionIndex = requestNavItemsOffset + _.sortedIndex(
                                 requestNavItems,
                                 {title: change.item.collection},
                                 item => item.title);
                             if (!$scope.navItems[collectionIndex] || $scope.navItems[collectionIndex].title !== change.item.collection) {
-                                var newCollectionItem = createRequestCollectionNavItem(change.item.collection);
+                                let newCollectionItem = createRequestCollectionNavItem(change.item.collection);
 
                                 requestNavItems.splice(collectionIndex - requestNavItemsOffset, 0, newCollectionItem);
                                 $scope.navItems.splice(collectionIndex, 0, newCollectionItem);
                                 historyNavItemsOffset++;
                             }
 
-                            var collection = $scope.navItems[collectionIndex];
-                            var requestIndex = _.sortedIndex(collection.items, change.item, item => item.id);
+                            let collection = $scope.navItems[collectionIndex],
+                                requestIndex = _.sortedIndex(collection.items, change.item, item => item.id);
                             if (!collection.items[requestIndex] || collection.items[requestIndex].id !== change.item.id) {
                                 collection.items.splice(requestIndex, 0, createRequestNavItem(change.item));
                             } else if (collection.items[requestIndex] && collection.items[requestIndex].id === change.item.id) {
                                 Object.assign(collection.items[requestIndex], change.item);
                             }
                         } else if (change.action === 'delete') {
-                            var collectionIndex = requestNavItemsOffset + _.findIndex(
+                            let collectionIndex = requestNavItemsOffset + _.findIndex(
                                 requestNavItems,
                                 item => item.title === change.item.collection);
                             if (collectionIndex < requestNavItemsOffset) return;
 
-                            var collection = $scope.navItems[collectionIndex],
+                            let collection = $scope.navItems[collectionIndex],
                                 requestIndex = _.findIndex(collection.items, item => item.id === change.item.id);
                             if (requestIndex === -1) return;
 
@@ -136,7 +136,7 @@ angular.module('app')
                         }
                     } else if (change.item instanceof $data.HistoryEntry) {
                         if (change.action === 'add') {
-                            var newHistoryItem = createHistoryNavItem(change.item);
+                            let newHistoryItem = createHistoryNavItem(change.item);
 
                             $scope.navItems.splice(historyNavItemsOffset, 0, newHistoryItem);
                             if (historyNavItems.unshift(newHistoryItem) > 5) {

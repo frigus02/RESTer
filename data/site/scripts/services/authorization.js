@@ -2,7 +2,7 @@
 
 angular.module('app')
     .service('$authorization', ['$q', function ($q) {
-        var self = this;
+        let self = this;
 
         /**
          * @typedef $authTokenProvider~AuthorizationProvider
@@ -23,28 +23,34 @@ angular.module('app')
             /**
              * Generates a new authorization token using the specified
              * configuration.
-             * @property {$data~AuthorizationProviderConfiguration} config
+             * @param {$data~AuthorizationProviderConfiguration} config
              * @returns {Promise.<$data~AuthorizationToken>} A promise, which
              * returns the authorization when it is resolved.
              */
-            generateToken: function (config) { return $q.reject(); },
+            generateToken: function (config) {
+                return $q.reject();
+            },
 
             /**
              * Creates a new configuration. Will probably show a dialog to the user
              * asking for data.
              * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
              */
-            createConfiguration: function () { return $q.reject(); },
+            createConfiguration: function () {
+                return $q.reject();
+            },
 
             /**
              * Edits the specified configuration. Will probably show a dialog to
              * the user asking for updated information. When the result promise
              * resolves to the string 'delete', this means the configuration should
              * be deleted.
-             * @property {$data~AuthorizationProviderConfiguration} config
+             * @param {$data~AuthorizationProviderConfiguration} config
              * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
              */
-            editConfiguration: function (config) { return $q.reject(); }
+            editConfiguration: function (config) {
+                return $q.reject();
+            }
         };
 
         self.$$providers = [];

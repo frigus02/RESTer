@@ -1,7 +1,9 @@
-var fs = require('fs');
-var rimraf = require('rimraf');
-var mkdirp = require('mkdirp');
-var cheerio = require('cheerio');
+'use strict';
+
+const fs = require('fs'),
+      rimraf = require('rimraf'),
+      mkdirp = require('mkdirp'),
+      cheerio = require('cheerio');
 
 removeDataBowerComponents(function () {
     getFileToCopyFromIndexHtml(function (paths) {
@@ -26,7 +28,7 @@ function getFileToCopyFromIndexHtml(callback) {
     fs.readFile('data/site/index.html', function (err, data) {
         if (err) throw err;
 
-        var $ = cheerio.load(data),
+        let $ = cheerio.load(data),
             paths = [];
 
         $('script[src^="bower_components/"]').each(function () {
@@ -46,9 +48,9 @@ function getFileToCopyFromIndexHtml(callback) {
 }
 
 function copyFileFromBowerComponentsToData(path) {
-    console.log('Start copyFileFromBowerComponentsToData: ' + path);
+    let targetPath = 'data/site/' + path;
 
-    var targetPath = 'data/site/' + path;
+    console.log('Start copyFileFromBowerComponentsToData: ' + path);
 
     fs.readFile(path, function (err, data) {
         if (err) throw err;

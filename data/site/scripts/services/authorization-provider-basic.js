@@ -2,7 +2,7 @@
 
 angular.module('app')
     .factory('$authorizationProviderBasic', ['$authorization', '$mdDialog', function ($authorization, $mdDialog) {
-        
+
         function AuthorizationProviderBasic() {
             $authorization.AuthorizationProvider.call(this, 2, 'Basic');
         }

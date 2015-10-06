@@ -2,7 +2,7 @@
 
 angular.module('app')
     .factory('$authorizationProviderCustom', ['$authorization', '$mdDialog', function ($authorization, $mdDialog) {
-        
+
         function AuthorizationProviderCustom() {
             $authorization.AuthorizationProvider.call(this, 1, 'Custom');
         }

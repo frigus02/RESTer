@@ -12,7 +12,7 @@ angular.module('app')
             };
 
             $scope.save = function () {
-                var token = new $data.AuthorizationToken();
+                let token = new $data.AuthorizationToken();
                 token.title = $scope.userName;
                 token.scheme = 'Basic';
                 token.token = $window.btoa(`${$scope.userName}:${$scope.password}`);

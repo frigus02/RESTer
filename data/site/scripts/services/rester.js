@@ -2,7 +2,7 @@
 
 angular.module('app')
     .service('$rester', ['$window', '$q', '$data', function ($window, $q, $data) {
-        var self = this,
+        let self = this,
             requests = {};
 
         $window.addEventListener('message', function (event) {
@@ -24,7 +24,7 @@ angular.module('app')
         });
 
         self.sendRequest = function (request) {
-            var dfd = $q.defer(),
+            let dfd = $q.defer(),
                 id = Math.random();
 
             requests[id] = dfd;
@@ -39,7 +39,7 @@ angular.module('app')
         };
 
         self.sendBrowserRequest = function (request) {
-            var dfd = $q.defer(),
+            let dfd = $q.defer(),
                 id = Math.random();
 
             requests[id] = dfd;

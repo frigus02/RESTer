@@ -2,12 +2,12 @@
 
 angular.module('app')
     .service('$error', ['$mdToast', function ($mdToast) {
-        var self = this;
+        let self = this;
 
         self.show = function (message) {
-            var toast = $mdToast.simple()
+            let toast = $mdToast.simple()
                 .content(message)
-                .hideDelay(10000)
+                .hideDelay(15000)
                 .action('OK');
 
             $mdToast.show(toast);

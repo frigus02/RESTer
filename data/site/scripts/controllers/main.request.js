@@ -26,7 +26,7 @@ angular.module('app')
             });
 
             $scope.$watchGroup(['request.collection', 'request.title', 'time'], function () {
-                var collection = $scope.request.collection || '<no collection>',
+                let collection = $scope.request.collection || '<no collection>',
                     title = $scope.request.title || '<no title>',
                     time = $scope.time ? $filter('date')($scope.time, 'yyyy-MM-dd HH:mm:ss') : '';
 
@@ -48,7 +48,8 @@ angular.module('app')
 
                 if (newStateParams.historyId) {
                     $data.getHistoryEntry(+newStateParams.historyId).then(historyEntry => {
-                        if (historyEntry.request.id != newStateParams.id) {
+                        if (historyEntry.request.id !== +newStateParams.id &&
+                            !(historyEntry.request.id === undefined && newStateParams.id === null)) {
                             $error.show(`Specified request id (${newStateParams.id}) does not match the request id of the history entry (${historyEntry.request.id}).`);
                             $state.go('main.request.new');
                         } else {
@@ -79,7 +80,7 @@ angular.module('app')
             $scope.queryRequestMethods = function (query) {
                 if (!query) return [];
 
-                var methods = ['DELETE', 'GET', 'HEAD', 'POST', 'PUT'],
+                let methods = ['DELETE', 'GET', 'HEAD', 'POST', 'PUT'],
                     uppercaseQuery = angular.uppercase(query);
 
                 if (methods.indexOf(uppercaseQuery) === -1) {
@@ -114,7 +115,7 @@ angular.module('app')
             };
 
             $scope.getRequestBodyCodeMirrorOptions = function () {
-                var contentTypeHeader = $scope.request.headers.find(h => angular.lowercase(h.name) === 'content-type'),
+                let contentTypeHeader = $scope.request.headers.find(h => angular.lowercase(h.name) === 'content-type'),
                     contentType = contentTypeHeader && contentTypeHeader.value,
                     lowercaseContentType = angular.lowercase(contentType) || '',
                     mode = {};
@@ -135,7 +136,7 @@ angular.module('app')
             $scope.getResponseBadgeModifierClass = function () {
                 if (!$scope.response) return;
 
-                var status = $scope.response.status;
+                let status = $scope.response.status;
                 if (status >= 100 && status < 200) {
                     return 'badge--info';
                 } else if (status >= 200 && status < 300) {

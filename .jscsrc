@@ -1,3 +1,12 @@
 {
-    "preset": "crockford"
+    "preset": "crockford",
+    "requireCurlyBraces": [
+        "else",
+        "for",
+        "while",
+        "do",
+        "try",
+        "catch"
+    ],
+    "requireVarDeclFirst": false
 }
