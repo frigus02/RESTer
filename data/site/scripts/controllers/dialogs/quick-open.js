@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogQuickOpenCtrl', ['$scope', '$mdDialog', '$data', '$state', '$filter', '$q',
-        function ($scope, $mdDialog, $data, $state, $filter, $q) {
+    .controller('DialogQuickOpenCtrl', ['$scope', '$mdDialog', '$data', '$state',
+        function ($scope, $mdDialog, $data, $state) {
 
-            var items = [];
-            var initialLoadingPromise = $data.getRequests().then(requests => {
+            let items = [];
+            let initialLoadingPromise = $data.getRequests().then(requests => {
                 items.push(...requests.map(r => ({
                     title: `${r.collection} / ${r.title}`,
                     data: r
@@ -21,7 +21,7 @@ angular.module('app')
                         i.formattedScore = Math.round(i.score * 1000);
                     })
                     .filter(i => i.score > 0.0)
-                    .sortBy('-score')
+                    .sortByOrder(['score'], ['desc'])
                     .value();
             }
 
@@ -34,7 +34,7 @@ angular.module('app')
             $scope.searchText = '';
             $scope.queryItems = function (query) {
                 if (initialLoadingPromise) {
-                    return initialLoadingPromise.then(function() {
+                    return initialLoadingPromise.then(function () {
                         return doQueryItems(query);
                     });
                 } else {

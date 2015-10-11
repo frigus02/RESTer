@@ -1,4 +1,4 @@
-<md-dialog aria-label="Quick open">
+<md-dialog aria-label="Quick open" class="quick-open-dialog">
     <md-autocomplete
         md-selected-item-change="openItem(item)"
         md-search-text="searchText"
@@ -8,6 +8,9 @@
         md-autoselect
         md-no-cache
         placeholder="Type to open a request...">
-        <span>{{item.formattedScore}} {{item.title}}</span>
+        <md-item-template>
+            <span>{{item.formattedScore}}</span>
+            <span>{{item.title}}</span>
+        </md-item-template>
     </md-autocomplete>
 </md-dialog>
