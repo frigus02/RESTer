@@ -1,6 +1,6 @@
 # Example OAuth2 Configurations
 
-[http://tools.ietf.org/html/rfc6749](OAuth 2 RFC)
+[OAuth 2 RFC](http://tools.ietf.org/html/rfc6749)
 
 ## Google
 
