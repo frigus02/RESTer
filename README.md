@@ -8,6 +8,11 @@ You can...
 * save favorite requests and organize them in collections.
 * view a history of your requests, which includes the full request and response.
 
+The add-on supports the following goodies:
+
+* Create and save your authorization headers with Basic or OAuth2 authentication.
+* Use shortcuts for the frequently used actions (try pressing "?" to see the available shortcuts for the current context).
+
 ## Develop
 
 ### Dependencies
