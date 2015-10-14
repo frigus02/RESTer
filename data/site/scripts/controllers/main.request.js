@@ -96,13 +96,13 @@ angular.module('app')
 
                 $scope.requestIsSending = true;
                 $rester.sendRequest($scope.request)
-                    .then(response => {
+                    .then(plainResponse => {
                         $scope.requestIsSending = false;
 
                         $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
                             time: new Date(),
                             request: $scope.request,
-                            response: response
+                            response: new $data.Response(plainResponse)
                         })).then(historyId => {
                             $state.go('main.request.existing.history', {
                                 id: $scope.request.id,

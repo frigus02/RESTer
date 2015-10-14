@@ -1,55 +1,45 @@
 'use strict';
 
 angular.module('app')
-    .service('$rester', ['$window', '$q', '$data', function ($window, $q, $data) {
+    .service('$rester', ['$window', '$q', function ($window, $q) {
         let self = this,
             requests = {};
 
         $window.addEventListener('message', function (event) {
             if (event.origin !== $window.location.origin) return;
 
-            if (event.data.action === 'rester.sendRequestSuccess') {
-                requests[event.data.id].resolve(Object.assign(new $data.Response(), event.data.response));
-                requests[event.data.id] = undefined;
-            } else if (event.data.action === 'rester.sendRequestError') {
-                requests[event.data.id].reject(event.data.error);
-                requests[event.data.id] = undefined;
-            } else if (event.data.action === 'rester.sendBrowserRequestSuccess') {
-                requests[event.data.id].resolve(event.data.response);
-                requests[event.data.id] = undefined;
-            } else if (event.data.action === 'rester.sendBrowserRequestError') {
-                requests[event.data.id].reject(event.data.error);
+            if (event.data.type === 'rester.api.response') {
+                if (event.data.error) {
+                    requests[event.data.id].reject(event.data.error);
+                } else {
+                    requests[event.data.id].resolve(event.data.result);
+                }
+
                 requests[event.data.id] = undefined;
             }
         });
 
-        self.sendRequest = function (request) {
+        function sendResterApiRequest(action, args) {
             let dfd = $q.defer(),
                 id = Math.random();
 
             requests[id] = dfd;
 
             $window.postMessage({
-                action: 'rester.sendRequest',
-                id: id,
-                request: request
+                type: 'rester.api.request',
+                id,
+                action,
+                args
             }, $window.location.origin);
 
             return dfd.promise;
+        }
+
+        self.sendRequest = function (request) {
+            return sendResterApiRequest('sendRequest', request);
         };
 
         self.sendBrowserRequest = function (request) {
-            let dfd = $q.defer(),
-                id = Math.random();
-
-            requests[id] = dfd;
-
-            $window.postMessage({
-                action: 'rester.sendBrowserRequest',
-                id: id,
-                request: request
-            }, $window.location.origin);
-
-            return dfd.promise;
+            return sendResterApiRequest('sendBrowserRequest', request);
         };
     }]);

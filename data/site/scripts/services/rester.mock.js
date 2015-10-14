@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$rester', ['$timeout', '$data', function ($timeout, $data) {
+    .service('$rester', ['$timeout', function ($timeout) {
         let self = this;
 
         self.sendRequest = function (request) {
@@ -16,7 +16,7 @@ angular.module('app')
                     mockData = mockDataJson;
                 }
 
-                return Object.assign(new $data.Response(), {
+                return {
                     status: 200,
                     statusText: 'OK',
                     headers: [
@@ -35,7 +35,7 @@ angular.module('app')
                         { name: 'Cache-Control', value: 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0 ' }
                     ],
                     body: mockData
-                });
+                };
             }, 500);
         };
 

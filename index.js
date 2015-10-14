@@ -9,6 +9,14 @@ const self = require('sdk/self'),
       customRequest = require('lib/request'),
       customBrowserRequest = require('lib/browser-request');
 
+let api = {
+    sendRequest (request) {
+        return customRequest.send(request);
+    },
+    sendBrowserRequest (request) {
+        return customBrowserRequest.send(request);
+    }
+};
 
 buttons.ActionButton({
     id: 'rester',
@@ -30,38 +38,14 @@ pageMod.PageMod({
     contentScriptFile: './site-content/rester.js',
     attachTo: ['existing', 'top'],
     onAttach: function (worker) {
-
-        worker.port.on('sendRequest', function (data) {
-            customRequest.send(data.request)
-                .then(function (response) {
-                    worker.port.emit('sendRequestSuccess', {
-                        id: data.id,
-                        response: response
-                    });
+        worker.port.on('api.request', function ({id, action, args}) {
+            api[action](args)
+                .then(function (result) {
+                    worker.port.emit('api.response', {id, result});
                 })
                 .catch(function (error) {
-                    worker.port.emit('sendRequestError', {
-                        id: data.id,
-                        error: error
-                    });
+                    worker.port.emit('api.response', {id, error});
                 });
         });
-
-        worker.port.on('sendBrowserRequest', function (data) {
-            customBrowserRequest.send(data.request)
-                .then(function (response) {
-                    worker.port.emit('sendBrowserRequestSuccess', {
-                        id: data.id,
-                        response: response
-                    });
-                })
-                .catch(function (error) {
-                    worker.port.emit('sendBrowserRequestError', {
-                        id: data.id,
-                        error: error
-                    });
-                });
-        });
-
     }
 });
