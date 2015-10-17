@@ -1,3 +1,7 @@
-<pre>
-    <code class="hljs language-{{language}}" ng-bind-html="highlightedCode"></code>
-</pre>
+<div class="options" ng-show="showOptions">
+    <md-checkbox ng-model="wrap">Wrap</md-checkbox>
+    <md-checkbox ng-model="format" ng-show="highlightedFormattedCode">Format</md-checkbox>
+</div>
+<pre ng-class="{'wrap': wrap}"><code
+    class="hljs language-{{language}}"
+    ng-bind-html="format && highlightedFormattedCode ? highlightedFormattedCode : highlightedCode"></code></pre>

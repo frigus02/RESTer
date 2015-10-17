@@ -13,34 +13,35 @@ angular.module('app')
             restrict: 'E',
             scope: {
                 code: '@',
-                forceLanguage: '@',
-                format: '@'
+                language: '@',
+                showOptions: '@'
             },
             templateUrl: 'views/directives/highlight-code.html',
             controller: function ($scope) {
-                $scope.language = '';
+                $scope.format = true;
+                $scope.wrap = false;
                 $scope.highlightedCode = '';
+                $scope.highlightedFormattedCode = '';
 
-                $scope.$watchGroup(['code', 'format'], highlightCode);
+                $scope.$watchGroup(['code', 'language'], highlightCode);
 
                 function highlightCode() {
-                    let result,
-                        formattedCode;
-
-                    // http://highlightjs.readthedocs.org/en/latest/api.html#highlightauto-value-languagesubset
-                    if ($scope.forceLanguage) {
-                        result = hljs.highlight($scope.forceLanguage, $scope.code);
+                    let result;
+                    if ($scope.language) {
+                        result = hljs.highlight($scope.language, $scope.code);
                     } else {
                         result = hljs.highlightAuto($scope.code);
+                        $scope.language = result.language;
                     }
 
-                    if ($scope.$eval($scope.format) && CODE_FORMATTERS[result.language]) {
-                        formattedCode = CODE_FORMATTERS[result.language]($scope.code);
-                        result = hljs.highlightAuto(formattedCode);
-                    }
-
-                    $scope.language = result.language;
                     $scope.highlightedCode = $sce.trustAsHtml(result.value);
+
+                    if (CODE_FORMATTERS[$scope.language]) {
+                        let formattedCode = CODE_FORMATTERS[$scope.language]($scope.code);
+                        let formattedResult = hljs.highlight($scope.language, formattedCode);
+
+                        $scope.highlightedFormattedCode = $sce.trustAsHtml(formattedResult.value);
+                    }
                 }
             }
         };

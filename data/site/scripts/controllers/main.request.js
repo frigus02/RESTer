@@ -150,6 +150,16 @@ angular.module('app')
                 }
             };
 
+            $scope.getResponseBodyHighlightLanguage = function () {
+                if ($scope.response) {
+                    let contentTypeHeader = $scope.response.headers.find(h => h.name.toLowerCase() === 'content-type');
+                    if (contentTypeHeader) {
+                        let contentType = contentTypeHeader.value;
+                        return /[a-z-]+\/([a-z]+)([+-;].*)?/i.exec(contentType)[1];
+                    }
+                }
+            };
+
             function saveRequest($event) {
                 $mdDialog.show({
                     targetEvent: $event,

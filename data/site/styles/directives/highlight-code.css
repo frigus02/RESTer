@@ -1,4 +1,19 @@
+highlight-code {
+	display: block;
+	position: relative;
+}
+
+highlight-code .options {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 highlight-code pre {
-	margin: 0;
-	white-space: pre-wrap;
+    margin: 8px 0;
+}
+
+highlight-code pre.wrap {
+    white-space: pre-wrap;
+    word-break: break-all;
 }
