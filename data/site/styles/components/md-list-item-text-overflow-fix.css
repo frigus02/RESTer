@@ -1,7 +1,9 @@
+md-list-item.text-overflow-fix.md-2-line .md-list-item-text,
 md-list-item.text-overflow-fix.md-3-line .md-list-item-text {
     overflow: hidden;
 }
 
+md-list-item.text-overflow-fix.md-2-line.md-with-secondary .md-list-item-text,
 md-list-item.text-overflow-fix.md-3-line.md-with-secondary .md-list-item-text {
     padding-right: 56px;
 }
