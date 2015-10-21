@@ -5,8 +5,8 @@ highlight-code {
 
 highlight-code .options {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -8px;
+    right: -6px;
 }
 
 highlight-code pre {

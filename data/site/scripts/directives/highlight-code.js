@@ -18,8 +18,10 @@ angular.module('app')
             },
             templateUrl: 'views/directives/highlight-code.html',
             controller: function ($scope) {
-                $scope.format = true;
-                $scope.wrap = false;
+                $scope.settings = {
+                    format: true,
+                    wrap: false
+                };
                 $scope.highlightedCode = '';
                 $scope.highlightedFormattedCode = '';
 
