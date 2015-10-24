@@ -2,6 +2,7 @@
 
 angular.module('app')
     .service('$worker', ['$window', '$q', function ($window, $q) {
+
         function SimpleWorker(workerScript) {
             return {
                 run: function (data) {
@@ -41,4 +42,5 @@ angular.module('app')
         SimpleWorker.HighlightCode = new SimpleWorker(getAbsoluteUrl('scripts/workers/highlight-code.js'));
 
         return SimpleWorker;
+
     }]);

@@ -4,6 +4,7 @@
     "globals": {
         "_": false,
         "angular": false,
+        "hljs": false,
         "LiquidMetal": false
     }
 }

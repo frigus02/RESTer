@@ -17,6 +17,7 @@ angular.module('app')
                     wrap: false
                 };
                 $scope.isHighlighting = false;
+                $scope.highlightedLanguage = '';
                 $scope.highlightedCode = '';
                 $scope.highlightedFormattedCode = '';
 
@@ -27,6 +28,7 @@ angular.module('app')
                         code: $scope.code
                     });
                     lastHighlightCodeWorker.then(result => {
+                        $scope.highlightedLanguage = result.language;
                         $scope.highlightedCode = $sce.trustAsHtml(result.highlightedCode);
                         $scope.highlightedFormattedCode = $sce.trustAsHtml(result.highlightedFormattedCode);
                         $scope.isHighlighting = false;
@@ -35,6 +37,7 @@ angular.module('app')
 
                 $scope.$watchGroup(['code', 'language'], function () {
                     $scope.isHighlighting = true;
+                    $scope.highlightedLanguage = '';
                     $scope.highlightedCode = '';
                     $scope.highlightedFormattedCode = '';
 
@@ -44,6 +47,11 @@ angular.module('app')
 
                     highlightCodeDebounced();
                 });
+
+                $scope.availableLanguages = hljs.listLanguages().sort();
+                $scope.changeLanguage = function (newLanguage) {
+                    $scope.language = newLanguage;
+                };
             }
         };
 

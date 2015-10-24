@@ -4,7 +4,7 @@
         <md-button aria-label="Show display options" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon md-menu-origin>more_vert</md-icon>
         </md-button>
-        <md-menu-content>
+        <md-menu-content width="4">
             <md-menu-item>
                 <md-button ng-click="settings.wrap = !settings.wrap">
                     <md-icon ng-style="{'visibility': settings.wrap ? 'visible' : 'hidden'}">check</md-icon> Wrap
@@ -15,9 +15,16 @@
                     <md-icon ng-style="{'visibility': settings.format ? 'visible' : 'hidden'}">check</md-icon> Format
                 </md-button>
             </md-menu-item>
+        
+            <md-subheader>Change language ({{highlightedLanguage}})</md-subheader>
+            <md-menu-item ng-repeat="lang in availableLanguages">
+                <md-button ng-click="changeLanguage(lang)">
+                    <md-icon ng-style="{'visibility': highlightedLanguage === lang ? 'visible' : 'hidden'}">check</md-icon> {{lang}}
+                </md-button>
+            </md-menu-item>
         </md-menu-content>
     </md-menu>
     <pre ng-class="{'wrap': settings.wrap}"><code
-        class="hljs language-{{language}}"
+        class="hljs language-{{highlightedLanguage}}"
         ng-bind-html="settings.format && highlightedFormattedCode ? highlightedFormattedCode : highlightedCode"></code></pre>
 </div>
