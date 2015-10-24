@@ -3,6 +3,10 @@ highlight-code {
 	position: relative;
 }
 
+highlight-code md-progress-circular {
+	margin: 0 auto;
+}
+
 highlight-code .options {
     position: absolute;
     top: -8px;

@@ -2,9 +2,8 @@
     "extends": "../../.jshintrc",
     "browser": true,
     "globals": {
-        "angular": false,
         "_": false,
-        "hljs": false,
+        "angular": false,
         "LiquidMetal": false
     }
 }

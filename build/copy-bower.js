@@ -5,8 +5,15 @@ const fs = require('fs'),
       mkdirp = require('mkdirp'),
       cheerio = require('cheerio');
 
+let ADDITIONAL_SCRIPTS = [
+    'bower_components/highlightjs/highlight.pack.min.js'
+];
+
+
 removeDataBowerComponents(function () {
     getFilesToCopyFromIndexHtml(function (paths) {
+        paths.push.apply(paths, ADDITIONAL_SCRIPTS);
+
         paths.forEach(function (path) {
             copyFileFromBowerComponentsToData(path);
         });
