@@ -1,10 +1,9 @@
 .git/
 bower_components/
-build/
 node_modules/
 resources/
 test/
-.bowerrc
+tools/
 .gitignore
 .jpmignore
 .jscsrc
