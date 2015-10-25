@@ -28,17 +28,19 @@ Install all other dependencies with the following command:
 
 ### Build
 
-Some parts of the add-on need to be build in order to run it. Run this command on the first start and after changing bower dependencies:
+Some parts of the add-on need to be build. Execute this command on the first start and after changing bower dependencies:
 
     npm run build
 
 ### Test
 
-Then user either the following command to just test the website locally (when doing this, you might want to include the *rester.mock.js* service, instead of the real *rester.js* service, because the add-on is not available):
+Use either the following command to test just the website locally (when doing this, you might want to include the *rester.mock.js* service, instead of the real *rester.js* service, because the add-on is not available):
 
     npm run serve
 
-Or you can use one of the following shortcuts for *jpm* to run the full add-on:
+Or you can use one of the following shortcuts for *jpm* to run the full add-on in the browser:
 
     npm run post
     npm run watchpost
+
+These commands require the awesome [Extension Auto-Installer](https://addons.mozilla.org/de/thunderbird/addon/autoinstaller). In addition you might need to set the setting `xpinstall.signatures.required` in about:config to `false`.
