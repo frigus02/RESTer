@@ -17,23 +17,28 @@ The add-on supports the following goodies:
 
 ### Dependencies
 
-Install the dependencies with the following command:
+The project requires:
+
+* `node` in a version >= 4.
+* The package `jpm` to be installed globally.
+
+Install all other dependencies with the following command:
 
     npm install
 
+### Build
+
+Some parts of the add-on need to be build in order to run it. Run this command on the first start and after changing bower dependencies:
+
+    npm run build
+
 ### Test
 
-Then user either the following command to just test the website locally (when doing this, you might want to include the *rester.mock.js* service, instead of the real *rester.js* service, because the addon is not available):
+Then user either the following command to just test the website locally (when doing this, you might want to include the *rester.mock.js* service, instead of the real *rester.js* service, because the add-on is not available):
 
-    npm run server
+    npm run serve
 
-Or you can use one of the following shortcuts for *jpm* to run the full addon:
+Or you can use one of the following shortcuts for *jpm* to run the full add-on:
 
     npm run post
-    npm run watch
-
-### Add JavaScript libraries
-
-Use *bower* to install new JavaScript dependencies. After including dependencies in the *index.html* file, execute the following command to copy the required file to the *data/site* folder.
-
-    npm run copybower
+    npm run watchpost

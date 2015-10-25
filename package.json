@@ -25,8 +25,8 @@
     "test": "jpm test",
     "start": "jpm run",
     "post": "jpm post --post-url http://127.0.0.1:8888",
-    "watch": "jpm watchpost --post-url http://127.0.0.1:8888",
-    "server": "node build/server.js",
-    "copybower": "node build/copy-bower.js"
+    "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888",
+    "serve": "node tools/serve.js",
+    "build": "node tools/build.js"
   }
 }

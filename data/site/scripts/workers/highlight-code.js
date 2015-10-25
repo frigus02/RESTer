@@ -2,7 +2,7 @@
 
 'use strict';
 
-importScripts('../../bower_components/highlightjs/highlight.pack.min.js');
+importScripts('../../other_components/highlightjs/highlight.pack.js');
 
 
 self.onmessage = function (event) {
