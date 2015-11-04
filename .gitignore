@@ -1,4 +1,5 @@
 bower_components/
 data/site/bower_components/
 node_modules/
-RESTer.sublime-workspace
+*.sublime-workspace
+*.sublime-project

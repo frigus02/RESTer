@@ -1,3 +1,4 @@
+.editorconfig
 .git/
 bower_components/
 node_modules/
@@ -10,5 +11,5 @@ tools/
 .jshintrc
 bower.json
 OAUTH2-EXAMPLE-CONFIGS.md
-RESTer.sublime-workspace
-RESTer.sublime-project
+*.sublime-workspace
+*.sublime-project
