@@ -24,8 +24,13 @@ function highlight(code, language) {
         formattedCode,
         formattedResult;
 
-    if (language) {
+    if (language && hljs.getLanguage(language)) {
         result = hljs.highlight(language, code);
+    } else if (language === 'plain') {
+        result = {
+            language: 'plain',
+            value: code
+        };
     } else {
         result = hljs.highlightAuto(code);
     }
