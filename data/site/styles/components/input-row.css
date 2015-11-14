@@ -1,3 +1,8 @@
+/* TODO: Remove this once the style has been fixed in angular-material. */
+.input-row md-autocomplete[md-floating-label] md-input-container {
+    padding-bottom: 0;
+}
+
 .input-row > *:not(:last-child) {
 	margin-right: 16px;
 }

@@ -1,7 +1,7 @@
 <md-dialog>
     <form name="configurationOAuth2Form" novalidate>
         <md-dialog-content class="md-dialog-content">
-            <div class="md-dialog-content-body">
+            <div class="md-dialog-content-body" layout="column">
                 <md-input-container>
                     <label>Title</label>
                     <input name="title" type="text" ng-model="config.title" required>
@@ -66,7 +66,7 @@
                 </md-input-container>
             </div>
         </md-dialog-content>
-        <div class="md-actions">
+        <md-dialog-actions>
             <md-button ng-click="delete()" class="md-warn neutral-action" ng-show="config.id">
                 Delete
             </md-button>
@@ -77,6 +77,6 @@
             <md-button ng-click="save()" class="md-primary" ng-disabled="!configurationOAuth2Form.$valid">
                 Save
             </md-button>
-        </div>
+        </md-dialog-actions>
     </form>
 </md-dialog>

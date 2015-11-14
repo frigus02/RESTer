@@ -1,7 +1,7 @@
 <md-dialog>
     <form name="generateTokenCustomForm" novalidate>
         <md-dialog-content class="md-dialog-content">
-            <div class="md-dialog-content-body">
+            <div class="md-dialog-content-body" layout="column">
                 <md-input-container>
                     <label>Scheme</label>
                     <input name="scheme" type="text" ng-model="token.scheme" required>
@@ -18,13 +18,13 @@
                 </md-input-container>
             </div>
         </md-dialog-content>
-        <div class="md-actions">
+        <md-dialog-actions>
             <md-button ng-click="cancel()" class="md-primary">
                 Cancel
             </md-button>
             <md-button ng-click="save()" class="md-primary" ng-disabled="!generateTokenCustomForm.$valid">
                 Save
             </md-button>
-        </div>
+        </md-dialog-actions>
     </form>
 </md-dialog>

@@ -189,7 +189,7 @@ angular.module('app')
             function deleteRequest($event) {
                 $mdDialog.show($mdDialog.confirm()
                     .targetEvent($event)
-                    .content('Are you sure you want to delete the request?')
+                    .textContent('Are you sure you want to delete the request?')
                     .ok('Delete')
                     .cancel('Cancel')
                 ).then(() => {
