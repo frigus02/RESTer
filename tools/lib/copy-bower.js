@@ -55,16 +55,10 @@ function copyFileFromBowerComponentsToData(path) {
 
 module.exports = function () {
     return removeDataBowerComponents()
-        .then(function () {
-            return getFilesToCopyFromIndexHtml();
-        })
+        .then(getFilesToCopyFromIndexHtml)
         .then(function (paths) {
             paths.push.apply(paths, ADDITIONAL_SCRIPTS);
 
-            let promises = paths.map(function (path) {
-                return copyFileFromBowerComponentsToData(path);
-            });
-
-            return Promise.all(promises);
+            return Promise.all(paths.map(copyFileFromBowerComponentsToData));
         });
 };
