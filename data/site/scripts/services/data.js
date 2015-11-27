@@ -380,14 +380,14 @@ angular.module('app')
                     dfd.reject('Error upgrading database: ' + event.target.errorCode);
                 };
 
-                if (event.newVersion === 1) {
+                if (event.oldVersion < 1) {
                     requestsStore = db.createObjectStore('requests', {keyPath: 'id', autoIncrement: true});
                     requestsStore.createIndex('collection', 'collection', {unique: false});
 
                     historyStore = db.createObjectStore('history', {keyPath: 'id', autoIncrement: true});
                 }
 
-                if (event.newVersion === 2) {
+                if (event.oldVersion < 2) {
                     authProviderConfigsStore = db.createObjectStore('authProviderConfigs', {keyPath: 'id', autoIncrement: true});
                     authProviderConfigsStore.createIndex('providerId', 'providerId', {unique: false});
 
