@@ -1,4 +1,4 @@
-<div layout="row" layout-align="space-between center" class="input-row" ng-repeat="header in getPreparedHeaders()">
+<div layout="row" layout-align="space-between center" class="input-row" ng-repeat="header in getPreparedHeaders() track by $index">
     <md-autocomplete flex
         md-search-text="header.name"
         md-items="item in querySearchHeader(header.name)"
@@ -19,7 +19,7 @@
         </md-item-template>
     </md-autocomplete>
 
-    <md-button class="md-icon-button" ng-click="removeHeader(header)">
+    <md-button class="md-icon-button" ng-click="removeHeader($index)">
         <md-icon>remove</md-icon>
     </md-button>
 </div>

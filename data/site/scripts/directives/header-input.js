@@ -54,31 +54,29 @@ angular.module('app')
                 headers: '='
             },
             templateUrl: 'views/directives/header-input.html',
-            link: function postLink(scope) {
-                scope.newHeader = { name: '', value: '' };
+            controller: function ($scope) {
+                $scope.newHeader = { name: '', value: '' };
 
-                scope.getPreparedHeaders = function () {
+                $scope.getPreparedHeaders = function () {
                     let preparedHeaders = [];
-                    preparedHeaders.push(...scope.headers);
-                    preparedHeaders.push(scope.newHeader);
+                    preparedHeaders.push(...$scope.headers);
+                    preparedHeaders.push($scope.newHeader);
                     return preparedHeaders;
                 };
 
-                scope.$watch('newHeader', function () {
-                    if (scope.newHeader.name || scope.newHeader.value) {
-                        scope.headers.push(scope.newHeader);
-                        scope.newHeader = { name: '', value: '' };
+                $scope.$watch('newHeader', function () {
+                    if ($scope.newHeader.name || $scope.newHeader.value) {
+                        $scope.headers.push($scope.newHeader);
+                        $scope.newHeader = { name: '', value: '' };
                     }
                 }, true);
 
-                scope.removeHeader = function (header) {
-                    let index = scope.headers.indexOf(header);
+                $scope.removeHeader = function (index) {
                     if (index > -1) {
-                        scope.headers.splice(index, 1);
+                        $scope.headers.splice(index, 1);
                     }
                 };
-            },
-            controller: function ($scope) {
+
                 $scope.querySearchHeader = function (query) {
                     if (!query) return [];
 
