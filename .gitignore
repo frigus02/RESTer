@@ -3,3 +3,4 @@ data/site/bower_components/
 node_modules/
 *.sublime-workspace
 *.sublime-project
+*.xpi
