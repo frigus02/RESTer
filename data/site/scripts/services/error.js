@@ -20,7 +20,7 @@ angular.module('app')
 
         self.show = function (error) {
             let toast = $mdToast.simple()
-                .content(extractMessage(error))
+                .textContent(extractMessage(error))
                 .hideDelay(15000)
                 .action('OK');
 

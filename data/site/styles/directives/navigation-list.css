@@ -13,7 +13,6 @@ navigation-list .md-subheader .md-subheader-content .md-button {
     top: 2px;
     right: 9px;
     margin: 0;
-    line-height: 42px;
     height: 42px;
     width: 42px;
     z-index: 1;
@@ -51,10 +50,10 @@ navigation-list md-list-item .md-list-item-inner .navigation-list-item__text {
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item,
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems .md-list-item-inner,
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item .md-no-style.md-button {
-    min-height: 38px;
-    height: 38px;
+    min-height: 36px;
+    height: 36px;
 }
 
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems .md-list-item-inner {
-    padding-left: 38px;
+    padding-left: 36px;
 }

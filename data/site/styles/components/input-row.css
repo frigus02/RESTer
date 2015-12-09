@@ -1,6 +1,11 @@
 /* TODO: Remove this once the style has been fixed in angular-material. */
-.input-row md-autocomplete[md-floating-label] md-input-container {
-    padding-bottom: 0;
+md-autocomplete[md-floating-label] md-input-container {
+    padding-bottom: 2px;
+}
+
+/* TODO: Remove this once the style has been fixed in angular-material. */
+.input-row .md-errors-spacer {
+    min-width: 0;
 }
 
 .input-row > *:not(:last-child) {

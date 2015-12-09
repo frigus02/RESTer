@@ -1,11 +1,11 @@
 md-input-container .input-description {
-	font-size: 12px;
-	position: relative;
-	order: 3;
-	padding-top: 4px;
-	color: rgba(255, 255, 255, .7);
-}
-
-md-input-container .input-description ~ [ng-messages] {
-	order: 4;
+    box-sizing: border-box;
+    font-size: 12px;
+    line-height: 14px;
+    padding-top: 5px;
+    color: rgba(255, 255, 255, .7);
+    margin-top: 0;
+    clear: left;
+    position: relative;
+    min-height: 24px;
 }

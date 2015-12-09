@@ -17,11 +17,14 @@
             <label>URL</label>
             <input type="url" ng-model="request.url" required>
         </md-input-container>
-        <md-button class="md-raised md-accent progress-button" ng-click="sendRequest()" ng-disabled="!requestForm.$valid">
+        <md-button
+            class="md-raised md-accent progress-button"
+            ng-click="sendRequest()"
+            ng-disabled="!requestForm.$valid || requestIsSending">
             <span ng-hide="requestIsSending">Send</span>
             <md-progress-circular ng-show="requestIsSending"
                 md-mode="indeterminate"
-                md-diameter="16"
+                md-diameter="24"
                 class="progress-button"></md-progress-circular>
         </md-button>
     </div>
