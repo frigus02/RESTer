@@ -14,7 +14,7 @@ angular.module('app')
             controller: function ($scope) {
                 $scope.settings = {
                     format: true,
-                    wrap: false
+                    wrap: true
                 };
                 $scope.isHighlighting = false;
                 $scope.highlightedLanguage = '';

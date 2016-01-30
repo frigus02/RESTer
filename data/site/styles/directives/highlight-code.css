@@ -9,8 +9,12 @@ highlight-code md-progress-circular {
 
 highlight-code .options {
     position: absolute;
-    top: -8px;
-    right: -6px;
+    top: 0;
+    right: 0;
+}
+
+highlight-code .options .md-button.md-icon-button {
+    margin: 0;
 }
 
 highlight-code pre {

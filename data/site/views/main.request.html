@@ -48,12 +48,14 @@
         Response
         <div class="badge {{getResponseBadgeModifierClass()}}">{{response.status}} {{response.statusText}}</div>
     </h2>
-    <md-tabs md-dynamic-height>
-        <md-tab label="Headers">
-            <highlight-code code="{{response.getHeadersAsString()}}" language="http"></highlight-code>
-        </md-tab>
-        <md-tab label="Body">
-            <highlight-code code="{{response.body}}" language="{{getResponseBodyHighlightLanguage()}}" show-options="true"></highlight-code>
-        </md-tab>
-    </md-tabs>
+    <highlight-code
+        code="{{response.getHeadersAsString()}}"
+        language="http">
+    </highlight-code>
+    <highlight-code
+        code="{{response.body}}"
+        language="{{getResponseBodyHighlightLanguage()}}"
+        show-options="true"
+        ng-show="response.body">
+    </highlight-code>
 </div>
