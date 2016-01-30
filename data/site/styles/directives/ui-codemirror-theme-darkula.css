@@ -15,36 +15,33 @@
 .cm-s-darkula .CodeMirror-line > span > span::-moz-selection {
     background: rgba(255, 255, 255, 0.10);
 }
-.cm-s-darkula span.cm-comment {
-    color: #7f7f7f;
-}
-.cm-s-darkula span.cm-string,
-.cm-s-darkula span.cm-string-2 {
-    color: #a6e22e;
-}
-.cm-s-darkula span.cm-builtin {
-    color: #e0c46c;
-}
+
 .cm-s-darkula span.cm-number,
 .cm-s-darkula span.cm-atom {
     color: #6896ba;
 }
-.cm-s-darkula span.cm-variable,
-.cm-s-darkula span.cm-variable-2,
-.cm-s-darkula span.cm-variable-3 {
-    color: #b9b9b9;
+
+
+.cm-s-darkula span.cm-comment,
+.cm-s-darkula span.cm-meta {
+    color: #7f7f7f;
+}
+.cm-s-darkula span.cm-string,
+.cm-s-darkula span.cm-string-2,
+.cm-s-darkula span.cm-builtin {
+    color: #e0c46c;
 }
 .cm-s-darkula span.cm-def {
     color: #ffb86c;
-}
-.cm-s-darkula span.cm-meta {
-    color: #7f7f7f;
 }
 .cm-s-darkula span.cm-tag,
 .cm-s-darkula span.cm-attribute,
 .cm-s-darkula span.cm-property,
 .cm-s-darkula span.cm-keyword,
-.cm-s-darkula span.cm-operator {
+.cm-s-darkula span.cm-operator,
+.cm-s-darkula span.cm-variable,
+.cm-s-darkula span.cm-variable-2,
+.cm-s-darkula span.cm-variable-3 {
     color: #cb7832;
 }
 .cm-s-darkula span.cm-qualifier {

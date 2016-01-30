@@ -155,7 +155,9 @@ angular.module('app')
                     let contentTypeHeader = $scope.response.headers.find(h => h.name.toLowerCase() === 'content-type');
                     if (contentTypeHeader) {
                         let contentType = contentTypeHeader.value;
-                        return /[a-z-]+\/([a-z]+)([+-;].*)?/i.exec(contentType)[1];
+                        if (contentType) {
+                            return /[a-z-]+\/([a-z]+)([+-;].*)?/i.exec(contentType)[1];
+                        }
                     }
                 }
             };

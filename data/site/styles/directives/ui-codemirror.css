@@ -1,4 +1,4 @@
 ui-codemirror {
-	position: relative;
-	top: 8px;
+    margin-top: 8px;
+    display: block;
 }

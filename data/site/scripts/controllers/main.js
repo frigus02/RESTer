@@ -31,7 +31,7 @@ angular.module('app')
                     requestNavItemsOffset = 1;
                     requestNavItems = _(requests)
                         .groupBy('collection')
-                        .pairs()
+                        .toPairs()
                         .sortBy(0)
                         .map(coll => {
                             let collItem = createRequestCollectionNavItem(coll[0]);
