@@ -73,8 +73,10 @@ angular.module('app')
 
             updateState($state.params);
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
-                toState.data = fromState.data;
-                updateState(toParams);
+                if (toState.name.startsWith('main.request')) {
+                    toState.data = fromState.data;
+                    updateState(toParams);
+                }
             });
 
             $scope.queryRequestMethods = function (query) {
