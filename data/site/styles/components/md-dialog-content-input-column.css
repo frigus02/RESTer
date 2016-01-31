@@ -2,6 +2,6 @@
     padding-bottom: 12px;
 }
 
-.md-dialog-content.input-column md-input-container {
-    margin-bottom: 0;
+.md-dialog-content.input-column md-input-container .md-errors-spacer {
+    display: none;
 }
