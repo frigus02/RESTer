@@ -18,9 +18,12 @@ angular.module('app')
                     mockDataText = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                     mockData,
                     acceptHeader = request.headers.find(h => h.name === 'Accept'),
+                    errorHeader = request.headers.find(h => h.name === 'X-Error'),
                     contentType;
 
-                if (acceptHeader) {
+                if (errorHeader) {
+                    throw new Error('Error');
+                } else if (acceptHeader) {
                     if (acceptHeader.value.toLowerCase() === 'application/xml' || acceptHeader.value.toLowerCase() === 'text/xml') {
                         contentType = acceptHeader.value.toLowerCase();
                         mockData = mockDataXml;

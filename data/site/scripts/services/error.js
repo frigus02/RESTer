@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$error', ['$mdToast', function ($mdToast) {
+    .service('$error', ['$mdDialog', function ($mdDialog) {
         let self = this;
 
         function extractMessage(error) {
@@ -19,12 +19,13 @@ angular.module('app')
         }
 
         self.show = function (error) {
-            let toast = $mdToast.simple()
+            let dialog = $mdDialog.alert()
+                .title('Ups, something went wrong!')
                 .textContent(extractMessage(error))
-                .hideDelay(15000)
-                .action('OK');
+                .theme('warn')
+                .ok('OK');
 
-            $mdToast.show(toast);
+            $mdDialog.show(dialog);
         };
 
     }]);
