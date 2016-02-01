@@ -1,0 +1,15 @@
+<md-dialog aria-label="Change language" class="quick-open-dialog">
+    <md-autocomplete
+        md-selected-item-change="selectLanguage(lang)"
+        md-search-text="searchText"
+        md-items="lang in queryLanguages(searchText)"
+        md-min-length="0"
+        md-autofocus
+        md-autoselect
+        md-no-cache
+        placeholder="Type to select a language...">
+        <md-item-template>
+            <span md-highlight-text="searchText" md-highlight-flags="gi">{{lang}}</span>
+        </md-item-template>
+    </md-autocomplete>
+</md-dialog>

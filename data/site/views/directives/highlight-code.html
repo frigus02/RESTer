@@ -15,11 +15,10 @@
                     <md-icon ng-style="{'visibility': settings.format ? 'visible' : 'hidden'}">check</md-icon> Format
                 </md-button>
             </md-menu-item>
-        
-            <md-subheader>Change language ({{highlightedLanguage}})</md-subheader>
-            <md-menu-item ng-repeat="lang in availableLanguages">
-                <md-button ng-click="changeLanguage(lang)">
-                    <md-icon ng-style="{'visibility': highlightedLanguage === lang ? 'visible' : 'hidden'}">check</md-icon> {{lang}}
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+                <md-button ng-click="changeLanguage()">
+                    <md-icon>language</md-icon> Change language ({{highlightedLanguage}})
                 </md-button>
             </md-menu-item>
         </md-menu-content>

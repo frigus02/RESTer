@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .directive('highlightCode', ['$sce', '$worker', '$error', function ($sce, $worker, $error) {
+    .directive('highlightCode', ['$sce', '$worker', '$error', '$mdDialog', function ($sce, $worker, $error, $mdDialog) {
 
         return {
             restrict: 'E',
@@ -37,7 +37,7 @@ angular.module('app')
                         $error.show(error);
                         $scope.isHighlighting = false;
                     });
-                }, 100);
+                }, 300);
 
                 $scope.$watchGroup(['code', 'language'], () => {
                     $scope.isHighlighting = true;
@@ -52,9 +52,15 @@ angular.module('app')
                     highlightCodeDebounced();
                 });
 
-                $scope.availableLanguages = hljs.listLanguages().sort();
-                $scope.changeLanguage = function (newLanguage) {
-                    $scope.language = newLanguage;
+                $scope.changeLanguage = function () {
+                    $mdDialog.show({
+                        templateUrl: 'views/dialogs/highlight-code-change-language.html',
+                        controller: 'DialogHighlightCodeChangeLanguageCtrl',
+                        clickOutsideToClose: true,
+                        escapeToClose: true
+                    }).then(newLanguage => {
+                        $scope.language = newLanguage;
+                    });
                 };
             }
         };
