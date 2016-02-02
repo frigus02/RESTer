@@ -1,0 +1,22 @@
+<md-menu class="options" ng-style="{'margin-right': isCodeMirrorScrolling() ? '18px' : 0}">
+    <md-button aria-label="Show display options" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+        <md-icon md-menu-origin>more_vert</md-icon>
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item ng-repeat="option in options">
+            <md-button ng-click="activateOption(option)">
+                <md-icon ng-style="{'visibility': option === activeOption ? 'visible' : 'hidden'}">check</md-icon> {{option.title}}
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>
+
+<ui-codemirror
+    ng-if="activeOption.inputType === 'codemirror'"
+    ng-model="bodyWrapper.value"
+    ui-codemirror-opts="getCodeMirrorOptions()">
+</ui-codemirror>
+
+<div ng-if="activeOption.inputType === 'form'">
+    Form input table
+</div>

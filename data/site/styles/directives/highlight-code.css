@@ -1,10 +1,10 @@
 highlight-code {
-	display: block;
-	position: relative;
+    display: block;
+    position: relative;
 }
 
 highlight-code md-progress-circular {
-	margin: 0 auto;
+    margin: 0 auto;
 }
 
 highlight-code .options {

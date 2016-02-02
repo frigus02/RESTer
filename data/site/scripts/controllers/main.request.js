@@ -118,25 +118,6 @@ angular.module('app')
                     });
             };
 
-            $scope.getRequestBodyCodeMirrorOptions = function () {
-                let contentTypeHeader = $scope.request.headers.find(h => angular.lowercase(h.name) === 'content-type'),
-                    contentType = contentTypeHeader && contentTypeHeader.value,
-                    lowercaseContentType = angular.lowercase(contentType) || '',
-                    mode = {};
-
-                if (lowercaseContentType.indexOf('json') > -1) {
-                    mode = { name: 'javascript', json: true };
-                } else if (lowercaseContentType.indexOf('xml') > -1) {
-                    mode = { name: 'xml' };
-                }
-
-                return {
-                    mode: mode,
-                    indentUnit: 4,
-                    theme: 'darkula'
-                };
-            };
-
             $scope.getResponseBadgeModifierClass = function () {
                 if (!$scope.response) return;
 

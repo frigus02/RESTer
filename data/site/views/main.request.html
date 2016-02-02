@@ -34,7 +34,7 @@
             <header-input headers="request.headers"></header-input>
         </md-tab>
         <md-tab label="Body">
-            <ui-codemirror ng-model="request.body" ui-codemirror-opts="getRequestBodyCodeMirrorOptions()"></ui-codemirror>
+            <body-input headers="request.headers" body="request.body"></body-input>
         </md-tab>
         <md-tab label="Authorization">
             <authorization-input headers="request.headers"></authorization-input>
