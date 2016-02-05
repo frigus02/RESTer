@@ -1,5 +1,5 @@
 <div layout="row" layout-align="space-between center" class="input-row" ng-repeat="header in getPreparedHeaders() track by $index">
-    <md-autocomplete flex
+    <md-autocomplete flex="35"
         md-search-text="header.name"
         md-items="item in querySearchHeader(header.name)"
         md-item-text="item.name"

@@ -23,6 +23,7 @@
     ui-codemirror-opts="getCodeMirrorOptions()">
 </ui-codemirror>
 
-<div ng-if="activeOption.inputType === 'form'">
-    Form input table
-</div>
+<form-data-input
+    ng-if="activeOption.inputType === 'form'"
+    data="bodyWrapper.value">
+</form-data-input>

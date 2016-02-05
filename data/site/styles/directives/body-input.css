@@ -14,3 +14,7 @@ body-input .options {
 body-input .options .md-button.md-icon-button {
     margin: 0;
 }
+
+body-input form-data-input {
+    margin-right: 40px;
+}
