@@ -11,25 +11,9 @@ angular.module('app')
             },
             templateUrl: 'views/directives/body-input.html',
             controller: function ($scope) {
-
-                function getContentType() {
-                    let contentTypeHeader = $scope.headers.find(h => angular.lowercase(h.name) === 'content-type'),
-                        contentType = contentTypeHeader && contentTypeHeader.value;
-
-                    return angular.lowercase(contentType) || '';
-                }
-
-                function setContentType(contentType) {
-                    let contentTypeHeader = $scope.headers.find(h => angular.lowercase(h.name) === 'content-type');
-                    if (contentTypeHeader) {
-                        contentTypeHeader.value = contentType;
-                    } else {
-                        $scope.headers.push({
-                            name: 'Content-Type',
-                            value: contentType
-                        })
-                    }
-                }
+                $scope.settings = {
+                    setContentType: true
+                };
 
                 $scope.options = [
                     {
@@ -40,33 +24,27 @@ angular.module('app')
                     {
                         title: 'JSON',
                         inputType: 'codemirror',
+                        contentType: 'application/json',
                         codeMirrorMode: {name: 'javascript', json: true},
                         isActive() {
                             return getContentType().includes('json');
-                        },
-                        onActivate() {
-                            setContentType('application/json');
                         }
                     },
                     {
                         title: 'XML',
                         inputType: 'codemirror',
+                        contentType: 'application/xml',
                         codeMirrorMode: {name: 'xml'},
                         isActive() {
                             return getContentType().includes('xml');
-                        },
-                        onActivate() {
-                            setContentType('application/xml');
                         }
                     },
                     {
                         title: 'Form',
                         inputType: 'form',
+                        contentType: 'application/x-www-form-urlencoded',
                         isActive() {
                             return getContentType().includes('x-www-form-urlencoded');
-                        },
-                        onActivate() {
-                            setContentType('application/x-www-form-urlencoded');
                         }
                     }
                 ];
@@ -75,8 +53,8 @@ angular.module('app')
 
                 $scope.activateOption = function (option) {
                     $scope.activeOption = option;
-                    if (option.onActivate) {
-                        option.onActivate();
+                    if ($scope.settings.setContentType && option.contentType) {
+                        setContentType(option.contentType);
                     }
                 };
 
@@ -115,6 +93,26 @@ angular.module('app')
                 $scope.bodyWrapper = {value: ''};
                 $scope.$watch('body', value => { $scope.bodyWrapper.value = value; });
                 $scope.$watch('bodyWrapper.value', value => { $scope.body = value; });
+
+
+                function getContentType() {
+                    let contentTypeHeader = $scope.headers.find(h => angular.lowercase(h.name) === 'content-type'),
+                        contentType = contentTypeHeader && contentTypeHeader.value;
+
+                    return angular.lowercase(contentType) || '';
+                }
+
+                function setContentType(contentType) {
+                    let contentTypeHeader = $scope.headers.find(h => angular.lowercase(h.name) === 'content-type');
+                    if (contentTypeHeader) {
+                        contentTypeHeader.value = contentType;
+                    } else {
+                        $scope.headers.push({
+                            name: 'Content-Type',
+                            value: contentType
+                        })
+                    }
+                }
 
             }
         };

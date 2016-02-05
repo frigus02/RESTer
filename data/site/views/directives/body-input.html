@@ -1,11 +1,17 @@
 <md-menu class="options" ng-style="{'margin-right': isCodeMirrorScrolling() ? '18px' : 0}">
-    <md-button aria-label="Show display options" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+    <md-button aria-label="Show options" class="md-icon-button" ng-click="$mdOpenMenu($event)">
         <md-icon md-menu-origin>more_vert</md-icon>
     </md-button>
     <md-menu-content width="4">
         <md-menu-item ng-repeat="option in options">
             <md-button ng-click="activateOption(option)">
                 <md-icon ng-style="{'visibility': option === activeOption ? 'visible' : 'hidden'}">check</md-icon> {{option.title}}
+            </md-button>
+        </md-menu-item>
+        <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="settings.setContentType = !settings.setContentType" md-prevent-menu-close>
+                <md-icon ng-style="{'visibility': settings.setContentType ? 'visible' : 'hidden'}">check</md-icon> Set Content-Type header
             </md-button>
         </md-menu-item>
     </md-menu-content>
