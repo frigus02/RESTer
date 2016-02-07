@@ -6,7 +6,8 @@ angular.module('app')
         return {
             restrict: 'E',
             scope: {
-                data: '='
+                data: '=',
+                encode: '@'
             },
             templateUrl: 'views/directives/url-query-input.html',
             controller: function ($scope) {
@@ -32,6 +33,8 @@ angular.module('app')
                 $scope.$watch('data', function () {
                     if ($scope.data !== knownData) {
                         $scope.params = parseQueryParams($scope.data);
+                        ensureEmptyParam()
+
                         knownData = $scope.data;
                     }
                 });
@@ -48,7 +51,14 @@ angular.module('app')
                 function stringifyQueryParams(params) {
                     return params
                         .filter(param => param.name.trim())
-                        .map(param => `${encodeURIComponent(param.name)}=${encodeURIComponent(param.value)}`)
+                        .map(param => {
+                            let str = encode(param.name);
+                            if (param.value) {
+                                str += '=' + encode(param.value);
+                            }
+
+                            return str;
+                        })
                         .join('&');
                 }
 
@@ -58,11 +68,19 @@ angular.module('app')
                         .map(row => {
                             let keyValue = row.split('=');
                             return {
-                                name: decodeURIComponent(keyValue[0]),
-                                value: decodeURIComponent(keyValue[1])
+                                name: decode(keyValue[0]),
+                                value: decode(keyValue[1] || '')
                             };
                         })
                         .filter(row => row.name.trim());
+                }
+
+                function encode(value) {
+                    return $scope.encode ? encodeURIComponent(value) : value;
+                }
+
+                function decode(value) {
+                    return $scope.encode ? decodeURIComponent(value) : value;
                 }
 
             }

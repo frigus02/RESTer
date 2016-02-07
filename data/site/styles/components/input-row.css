@@ -11,3 +11,7 @@ md-autocomplete[md-floating-label] md-input-container {
 .input-row > *:not(:last-child) {
 	margin-right: 16px;
 }
+
+.input-row .md-button {
+    margin-top: 19px;
+}

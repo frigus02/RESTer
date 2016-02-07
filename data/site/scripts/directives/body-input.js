@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .directive('bodyInput', ['$error', function ($error) {
+    .directive('bodyInput', [function () {
 
         return {
             restrict: 'E',
