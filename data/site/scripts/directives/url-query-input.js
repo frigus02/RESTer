@@ -1,56 +1,58 @@
 'use strict';
 
 angular.module('app')
-    .directive('formDataInput', [function () {
+    .directive('urlQueryInput', [function () {
 
         return {
             restrict: 'E',
             scope: {
                 data: '='
             },
-            templateUrl: 'views/directives/form-data-input.html',
+            templateUrl: 'views/directives/url-query-input.html',
             controller: function ($scope) {
                 let knownData = '';
-                $scope.rows = [];
+                let emptyParam = {name: '', value: ''};
+                $scope.params = [];
+                ensureEmptyParam();
 
-                $scope.removeRow = function (index) {
+                $scope.removeParam = function (index) {
                     if (index > -1) {
-                        $scope.rows.splice(index, 1);
+                        $scope.params.splice(index, 1);
                     }
                 };
 
-                $scope.$watch('rows', function (oldValue, newValue) {
+                $scope.$watch('params', function (oldValue, newValue) {
                     if (oldValue === newValue) return;
-                    if (ensureEmptyRow()) return;
+                    if (ensureEmptyParam()) return;
 
-                    $scope.data = stringifyFormData($scope.rows);
+                    $scope.data = stringifyQueryParams($scope.params);
                     knownData = $scope.data;
                 }, true);
 
                 $scope.$watch('data', function () {
                     if ($scope.data !== knownData) {
-                        $scope.rows = parseFormData($scope.data);
+                        $scope.params = parseQueryParams($scope.data);
                         knownData = $scope.data;
                     }
                 });
 
-                function ensureEmptyRow() {
-                    if (!$scope.rows.some(row => row.name.trim() === '' && row.value.trim() === '')) {
-                        $scope.rows.push({name: '', value: ''});
+                function ensureEmptyParam() {
+                    if (!$scope.params.some(param => param.name.trim() === '' && param.value.trim() === '')) {
+                        $scope.params.push(angular.copy(emptyParam));
                         return true;
                     } else {
                         return false;
                     }
                 }
 
-                function stringifyFormData(rows) {
-                    return rows
-                        .filter(row => row.name.trim())
-                        .map(row => `${encodeURIComponent(row.name)}=${encodeURIComponent(row.value)}`)
+                function stringifyQueryParams(params) {
+                    return params
+                        .filter(param => param.name.trim())
+                        .map(param => `${encodeURIComponent(param.name)}=${encodeURIComponent(param.value)}`)
                         .join('&');
                 }
 
-                function parseFormData(str) {
+                function parseQueryParams(str) {
                     return (str || '')
                         .split('&')
                         .map(row => {
