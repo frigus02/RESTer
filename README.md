@@ -34,7 +34,7 @@ Some parts of the add-on need to be build. Execute this command on the first sta
 
 ### Test
 
-Use either the following command to test just the website locally (when doing this, you might want to include the *rester.mock.js* service, instead of the real *rester.js* service, because the add-on is not available):
+Use either the following command to test just the website locally (when doing this, all requests will be handled by the *rester.mock.js* service, instead of the real *rester.js* service):
 
     npm run serve
 
