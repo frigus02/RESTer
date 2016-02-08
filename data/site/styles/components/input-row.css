@@ -3,6 +3,13 @@ md-autocomplete[md-floating-label] md-input-container {
     padding-bottom: 2px;
 }
 
+.input-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
 /* TODO: Remove this once the style has been fixed in angular-material. */
 .input-row .md-errors-spacer {
     min-width: 0;
