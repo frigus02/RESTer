@@ -525,7 +525,7 @@ angular.module('app')
             if (Array.isArray(headers)) return headers;
 
             return _(headers)
-                .pairs()
+                .toPairs()
                 .map(h => ({
                     name: h[0],
                     value: h[1]
