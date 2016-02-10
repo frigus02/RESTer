@@ -15,14 +15,14 @@ angular.module('app')
             });
 
             function doQueryItems(query) {
-                return _(items)
-                    .forEach(i => {
-                        i.score = LiquidMetal.score(i.title, query);
-                        i.formattedScore = Math.round(i.score * 1000);
-                    })
+                items.forEach(i => {
+                    i.score = LiquidMetal.score(i.title, query);
+                    i.formattedScore = Math.round(i.score * 1000);
+                });
+
+                return items
                     .filter(i => i.score > 0.0)
-                    .sortByOrder(['score'], ['desc'])
-                    .value();
+                    .sort((a, b) => b.score - a.score);
             }
 
             function doOpenItem(item) {
