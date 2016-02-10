@@ -1,4 +1,4 @@
-/* globals require: false */
+/* jshint node: true */
 
 'use strict';
 

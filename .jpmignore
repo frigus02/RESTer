@@ -4,12 +4,15 @@ bower_components/
 node_modules/
 resources/
 test/
+test-karma/
+test-karma-coverage/
 tools/
 .gitignore
 .jpmignore
 .jscsrc
 .jshintrc
 bower.json
+karma.conf.js
 OAUTH2-EXAMPLE-CONFIGS.md
 *.sublime-workspace
 *.sublime-project

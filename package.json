@@ -16,16 +16,20 @@
     "bower": "^1.6.5",
     "browser-sync": "^2.11.1",
     "cheerio": "^0.20.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-coverage": "^0.5.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.7",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.4.3"
   },
   "scripts": {
     "postinstall": "bower install",
-    "test": "jpm test",
-    "start": "jpm run",
+    "test": "karma start",
+    "start": "browser-sync start --server \"data/site\" --files \"data/site/**\"",
+    "build": "node tools/build.js",
     "post": "jpm post --post-url http://127.0.0.1:8888",
-    "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888",
-    "serve": "browser-sync start --server \"data/site\" --files \"data/site/**\"",
-    "build": "node tools/build.js"
+    "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888"
   }
 }

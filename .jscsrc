@@ -8,5 +8,6 @@
         "try",
         "catch"
     ],
-    "requireVarDeclFirst": false
+    "requireVarDeclFirst": false,
+    "disallowDanglingUnderscores": false
 }

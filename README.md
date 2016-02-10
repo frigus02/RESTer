@@ -38,7 +38,7 @@ Some parts of the add-on need to be build. Execute this command on the first sta
 
 Use either the following command to test just the website locally (when doing this, all requests will be handled by the *rester.mock.js* service, instead of the real *rester.js* service):
 
-    npm run serve
+    npm start
 
 Or you can use one of the following shortcuts for *jpm* to run the full add-on in the browser:
 

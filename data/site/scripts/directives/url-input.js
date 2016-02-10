@@ -8,7 +8,7 @@ angular.module('app')
             require: '?ngModel',
             scope: {},
             templateUrl: 'views/directives/url-input.html',
-            link: function(scope, element, attrs, ngModel) {
+            link: function (scope, element, attrs, ngModel) {
                 ngModel.$render = function () {
                     scope.url.absolute = ngModel.$viewValue || '';
                 };
@@ -36,7 +36,10 @@ angular.module('app')
 
                 $scope.$watch('url.absolute', function () {
                     if ($scope.url.absolute !== knownUrl) {
-                        [$scope.url.originAndPath, $scope.url.query = ''] = $scope.url.absolute.split('?');
+                        let parts = $scope.url.absolute.split('?');
+                        $scope.url.originAndPath = parts[0];
+                        $scope.url.query = parts[1] || '';
+
                         knownUrl = $scope.url.absolute;
                     }
                 });

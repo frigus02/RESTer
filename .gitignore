@@ -1,6 +1,7 @@
 bower_components/
 data/site/bower_components/
 node_modules/
+test-karma-coverage/
 *.sublime-workspace
 *.sublime-project
 *.xpi
