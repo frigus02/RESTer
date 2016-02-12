@@ -2,6 +2,18 @@
 
 'use strict';
 
+const fs = require('fs'),
+      cheerio = require('cheerio');
+
+function getFilesFromIndexHtmlInCorrectOrder() {
+    let html = fs.readFileSync('data/site/index.html', 'utf-8'),
+        $ = cheerio.load(html);
+
+    return $('script[src]').map(function () {
+        return 'data/site/' +  $(this).attr('src');
+    }).get();
+}
+
 module.exports = function (config) {
     config.set({
 
@@ -12,15 +24,11 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
-        files: [
-            'data/site/bower_components/angular/angular.min.js',
-            'data/site/bower_components/**/*.js',
+        files: getFilesFromIndexHtmlInCorrectOrder().concat([
             'bower_components/angular-mocks/angular-mocks.js',
 
-            'data/site/scripts/**/*.js',
-
             'test-karma/data/site/**/*.js'
-        ],
+        ]),
 
         // list of files to exclude
         exclude: [
