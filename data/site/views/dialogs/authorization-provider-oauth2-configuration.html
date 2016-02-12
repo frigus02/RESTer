@@ -21,28 +21,32 @@
                     </div>
                 </md-input-container>
                 <md-input-container ng-if="flow('code', 'implicit')">
-                    <label>Authorization endpoint</label>
+                    <label>Authorization Request: Endpoint</label>
                     <input name="authorizationRequestEndpoint" type="url" ng-model="config.authorizationRequestEndpoint" required>
                     <div ng-messages="configurationOAuth2Form.authorizationRequestEndpoint.$error" ng-show="configurationOAuth2Form.authorizationRequestEndpoint.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-input-container>
                 <md-input-container ng-if="flow('code')">
-                    <label>Access token method</label>
+                    <label>Access Token Request: Method</label>
                     <md-select name="accessTokenRequestMethod" ng-model="config.accessTokenRequestMethod" required>
-                        <md-option selected>POST</md-option>
+                        <md-option>POST</md-option>
                         <md-option>GET</md-option>
                     </md-select>
-                    <div ng-messages="configurationOAuth2Form.accessTokenRequestMethod.$error" ng-show="configurationOAuth2Form.accessTokenRequestMethod.$touched">
-                        <div ng-message="required">This is required!</div>
-                    </div>
                 </md-input-container>
                 <md-input-container ng-if="flow('code')">
-                    <label>Access token endpoint</label>
+                    <label>Access Token Request: Endpoint</label>
                     <input name="accessTokenRequestEndpoint" type="url" ng-model="config.accessTokenRequestEndpoint" required>
                     <div ng-messages="configurationOAuth2Form.accessTokenRequestEndpoint.$error" ng-show="configurationOAuth2Form.accessTokenRequestEndpoint.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
+                </md-input-container>
+                <md-input-container ng-if="flow('code')">
+                    <label>Access Token Request: Client Authentication</label>
+                    <md-select name="accessTokenRequestAuthentication" ng-model="config.accessTokenRequestAuthentication" required>
+                        <md-option value="basic">HTTP Basic authentication</md-option>
+                        <md-option value="body">Credentials in request-body</md-option>
+                    </md-select>
                 </md-input-container>
                 <md-input-container ng-if="flow('code', 'implicit')">
                     <label>Client ID</label>

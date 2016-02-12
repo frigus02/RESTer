@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$data',
-        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $data) {
+    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$data', '$window',
+        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $data, $window) {
 
             function AuthorizationProviderOAuth2() {
                 $authorization.AuthorizationProvider.call(this, 3, 'OAuth 2', true);
@@ -120,12 +120,24 @@ angular.module('app')
                             accessTokenRequestParams = {
                                 grant_type: 'authorization_code',
                                 code: url.searchParams.get('code'),
-                                redirect_uri: config.redirectUri,
-                                client_id: config.clientId,
-                                client_secret: config.clientSecret
+                                redirect_uri: config.redirectUri
                             };
 
-                        if (accessTokenRequest.method === 'GET') {
+                        if (config.accessTokenRequestAuthentication === 'basic') {
+                            let userName = encodeURI(config.clientId),
+                                password = encodeURI(config.clientSecret),
+                                token = $window.btoa(`${userName}:${password}`);
+
+                            accessTokenRequest.headers.push({
+                                name: 'Authorization',
+                                value: `Basic ${token}`
+                            });
+                        } else {
+                            accessTokenRequestParams.client_id = config.clientId;
+                            accessTokenRequestParams.client_secret = config.clientSecret;
+                        }
+
+                        if (config.accessTokenRequestMethod === 'GET') {
                             accessTokenRequest.url = generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
                         } else {
                             accessTokenRequest.url = config.accessTokenRequestEndpoint;
