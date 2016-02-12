@@ -26,6 +26,8 @@ Install all other dependencies with the following command:
 
     npm install
 
+Windows users might need the argument `--msvs_version=2013` to build the dependencies of browser-sync.
+
 ### Build
 
 Some parts of the add-on need to be build. Execute this command on the first start and after changing bower dependencies:

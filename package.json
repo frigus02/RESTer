@@ -14,11 +14,10 @@
   "dependencies": {},
   "devDependencies": {
     "bower": "^1.6.5",
+    "browser-sync": "^2.11.1",
     "cheerio": "^0.20.0",
-    "connect": "^3.4.0",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.4.3",
-    "serve-static": "^1.10.0"
+    "rimraf": "^2.4.3"
   },
   "scripts": {
     "postinstall": "bower install",
@@ -26,7 +25,7 @@
     "start": "jpm run",
     "post": "jpm post --post-url http://127.0.0.1:8888",
     "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888",
-    "serve": "node tools/serve.js",
+    "serve": "browser-sync start --server \"data/site\" --files \"data/site/**\"",
     "build": "node tools/build.js"
   }
 }

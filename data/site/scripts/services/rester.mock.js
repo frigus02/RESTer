@@ -6,7 +6,7 @@ angular.module('app')
         // Only use mock implementations, when we are running on localhost, because
         // this means the extension is not installed and we are just testing the
         // website.
-        if ($window.location.hostname !== '127.0.0.1') {
+        if ($window.location.hostname !== '127.0.0.1' && $window.location.hostname !== 'localhost') {
             return $delegate;
         }
 
