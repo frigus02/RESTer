@@ -61,9 +61,9 @@ angular.module('app')
         $delegate.sendBrowserRequest = function () {
             return $timeout(function () {
                 return {
-                    url: 'https://google.com?access_token=abc'
+                    url: 'https://google.com?access_token=abc&token_type=Bearer'
                 };
-            }, 2000);
+            }, 1000);
         };
 
         return $delegate;

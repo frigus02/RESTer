@@ -22,7 +22,6 @@ angular.module('app')
             let dialog = $mdDialog.alert()
                 .title('Ups, something went wrong!')
                 .textContent(extractMessage(error))
-                .theme('warn')
                 .ok('OK');
 
             $mdDialog.show(dialog);

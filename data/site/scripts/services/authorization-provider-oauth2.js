@@ -25,7 +25,7 @@ angular.module('app')
                             decodeURIComponent(keyValue[1])
                         ];
                     })
-                    .zipObject()
+                    .fromPairs()
                     .value();
             }
 
