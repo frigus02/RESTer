@@ -18,6 +18,10 @@ md-toolbar:not(.md-menu-toolbar).nav-header {
     max-width: 1000px;
 }
 
+md-dialog {
+    max-width: 600px;
+}
+
 /* Fix md-select: Color */
 .md-select-value {
     color: rgba(255, 255, 255, 1.0);

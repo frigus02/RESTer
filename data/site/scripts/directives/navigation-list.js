@@ -43,7 +43,7 @@ angular.module('app')
 
                 $scope.getGroupSubitemsStyle = function (item) {
                     return {
-                        height: $scope.isGroupExpanded(item) ? `${item.items.length * 38}px` : 0
+                        height: $scope.isGroupExpanded(item) ? `${item.items.length * 36}px` : 0
                     };
                 };
             }
