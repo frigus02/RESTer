@@ -1,6 +1,6 @@
 {
     "extends": "../.jshintrc",
-    "node": true,
+    "browser": true,
     "jasmine": true,
     "globals": {
         "module": false,

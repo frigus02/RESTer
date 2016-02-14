@@ -36,7 +36,6 @@ describe('filter: expirationDate', function () {
             input = Date.now() + 1000;
 
         expect(expirationDate(input)).toBe('Expires <formatteddate>');
-        expect(spyDateFilter.calls.count()).toBe(1);
-        expect(spyDateFilter.calls.argsFor(0)).toEqual([input, 'yyyy-MM-dd HH:mm:ss']);
+        expect(spyDateFilter).toHaveBeenCalledWith(input, 'yyyy-MM-dd HH:mm:ss');
     });
 });

@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', [
-        '$scope', '$mdDialog', '$data', 'config',
+    .controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', ['$scope', '$mdDialog', '$data', 'config',
         function ($scope, $mdDialog, $data, config) {
 
             $scope.config = config || new $data.AuthorizationProviderConfiguration();
