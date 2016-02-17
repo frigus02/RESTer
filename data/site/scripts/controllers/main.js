@@ -15,11 +15,11 @@ angular.module('app')
                 $q.all([
                     $data.getRequests(),
                     $data.getHistoryEntries(-5)
-                ]).then(result => {
-                    let [requests, historyEntries] = result;
+                ]).then(([requests, historyEntries]) => {
                     $scope.navItems = [];
 
                     $scope.navItems.push({
+                        id: 'requests',
                         type: 'subheader',
                         title: 'Requests',
                         action: {
@@ -43,8 +43,10 @@ angular.module('app')
                     $scope.navItems.push(...requestNavItems);
 
                     $scope.navItems.push({
+                        id: 'divider',
                         type: 'divider'
                     }, {
+                        id: 'history',
                         type: 'subheader',
                         title: 'History',
                         action: {
@@ -61,6 +63,7 @@ angular.module('app')
 
             function createRequestCollectionNavItem(collection) {
                 return {
+                    id: 'requestcollection:' + collection,
                     type: 'group',
                     title: collection,
                     expanded: null,
@@ -70,8 +73,8 @@ angular.module('app')
 
             function createRequestNavItem(request) {
                 return {
+                    id: 'request:' + request.id,
                     type: 'item',
-                    id: request.id,
                     title: request.title,
                     targetState: 'main.request.existing',
                     targetStateParams: {
@@ -82,8 +85,8 @@ angular.module('app')
 
             function createHistoryNavItem(historyEntry) {
                 return {
+                    id: 'historyentry:' + historyEntry.id,
                     type: 'item',
-                    id: historyEntry.id,
                     title: `${$filter('date')(historyEntry.time, 'HH:mm:ss')} ${historyEntry.request.method} ${historyEntry.request.url}`,
                     targetState: 'main.request.existing.history',
                     targetStateParams: {
@@ -96,10 +99,14 @@ angular.module('app')
             function updateNavigation(changes) {
                 changes.forEach(change => {
                     if (change.item instanceof $data.Request) {
+                        if (change.action === 'put' || change.action === 'delete') {
+                            removeRequestNavigationItem(change.item.id);
+                        }
+
                         if (change.action === 'add' || change.action === 'put') {
                             let collectionIndex = requestNavItems.findIndex(item => item.title === change.item.collection);
                             if (collectionIndex === -1) {
-                                let insertAtIndex = requestNavItemsOffset + _.sortedIndex(requestNavItems, {title: change.item.collection}, item => item.title),
+                                let insertAtIndex = requestNavItemsOffset + _.sortedIndexBy(requestNavItems, {title: change.item.collection}, item => item.title),
                                     newCollectionItem = createRequestCollectionNavItem(change.item.collection);
 
                                 requestNavItems.splice(insertAtIndex - requestNavItemsOffset, 0, newCollectionItem);
@@ -112,30 +119,9 @@ angular.module('app')
                             }
 
                             let collection = $scope.navItems[collectionIndex],
-                                requestIndex = collection.items.findIndex(item => item.id === change.item.id);
-                            if (requestIndex === -1) {
-                                let insertAtIndex = _.sortedIndex(collection.items, change.item, item => item.title);
-                                collection.items.splice(insertAtIndex, 0, createRequestNavItem(change.item));
-                            } else {
-                                Object.assign(collection.items[requestIndex], change.item);
-                            }
-                        } else if (change.action === 'delete') {
-                            let collectionIndex = requestNavItemsOffset + _.findIndex(
-                                requestNavItems,
-                                item => item.title === change.item.collection);
-                            if (collectionIndex < requestNavItemsOffset) return;
+                                insertAtIndex = _.sortedIndexBy(collection.items, change.item, item => item.title);
 
-                            let collection = $scope.navItems[collectionIndex],
-                                requestIndex = _.findIndex(collection.items, item => item.id === change.item.id);
-                            if (requestIndex === -1) return;
-
-                            if (collection.items.length === 1) {
-                                requestNavItems.splice(collectionIndex - requestNavItemsOffset, 1);
-                                $scope.navItems.splice(collectionIndex, 1);
-                                historyNavItemsOffset--;
-                            } else {
-                                collection.items.splice(requestIndex, 1);
-                            }
+                            collection.items.splice(insertAtIndex, 0, createRequestNavItem(change.item));
                         }
                     } else if (change.item instanceof $data.HistoryEntry) {
                         if (change.action === 'add') {
@@ -149,6 +135,24 @@ angular.module('app')
                         }
                     }
                 });
+            }
+
+            function removeRequestNavigationItem(requestId) {
+                for (let collectionIndex = 0; collectionIndex < requestNavItems.length; collectionIndex++) {
+                    let collection = requestNavItems[collectionIndex],
+                        requestIndex = collection.items.findIndex(r => r.id === 'request:' + requestId);
+                    if (requestIndex > -1) {
+                        if (collection.items.length === 1) {
+                            requestNavItems.splice(collectionIndex, 1);
+                            $scope.navItems.splice(collectionIndex + requestNavItemsOffset, 1);
+                            historyNavItemsOffset--;
+                        } else {
+                            collection.items.splice(requestIndex, 1);
+                        }
+
+                        break;
+                    }
+                }
             }
 
             createNavigation();
@@ -179,7 +183,7 @@ angular.module('app')
             $hotkeys.add(new $hotkeys.Hotkey({
                 combos: ['mod+m'],
                 description: 'New request.',
-                callback() {
+                callback () {
                     $state.go('main.request.new');
                 }
             }), $scope);
@@ -187,7 +191,7 @@ angular.module('app')
             $hotkeys.add(new $hotkeys.Hotkey({
                 combos: ['mod+o', 'mod+p'],
                 description: 'Open request.',
-                callback() {
+                callback () {
                     $mdDialog.show({
                         templateUrl: 'views/dialogs/quick-open.html',
                         controller: 'DialogQuickOpenCtrl',

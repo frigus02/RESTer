@@ -1,3 +1,7 @@
+navigation-list md-list {
+    padding: 0;
+}
+
 navigation-list .md-button,
 navigation-list .md-button .md-ripple-container {
     border-radius: 0;

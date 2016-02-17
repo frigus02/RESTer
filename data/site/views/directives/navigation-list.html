@@ -1,8 +1,7 @@
 <md-list>
-    <span ng-repeat-start="item in items"></span>
+    <span ng-repeat-start="item in items track by item.id"></span>
 
-    <md-subheader ng-if="item.type === 'subheader'"
-        class="md-no-sticky">
+    <md-subheader ng-if="item.type === 'subheader'">
         {{item.title}}
         <md-button ng-if="item.action" class="md-icon-button"
             ng-click="invokeItem(item.action)">
@@ -24,7 +23,7 @@
             <md-icon class="navigation-list-itemgroup__icon material-icons">expand_more</md-icon>
         </md-list-item>
         <div class="navigation-list-itemgroup__subitems" ng-style="getGroupSubitemsStyle(item)">
-            <md-list-item ng-repeat="subitem in item.items"
+            <md-list-item ng-repeat="subitem in item.items track by subitem.id"
                 ng-click="invokeItem(subitem)"
                 ng-class="{active: isItemActive(subitem)}">
                 <div class="navigation-list-item__text">{{subitem.title}}</div>
