@@ -1,7 +1,8 @@
 <md-list>
     <span ng-repeat-start="item in items track by item.id"></span>
 
-    <md-subheader ng-if="item.type === 'subheader'">
+    <md-subheader ng-if="item.type === 'subheader'"
+        class="md-no-sticky">
         {{item.title}}
         <md-button ng-if="item.action" class="md-icon-button"
             ng-click="invokeItem(item.action)">

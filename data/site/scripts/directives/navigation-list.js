@@ -46,6 +46,12 @@ angular.module('app')
                         height: $scope.isGroupExpanded(item) ? `${item.items.length * 36}px` : 0
                     };
                 };
+
+                $scope.$on('$stateChangeSuccess', () => {
+                    $scope.items.forEach(item => {
+                        item.expanded = null;
+                    });
+                });
             }
         };
 
