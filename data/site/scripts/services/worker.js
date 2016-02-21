@@ -39,7 +39,7 @@ angular.module('app')
             return url.toString();
         }
 
-        SimpleWorker.HighlightCode = new SimpleWorker(getAbsoluteUrl('scripts/workers/highlight-code.js'));
+        SimpleWorker.HighlightCode = SimpleWorker(getAbsoluteUrl('scripts/workers/highlight-code.js'));
 
         return SimpleWorker;
 

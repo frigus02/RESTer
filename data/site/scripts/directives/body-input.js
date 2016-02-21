@@ -26,7 +26,7 @@ angular.module('app')
                         inputType: 'codemirror',
                         contentType: 'application/json',
                         codeMirrorMode: {name: 'javascript', json: true},
-                        isActive() {
+                        isActive () {
                             return getContentType().includes('json');
                         }
                     },
@@ -35,7 +35,7 @@ angular.module('app')
                         inputType: 'codemirror',
                         contentType: 'application/xml',
                         codeMirrorMode: {name: 'xml'},
-                        isActive() {
+                        isActive () {
                             return getContentType().includes('xml');
                         }
                     },
@@ -43,7 +43,7 @@ angular.module('app')
                         title: 'Form',
                         inputType: 'form',
                         contentType: 'application/x-www-form-urlencoded',
-                        isActive() {
+                        isActive () {
                             return getContentType().includes('x-www-form-urlencoded');
                         }
                     }
@@ -65,7 +65,7 @@ angular.module('app')
                         mode: $scope.activeOption.codeMirrorMode,
                         indentUnit: 4,
                         theme: 'darkula',
-                        onLoad(editor) {
+                        onLoad (editor) {
                             codeMirrorEditor = editor;
                         }
                     };
@@ -110,7 +110,7 @@ angular.module('app')
                         $scope.headers.push({
                             name: 'Content-Type',
                             value: contentType
-                        })
+                        });
                     }
                 }
 

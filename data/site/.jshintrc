@@ -5,6 +5,7 @@
         "_": false,
         "angular": false,
         "hljs": false,
-        "LiquidMetal": false
+        "LiquidMetal": false,
+        "Mousetrap": false
     }
 }
