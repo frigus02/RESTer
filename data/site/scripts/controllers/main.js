@@ -176,8 +176,8 @@ angular.module('app')
                 $hotkeys.showCheatSheet($event);
             };
 
-            $scope.$watch('getTitle()', function () {
-                $rootScope.title = $scope.getTitle();
+            $scope.$watch('getTitle()', function (newTitle) {
+                $rootScope.title = newTitle;
             });
 
             $hotkeys.add(new $hotkeys.Hotkey({
