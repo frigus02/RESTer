@@ -4,6 +4,11 @@ angular.module('app')
     .service('$error', ['$mdDialog', function ($mdDialog) {
         let self = this;
 
+        const TITLES = [
+            'Ups, something went wrong!',
+            'Oh no, this shouldn\'t happen.'
+        ];
+
         function extractMessage(error) {
             if (typeof error === 'string') {
                 return error;
@@ -20,7 +25,7 @@ angular.module('app')
 
         self.show = function (error) {
             let dialog = $mdDialog.alert()
-                .title('Ups, something went wrong!')
+                .title(_.sample(TITLES))
                 .textContent(extractMessage(error))
                 .ok('OK');
 
