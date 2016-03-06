@@ -7,7 +7,7 @@ angular.module('app')
             restrict: 'E',
             scope: {
                 headers: '=',
-                body: '='
+                body: '=ngModel'
             },
             templateUrl: 'views/directives/body-input.html',
             controller: function ($scope) {

@@ -51,7 +51,7 @@ angular.module('app')
         return {
             restrict: 'E',
             scope: {
-                headers: '='
+                headers: '=ngModel'
             },
             templateUrl: 'views/directives/header-input.html',
             controller: function ($scope) {

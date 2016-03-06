@@ -10,7 +10,7 @@
         <label>URL</label>
         <input type="text" ng-model="url.originAndPath">
     </md-input-container>
-    <url-query-input data="url.query"></url-query-input>
+    <url-query-input ng-model="url.query"></url-query-input>
 </div>
 
 <md-button class="md-icon-button expand" aria-label="Expand" ng-click="settings.expanded = !settings.expanded">

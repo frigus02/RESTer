@@ -28,10 +28,10 @@
 
     <md-tabs md-dynamic-height>
         <md-tab label="Headers">
-            <header-input headers="request.headers"></header-input>
+            <header-input ng-model="request.headers"></header-input>
         </md-tab>
         <md-tab label="Body">
-            <body-input headers="request.headers" body="request.body"></body-input>
+            <body-input ng-model="request.body" headers="request.headers"></body-input>
         </md-tab>
         <md-tab label="Authorization">
             <authorization-input headers="request.headers"></authorization-input>

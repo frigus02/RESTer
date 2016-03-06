@@ -6,7 +6,7 @@ angular.module('app')
         return {
             restrict: 'E',
             scope: {
-                data: '=',
+                data: '=ngModel',
                 encode: '@'
             },
             templateUrl: 'views/directives/url-query-input.html',
