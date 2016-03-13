@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error', '$filter', '$hotkeys',
-        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error, $filter, $hotkeys) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables',
+        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error, $filter, $hotkeys, $variables) {
 
             $state.current.data = {
                 actions: [
@@ -38,6 +38,7 @@ angular.module('app')
 
             $scope.time = null;
             $scope.request = new $data.Request();
+            $scope.requestVariableValues = {};
             $scope.response = null;
             $scope.requestMethodSearch = '';
             $scope.requestIsSending = false;
@@ -56,17 +57,22 @@ angular.module('app')
                             $scope.time = historyEntry.time;
                             $scope.request = historyEntry.request;
                             $scope.response = historyEntry.response;
+
+                            $scope.requestVariableValues = _.get($scope.request, 'variables.values', {});
+                            _.unset($scope.request, 'variables.values');
                         }
                     });
                 } else if (newStateParams.id) {
                     $data.getRequest(+newStateParams.id).then(request => {
                         $scope.time = null;
                         $scope.request = request;
+                        $scope.requestVariableValues = {};
                         $scope.response = null;
                     });
                 } else {
                     $scope.time = null;
                     $scope.request = new $data.Request();
+                    $scope.requestVariableValues = {};
                     $scope.response = null;
                 }
             }
@@ -96,14 +102,22 @@ angular.module('app')
             $scope.sendRequest = function () {
                 if (!$scope.requestForm.$valid) return;
 
+                let compiledRequest = $scope.request;
+                if ($scope.request.variables.enabled) {
+                    compiledRequest = $variables.replace($scope.request, $scope.requestVariableValues);
+                }
+
                 $scope.requestIsSending = true;
-                $rester.sendRequest($scope.request)
+                $rester.sendRequest(compiledRequest)
                     .then(plainResponse => {
                         $scope.requestIsSending = false;
 
+                        let requestClone = _.cloneDeep($scope.request);
+                        requestClone.variables.values = $scope.requestVariableValues;
+
                         $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
                             time: new Date(),
-                            request: $scope.request,
+                            request: requestClone,
                             response: new $data.Response(plainResponse)
                         })).then(historyId => {
                             $state.go('main.request.existing.history', {

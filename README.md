@@ -11,6 +11,7 @@ You can...
 The add-on supports the following goodies:
 
 * Create and save your authorization headers with Basic or OAuth2 authentication.
+* Use placeholders in saved requests.
 * Use shortcuts for the frequently used actions (try pressing "?" to see the available shortcuts for the current context).
 
 ## Develop

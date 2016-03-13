@@ -20,6 +20,13 @@ angular.module('app')
          * @property {Array} headers - The request headers as an array oj objects.
          * Each object has the properties `name` and `value`.
          * @property {String} body - The request body as string.
+         * @property {Object} variables - Configuration of replacement variables,
+         * which are applied when sending the request.
+         * @property {Boolean} variables.enabled - Whether replacement variables
+         * are enabled for this request.
+         * @property {Object} variables.values - The replacement values. This will
+         * never be stored when saving requests. It is however available in the
+         * history of completed requests.
          */
         self.Request = function (dbObject) {
             if (dbObject) {
@@ -32,6 +39,7 @@ angular.module('app')
                 this.url = null;
                 this.headers = [];
                 this.body = null;
+                this.variables = {enabled: false};
             }
         };
 
@@ -44,6 +52,11 @@ angular.module('app')
          * was successfully saved and returns the new request id.
          */
         self.putRequest = function (request) {
+            if (request.variables && 'values' in request.variables) {
+                request = _.cloneDeep(request);
+                delete request.variables.values;
+            }
+
             return openDatabase().then(db => {
                 return createTransaction(db, ['requests'], function (transaction, objectStores) {
                     return putEntityAndUpdateId(objectStores[0], request);
