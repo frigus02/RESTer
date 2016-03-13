@@ -16,3 +16,4 @@ karma.conf.js
 OAUTH2-EXAMPLE-CONFIGS.md
 *.sublime-workspace
 *.sublime-project
+*.xpi
