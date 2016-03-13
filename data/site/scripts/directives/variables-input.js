@@ -10,7 +10,7 @@ angular.module('app')
             scope: {
                 values: '=ngModel',
                 sourceObj: '=',
-                disabled: '=ngDisabled'
+                enabled: '='
             },
             templateUrl: 'views/directives/variables-input.html',
             controller: function ($scope) {

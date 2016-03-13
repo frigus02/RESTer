@@ -36,23 +36,12 @@
         <md-tab label="Authorization">
             <authorization-input headers="request.headers"></authorization-input>
         </md-tab>
-        <md-tab>
-            <md-tab-label>
-                <md-switch
-                    aria-label="Enable Variables"
-                    ng-model="request.variables.enabled"
-                    ng-click="$event.stopPropagation()"
-                    ng-mousedown="$event.stopPropagation()">
-                </md-switch>
-                Variables
-            </md-tab-label>
-            <md-tab-body>
-                <variables-input
-                    ng-model="requestVariableValues"
-                    source-obj="request"
-                    ng-disabled="!request.variables.enabled">
-                </variables-input>
-            </md-tab-body>
+        <md-tab label="Variables">
+            <variables-input
+                ng-model="requestVariableValues"
+                source-obj="request"
+                enabled="request.variables.enabled">
+            </variables-input>
         </md-tab>
     </md-tabs>
 </form>
