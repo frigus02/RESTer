@@ -41,6 +41,11 @@ angular
                         historyId: null
                     }
                 })
+                .state('main.environments', {
+                    url: 'environments',
+                    templateUrl: 'views/main.environments.html',
+                    controller: 'EnvironmentsCtrl'
+                })
                 .state('main.history', {
                     url: 'history',
                     templateUrl: 'views/main.history.html',

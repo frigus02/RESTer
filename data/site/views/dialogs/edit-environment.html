@@ -1,0 +1,40 @@
+<md-dialog>
+    <form name="environmentForm" novalidate>
+        <md-dialog-content class="md-dialog-content input-column">
+            <div class="md-dialog-content-body" layout="column">
+                <md-input-container>
+                    <label>Name</label>
+                    <input name="name" type="text" ng-model="environment.name" required>
+                    <div ng-messages="environmentForm.name.$error" ng-show="environmentForm.name.$touched">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <div class="input-row" ng-repeat="value in values track by $index">
+                    <md-input-container flex="35">
+                        <label>Name</label>
+                        <input type="text" ng-model="value.name">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Value</label>
+                        <textarea ng-model="value.value"></textarea>
+                    </md-input-container>
+                    <md-button class="md-icon-button remove" ng-click="removeValue($index)">
+                        <md-icon>remove</md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <md-button ng-click="delete()" class="md-warn neutral-action" ng-show="environment.id">
+                Delete
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="cancel()" class="md-primary">
+                Cancel
+            </md-button>
+            <md-button type="submit" ng-click="save()" class="md-primary" ng-disabled="!environmentForm.$valid">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

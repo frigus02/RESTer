@@ -43,7 +43,19 @@ angular.module('app')
                     $scope.navItems.push(...requestNavItems);
 
                     $scope.navItems.push({
-                        id: 'divider',
+                        id: 'divider:settings',
+                        type: 'divider'
+                    }, {
+                        id: 'settings',
+                        type: 'subheader',
+                        title: 'Settings'
+                    }, {
+                        id: 'environments',
+                        type: 'item',
+                        title: 'Environments',
+                        targetState: 'main.environments'
+                    }, {
+                        id: 'divider:history',
                         type: 'divider'
                     }, {
                         id: 'history',
@@ -55,7 +67,7 @@ angular.module('app')
                         }
                     });
 
-                    historyNavItemsOffset = requestNavItemsOffset + requestNavItems.length + 2;
+                    historyNavItemsOffset = requestNavItemsOffset + requestNavItems.length + 5;
                     historyNavItems = historyEntries.map(createHistoryNavItem);
                     $scope.navItems.push(...historyNavItems);
                 });

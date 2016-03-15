@@ -1,0 +1,24 @@
+<p>
+    Environments can be used to store a list of values, which are available as variables in requests
+    by the placeholder <code>{$env.&lt;name&gt;.&lt;value&gt;}</code>. Example: <code>{$env.dev.hostname}</code>
+    if you have an environment with the name <em>dev</em> and a value with the name <em>hostname</em> in it.
+</p>
+
+<md-radio-group ng-model="selectedEnvironment">
+    <div ng-repeat="env in environments | orderBy:'name' track by env.id"
+        class="md-radio-button-row">
+        <md-radio-button ng-value="env">
+            <h3>{{env.name}}</h3>
+            <p ng-repeat="(key, value) in env.values">
+                {{key}}: {{value}}
+            </p>
+        </md-radio-button>
+        <md-button class="md-icon-button" aria-label="Edit environment" ng-click="editEnvironment($event, env)">
+            <md-icon>edit</md-icon>
+        </md-button>
+    </div>
+</md-radio-group>
+
+<md-button class="md-fab md-fab-bottom-right" aria-label="Add environment" ng-click="addEnvironment($event)">
+    <md-icon>add</md-icon>
+</md-button>

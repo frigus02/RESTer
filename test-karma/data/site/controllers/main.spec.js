@@ -102,13 +102,16 @@ describe('controller: MainCtrl', function () {
         $dataGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
         $rootScope.$apply();
 
-        expect($scope.navItems.length).toBe(10);
+        expect($scope.navItems.length).toBe(13);
         expect($scope.navItems[0]).toEqual(jasmine.objectContaining({id: 'requests', type: 'subheader'}));
         expect($scope.navItems[1]).toEqual(jasmine.objectContaining({id: 'requestcollection:Google', type: 'group'}));
         expect($scope.navItems[2]).toEqual(jasmine.objectContaining({id: 'requestcollection:JSONPlaceholder', type: 'group'}));
-        expect($scope.navItems[3]).toEqual(jasmine.objectContaining({id: 'divider', type: 'divider'}));
-        expect($scope.navItems[4]).toEqual(jasmine.objectContaining({id: 'history', type: 'subheader'}));
-        expect($scope.navItems[5]).toEqual(jasmine.objectContaining({id: 'historyentry:45', type: 'item', title: '<formatteddate> GET http://jsonplaceholder.com/posts'}));
+        expect($scope.navItems[3]).toEqual(jasmine.objectContaining({id: 'divider:settings', type: 'divider'}));
+        expect($scope.navItems[4]).toEqual(jasmine.objectContaining({id: 'settings', type: 'subheader'}));
+        expect($scope.navItems[5]).toEqual(jasmine.objectContaining({id: 'environments', type: 'item'}));
+        expect($scope.navItems[6]).toEqual(jasmine.objectContaining({id: 'divider:history', type: 'divider'}));
+        expect($scope.navItems[7]).toEqual(jasmine.objectContaining({id: 'history', type: 'subheader'}));
+        expect($scope.navItems[8]).toEqual(jasmine.objectContaining({id: 'historyentry:45', type: 'item', title: '<formatteddate> GET http://jsonplaceholder.com/posts'}));
     });
 
     it('updates navigation items on data change', function () {
@@ -118,7 +121,7 @@ describe('controller: MainCtrl', function () {
         $rootScope.$apply();
 
         // Check preconditions.
-        expect($scope.navItems.length).toEqual(3);
+        expect($scope.navItems.length).toEqual(6);
         expect($data.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
         let changeListener = $data.addChangeListener.calls.argsFor(0)[0];
@@ -132,14 +135,14 @@ describe('controller: MainCtrl', function () {
             {action: 'add', item: fakeHistoryEntries[4]}
         ]);
 
-        expect($scope.navItems.length).toEqual(7);
+        expect($scope.navItems.length).toEqual(10);
 
         // Delete a request. Now the collection is empty and we should have one item less.
         changeListener([
             {action: 'delete', item: fakeRequests[2]}
         ]);
 
-        expect($scope.navItems.length).toEqual(6);
+        expect($scope.navItems.length).toEqual(9);
 
         // Change a request and add more history entries.
         changeListener([
@@ -149,7 +152,7 @@ describe('controller: MainCtrl', function () {
             {action: 'add', item: fakeHistoryEntries[1]}
         ]);
 
-        expect($scope.navItems.length).toEqual(9);
+        expect($scope.navItems.length).toEqual(12);
 
         // Add a 6th history entry. This should remove the oldest history entry from the
         // list because we only want to show 5 items max.
@@ -157,7 +160,7 @@ describe('controller: MainCtrl', function () {
             {action: 'add', item: fakeHistoryEntries[0]}
         ]);
 
-        expect($scope.navItems.length).toEqual(9);
+        expect($scope.navItems.length).toEqual(12);
 
         // Delete a request. This time the collection is not empty yet. So the overall count
         // should stay the same.
@@ -165,7 +168,7 @@ describe('controller: MainCtrl', function () {
             {action: 'delete', item: fakeRequests[0]}
         ]);
 
-        expect($scope.navItems.length).toEqual(9);
+        expect($scope.navItems.length).toEqual(12);
     });
 
     it('toggles the sidenav on toggleSidenav', function () {

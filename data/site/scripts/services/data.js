@@ -352,6 +352,53 @@ angular.module('app')
 
 
         // -------------------------------------------------------
+        // Environment
+        // -------------------------------------------------------
+
+        /**
+         * @typedef $data~Environment
+         * @type {Object}
+         * @property {Number} id - Unique id of the environment.
+         * @property {String} name - A name for this environment. Must only consist
+         * of the letter A-Za-z0-9.
+         * @property {Object} values - A object of key-value pairs, which may be used
+         * as variables in requests.
+         */
+        self.Environment = function (dbObject) {
+            if (dbObject) {
+                Object.assign(this, dbObject);
+            } else {
+                this.name = '';
+                this.values = {};
+            }
+        };
+
+        self.putEnvironment = function (environment) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['environments'], function (transaction, objectStores) {
+                    return putEntityAndUpdateId(objectStores[0], environment);
+                });
+            });
+        };
+
+        self.getEnvironments = function () {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['environments'], function (transaction, objectStores) {
+                    return getAllEntities(objectStores[0], null, self.Environment);
+                });
+            });
+        };
+
+        self.deleteEnvironment = function (environment) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['environments'], function (transaction, objectStores) {
+                    return deleteEntity(objectStores[0], environment);
+                });
+            });
+        };
+
+
+        // -------------------------------------------------------
         // Change listeners
         // -------------------------------------------------------
 
@@ -381,14 +428,15 @@ angular.module('app')
 
         function openDatabase() {
             let dfd = $q.defer(),
-                request = $window.indexedDB.open('rester', 2);
+                request = $window.indexedDB.open('rester', 3);
 
             request.onupgradeneeded = function (event) {
                 let db = event.target.result,
                     requestsStore,
                     historyStore,
                     authProviderConfigsStore,
-                    authTokensStore;
+                    authTokensStore,
+                    environmentsStore;
 
                 db.onerror = function (event) {
                     dfd.reject('Error upgrading database: ' + event.target.errorCode);
@@ -406,6 +454,10 @@ angular.module('app')
                     authProviderConfigsStore.createIndex('providerId', 'providerId', {unique: false});
 
                     authTokensStore = db.createObjectStore('authTokens', {keyPath: 'id', autoIncrement: true});
+                }
+
+                if (event.oldVersion < 3) {
+                    environmentsStore = db.createObjectStore('environments', {keyPath: 'id', autoIncrement: true});
                 }
             };
 
