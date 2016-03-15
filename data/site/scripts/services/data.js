@@ -32,6 +32,7 @@ angular.module('app')
             if (dbObject) {
                 Object.assign(this, dbObject);
                 this.headers = migrateHeadersObjectToArray(this.headers);
+                self.variables = migrateVariablesObject(this.variables);
             } else {
                 this.collection = null;
                 this.title = null;
@@ -544,6 +545,18 @@ angular.module('app')
                     value: h[1]
                 }))
                 .value();
+        }
+
+        function migrateVariablesObject(variables) {
+            if (!variables) {
+                return {enabled: false};
+            } else {
+                if (!variables.hasOwnProperty('enabled')) {
+                    variables.enabled = false;
+                }
+
+                return variables;
+            }
         }
 
     }]);
