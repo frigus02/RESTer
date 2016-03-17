@@ -32,7 +32,7 @@ angular.module('app')
             if (dbObject) {
                 Object.assign(this, dbObject);
                 this.headers = migrateHeadersObjectToArray(this.headers);
-                self.variables = migrateVariablesObject(this.variables);
+                this.variables = migrateVariablesObject(this.variables);
             } else {
                 this.collection = null;
                 this.title = null;

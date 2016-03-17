@@ -1,7 +1,7 @@
 {
   "id": "rester@kuehle.me",
   "name": "rester",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "title": "RESTer",
   "description": "A REST client for almost any web service.",
   "homepage": "https://github.com/frigus02/RESTer",
