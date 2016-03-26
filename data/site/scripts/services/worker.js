@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$worker', ['$window', '$q', function ($window, $q) {
+    .factory('$worker', ['$window', '$q', function ($window, $q) {
 
         function SimpleWorker(workerScript) {
             return {

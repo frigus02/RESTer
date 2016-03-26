@@ -4,10 +4,10 @@
     if the active environment contains a value with the key <em>hostname</em>.
 </p>
 
-<md-radio-group ng-model="selectedEnvironment">
+<md-radio-group ng-model="settings.activeEnvironment">
     <div ng-repeat="env in environments | orderBy:'name' track by env.id"
         class="md-radio-button-row">
-        <md-radio-button ng-value="env">
+        <md-radio-button ng-value="env.id">
             <h3>{{env.name}}</h3>
             <p ng-repeat="(key, value) in env.values">
                 {{key}}: {{value}}
