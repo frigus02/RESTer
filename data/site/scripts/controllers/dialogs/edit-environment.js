@@ -6,13 +6,13 @@ angular.module('app')
 
             $scope.environment = environment || new $data.Environment();
             $scope.values = Object.keys($scope.environment.values).map(key => ({
-                name: key,
+                key: key,
                 value: $scope.environment.values[key]
             }));
 
             function ensureEmptyValue() {
-                if (!$scope.values.some(value => value.name.trim() === '' && value.value.trim() === '')) {
-                    $scope.values.push({name: '', value: ''});
+                if (!$scope.values.some(value => value.key.trim() === '' && value.value.trim() === '')) {
+                    $scope.values.push({key: '', value: ''});
                     return true;
                 } else {
                     return false;
@@ -32,8 +32,8 @@ angular.module('app')
             $scope.save = function () {
                 $scope.environment.values = {};
                 $scope.values.forEach(value => {
-                    if (value.name.trim() !== '') {
-                        $scope.environment.values[value.name] = value.value;
+                    if (value.key.trim() !== '') {
+                        $scope.environment.values[value.key] = value.value;
                     }
                 });
 

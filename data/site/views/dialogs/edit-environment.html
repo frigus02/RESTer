@@ -3,7 +3,7 @@
         <md-dialog-content class="md-dialog-content input-column">
             <div class="md-dialog-content-body" layout="column">
                 <md-input-container>
-                    <label>Name</label>
+                    <label>Environment</label>
                     <input name="name" type="text" ng-model="environment.name" required>
                     <div ng-messages="environmentForm.name.$error" ng-show="environmentForm.name.$touched">
                         <div ng-message="required">This is required!</div>
@@ -11,8 +11,8 @@
                 </md-input-container>
                 <div class="input-row" ng-repeat="value in values track by $index">
                     <md-input-container flex="35">
-                        <label>Name</label>
-                        <input type="text" ng-model="value.name">
+                        <label>Key</label>
+                        <input type="text" ng-model="value.key">
                     </md-input-container>
                     <md-input-container flex>
                         <label>Value</label>

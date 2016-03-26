@@ -14,7 +14,7 @@ angular.module('app')
                 $scope.environments = envs;
             });
 
-            function showEditEnvironment($event, env) {
+            function showEditEnvironmentDialog($event, env) {
                 $mdDialog.show({
                     targetEvent: $event,
                     templateUrl: 'views/dialogs/edit-environment.html',
@@ -41,11 +41,11 @@ angular.module('app')
             }
 
             $scope.addEnvironment = function ($event) {
-                showEditEnvironment($event);
+                showEditEnvironmentDialog($event);
             };
 
             $scope.editEnvironment = function ($event, environment) {
-                showEditEnvironment($event, environment);
+                showEditEnvironmentDialog($event, environment);
             };
 
         }

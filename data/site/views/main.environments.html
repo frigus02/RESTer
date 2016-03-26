@@ -1,7 +1,7 @@
 <p>
     Environments can be used to store a list of values, which are available as variables in requests
-    by the placeholder <code>{$env.&lt;name&gt;.&lt;value&gt;}</code>. Example: <code>{$env.dev.hostname}</code>
-    if you have an environment with the name <em>dev</em> and a value with the name <em>hostname</em> in it.
+    by using the placeholder <code>{$env.&lt;name&gt;}</code>. Example: <code>{$env.hostname}</code>
+    if the active environment contains a value with the key <em>hostname</em>.
 </p>
 
 <md-radio-group ng-model="selectedEnvironment">
