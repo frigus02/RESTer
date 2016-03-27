@@ -381,6 +381,14 @@ angular.module('app')
             });
         };
 
+        self.getEnvironment = function (id) {
+            return openDatabase().then(db => {
+                return createTransaction(db, ['environments'], function (transaction, objectStores) {
+                    return getEntity(objectStores[0], id, self.Environment);
+                });
+            });
+        };
+
         self.getEnvironments = function () {
             return openDatabase().then(db => {
                 return createTransaction(db, ['environments'], function (transaction, objectStores) {

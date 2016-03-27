@@ -29,11 +29,20 @@ navigation-list md-list-item .md-no-style.md-button {
     height: 48px;
 }
 
-navigation-list md-list-item .md-list-item-inner .navigation-list-item__text {
+.navigation-list-item__text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%
+    width: 100%;
+    line-height: 1.1em;
+}
+
+.navigation-list-item__subtitle {
+    font-size: 12px;
+    line-height: 1em;
+}
+md-list-item:not(.active) .navigation-list-item__subtitle {
+    color: rgba(255, 255, 255, .7);
 }
 
 

@@ -1,6 +1,38 @@
 'use strict';
 
 angular.module('app')
+
+    /**
+     * @ngdoc directive
+     * @name navigationList
+     *
+     * @description
+     * Renders a navigation with the specified list of items.
+     *
+     * Each item is an object with the mandatory properties `id` and `type`.
+     * Based on the type other properties are required.
+     *
+     * `divider`
+     * Renders a divider line.
+     *
+     * `subheader`
+     * Renders a header for navgation items.
+     * Requires: `title`
+     * Optional: `action` (inner properties: `icon`, `targetState`&`targetStateParams`|`targetAction`)
+     *
+     * `item`
+     * Renders a normal navigation item.
+     * Requires: `title`, `targetState`&`targetStateParams`|`targetAction`
+     * Optional: `subtitle`, `action` (inner properties: `icon`, `targetState`&`targetStateParams`|`targetAction`)
+     *
+     * `group`
+     * Renders an collapsed but expandable group of items.
+     * Requires: `title`, `items` (list of items with type "item")
+     *
+     * @param {items=} An array of items to show in the navigation.
+     * @param {itemClicked&} Callback, which is executed when an item was clicked.
+     */
+
     .directive('navigationList', ['$state', function ($state) {
 
         return {

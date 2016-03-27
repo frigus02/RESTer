@@ -7,7 +7,21 @@ angular.module('app')
             return 'rester.' + key;
         }
 
+        function fireListeners(listeners, ...args) {
+            listeners.forEach(l => {
+                l(...args);
+            });
+        }
+
         class Settings {
+            constructor () {
+                this.changeListeners = [];
+            }
+
+            addChangeListener (listener) {
+                this.changeListeners.push(listener);
+            }
+
             get (key, isJson) {
                 let value = $window.localStorage.getItem(prefixKey(key));
                 return isJson && value ? JSON.parse(value) : value;
@@ -19,11 +33,12 @@ angular.module('app')
             }
 
             get activeEnvironment () {
-                return this.get('active_environment');
+                return this.get('active_environment', true);
             }
 
             set activeEnvironment (value) {
-                this.set('active_environment', value);
+                this.set('active_environment', value, true);
+                fireListeners(this.changeListeners);
             }
         }
 

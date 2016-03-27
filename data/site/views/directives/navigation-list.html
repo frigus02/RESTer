@@ -13,7 +13,10 @@
     <md-list-item ng-if="item.type === 'item'"
         ng-click="invokeItem(item)"
         ng-class="{active: isItemActive(item)}">
-        <div class="navigation-list-item__text">{{item.title}}</div>
+        <div class="navigation-list-item__text">
+            <div class="navigation-list-item__title">{{item.title}}</div>
+            <div class="navigation-list-item__subtitle">{{item.subtitle}}</div>
+        </div>
     </md-list-item>
 
     <div ng-if="item.type === 'group'"

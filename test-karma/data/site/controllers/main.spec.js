@@ -12,6 +12,7 @@ describe('controller: MainCtrl', function () {
     let $mdSidenav;
     let $state;
     let $data;
+    let $settings;
     let $hotkeys;
     let $mdDialog;
 
@@ -19,9 +20,11 @@ describe('controller: MainCtrl', function () {
     let $mdSidenavInstance;
     let $dataGetRequestsDeferred;
     let $dataGetHistoryEntriesDeferred;
+    let $dataGetEnvironmentDeferred;
 
     let fakeRequests;
     let fakeHistoryEntries;
+    let fakeEnvironments;
 
     beforeEach(function () {
         dateFilter = jasmine.createSpy().and.returnValue('<formatteddate>');
@@ -49,12 +52,19 @@ describe('controller: MainCtrl', function () {
         };
         $dataGetRequestsDeferred = $q.defer();
         $dataGetHistoryEntriesDeferred = $q.defer();
+        $dataGetEnvironmentDeferred = $q.defer();
         $data = {
             Request: function () {},
             HistoryEntry: function () {},
+            Environment: function () {},
             getRequests: jasmine.createSpy().and.returnValue($dataGetRequestsDeferred.promise),
             getHistoryEntries: jasmine.createSpy().and.returnValue($dataGetHistoryEntriesDeferred.promise),
+            getEnvironment: jasmine.createSpy().and.returnValue($dataGetEnvironmentDeferred.promise),
             addChangeListener: jasmine.createSpy()
+        };
+        $settings = {
+            addChangeListener: jasmine.createSpy(),
+            activeEnvironment: 1
         };
         $hotkeys = {
             Hotkey: function (props) {
@@ -78,11 +88,14 @@ describe('controller: MainCtrl', function () {
             Object.assign(new $data.HistoryEntry(), {id: 42, time: new Date('2016-02-18T15:03:00Z'), request: fakeRequests[2]}),
             Object.assign(new $data.HistoryEntry(), {id: 41, time: new Date('2016-02-18T15:01:00Z'), request: fakeRequests[2]})
         ];
+        fakeEnvironments = [
+            Object.assign(new $data.Environment(), {id: 1, name: 'dev', values: {}})
+        ];
     });
 
 
     beforeEach(function () {
-        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $data: $data, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog });
+        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $data: $data, $settings: $settings, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog });
     });
 
 
@@ -97,9 +110,11 @@ describe('controller: MainCtrl', function () {
         expect($data.getRequests).toHaveBeenCalledTimes(1);
         expect($data.getHistoryEntries).toHaveBeenCalledTimes(1);
         expect($data.getHistoryEntries).toHaveBeenCalledWith(-5);
+        expect($data.getEnvironment).toHaveBeenCalledWith($settings.activeEnvironment);
 
         $dataGetRequestsDeferred.resolve(fakeRequests);
         $dataGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
+        $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
         expect($scope.navItems.length).toBe(13);
@@ -108,7 +123,7 @@ describe('controller: MainCtrl', function () {
         expect($scope.navItems[2]).toEqual(jasmine.objectContaining({id: 'requestcollection:JSONPlaceholder', type: 'group'}));
         expect($scope.navItems[3]).toEqual(jasmine.objectContaining({id: 'divider:settings', type: 'divider'}));
         expect($scope.navItems[4]).toEqual(jasmine.objectContaining({id: 'settings', type: 'subheader'}));
-        expect($scope.navItems[5]).toEqual(jasmine.objectContaining({id: 'environments', type: 'item'}));
+        expect($scope.navItems[5]).toEqual(jasmine.objectContaining({id: 'environments', type: 'item', subtitle: fakeEnvironments[0].name}));
         expect($scope.navItems[6]).toEqual(jasmine.objectContaining({id: 'divider:history', type: 'divider'}));
         expect($scope.navItems[7]).toEqual(jasmine.objectContaining({id: 'history', type: 'subheader'}));
         expect($scope.navItems[8]).toEqual(jasmine.objectContaining({id: 'historyentry:45', type: 'item', title: '<formatteddate> GET http://jsonplaceholder.com/posts'}));
@@ -118,13 +133,16 @@ describe('controller: MainCtrl', function () {
         // Create initial navigation items.
         $dataGetRequestsDeferred.resolve([]);
         $dataGetHistoryEntriesDeferred.resolve([]);
+        $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
         // Check preconditions.
         expect($scope.navItems.length).toEqual(6);
         expect($data.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
-        let changeListener = $data.addChangeListener.calls.argsFor(0)[0];
+        let changeListener = $data.addChangeListener.calls.argsFor(0)[0],
+            settingsChangeListener = $settings.addChangeListener.calls.argsFor(0)[0],
+            envItem = $scope.navItems.find(item => item.id === 'environments');
 
         // Add some requests and history entries.
         changeListener([
@@ -169,6 +187,21 @@ describe('controller: MainCtrl', function () {
         ]);
 
         expect($scope.navItems.length).toEqual(12);
+
+        // Should handle name changes of the active environment
+        fakeEnvironments[0].name = 'prod';
+        changeListener([
+            {action: 'put', item: fakeEnvironments[0]}
+        ]);
+
+        expect(envItem.subtitle).toBe(fakeEnvironments[0].name);
+
+        // Should handle change of active environment
+        $settings.activeEnvironment = null;
+        settingsChangeListener();
+        $rootScope.$apply();
+
+        expect(envItem.subtitle).not.toBeDefined();
     });
 
     it('toggles the sidenav on toggleSidenav', function () {

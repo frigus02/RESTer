@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$q', '$filter', '$hotkeys', '$mdDialog',
-        function ($scope, $rootScope, $mdSidenav, $state, $data, $q, $filter, $hotkeys, $mdDialog) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog',
+        function ($scope, $rootScope, $mdSidenav, $state, $data, $settings, $q, $filter, $hotkeys, $mdDialog) {
 
             $scope.navItems = [];
 
@@ -14,8 +14,9 @@ angular.module('app')
             function createNavigation() {
                 $q.all([
                     $data.getRequests(),
-                    $data.getHistoryEntries(-5)
-                ]).then(([requests, historyEntries]) => {
+                    $data.getHistoryEntries(-5),
+                    getActiveEnvironment()
+                ]).then(([requests, historyEntries, activeEnvironment]) => {
                     $scope.navItems = [];
 
                     $scope.navItems.push({
@@ -53,6 +54,7 @@ angular.module('app')
                         id: 'environments',
                         type: 'item',
                         title: 'Environments',
+                        subtitle: activeEnvironment && activeEnvironment.name,
                         targetState: 'main.environments'
                     }, {
                         id: 'divider:history',
@@ -78,7 +80,6 @@ angular.module('app')
                     id: 'requestcollection:' + collection,
                     type: 'group',
                     title: collection,
-                    expanded: null,
                     items: []
                 };
             }
@@ -108,7 +109,7 @@ angular.module('app')
                 };
             }
 
-            function updateNavigation(changes) {
+            function updateNavigationBasedOnDataChanges(changes) {
                 changes.forEach(change => {
                     if (change.item instanceof $data.Request) {
                         if (change.action === 'put' || change.action === 'delete') {
@@ -145,8 +146,16 @@ angular.module('app')
                                 historyNavItems.pop();
                             }
                         }
+                    } else if (change.item instanceof $data.Environment) {
+                        if (change.item.id === $settings.activeEnvironment) {
+                            updateEnvironmentNavItemSubtitle(change.item);
+                        }
                     }
                 });
+            }
+
+            function updateNavigationBasedOnSettingsChanges() {
+                getActiveEnvironment().then(updateEnvironmentNavItemSubtitle);
             }
 
             function removeRequestNavigationItem(requestId) {
@@ -167,8 +176,23 @@ angular.module('app')
                 }
             }
 
+            function getActiveEnvironment() {
+                let envId = $settings.activeEnvironment;
+                if (envId) {
+                    return $data.getEnvironment(envId);
+                } else {
+                    return $q.resolve();
+                }
+            }
+
+            function updateEnvironmentNavItemSubtitle(env) {
+                let envItem = $scope.navItems.find(item => item.id === 'environments');
+                envItem.subtitle = env && env.name;
+            }
+
             createNavigation();
-            $data.addChangeListener(updateNavigation);
+            $data.addChangeListener(updateNavigationBasedOnDataChanges);
+            $settings.addChangeListener(updateNavigationBasedOnSettingsChanges);
 
 
             $scope.toggleSidenav = function (menuId) {
