@@ -141,7 +141,6 @@ describe('controller: MainCtrl', function () {
         expect($data.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
         let changeListener = $data.addChangeListener.calls.argsFor(0)[0],
-            settingsChangeListener = $settings.addChangeListener.calls.argsFor(0)[0],
             envItem = $scope.navItems.find(item => item.id === 'environments');
 
         // Add some requests and history entries.
@@ -195,6 +194,21 @@ describe('controller: MainCtrl', function () {
         ]);
 
         expect(envItem.subtitle).toBe(fakeEnvironments[0].name);
+    });
+
+    it('updates navigation items on settings change', function () {
+        // Create initial navigation items.
+        $dataGetRequestsDeferred.resolve([]);
+        $dataGetHistoryEntriesDeferred.resolve([]);
+        $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+        $rootScope.$apply();
+
+        // Check preconditions.
+        expect($scope.navItems.length).toEqual(6);
+        expect($settings.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
+
+        let settingsChangeListener = $settings.addChangeListener.calls.argsFor(0)[0],
+            envItem = $scope.navItems.find(item => item.id === 'environments');
 
         // Should handle change of active environment
         $settings.activeEnvironment = null;
