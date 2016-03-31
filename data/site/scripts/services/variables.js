@@ -6,6 +6,21 @@ angular.module('app')
 
         let self = this;
 
+        self.$$providers = [];
+
+        self.getProvidedValues = function () {
+            let values = {};
+            for (let provider of self.$$providers) {
+                for (let key in provider.values) {
+                    if (provider.values.hasOwnProperty(key)) {
+                        values[`$${provider.name}.${key}`] = provider.values[key];
+                    }
+                }
+            }
+
+            return values;
+        };
+
         self.extract = function (obj) {
             let vars = [];
 
@@ -24,10 +39,11 @@ angular.module('app')
         };
 
         self.replace = function (obj, values) {
+            let providedValues = self.getProvidedValues();
             if (typeof obj === 'string') {
                 obj = obj.replace(RE_VARS, match => {
                     let varName = match.substr(1, match.length - 2);
-                    return values[varName];
+                    return providedValues[varName] || values[varName];
                 });
             } else if (typeof obj === 'object' && obj !== null) {
                 obj = _.clone(obj);
@@ -38,4 +54,5 @@ angular.module('app')
 
             return obj;
         };
+
     }]);

@@ -15,3 +15,9 @@
         <input type="text" ng-model="values[variable]" ng-disabled="!enabled">
     </md-input-container>
 </div>
+<div class="input-row" ng-repeat="variable in providedVarNames | orderBy:'+'">
+    <md-input-container flex>
+        <label>{{variable}}</label>
+        <input type="text" ng-model="providedValues[variable]" ng-disabled="true">
+    </md-input-container>
+</div>

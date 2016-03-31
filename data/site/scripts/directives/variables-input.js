@@ -15,9 +15,15 @@ angular.module('app')
             templateUrl: 'views/directives/variables-input.html',
             controller: function ($scope) {
                 $scope.varNames = [];
+                $scope.providedVarNames = [];
+                $scope.providedValues = {};
 
                 $scope.$watch('values', function () {
                     Object.assign(cachedValues, $scope.values);
+                }, true);
+
+                $scope.$watch($variables.getProvidedValues, function (values) {
+                    $scope.providedValues = values;
                 }, true);
 
                 $scope.$watchCollection('varNames', function () {
@@ -30,7 +36,9 @@ angular.module('app')
 
                 $scope.$watch('sourceObj', _.debounce(function () {
                     $scope.$applyAsync(function () {
-                        $scope.varNames = $variables.extract($scope.sourceObj);
+                        let varNames = $variables.extract($scope.sourceObj);
+                        $scope.varNames = varNames.filter(n => !n.startsWith('$'));
+                        $scope.providedVarNames = varNames.filter(n => n.startsWith('$'));
                     });
                 }, 300), true);
             }

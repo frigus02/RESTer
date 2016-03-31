@@ -58,12 +58,17 @@ angular
                 .accentPalette('amber');
         }
     ])
-    .run(['$authorization', '$authorizationProviderCustom', '$authorizationProviderBasic', '$authorizationProviderOAuth2',
-        function ($authorization, $authorizationProviderCustom, $authorizationProviderBasic, $authorizationProviderOAuth2) {
+    .run([
+        '$authorization', '$authorizationProviderCustom', '$authorizationProviderBasic', '$authorizationProviderOAuth2',
+        '$variables', '$variablesProviderEnv',
+        function ($authorization, $authorizationProviderCustom, $authorizationProviderBasic, $authorizationProviderOAuth2,
+                  $variables, $variablesProviderEnv) {
             $authorization.$$providers.push(
                 $authorizationProviderCustom,
                 $authorizationProviderBasic,
-                $authorizationProviderOAuth2
-            );
+                $authorizationProviderOAuth2);
+
+            $variables.$$providers.push(
+                $variablesProviderEnv);
         }
     ]);
