@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog',
-        function ($scope, $rootScope, $mdSidenav, $state, $data, $settings, $q, $filter, $hotkeys, $mdDialog) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog', '$variables',
+        function ($scope, $rootScope, $mdSidenav, $state, $data, $settings, $q, $filter, $hotkeys, $mdDialog, $variables) {
 
             $scope.navItems = [];
 
@@ -53,7 +53,7 @@ angular.module('app')
                     }, {
                         id: 'environments',
                         type: 'item',
-                        title: 'Environments',
+                        title: 'Environment',
                         subtitle: activeEnvironment && activeEnvironment.name,
                         targetState: 'main.environments'
                     }, {
@@ -97,10 +97,21 @@ angular.module('app')
             }
 
             function createHistoryNavItem(historyEntry) {
+                let requestTitle = '';
+                if (historyEntry.request.id) {
+                    requestTitle = `${historyEntry.request.collection} / ${historyEntry.request.title}`;
+                }
+
+                let compiledRequest = historyEntry.request;
+                if (historyEntry.request.variables.enabled) {
+                    compiledRequest = $variables.replace(historyEntry.request, historyEntry.request.variables.values);
+                }
+
                 return {
                     id: 'historyentry:' + historyEntry.id,
                     type: 'item',
-                    title: `${$filter('date')(historyEntry.time, 'HH:mm:ss')} ${historyEntry.request.method} ${historyEntry.request.url}`,
+                    title: `${$filter('date')(historyEntry.time, 'HH:mm:ss')} ${requestTitle}`,
+                    subtitle: `${compiledRequest.method} ${compiledRequest.url}`,
                     targetState: 'main.request.existing.history',
                     targetStateParams: {
                         id: historyEntry.request.id,

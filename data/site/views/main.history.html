@@ -7,7 +7,7 @@
             <h3>{{entry.time | date:'yyyy-MM-dd HH:mm:ss'}}</h3>
             <h4 ng-if="entry.request.id">{{entry.request.collection}} / {{entry.request.title}}</h4>
             <p>
-                {{entry.request.method}} {{entry.request.url}}<br>
+                {{getCompiledRequestLine(entry)}}<br>
                 {{entry.response.status}} {{entry.response.statusText}}
             </p>
         </div>

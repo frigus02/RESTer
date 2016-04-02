@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .controller('HistoryCtrl', ['$scope', '$state', '$data', function ($scope, $state, $data) {
+    .controller('HistoryCtrl', ['$scope', '$state', '$data', '$variables', function ($scope, $state, $data, $variables) {
 
         $state.current.data = {
             title: 'History'
@@ -13,6 +13,15 @@ angular.module('app')
         $data.getHistoryEntries(-$scope.initialCount).then(entries => {
             $scope.historyEntries = entries;
         });
+
+        $scope.getCompiledRequestLine = function (entry) {
+            let compiledRequest = entry.request;
+            if (entry.request.variables.enabled) {
+                compiledRequest = $variables.replace(entry.request, entry.request.variables.values);
+            }
+
+            return `${compiledRequest.method} ${compiledRequest.url}`;
+        };
 
         $scope.loadAll = function () {
             $data.getHistoryEntries().then(entries => {

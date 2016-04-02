@@ -15,6 +15,7 @@ describe('controller: MainCtrl', function () {
     let $settings;
     let $hotkeys;
     let $mdDialog;
+    let $variables;
 
     let dateFilter;
     let $mdSidenavInstance;
@@ -74,19 +75,23 @@ describe('controller: MainCtrl', function () {
             add: jasmine.createSpy()
         };
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['show']);
+        $variables = {
+            replace: jasmine.createSpy().and.returnValue({})
+        };
 
         fakeRequests = [
-            Object.assign(new $data.Request(), {id: 1, collection: 'JSONPlaceholder', title: 'Get Posts', method: 'GET', url: 'http://jsonplaceholder.com/posts'}),
-            Object.assign(new $data.Request(), {id: 5, collection: 'JSONPlaceholder', title: 'Create Post',  method: 'POST', url: 'http://jsonplaceholder.com/posts'}),
-            Object.assign(new $data.Request(), {id: 6, collection: 'Google', title: 'Get Profile',  method: 'GET', url: 'https://api.googleapis.com/profile'})
+            Object.assign(new $data.Request(), {id: 1, collection: 'JSONPlaceholder', title: 'Get Posts', method: 'GET', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}}),
+            Object.assign(new $data.Request(), {id: 5, collection: 'JSONPlaceholder', title: 'Create Post',  method: 'POST', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}}),
+            Object.assign(new $data.Request(), {id: 6, collection: 'Google', title: 'Get Profile',  method: 'GET', url: 'https://api.googleapis.com/profile', variables: {enabled: false}}),
+            Object.assign(new $data.Request(), {id: 1, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}})
         ];
         fakeHistoryEntries = [
-            Object.assign(new $data.HistoryEntry(), {id: 46, time: new Date('2016-02-21T12:50:00Z'), request: fakeRequests[0]}),
+            Object.assign(new $data.HistoryEntry(), {id: 46, time: new Date('2016-02-21T12:50:00Z'), request: Object.assign(new $data.Request(), {method: 'GET', url: 'http://google.com', variables: {enabled: false}})}),
             Object.assign(new $data.HistoryEntry(), {id: 45, time: new Date('2016-02-21T12:43:00Z'), request: fakeRequests[0]}),
             Object.assign(new $data.HistoryEntry(), {id: 44, time: new Date('2016-02-21T12:40:00Z'), request: fakeRequests[1]}),
             Object.assign(new $data.HistoryEntry(), {id: 43, time: new Date('2016-02-21T12:39:00Z'), request: fakeRequests[0]}),
             Object.assign(new $data.HistoryEntry(), {id: 42, time: new Date('2016-02-18T15:03:00Z'), request: fakeRequests[2]}),
-            Object.assign(new $data.HistoryEntry(), {id: 41, time: new Date('2016-02-18T15:01:00Z'), request: fakeRequests[2]})
+            Object.assign(new $data.HistoryEntry(), {id: 41, time: new Date('2016-02-18T15:01:00Z'), request: fakeRequests[3]})
         ];
         fakeEnvironments = [
             Object.assign(new $data.Environment(), {id: 1, name: 'dev', values: {}})
@@ -95,7 +100,7 @@ describe('controller: MainCtrl', function () {
 
 
     beforeEach(function () {
-        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $data: $data, $settings: $settings, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog });
+        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $data: $data, $settings: $settings, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog, $variables: $variables });
     });
 
 
@@ -117,6 +122,8 @@ describe('controller: MainCtrl', function () {
         $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
+        expect($variables.replace).toHaveBeenCalledWith(fakeRequests[3], fakeRequests[3].variables.values);
+
         expect($scope.navItems.length).toBe(13);
         expect($scope.navItems[0]).toEqual(jasmine.objectContaining({id: 'requests', type: 'subheader'}));
         expect($scope.navItems[1]).toEqual(jasmine.objectContaining({id: 'requestcollection:Google', type: 'group'}));
@@ -126,7 +133,8 @@ describe('controller: MainCtrl', function () {
         expect($scope.navItems[5]).toEqual(jasmine.objectContaining({id: 'environments', type: 'item', subtitle: fakeEnvironments[0].name}));
         expect($scope.navItems[6]).toEqual(jasmine.objectContaining({id: 'divider:history', type: 'divider'}));
         expect($scope.navItems[7]).toEqual(jasmine.objectContaining({id: 'history', type: 'subheader'}));
-        expect($scope.navItems[8]).toEqual(jasmine.objectContaining({id: 'historyentry:45', type: 'item', title: '<formatteddate> GET http://jsonplaceholder.com/posts'}));
+        expect($scope.navItems[8]).toEqual(jasmine.objectContaining({id: 'historyentry:45', type: 'item', title: '<formatteddate> JSONPlaceholder / Get Posts', subtitle: 'GET http://jsonplaceholder.com/posts'}));
+        expect($scope.navItems[12]).toEqual(jasmine.objectContaining({id: 'historyentry:41', type: 'item', title: '<formatteddate> JSONPlaceholder / Get Post', subtitle: 'undefined undefined'}));
     });
 
     it('updates navigation items on data change', function () {

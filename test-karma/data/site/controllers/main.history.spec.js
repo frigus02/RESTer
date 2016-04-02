@@ -9,6 +9,7 @@ describe('controller: HistoryCtrl', function () {
     let $scope;
     let $state;
     let $data;
+    let $variables;
     let $dataGetHistoryEntriesDeferred;
     let $dataDeleteHistoryEntryDeferred;
 
@@ -30,11 +31,14 @@ describe('controller: HistoryCtrl', function () {
             getHistoryEntries: jasmine.createSpy().and.returnValue($dataGetHistoryEntriesDeferred.promise),
             deleteHistoryEntry: jasmine.createSpy().and.returnValue($dataDeleteHistoryEntryDeferred.promise)
         };
+        $variables = {
+            replace: jasmine.createSpy().and.returnValue({})
+        };
     });
 
 
     beforeEach(function () {
-        $controller('HistoryCtrl', { $scope: $scope, $state: $state, $data: $data });
+        $controller('HistoryCtrl', { $scope: $scope, $state: $state, $data: $data, $variables: $variables });
     });
 
 
@@ -51,6 +55,30 @@ describe('controller: HistoryCtrl', function () {
         $rootScope.$apply();
 
         expect($scope.historyEntries).toEqual(entries);
+    });
+
+    it('compiles request using $variables service, when variables is enabled', function () {
+        let entry = {
+            request: {
+                method: 'GET',
+                url: 'test',
+                variables: {
+                    enabled: false,
+                    values: {
+                        id: '123'
+                    }
+                }
+            }
+        };
+
+        let result1 = $scope.getCompiledRequestLine(entry);
+        expect(result1).toBe('GET test');
+        expect($variables.replace).not.toHaveBeenCalled();
+
+        entry.request.variables.enabled = true;
+        let result2 = $scope.getCompiledRequestLine(entry);
+        expect(result2).toBe('undefined undefined');
+        expect($variables.replace).not.toHaveBeenCalledWith(entry, entry.request.variables.values);
     });
 
     it('gets all history entries on loadAll', function () {

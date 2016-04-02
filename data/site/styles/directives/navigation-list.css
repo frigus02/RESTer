@@ -37,6 +37,11 @@ navigation-list md-list-item .md-no-style.md-button {
     line-height: 1.1em;
 }
 
+.navigation-list-item__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .navigation-list-item__subtitle {
     font-size: 12px;
     line-height: 1em;
