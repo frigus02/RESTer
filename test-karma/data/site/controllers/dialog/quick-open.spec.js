@@ -11,7 +11,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
     let $data;
     let $dataGetRequestsDeferred;
     let $state;
-    let LiquidMetalScore;
+    let string_score;
 
     beforeEach(inject(function (_$controller_, _$q_, _$rootScope_) {
         $controller = _$controller_;
@@ -30,7 +30,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
         $state = {
             go: jasmine.createSpy()
         };
-        LiquidMetalScore = spyOn(window.LiquidMetal, 'score').and.callThrough();
+        string_score = spyOn(String.prototype, 'score').and.callThrough();
     });
 
     beforeEach(function () {
@@ -46,7 +46,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
     it('waits for getRequests promise on queryItems', function () {
         let result = $scope.queryItems('po');
 
-        expect(LiquidMetalScore).not.toHaveBeenCalled();
+        expect(string_score).not.toHaveBeenCalled();
         expect(result.$$state.status).toBe(0);
 
         $dataGetRequestsDeferred.resolve([
@@ -57,10 +57,10 @@ describe('controller: DialogQuickOpenCtrl', function () {
         ]);
         $rootScope.$apply();
 
-        expect(LiquidMetalScore).toHaveBeenCalled();
+        expect(string_score).toHaveBeenCalled();
         expect(result.$$state.status).toBe(1);
         expect(result.$$state.value.length).toBe(3);
-        expect(result.$$state.value[0].title).toBe('JsonPlaceholder / Create Post');
+        expect(result.$$state.value[0].title).toBe('Google / Get User Profile');
     });
 
     it('waits for getRequests promise on queryItems', function () {
@@ -72,7 +72,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
 
         let result = $scope.queryItems('GoogTa');
 
-        expect(LiquidMetalScore).toHaveBeenCalled();
+        expect(string_score).toHaveBeenCalled();
         expect(result.length).toBe(1);
         expect(result[0].title).toBe('Google / Get Tasks');
     });

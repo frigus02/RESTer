@@ -9,10 +9,10 @@
     "angular-material": "1.0.5",
     "angular-messages": "1.5.3",
     "angular-ui-codemirror": "0.3.0",
-    "liquidmetal": "1.3.0",
     "lodash": "4.6.1",
     "mousetrap": "1.5.3",
-    "ui-router": "0.2.18"
+    "ui-router": "0.2.18",
+    "string_score": "joshaven/string_score#^0.1.22"
   },
   "devDependencies": {
     "angular-mocks": "1.5.3"

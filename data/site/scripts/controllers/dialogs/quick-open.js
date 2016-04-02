@@ -16,7 +16,7 @@ angular.module('app')
 
             function doQueryItems(query) {
                 items.forEach(i => {
-                    i.score = LiquidMetal.score(i.title, query);
+                    i.score = i.title.score(query);
                     i.formattedScore = Math.round(i.score * 1000);
                 });
 
