@@ -38,17 +38,19 @@ angular.module('app')
             return _.union(...vars);
         };
 
-        self.replace = function (obj, values) {
+        self.replace = function (obj, values, usedValues = {}) {
             let providedValues = self.getProvidedValues();
             if (typeof obj === 'string') {
                 obj = obj.replace(RE_VARS, match => {
-                    let varName = match.substr(1, match.length - 2);
-                    return providedValues[varName] || values[varName];
+                    let varName = match.substr(1, match.length - 2),
+                        value = providedValues[varName] || values[varName];
+                    usedValues[varName] = value;
+                    return value;
                 });
             } else if (typeof obj === 'object' && obj !== null) {
                 obj = _.clone(obj);
                 Object.keys(obj).forEach(key => {
-                    obj[key] = self.replace(obj[key], values);
+                    obj[key] = self.replace(obj[key], values, usedValues);
                 });
             }
 

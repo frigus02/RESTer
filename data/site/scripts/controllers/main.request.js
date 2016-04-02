@@ -102,33 +102,35 @@ angular.module('app')
             $scope.sendRequest = function () {
                 if (!$scope.requestForm.$valid) return;
 
-                let compiledRequest = $scope.request;
+                let compiledRequest = $scope.request,
+                    usedVariableValues = {};
                 if ($scope.request.variables.enabled) {
-                    compiledRequest = $variables.replace($scope.request, $scope.requestVariableValues);
+                    compiledRequest = $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
                 }
 
                 $scope.requestIsSending = true;
                 $rester.sendRequest(compiledRequest)
                     .then(plainResponse => {
-                        $scope.requestIsSending = false;
-
                         let requestClone = _.cloneDeep($scope.request);
-                        requestClone.variables.values = $scope.requestVariableValues;
+                        requestClone.variables.values = usedVariableValues;
 
-                        $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
+                        return $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
                             time: new Date(),
                             request: requestClone,
                             response: new $data.Response(plainResponse)
-                        })).then(historyId => {
-                            $state.go('main.request.existing.history', {
-                                id: $scope.request.id,
-                                historyId: historyId
-                            });
+                        }));
+                    })
+                    .then(historyId => {
+                        $state.go('main.request.existing.history', {
+                            id: $scope.request.id,
+                            historyId: historyId
                         });
                     })
                     .catch(e => {
-                        $scope.requestIsSending = false;
                         $error.show(e);
+                    })
+                    .finally(() => {
+                        $scope.requestIsSending = false;
                     });
             };
 
