@@ -10,6 +10,11 @@ const self = require('sdk/self'),
       customBrowserRequest = require('lib/browser-request');
 
 let api = {
+    getInfo () {
+        return Promise.resolve({
+            version: self.version
+        });
+    },
     sendRequest (request) {
         return customRequest.send(request);
     },

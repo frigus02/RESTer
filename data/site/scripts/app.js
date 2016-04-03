@@ -50,6 +50,11 @@ angular
                     url: 'history',
                     templateUrl: 'views/main.history.html',
                     controller: 'HistoryCtrl'
+                })
+                .state('main.about', {
+                    url: 'about',
+                    templateUrl: 'views/main.about.html',
+                    controller: 'AboutCtrl'
                 });
 
             $mdThemingProvider.theme('default')

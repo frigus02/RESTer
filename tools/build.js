@@ -1,5 +1,8 @@
 'use strict';
 
-const copyBower = require('./lib/copy-bower');
+const copyBower = require('./lib/copy-bower'),
+      fillAbout = require('./lib/fill-about');
 
-copyBower().catch(console.error);
+copyBower()
+    .then(fillAbout)
+    .catch(console.error);

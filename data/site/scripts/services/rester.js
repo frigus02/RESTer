@@ -35,6 +35,10 @@ angular.module('app')
             return dfd.promise;
         }
 
+        self.getInfo = function () {
+            return sendResterApiRequest('getInfo');
+        };
+
         self.sendRequest = function (request) {
             return sendResterApiRequest('sendRequest', request);
         };
