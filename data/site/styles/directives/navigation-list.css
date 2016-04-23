@@ -52,7 +52,7 @@ md-list-item:not(.active) .navigation-list-item__subtitle {
 
 
 .navigation-list-itemgroup .navigation-list-itemgroup__icon {
-    transition: transform 0.5s ease;
+    transition: transform 0.25s ease;
 }
 
 .navigation-list-itemgroup.expanded .navigation-list-itemgroup__icon {
@@ -62,7 +62,7 @@ md-list-item:not(.active) .navigation-list-item__subtitle {
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems {
     height: 0;
     overflow: hidden;
-    transition: height 0.5s ease;
+    transition: height 0.25s ease;
 }
 
 .navigation-list-itemgroup .navigation-list-itemgroup__subitems md-list-item,
