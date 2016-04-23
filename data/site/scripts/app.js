@@ -41,6 +41,11 @@ angular
                         historyId: null
                     }
                 })
+                .state('main.settings', {
+                    url: 'settings',
+                    templateUrl: 'views/main.settings.html',
+                    controller: 'SettingsCtrl'
+                })
                 .state('main.environments', {
                     url: 'environments',
                     templateUrl: 'views/main.environments.html',

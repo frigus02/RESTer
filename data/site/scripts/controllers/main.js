@@ -49,7 +49,11 @@ angular.module('app')
                     }, {
                         id: 'settings',
                         type: 'subheader',
-                        title: 'Settings'
+                        title: 'Settings',
+                        action: {
+                            icon: 'settings',
+                            targetState: 'main.settings'
+                        }
                     }, {
                         id: 'environments',
                         type: 'item',

@@ -1,9 +1,12 @@
-md-input-container .input-description {
-    box-sizing: border-box;
+.hint {
     font-size: 12px;
     line-height: 14px;
-    padding-top: 5px;
     color: rgba(255, 255, 255, .7);
+}
+
+md-input-container .hint {
+    box-sizing: border-box;
+    padding-top: 5px;
     margin-top: 0;
     clear: left;
     position: relative;

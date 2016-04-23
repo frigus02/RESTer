@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables',
-        function ($scope, $state, $rootScope, $rester, $data, $mdDialog, $error, $filter, $hotkeys, $variables) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$settings', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables',
+        function ($scope, $state, $rootScope, $rester, $data, $settings, $mdDialog, $error, $filter, $hotkeys, $variables) {
 
             $state.current.data = {
                 actions: [
@@ -104,8 +104,13 @@ angular.module('app')
 
                 let compiledRequest = $scope.request,
                     usedVariableValues = {};
+
                 if ($scope.request.variables.enabled) {
                     compiledRequest = $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
+                }
+
+                if ($settings.stripDefaultHeaders) {
+                    compiledRequest.stripDefaultHeaders = true;
                 }
 
                 $scope.requestIsSending = true;

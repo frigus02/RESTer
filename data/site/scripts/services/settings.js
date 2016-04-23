@@ -22,22 +22,31 @@ angular.module('app')
                 this.changeListeners.push(listener);
             }
 
-            get (key, isJson) {
+            _get (key, isJson) {
                 let value = $window.localStorage.getItem(prefixKey(key));
                 return isJson && value ? JSON.parse(value) : value;
             }
 
-            set (key, value, isJson) {
+            _set (key, value, isJson) {
                 let preparedValue = isJson ? JSON.stringify(value) : value;
                 $window.localStorage.setItem(prefixKey(key), preparedValue);
             }
 
             get activeEnvironment () {
-                return this.get('active_environment', true);
+                return this._get('active_environment', true);
             }
 
             set activeEnvironment (value) {
-                this.set('active_environment', value, true);
+                this._set('active_environment', value, true);
+                fireListeners(this.changeListeners);
+            }
+
+            get stripDefaultHeaders () {
+                return !!this._get('strip_default_headers', true);
+            }
+
+            set stripDefaultHeaders (value) {
+                this._set('strip_default_headers', !!value, true);
                 fireListeners(this.changeListeners);
             }
         }

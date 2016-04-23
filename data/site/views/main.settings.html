@@ -1,0 +1,9 @@
+<md-switch ng-model="settings.stripDefaultHeaders">
+    Strip default headers
+</md-switch>
+<div class="hint">
+    RESTer uses the browser to send requests, which will add a couple of default
+    headers to requests like <code>Accept</code>, <code>Accept-Encoding</code>
+    or <code>User-Agent</code>. When you enable this option, RESTer will strip
+    these headers unless they are explicitly provided in a request.
+</div>
