@@ -1,6 +1,7 @@
 .editorconfig
 .git/
 bower_components/
+docs/
 node_modules/
 resources/
 test/
@@ -13,7 +14,6 @@ tools/
 .jshintrc
 bower.json
 karma.conf.js
-OAUTH2-EXAMPLE-CONFIGS.md
 *.sublime-workspace
 *.sublime-project
 *.xpi
