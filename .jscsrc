@@ -9,5 +9,7 @@
         "catch"
     ],
     "requireVarDeclFirst": false,
-    "disallowDanglingUnderscores": false
+    "disallowDanglingUnderscores": false,
+    "disallowUnusedVariables": true,
+    "requireUseStrict": true
 }
