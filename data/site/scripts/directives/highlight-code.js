@@ -14,12 +14,14 @@ angular.module('app')
             controller: function ($scope) {
                 $scope.settings = {
                     format: true,
-                    wrap: true
+                    wrap: true,
+                    preview: false
                 };
                 $scope.isHighlighting = false;
                 $scope.highlightedLanguage = '';
                 $scope.highlightedCode = '';
                 $scope.highlightedFormattedCode = '';
+                $scope.isPreviewSupported = false;
 
                 let lastHighlightCodeWorker;
                 let highlightCodeDebounced = _.debounce(() => {
@@ -50,6 +52,10 @@ angular.module('app')
                     }
 
                     highlightCodeDebounced();
+                });
+
+                $scope.$watch('highlightedLanguage', () => {
+                    $scope.isPreviewSupported = $scope.highlightedLanguage === 'html';
                 });
 
                 $scope.changeLanguage = function () {

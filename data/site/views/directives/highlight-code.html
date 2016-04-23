@@ -15,6 +15,11 @@
                     <md-icon ng-style="{'visibility': settings.format ? 'visible' : 'hidden'}">check</md-icon> Format
                 </md-button>
             </md-menu-item>
+            <md-menu-item ng-show="isPreviewSupported">
+                <md-button ng-click="settings.preview = !settings.preview">
+                    <md-icon ng-style="{'visibility': settings.preview ? 'visible' : 'hidden'}">check</md-icon> Preview
+                </md-button>
+            </md-menu-item>
             <md-menu-divider></md-menu-divider>
             <md-menu-item>
                 <md-button ng-click="changeLanguage()">
@@ -23,7 +28,8 @@
             </md-menu-item>
         </md-menu-content>
     </md-menu>
-    <pre ng-class="{'wrap': settings.wrap}"><code
+    <pre ng-if="!isPreviewSupported || !settings.preview" ng-class="{'wrap': settings.wrap}"><code
         class="hljs language-{{highlightedLanguage}}"
         ng-bind-html="settings.format && highlightedFormattedCode ? highlightedFormattedCode : highlightedCode"></code></pre>
+    <div ng-if="isPreviewSupported && settings.preview" ng-bind-html="code"></div>
 </div>

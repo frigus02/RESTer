@@ -6,6 +6,7 @@ angular
         'ngAria',
         'ngMaterial',
         'ngMessages',
+        'ngSanitize',
         'ui.router',
         'ui.codemirror',
         'angular-jwt'
