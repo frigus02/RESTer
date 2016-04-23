@@ -37,3 +37,37 @@ md-select-menu md-option:focus:not([disabled]):not([selected]) {
 .md-select-value > :first-child {
     transform: translate3d(0, 2px, 0);
 }
+
+/* Improve md-tabs: Faster tab switch animation. */
+md-tabs-wrapper md-prev-button, md-tabs-wrapper md-next-button {
+    transition-duration: 0.25s;
+}
+md-pagination-wrapper {
+    transition-duration: 0.25s;
+}
+md-tab-content {
+    transition-duration: 0.25s;
+}
+md-tab-content.md-left:not(.md-active) {
+    animation-duration: 0.5s;
+}
+md-tab-content.md-left:not(.md-active) * {
+    transition-delay: 0.25s;
+}
+md-tab-content.md-right:not(.md-active) {
+    animation-duration: 0.5s;
+}
+md-tab-content.md-right:not(.md-active) * {
+    transition-delay: 0.25s;
+}
+md-tab-content > div.ng-leave {
+    animation-duration: 0.5s;
+}
+md-ink-bar.md-left {
+    transition: left 0.0625s cubic-bezier(0.35, 0, 0.25, 1),
+                right 0.125s cubic-bezier(0.35, 0, 0.25, 1);
+}
+md-ink-bar.md-right {
+    transition: left 0.125s cubic-bezier(0.35, 0, 0.25, 1),
+                right 0.0625s cubic-bezier(0.35, 0, 0.25, 1);
+}
