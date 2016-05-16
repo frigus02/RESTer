@@ -8,6 +8,7 @@ angular.module('app')
             let initialLoadingPromise = $data.getRequests().then(requests => {
                 items.push(...requests.map(r => ({
                     title: `${r.collection} / ${r.title}`,
+                    url: `${r.method} ${r.url}`,
                     data: r
                 })));
 
@@ -16,7 +17,7 @@ angular.module('app')
 
             function doQueryItems(query) {
                 items.forEach(i => {
-                    i.score = i.title.score(query);
+                    i.score = Math.max(i.title.score(query), i.url.score(query));
                     i.formattedScore = Math.round(i.score * 1000);
                 });
 
