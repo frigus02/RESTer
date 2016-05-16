@@ -169,7 +169,8 @@ angular.module('app')
          * @typedef $data~HistoryEntry
          * @type {Object}
          * @property {Number} id - The id of the history entry.
-         * @property {Date} time - The time at which the request has been executed.
+         * @property {Date} time - The time at which the request has started.
+         * @property {Date} timeEnd - The time at which the request has finished.
          * @property {$data~Request} request - The executed request.
          * @property {$data~Response} response - The response.
          */
@@ -177,10 +178,12 @@ angular.module('app')
             if (dbObject) {
                 this.id = dbObject.id;
                 this.time = dbObject.time;
+                this.timeEnd = dbObject.timeEnd || dbObject.time;
                 this.request = new self.Request(dbObject.request);
                 this.response = new self.Response(dbObject.response);
             } else {
                 this.time = 0;
+                this.timeEnd = 0;
                 this.request = null;
                 this.response = null;
             }

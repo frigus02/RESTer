@@ -37,6 +37,7 @@ angular.module('app')
             });
 
             $scope.time = null;
+            $scope.elapsedMillis = null;
             $scope.request = new $data.Request();
             $scope.requestVariableValues = {};
             $scope.response = null;
@@ -55,6 +56,7 @@ angular.module('app')
                             $state.go('main.request.new');
                         } else {
                             $scope.time = historyEntry.time;
+                            $scope.elapsedMillis = historyEntry.timeEnd - historyEntry.time;
                             $scope.request = historyEntry.request;
                             $scope.response = historyEntry.response;
 
@@ -65,12 +67,14 @@ angular.module('app')
                 } else if (newStateParams.id) {
                     $data.getRequest(+newStateParams.id).then(request => {
                         $scope.time = null;
+                        $scope.elapsedMillis = null;
                         $scope.request = request;
                         $scope.requestVariableValues = {};
                         $scope.response = null;
                     });
                 } else {
                     $scope.time = null;
+                    $scope.elapsedMillis = null;
                     $scope.request = new $data.Request();
                     $scope.requestVariableValues = {};
                     $scope.response = null;
@@ -119,10 +123,18 @@ angular.module('app')
                         let requestClone = _.cloneDeep($scope.request);
                         requestClone.variables.values = usedVariableValues;
 
+                        let response = Object.assign(new $data.Response(), {
+                            status: plainResponse.status,
+                            statusText: plainResponse.statusText,
+                            headers: plainResponse.headers,
+                            body: plainResponse.body
+                        });
+
                         return $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
-                            time: new Date(),
+                            time: new Date(plainResponse.timeStart),
+                            timeEnd: new Date(plainResponse.timeEnd),
                             request: requestClone,
-                            response: new $data.Response(plainResponse)
+                            response: response
                         }));
                     })
                     .then(historyId => {
