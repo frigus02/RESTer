@@ -23,6 +23,10 @@ The project requires:
 * `node` in a version >= 4.
 * The package `jpm` to be installed globally.
 
+If you are using windows you should turn off autocrlf in git, so files fetched from bower remain exactly the same. This is required because reviewers on AMO compare third party libaries by their MD5 hash.
+
+    git config --global core.autocrlf input
+
 Install all other dependencies with the following command:
 
     npm install
