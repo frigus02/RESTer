@@ -22,8 +22,12 @@ angular.module('app')
                 this.changeListeners.push(listener);
             }
 
-            _get (key, isJson) {
+            _get (key, isJson, defaultValue) {
                 let value = $window.localStorage.getItem(prefixKey(key));
+                if (value === null && typeof defaultValue !== undefined) {
+                    return defaultValue;
+                }
+
                 return isJson && value ? JSON.parse(value) : value;
             }
 
@@ -47,6 +51,15 @@ angular.module('app')
 
             set stripDefaultHeaders (value) {
                 this._set('strip_default_headers', !!value, true);
+                fireListeners(this.changeListeners);
+            }
+
+            get enableRequestLintInspections () {
+                return !!this._get('enable_request_lint_inspections', true, true);
+            }
+
+            set enableRequestLintInspections (value) {
+                this._set('enable_request_lint_inspections', !!value, true);
                 fireListeners(this.changeListeners);
             }
         }

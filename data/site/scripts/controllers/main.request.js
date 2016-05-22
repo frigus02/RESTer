@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$settings', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables',
-        function ($scope, $state, $rootScope, $rester, $data, $settings, $mdDialog, $error, $filter, $hotkeys, $variables) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$settings', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections',
+        function ($scope, $state, $rootScope, $rester, $data, $settings, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
 
             $state.current.data = {
                 actions: [
@@ -43,6 +43,7 @@ angular.module('app')
             $scope.response = null;
             $scope.requestMethodSearch = '';
             $scope.requestIsSending = false;
+            $scope.selectedTab = 0;
 
             function updateState(newStateParams) {
                 $scope.requestIsSending = false;
@@ -217,6 +218,7 @@ angular.module('app')
                 });
             }
 
+
             $hotkeys.add(new $hotkeys.Hotkey({
                 combos: ['mod+s'],
                 description: 'Save the current request.',
@@ -228,6 +230,41 @@ angular.module('app')
                 description: 'Send the current request.',
                 callback: $scope.sendRequest
             }), $scope);
+
+
+            if ($settings.enableRequestLintInspections) {
+                $lintInspections.add({
+                    message: 'There are placeholders in your request, but the variables feature is not enabled.',
+                    check () {
+                        if (!$scope.request.variables.enabled) {
+                            return $variables.extract($scope.request).length > 0;
+                        } else {
+                            return false;
+                        }
+                    },
+                    fixLabel: 'Enable variables',
+                    onFix () {
+                        $scope.request.variables.enabled = true;
+                    }
+                }, $scope);
+
+                $lintInspections.add({
+                    message: 'Some variables have an empty value.',
+                    check () {
+                        if ($scope.request.variables.enabled) {
+                            let usedVariableValues = {};
+                            $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
+                            return Object.values(usedVariableValues).some(value => !value);
+                        } else {
+                            return false;
+                        }
+                    },
+                    fixLabel: 'View variables',
+                    onFix () {
+                        $scope.selectedTab = 3;
+                    }
+                }, $scope);
+            }
 
         }
     ]);

@@ -1,0 +1,45 @@
+.lint-message {
+    background-color: #FFD740;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 4px 16px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    transition: height .3s ease;
+}
+
+.lint-message__text {
+    flex: 1;
+}
+
+.lint-message__fix.md-button {
+    margin: 0;
+}
+
+.lint-message__dismiss.md-button.md-icon-button {
+    margin-right: -8px;
+}
+
+.lint-message md-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+
+/* Animations */
+.lint-message.ng-enter {
+    height: 0;
+}
+
+.lint-message.ng-enter-active {
+    height: 40px;
+}
+
+.lint-message.ng-leave {
+    height: 40px;
+}
+
+.lint-message.ng-leave-active {
+    height: 0;
+}

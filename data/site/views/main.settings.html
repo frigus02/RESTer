@@ -1,3 +1,15 @@
+<md-switch ng-model="settings.enableRequestLintInspections">
+    Inspections for requests
+</md-switch>
+<div class="hint">
+    RESTer can analyze your request as you type and point out possible mistakes.
+    Currently this includes:
+    <ul>
+        <li>Using placeholders without having variables enabled.</li>
+        <li>Using a variable with an empty value.</li>
+    </ul>
+</div>
+
 <md-switch ng-model="settings.stripDefaultHeaders">
     Strip default headers
 </md-switch>
