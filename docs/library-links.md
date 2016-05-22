@@ -18,8 +18,8 @@ angular-jwt
 https://github.com/auth0/angular-jwt/blob/0.0.9/dist/angular-jwt.min.js
 
 angular-material
-https://github.com/angular/bower-material/blob/v1.0.5/angular-material.min.js
-https://github.com/angular/bower-material/blob/v1.0.5/angular-material.min.css
+https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.js
+https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.css
 
 angular-messages
 https://github.com/angular/bower-angular-messages/blob/v1.5.5/angular-messages.min.js
@@ -31,13 +31,13 @@ angular-ui-codemirror
 https://github.com/angular-ui/ui-codemirror/blob/v0.3.0/ui-codemirror.min.js
 
 codemirror
-https://github.com/codemirror/CodeMirror/blob/5.13.2/lib/codemirror.js
-https://github.com/codemirror/CodeMirror/blob/5.13.2/lib/codemirror.css
-https://github.com/codemirror/CodeMirror/blob/5.13.2/mode/javascript/javascript.js
-https://github.com/codemirror/CodeMirror/blob/5.13.2/mode/xml/xml.js
+https://github.com/codemirror/CodeMirror/blob/5.15.2/lib/codemirror.js
+https://github.com/codemirror/CodeMirror/blob/5.15.2/lib/codemirror.css
+https://github.com/codemirror/CodeMirror/blob/5.15.2/mode/javascript/javascript.js
+https://github.com/codemirror/CodeMirror/blob/5.15.2/mode/xml/xml.js
 
 lodash
-https://github.com/lodash/lodash/blob/4.11.2/dist/lodash.min.js
+https://github.com/lodash/lodash/blob/4.12.0/dist/lodash.min.js
 
 mousetrap
 https://github.com/ccampbell/mousetrap/blob/1.5.3/mousetrap.min.js
@@ -49,5 +49,5 @@ ui-router
 https://github.com/angular-ui/angular-ui-router-bower/blob/0.2.18/release/angular-ui-router.min.js
 
 highlightjs
-Custom build from this source version: https://github.com/isagalaev/highlight.js/tree/9.2.0
+Custom build from this source version: https://github.com/isagalaev/highlight.js/tree/9.4.0
 ```
