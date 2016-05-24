@@ -46,7 +46,7 @@ angular.module('app')
              *                        the inspection will automatically be
              *                        removed, when the scope is destroyed.
              */
-            add ({message, check, fixLabel, onFix, onDismiss = angular.noop}, $scope) {
+            add ({message, check, fixLabel, onFix, onDismiss}, $scope) {
                 const inspection = {
                     message,
                     check,
@@ -63,7 +63,10 @@ angular.module('app')
                 };
 
                 inspection.dismiss = function () {
-                    onDismiss();
+                    if (onDismiss) {
+                        onDismiss();
+                    }
+
                     remove();
                 };
 

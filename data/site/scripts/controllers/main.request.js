@@ -254,7 +254,7 @@ angular.module('app')
                         if ($scope.request.variables.enabled) {
                             let usedVariableValues = {};
                             $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
-                            return Object.values(usedVariableValues).some(value => !value);
+                            return Object.keys(usedVariableValues).some(name => !usedVariableValues[name]);
                         } else {
                             return false;
                         }
