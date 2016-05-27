@@ -6,35 +6,45 @@ describe('controller: DialogHighlightCodeChangeLanguageCtrl', function () {
     let $controller;
     let $scope;
     let $mdDialog;
-    let hljsListLanguages;
 
     beforeEach(function () {
         $scope = {};
-        $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        hljsListLanguages = spyOn(window.hljs, 'listLanguages').and.returnValue(['json', 'java', 'xml']);
+        $mdDialog = jasmine.createSpyObj('$mdDialog', ['hide']);
     });
 
     beforeEach(inject(function (_$controller_) {
         $controller = _$controller_;
     }));
 
-    beforeEach(function () {
-        $controller('DialogHighlightCodeChangeLanguageCtrl', { $scope: $scope, $mdDialog: $mdDialog });
+    describe('valid currentLanguage', function () {
+        beforeEach(function () {
+            $controller('DialogHighlightCodeChangeLanguageCtrl', { $scope: $scope, $mdDialog: $mdDialog, currentLanguage: 'js' });
+        });
+
+        it('initializes languages with a list of all supported languages', function () {
+            expect($scope.languages.length).toBe(8);
+        });
+
+        it('initializes selectedLanguage with correct object from languages array', function () {
+            expect($scope.selectedLanguage).toBe($scope.languages[4]);
+        });
+
+        it('generates and returns token on save', function () {
+            $scope.selectLanguage({
+                name: 'json'
+            });
+
+            expect($mdDialog.hide).toHaveBeenCalledWith('json');
+        });
     });
 
+    describe('unknown currentLanguage', function () {
+        beforeEach(function () {
+            $controller('DialogHighlightCodeChangeLanguageCtrl', { $scope: $scope, $mdDialog: $mdDialog, currentLanguage: 'xxx' });
+        });
 
-    it('initializes searchText with an empty string', function () {
-        expect($scope.searchText).toBe('');
-    });
-
-    it('returns filtered and sorted languages on queryLanguages', function () {
-        expect($scope.queryLanguages('J')).toEqual(['java', 'json']);
-        expect($scope.queryLanguages('ml')).toEqual(['xml']);
-    });
-
-    it('generates and returns token on save', function () {
-        $scope.selectLanguage('json');
-
-        expect($mdDialog.hide).toHaveBeenCalledWith('json');
+        it('initializes selectedLanguage with undefined', function () {
+            expect($scope.selectedLanguage).toBeUndefined();
+        });
     });
 });

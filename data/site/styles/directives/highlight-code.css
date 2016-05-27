@@ -17,11 +17,8 @@ highlight-code .options .md-button.md-icon-button {
     margin: 0;
 }
 
-highlight-code pre {
+highlight-code iframe {
+    border: none;
     margin: 8px 0;
-}
-
-highlight-code pre.wrap {
-    white-space: pre-wrap;
-    word-break: break-all;
+    width: 100%;
 }

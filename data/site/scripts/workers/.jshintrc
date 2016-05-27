@@ -2,5 +2,8 @@
     "extends": "../../.jshintrc",
     "browser": false,
     "varstmt": false,
-    "worker": true
+    "worker": true,
+    "globals": {
+        "hljs": false
+    }
 }

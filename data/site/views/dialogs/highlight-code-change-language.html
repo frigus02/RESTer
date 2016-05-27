@@ -1,15 +1,14 @@
-<md-dialog aria-label="Change language" class="quick-open-dialog">
-    <md-autocomplete
-        md-selected-item-change="selectLanguage(lang)"
-        md-search-text="searchText"
-        md-items="lang in queryLanguages(searchText)"
-        md-min-length="0"
-        md-autofocus
-        md-autoselect
-        md-no-cache
-        placeholder="Type to select a language...">
-        <md-item-template>
-            <span md-highlight-text="searchText" md-highlight-flags="gi">{{lang}}</span>
-        </md-item-template>
-    </md-autocomplete>
+<md-dialog aria-label="Change highlighting">
+    <md-dialog-content class="md-dialog-content">
+        <div class="md-dialog-content-body" layout="column">
+            <md-radio-group ng-model="selectedLanguage">
+                <md-radio-button
+                    ng-repeat="lang in languages | orderBy:'label'"
+                    ng-value="lang"
+                    ng-click="selectLanguage(lang)">
+                    {{lang.label}}
+                </md-radio-button>
+            </md-radio-group>
+        </div>
+    </md-dialog-content>
 </md-dialog>
