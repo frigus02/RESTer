@@ -3,6 +3,7 @@
 'use strict';
 
 importScripts('../../other_components/highlightjs/highlight.pack.js');
+importScripts('../../other_components/vkbeautify/vkbeautify.js');
 
 
 self.onmessage = function (event) {
@@ -13,7 +14,9 @@ self.onmessage = function (event) {
 
 function format(code, language) {
     if (language === 'json') {
-        return JSON.stringify(JSON.parse(code), null, 4);
+        return vkbeautify.json(code, 4);
+    } else if (language === 'xml') {
+        return vkbeautify.xml(code, 4);
     }
 }
 

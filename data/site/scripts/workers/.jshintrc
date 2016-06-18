@@ -4,6 +4,7 @@
     "varstmt": false,
     "worker": true,
     "globals": {
-        "hljs": false
+        "hljs": false,
+        "vkbeautify": false
     }
 }

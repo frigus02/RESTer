@@ -50,4 +50,7 @@ https://github.com/angular-ui/angular-ui-router-bower/blob/0.2.18/release/angula
 
 highlightjs
 Custom build from this source version: https://github.com/isagalaev/highlight.js/tree/9.4.0
+
+vkBeautify
+Changed `window` to `self`: https://github.com/vkiryukhin/vkBeautify/blob/master/vkbeautify.js
 ```
