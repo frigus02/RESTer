@@ -2,21 +2,21 @@
   "name": "rester",
   "private": true,
   "dependencies": {
-    "angular": "1.5.5",
-    "angular-animate": "1.5.5",
-    "angular-aria": "1.5.5",
+    "angular": "1.5.7",
+    "angular-animate": "1.5.7",
+    "angular-aria": "1.5.7",
     "angular-jwt": "0.0.9",
     "angular-material": "1.0.8",
-    "angular-messages": "1.5.5",
-    "angular-sanitize": "1.5.5",
+    "angular-messages": "1.5.7",
+    "angular-sanitize": "1.5.7",
     "angular-ui-codemirror": "0.3.0",
     "codemirror": "5.15.2",
-    "lodash": "4.12.0",
-    "mousetrap": "1.5.3",
-    "string_score": "joshaven/string_score#^0.1.22",
+    "lodash": "4.13.1",
+    "mousetrap": "1.6.0",
+    "string_score": "joshaven/string_score#0.1.22",
     "ui-router": "0.2.18"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.5"
+    "angular-mocks": "1.5.7"
   }
 }
