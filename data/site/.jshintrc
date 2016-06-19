@@ -4,6 +4,7 @@
     "globals": {
         "_": false,
         "angular": false,
-        "Mousetrap": false
+        "Mousetrap": false,
+        "vkbeautify": false
     }
 }

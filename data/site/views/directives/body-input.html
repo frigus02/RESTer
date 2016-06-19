@@ -14,6 +14,12 @@
                 <md-icon ng-style="{'visibility': settings.setContentType ? 'visible' : 'hidden'}">check</md-icon> Set Content-Type header
             </md-button>
         </md-menu-item>
+        <md-menu-divider ng-show="isBeautifySupported()"></md-menu-divider>
+        <md-menu-item ng-show="isBeautifySupported()">
+            <md-button ng-click="beautify()">
+                <md-icon>format_paint</md-icon> Beautify
+            </md-button>
+        </md-menu-item>
     </md-menu-content>
 </md-menu>
 

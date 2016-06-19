@@ -64,6 +64,8 @@ angular.module('app')
                     return {
                         mode: $scope.activeOption.codeMirrorMode,
                         indentUnit: 4,
+                        foldGutter: true,
+                        gutters: ['CodeMirror-foldgutter'],
                         theme: 'darkula',
                         onLoad (editor) {
                             codeMirrorEditor = editor;
@@ -76,6 +78,19 @@ angular.module('app')
 
                     let scrollInfo = codeMirrorEditor.getScrollInfo();
                     return scrollInfo.height > scrollInfo.clientHeight;
+                };
+
+                $scope.isBeautifySupported = function () {
+                    return $scope.activeOption.contentType === 'application/json' ||
+                        $scope.activeOption.contentType === 'application/xml';
+                };
+
+                $scope.beautify = function () {
+                    if ($scope.activeOption.contentType === 'application/json') {
+                        $scope.body = vkbeautify.json($scope.body, 4);
+                    } else if ($scope.activeOption.contentType === 'application/xml') {
+                        $scope.body = vkbeautify.xml($scope.body, 4);
+                    }
                 };
 
                 $scope.$watch(() => getContentType(), function () {
