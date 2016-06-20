@@ -41,13 +41,11 @@ angular.module('app')
             $scope.request = new $data.Request();
             $scope.requestVariableValues = {};
             $scope.response = null;
-            $scope.requestMethodSearch = undefined;
             $scope.requestIsSending = false;
             $scope.selectedTab = 0;
 
             function updateState(newStateParams) {
                 $scope.requestIsSending = false;
-                $scope.requestMethodSearch = undefined;
 
                 if (newStateParams.historyId) {
                     $data.getHistoryEntry(+newStateParams.historyId).then(historyEntry => {
