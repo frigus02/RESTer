@@ -53,6 +53,11 @@ angular.module('app')
          * was successfully saved and returns the new request id.
          */
         self.putRequest = function (request) {
+            // Normalize slashes in collection, so there is exactly one space before and
+            // after the slash.
+            request.collection = request.collection.split(/\s*\/\s*/g).join(' / ');
+
+            // Remove variable values.
             if (request.variables && 'values' in request.variables) {
                 request = _.cloneDeep(request);
                 delete request.variables.values;

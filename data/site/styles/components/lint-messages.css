@@ -1,3 +1,8 @@
+lint-messages {
+    display: block;
+    background-color: #424242;
+}
+
 .lint-message {
     background-color: #FFD740;
     color: rgba(0, 0, 0, 0.87);
@@ -7,7 +12,8 @@
     flex-direction: row;
     align-items: center;
 
-    transition: height .3s ease;
+    transition: transform .25s ease,
+                opacity .25s ease;
 }
 
 .lint-message__text {
@@ -29,17 +35,21 @@
 
 /* Animations */
 .lint-message.ng-enter {
-    height: 0;
+    transform: translateY(-100%);
+    opacity: 0;
 }
 
 .lint-message.ng-enter-active {
-    height: 40px;
+    transform: none;
+    opacity: 1;
 }
 
 .lint-message.ng-leave {
-    height: 40px;
+    transform: none;
+    opacity: 1;
 }
 
 .lint-message.ng-leave-active {
-    height: 0;
+    transform: translateY(-100%);
+    opacity: 0;
 }

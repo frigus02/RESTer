@@ -9,7 +9,12 @@
         </md-toolbar>
 
         <md-content flex layout="column">
-            <navigation-list items="navItems" item-clicked="toggleSidenav('left')"></navigation-list>
+            <navigation-list>
+                <navigation-list-item ng-repeat="item in navItems track by item.id"
+                    item="item"
+                    item-clicked="toggleSidenav('left')">
+                </navigation-list-item>
+            </navigation-list>
 
             <div class="sidenav-footer-links">
                 <a href="#" ng-click="showShortcuts($event)">Shortcuts</a> &dash;

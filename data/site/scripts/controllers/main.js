@@ -30,53 +30,69 @@ angular.module('app')
                     });
 
                     requestNavItemsOffset = 1;
-                    requestNavItems = _(requests)
-                        .groupBy('collection')
-                        .toPairs()
-                        .sortBy(0)
-                        .map(coll => {
-                            let collItem = createRequestCollectionNavItem(coll[0]);
-                            collItem.items = _(coll[1]).sortBy('title').map(createRequestNavItem).value();
-                            return collItem;
-                        })
-                        .value();
+                    requests.forEach(r => r.collection = r.collection.split(/\s*\/\s*/i));
+                    requestNavItems = createListOfRequestNavItems(requests);
 
                     $scope.navItems.push(...requestNavItems);
 
-                    $scope.navItems.push({
-                        id: 'divider:settings',
-                        type: 'divider'
-                    }, {
-                        id: 'settings',
-                        type: 'subheader',
-                        title: 'Settings',
-                        action: {
-                            icon: 'settings',
-                            targetState: 'main.settings'
+                    $scope.navItems.push(
+                        {
+                            id: 'divider:settings',
+                            type: 'divider'
+                        },
+                        {
+                            id: 'settings',
+                            type: 'subheader',
+                            title: 'Settings',
+                            action: {
+                                icon: 'settings',
+                                targetState: 'main.settings'
+                            }
+                        },
+                        {
+                            id: 'environments',
+                            type: 'item',
+                            title: 'Environment',
+                            subtitle: activeEnvironment && activeEnvironment.name,
+                            targetState: 'main.environments'
+                        },
+                        {
+                            id: 'divider:history',
+                            type: 'divider'
+                        },
+                        {
+                            id: 'history',
+                            type: 'subheader',
+                            title: 'History',
+                            action: {
+                                icon: 'history',
+                                targetState: 'main.history'
+                            }
                         }
-                    }, {
-                        id: 'environments',
-                        type: 'item',
-                        title: 'Environment',
-                        subtitle: activeEnvironment && activeEnvironment.name,
-                        targetState: 'main.environments'
-                    }, {
-                        id: 'divider:history',
-                        type: 'divider'
-                    }, {
-                        id: 'history',
-                        type: 'subheader',
-                        title: 'History',
-                        action: {
-                            icon: 'history',
-                            targetState: 'main.history'
-                        }
-                    });
+                    );
 
                     historyNavItemsOffset = requestNavItemsOffset + requestNavItems.length + 5;
                     historyNavItems = historyEntries.map(createHistoryNavItem);
                     $scope.navItems.push(...historyNavItems);
                 });
+            }
+
+            function createListOfRequestNavItems(rawRequests) {
+                return _(rawRequests)
+                    .groupBy(request => request.collection[0])
+                    .toPairs()
+                    .sortBy(0)
+                    .map(coll => {
+                        coll[1].forEach(request => request.collection.splice(0, 1));
+
+                        let collItem = createRequestCollectionNavItem(coll[0]);
+                        let subrequests = coll[1].filter(request => request.collection.length === 0).map(createRequestNavItem);
+                        let subcollections = createListOfRequestNavItems(coll[1].filter(request => request.collection.length > 0));
+                        collItem.items = _.sortBy(subcollections.concat(subrequests), 'title');
+
+                        return collItem;
+                    })
+                    .value();
             }
 
             function createRequestCollectionNavItem(collection) {
@@ -124,6 +140,26 @@ angular.module('app')
                 };
             }
 
+            function removeRequestNavigationItem(requestId, requests = requestNavItems) {
+                for (let requestIndex = 0; requestIndex < requests.length; requestIndex++) {
+                    let request = requests[requestIndex];
+                    if (request.type === 'item' && request.id === 'request:' + requestId) {
+                        requests.splice(requestIndex, 1);
+                        return true;
+                    }
+
+                    if (request.type === 'group' && removeRequestNavigationItem(requestId, request.items)) {
+                        if (request.items.length === 0) {
+                            requests.splice(requestIndex, 1);
+                        }
+
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             function updateNavigationBasedOnDataChanges(changes) {
                 changes.forEach(change => {
                     if (change.item instanceof $data.Request) {
@@ -132,25 +168,30 @@ angular.module('app')
                         }
 
                         if (change.action === 'add' || change.action === 'put') {
-                            let collectionIndex = requestNavItems.findIndex(item => item.title === change.item.collection);
-                            if (collectionIndex === -1) {
-                                let insertAtIndex = requestNavItemsOffset + _.sortedIndexBy(requestNavItems, {title: change.item.collection}, item => item.title),
-                                    newCollectionItem = createRequestCollectionNavItem(change.item.collection);
+                            let collectionParts = change.item.collection.split(/\s*\/\s*/i),
+                                collectionItems = requestNavItems;
 
-                                requestNavItems.splice(insertAtIndex - requestNavItemsOffset, 0, newCollectionItem);
-                                $scope.navItems.splice(insertAtIndex, 0, newCollectionItem);
-                                historyNavItemsOffset++;
+                            while (collectionParts.length > 0) {
+                                let collection = collectionItems.find(item => item.title === collectionParts[0]);
+                                if (!collection) {
+                                    collection = createRequestCollectionNavItem(collectionParts[0]);
 
-                                collectionIndex = insertAtIndex;
-                            } else {
-                                collectionIndex += requestNavItemsOffset;
+                                    let insertAtIndex = _.sortedIndexBy(collectionItems, {title: collectionParts[0]}, item => item.title);
+                                    collectionItems.splice(insertAtIndex, 0, collection);
+                                    if (collectionItems === requestNavItems) {
+                                        $scope.navItems.splice(insertAtIndex + requestNavItemsOffset, 0, collection);
+                                    }
+                                }
+
+                                collectionItems = collection.items;
+                                collectionParts.splice(0, 1);
                             }
 
-                            let collection = $scope.navItems[collectionIndex],
-                                insertAtIndex = _.sortedIndexBy(collection.items, change.item, item => item.title);
-
-                            collection.items.splice(insertAtIndex, 0, createRequestNavItem(change.item));
+                            let insertAtIndex = _.sortedIndexBy(collectionItems, change.item, item => item.title);
+                            collectionItems.splice(insertAtIndex, 0, createRequestNavItem(change.item));
                         }
+
+                        historyNavItemsOffset = requestNavItemsOffset + requestNavItems.length + 5;
                     } else if (change.item instanceof $data.HistoryEntry) {
                         if (change.action === 'add') {
                             let newHistoryItem = createHistoryNavItem(change.item);
@@ -171,24 +212,6 @@ angular.module('app')
 
             function updateNavigationBasedOnSettingsChanges() {
                 getActiveEnvironment().then(updateEnvironmentNavItemSubtitle);
-            }
-
-            function removeRequestNavigationItem(requestId) {
-                for (let collectionIndex = 0; collectionIndex < requestNavItems.length; collectionIndex++) {
-                    let collection = requestNavItems[collectionIndex],
-                        requestIndex = collection.items.findIndex(r => r.id === 'request:' + requestId);
-                    if (requestIndex > -1) {
-                        if (collection.items.length === 1) {
-                            requestNavItems.splice(collectionIndex, 1);
-                            $scope.navItems.splice(collectionIndex + requestNavItemsOffset, 1);
-                            historyNavItemsOffset--;
-                        } else {
-                            collection.items.splice(requestIndex, 1);
-                        }
-
-                        break;
-                    }
-                }
             }
 
             function getActiveEnvironment() {

@@ -13,6 +13,7 @@
                     <md-item-template>
                         <span md-highlight-text="collection" md-highlight-flags="gi">{{coll}}</span>
                     </md-item-template>
+                    <div class="hint">Tip: Use slashes to nest requests in the left navigation, e.g. <em>Main / Sub / Subsub</em>.</div>
                     <div ng-messages="saveRequestForm.collection.$error" ng-show="saveRequestForm.collection.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
