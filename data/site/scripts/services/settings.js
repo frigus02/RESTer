@@ -62,6 +62,15 @@ angular.module('app')
                 this._set('enable_request_lint_inspections', !!value, true);
                 fireListeners(this.changeListeners);
             }
+
+            get pinSidenav () {
+                return !!this._get('pin_sidenav', true);
+            }
+
+            set pinSidenav (value) {
+                this._set('pin_sidenav', !!value, true);
+                fireListeners(this.changeListeners);
+            }
         }
 
         return new Settings();

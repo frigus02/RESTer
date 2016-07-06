@@ -4,6 +4,7 @@ angular.module('app')
     .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog', '$variables',
         function ($scope, $rootScope, $mdSidenav, $state, $data, $settings, $q, $filter, $hotkeys, $mdDialog, $variables) {
 
+            $scope.settings = $settings;
             $scope.navItems = [];
 
             let requestNavItems = [],

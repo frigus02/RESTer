@@ -1,10 +1,22 @@
 <div flex layout="row">
 
     <!-- Navigation -->
-    <md-sidenav class="md-sidenav-left" layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-sidenav class="md-sidenav-left"
+        layout="column"
+        md-component-id="left"
+        md-is-locked-open="settings.pinSidenav || $mdMedia('gt-md')">
         <md-toolbar class="nav-header">
             <div class="md-toolbar-tools">
                 <h1>RESTer</h1>
+
+                <span flex></span>
+                <md-button class="md-icon-button"
+                    aria-label="Lock open"
+                    hide-gt-md
+                    ng-click="settings.pinSidenav = !settings.pinSidenav">
+                    <md-icon ng-show="settings.pinSidenav">lock_outline</md-icon>
+                    <md-icon ng-hide="settings.pinSidenav">lock_open</md-icon>
+                </md-button>
             </div>
         </md-toolbar>
 
