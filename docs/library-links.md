@@ -31,10 +31,10 @@ angular-ui-codemirror
 https://github.com/angular-ui/ui-codemirror/blob/v0.3.0/ui-codemirror.min.js
 
 codemirror
-https://github.com/codemirror/CodeMirror/blob/5.15.2/lib/codemirror.js
-https://github.com/codemirror/CodeMirror/blob/5.15.2/lib/codemirror.css
-https://github.com/codemirror/CodeMirror/blob/5.15.2/mode/javascript/javascript.js
-https://github.com/codemirror/CodeMirror/blob/5.15.2/mode/xml/xml.js
+https://github.com/codemirror/CodeMirror/blob/5.16.0/lib/codemirror.js
+https://github.com/codemirror/CodeMirror/blob/5.16.0/lib/codemirror.css
+https://github.com/codemirror/CodeMirror/blob/5.16.0/mode/javascript/javascript.js
+https://github.com/codemirror/CodeMirror/blob/5.16.0/mode/xml/xml.js
 
 lodash
 https://github.com/lodash/lodash/blob/4.13.1/dist/lodash.min.js
