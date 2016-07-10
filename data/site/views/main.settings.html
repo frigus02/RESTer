@@ -19,3 +19,12 @@
     or <code>User-Agent</code>. When you enable this option, RESTer will strip
     these headers unless they are explicitly provided in a request.
 </div>
+
+<md-switch ng-model="settings.experimentalResponseHighlighting">
+    [Experimental] Different response rendering
+</md-switch>
+<div class="hint">
+    Test a difference response rendering. It should work a lot better with very
+    large responses and provides code folding. However it only works with JSON
+    and XML currently and it will always have an additional scrollbar.
+</div>

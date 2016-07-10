@@ -43,6 +43,7 @@ angular.module('app')
             $scope.response = null;
             $scope.requestIsSending = false;
             $scope.selectedTab = 0;
+            $scope.experimentalResponseHighlighting = $settings.experimentalResponseHighlighting;
 
             function updateState(newStateParams) {
                 $scope.requestIsSending = false;

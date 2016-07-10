@@ -1,0 +1,29 @@
+<md-menu class="options" ng-style="{'margin-right': $ctrl.isCodeMirrorScrolling() ? '18px' : 0}">
+    <md-button aria-label="Show display options" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+        <md-icon md-menu-origin>more_vert</md-icon>
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item>
+            <md-button ng-click="$ctrl.codeMirrorOptions.lineWrapping = !$ctrl.codeMirrorOptions.lineWrapping">
+                <md-icon ng-style="{'visibility': $ctrl.codeMirrorOptions.lineWrapping ? 'visible' : 'hidden'}">check</md-icon> Wrap
+            </md-button>
+        </md-menu-item>
+        <md-menu-item ng-show="$ctrl.codeFormatted">
+            <md-button ng-click="$ctrl.prettyPrint = !$ctrl.prettyPrint">
+                <md-icon ng-style="{'visibility': $ctrl.prettyPrint ? 'visible' : 'hidden'}">check</md-icon> Pretty Print
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>
+
+<ui-codemirror
+    ng-model="$ctrl.code"
+    ui-codemirror-opts="$ctrl.codeMirrorOptions"
+    ng-if="!$ctrl.prettyPrint">
+</ui-codemirror>
+
+<ui-codemirror
+    ng-model="$ctrl.codeFormatted"
+    ui-codemirror-opts="$ctrl.codeMirrorOptions"
+    ng-if="$ctrl.prettyPrint">
+</ui-codemirror>

@@ -48,7 +48,7 @@
 </form>
 
 <!-- Response -->
-<div layout="column" ng-show="response">
+<div ng-show="response">
     <h2 layout="row" layout-align="start center">
         Response
         <div class="badge {{getResponseBadgeModifierClass()}}">{{response.status}} {{response.statusText}}</div>
@@ -62,6 +62,12 @@
         code="{{response.body}}"
         language="{{getResponseBodyHighlightLanguage()}}"
         show-options="true"
+        ng-if="!experimentalResponseHighlighting"
         ng-show="response.body">
     </highlight-code>
+    <highlight-code-experimental
+        code="response.body"
+        language="getResponseBodyHighlightLanguage()"
+        ng-if="experimentalResponseHighlighting && response.body">
+    </highlight-code-experimental>
 </div>

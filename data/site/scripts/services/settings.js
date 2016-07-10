@@ -71,6 +71,15 @@ angular.module('app')
                 this._set('pin_sidenav', !!value, true);
                 fireListeners(this.changeListeners);
             }
+
+            get experimentalResponseHighlighting () {
+                return !!this._get('experimental_response_highlighting', true);
+            }
+
+            set experimentalResponseHighlighting (value) {
+                this._set('experimental_response_highlighting', !!value, true);
+                fireListeners(this.changeListeners);
+            }
         }
 
         return new Settings();
