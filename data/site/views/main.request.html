@@ -16,6 +16,7 @@
         <url-input ng-model="request.url" required flex></url-input>
         <md-button
             class="md-raised md-accent progress-button"
+            type="submit"
             ng-click="sendRequest()"
             ng-disabled="!requestForm.$valid || requestIsSending">
             <span ng-hide="requestIsSending">Send</span>
