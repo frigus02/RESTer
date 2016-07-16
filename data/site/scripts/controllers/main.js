@@ -31,7 +31,11 @@ angular.module('app')
                     });
 
                     requestNavItemsOffset = 1;
-                    requests.forEach(r => r.collection = r.collection.split(/\s*\/\s*/i));
+                    requests = requests.map(r => {
+                        r = angular.copy(r);
+                        r.collection = r.collection.split(/\s*\/\s*/i);
+                        return r;
+                    });
                     requestNavItems = createListOfRequestNavItems(requests);
 
                     $scope.navItems.push(...requestNavItems);
@@ -152,6 +156,9 @@ angular.module('app')
                     if (request.type === 'group' && removeRequestNavigationItem(requestId, request.items)) {
                         if (request.items.length === 0) {
                             requests.splice(requestIndex, 1);
+                            if (requests === requestNavItems) {
+                                $scope.navItems.splice(requestIndex + requestNavItemsOffset, 1);
+                            }
                         }
 
                         return true;

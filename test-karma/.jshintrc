@@ -3,6 +3,7 @@
     "browser": true,
     "jasmine": true,
     "globals": {
+        "angular": false,
         "module": false,
         "inject": false
     }

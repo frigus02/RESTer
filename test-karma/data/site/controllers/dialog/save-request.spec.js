@@ -44,20 +44,16 @@ describe('controller: DialogSaveRequestCtrl', function () {
     it('returns filtered collections on queryCollections', function () {
         let result;
 
-        // Calling method without a search should return an empty array.
+        // Calling method without a search should return a promise with all
+        // collections inside.
         result = $scope.queryCollections();
-        expect(result).toEqual([]);
-
-        // On first call with a specified search method should ask for data and
-        // return a promise.
-        result = $scope.queryCollections('goo');
         expect(result.$$state.status).toBe(0);
 
         $dataGetRequestCollectionsDeferred.resolve(['JsonPlaceholder', 'Google']);
         $rootScope.$apply();
 
         expect(result.$$state.status).toBe(1);
-        expect(result.$$state.value).toEqual(['Google']);
+        expect(result.$$state.value).toEqual(['JsonPlaceholder', 'Google']);
 
         // On the following calls data should be cached and method should just
         // return the result.

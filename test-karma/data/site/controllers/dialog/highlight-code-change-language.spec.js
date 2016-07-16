@@ -22,11 +22,11 @@ describe('controller: DialogHighlightCodeChangeLanguageCtrl', function () {
         });
 
         it('initializes languages with a list of all supported languages', function () {
-            expect($scope.languages.length).toBe(8);
+            expect($scope.languages.length).toBe(9);
         });
 
         it('initializes selectedLanguage with correct object from languages array', function () {
-            expect($scope.selectedLanguage).toBe($scope.languages[4]);
+            expect($scope.selectedLanguage).toBe($scope.languages[5]);
         });
 
         it('generates and returns token on save', function () {

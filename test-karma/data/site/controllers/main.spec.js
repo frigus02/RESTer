@@ -83,7 +83,7 @@ describe('controller: MainCtrl', function () {
             Object.assign(new $data.Request(), {id: 1, collection: 'JSONPlaceholder', title: 'Get Posts', method: 'GET', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}}),
             Object.assign(new $data.Request(), {id: 5, collection: 'JSONPlaceholder', title: 'Create Post',  method: 'POST', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}}),
             Object.assign(new $data.Request(), {id: 6, collection: 'Google', title: 'Get Profile',  method: 'GET', url: 'https://api.googleapis.com/profile', variables: {enabled: false}}),
-            Object.assign(new $data.Request(), {id: 1, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}})
+            Object.assign(new $data.Request(), {id: 7, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}})
         ];
         fakeHistoryEntries = [
             Object.assign(new $data.HistoryEntry(), {id: 46, time: new Date('2016-02-21T12:50:00Z'), request: Object.assign(new $data.Request(), {method: 'GET', url: 'http://google.com', variables: {enabled: false}})}),
