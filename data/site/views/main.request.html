@@ -1,18 +1,10 @@
 <!-- Request -->
 <form name="requestForm" novalidate layout="column">
     <div class="input-row">
-        <md-autocomplete
-            md-search-text="request.method"
-            md-items="method in queryRequestMethods(request.method)"
-            md-item-text="method"
-            md-autoselect="true"
-            md-floating-label="Method"
-            md-min-length="0"
-            required="true">
-            <md-item-template>
-                <span md-highlight-text="request.method" md-highlight-flags="gi">{{method}}</span>
-            </md-item-template>
-        </md-autocomplete>
+        <md-input-container>
+            <label>Method</label>
+            <input type="text" ng-model="request.method" required="true" input-suggestions="queryRequestMethods(searchTerm)">
+        </md-input-container>
         <url-input ng-model="request.url" required flex></url-input>
         <md-button
             class="md-raised md-accent progress-button"

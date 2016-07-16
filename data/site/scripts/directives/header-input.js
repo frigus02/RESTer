@@ -21,7 +21,7 @@ angular.module('app')
                   { name: 'Accept-Charset', suggestedValues: COMMON_CHARSETS },
                   { name: 'Accept-Encoding', suggestedValues: ['gzip', 'deflate'] },
                   { name: 'Accept-Language' },
-                  { name: 'Authorization' },
+                  { name: 'Authorization', suggestedValues: ['Basic ', 'Bearer ', 'Digest '] },
                   { name: 'Cache-Control', suggestedValues: ['no-cache'] },
                   { name: 'Connection', suggestedValues: ['close', 'keep-alive'] },
                   { name: 'Content-Type', suggestedValues: COMMON_MIME_TYPES },
@@ -78,17 +78,19 @@ angular.module('app')
                 };
 
                 $scope.querySearchHeader = function (query) {
-                    if (!query) return [];
+                    let headerNames = REQUEST_HEADERS.map(h => h.name);
+                    if (!query) return headerNames;
 
                     let lowercaseQuery = angular.lowercase(query);
-                    return REQUEST_HEADERS.filter(h => angular.lowercase(h.name).indexOf(lowercaseQuery) > -1);
+                    return headerNames.filter(h => angular.lowercase(h).indexOf(lowercaseQuery) > -1);
                 };
 
                 $scope.querySearchHeaderValue = function (headerName, query) {
-                    if (!headerName || !query) return [];
+                    if (!headerName) return [];
 
                     let requestHeader = REQUEST_HEADERS.find(h => angular.lowercase(h.name) === angular.lowercase(headerName));
                     if (!requestHeader || !requestHeader.suggestedValues) return [];
+                    if (!query) return requestHeader.suggestedValues;
 
                     let lowercaseQuery = angular.lowercase(query);
                     return requestHeader.suggestedValues.filter(v => angular.lowercase(v).indexOf(lowercaseQuery) > -1);

@@ -7,6 +7,8 @@ angular.module('app')
             let collections = null;
 
             function getFilteredCollections(query) {
+                if (!query) return collections;
+
                 let lowercaseQuery = angular.lowercase(query);
                 return collections.filter(c => angular.lowercase(c).indexOf(lowercaseQuery) > -1);
             }
@@ -18,8 +20,6 @@ angular.module('app')
             $scope.showHistoryWarning = showHistoryWarning;
 
             $scope.queryCollections = function (query) {
-                if (!query) return [];
-
                 if (collections === null) {
                     return $data.getRequestCollections().then(result => {
                         collections = result;

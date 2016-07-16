@@ -1,0 +1,15 @@
+<div class="input-suggestions-wrapper" tabindex="-1">
+    <ul class="input-suggestions"
+        ng-if="visible"
+        ng-style="{ maxHeight: (48 * maxVisibleItems) + 'px' }"
+        tabindex="-1">
+        <li ng-repeat="item in items"
+            ng-class="{ selected: $index === selectedIndex }"
+            ng-click="setInputValue(item)"
+            md-highlight-text="inputValue"
+            md-highlight-flags="gi"
+            tabindex="-1">
+            {{item}}
+        </li>
+    </ul>
+</div>

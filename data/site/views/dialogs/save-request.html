@@ -2,22 +2,16 @@
     <form name="saveRequestForm" novalidate>
         <md-dialog-content class="md-dialog-content input-column">
             <div class="md-dialog-content-body" layout="column">
-                <md-autocomplete
-                    md-input-name="collection"
-                    md-selected-item="collectionSelectedItem"
-                    md-search-text="collection"
-                    md-items="coll in queryCollections(collection)"
-                    md-item-text="coll"
-                    md-floating-label="Collection"
-                    required="true">
-                    <md-item-template>
-                        <span md-highlight-text="collection" md-highlight-flags="gi">{{coll}}</span>
-                    </md-item-template>
+                <md-input-container>
+                    <label>Collection</label>
+                    <input name="collection" type="text" ng-model="collection" required="true"
+                        input-suggestions="queryCollections(searchTerm)"
+                        input-suggestions-max-visible="2.5">
                     <div class="hint">Tip: Use slashes to nest requests in the left navigation, e.g. <em>Main / Sub / Subsub</em>.</div>
                     <div ng-messages="saveRequestForm.collection.$error" ng-show="saveRequestForm.collection.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
-                </md-autocomplete>
+                </md-input-container>
                 <md-input-container>
                     <label>Title</label>
                     <input name="title" type="text" ng-model="title" required>

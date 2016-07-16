@@ -1,23 +1,13 @@
 <div class="input-row" ng-repeat="header in getPreparedHeaders() track by $index">
-    <md-autocomplete flex="35"
-        md-search-text="header.name"
-        md-items="item in querySearchHeader(header.name)"
-        md-item-text="item.name"
-        md-floating-label="Name">
-        <md-item-template>
-            <span md-highlight-text="header.name" md-highlight-flags="gi">{{item.name}}</span>
-        </md-item-template>
-    </md-autocomplete>
+    <md-input-container flex="35">
+        <label>Name</label>
+        <input type="text" ng-model="header.name" input-suggestions="querySearchHeader(searchTerm)">
+    </md-input-container>
 
-    <md-autocomplete flex
-        md-search-text="header.value"
-        md-items="item in querySearchHeaderValue(header.name, header.value)"
-        md-item-text="item"
-        md-floating-label="Value">
-        <md-item-template>
-            <span md-highlight-text="header.value" md-highlight-flags="gi">{{item}}</span>
-        </md-item-template>
-    </md-autocomplete>
+    <md-input-container flex>
+        <label>Value</label>
+        <input type="text" ng-model="header.value" input-suggestions="querySearchHeaderValue(header.name, searchTerm)">
+    </md-input-container>
 
     <md-button class="md-icon-button" ng-click="removeHeader($index)">
         <md-icon>remove</md-icon>
