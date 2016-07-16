@@ -49,7 +49,7 @@
                 <div flex></div>
 
                 <md-button class="md-icon-button" ng-repeat="action in getActions()" ng-click="action.action($event)">
-                    <md-tooltip>{{action.title}}</md-tooltip>
+                    <md-tooltip md-direction="bottom">{{action.title}}</md-tooltip>
                     <md-icon>{{action.icon}}</md-icon>
                 </md-button>
             </div>

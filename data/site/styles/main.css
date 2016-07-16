@@ -1,8 +1,5 @@
 body {
     color: #fff;
-
-    /* Some elements like tooltip and toast produce scrollbars as they show/hide. This removes them. */
-    overflow: hidden;
 }
 
 md-toolbar:not(.md-menu-toolbar).nav-header {
