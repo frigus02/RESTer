@@ -13,6 +13,7 @@ tools/
 .jscsrc
 .jshintrc
 bower.json
+CHANGELOG.md
 karma.conf.js
 *.sublime-workspace
 *.sublime-project

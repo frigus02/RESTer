@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.1] - 2016-07-16
+### Fixed
+- Improved all autocomplete fields (request method, headers, collection name). It's now possible to select any other input field or button with only one mouse click, when the dropdown is open.
+
 ## [1.12.0] - 2016-07-10
 ### Added
 - Added option to pin sidenav, so it always stays open (even on small screens).
@@ -148,7 +152,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.12.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/1.12.1...HEAD
+[1.12.1]: https://github.com/frigus02/RESTer/compare/1.12.0...1.12.1
 [1.12.0]: https://github.com/frigus02/RESTer/compare/1.11.0...1.12.0
 [1.11.0]: https://github.com/frigus02/RESTer/compare/1.10.0...1.11.0
 [1.10.0]: https://github.com/frigus02/RESTer/compare/1.9.1...1.10.0
