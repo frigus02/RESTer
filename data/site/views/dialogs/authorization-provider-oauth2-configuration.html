@@ -10,6 +10,9 @@
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-input-container>
+                <md-checkbox ng-model="config.enableVariables">
+                    Enable environment variables
+                </md-checkbox>
                 <md-input-container>
                     <label>OAuth 2 Flow</label>
                     <md-select name="flow" ng-model="config.flow" required>

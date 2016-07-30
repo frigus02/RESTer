@@ -3,8 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- Added shortcut Ctrl+E, which cycles through the active environments.
-- Added support for OAuth 2 Resource Owner Password Credentials flow.
+- Shortcut Ctrl+E, which cycles through the active environments.
+- Support for OAuth 2 Resource Owner Password Credentials flow.
+- Use environment variables in OAuth 2 configurations.
 
 ### Fixed
 - Attempt to fix issue with missing toolbar icon by providing icons in all supported sizes.

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$data', '$window',
-        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $data, $window) {
+    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$data', '$window', '$variables',
+        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $data, $window, $variables) {
 
             function AuthorizationProviderOAuth2() {
                 $authorization.AuthorizationProvider.call(this, 3, 'OAuth 2', true);
@@ -196,6 +196,10 @@ angular.module('app')
             }
 
             AuthorizationProviderOAuth2.prototype.generateToken = function (config) {
+                if (config.enableVariables) {
+                    config = $variables.replace(config);
+                }
+
                 if (config.flow === 'code') {
                     return executeCodeFlow(config);
                 } else if (config.flow === 'implicit') {

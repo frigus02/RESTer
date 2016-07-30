@@ -38,7 +38,7 @@ angular.module('app')
             return _.union(...vars);
         };
 
-        self.replace = function (obj, values, usedValues = {}) {
+        self.replace = function (obj, values = {}, usedValues = {}) {
             let providedValues = self.getProvidedValues();
             if (typeof obj === 'string') {
                 obj = obj.replace(RE_VARS, match => {
