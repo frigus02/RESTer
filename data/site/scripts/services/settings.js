@@ -26,14 +26,24 @@ angular.module('app')
                 let value = $window.localStorage.getItem(prefixKey(key));
                 if (value === null && typeof defaultValue !== undefined) {
                     return defaultValue;
+                } else if (isJson && value) {
+                    try {
+                        return JSON.parse(value);
+                    } catch (e) {
+                        return defaultValue;
+                    }
+                } else {
+                    return value;
                 }
-
-                return isJson && value ? JSON.parse(value) : value;
             }
 
             _set (key, value, isJson) {
                 let preparedValue = isJson ? JSON.stringify(value) : value;
-                $window.localStorage.setItem(prefixKey(key), preparedValue);
+                if (typeof preparedValue === 'undefined') {
+                    $window.localStorage.removeItem(prefixKey(key));
+                } else {
+                    $window.localStorage.setItem(prefixKey(key), preparedValue);
+                }
             }
 
             get activeEnvironment () {

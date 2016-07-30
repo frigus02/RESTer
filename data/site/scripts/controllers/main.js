@@ -283,5 +283,21 @@ angular.module('app')
                 }
             }), $scope);
 
+            $hotkeys.add(new $hotkeys.Hotkey({
+                combos: ['mod+e'],
+                description: 'Cycle through environments.',
+                callback () {
+                    $data.getEnvironments().then(envs => {
+                        if (envs.length === 0) return;
+
+                        const index = envs.findIndex(env => env.id === $scope.settings.activeEnvironment),
+                              newIndex = (index + 1) % envs.length,
+                              newEnv = envs[newIndex];
+
+                        $scope.settings.activeEnvironment = newEnv.id;
+                    });
+                }
+            }), $scope);
+
         }
     ]);

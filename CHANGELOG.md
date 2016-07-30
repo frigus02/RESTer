@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Added shortcut Ctrl+E, which cycles through the active environments.
+
+### Fixed
+- Attempt to fix issue with missing toolbar icon by providing icons in all supported sizes.
 
 ## [1.12.1] - 2016-07-16
 ### Fixed
