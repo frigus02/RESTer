@@ -43,9 +43,14 @@ angular.module('app')
 
                 try {
                     let tokenPayload = jwtHelper.decodeToken(tokenResponse.access_token),
-                        name = tokenPayload.sub || tokenPayload.name || tokenPayload.name_id || tokenPayload.unique_name;
+                        userId = tokenPayload.sub || tokenPayload.name_id || tokenPayload.unique_name,
+                        userName = tokenPayload.name;
 
-                    token.title = name;
+                    if (userName && userId) {
+                        token.title = `${userName} (${userId})`;
+                    } else {
+                        token.title = userName || userId;
+                    }
                 } catch (e) {
                     token.title = 'Unknown';
                 }
@@ -57,9 +62,9 @@ angular.module('app')
                 return token;
             }
 
-            function executeImplicitFlow(config) {
-                let params = {
-                    response_type: 'token',
+            function sendAuthorizationRequest(config, responseType) {
+                const params = {
+                    response_type: responseType,
                     client_id: config.clientId,
                     redirect_uri: config.redirectUri
                 };
@@ -71,7 +76,43 @@ angular.module('app')
                 return $rester.sendBrowserRequest({
                     url: generateUri(config.authorizationRequestEndpoint, params),
                     targetUrl: config.redirectUri
-                }).then(function (response) {
+                });
+            }
+
+            function sendAccessTokenRequest(config, accessTokenRequestParams) {
+                const accessTokenRequest = {
+                    method: config.accessTokenRequestMethod,
+                    headers: [
+                        { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
+                    ]
+                };
+
+                if (config.accessTokenRequestAuthentication === 'basic') {
+                    const userName = encodeURI(config.clientId),
+                          password = encodeURI(config.clientSecret),
+                          token = $window.btoa(`${userName}:${password}`);
+
+                    accessTokenRequest.headers.push({
+                        name: 'Authorization',
+                        value: `Basic ${token}`
+                    });
+                } else {
+                    accessTokenRequestParams.client_id = config.clientId;
+                    accessTokenRequestParams.client_secret = config.clientSecret;
+                }
+
+                if (config.accessTokenRequestMethod === 'GET') {
+                    accessTokenRequest.url = generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
+                } else {
+                    accessTokenRequest.url = config.accessTokenRequestEndpoint;
+                    accessTokenRequest.body = encodeQueryString(accessTokenRequestParams);
+                }
+
+                return $rester.sendRequest(accessTokenRequest);
+            }
+
+            function executeImplicitFlow(config) {
+                return sendAuthorizationRequest(config, 'token').then(function (response) {
                     // Some oauth2 requests return the authorization response in the search
                     // part of the url instead of the fragment part. So we just check both.
 
@@ -94,57 +135,17 @@ angular.module('app')
             }
 
             function executeCodeFlow(config) {
-                let params = {
-                    response_type: 'code',
-                    client_id: config.clientId,
-                    redirect_uri: config.redirectUri
-                };
-
-                if (config.scope) {
-                    params.scope = config.scope;
-                }
-
-                return $rester.sendBrowserRequest({
-                    url: generateUri(config.authorizationRequestEndpoint, params),
-                    targetUrl: config.redirectUri
-                }).then(function (response) {
+                return sendAuthorizationRequest(config, 'code').then(function (response) {
                     let url = new URL(response.url);
 
                     if (url.searchParams.has('code')) {
-                        let accessTokenRequest = {
-                                method: config.accessTokenRequestMethod,
-                                headers: [
-                                    { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
-                                ]
-                            },
-                            accessTokenRequestParams = {
-                                grant_type: 'authorization_code',
-                                code: url.searchParams.get('code'),
-                                redirect_uri: config.redirectUri
-                            };
+                        let accessTokenRequestParams = {
+                            grant_type: 'authorization_code',
+                            code: url.searchParams.get('code'),
+                            redirect_uri: config.redirectUri
+                        };
 
-                        if (config.accessTokenRequestAuthentication === 'basic') {
-                            let userName = encodeURI(config.clientId),
-                                password = encodeURI(config.clientSecret),
-                                token = $window.btoa(`${userName}:${password}`);
-
-                            accessTokenRequest.headers.push({
-                                name: 'Authorization',
-                                value: `Basic ${token}`
-                            });
-                        } else {
-                            accessTokenRequestParams.client_id = config.clientId;
-                            accessTokenRequestParams.client_secret = config.clientSecret;
-                        }
-
-                        if (config.accessTokenRequestMethod === 'GET') {
-                            accessTokenRequest.url = generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
-                        } else {
-                            accessTokenRequest.url = config.accessTokenRequestEndpoint;
-                            accessTokenRequest.body = encodeQueryString(accessTokenRequestParams);
-                        }
-
-                        return $rester.sendRequest(accessTokenRequest);
+                        return sendAccessTokenRequest(config, accessTokenRequestParams);
                     } else if (url.searchParams.has('error')) {
                         let error = url.searchParams.get('error'),
                             errorDescription = url.searchParams.get('error_description'),
@@ -166,11 +167,41 @@ angular.module('app')
                 });
             }
 
+            function executeResourceOwnerPasswordCredentialsFlow(config) {
+                return $mdDialog.show({
+                    templateUrl: 'views/dialogs/authorization-provider-oauth2-resource-owner-generate-token.html',
+                    controller: 'DialogAuthorizationProviderOAuth2ResourceOwnerGenerateTokenCtrl'
+                }).then(credentials => {
+                    const accessTokenRequestParams = {
+                        grant_type: 'password',
+                        username: credentials.username,
+                        password: credentials.password
+                    };
+
+                    if (config.scope) {
+                        accessTokenRequestParams.scope = config.scope;
+                    }
+
+                    return sendAccessTokenRequest(config, accessTokenRequestParams);
+                }).then(function (response) {
+                    let body = JSON.parse(response.body);
+                    if (response.status === 200) {
+                        return createToken(config, body);
+                    } else if (response.status === 400 || response.status === 401) {
+                        return $q.reject(`Access token error: ${body.error} (Description: ${body.error_description}, URI: ${body.error_uri}).`);
+                    } else {
+                        return $q.reject(`Invalid access token response.`);
+                    }
+                });
+            }
+
             AuthorizationProviderOAuth2.prototype.generateToken = function (config) {
                 if (config.flow === 'code') {
                     return executeCodeFlow(config);
                 } else if (config.flow === 'implicit') {
                     return executeImplicitFlow(config);
+                } else if (config.flow === 'resource_owner') {
+                    return executeResourceOwnerPasswordCredentialsFlow(config);
                 } else {
                     return $q.reject(`Invalid flow "${config.flow}".`);
                 }

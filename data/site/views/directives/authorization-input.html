@@ -6,10 +6,7 @@
             <div class="md-list-item-text">
                 <h3>{{token.title}}</h3>
                 <h4>
-                    {{getProviderById(token.providerId).title}}
-                    <span ng-if="token.configurationId">
-                        ({{getConfigurationById(token.configurationId).title}})
-                    </span>
+                    {{getProviderById(token.providerId).title}}<span ng-if="token.configurationId">: {{getConfigurationById(token.configurationId).title}}</span>
                 </h4>
                 <p>{{token.expirationDate | expirationDate}}</p>
             </div>

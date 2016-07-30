@@ -15,6 +15,7 @@
                     <md-select name="flow" ng-model="config.flow" required>
                         <md-option value="code">Authorization Code</md-option>
                         <md-option value="implicit">Implicit</md-option>
+                        <md-option value="resource_owner">Resource Owner Password Credentials</md-option>
                     </md-select>
                     <div ng-messages="configurationOAuth2Form.flow.$error" ng-show="configurationOAuth2Form.flow.$touched">
                         <div ng-message="required">This is required!</div>
@@ -34,28 +35,28 @@
                         <md-option>GET</md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container ng-if="flow('code')">
+                <md-input-container ng-if="flow('code', 'resource_owner')">
                     <label>Access Token Request: Endpoint</label>
                     <input name="accessTokenRequestEndpoint" type="url" ng-model="config.accessTokenRequestEndpoint" required>
                     <div ng-messages="configurationOAuth2Form.accessTokenRequestEndpoint.$error" ng-show="configurationOAuth2Form.accessTokenRequestEndpoint.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-input-container>
-                <md-input-container ng-if="flow('code')">
+                <md-input-container ng-if="flow('code', 'resource_owner')">
                     <label>Access Token Request: Client Authentication</label>
                     <md-select name="accessTokenRequestAuthentication" ng-model="config.accessTokenRequestAuthentication" required>
                         <md-option value="basic">HTTP Basic authentication</md-option>
                         <md-option value="body">Credentials in request-body</md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container ng-if="flow('code', 'implicit')">
+                <md-input-container ng-if="flow('code', 'implicit', 'resource_owner')">
                     <label>Client ID</label>
                     <input name="clientId" type="text" ng-model="config.clientId" required>
                     <div ng-messages="configurationOAuth2Form.clientId.$error" ng-show="configurationOAuth2Form.clientId.$touched">
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-input-container>
-                <md-input-container ng-if="flow('code')">
+                <md-input-container ng-if="flow('code', 'resource_owner')">
                     <label>Client Secret</label>
                     <input name="clientSecret" type="text" ng-model="config.clientSecret" required>
                     <div ng-messages="configurationOAuth2Form.clientSecret.$error" ng-show="configurationOAuth2Form.clientSecret.$touched">
@@ -70,7 +71,7 @@
                         <div ng-message="required">This is required!</div>
                     </div>
                 </md-input-container>
-                <md-input-container ng-if="flow('code', 'implicit')">
+                <md-input-container ng-if="flow('code', 'implicit', 'resource_owner')">
                     <label>Scope (optional)</label>
                     <input name="scope" type="text" ng-model="config.scope">
                 </md-input-container>
