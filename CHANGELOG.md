@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.13.0] - 2016-07-30
 ### Added
 - Shortcut Ctrl+E, which cycles through the active environments.
 - Support for OAuth 2 Resource Owner Password Credentials flow.
@@ -159,7 +161,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.12.1...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/1.13.0...HEAD
+[1.13.0]: https://github.com/frigus02/RESTer/compare/1.12.1...1.13.0
 [1.12.1]: https://github.com/frigus02/RESTer/compare/1.12.0...1.12.1
 [1.12.0]: https://github.com/frigus02/RESTer/compare/1.11.0...1.12.0
 [1.11.0]: https://github.com/frigus02/RESTer/compare/1.10.0...1.11.0
