@@ -22,6 +22,7 @@ describe('controller: MainCtrl', function () {
     let $dataGetRequestsDeferred;
     let $dataGetHistoryEntriesDeferred;
     let $dataGetEnvironmentDeferred;
+    let $dataGetEnvironmentsDeferred;
 
     let fakeRequests;
     let fakeHistoryEntries;
@@ -54,6 +55,7 @@ describe('controller: MainCtrl', function () {
         $dataGetRequestsDeferred = $q.defer();
         $dataGetHistoryEntriesDeferred = $q.defer();
         $dataGetEnvironmentDeferred = $q.defer();
+        $dataGetEnvironmentsDeferred = $q.defer();
         $data = {
             Request: function () {},
             HistoryEntry: function () {},
@@ -61,6 +63,7 @@ describe('controller: MainCtrl', function () {
             getRequests: jasmine.createSpy().and.returnValue($dataGetRequestsDeferred.promise),
             getHistoryEntries: jasmine.createSpy().and.returnValue($dataGetHistoryEntriesDeferred.promise),
             getEnvironment: jasmine.createSpy().and.returnValue($dataGetEnvironmentDeferred.promise),
+            getEnvironments: jasmine.createSpy().and.returnValue($dataGetEnvironmentsDeferred.promise),
             addChangeListener: jasmine.createSpy()
         };
         $settings = {
@@ -94,7 +97,8 @@ describe('controller: MainCtrl', function () {
             Object.assign(new $data.HistoryEntry(), {id: 41, time: new Date('2016-02-18T15:01:00Z'), request: fakeRequests[3]})
         ];
         fakeEnvironments = [
-            Object.assign(new $data.Environment(), {id: 1, name: 'dev', values: {}})
+            Object.assign(new $data.Environment(), {id: 1, name: 'dev', values: {}}),
+            Object.assign(new $data.Environment(), {id: 3, name: 'prod', values: {}})
         ];
     });
 
@@ -107,7 +111,7 @@ describe('controller: MainCtrl', function () {
     it('initializes properties', function () {
         expect($scope.navItems).toEqual([]);
 
-        expect($hotkeys.add).toHaveBeenCalledTimes(2);
+        expect($hotkeys.add).toHaveBeenCalledTimes(3);
         expect($hotkeys.add).toHaveBeenCalledWith(jasmine.any($hotkeys.Hotkey), $scope);
     });
 
@@ -291,5 +295,45 @@ describe('controller: MainCtrl', function () {
             templateUrl: 'views/dialogs/quick-open.html',
             controller: 'DialogQuickOpenCtrl'
         }));
+    });
+
+    it('cycle through environments on third hotkey callback', function () {
+        let hotkey = $hotkeys.add.calls.argsFor(2)[0];
+
+        expect(hotkey.combos).toEqual(['mod+e']);
+
+        // First callback (2 envs --> switch to second one)
+        hotkey.callback();
+
+        expect($data.getEnvironments).toHaveBeenCalledTimes(1);
+
+        $dataGetEnvironmentsDeferred.resolve(fakeEnvironments);
+        $rootScope.$apply();
+
+        expect($settings.activeEnvironment).toBe(3);
+
+        // Second callback (2 envs --> switch to first one again)
+        hotkey.callback();
+
+        expect($data.getEnvironments).toHaveBeenCalledTimes(2);
+
+        $dataGetEnvironmentsDeferred.resolve(fakeEnvironments);
+        $rootScope.$apply();
+
+        expect($settings.activeEnvironment).toBe(1);
+    });
+
+    it('cycle through environments on third hotkey callback (don\'t crash, when no envs exist)', function () {
+        let hotkey = $hotkeys.add.calls.argsFor(2)[0];
+
+        expect(hotkey.combos).toEqual(['mod+e']);
+
+        // Third callback (no envs --> do nothing)
+        hotkey.callback();
+
+        expect($data.getEnvironments).toHaveBeenCalledTimes(1);
+
+        $dataGetEnvironmentsDeferred.resolve([]);
+        $rootScope.$apply();
     });
 });
