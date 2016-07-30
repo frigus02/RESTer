@@ -6,13 +6,13 @@ The list below should be updated whenever usages of third party libraries change
 
 ```
 angular
-https://github.com/angular/bower-angular/blob/v1.5.7/angular.min.js
+https://github.com/angular/bower-angular/blob/v1.5.8/angular.min.js
 
 angular-animate
-https://github.com/angular/bower-angular-animate/blob/v1.5.7/angular-animate.min.js
+https://github.com/angular/bower-angular-animate/blob/v1.5.8/angular-animate.min.js
 
 angular-aria
-https://github.com/angular/bower-angular-aria/blob/v1.5.7/angular-aria.min.js
+https://github.com/angular/bower-angular-aria/blob/v1.5.8/angular-aria.min.js
 
 angular-jwt
 https://github.com/auth0/angular-jwt/blob/0.0.9/dist/angular-jwt.min.js
@@ -22,22 +22,22 @@ https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.js
 https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.css
 
 angular-messages
-https://github.com/angular/bower-angular-messages/blob/v1.5.7/angular-messages.min.js
+https://github.com/angular/bower-angular-messages/blob/v1.5.8/angular-messages.min.js
 
 angular-sanitize
-https://github.com/angular/bower-angular-sanitize/blob/v1.5.7/angular-sanitize.min.js
+https://github.com/angular/bower-angular-sanitize/blob/v1.5.8/angular-sanitize.min.js
 
 angular-ui-codemirror
 https://github.com/angular-ui/ui-codemirror/blob/v0.3.0/ui-codemirror.min.js
 
 codemirror
-https://github.com/codemirror/CodeMirror/blob/5.16.0/lib/codemirror.js
-https://github.com/codemirror/CodeMirror/blob/5.16.0/lib/codemirror.css
-https://github.com/codemirror/CodeMirror/blob/5.16.0/mode/javascript/javascript.js
-https://github.com/codemirror/CodeMirror/blob/5.16.0/mode/xml/xml.js
+https://github.com/codemirror/CodeMirror/blob/5.17.0/lib/codemirror.js
+https://github.com/codemirror/CodeMirror/blob/5.17.0/lib/codemirror.css
+https://github.com/codemirror/CodeMirror/blob/5.17.0/mode/javascript/javascript.js
+https://github.com/codemirror/CodeMirror/blob/5.17.0/mode/xml/xml.js
 
 lodash
-https://github.com/lodash/lodash/blob/4.13.1/dist/lodash.min.js
+https://github.com/lodash/lodash/blob/4.14.1/dist/lodash.min.js
 
 mousetrap
 https://github.com/ccampbell/mousetrap/blob/1.6.0/mousetrap.min.js
