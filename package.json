@@ -6,7 +6,8 @@
   "description": "A REST client for almost any web service.",
   "homepage": "https://github.com/frigus02/RESTer",
   "permissions": {
-    "multiprocess": true
+    "multiprocess": true,
+    "private-browsing": true
   },
   "author": "Jan Kühle <jkuehle90@gmail.com> (http://kuehle.me)",
   "license": "MIT",
