@@ -1,5 +1,6 @@
 body {
     color: #fff;
+    background-color: #424242;
 
     /* Some elements like tooltip and toast produce scrollbars as they show/hide. This removes them. */
     overflow: hidden;

@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Splash screen.
 
 ## [1.13.0] - 2016-07-30
 ### Added
