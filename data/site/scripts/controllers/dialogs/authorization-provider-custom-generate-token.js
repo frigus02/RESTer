@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogAuthorizationProviderCustomGenerateTokenCtrl', ['$scope', '$mdDialog', '$data',
-        function ($scope, $mdDialog, $data) {
+    .controller('DialogAuthorizationProviderCustomGenerateTokenCtrl', ['$scope', '$mdDialog',
+        function ($scope, $mdDialog) {
 
-            $scope.token = new $data.AuthorizationToken();
+            $scope.token = {};
 
             $scope.cancel = function () {
                 $mdDialog.cancel();

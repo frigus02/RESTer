@@ -8,10 +8,10 @@ describe('controller: HistoryCtrl', function () {
     let $rootScope;
     let $scope;
     let $state;
-    let $data;
+    let $rester;
     let $variables;
-    let $dataGetHistoryEntriesDeferred;
-    let $dataDeleteHistoryEntryDeferred;
+    let $resterGetHistoryEntriesDeferred;
+    let $resterDeleteHistoryEntryDeferred;
 
     beforeEach(inject(function (_$controller_, _$q_, _$rootScope_) {
         $controller = _$controller_;
@@ -25,11 +25,11 @@ describe('controller: HistoryCtrl', function () {
             current: {},
             go: jasmine.createSpy()
         };
-        $dataGetHistoryEntriesDeferred = $q.defer();
-        $dataDeleteHistoryEntryDeferred = $q.defer();
-        $data = {
-            getHistoryEntries: jasmine.createSpy().and.returnValue($dataGetHistoryEntriesDeferred.promise),
-            deleteHistoryEntry: jasmine.createSpy().and.returnValue($dataDeleteHistoryEntryDeferred.promise)
+        $resterGetHistoryEntriesDeferred = $q.defer();
+        $resterDeleteHistoryEntryDeferred = $q.defer();
+        $rester = {
+            getHistoryEntries: jasmine.createSpy().and.returnValue($resterGetHistoryEntriesDeferred.promise),
+            deleteHistoryEntry: jasmine.createSpy().and.returnValue($resterDeleteHistoryEntryDeferred.promise)
         };
         $variables = {
             replace: jasmine.createSpy().and.returnValue({})
@@ -38,7 +38,7 @@ describe('controller: HistoryCtrl', function () {
 
 
     beforeEach(function () {
-        $controller('HistoryCtrl', { $scope: $scope, $state: $state, $data: $data, $variables: $variables });
+        $controller('HistoryCtrl', { $scope: $scope, $state: $state, $rester: $rester, $variables: $variables });
     });
 
 
@@ -48,10 +48,10 @@ describe('controller: HistoryCtrl', function () {
         expect($scope.initialCount).toBe(50);
         expect($scope.historyEntries).toEqual([]);
 
-        expect($data.getHistoryEntries).toHaveBeenCalledWith(-50);
+        expect($rester.getHistoryEntries).toHaveBeenCalledWith(-50);
 
         let entries = [1, 2, 3];
-        $dataGetHistoryEntriesDeferred.resolve(entries);
+        $resterGetHistoryEntriesDeferred.resolve(entries);
         $rootScope.$apply();
 
         expect($scope.historyEntries).toEqual(entries);
@@ -85,10 +85,10 @@ describe('controller: HistoryCtrl', function () {
 
         $scope.loadAll();
 
-        expect($data.getHistoryEntries).toHaveBeenCalledWith();
+        expect($rester.getHistoryEntries).toHaveBeenCalledWith();
 
         let entries = [1, 2, 3, 4];
-        $dataGetHistoryEntriesDeferred.resolve(entries);
+        $resterGetHistoryEntriesDeferred.resolve(entries);
         $rootScope.$apply();
 
         expect($scope.historyEntries).toEqual(entries);
@@ -118,9 +118,9 @@ describe('controller: HistoryCtrl', function () {
 
         $scope.deleteHistoryEntry($scope.historyEntries[0]);
 
-        expect($data.deleteHistoryEntry).toHaveBeenCalledWith($scope.historyEntries[0]);
+        expect($rester.deleteHistoryEntry).toHaveBeenCalledWith($scope.historyEntries[0]);
 
-        $dataDeleteHistoryEntryDeferred.resolve();
+        $resterDeleteHistoryEntryDeferred.resolve();
         $rootScope.$apply();
 
         expect($scope.historyEntries.length).toBe(1);

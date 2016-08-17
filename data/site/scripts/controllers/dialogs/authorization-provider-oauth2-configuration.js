@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', ['$scope', '$mdDialog', '$data', 'config',
-        function ($scope, $mdDialog, $data, config) {
+    .controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', ['$scope', '$mdDialog', 'config',
+        function ($scope, $mdDialog, config) {
 
-            $scope.config = config || new $data.AuthorizationProviderConfiguration();
+            $scope.config = config || {};
             if (!$scope.config.accessTokenRequestMethod) {
                 $scope.config.accessTokenRequestMethod = 'POST';
             }

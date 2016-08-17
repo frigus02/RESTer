@@ -7,19 +7,12 @@ describe('controller: DialogEditEnvironmentCtrl', function () {
     let $rootScope;
     let $scope;
     let $mdDialog;
-    let $data;
 
     beforeEach(function () {
         $scope = {
             $watch: jasmine.createSpy()
         };
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        $data = {
-            Environment: function () {
-                this.name = '';
-                this.values = {};
-            }
-        };
     });
 
     beforeEach(inject(function (_$controller_, _$rootScope_) {
@@ -30,12 +23,12 @@ describe('controller: DialogEditEnvironmentCtrl', function () {
 
     describe('create new environment', function () {
         beforeEach(function () {
-            $controller('DialogEditEnvironmentCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, environment: undefined });
+            $controller('DialogEditEnvironmentCtrl', { $scope: $scope, $mdDialog: $mdDialog, environment: undefined });
         });
 
 
         it('initializes environment with an empty Environment object', function () {
-            expect($scope.environment).toEqual(jasmine.any($data.Environment));
+            expect($scope.environment).toEqual({ values: {} });
         });
 
         it('adds a new empty value when all existing values contain some text', function () {
@@ -113,7 +106,7 @@ describe('controller: DialogEditEnvironmentCtrl', function () {
         };
 
         beforeEach(function () {
-            $controller('DialogEditEnvironmentCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, environment: environment });
+            $controller('DialogEditEnvironmentCtrl', { $scope: $scope, $mdDialog: $mdDialog, environment: environment });
         });
 
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .directive('authorizationInput', ['$authorization', '$data', '$error', function ($authorization, $data, $error) {
+    .directive('authorizationInput', ['$authorization', '$rester', '$error', function ($authorization, $rester, $error) {
 
         return {
             restrict: 'E',
@@ -11,7 +11,7 @@ angular.module('app')
             templateUrl: 'views/directives/authorization-input.html',
             controller: function ($scope) {
                 $scope.tokens = [];
-                $data.getAuthorizationTokens().then(tokens => {
+                $rester.getAuthorizationTokens().then(tokens => {
                     $scope.tokens = tokens;
                     updateTokenIsUsedFlag();
                 });
@@ -47,7 +47,7 @@ angular.module('app')
                     if (provider.needsConfiguration) {
                         $scope.providers.push(provider);
 
-                        $data.getAuthorizationProviderConfigurations(provider.id).then(configs => {
+                        $rester.getAuthorizationProviderConfigurations(provider.id).then(configs => {
                             configs.forEach(config => {
                                 $scope.configurations.push(config);
                             });
@@ -78,7 +78,7 @@ angular.module('app')
                 };
 
                 $scope.deleteToken = function (token) {
-                    $data.deleteAuthorizationToken(token).then(() => {
+                    $rester.deleteAuthorizationToken(token).then(() => {
                         let index = $scope.tokens.indexOf(token);
                         if (index > -1) {
                             $scope.tokens.splice(index, 1);
@@ -89,11 +89,13 @@ angular.module('app')
                 $scope.generateNewToken = function (config) {
                     $scope.getProviderById(config.providerId).generateToken(config)
                         .then(token => {
-                            $data.addAuthorizationToken(token);
-                            $scope.tokens.push(token);
+                            return $rester.addAuthorizationToken(token).then(id => {
+                                token.id = id;
+                                token.isUsed = true;
 
-                            token.isUsed = true;
-                            $scope.changeTokenUsage(token);
+                                $scope.tokens.push(token);
+                                $scope.changeTokenUsage(token);
+                            });
                         })
                         .catch(error => {
                             if (error) {
@@ -105,14 +107,14 @@ angular.module('app')
                 $scope.editConfiguration = function (config) {
                     $scope.getProviderById(config.providerId).editConfiguration(config).then(newConfig => {
                         if (newConfig === 'delete') {
-                            $data.deleteAuthorizationProviderConfiguration(config).then(() => {
+                            $rester.deleteAuthorizationProviderConfiguration(config).then(() => {
                                 let index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1);
                                 }
                             });
                         } else {
-                            $data.putAuthorizationProviderConfiguration(newConfig).then(() => {
+                            $rester.putAuthorizationProviderConfiguration(newConfig).then(() => {
                                 let index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1, newConfig);
@@ -126,8 +128,10 @@ angular.module('app')
 
                 $scope.createConfiguration = function (provider) {
                     provider.createConfiguration().then(config => {
-                        $data.putAuthorizationProviderConfiguration(config);
-                        $scope.configurations.push(config);
+                        $rester.putAuthorizationProviderConfiguration(config).then(id => {
+                            config.id = id;
+                            $scope.configurations.push(config);
+                        });
                     });
                 };
             }

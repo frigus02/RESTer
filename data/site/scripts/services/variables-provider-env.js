@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .service('$variablesProviderEnv', ['$data', '$settings', function ($data, $settings) {
+    .service('$variablesProviderEnv', ['$rester', '$settings', function ($rester, $settings) {
         let self = this;
 
         self.name = 'env';
@@ -10,7 +10,7 @@ angular.module('app')
         function updateValues() {
             let envId = $settings.activeEnvironment;
             if (envId) {
-                $data.getEnvironment(envId).then(env => {
+                $rester.getEnvironment(envId).then(env => {
                     self.values = env.values;
                 });
             } else {
@@ -19,7 +19,7 @@ angular.module('app')
         }
 
         updateValues();
-        $data.addChangeListener(updateValues);
+        $rester.addEventListener('dataChange', updateValues);
         $settings.addChangeListener(updateValues);
 
     }]);

@@ -8,8 +8,8 @@ describe('controller: DialogSaveRequestCtrl', function () {
     let $rootScope;
     let $scope;
     let $mdDialog;
-    let $data;
-    let $dataGetRequestCollectionsDeferred;
+    let $rester;
+    let $resterGetRequestCollectionsDeferred;
 
     beforeEach(inject(function (_$controller_, _$q_, _$rootScope_) {
         $controller = _$controller_;
@@ -20,15 +20,15 @@ describe('controller: DialogSaveRequestCtrl', function () {
     beforeEach(function () {
         $scope = {};
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        $dataGetRequestCollectionsDeferred = $q.defer();
-        $data = {
-            getRequestCollections: jasmine.createSpy().and.returnValue($dataGetRequestCollectionsDeferred.promise)
+        $resterGetRequestCollectionsDeferred = $q.defer();
+        $rester = {
+            getRequestCollections: jasmine.createSpy().and.returnValue($resterGetRequestCollectionsDeferred.promise)
         };
     });
 
 
     beforeEach(function () {
-        $controller('DialogSaveRequestCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, isNew: false, collection: 'Google', title: 'Get Tasks', showHistoryWarning: false });
+        $controller('DialogSaveRequestCtrl', { $scope: $scope, $mdDialog: $mdDialog, $rester: $rester, isNew: false, collection: 'Google', title: 'Get Tasks', showHistoryWarning: false });
     });
 
 
@@ -49,7 +49,7 @@ describe('controller: DialogSaveRequestCtrl', function () {
         result = $scope.queryCollections();
         expect(result.$$state.status).toBe(0);
 
-        $dataGetRequestCollectionsDeferred.resolve(['JsonPlaceholder', 'Google']);
+        $resterGetRequestCollectionsDeferred.resolve(['JsonPlaceholder', 'Google']);
         $rootScope.$apply();
 
         expect(result.$$state.status).toBe(1);

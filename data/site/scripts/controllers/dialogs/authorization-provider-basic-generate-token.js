@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogAuthorizationProviderBasicGenerateTokenCtrl', ['$scope', '$mdDialog', '$data', '$window',
-        function ($scope, $mdDialog, $data, $window) {
+    .controller('DialogAuthorizationProviderBasicGenerateTokenCtrl', ['$scope', '$mdDialog', '$window',
+        function ($scope, $mdDialog, $window) {
 
             $scope.userName = '';
             $scope.password = '';
@@ -12,7 +12,7 @@ angular.module('app')
             };
 
             $scope.save = function () {
-                let token = new $data.AuthorizationToken();
+                let token = {};
                 token.title = $scope.userName;
                 token.scheme = 'Basic';
                 token.token = $window.btoa(`${$scope.userName}:${$scope.password}`);

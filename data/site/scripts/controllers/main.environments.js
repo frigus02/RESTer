@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('EnvironmentsCtrl', ['$scope', '$state', '$data', '$settings', '$mdDialog',
-        function ($scope, $state, $data, $settings, $mdDialog) {
+    .controller('EnvironmentsCtrl', ['$scope', '$state', '$rester', '$settings', '$mdDialog',
+        function ($scope, $state, $rester, $settings, $mdDialog) {
 
             $state.current.data = {
                 title: 'Environments'
@@ -11,7 +11,7 @@ angular.module('app')
             $scope.environments = [];
             $scope.settings = $settings;
 
-            $data.getEnvironments().then(envs => {
+            $rester.getEnvironments().then(envs => {
                 $scope.environments = envs;
             });
 
@@ -25,12 +25,14 @@ angular.module('app')
                     }
                 }).then(updatedEnv => {
                     if (updatedEnv === 'delete') {
-                        $data.deleteEnvironment(env).then(() => {
+                        $rester.deleteEnvironment(env).then(() => {
                             let index = $scope.environments.indexOf(env);
                             $scope.environments.splice(index, 1);
                         });
                     } else {
-                        $data.putEnvironment(updatedEnv).then(() => {
+                        $rester.putEnvironment(updatedEnv).then(id => {
+                            updatedEnv.id = id;
+
                             if (env) {
                                 Object.assign(env, updatedEnv);
                             } else {

@@ -6,14 +6,10 @@ describe('controller: DialogAuthorizationProviderOAuth2ConfigurationCtrl', funct
     let $controller;
     let $scope;
     let $mdDialog;
-    let $data;
 
     beforeEach(function () {
         $scope = {};
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        $data = {
-            AuthorizationProviderConfiguration: function () {}
-        };
     });
 
     beforeEach(inject(function (_$controller_) {
@@ -23,12 +19,11 @@ describe('controller: DialogAuthorizationProviderOAuth2ConfigurationCtrl', funct
 
     describe('create new token', function () {
         beforeEach(function () {
-            $controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, config: undefined });
+            $controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', { $scope: $scope, $mdDialog: $mdDialog, config: undefined });
         });
 
 
         it('initializes config with an empty AuthorizationProviderConfiguration object', function () {
-            expect($scope.config).toEqual(jasmine.any($data.AuthorizationProviderConfiguration));
             expect($scope.config.accessTokenRequestMethod).toBe('POST');
             expect($scope.config.accessTokenRequestAuthentication).toBe('basic');
         });
@@ -57,7 +52,7 @@ describe('controller: DialogAuthorizationProviderOAuth2ConfigurationCtrl', funct
         let config = { foo: 'bar' };
 
         beforeEach(function () {
-            $controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, config: config });
+            $controller('DialogAuthorizationProviderOAuth2ConfigurationCtrl', { $scope: $scope, $mdDialog: $mdDialog, config: config });
         });
 
 

@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogQuickOpenCtrl', ['$scope', '$mdDialog', '$data', '$state',
-        function ($scope, $mdDialog, $data, $state) {
+    .controller('DialogQuickOpenCtrl', ['$scope', '$mdDialog', '$rester', '$state',
+        function ($scope, $mdDialog, $rester, $state) {
 
             let items = [];
-            let initialLoadingPromise = $data.getRequests().then(requests => {
+            let initialLoadingPromise = $rester.getRequests().then(requests => {
                 items.push(...requests.map(r => ({
                     title: `${r.collection} / ${r.title}`,
                     url: `${r.method} ${r.url}`,
@@ -27,9 +27,7 @@ angular.module('app')
             }
 
             function doOpenItem(item) {
-                if (item.data instanceof $data.Request) {
-                    $state.go('main.request.existing', {id: item.data.id});
-                }
+                $state.go('main.request.existing', {id: item.data.id});
             }
 
             $scope.searchText = '';

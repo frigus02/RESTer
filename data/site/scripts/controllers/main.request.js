@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$data', '$settings', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections',
-        function ($scope, $state, $rootScope, $rester, $data, $settings, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$settings', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections',
+        function ($scope, $state, $rootScope, $rester, $settings, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
 
             $state.current.data = {
                 actions: [
@@ -38,7 +38,10 @@ angular.module('app')
 
             $scope.time = null;
             $scope.elapsedMillis = null;
-            $scope.request = new $data.Request();
+            $scope.request = {
+                headers: [],
+                variables: {enabled: false}
+            };
             $scope.requestVariableValues = {};
             $scope.response = null;
             $scope.requestIsSending = false;
@@ -49,14 +52,14 @@ angular.module('app')
                 $scope.requestIsSending = false;
 
                 if (newStateParams.historyId) {
-                    $data.getHistoryEntry(+newStateParams.historyId).then(historyEntry => {
+                    $rester.getHistoryEntry(+newStateParams.historyId).then(historyEntry => {
                         if (historyEntry.request.id !== +newStateParams.id &&
                             !(historyEntry.request.id === undefined && newStateParams.id === null)) {
                             $error.show(`Specified request id (${newStateParams.id}) does not match the request id of the history entry (${historyEntry.request.id}).`);
                             $state.go('main.request.new');
                         } else {
                             $scope.time = historyEntry.time;
-                            $scope.elapsedMillis = historyEntry.timeEnd - historyEntry.time;
+                            $scope.elapsedMillis = new Date(historyEntry.timeEnd) - new Date(historyEntry.time);
                             $scope.request = historyEntry.request;
                             $scope.response = historyEntry.response;
 
@@ -65,7 +68,7 @@ angular.module('app')
                         }
                     });
                 } else if (newStateParams.id) {
-                    $data.getRequest(+newStateParams.id).then(request => {
+                    $rester.getRequest(+newStateParams.id).then(request => {
                         $scope.time = null;
                         $scope.elapsedMillis = null;
                         $scope.request = request;
@@ -75,7 +78,10 @@ angular.module('app')
                 } else {
                     $scope.time = null;
                     $scope.elapsedMillis = null;
-                    $scope.request = new $data.Request();
+                    $scope.request = {
+                        headers: [],
+                        variables: {enabled: false}
+                    };
                     $scope.requestVariableValues = {};
                     $scope.response = null;
                 }
@@ -123,19 +129,19 @@ angular.module('app')
                         let requestClone = _.cloneDeep($scope.request);
                         requestClone.variables.values = usedVariableValues;
 
-                        let response = Object.assign(new $data.Response(), {
+                        let response = {
                             status: plainResponse.status,
                             statusText: plainResponse.statusText,
                             headers: plainResponse.headers,
                             body: plainResponse.body
-                        });
+                        };
 
-                        return $data.addHistoryEntry(Object.assign(new $data.HistoryEntry(), {
+                        return $rester.addHistoryEntry({
                             time: new Date(plainResponse.timeStart),
                             timeEnd: new Date(plainResponse.timeEnd),
                             request: requestClone,
                             response: response
-                        }));
+                        });
                     })
                     .then(historyId => {
                         $state.go('main.request.existing.history', {
@@ -164,6 +170,16 @@ angular.module('app')
                 } else if (status >= 400) {
                     return 'badge--warn';
                 }
+            };
+
+            $scope.getResponseHeadersAsString = function () {
+                if (!$scope.response) return;
+
+                return _($scope.response.headers)
+                    .sortBy('name')
+                    .map(h => `${h.name}: ${h.value}`)
+                    .value()
+                    .join('\n');
             };
 
             $scope.getResponseBodyHighlightLanguage = function () {
@@ -196,7 +212,9 @@ angular.module('app')
                         delete $scope.request.id;
                     }
 
-                    $data.putRequest($scope.request).then(() => {
+                    $rester.putRequest($scope.request).then(id => {
+                        $scope.request.id = id;
+
                         $state.go('main.request.existing', {
                             id: $scope.request.id
                         });
@@ -211,7 +229,7 @@ angular.module('app')
                     .ok('Delete')
                     .cancel('Cancel')
                 ).then(() => {
-                    $data.deleteRequest($scope.request).then(() => {
+                    $rester.deleteRequest($scope.request).then(() => {
                         $state.go('main.request.new');
                     });
                 });

@@ -6,15 +6,11 @@ describe('controller: DialogAuthorizationProviderBasicGenerateTokenCtrl', functi
     let $controller;
     let $scope;
     let $mdDialog;
-    let $data;
     let $window;
 
     beforeEach(function () {
         $scope = {};
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        $data = {
-            AuthorizationToken: function () {}
-        };
         $window = {
             btoa: jasmine.createSpy().and.returnValue('base64string')
         };
@@ -25,7 +21,7 @@ describe('controller: DialogAuthorizationProviderBasicGenerateTokenCtrl', functi
     }));
 
     beforeEach(function () {
-        $controller('DialogAuthorizationProviderBasicGenerateTokenCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, $window: $window });
+        $controller('DialogAuthorizationProviderBasicGenerateTokenCtrl', { $scope: $scope, $mdDialog: $mdDialog, $window: $window });
     });
 
 
@@ -46,7 +42,6 @@ describe('controller: DialogAuthorizationProviderBasicGenerateTokenCtrl', functi
 
         $scope.save();
 
-        expect($mdDialog.hide).toHaveBeenCalledWith(jasmine.any($data.AuthorizationToken));
         expect($mdDialog.hide).toHaveBeenCalledWith(jasmine.objectContaining({
             title: $scope.userName,
             scheme: 'Basic',

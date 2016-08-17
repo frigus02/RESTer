@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .controller('HistoryCtrl', ['$scope', '$state', '$data', '$variables', function ($scope, $state, $data, $variables) {
+    .controller('HistoryCtrl', ['$scope', '$state', '$rester', '$variables', function ($scope, $state, $rester, $variables) {
 
         $state.current.data = {
             title: 'History'
@@ -10,7 +10,7 @@ angular.module('app')
         $scope.initialCount = 50;
         $scope.historyEntries = [];
 
-        $data.getHistoryEntries(-$scope.initialCount).then(entries => {
+        $rester.getHistoryEntries(-$scope.initialCount).then(entries => {
             $scope.historyEntries = entries;
         });
 
@@ -24,7 +24,7 @@ angular.module('app')
         };
 
         $scope.loadAll = function () {
-            $data.getHistoryEntries().then(entries => {
+            $rester.getHistoryEntries().then(entries => {
                 $scope.historyEntries = entries;
             });
         };
@@ -37,7 +37,7 @@ angular.module('app')
         };
 
         $scope.deleteHistoryEntry = function (entry) {
-            $data.deleteHistoryEntry(entry).then(() => {
+            $rester.deleteHistoryEntry(entry).then(() => {
                 let index = $scope.historyEntries.indexOf(entry);
                 $scope.historyEntries.splice(index, 1);
             });

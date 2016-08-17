@@ -23,8 +23,8 @@ angular.module('app')
             /**
              * Generates a new authorization token using the specified
              * configuration.
-             * @param {$data~AuthorizationProviderConfiguration} config
-             * @returns {Promise.<$data~AuthorizationToken>} A promise, which
+             * @param {AuthorizationProviderConfiguration} config
+             * @returns {Promise.<AuthorizationToken>} A promise, which
              * returns the authorization when it is resolved.
              */
             generateToken: function (config) {
@@ -34,7 +34,7 @@ angular.module('app')
             /**
              * Creates a new configuration. Will probably show a dialog to the user
              * asking for data.
-             * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
+             * @returns {Promise.<AuthorizationProviderConfiguration>}
              */
             createConfiguration: function () {
                 return $q.reject();
@@ -45,8 +45,8 @@ angular.module('app')
              * the user asking for updated information. When the result promise
              * resolves to the string 'delete', this means the configuration should
              * be deleted.
-             * @param {$data~AuthorizationProviderConfiguration} config
-             * @returns {Promise.<$data~AuthorizationProviderConfiguration>}
+             * @param {AuthorizationProviderConfiguration} config
+             * @returns {Promise.<AuthorizationProviderConfiguration>}
              */
             editConfiguration: function (config) {
                 return $q.reject();

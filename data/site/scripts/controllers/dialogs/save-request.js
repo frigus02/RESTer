@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogSaveRequestCtrl', ['$scope', '$mdDialog', '$data', 'isNew', 'collection', 'title', 'showHistoryWarning',
-        function ($scope, $mdDialog, $data, isNew, collection, title, showHistoryWarning) {
+    .controller('DialogSaveRequestCtrl', ['$scope', '$mdDialog', '$rester', 'isNew', 'collection', 'title', 'showHistoryWarning',
+        function ($scope, $mdDialog, $rester, isNew, collection, title, showHistoryWarning) {
 
             let collections = null;
 
@@ -21,7 +21,7 @@ angular.module('app')
 
             $scope.queryCollections = function (query) {
                 if (collections === null) {
-                    return $data.getRequestCollections().then(result => {
+                    return $rester.getRequestCollections().then(result => {
                         collections = result;
 
                         return getFilteredCollections(query);

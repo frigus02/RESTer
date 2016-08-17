@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$data', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog', '$variables',
-        function ($scope, $rootScope, $mdSidenav, $state, $data, $settings, $q, $filter, $hotkeys, $mdDialog, $variables) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$rester', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog', '$variables',
+        function ($scope, $rootScope, $mdSidenav, $state, $rester, $settings, $q, $filter, $hotkeys, $mdDialog, $variables) {
 
             $scope.settings = $settings;
             $scope.navItems = [];
@@ -14,8 +14,8 @@ angular.module('app')
 
             function createNavigation() {
                 $q.all([
-                    $data.getRequests(),
-                    $data.getHistoryEntries(-5),
+                    $rester.getRequests(),
+                    $rester.getHistoryEntries(-5),
                     getActiveEnvironment()
                 ]).then(([requests, historyEntries, activeEnvironment]) => {
                     $scope.navItems = [];
@@ -170,7 +170,7 @@ angular.module('app')
 
             function updateNavigationBasedOnDataChanges(changes) {
                 changes.forEach(change => {
-                    if (change.item instanceof $data.Request) {
+                    if (change.itemType === 'Request') {
                         if (change.action === 'put' || change.action === 'delete') {
                             removeRequestNavigationItem(change.item.id);
                         }
@@ -200,7 +200,7 @@ angular.module('app')
                         }
 
                         historyNavItemsOffset = requestNavItemsOffset + requestNavItems.length + 5;
-                    } else if (change.item instanceof $data.HistoryEntry) {
+                    } else if (change.itemType === 'HistoryEntry') {
                         if (change.action === 'add') {
                             let newHistoryItem = createHistoryNavItem(change.item);
 
@@ -210,7 +210,7 @@ angular.module('app')
                                 historyNavItems.pop();
                             }
                         }
-                    } else if (change.item instanceof $data.Environment) {
+                    } else if (change.itemType === 'Environment') {
                         if (change.item.id === $settings.activeEnvironment) {
                             updateEnvironmentNavItemSubtitle(change.item);
                         }
@@ -225,7 +225,7 @@ angular.module('app')
             function getActiveEnvironment() {
                 let envId = $settings.activeEnvironment;
                 if (envId) {
-                    return $data.getEnvironment(envId);
+                    return $rester.getEnvironment(envId);
                 } else {
                     return $q.resolve();
                 }
@@ -237,7 +237,7 @@ angular.module('app')
             }
 
             createNavigation();
-            $data.addChangeListener(updateNavigationBasedOnDataChanges);
+            $rester.addEventListener('dataChange', updateNavigationBasedOnDataChanges);
             $settings.addChangeListener(updateNavigationBasedOnSettingsChanges);
 
 
@@ -287,7 +287,7 @@ angular.module('app')
                 combos: ['mod+e'],
                 description: 'Cycle through environments.',
                 callback () {
-                    $data.getEnvironments().then(envs => {
+                    $rester.getEnvironments().then(envs => {
                         if (envs.length === 0) return;
 
                         const index = envs.findIndex(env => env.id === $scope.settings.activeEnvironment),

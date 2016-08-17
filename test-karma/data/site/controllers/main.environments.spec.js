@@ -9,13 +9,13 @@ describe('controller: EnvironmentsCtrl', function () {
 
     let $scope;
     let $state;
-    let $data;
+    let $rester;
     let $settings;
     let $mdDialog;
 
-    let $dataGetEnvironmentsDeferred;
-    let $dataPutEnvironmentDeferred;
-    let $dataDeleteEnvironmentDeferred;
+    let $resterGetEnvironmentsDeferred;
+    let $resterPutEnvironmentDeferred;
+    let $resterDeleteEnvironmentDeferred;
     let $mdDialogShowDeferred;
 
     beforeEach(inject(function (_$controller_, _$q_, _$rootScope_) {
@@ -30,13 +30,13 @@ describe('controller: EnvironmentsCtrl', function () {
             current: {},
             go: jasmine.createSpy()
         };
-        $dataGetEnvironmentsDeferred = $q.defer();
-        $dataPutEnvironmentDeferred = $q.defer();
-        $dataDeleteEnvironmentDeferred = $q.defer();
-        $data = {
-            getEnvironments: jasmine.createSpy().and.returnValue($dataGetEnvironmentsDeferred.promise),
-            putEnvironment: jasmine.createSpy().and.returnValue($dataPutEnvironmentDeferred.promise),
-            deleteEnvironment: jasmine.createSpy().and.returnValue($dataDeleteEnvironmentDeferred.promise)
+        $resterGetEnvironmentsDeferred = $q.defer();
+        $resterPutEnvironmentDeferred = $q.defer();
+        $resterDeleteEnvironmentDeferred = $q.defer();
+        $rester = {
+            getEnvironments: jasmine.createSpy().and.returnValue($resterGetEnvironmentsDeferred.promise),
+            putEnvironment: jasmine.createSpy().and.returnValue($resterPutEnvironmentDeferred.promise),
+            deleteEnvironment: jasmine.createSpy().and.returnValue($resterDeleteEnvironmentDeferred.promise)
         };
         $settings = {
             activeEnvironment: 1
@@ -49,7 +49,7 @@ describe('controller: EnvironmentsCtrl', function () {
 
 
     beforeEach(function () {
-        $controller('EnvironmentsCtrl', { $scope: $scope, $state: $state, $data: $data, $settings: $settings, $mdDialog: $mdDialog });
+        $controller('EnvironmentsCtrl', { $scope: $scope, $state: $state, $rester: $rester, $settings: $settings, $mdDialog: $mdDialog });
     });
 
 
@@ -59,10 +59,10 @@ describe('controller: EnvironmentsCtrl', function () {
         expect($scope.environments).toEqual([]);
         expect($scope.settings).toBe($settings);
 
-        expect($data.getEnvironments).toHaveBeenCalled();
+        expect($rester.getEnvironments).toHaveBeenCalled();
 
         let environments = [1, 2, 3];
-        $dataGetEnvironmentsDeferred.resolve(environments);
+        $resterGetEnvironmentsDeferred.resolve(environments);
         $rootScope.$apply();
 
         expect($scope.environments).toEqual(environments);
@@ -90,10 +90,10 @@ describe('controller: EnvironmentsCtrl', function () {
         $mdDialogShowDeferred.resolve(environment);
         $rootScope.$apply();
 
-        expect($data.putEnvironment).toHaveBeenCalledWith(environment);
+        expect($rester.putEnvironment).toHaveBeenCalledWith(environment);
 
         // Update environments in scope
-        $dataPutEnvironmentDeferred.resolve();
+        $resterPutEnvironmentDeferred.resolve();
         $rootScope.$apply();
 
         expect($scope.environments).toEqual([environment]);
@@ -126,10 +126,10 @@ describe('controller: EnvironmentsCtrl', function () {
         $mdDialogShowDeferred.resolve(updatedEnvironment);
         $rootScope.$apply();
 
-        expect($data.putEnvironment).toHaveBeenCalledWith(updatedEnvironment);
+        expect($rester.putEnvironment).toHaveBeenCalledWith(updatedEnvironment);
 
         // Update environments in scope
-        $dataPutEnvironmentDeferred.resolve();
+        $resterPutEnvironmentDeferred.resolve();
         $rootScope.$apply();
 
         expect($scope.environments).toEqual([updatedEnvironment]);
@@ -159,10 +159,10 @@ describe('controller: EnvironmentsCtrl', function () {
         $mdDialogShowDeferred.resolve('delete');
         $rootScope.$apply();
 
-        expect($data.deleteEnvironment).toHaveBeenCalledWith(environment);
+        expect($rester.deleteEnvironment).toHaveBeenCalledWith(environment);
 
         // Update environments in scope
-        $dataDeleteEnvironmentDeferred.resolve();
+        $resterDeleteEnvironmentDeferred.resolve();
         $rootScope.$apply();
 
         expect($scope.environments).toEqual([]);

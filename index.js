@@ -7,20 +7,24 @@ const self = require('sdk/self'),
       tabs = require('sdk/tabs'),
       pageMod = require('sdk/page-mod'),
       customRequest = require('lib/request'),
-      customBrowserRequest = require('lib/browser-request');
+      customBrowserRequest = require('lib/browser-request'),
+      customData = require('lib/data');
 
 let api = {
-    getInfo () {
-        return Promise.resolve({
-            version: self.version
-        });
+    info: {
+        get () {
+            return {version: self.version};
+        }
     },
-    sendRequest (request) {
-        return customRequest.send(request);
+    request: {
+        send (request) {
+            return customRequest.send(request);
+        },
+        sendBrowser (request) {
+            return customBrowserRequest.send(request);
+        }
     },
-    sendBrowserRequest (request) {
-        return customBrowserRequest.send(request);
-    }
+    data: customData
 };
 
 buttons.ActionButton({
@@ -40,18 +44,40 @@ buttons.ActionButton({
 });
 
 pageMod.PageMod({
-    include: self.data.url('./site/index.html') + '*',
+    include: [
+        // Installed extension
+        self.data.url('./site/index.html') + '*',
+        // Site launched on localhost
+        'http://localhost:3000/*',
+        'http://127.0.0.1:3000/*'
+    ],
     contentScriptFile: './site-content/rester.js',
+    contentScriptWhen: 'start',
     attachTo: ['existing', 'top'],
     onAttach: function (worker) {
+        function onDataChange(data) {
+            worker.port.emit('event', {name: 'dataChange', data});
+        }
+
+        customData.on('change', onDataChange);
+
         worker.port.on('api.request', function ({id, action, args}) {
-            api[action](args)
+            const actionPath = action.split('.'),
+                  actionFunc = actionPath.reduce((api, path) => api && api[path], api);
+
+            if (!actionFunc) return;
+
+            Promise.resolve(actionFunc(args))
                 .then(function (result) {
                     worker.port.emit('api.response', {id, result});
                 })
                 .catch(function (error) {
                     worker.port.emit('api.response', {id, error});
                 });
+        });
+
+        worker.on('detach', function () {
+            customData.off('change', onDataChange);
         });
     }
 });

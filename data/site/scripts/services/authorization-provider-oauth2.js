@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$data', '$window', '$variables',
-        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $data, $window, $variables) {
+    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$window', '$variables',
+        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $window, $variables) {
 
             function AuthorizationProviderOAuth2() {
                 $authorization.AuthorizationProvider.call(this, 3, 'OAuth 2', true);
@@ -34,7 +34,7 @@ angular.module('app')
             }
 
             function createToken(config, tokenResponse) {
-                let token = new $data.AuthorizationToken();
+                let token = {};
                 token.providerId = 3;
                 token.configurationId = config.id;
 

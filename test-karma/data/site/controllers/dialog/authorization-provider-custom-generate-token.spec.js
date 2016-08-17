@@ -6,14 +6,10 @@ describe('controller: DialogAuthorizationProviderCustomGenerateTokenCtrl', funct
     let $controller;
     let $scope;
     let $mdDialog;
-    let $data;
 
     beforeEach(function () {
         $scope = {};
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        $data = {
-            AuthorizationToken: function () {}
-        };
     });
 
     beforeEach(inject(function (_$controller_) {
@@ -21,12 +17,12 @@ describe('controller: DialogAuthorizationProviderCustomGenerateTokenCtrl', funct
     }));
 
     beforeEach(function () {
-        $controller('DialogAuthorizationProviderCustomGenerateTokenCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data });
+        $controller('DialogAuthorizationProviderCustomGenerateTokenCtrl', { $scope: $scope, $mdDialog: $mdDialog});
     });
 
 
     it('initializes token with an empty AuthorizationToken object', function () {
-        expect($scope.token).toEqual(jasmine.any($data.AuthorizationToken));
+        expect($scope.token).toEqual({});
     });
 
     it('closes dialog on cancel', function () {

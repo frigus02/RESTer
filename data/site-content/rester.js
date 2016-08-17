@@ -20,3 +20,11 @@ self.port.on('api.response', function (data) {
         error: data.error
     }, window.location.origin);
 });
+
+self.port.on('event', function (data) {
+    window.postMessage({
+        type: 'rester.event',
+        name: data.name,
+        data: data.data,
+    }, window.location.origin);
+});

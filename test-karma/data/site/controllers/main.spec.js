@@ -11,7 +11,7 @@ describe('controller: MainCtrl', function () {
     let $scope;
     let $mdSidenav;
     let $state;
-    let $data;
+    let $rester;
     let $settings;
     let $hotkeys;
     let $mdDialog;
@@ -19,10 +19,10 @@ describe('controller: MainCtrl', function () {
 
     let dateFilter;
     let $mdSidenavInstance;
-    let $dataGetRequestsDeferred;
-    let $dataGetHistoryEntriesDeferred;
-    let $dataGetEnvironmentDeferred;
-    let $dataGetEnvironmentsDeferred;
+    let $resterGetRequestsDeferred;
+    let $resterGetHistoryEntriesDeferred;
+    let $resterGetEnvironmentDeferred;
+    let $resterGetEnvironmentsDeferred;
 
     let fakeRequests;
     let fakeHistoryEntries;
@@ -52,19 +52,16 @@ describe('controller: MainCtrl', function () {
             current: {},
             go: jasmine.createSpy()
         };
-        $dataGetRequestsDeferred = $q.defer();
-        $dataGetHistoryEntriesDeferred = $q.defer();
-        $dataGetEnvironmentDeferred = $q.defer();
-        $dataGetEnvironmentsDeferred = $q.defer();
-        $data = {
-            Request: function () {},
-            HistoryEntry: function () {},
-            Environment: function () {},
-            getRequests: jasmine.createSpy().and.returnValue($dataGetRequestsDeferred.promise),
-            getHistoryEntries: jasmine.createSpy().and.returnValue($dataGetHistoryEntriesDeferred.promise),
-            getEnvironment: jasmine.createSpy().and.returnValue($dataGetEnvironmentDeferred.promise),
-            getEnvironments: jasmine.createSpy().and.returnValue($dataGetEnvironmentsDeferred.promise),
-            addChangeListener: jasmine.createSpy()
+        $resterGetRequestsDeferred = $q.defer();
+        $resterGetHistoryEntriesDeferred = $q.defer();
+        $resterGetEnvironmentDeferred = $q.defer();
+        $resterGetEnvironmentsDeferred = $q.defer();
+        $rester = {
+            getRequests: jasmine.createSpy().and.returnValue($resterGetRequestsDeferred.promise),
+            getHistoryEntries: jasmine.createSpy().and.returnValue($resterGetHistoryEntriesDeferred.promise),
+            getEnvironment: jasmine.createSpy().and.returnValue($resterGetEnvironmentDeferred.promise),
+            getEnvironments: jasmine.createSpy().and.returnValue($resterGetEnvironmentsDeferred.promise),
+            addEventListener: jasmine.createSpy()
         };
         $settings = {
             addChangeListener: jasmine.createSpy(),
@@ -83,28 +80,28 @@ describe('controller: MainCtrl', function () {
         };
 
         fakeRequests = [
-            Object.assign(new $data.Request(), {id: 1, collection: 'JSONPlaceholder', title: 'Get Posts', method: 'GET', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}}),
-            Object.assign(new $data.Request(), {id: 5, collection: 'JSONPlaceholder', title: 'Create Post',  method: 'POST', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}}),
-            Object.assign(new $data.Request(), {id: 6, collection: 'Google', title: 'Get Profile',  method: 'GET', url: 'https://api.googleapis.com/profile', variables: {enabled: false}}),
-            Object.assign(new $data.Request(), {id: 7, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}})
+            {id: 1, collection: 'JSONPlaceholder', title: 'Get Posts', method: 'GET', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}},
+            {id: 5, collection: 'JSONPlaceholder', title: 'Create Post',  method: 'POST', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}},
+            {id: 6, collection: 'Google', title: 'Get Profile',  method: 'GET', url: 'https://api.googleapis.com/profile', variables: {enabled: false}},
+            {id: 7, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}}
         ];
         fakeHistoryEntries = [
-            Object.assign(new $data.HistoryEntry(), {id: 46, time: new Date('2016-02-21T12:50:00Z'), request: Object.assign(new $data.Request(), {method: 'GET', url: 'http://google.com', variables: {enabled: false}})}),
-            Object.assign(new $data.HistoryEntry(), {id: 45, time: new Date('2016-02-21T12:43:00Z'), request: fakeRequests[0]}),
-            Object.assign(new $data.HistoryEntry(), {id: 44, time: new Date('2016-02-21T12:40:00Z'), request: fakeRequests[1]}),
-            Object.assign(new $data.HistoryEntry(), {id: 43, time: new Date('2016-02-21T12:39:00Z'), request: fakeRequests[0]}),
-            Object.assign(new $data.HistoryEntry(), {id: 42, time: new Date('2016-02-18T15:03:00Z'), request: fakeRequests[2]}),
-            Object.assign(new $data.HistoryEntry(), {id: 41, time: new Date('2016-02-18T15:01:00Z'), request: fakeRequests[3]})
+            {id: 46, time: new Date('2016-02-21T12:50:00Z'), request: {method: 'GET', url: 'http://google.com', variables: {enabled: false}}},
+            {id: 45, time: new Date('2016-02-21T12:43:00Z'), request: fakeRequests[0]},
+            {id: 44, time: new Date('2016-02-21T12:40:00Z'), request: fakeRequests[1]},
+            {id: 43, time: new Date('2016-02-21T12:39:00Z'), request: fakeRequests[0]},
+            {id: 42, time: new Date('2016-02-18T15:03:00Z'), request: fakeRequests[2]},
+            {id: 41, time: new Date('2016-02-18T15:01:00Z'), request: fakeRequests[3]}
         ];
         fakeEnvironments = [
-            Object.assign(new $data.Environment(), {id: 1, name: 'dev', values: {}}),
-            Object.assign(new $data.Environment(), {id: 3, name: 'prod', values: {}})
+            {id: 1, name: 'dev', values: {}},
+            {id: 3, name: 'prod', values: {}}
         ];
     });
 
 
     beforeEach(function () {
-        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $data: $data, $settings: $settings, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog, $variables: $variables });
+        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $rester: $rester, $settings: $settings, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog, $variables: $variables });
     });
 
 
@@ -116,14 +113,14 @@ describe('controller: MainCtrl', function () {
     });
 
     it('creates navigation items', function () {
-        expect($data.getRequests).toHaveBeenCalledTimes(1);
-        expect($data.getHistoryEntries).toHaveBeenCalledTimes(1);
-        expect($data.getHistoryEntries).toHaveBeenCalledWith(-5);
-        expect($data.getEnvironment).toHaveBeenCalledWith($settings.activeEnvironment);
+        expect($rester.getRequests).toHaveBeenCalledTimes(1);
+        expect($rester.getHistoryEntries).toHaveBeenCalledTimes(1);
+        expect($rester.getHistoryEntries).toHaveBeenCalledWith(-5);
+        expect($rester.getEnvironment).toHaveBeenCalledWith($settings.activeEnvironment);
 
-        $dataGetRequestsDeferred.resolve(fakeRequests);
-        $dataGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
-        $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+        $resterGetRequestsDeferred.resolve(fakeRequests);
+        $resterGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
+        $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
         expect($variables.replace).toHaveBeenCalledWith(fakeRequests[3], fakeRequests[3].variables.values);
@@ -143,42 +140,42 @@ describe('controller: MainCtrl', function () {
 
     it('updates navigation items on data change', function () {
         // Create initial navigation items.
-        $dataGetRequestsDeferred.resolve([]);
-        $dataGetHistoryEntriesDeferred.resolve([]);
-        $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+        $resterGetRequestsDeferred.resolve([]);
+        $resterGetHistoryEntriesDeferred.resolve([]);
+        $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
         // Check preconditions.
         expect($scope.navItems.length).toEqual(6);
-        expect($data.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
+        expect($rester.addEventListener).toHaveBeenCalledWith('dataChange', jasmine.any(Function));
 
-        let changeListener = $data.addChangeListener.calls.argsFor(0)[0],
+        let changeListener = $rester.addEventListener.calls.argsFor(0)[1],
             envItem = $scope.navItems.find(item => item.id === 'environments');
 
         // Add some requests and history entries.
         changeListener([
-            {action: 'add', item: fakeRequests[0]},
-            {action: 'add', item: fakeRequests[1]},
-            {action: 'add', item: fakeRequests[2]},
-            {action: 'add', item: fakeHistoryEntries[5]},
-            {action: 'add', item: fakeHistoryEntries[4]}
+            {action: 'add', item: fakeRequests[0], itemType: 'Request'},
+            {action: 'add', item: fakeRequests[1], itemType: 'Request'},
+            {action: 'add', item: fakeRequests[2], itemType: 'Request'},
+            {action: 'add', item: fakeHistoryEntries[5], itemType: 'HistoryEntry'},
+            {action: 'add', item: fakeHistoryEntries[4], itemType: 'HistoryEntry'}
         ]);
 
         expect($scope.navItems.length).toEqual(10);
 
         // Delete a request. Now the collection is empty and we should have one item less.
         changeListener([
-            {action: 'delete', item: fakeRequests[2]}
+            {action: 'delete', item: fakeRequests[2], itemType: 'Request'}
         ]);
 
         expect($scope.navItems.length).toEqual(9);
 
         // Change a request and add more history entries.
         changeListener([
-            {action: 'put', item: fakeRequests[1]},
-            {action: 'add', item: fakeHistoryEntries[3]},
-            {action: 'add', item: fakeHistoryEntries[2]},
-            {action: 'add', item: fakeHistoryEntries[1]}
+            {action: 'put', item: fakeRequests[1], itemType: 'Request'},
+            {action: 'add', item: fakeHistoryEntries[3], itemType: 'HistoryEntry'},
+            {action: 'add', item: fakeHistoryEntries[2], itemType: 'HistoryEntry'},
+            {action: 'add', item: fakeHistoryEntries[1], itemType: 'HistoryEntry'}
         ]);
 
         expect($scope.navItems.length).toEqual(12);
@@ -186,7 +183,7 @@ describe('controller: MainCtrl', function () {
         // Add a 6th history entry. This should remove the oldest history entry from the
         // list because we only want to show 5 items max.
         changeListener([
-            {action: 'add', item: fakeHistoryEntries[0]}
+            {action: 'add', item: fakeHistoryEntries[0], itemType: 'HistoryEntry'}
         ]);
 
         expect($scope.navItems.length).toEqual(12);
@@ -194,7 +191,7 @@ describe('controller: MainCtrl', function () {
         // Delete a request. This time the collection is not empty yet. So the overall count
         // should stay the same.
         changeListener([
-            {action: 'delete', item: fakeRequests[0]}
+            {action: 'delete', item: fakeRequests[0], itemType: 'Request'}
         ]);
 
         expect($scope.navItems.length).toEqual(12);
@@ -202,7 +199,7 @@ describe('controller: MainCtrl', function () {
         // Should handle name changes of the active environment
         fakeEnvironments[0].name = 'prod';
         changeListener([
-            {action: 'put', item: fakeEnvironments[0]}
+            {action: 'put', item: fakeEnvironments[0], itemType: 'Environment'}
         ]);
 
         expect(envItem.subtitle).toBe(fakeEnvironments[0].name);
@@ -210,9 +207,9 @@ describe('controller: MainCtrl', function () {
 
     it('updates navigation items on settings change', function () {
         // Create initial navigation items.
-        $dataGetRequestsDeferred.resolve([]);
-        $dataGetHistoryEntriesDeferred.resolve([]);
-        $dataGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+        $resterGetRequestsDeferred.resolve([]);
+        $resterGetHistoryEntriesDeferred.resolve([]);
+        $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
         // Check preconditions.
@@ -305,9 +302,9 @@ describe('controller: MainCtrl', function () {
         // First callback (2 envs --> switch to second one)
         hotkey.callback();
 
-        expect($data.getEnvironments).toHaveBeenCalledTimes(1);
+        expect($rester.getEnvironments).toHaveBeenCalledTimes(1);
 
-        $dataGetEnvironmentsDeferred.resolve(fakeEnvironments);
+        $resterGetEnvironmentsDeferred.resolve(fakeEnvironments);
         $rootScope.$apply();
 
         expect($settings.activeEnvironment).toBe(3);
@@ -315,9 +312,9 @@ describe('controller: MainCtrl', function () {
         // Second callback (2 envs --> switch to first one again)
         hotkey.callback();
 
-        expect($data.getEnvironments).toHaveBeenCalledTimes(2);
+        expect($rester.getEnvironments).toHaveBeenCalledTimes(2);
 
-        $dataGetEnvironmentsDeferred.resolve(fakeEnvironments);
+        $resterGetEnvironmentsDeferred.resolve(fakeEnvironments);
         $rootScope.$apply();
 
         expect($settings.activeEnvironment).toBe(1);
@@ -331,9 +328,9 @@ describe('controller: MainCtrl', function () {
         // Third callback (no envs --> do nothing)
         hotkey.callback();
 
-        expect($data.getEnvironments).toHaveBeenCalledTimes(1);
+        expect($rester.getEnvironments).toHaveBeenCalledTimes(1);
 
-        $dataGetEnvironmentsDeferred.resolve([]);
+        $resterGetEnvironmentsDeferred.resolve([]);
         $rootScope.$apply();
     });
 });

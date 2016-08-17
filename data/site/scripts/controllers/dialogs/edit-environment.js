@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('app')
-    .controller('DialogEditEnvironmentCtrl', ['$scope', '$mdDialog', '$data', 'environment',
-        function ($scope, $mdDialog, $data, environment) {
+    .controller('DialogEditEnvironmentCtrl', ['$scope', '$mdDialog', 'environment',
+        function ($scope, $mdDialog, environment) {
 
-            $scope.environment = environment || new $data.Environment();
+            $scope.environment = environment || { values: {} };
             $scope.values = Object.keys($scope.environment.values).map(key => ({
                 key: key,
                 value: $scope.environment.values[key]

@@ -8,8 +8,8 @@ describe('controller: DialogQuickOpenCtrl', function () {
     let $rootScope;
     let $scope;
     let $mdDialog;
-    let $data;
-    let $dataGetRequestsDeferred;
+    let $rester;
+    let $resterGetRequestsDeferred;
     let $state;
     let string_score;
 
@@ -22,10 +22,10 @@ describe('controller: DialogQuickOpenCtrl', function () {
     beforeEach(function () {
         $scope = {};
         $mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
-        $dataGetRequestsDeferred = $q.defer();
-        $data = {
+        $resterGetRequestsDeferred = $q.defer();
+        $rester = {
             Request: function () {},
-            getRequests: jasmine.createSpy().and.returnValue($dataGetRequestsDeferred.promise)
+            getRequests: jasmine.createSpy().and.returnValue($resterGetRequestsDeferred.promise)
         };
         $state = {
             go: jasmine.createSpy()
@@ -34,12 +34,12 @@ describe('controller: DialogQuickOpenCtrl', function () {
     });
 
     beforeEach(function () {
-        $controller('DialogQuickOpenCtrl', { $scope: $scope, $mdDialog: $mdDialog, $data: $data, $state: $state });
+        $controller('DialogQuickOpenCtrl', { $scope: $scope, $mdDialog: $mdDialog, $rester: $rester, $state: $state });
     });
 
 
     it('initializes searchText with an empty string', function () {
-        expect($data.getRequests).toHaveBeenCalled();
+        expect($rester.getRequests).toHaveBeenCalled();
         expect($scope.searchText).toBe('');
     });
 
@@ -49,7 +49,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
         expect(string_score).not.toHaveBeenCalled();
         expect(result.$$state.status).toBe(0);
 
-        $dataGetRequestsDeferred.resolve([
+        $resterGetRequestsDeferred.resolve([
             { collection: 'JsonPlaceholder', title: 'Get Posts' },
             { collection: 'JsonPlaceholder', title: 'Create Post' },
             { collection: 'Google', title: 'Get User Profile' },
@@ -64,7 +64,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
     });
 
     it('waits for getRequests promise on queryItems', function () {
-        $dataGetRequestsDeferred.resolve([
+        $resterGetRequestsDeferred.resolve([
             { collection: 'JsonPlaceholder', title: 'Get Posts' },
             { collection: 'Google', title: 'Get Tasks' }
         ]);
@@ -86,7 +86,7 @@ describe('controller: DialogQuickOpenCtrl', function () {
 
     it('closes dialog on openItem and navigates to specified item', function () {
         let item = {};
-        item.data = new $data.Request();
+        item.data = {};
         item.data.id = 1;
 
         $scope.openItem(item);
