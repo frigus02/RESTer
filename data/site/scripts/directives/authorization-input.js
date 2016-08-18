@@ -54,6 +54,7 @@ angular.module('app')
                         });
                     } else {
                         $scope.configurations.push({
+                            id: -provider.id,
                             providerId: provider.id
                         });
                     }

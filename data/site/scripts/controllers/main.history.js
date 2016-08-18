@@ -7,7 +7,7 @@ angular.module('app')
             title: 'History'
         };
 
-        $scope.initialCount = 50;
+        $scope.initialCount = 25;
         $scope.historyEntries = [];
 
         $rester.getHistoryEntries(-$scope.initialCount).then(entries => {

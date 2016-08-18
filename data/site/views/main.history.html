@@ -1,7 +1,7 @@
 <md-list>
     <md-list-item class="md-long-text text-overflow-fix"
         ng-class="{'md-2-line': !entry.request.id, 'md-3-line': entry.request.id}"
-        ng-repeat="entry in historyEntries | orderBy:'-time' track by entry.time"
+        ng-repeat="entry in historyEntries | orderBy:'-time' track by entry.id"
         ng-click="openHistoryEntry(entry)">
         <div class="md-list-item-text">
             <h3>{{entry.time | date:'yyyy-MM-dd HH:mm:ss'}}</h3>

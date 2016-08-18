@@ -26,3 +26,8 @@ splash .icon {
 splash .icon svg {
     fill: currentColor;
 }
+
+splash md-progress-linear {
+    max-width: 256px;
+    margin-top: 32px;
+}

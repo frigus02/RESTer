@@ -150,4 +150,8 @@ angular.module('app')
             return sendResterApiRequest('data.environments.delete', environment);
         };
 
+        self.importData = function (data) {
+            return sendResterApiRequest('data.import', data);
+        };
+
     }]);
