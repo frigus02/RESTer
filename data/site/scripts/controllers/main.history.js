@@ -3,6 +3,8 @@
 angular.module('app')
     .controller('HistoryCtrl', ['$scope', '$state', '$rester', '$variables', function ($scope, $state, $rester, $variables) {
 
+        const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status', 'response.statusText'];
+
         $state.current.data = {
             title: 'History'
         };
@@ -10,7 +12,7 @@ angular.module('app')
         $scope.initialCount = 25;
         $scope.historyEntries = [];
 
-        $rester.getHistoryEntries(-$scope.initialCount).then(entries => {
+        $rester.getHistoryEntries(-$scope.initialCount, historyFields).then(entries => {
             $scope.historyEntries = entries;
         });
 
@@ -24,7 +26,7 @@ angular.module('app')
         };
 
         $scope.loadAll = function () {
-            $rester.getHistoryEntries().then(entries => {
+            $rester.getHistoryEntries(null, historyFields).then(entries => {
                 $scope.historyEntries = entries;
             });
         };

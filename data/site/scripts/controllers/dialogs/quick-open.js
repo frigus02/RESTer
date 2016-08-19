@@ -4,8 +4,10 @@ angular.module('app')
     .controller('DialogQuickOpenCtrl', ['$scope', '$mdDialog', '$rester', '$state',
         function ($scope, $mdDialog, $rester, $state) {
 
+            const requestFields = ['id', 'collection', 'title', 'method', 'url'];
+
             let items = [];
-            let initialLoadingPromise = $rester.getRequests().then(requests => {
+            let initialLoadingPromise = $rester.getRequests(requestFields).then(requests => {
                 items.push(...requests.map(r => ({
                     title: `${r.collection} / ${r.title}`,
                     url: `${r.method} ${r.url}`,

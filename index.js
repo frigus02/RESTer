@@ -8,7 +8,8 @@ const self = require('sdk/self'),
       pageMod = require('sdk/page-mod'),
       customRequest = require('lib/request'),
       customBrowserRequest = require('lib/browser-request'),
-      customData = require('lib/data');
+      customData = require('lib/data'),
+      customFields = require('lib/fields');
 
 let api = {
     info: {
@@ -61,7 +62,7 @@ pageMod.PageMod({
 
         customData.on('change', onDataChange);
 
-        worker.port.on('api.request', function ({id, action, args}) {
+        worker.port.on('api.request', function ({id, action, args, fields}) {
             const actionPath = action.split('.'),
                   actionFunc = actionPath.reduce((api, path) => api && api[path], api);
 
@@ -69,6 +70,10 @@ pageMod.PageMod({
 
             Promise.resolve(actionFunc(args))
                 .then(function (result) {
+                    if (fields) {
+                        result = customFields.select(result, fields);
+                    }
+
                     worker.port.emit('api.response', {id, result});
                 })
                 .catch(function (error) {

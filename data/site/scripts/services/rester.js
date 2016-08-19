@@ -23,7 +23,7 @@ angular.module('app')
             }
         });
 
-        function sendResterApiRequest(action, args) {
+        function sendResterApiRequest(action, args, fields) {
             const dfd = $q.defer(),
                   id = Math.random();
 
@@ -33,7 +33,8 @@ angular.module('app')
                 type: 'rester.api.request',
                 id,
                 action,
-                args
+                args,
+                fields
             }, $window.location.origin);
 
             return dfd.promise;
@@ -78,12 +79,12 @@ angular.module('app')
             return sendResterApiRequest('data.requests.put', request);
         };
 
-        self.getRequest = function (id) {
-            return sendResterApiRequest('data.requests.get', id);
+        self.getRequest = function (id, fields) {
+            return sendResterApiRequest('data.requests.get', id, fields);
         };
 
-        self.getRequests = function () {
-            return sendResterApiRequest('data.requests.query');
+        self.getRequests = function (fields) {
+            return sendResterApiRequest('data.requests.query', null, fields);
         };
 
         self.getRequestCollections = function () {
@@ -98,12 +99,12 @@ angular.module('app')
             return sendResterApiRequest('data.history.add', entry);
         };
 
-        self.getHistoryEntry = function (id) {
-            return sendResterApiRequest('data.history.get', id);
+        self.getHistoryEntry = function (id, fields) {
+            return sendResterApiRequest('data.history.get', id, fields);
         };
 
-        self.getHistoryEntries = function (top) {
-            return sendResterApiRequest('data.history.query', top);
+        self.getHistoryEntries = function (top, fields) {
+            return sendResterApiRequest('data.history.query', top, fields);
         };
 
         self.deleteHistoryEntry = function (entry) {
@@ -114,8 +115,8 @@ angular.module('app')
             return sendResterApiRequest('data.authorizationProviderConfigurations.put', config);
         };
 
-        self.getAuthorizationProviderConfigurations = function (providerId) {
-            return sendResterApiRequest('data.authorizationProviderConfigurations.query', providerId);
+        self.getAuthorizationProviderConfigurations = function (providerId, fields) {
+            return sendResterApiRequest('data.authorizationProviderConfigurations.query', providerId, fields);
         };
 
         self.deleteAuthorizationProviderConfiguration = function (config) {
@@ -126,8 +127,8 @@ angular.module('app')
             return sendResterApiRequest('data.authorizationTokens.add', token);
         };
 
-        self.getAuthorizationTokens = function () {
-            return sendResterApiRequest('data.authorizationTokens.query');
+        self.getAuthorizationTokens = function (fields) {
+            return sendResterApiRequest('data.authorizationTokens.query', null, fields);
         };
 
         self.deleteAuthorizationToken = function (token) {
@@ -138,12 +139,12 @@ angular.module('app')
             return sendResterApiRequest('data.environments.put', environment);
         };
 
-        self.getEnvironment = function (id) {
-            return sendResterApiRequest('data.environments.get', id);
+        self.getEnvironment = function (id, fields) {
+            return sendResterApiRequest('data.environments.get', id, fields);
         };
 
-        self.getEnvironments = function () {
-            return sendResterApiRequest('data.environments.query');
+        self.getEnvironments = function (fields) {
+            return sendResterApiRequest('data.environments.query', null, fields);
         };
 
         self.deleteEnvironment = function (environment) {

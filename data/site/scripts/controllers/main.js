@@ -12,10 +12,14 @@ angular.module('app')
                 historyNavItems = [],
                 historyNavItemsOffset = 0;
 
+            const requestFields = ['id', 'collection', 'title'],
+                  historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'],
+                  environmentFields = ['id', 'name'];
+
             function createNavigation() {
                 $q.all([
-                    $rester.getRequests(),
-                    $rester.getHistoryEntries(-5),
+                    $rester.getRequests(requestFields),
+                    $rester.getHistoryEntries(-5, historyFields),
                     getActiveEnvironment()
                 ]).then(([requests, historyEntries, activeEnvironment]) => {
                     $scope.navItems = [];
@@ -225,7 +229,7 @@ angular.module('app')
             function getActiveEnvironment() {
                 let envId = $settings.activeEnvironment;
                 if (envId) {
-                    return $rester.getEnvironment(envId);
+                    return $rester.getEnvironment(envId, environmentFields);
                 } else {
                     return $q.resolve();
                 }

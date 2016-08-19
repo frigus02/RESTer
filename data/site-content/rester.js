@@ -7,7 +7,8 @@ window.addEventListener('message', function (event) {
         self.port.emit('api.request', {
             id: event.data.id,
             action: event.data.action,
-            args: event.data.args
+            args: event.data.args,
+            fields: event.data.fields
         });
     }
 });
