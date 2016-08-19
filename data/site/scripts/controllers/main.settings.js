@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('app')
-    .controller('SettingsCtrl', ['$scope', '$state', '$settings',
-        function ($scope, $state, $settings) {
+    .controller('SettingsCtrl', ['$scope', '$state', '$rester',
+        function ($scope, $state, $rester) {
 
             $state.current.data = {
                 title: 'Settings'
             };
 
-            $scope.settings = $settings;
+            $scope.settings = $rester.settings;
 
         }
     ]);

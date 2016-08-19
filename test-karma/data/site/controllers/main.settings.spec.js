@@ -7,7 +7,7 @@ describe('controller: SettingsCtrl', function () {
 
     let $scope;
     let $state;
-    let $settings;
+    let $rester;
 
     beforeEach(inject(function (_$controller_) {
         $controller = _$controller_;
@@ -18,20 +18,22 @@ describe('controller: SettingsCtrl', function () {
         $state = {
             current: {}
         };
-        $settings = {
-            stripDefaultSettings: 1
+        $rester = {
+            settings: {
+                stripDefaultSettings: 1
+            }
         };
     });
 
 
     beforeEach(function () {
-        $controller('SettingsCtrl', { $scope: $scope, $state: $state, $settings: $settings });
+        $controller('SettingsCtrl', { $scope: $scope, $state: $state, $rester: $rester });
     });
 
 
     it('initializes properties', function () {
         expect($state.current.data.title).toBe('Settings');
 
-        expect($scope.settings).toBe($settings);
+        expect($scope.settings).toBe($rester.settings);
     });
 });

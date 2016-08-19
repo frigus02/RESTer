@@ -3,6 +3,10 @@
 describe('controller: MainCtrl', function () {
     beforeEach(module('app'));
 
+    const requestFields = ['id', 'collection', 'title'],
+          historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'],
+          environmentFields = ['id', 'name'];
+
     let $controller;
     let $rootScope;
     let $q;
@@ -12,7 +16,6 @@ describe('controller: MainCtrl', function () {
     let $mdSidenav;
     let $state;
     let $rester;
-    let $settings;
     let $hotkeys;
     let $mdDialog;
     let $variables;
@@ -61,11 +64,10 @@ describe('controller: MainCtrl', function () {
             getHistoryEntries: jasmine.createSpy().and.returnValue($resterGetHistoryEntriesDeferred.promise),
             getEnvironment: jasmine.createSpy().and.returnValue($resterGetEnvironmentDeferred.promise),
             getEnvironments: jasmine.createSpy().and.returnValue($resterGetEnvironmentsDeferred.promise),
-            addEventListener: jasmine.createSpy()
-        };
-        $settings = {
-            addChangeListener: jasmine.createSpy(),
-            activeEnvironment: 1
+            addEventListener: jasmine.createSpy(),
+            settings: {
+                activeEnvironment: 1
+            }
         };
         $hotkeys = {
             Hotkey: function (props) {
@@ -101,7 +103,7 @@ describe('controller: MainCtrl', function () {
 
 
     beforeEach(function () {
-        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $rester: $rester, $settings: $settings, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog, $variables: $variables });
+        $controller('MainCtrl', { $scope: $scope, $rootScope: $rootScope, $mdSidenav: $mdSidenav, $state: $state, $rester: $rester, $q: $q, $filter: $filter, $hotkeys: $hotkeys, $mdDialog: $mdDialog, $variables: $variables });
     });
 
 
@@ -115,8 +117,8 @@ describe('controller: MainCtrl', function () {
     it('creates navigation items', function () {
         expect($rester.getRequests).toHaveBeenCalledTimes(1);
         expect($rester.getHistoryEntries).toHaveBeenCalledTimes(1);
-        expect($rester.getHistoryEntries).toHaveBeenCalledWith(-5);
-        expect($rester.getEnvironment).toHaveBeenCalledWith($settings.activeEnvironment);
+        expect($rester.getHistoryEntries).toHaveBeenCalledWith(-5, historyFields);
+        expect($rester.getEnvironment).toHaveBeenCalledWith($rester.settings.activeEnvironment, environmentFields);
 
         $resterGetRequestsDeferred.resolve(fakeRequests);
         $resterGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
@@ -214,13 +216,13 @@ describe('controller: MainCtrl', function () {
 
         // Check preconditions.
         expect($scope.navItems.length).toEqual(6);
-        expect($settings.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
+        expect($rester.addEventListener).toHaveBeenCalledWith('settingsChange', jasmine.any(Function));
 
-        let settingsChangeListener = $settings.addChangeListener.calls.argsFor(0)[0],
+        let settingsChangeListener = $rester.addEventListener.calls.argsFor(1)[1],
             envItem = $scope.navItems.find(item => item.id === 'environments');
 
         // Should handle change of active environment
-        $settings.activeEnvironment = null;
+        $rester.settings.activeEnvironment = null;
         settingsChangeListener();
         $rootScope.$apply();
 
@@ -307,7 +309,7 @@ describe('controller: MainCtrl', function () {
         $resterGetEnvironmentsDeferred.resolve(fakeEnvironments);
         $rootScope.$apply();
 
-        expect($settings.activeEnvironment).toBe(3);
+        expect($rester.settings.activeEnvironment).toBe(3);
 
         // Second callback (2 envs --> switch to first one again)
         hotkey.callback();
@@ -317,7 +319,7 @@ describe('controller: MainCtrl', function () {
         $resterGetEnvironmentsDeferred.resolve(fakeEnvironments);
         $rootScope.$apply();
 
-        expect($settings.activeEnvironment).toBe(1);
+        expect($rester.settings.activeEnvironment).toBe(1);
     });
 
     it('cycle through environments on third hotkey callback (don\'t crash, when no envs exist)', function () {

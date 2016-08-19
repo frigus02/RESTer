@@ -9,9 +9,10 @@ const self = require('sdk/self'),
       customRequest = require('lib/request'),
       customBrowserRequest = require('lib/browser-request'),
       customData = require('lib/data'),
-      customFields = require('lib/fields');
+      customFields = require('lib/utils/fields'),
+      customSettings = require('lib/settings');
 
-let api = {
+const api = {
     info: {
         get () {
             return {version: self.version};
@@ -25,7 +26,8 @@ let api = {
             return customBrowserRequest.send(request);
         }
     },
-    data: customData
+    data: customData,
+    settings: customSettings
 };
 
 buttons.ActionButton({
@@ -60,7 +62,12 @@ pageMod.PageMod({
             worker.port.emit('event', {name: 'dataChange', data});
         }
 
+        function onSettingsChange(data) {
+            worker.port.emit('event', {name: 'settingsChange', data});
+        }
+
         customData.on('change', onDataChange);
+        customSettings.on('change', onSettingsChange);
 
         worker.port.on('api.request', function ({id, action, args, fields}) {
             const actionPath = action.split('.'),
@@ -83,6 +90,7 @@ pageMod.PageMod({
 
         worker.on('detach', function () {
             customData.off('change', onDataChange);
+            customSettings.off('change', onSettingsChange);
         });
     }
 });

@@ -3,6 +3,8 @@
 describe('controller: HistoryCtrl', function () {
     beforeEach(module('app'));
 
+    const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status', 'response.statusText'];
+
     let $controller;
     let $q;
     let $rootScope;
@@ -45,10 +47,10 @@ describe('controller: HistoryCtrl', function () {
     it('initializes properties', function () {
         expect($state.current.data.title).toBe('History');
 
-        expect($scope.initialCount).toBe(50);
+        expect($scope.initialCount).toBe(25);
         expect($scope.historyEntries).toEqual([]);
 
-        expect($rester.getHistoryEntries).toHaveBeenCalledWith(-50);
+        expect($rester.getHistoryEntries).toHaveBeenCalledWith(-25, historyFields);
 
         let entries = [1, 2, 3];
         $resterGetHistoryEntriesDeferred.resolve(entries);
@@ -82,10 +84,9 @@ describe('controller: HistoryCtrl', function () {
     });
 
     it('gets all history entries on loadAll', function () {
-
         $scope.loadAll();
 
-        expect($rester.getHistoryEntries).toHaveBeenCalledWith();
+        expect($rester.getHistoryEntries).toHaveBeenCalledWith(null, historyFields);
 
         let entries = [1, 2, 3, 4];
         $resterGetHistoryEntriesDeferred.resolve(entries);

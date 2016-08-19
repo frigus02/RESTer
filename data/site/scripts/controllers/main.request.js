@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$settings', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections',
-        function ($scope, $state, $rootScope, $rester, $settings, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections',
+        function ($scope, $state, $rootScope, $rester, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
 
             $state.current.data = {
                 actions: [
@@ -46,7 +46,7 @@ angular.module('app')
             $scope.response = null;
             $scope.requestIsSending = false;
             $scope.selectedTab = 0;
-            $scope.experimentalResponseHighlighting = $settings.experimentalResponseHighlighting;
+            $scope.experimentalResponseHighlighting = false;
 
             function updateState(newStateParams) {
                 $scope.requestIsSending = false;
@@ -119,7 +119,7 @@ angular.module('app')
                     compiledRequest = $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
                 }
 
-                if ($settings.stripDefaultHeaders) {
+                if ($rester.settings.stripDefaultHeaders) {
                     compiledRequest.stripDefaultHeaders = true;
                 }
 
@@ -248,40 +248,43 @@ angular.module('app')
                 callback: $scope.sendRequest
             }), $scope);
 
+            $rester.settingsLoaded.then(() => {
+                $scope.experimentalResponseHighlighting = $rester.settings.experimentalResponseHighlighting;
 
-            if ($settings.enableRequestLintInspections) {
-                $lintInspections.add({
-                    message: 'There are placeholders in your request, but the variables feature is not enabled.',
-                    check () {
-                        if (!$scope.request.variables.enabled) {
-                            return $variables.extract($scope.request).length > 0;
-                        } else {
-                            return false;
+                if ($rester.settings.enableRequestLintInspections) {
+                    $lintInspections.add({
+                        message: 'There are placeholders in your request, but the variables feature is not enabled.',
+                        check () {
+                            if (!$scope.request.variables.enabled) {
+                                return $variables.extract($scope.request).length > 0;
+                            } else {
+                                return false;
+                            }
+                        },
+                        fixLabel: 'Enable variables',
+                        onFix () {
+                            $scope.request.variables.enabled = true;
                         }
-                    },
-                    fixLabel: 'Enable variables',
-                    onFix () {
-                        $scope.request.variables.enabled = true;
-                    }
-                }, $scope);
+                    }, $scope);
 
-                $lintInspections.add({
-                    message: 'Some variables have an empty value.',
-                    check () {
-                        if ($scope.request.variables.enabled) {
-                            let usedVariableValues = {};
-                            $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
-                            return Object.keys(usedVariableValues).some(name => !usedVariableValues[name]);
-                        } else {
-                            return false;
+                    $lintInspections.add({
+                        message: 'Some variables have an empty value.',
+                        check () {
+                            if ($scope.request.variables.enabled) {
+                                let usedVariableValues = {};
+                                $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
+                                return Object.keys(usedVariableValues).some(name => !usedVariableValues[name]);
+                            } else {
+                                return false;
+                            }
+                        },
+                        fixLabel: 'View variables',
+                        onFix () {
+                            $scope.selectedTab = 3;
                         }
-                    },
-                    fixLabel: 'View variables',
-                    onFix () {
-                        $scope.selectedTab = 3;
-                    }
-                }, $scope);
-            }
+                    }, $scope);
+                }
+            });
 
         }
     ]);

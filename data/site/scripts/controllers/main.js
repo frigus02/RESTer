@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('app')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$rester', '$settings', '$q', '$filter', '$hotkeys', '$mdDialog', '$variables',
-        function ($scope, $rootScope, $mdSidenav, $state, $rester, $settings, $q, $filter, $hotkeys, $mdDialog, $variables) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$mdSidenav', '$state', '$rester', '$q', '$filter', '$hotkeys', '$mdDialog', '$variables',
+        function ($scope, $rootScope, $mdSidenav, $state, $rester, $q, $filter, $hotkeys, $mdDialog, $variables) {
 
-            $scope.settings = $settings;
+            $scope.settings = $rester.settings;
             $scope.navItems = [];
 
             let requestNavItems = [],
@@ -20,7 +20,7 @@ angular.module('app')
                 $q.all([
                     $rester.getRequests(requestFields),
                     $rester.getHistoryEntries(-5, historyFields),
-                    getActiveEnvironment()
+                    $rester.settingsLoaded.then(getActiveEnvironment)
                 ]).then(([requests, historyEntries, activeEnvironment]) => {
                     $scope.navItems = [];
 
@@ -215,7 +215,7 @@ angular.module('app')
                             }
                         }
                     } else if (change.itemType === 'Environment') {
-                        if (change.item.id === $settings.activeEnvironment) {
+                        if (change.item.id === $scope.settings.activeEnvironment) {
                             updateEnvironmentNavItemSubtitle(change.item);
                         }
                     }
@@ -227,7 +227,7 @@ angular.module('app')
             }
 
             function getActiveEnvironment() {
-                let envId = $settings.activeEnvironment;
+                let envId = $scope.settings.activeEnvironment;
                 if (envId) {
                     return $rester.getEnvironment(envId, environmentFields);
                 } else {
@@ -242,7 +242,7 @@ angular.module('app')
 
             createNavigation();
             $rester.addEventListener('dataChange', updateNavigationBasedOnDataChanges);
-            $settings.addChangeListener(updateNavigationBasedOnSettingsChanges);
+            $rester.addEventListener('settingsChange', updateNavigationBasedOnSettingsChanges);
 
 
             $scope.toggleSidenav = function (menuId) {

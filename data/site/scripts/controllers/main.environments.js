@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('app')
-    .controller('EnvironmentsCtrl', ['$scope', '$state', '$rester', '$settings', '$mdDialog',
-        function ($scope, $state, $rester, $settings, $mdDialog) {
+    .controller('EnvironmentsCtrl', ['$scope', '$state', '$rester', '$mdDialog',
+        function ($scope, $state, $rester, $mdDialog) {
 
             $state.current.data = {
                 title: 'Environments'
             };
 
             $scope.environments = [];
-            $scope.settings = $settings;
+            $scope.settings = $rester.settings;
 
             $rester.getEnvironments().then(envs => {
                 $scope.environments = envs;

@@ -4,7 +4,9 @@ angular.module('app')
     .service('$rester', ['$window', '$q', function ($window, $q) {
         const self = this,
               requests = {},
-              eventListeners = {};
+              eventListeners = {},
+              settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav', 'experimentalResponseHighlighting'],
+              cachedSettings = {};
 
         $window.addEventListener('message', function (event) {
             if (event.origin !== $window.location.origin) return;
@@ -18,6 +20,10 @@ angular.module('app')
 
                 requests[event.data.id] = undefined;
             } else if (event.data.type === 'rester.event') {
+                if (event.data.name === 'settingsChange' && cachedSettings) {
+                    Object.assign(cachedSettings, event.data.data);
+                }
+
                 const listeners = eventListeners[event.data.name] || [];
                 listeners.forEach(l => l(event.data.data));
             }
@@ -154,5 +160,34 @@ angular.module('app')
         self.importData = function (data) {
             return sendResterApiRequest('data.import', data);
         };
+
+
+        /*
+        * Settings
+        */
+
+        self.settings = {};
+
+        settingsKeys.forEach(key => {
+            Object.defineProperty(self.settings, key, {
+                get: function () {
+                    return cachedSettings[key];
+                },
+                set: function (newValue) {
+                    cachedSettings[key] = newValue;
+                    sendResterApiRequest('settings.set', {
+                        [key]: newValue
+                    });
+                },
+                enumerable: true
+            });
+        });
+
+        self.settingsLoaded = $q(resolve => {
+            sendResterApiRequest('settings.get').then(settings => {
+                Object.assign(cachedSettings, settings);
+                resolve();
+            });
+        });
 
     }]);

@@ -10,7 +10,6 @@ describe('controller: EnvironmentsCtrl', function () {
     let $scope;
     let $state;
     let $rester;
-    let $settings;
     let $mdDialog;
 
     let $resterGetEnvironmentsDeferred;
@@ -36,10 +35,10 @@ describe('controller: EnvironmentsCtrl', function () {
         $rester = {
             getEnvironments: jasmine.createSpy().and.returnValue($resterGetEnvironmentsDeferred.promise),
             putEnvironment: jasmine.createSpy().and.returnValue($resterPutEnvironmentDeferred.promise),
-            deleteEnvironment: jasmine.createSpy().and.returnValue($resterDeleteEnvironmentDeferred.promise)
-        };
-        $settings = {
-            activeEnvironment: 1
+            deleteEnvironment: jasmine.createSpy().and.returnValue($resterDeleteEnvironmentDeferred.promise),
+            settings: {
+                activeEnvironment: 1
+            }
         };
         $mdDialogShowDeferred = $q.defer();
         $mdDialog = {
@@ -49,7 +48,7 @@ describe('controller: EnvironmentsCtrl', function () {
 
 
     beforeEach(function () {
-        $controller('EnvironmentsCtrl', { $scope: $scope, $state: $state, $rester: $rester, $settings: $settings, $mdDialog: $mdDialog });
+        $controller('EnvironmentsCtrl', { $scope: $scope, $state: $state, $rester: $rester, $mdDialog: $mdDialog });
     });
 
 
@@ -57,7 +56,7 @@ describe('controller: EnvironmentsCtrl', function () {
         expect($state.current.data.title).toBe('Environments');
 
         expect($scope.environments).toEqual([]);
-        expect($scope.settings).toBe($settings);
+        expect($scope.settings).toBe($rester.settings);
 
         expect($rester.getEnvironments).toHaveBeenCalled();
 
