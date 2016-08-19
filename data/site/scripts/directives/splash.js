@@ -87,6 +87,36 @@ angular.module('app')
                 .then(deleteOldDatabase);
         }
 
+        function getAndRemoveOldSetting(key) {
+            const value = $window.localStorage.getItem(key);
+            $window.localStorage.removeItem(key);
+            if (value) {
+                try {
+                    return JSON.parse(value);
+                } catch (e) {
+                }
+            }
+        }
+
+        function migrateSettings() {
+            const oldSettingsKeys = {
+                activeEnvironment: 'rester.active_environment',
+                stripDefaultHeaders: 'rester.strip_default_headers',
+                enableRequestLintInspections: 'rester.enable_request_lint_inspections',
+                pinSidenav: 'rester.pin_sidenav',
+                exeprimentalResponseHighlighting: 'rester.experimental_response_highlighting'
+            };
+
+            return $rester.settingsLoaded.then(() => {
+                Object.keys(oldSettingsKeys).forEach(key => {
+                    const value = getAndRemoveOldSetting(oldSettingsKeys[key]);
+                    if (typeof value !== 'undefined') {
+                        $rester.settings[key] = value;
+                    }
+                });
+            });
+        }
+
         function hideSplash(element) {
             $window.requestAnimationFrame(() => {
                 element.style.opacity = 0;
@@ -109,7 +139,10 @@ angular.module('app')
                     .then(
                         db => {
                             $scope.isMigrating = true;
-                            return migrateDatabase(db);
+                            return $q.all([
+                                migrateDatabase(db),
+                                migrateSettings()
+                            ]);
                         },
                         // If database doesn't exist of cannot be opened,
                         // no migration is needed.
