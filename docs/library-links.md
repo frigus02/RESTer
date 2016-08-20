@@ -14,9 +14,6 @@ https://github.com/angular/bower-angular-animate/blob/v1.5.8/angular-animate.min
 angular-aria
 https://github.com/angular/bower-angular-aria/blob/v1.5.8/angular-aria.min.js
 
-angular-jwt
-https://github.com/auth0/angular-jwt/blob/0.0.9/dist/angular-jwt.min.js
-
 angular-material
 https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.js
 https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.css

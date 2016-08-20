@@ -8,8 +8,7 @@ angular
         'ngMessages',
         'ngSanitize',
         'ui.router',
-        'ui.codemirror',
-        'angular-jwt'
+        'ui.codemirror'
     ])
     .config(['$urlRouterProvider', '$stateProvider', '$mdThemingProvider',
         function ($urlRouterProvider, $stateProvider, $mdThemingProvider) {

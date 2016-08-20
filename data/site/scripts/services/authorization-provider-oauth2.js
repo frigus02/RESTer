@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', 'jwtHelper', '$window', '$variables',
-        function ($authorization, $mdDialog, $rester, $q, jwtHelper, $window, $variables) {
+    .factory('$authorizationProviderOAuth2', ['$authorization', '$mdDialog', '$rester', '$q', '$window', '$variables',
+        function ($authorization, $mdDialog, $rester, $q, $window, $variables) {
 
             function AuthorizationProviderOAuth2() {
                 $authorization.AuthorizationProvider.call(this, 3, 'OAuth 2', true);
@@ -33,6 +33,36 @@ angular.module('app')
                 return base + '?' + encodeQueryString(params);
             }
 
+            /**
+             * Decode a JSON web token.
+             *
+             * Credits: https://github.com/auth0/angular-jwt
+             */
+            function decodeJwt(token) {
+                const parts = token.split('.');
+
+                if (parts.length !== 3) {
+                    throw new Error('JWT must have 3 parts');
+                }
+
+                let payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+                switch (payload.length % 4) {
+                    case 0: { break; }
+                    case 2: { payload += '=='; break; }
+                    case 3: { payload += '='; break; }
+                    default: {
+                        throw 'Illegal base64url string!';
+                    }
+                }
+
+                const decodedPayload = $window.decodeURIComponent($window.escape($window.atob(payload)));
+                if (!decodedPayload) {
+                    throw new Error('Cannot decode the token');
+                }
+
+                return JSON.parse(decodedPayload);
+            }
+
             function createToken(config, tokenResponse) {
                 let token = {};
                 token.providerId = 3;
@@ -42,7 +72,7 @@ angular.module('app')
                 token.token = tokenResponse.access_token;
 
                 try {
-                    let tokenPayload = jwtHelper.decodeToken(tokenResponse.access_token),
+                    let tokenPayload = decodeJwt(tokenResponse.access_token),
                         userId = tokenPayload.sub || tokenPayload.name_id || tokenPayload.unique_name,
                         userName = tokenPayload.name;
 
