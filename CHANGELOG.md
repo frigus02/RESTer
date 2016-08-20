@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.14.0] - 2016-08-20
 ### Added
 - Splash screen.
 - Support for private browsing mode.
@@ -165,7 +167,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.13.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/1.14.0...HEAD
+[1.14.0]: https://github.com/frigus02/RESTer/compare/1.13.0...1.14.0
 [1.13.0]: https://github.com/frigus02/RESTer/compare/1.12.1...1.13.0
 [1.12.1]: https://github.com/frigus02/RESTer/compare/1.12.0...1.12.1
 [1.12.0]: https://github.com/frigus02/RESTer/compare/1.11.0...1.12.0
