@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Splash screen.
 - Support for private browsing mode.
+- Used environment in OAuth 2 token name, when variables are enabled in config.
 
 ## [1.13.0] - 2016-07-30
 ### Added

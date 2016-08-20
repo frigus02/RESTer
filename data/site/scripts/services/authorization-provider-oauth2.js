@@ -55,6 +55,10 @@ angular.module('app')
                     token.title = 'Unknown';
                 }
 
+                if (config.enableVariables) {
+                    token.title += ` (Environment: ${config.env.name})`;
+                }
+
                 if (tokenResponse.expires_in) {
                     token.expirationDate = new Date(Date.now() + tokenResponse.expires_in * 1000);
                 }
@@ -195,20 +199,32 @@ angular.module('app')
                 });
             }
 
-            AuthorizationProviderOAuth2.prototype.generateToken = function (config) {
+            function prepareConfig(config) {
                 if (config.enableVariables) {
                     config = $variables.replace(config);
-                }
 
-                if (config.flow === 'code') {
-                    return executeCodeFlow(config);
-                } else if (config.flow === 'implicit') {
-                    return executeImplicitFlow(config);
-                } else if (config.flow === 'resource_owner') {
-                    return executeResourceOwnerPasswordCredentialsFlow(config);
+                    const envId = $rester.settings.activeEnvironment;
+                    return $rester.getEnvironment(envId, ['name']).then(env => {
+                        config.env = env;
+                        return config;
+                    });
                 } else {
-                    return $q.reject(`Invalid flow "${config.flow}".`);
+                    return $q.resolve(config);
                 }
+            }
+
+            AuthorizationProviderOAuth2.prototype.generateToken = function (config) {
+                return prepareConfig(config).then(config => {
+                    if (config.flow === 'code') {
+                        return executeCodeFlow(config);
+                    } else if (config.flow === 'implicit') {
+                        return executeImplicitFlow(config);
+                    } else if (config.flow === 'resource_owner') {
+                        return executeResourceOwnerPasswordCredentialsFlow(config);
+                    } else {
+                        return $q.reject(`Invalid flow "${config.flow}".`);
+                    }
+                });
             };
 
             AuthorizationProviderOAuth2.prototype.createConfiguration = function () {
