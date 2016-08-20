@@ -6,6 +6,7 @@ const self = require('sdk/self'),
       buttons = require('sdk/ui/button/action'),
       tabs = require('sdk/tabs'),
       pageMod = require('sdk/page-mod'),
+      simplePrefs = require('sdk/simple-prefs'),
       customRequest = require('lib/request'),
       customBrowserRequest = require('lib/browser-request'),
       customData = require('lib/data'),
@@ -46,14 +47,14 @@ buttons.ActionButton({
     }
 });
 
+let additionalPageModIncludes = [];
+try {
+    additionalPageModIncludes = JSON.parse(simplePrefs.prefs.additionalPageModIncludes);
+} catch (e) {
+}
+
 pageMod.PageMod({
-    include: [
-        // Installed extension
-        self.data.url('./site/index.html') + '*',
-        // Site launched on localhost
-        'http://localhost:3000/*',
-        'http://127.0.0.1:3000/*'
-    ],
+    include: [self.data.url('./site/index.html') + '*'].concat(additionalPageModIncludes),
     contentScriptFile: './site-content/rester.js',
     contentScriptWhen: 'start',
     attachTo: ['existing', 'top'],

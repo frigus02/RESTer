@@ -10,6 +10,14 @@
     "private-browsing": true
   },
   "author": "Jan Kühle <jkuehle90@gmail.com> (http://kuehle.me)",
+  "preferences": [
+    {
+      "name": "additionalPageModIncludes",
+      "title": "Additional page-mod include URLs",
+      "type": "string",
+      "hidden": true
+    }
+  ],
   "license": "MIT",
   "main": "index.js",
   "dependencies": {},

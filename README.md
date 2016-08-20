@@ -41,13 +41,20 @@ Some parts of the add-on need to be build. Execute this command on the first sta
 
 ### Test
 
-Use either the following command to test just the website locally (when doing this, all requests will be handled by the *rester.mock.js* service, instead of the real *rester.js* service):
+The addon is basically split in two parts:
+
+*   Website: UI
+*   Background: Data storage, HTTP requests
+
+The website relies on the background part, so you need to make sure a recent version of it is installed.
+
+Working on the website works best with livereload features. To have them, first make sure the background code will attach to localhost URLs by setting the preference `extensions.rester@kuehle.me.additionalPageModIncludes` in about:config to `["http://localhost:3000/*"]` and restarting the browser. Then launch the website locally:
 
     npm start
 
-Or you can use one of the following shortcuts for *jpm* to run the full add-on in the browser:
+To install the full extension from the local code use one of the following shortcuts for *jpm*:
 
     npm run post
     npm run watchpost
 
-These commands require the awesome [Extension Auto-Installer](https://addons.mozilla.org/de/thunderbird/addon/autoinstaller). In addition you might need to set the setting `xpinstall.signatures.required` in about:config to `false`.
+These commands require the awesome [Extension Auto-Installer](https://addons.mozilla.org/de/thunderbird/addon/autoinstaller). In addition you might need to set the preference `xpinstall.signatures.required` in about:config to `false`.
