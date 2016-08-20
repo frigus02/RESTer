@@ -9,7 +9,6 @@
     "multiprocess": true,
     "private-browsing": true
   },
-  "author": "Jan Kühle <jkuehle90@gmail.com> (http://kuehle.me)",
   "preferences": [
     {
       "name": "additionalPageModIncludes",
@@ -18,6 +17,7 @@
       "hidden": true
     }
   ],
+  "author": "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)",
   "license": "MIT",
   "main": "index.js",
   "dependencies": {},
