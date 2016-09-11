@@ -14,7 +14,9 @@ angular.module('app')
                 let childElementPositioned = false;
                 let childScope = $scope.$new(true);
                 let parentElement = element;
-                while (parentElement[0].nodeName !== 'MD-CONTENT' && parentElement[0].nodeName !== 'MD-DIALOG-CONTENT') {
+                while (parentElement[0].nodeName !== 'BODY' &&
+                       parentElement[0].nodeName !== 'MD-CONTENT' &&
+                       parentElement[0].nodeName !== 'MD-DIALOG-CONTENT') {
                     parentElement = parentElement.parent();
                 }
 

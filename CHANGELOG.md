@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- The Request title can be entered in the toolbar now.
+- Improved save and delete request buttons. They use a dropdown menu for confirmation now, which is much faster to use.
 
 ## [1.14.0] - 2016-08-20
 ### Added

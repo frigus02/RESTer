@@ -262,9 +262,18 @@ angular.module('app')
                 $hotkeys.showCheatSheet($event);
             };
 
-            $scope.$watch('getTitle()', function (newTitle) {
-                $rootScope.title = newTitle;
-            });
+            $scope.$watch(
+                function () {
+                    let title = $scope.getTitle();
+                    if (typeof title === 'object') {
+                        return title.getAsString();
+                    } else {
+                        return title;
+                    }
+                },
+                function (newTitle) {
+                    $rootScope.title = newTitle;
+                });
 
             $hotkeys.add(new $hotkeys.Hotkey({
                 combos: ['mod+m'],

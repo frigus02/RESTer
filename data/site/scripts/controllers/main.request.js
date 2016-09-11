@@ -5,11 +5,50 @@ angular.module('app')
         function ($scope, $state, $rootScope, $rester, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
 
             $state.current.data = {
+                title: {
+                    template: `
+                        <request-title-input
+                            collection="data.request.collection"
+                            title="data.request.title">
+                        </request-title-input>`,
+                    locals: {
+                        data: {
+                            get request () {
+                                return $scope.request;
+                            }
+                        }
+                    },
+                    getAsString () {
+                        let collection = $scope.request.collection || '<no collection>',
+                            title = $scope.request.title || '<no title>',
+                            time = $scope.time ? $filter('date')($scope.time, 'yyyy-MM-dd HH:mm:ss') : '';
+
+                        let pageTitle = `${collection} / ${title}`;
+                        if (time) {
+                            pageTitle += ` (${time})`;
+                        }
+
+                        return pageTitle;
+                    }
+                },
                 actions: [
                     {
                         title: 'Save request',
                         icon: 'save',
-                        action: saveRequest
+                        action: saveRequest,
+                        options: [
+                            {
+                                title: 'Save',
+                                action: () => saveRequest()
+                            },
+                            {
+                                title: 'Save as new',
+                                action: () => saveRequest(true)
+                            }
+                        ],
+                        isDisabled () {
+                            return !($scope.request.collection && $scope.request.title);
+                        }
                     }
                 ]
             };
@@ -20,19 +59,13 @@ angular.module('app')
                     $state.current.data.actions.push({
                         title: 'Delete request',
                         icon: 'delete',
-                        action: deleteRequest
+                        options: [
+                            {
+                                title: 'Delete',
+                                action: deleteRequest
+                            }
+                        ]
                     });
-                }
-            });
-
-            $scope.$watchGroup(['request.collection', 'request.title', 'time'], function () {
-                let collection = $scope.request.collection || '<no collection>',
-                    title = $scope.request.title || '<no title>',
-                    time = $scope.time ? $filter('date')($scope.time, 'yyyy-MM-dd HH:mm:ss') : '';
-
-                $state.current.data.title = `${collection} / ${title}`;
-                if (time) {
-                    $state.current.data.title += ` (${time})`;
                 }
             });
 
@@ -194,44 +227,23 @@ angular.module('app')
                 }
             };
 
-            function saveRequest($event) {
-                $mdDialog.show({
-                    targetEvent: $event,
-                    templateUrl: 'views/dialogs/save-request.html',
-                    controller: 'DialogSaveRequestCtrl',
-                    locals: {
-                        isNew: !$scope.request.hasOwnProperty('id'),
-                        collection: $scope.request.collection,
-                        title: $scope.request.title,
-                        showHistoryWarning: $scope.request.hasOwnProperty('id') && $state.params.historyId
-                    }
-                }).then(input => {
-                    $scope.request.collection = input.collection;
-                    $scope.request.title = input.title;
-                    if (!input.overwrite) {
-                        delete $scope.request.id;
-                    }
+            function saveRequest(saveAsNew) {
+                if (saveAsNew) {
+                    delete $scope.request.id;
+                }
 
-                    $rester.putRequest($scope.request).then(id => {
-                        $scope.request.id = id;
+                $rester.putRequest($scope.request).then(id => {
+                    $scope.request.id = id;
 
-                        $state.go('main.request.existing', {
-                            id: $scope.request.id
-                        });
+                    $state.go('main.request.existing', {
+                        id: $scope.request.id
                     });
                 });
             }
 
-            function deleteRequest($event) {
-                $mdDialog.show($mdDialog.confirm()
-                    .targetEvent($event)
-                    .textContent('Are you sure you want to delete the request?')
-                    .ok('Delete')
-                    .cancel('Cancel')
-                ).then(() => {
-                    $rester.deleteRequest($scope.request).then(() => {
-                        $state.go('main.request.new');
-                    });
+            function deleteRequest() {
+                $rester.deleteRequest($scope.request).then(() => {
+                    $state.go('main.request.new');
                 });
             }
 

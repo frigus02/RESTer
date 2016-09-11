@@ -1,0 +1,18 @@
+toolbar-title {
+    display: block;
+}
+
+toolbar-title md-input-container {
+    margin: 0;
+    width: 100%;
+}
+
+toolbar-title md-input-container .md-input {
+    color: inherit;
+    border-color: rgba(0, 0, 0, 0.12);
+    text-shadow: none;
+}
+
+toolbar-title md-input-container .md-errors-spacer {
+    display: none;
+}

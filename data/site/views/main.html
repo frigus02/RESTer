@@ -44,14 +44,31 @@
                 <md-button class="md-icon-button" hide-gt-md ng-click="toggleSidenav('left')">
                     <md-icon>menu</md-icon>
                 </md-button>
-                <h1>{{getTitle()}}</h1>
+                <toolbar-title title="getTitle()" flex></toolbar-title>
 
-                <div flex></div>
+                <md-menu ng-repeat="action in getActions()">
+                    <md-button class="md-icon-button"
+                        ng-click="action.options ? $mdOpenMenu($event) : action.action($event)"
+                        ng-disabled="action.isDisabled && action.isDisabled()">
+                        <md-tooltip md-direction="bottom">{{action.title}}</md-tooltip>
+                        <md-icon md-menu-origin>{{action.icon}}</md-icon>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="option in action.options">
+                            <md-button ng-click="option.action($event)">
+                                {{option.title}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
 
-                <md-button class="md-icon-button" ng-repeat="action in getActions()" ng-click="action.action($event)">
+                <!--<md-button class="md-icon-button"
+                    ng-repeat="action in getActions()"
+                    ng-click="action.action($event)"
+                    ng-disabled="action.isDisabled && action.isDisabled()">
                     <md-tooltip md-direction="bottom">{{action.title}}</md-tooltip>
                     <md-icon>{{action.icon}}</md-icon>
-                </md-button>
+                </md-button>-->
             </div>
         </md-toolbar>
 
