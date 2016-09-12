@@ -38,23 +38,33 @@ angular.module('app')
             return _.union(...vars);
         };
 
-        self.replace = function (obj, values = {}, usedValues = {}) {
-            let providedValues = self.getProvidedValues();
+        function replaceInternal(obj, allValues, usedValues) {
             if (typeof obj === 'string') {
                 obj = obj.replace(RE_VARS, match => {
                     let varName = match.substr(1, match.length - 2),
-                        value = providedValues[varName] || values[varName];
-                    usedValues[varName] = value;
-                    return value;
+                        value = allValues[varName];
+
+                    if (typeof value !== 'undefined') {
+                        usedValues[varName] = value;
+                        return value;
+                    } else {
+                        return `{${varName}}`;
+                    }
                 });
             } else if (typeof obj === 'object' && obj !== null) {
                 obj = _.clone(obj);
                 Object.keys(obj).forEach(key => {
-                    obj[key] = self.replace(obj[key], values, usedValues);
+                    obj[key] = replaceInternal(obj[key], allValues, usedValues);
                 });
             }
 
             return obj;
+        }
+
+        self.replace = function (obj, values = {}, usedValues = {}) {
+            let providedValues = self.getProvidedValues();
+
+            return replaceInternal(obj, Object.assign({}, providedValues, values), usedValues);
         };
 
     }]);

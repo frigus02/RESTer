@@ -26,6 +26,7 @@ describe('controller: MainCtrl', function () {
     let $resterGetHistoryEntriesDeferred;
     let $resterGetEnvironmentDeferred;
     let $resterGetEnvironmentsDeferred;
+    let $resterSettingsLoadedDeferred;
 
     let fakeRequests;
     let fakeHistoryEntries;
@@ -59,6 +60,7 @@ describe('controller: MainCtrl', function () {
         $resterGetHistoryEntriesDeferred = $q.defer();
         $resterGetEnvironmentDeferred = $q.defer();
         $resterGetEnvironmentsDeferred = $q.defer();
+        $resterSettingsLoadedDeferred = $q.defer();
         $rester = {
             getRequests: jasmine.createSpy().and.returnValue($resterGetRequestsDeferred.promise),
             getHistoryEntries: jasmine.createSpy().and.returnValue($resterGetHistoryEntriesDeferred.promise),
@@ -67,7 +69,8 @@ describe('controller: MainCtrl', function () {
             addEventListener: jasmine.createSpy(),
             settings: {
                 activeEnvironment: 1
-            }
+            },
+            settingsLoaded: $resterSettingsLoadedDeferred.promise
         };
         $hotkeys = {
             Hotkey: function (props) {
@@ -118,10 +121,14 @@ describe('controller: MainCtrl', function () {
         expect($rester.getRequests).toHaveBeenCalledTimes(1);
         expect($rester.getHistoryEntries).toHaveBeenCalledTimes(1);
         expect($rester.getHistoryEntries).toHaveBeenCalledWith(-5, historyFields);
-        expect($rester.getEnvironment).toHaveBeenCalledWith($rester.settings.activeEnvironment, environmentFields);
 
         $resterGetRequestsDeferred.resolve(fakeRequests);
         $resterGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
+        $resterSettingsLoadedDeferred.resolve();
+        $rootScope.$apply();
+
+        expect($rester.getEnvironment).toHaveBeenCalledWith($rester.settings.activeEnvironment, environmentFields);
+
         $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
         $rootScope.$apply();
 
@@ -145,6 +152,7 @@ describe('controller: MainCtrl', function () {
         $resterGetRequestsDeferred.resolve([]);
         $resterGetHistoryEntriesDeferred.resolve([]);
         $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+        $resterSettingsLoadedDeferred.resolve();
         $rootScope.$apply();
 
         // Check preconditions.
@@ -212,6 +220,7 @@ describe('controller: MainCtrl', function () {
         $resterGetRequestsDeferred.resolve([]);
         $resterGetHistoryEntriesDeferred.resolve([]);
         $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+        $resterSettingsLoadedDeferred.resolve();
         $rootScope.$apply();
 
         // Check preconditions.
@@ -265,10 +274,28 @@ describe('controller: MainCtrl', function () {
     });
 
     it('updates the title on the $rootScope when it changes', function () {
-        expect($scope.$watch).toHaveBeenCalledWith('getTitle()', jasmine.any(Function));
+        expect($scope.$watch).toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Function));
         expect($rootScope.title).not.toBeDefined();
 
-        let watchListener = $scope.$watch.calls.argsFor(0)[1];
+        let [watchExpression, watchListener] = $scope.$watch.calls.argsFor(0);
+
+        // Expression: string
+        let exprTitle = 'test';
+        spyOn($scope, 'getTitle').and.callFake(() => exprTitle);
+
+        let exprResult = watchExpression();
+        expect($scope.getTitle).toHaveBeenCalledTimes(1);
+        expect(exprResult).toBe(exprTitle);
+
+        exprTitle = {
+            getAsString: jasmine.createSpy().and.returnValue('test')
+        };
+
+        exprResult = watchExpression();
+        expect($scope.getTitle).toHaveBeenCalledTimes(2);
+        expect(exprResult).toBe('test');
+
+        // Listener
         let title = 'test';
 
         watchListener(title);
