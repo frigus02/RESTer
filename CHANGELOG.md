@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - The Request title can be entered in the toolbar now.
 - Improved save and delete request buttons. They use a dropdown menu for confirmation now, which is much faster to use.
+- After deleting a request RESTer now jumps to the next request in the same collection.
 
 ### Fixed
 - When using environments in a request, the request would show up on the history page with the currently active environment. Now it correctly shows up with the values used when executing the request.

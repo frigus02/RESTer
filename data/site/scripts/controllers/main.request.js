@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('app')
-    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections',
-        function ($scope, $state, $rootScope, $rester, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections) {
+    .controller('RequestCtrl', ['$scope', '$state', '$rootScope', '$rester', '$mdDialog', '$error', '$filter', '$hotkeys', '$variables', '$lintInspections', '$navigation',
+        function ($scope, $state, $rootScope, $rester, $mdDialog, $error, $filter, $hotkeys, $variables, $lintInspections, $navigation) {
 
             $state.current.data = {
                 title: {
@@ -242,8 +242,13 @@ angular.module('app')
             }
 
             function deleteRequest() {
+                const nextId = $navigation.getNextRequestId($scope.request.id);
                 $rester.deleteRequest($scope.request).then(() => {
-                    $state.go('main.request.new');
+                    if (typeof nextId !== 'undefined') {
+                        $state.go('main.request.existing', { id: nextId });
+                    } else {
+                        $state.go('main.request.new');
+                    }
                 });
             }
 

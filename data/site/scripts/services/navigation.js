@@ -242,4 +242,45 @@ angular.module('app')
         $rester.addEventListener('dataChange', updateNavigationBasedOnDataChanges);
         $rester.addEventListener('settingsChange', updateNavigationBasedOnSettingsChanges);
 
+
+        self.getNextRequestId = function (requestId) {
+            const result = findNextRequestId(requestId, requestNavItems);
+            if (result !== 'noNextInGroup') {
+                return result;
+            }
+        };
+
+        function findNextRequestId(requestId, requestItems) {
+            function findNextId(i) {
+                let nextItem;
+                if (i < requestItems.length - 1) {
+                    nextItem = requestItems[i + 1];
+                } else if (i > 0) {
+                    nextItem = requestItems[i - 1];
+                } else {
+                    return 'noNextInGroup';
+                }
+
+                while (nextItem.type === 'group') {
+                    nextItem = nextItem.items[0];
+                }
+
+                return nextItem.targetStateParams.id;
+            }
+
+            for (let i = 0; i < requestItems.length; i++) {
+                const item = requestItems[i];
+                if (item.type === 'group') {
+                    const result = findNextRequestId(requestId, item.items);
+                    if (result === 'noNextInGroup') {
+                        return findNextId(i);
+                    } else if (typeof result !== 'undefined') {
+                        return result;
+                    }
+                } else if (item.targetStateParams.id === requestId) {
+                    return findNextId(i);
+                }
+            }
+        }
+
     }]);

@@ -214,4 +214,38 @@ describe('service: $navigation', function () {
             expect(envItem.subtitle).not.toBeDefined();
         });
     });
+
+    describe('getNextRequestId', function () {
+        beforeEach(function () {
+            $resterGetRequestsDeferred.resolve(fakeRequests);
+            $resterGetHistoryEntriesDeferred.resolve(fakeHistoryEntries.slice(1, 6));
+            $resterSettingsLoadedDeferred.resolve();
+            $resterGetEnvironmentDeferred.resolve(fakeEnvironments[0]);
+            $rootScope.$apply();
+        });
+
+        it('should return id from next item', function () {
+            expect($navigation.getNextRequestId(5)).toBe(7);
+        });
+
+        it('should return id from previous item when no next item is available', function () {
+            expect($navigation.getNextRequestId(1)).toBe(7);
+        });
+
+        it('should return id from first item in next collection when current collection has only one item', function () {
+            expect($navigation.getNextRequestId(6)).toBe(5);
+        });
+
+        it('should return undefined when only one item exists', function () {
+            // Delete all items except one.
+            let changeListener = $rester.addEventListener.calls.argsFor(0)[1];
+            changeListener([
+                {action: 'delete', item: fakeRequests[0], itemType: 'Request'},
+                {action: 'delete', item: fakeRequests[1], itemType: 'Request'},
+                {action: 'delete', item: fakeRequests[2], itemType: 'Request'}
+            ]);
+
+            expect($navigation.getNextRequestId(7)).toBeUndefined();
+        });
+    });
 });
