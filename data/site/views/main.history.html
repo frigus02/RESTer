@@ -1,5 +1,5 @@
 <md-list>
-    <md-list-item class="md-long-text text-overflow-fix"
+    <md-list-item class="md-long-text"
         ng-class="{'md-2-line': !entry.request.id, 'md-3-line': entry.request.id}"
         ng-repeat="entry in historyEntries | orderBy:'-time' track by entry.id"
         ng-click="openHistoryEntry(entry)">

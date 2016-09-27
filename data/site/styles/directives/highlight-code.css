@@ -14,7 +14,7 @@ highlight-code .options {
 }
 
 highlight-code .options .md-button.md-icon-button {
-    margin: 0;
+    margin: 8px 0;
 }
 
 highlight-code iframe {

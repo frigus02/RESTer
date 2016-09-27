@@ -288,9 +288,10 @@ angular.module('app')
                         message: 'Some variables have an empty value.',
                         check () {
                             if ($scope.request.variables.enabled) {
-                                let usedVariableValues = {};
+                                const variables = $variables.extract($scope.request);
+                                const usedVariableValues = {};
                                 $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
-                                return Object.keys(usedVariableValues).some(name => !usedVariableValues[name]);
+                                return Object.keys(variables).some(name => !usedVariableValues[name]);
                             } else {
                                 return false;
                             }

@@ -11,8 +11,8 @@
     position: absolute;
     width: 100%;
     box-shadow: 0 2px 5px rgba(black, 0.25);
-    background-color: rgb(250, 250, 250);
-    color: rgb(33, 33, 33);
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
     z-index: 5;
 
     overflow-y: auto;
@@ -32,5 +32,5 @@
 
 .input-suggestions li:hover,
 .input-suggestions li.selected {
-    background-color: rgb(238, 238, 238);
+    background-color: rgba(158, 158, 158, 0.2);
 }

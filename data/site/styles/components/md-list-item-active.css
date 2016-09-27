@@ -3,7 +3,6 @@ md-list-item.active {
     color: #00BCD4;
 }
 
-md-list-item.active .md-button,
-md-list-item.active button.md-no-style {
+md-list-item.active._md-button-wrap > div.md-button:first-child {
     font-weight: bold;
 }

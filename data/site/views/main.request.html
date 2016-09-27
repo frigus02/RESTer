@@ -3,7 +3,7 @@
     <div class="input-row">
         <md-input-container>
             <label>Method</label>
-            <input type="text" ng-model="request.method" required="true" input-suggestions="queryRequestMethods(searchTerm)">
+            <input type="text" ng-model="request.method" required="true" md-no-asterisk input-suggestions="queryRequestMethods(searchTerm)">
         </md-input-container>
         <url-input ng-model="request.url" required flex></url-input>
         <md-button
@@ -14,8 +14,7 @@
             <span ng-hide="requestIsSending">Send</span>
             <md-progress-circular ng-show="requestIsSending"
                 md-mode="indeterminate"
-                md-diameter="24"
-                class="progress-button"></md-progress-circular>
+                md-diameter="24"></md-progress-circular>
         </md-button>
     </div>
 

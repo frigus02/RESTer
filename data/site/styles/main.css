@@ -1,18 +1,21 @@
 body {
     color: #fff;
-    background-color: #424242;
+    background-color: #303030;
 
     /* Some elements like tooltip and toast produce scrollbars as they show/hide. This removes them. */
     overflow: hidden;
 }
 
 md-toolbar:not(.md-menu-toolbar).nav-header {
-    background-color: #424242;
+    background-color: #303030;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .md-sidenav-left {
     border-right: 1px solid #595959;
+}
+.md-sidenav-left md-content {
+    background-color: #303030;
 }
 
 .main-content {
@@ -21,22 +24,6 @@ md-toolbar:not(.md-menu-toolbar).nav-header {
 
 md-dialog {
     max-width: 600px;
-}
-
-/* Fix md-select: Color */
-.md-select-value {
-    color: rgba(255, 255, 255, 1.0);
-}
-md-select-menu md-option:focus:not([disabled]):not([selected]) {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* Fix md-select: The transformation is applied to all children, making the text 2px too low. */
-.md-select-value :first-child {
-    transform: none;
-}
-.md-select-value > :first-child {
-    transform: translate3d(0, 2px, 0);
 }
 
 /* Improve md-tabs: Faster tab switch animation. */

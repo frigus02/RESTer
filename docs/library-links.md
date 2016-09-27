@@ -15,8 +15,8 @@ angular-aria
 https://github.com/angular/bower-angular-aria/blob/v1.5.8/angular-aria.min.js
 
 angular-material
-https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.js
-https://github.com/angular/bower-material/blob/v1.0.8/angular-material.min.css
+https://github.com/angular/bower-material/blob/v1.1.1/angular-material.min.js
+https://github.com/angular/bower-material/blob/v1.1.1/angular-material.min.css
 
 angular-messages
 https://github.com/angular/bower-angular-messages/blob/v1.5.8/angular-messages.min.js
@@ -28,13 +28,13 @@ angular-ui-codemirror
 https://github.com/angular-ui/ui-codemirror/blob/v0.3.0/ui-codemirror.min.js
 
 codemirror
-https://github.com/codemirror/CodeMirror/blob/5.17.0/lib/codemirror.js
-https://github.com/codemirror/CodeMirror/blob/5.17.0/lib/codemirror.css
-https://github.com/codemirror/CodeMirror/blob/5.17.0/mode/javascript/javascript.js
-https://github.com/codemirror/CodeMirror/blob/5.17.0/mode/xml/xml.js
+https://github.com/codemirror/CodeMirror/blob/5.19.0/lib/codemirror.js
+https://github.com/codemirror/CodeMirror/blob/5.19.0/lib/codemirror.css
+https://github.com/codemirror/CodeMirror/blob/5.19.0/mode/javascript/javascript.js
+https://github.com/codemirror/CodeMirror/blob/5.19.0/mode/xml/xml.js
 
 lodash
-https://github.com/lodash/lodash/blob/4.14.1/dist/lodash.min.js
+https://github.com/lodash/lodash/blob/4.16.2/dist/lodash.min.js
 
 mousetrap
 https://github.com/ccampbell/mousetrap/blob/1.6.0/mousetrap.min.js

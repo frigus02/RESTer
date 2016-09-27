@@ -13,6 +13,10 @@ toolbar-title md-input-container .md-input {
     text-shadow: none;
 }
 
+toolbar-title md-input-container .md-input::-moz-placeholder {
+    color: rgba(0, 0, 0, 0.38);
+}
+
 toolbar-title md-input-container .md-errors-spacer {
     display: none;
 }

@@ -6,7 +6,7 @@ splash {
     right: 0;
     z-index: 100;
 
-    background-color: #424242;
+    background-color: #303030;
     opacity: 1;
     transition: opacity .3s ease;
     will-change: opacity;
@@ -20,7 +20,7 @@ splash {
 splash .icon {
     width: 128px;
     height: 128px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 splash .icon svg {

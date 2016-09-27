@@ -1,10 +1,10 @@
 lint-messages {
     display: block;
-    background-color: #424242;
+    background-color: #303030;
 }
 
 .lint-message {
-    background-color: #FFD740;
+    background-color: rgb(255, 215, 64);
     color: rgba(0, 0, 0, 0.87);
     padding: 4px 16px;
 
