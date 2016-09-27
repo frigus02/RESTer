@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - When using environments in a request, the request would show up on the history page with the currently active environment. Now it correctly shows up with the values used when executing the request.
+- Removed validation from URL fields in OAuth 2 configuration, so environment variables can be used.
 
 ## [1.14.0] - 2016-08-20
 ### Added
