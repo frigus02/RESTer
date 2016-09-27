@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.15.0] - 2016-09-27
 ### Changed
 - The Request title can be entered in the toolbar now.
 - Improved save and delete request buttons. They use a dropdown menu for confirmation now, which is much faster to use.
@@ -175,7 +177,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.14.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/1.15.0...HEAD
+[1.15.0]: https://github.com/frigus02/RESTer/compare/1.14.0...1.15.0
 [1.14.0]: https://github.com/frigus02/RESTer/compare/1.13.0...1.14.0
 [1.13.0]: https://github.com/frigus02/RESTer/compare/1.12.1...1.13.0
 [1.12.1]: https://github.com/frigus02/RESTer/compare/1.12.0...1.12.1
