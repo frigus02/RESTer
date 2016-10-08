@@ -25,7 +25,7 @@ angular.module('app')
                     }
                 }).then(updatedEnv => {
                     if (updatedEnv === 'delete') {
-                        $rester.deleteEnvironment(env).then(() => {
+                        $rester.deleteEnvironment(env.id).then(() => {
                             let index = $scope.environments.indexOf(env);
                             $scope.environments.splice(index, 1);
                         });

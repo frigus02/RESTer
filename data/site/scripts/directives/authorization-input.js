@@ -79,7 +79,7 @@ angular.module('app')
                 };
 
                 $scope.deleteToken = function (token) {
-                    $rester.deleteAuthorizationToken(token).then(() => {
+                    $rester.deleteAuthorizationToken(token.id).then(() => {
                         let index = $scope.tokens.indexOf(token);
                         if (index > -1) {
                             $scope.tokens.splice(index, 1);
@@ -108,7 +108,7 @@ angular.module('app')
                 $scope.editConfiguration = function (config) {
                     $scope.getProviderById(config.providerId).editConfiguration(config).then(newConfig => {
                         if (newConfig === 'delete') {
-                            $rester.deleteAuthorizationProviderConfiguration(config).then(() => {
+                            $rester.deleteAuthorizationProviderConfiguration(config.id).then(() => {
                                 let index = $scope.configurations.findIndex(c => c.id === config.id);
                                 if (index > 0) {
                                     $scope.configurations.splice(index, 1);

@@ -158,7 +158,7 @@ describe('controller: EnvironmentsCtrl', function () {
         $mdDialogShowDeferred.resolve('delete');
         $rootScope.$apply();
 
-        expect($rester.deleteEnvironment).toHaveBeenCalledWith(environment);
+        expect($rester.deleteEnvironment).toHaveBeenCalledWith(environment.id);
 
         // Update environments in scope
         $resterDeleteEnvironmentDeferred.resolve();

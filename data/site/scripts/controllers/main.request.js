@@ -243,7 +243,7 @@ angular.module('app')
 
             function deleteRequest() {
                 const nextId = $navigation.getNextRequestId($scope.request.id);
-                $rester.deleteRequest($scope.request).then(() => {
+                $rester.deleteRequest($scope.request.id).then(() => {
                     if (typeof nextId !== 'undefined') {
                         $state.go('main.request.existing', { id: nextId });
                     } else {

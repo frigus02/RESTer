@@ -97,8 +97,8 @@ angular.module('app')
             return sendResterApiRequest('data.requests.queryCollections');
         };
 
-        self.deleteRequest = function (request) {
-            return sendResterApiRequest('data.requests.delete', request);
+        self.deleteRequest = function (id) {
+            return sendResterApiRequest('data.requests.delete', id);
         };
 
         self.addHistoryEntry = function (entry) {
@@ -113,8 +113,8 @@ angular.module('app')
             return sendResterApiRequest('data.history.query', top, fields);
         };
 
-        self.deleteHistoryEntry = function (entry) {
-            return sendResterApiRequest('data.history.delete', entry);
+        self.deleteHistoryEntry = function (id) {
+            return sendResterApiRequest('data.history.delete', id);
         };
 
         self.putAuthorizationProviderConfiguration = function (config) {
@@ -125,8 +125,8 @@ angular.module('app')
             return sendResterApiRequest('data.authorizationProviderConfigurations.query', providerId, fields);
         };
 
-        self.deleteAuthorizationProviderConfiguration = function (config) {
-            return sendResterApiRequest('data.authorizationProviderConfigurations.delete', config);
+        self.deleteAuthorizationProviderConfiguration = function (id) {
+            return sendResterApiRequest('data.authorizationProviderConfigurations.delete', id);
         };
 
         self.addAuthorizationToken = function (token) {
@@ -137,8 +137,8 @@ angular.module('app')
             return sendResterApiRequest('data.authorizationTokens.query', null, fields);
         };
 
-        self.deleteAuthorizationToken = function (token) {
-            return sendResterApiRequest('data.authorizationTokens.delete', token);
+        self.deleteAuthorizationToken = function (id) {
+            return sendResterApiRequest('data.authorizationTokens.delete', id);
         };
 
         self.putEnvironment = function (environment) {
@@ -153,8 +153,8 @@ angular.module('app')
             return sendResterApiRequest('data.environments.query', null, fields);
         };
 
-        self.deleteEnvironment = function (environment) {
-            return sendResterApiRequest('data.environments.delete', environment);
+        self.deleteEnvironment = function (id) {
+            return sendResterApiRequest('data.environments.delete', id);
         };
 
         self.importData = function (data) {

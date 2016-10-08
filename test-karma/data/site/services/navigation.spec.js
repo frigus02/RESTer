@@ -151,7 +151,7 @@ describe('service: $navigation', function () {
 
             // Delete a request. Now the collection is empty and we should have one item less.
             changeListener([
-                {action: 'delete', item: fakeRequests[2], itemType: 'Request'}
+                {action: 'delete', item: { id: fakeRequests[2].id }, itemType: 'Request'}
             ]);
 
             expect($navigation.items.length).toEqual(9);
@@ -177,7 +177,7 @@ describe('service: $navigation', function () {
             // Delete a request. This time the collection is not empty yet. So the overall count
             // should stay the same.
             changeListener([
-                {action: 'delete', item: fakeRequests[0], itemType: 'Request'}
+                {action: 'delete', item: { id: fakeRequests[0].id }, itemType: 'Request'}
             ]);
 
             expect($navigation.items.length).toEqual(12);
@@ -240,9 +240,9 @@ describe('service: $navigation', function () {
             // Delete all items except one.
             let changeListener = $rester.addEventListener.calls.argsFor(0)[1];
             changeListener([
-                {action: 'delete', item: fakeRequests[0], itemType: 'Request'},
-                {action: 'delete', item: fakeRequests[1], itemType: 'Request'},
-                {action: 'delete', item: fakeRequests[2], itemType: 'Request'}
+                {action: 'delete', item: { id: fakeRequests[0].id }, itemType: 'Request'},
+                {action: 'delete', item: { id: fakeRequests[1].id }, itemType: 'Request'},
+                {action: 'delete', item: { id: fakeRequests[2].id }, itemType: 'Request'}
             ]);
 
             expect($navigation.getNextRequestId(7)).toBeUndefined();

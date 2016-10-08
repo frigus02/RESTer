@@ -119,7 +119,7 @@ describe('controller: HistoryCtrl', function () {
 
         $scope.deleteHistoryEntry($scope.historyEntries[0]);
 
-        expect($rester.deleteHistoryEntry).toHaveBeenCalledWith($scope.historyEntries[0]);
+        expect($rester.deleteHistoryEntry).toHaveBeenCalledWith($scope.historyEntries[0].id);
 
         $resterDeleteHistoryEntryDeferred.resolve();
         $rootScope.$apply();

@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- Fixed deletion of history entries.
 
 ## [1.15.0] - 2016-09-27
 ### Changed

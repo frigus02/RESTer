@@ -39,7 +39,7 @@ angular.module('app')
         };
 
         $scope.deleteHistoryEntry = function (entry) {
-            $rester.deleteHistoryEntry(entry).then(() => {
+            $rester.deleteHistoryEntry(entry.id).then(() => {
                 let index = $scope.historyEntries.indexOf(entry);
                 $scope.historyEntries.splice(index, 1);
             });
