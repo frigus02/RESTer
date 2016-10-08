@@ -291,7 +291,7 @@ angular.module('app')
                                 const variables = $variables.extract($scope.request);
                                 const usedVariableValues = {};
                                 $variables.replace($scope.request, $scope.requestVariableValues, usedVariableValues);
-                                return Object.keys(variables).some(name => !usedVariableValues[name]);
+                                return variables.some(name => !usedVariableValues[name]);
                             } else {
                                 return false;
                             }
