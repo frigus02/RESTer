@@ -22,8 +22,8 @@ angular.module('app')
                     Object.assign(cachedValues, $scope.values);
                 }, true);
 
-                $scope.$watch($variables.getProvidedValues, function (values) {
-                    $scope.providedValues = values;
+                $scope.$watch(() => JSON.stringify($variables.getProvidedValues()), function () {
+                    $scope.providedValues = $variables.getProvidedValues();
                 }, true);
 
                 $scope.$watchCollection('varNames', function () {
