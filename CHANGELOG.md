@@ -2,8 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.15.1] - 2016-10-08
 ### Fixed
 - Fixed deletion of history entries.
+- Fixed "Some variables have an empty value." message.
 
 ## [1.15.0] - 2016-09-27
 ### Changed
@@ -179,7 +182,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.15.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/1.15.1...HEAD
+[1.15.1]: https://github.com/frigus02/RESTer/compare/1.15.0...1.15.1
 [1.15.0]: https://github.com/frigus02/RESTer/compare/1.14.0...1.15.0
 [1.14.0]: https://github.com/frigus02/RESTer/compare/1.13.0...1.14.0
 [1.13.0]: https://github.com/frigus02/RESTer/compare/1.12.1...1.13.0
