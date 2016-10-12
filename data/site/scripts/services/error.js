@@ -24,12 +24,33 @@ angular.module('app')
         }
 
         self.show = function (error) {
-            let dialog = $mdDialog.alert()
-                .title(_.sample(TITLES))
-                .textContent(extractMessage(error))
-                .ok('OK');
-
-            $mdDialog.show(dialog);
+            $mdDialog.show({
+                template: `
+                    <md-dialog class="error-dialog">
+                        <md-dialog-content class="md-dialog-content">
+                            <h2 class="md-title">{{dialog.title}}</h2>
+                            <div class="md-dialog-content-body">
+                                <p ng-repeat="line in dialog.message">{{line}}</p>
+                            </div>
+                        </md-dialog-content>
+                        <md-dialog-actions>
+                            <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="true">
+                                OK
+                            </md-button>
+                        </md-dialog-actions>
+                    </md-dialog>`,
+                locals: {
+                    message: extractMessage(error)
+                },
+                controller: function ($scope, $mdDialog, message) {
+                    this.title = _.sample(TITLES);
+                    this.message = message.split('\n');
+                    this.hide = function () {
+                        $mdDialog.hide();
+                    };
+                },
+                controllerAs: 'dialog'
+            });
         };
 
     }]);
