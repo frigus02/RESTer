@@ -96,6 +96,18 @@ angular.module('app')
                 return token;
             }
 
+            function createError(...lines) {
+                return new Error(lines.join('\n'));
+            }
+
+            function tryParseJson(str, defaultValue) {
+                try {
+                    return JSON.parse(str);
+                } catch (e) {
+                    return defaultValue;
+                }
+            }
+
             function sendAuthorizationRequest(config, responseType) {
                 const params = {
                     response_type: responseType,
@@ -145,58 +157,85 @@ angular.module('app')
                 return $rester.sendRequest(accessTokenRequest);
             }
 
-            function executeImplicitFlow(config) {
-                return sendAuthorizationRequest(config, 'token').then(function (response) {
-                    // Some oauth2 requests return the authorization response in the search
-                    // part of the url instead of the fragment part. So we just check both.
+            function validateAuthorizationResponse(response, requiredProperties) {
+                // Some authorization servers return the authorization response in the search
+                // part of the url and some in the fragment part. So we just check both.
 
-                    let url = new URL(response.url),
-                        resultFromHash = decodeQueryString(url.hash.substr(1)),
-                        resultFromSearch = decodeQueryString(url.search.substr(1));
+                const url = new URL(response.url),
+                      hash = decodeQueryString(url.hash.substr(1)),
+                      search = decodeQueryString(url.search.substr(1));
 
-                    if (resultFromHash.access_token && resultFromHash.token_type) {
-                        return createToken(config, resultFromHash);
-                    } else if (resultFromSearch.access_token && resultFromSearch.token_type) {
-                        return createToken(config, resultFromSearch);
-                    } else if (resultFromHash.error) {
-                        return $q.reject(`Authorization error: ${resultFromHash.error} (Description: ${resultFromHash.error_description}, URI: ${resultFromHash.error_uri}).`);
-                    } else if (resultFromSearch.error) {
-                        return $q.reject(`Authorization error: ${resultFromSearch.error} (Description: ${resultFromSearch.error_description}, URI: ${resultFromSearch.error_uri}).`);
+                if (requiredProperties.every(p => hash[p])) {
+                    return hash;
+                } else if (requiredProperties.every(p => search[p])) {
+                    return search;
+                } else if (hash.error) {
+                    throw createError(`Authorization error: ${hash.error}.`,
+                        `Description: ${hash.error_description}`,
+                        `URI: ${hash.error_uri}`);
+                } else if (search.error) {
+                    throw createError(`Authorization error: ${search.error}.`,
+                        `Description: ${search.error_description}`,
+                        `URI: ${search.error_uri}`);
+                } else {
+                    throw createError('Invalid authorization response.',
+                        `Got url: ${response.url}`,
+                        `Expected all of these properties or the property "error" in the query or fragment component: ${requiredProperties.join(', ')}`);
+                }
+            }
+
+            function validateAccessTokenResponse(response, validErrorStatuses) {
+                const body = tryParseJson(response.body, {});
+                if (response.status === 200) {
+                    if (body.access_token && body.token_type) {
+                        return body;
                     } else {
-                        return $q.reject(`Invalid authorization response.`);
+                        throw createError('Invalid access token response.',
+                            `Got body: ${response.body}`,
+                            `Expected JSON object with properties: access_token, token_type`);
+                    }
+                } else if (validErrorStatuses.indexOf(response.status) !== -1) {
+                    throw createError(`Access token error: ${body.error}.`,
+                        `Description: ${body.error_description}`,
+                        `URI: ${body.error_uri}`);
+                } else {
+                    throw createError('Invalid access token response.',
+                        `Got status: ${response.status}`,
+                        `Expected status of: 200, ${validErrorStatuses.join(', ')}`);
+                }
+            }
+
+            function executeImplicitFlow(config) {
+                return sendAuthorizationRequest(config, 'token').then(response => {
+                    try {
+                        const result = validateAuthorizationResponse(response, ['access_token', 'token_type']);
+                        return createToken(config, result);
+                    } catch (e) {
+                        return $q.reject(e);
                     }
                 });
             }
 
             function executeCodeFlow(config) {
-                return sendAuthorizationRequest(config, 'code').then(function (response) {
-                    let url = new URL(response.url);
-
-                    if (url.searchParams.has('code')) {
-                        let accessTokenRequestParams = {
+                return sendAuthorizationRequest(config, 'code').then(response => {
+                    try {
+                        const result = validateAuthorizationResponse(response, ['code']);
+                        const accessTokenRequestParams = {
                             grant_type: 'authorization_code',
-                            code: url.searchParams.get('code'),
+                            code: result.code,
                             redirect_uri: config.redirectUri
                         };
 
                         return sendAccessTokenRequest(config, accessTokenRequestParams);
-                    } else if (url.searchParams.has('error')) {
-                        let error = url.searchParams.get('error'),
-                            errorDescription = url.searchParams.get('error_description'),
-                            errorUri = url.searchParams.get('error_uri');
-
-                        return $q.reject(`Authorization error: ${error} (Description: ${errorDescription}, URI: ${errorUri}).`);
-                    } else {
-                        return $q.reject(`Invalid authorization response.`);
+                    } catch (e) {
+                        return $q.reject(e);
                     }
-                }).then(function (response) {
-                    let body = JSON.parse(response.body);
-                    if (response.status === 200) {
-                        return createToken(config, body);
-                    } else if (response.status === 400) {
-                        return $q.reject(`Access token error: ${body.error} (Description: ${body.error_description}, URI: ${body.error_uri}).`);
-                    } else {
-                        return $q.reject(`Invalid access token response.`);
+                }).then(response => {
+                    try {
+                        const result = validateAccessTokenResponse(response, [400]);
+                        return createToken(config, result);
+                    } catch (e) {
+                        return $q.reject(e);
                     }
                 });
             }
@@ -217,14 +256,12 @@ angular.module('app')
                     }
 
                     return sendAccessTokenRequest(config, accessTokenRequestParams);
-                }).then(function (response) {
-                    let body = JSON.parse(response.body);
-                    if (response.status === 200) {
-                        return createToken(config, body);
-                    } else if (response.status === 400 || response.status === 401) {
-                        return $q.reject(`Access token error: ${body.error} (Description: ${body.error_description}, URI: ${body.error_uri}).`);
-                    } else {
-                        return $q.reject(`Invalid access token response.`);
+                }).then(response => {
+                    try {
+                        const result = validateAccessTokenResponse(response, [400, 401]);
+                        return createToken(config, result);
+                    } catch (e) {
+                        return $q.reject(e);
                     }
                 });
             }
@@ -252,7 +289,9 @@ angular.module('app')
                     } else if (config.flow === 'resource_owner') {
                         return executeResourceOwnerPasswordCredentialsFlow(config);
                     } else {
-                        return $q.reject(`Invalid flow "${config.flow}".`);
+                        return $q.reject(createError('Invalid flow.',
+                            `Got: ${config.flow}`,
+                            `Expected one of: code, implicit, resource_owner`));
                     }
                 });
             };

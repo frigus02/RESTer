@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- Improved OAuth 2 error messages. It should be much easier now to figure out, why an authorization attempt didn't work.
 
 ## [1.15.1] - 2016-10-08
 ### Fixed
