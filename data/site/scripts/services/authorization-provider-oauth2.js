@@ -129,6 +129,7 @@ angular.module('app')
                 const accessTokenRequest = {
                     method: config.accessTokenRequestMethod,
                     headers: [
+                        { name: 'Accept', value: 'application/json' },
                         { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
                     ]
                 };

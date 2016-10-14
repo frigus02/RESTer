@@ -34,8 +34,8 @@
                 <md-input-container ng-if="flow('code')">
                     <label>Access Token Request: Method</label>
                     <md-select name="accessTokenRequestMethod" ng-model="config.accessTokenRequestMethod" required>
-                        <md-option>POST</md-option>
-                        <md-option>GET</md-option>
+                        <md-option value="POST">POST</md-option>
+                        <md-option value="POST">GET</md-option>
                     </md-select>
                 </md-input-container>
                 <md-input-container ng-if="flow('code', 'resource_owner')">
