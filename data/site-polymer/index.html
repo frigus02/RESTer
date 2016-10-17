@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+
+    <title>RESTer (Polymer)</title>
+    <meta name="description" content="My App description">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
+    <script>
+        // Setup Polymer options
+        window.Polymer = {
+            dom: 'shadow',
+            lazyRegister: true
+        };
+
+        // Load webcomponentsjs polyfill if browser does not support native Web Components
+        (function() {
+            function onLoad() {
+                // For native Imports, manually fire WebComponentsReady so user code
+                // can use the same code path for native and polyfill'd imports.
+                if (!window.HTMLImports) {
+                    document.dispatchEvent(new CustomEvent('WebComponentsReady', {bubbles: true}));
+                }
+            }
+
+            const webComponentsSupported =
+                'registerElement' in document &&
+                'import' in document.createElement('link') &&
+                'content' in document.createElement('template');
+
+            if (!webComponentsSupported) {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+                script.onload = onLoad;
+                document.head.appendChild(script);
+            } else {
+                onLoad();
+            }
+        })();
+    </script>
+
+    <link rel="import" href="elements/rester-app.html">
+
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <rester-app></rester-app>
+</body>
+</html>

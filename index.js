@@ -42,7 +42,7 @@ buttons.ActionButton({
     },
     onClick: function () {
         tabs.open({
-            url: './site/index.html'
+            url: './site-polymer/index.html'
         });
     }
 });
@@ -54,7 +54,7 @@ try {
 }
 
 pageMod.PageMod({
-    include: [self.data.url('./site/index.html') + '*'].concat(additionalPageModIncludes),
+    include: [self.data.url('./site-polymer/index.html') + '*'].concat(additionalPageModIncludes),
     contentScriptFile: './site-content/rester.js',
     contentScriptWhen: 'start',
     attachTo: ['existing', 'top'],

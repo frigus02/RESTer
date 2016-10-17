@@ -1,0 +1,18 @@
+{
+    "root": "data/site-polymer",
+    "entrypoint": "data/site-polymer/index.html",
+    "shell": "data/site-polymer/elements/rester-app.html",
+    "fragments": [
+        "data/site-polymer/elements/rester-view-environments.html",
+        "data/site-polymer/elements/rester-view-history.html",
+        "data/site-polymer/elements/rester-view-request.html"
+    ],
+    "sourceGlobs": [
+        "data/site-polymer/elements/**/*",
+        "data/site-polymer/images/**/*",
+        "data/site-polymer/bower.json"
+    ],
+    "includeDependencies": [
+        "data/site-polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"
+    ]
+}

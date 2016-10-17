@@ -1,0 +1,316 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="rester-data.html">
+
+<dom-module id="rester-data-navigation">
+    <script>
+        Polymer({
+            is: 'rester-data-navigation',
+
+            properties: {
+                items: {
+                    type: Array,
+                    value: [],
+                    readOnly: true,
+                    notify: true
+                }
+            },
+
+            created () {
+                this._updateNavigationBasedOnDataChanges = this._updateNavigationBasedOnDataChanges.bind(this);
+                this._updateNavigationBasedOnSettingsChanges = this._updateNavigationBasedOnSettingsChanges.bind(this);
+            },
+
+            attached () {
+                this._createNavigation();
+                RESTer.rester.addEventListener('dataChange', this._updateNavigationBasedOnDataChanges);
+                RESTer.rester.addEventListener('settingsChange', this._updateNavigationBasedOnSettingsChanges);
+            },
+
+            detached () {
+                RESTer.rester.removeEventListener('dataChange', this._updateNavigationBasedOnDataChanges);
+                RESTer.rester.removeEventListener('settingsChange', this._updateNavigationBasedOnSettingsChanges);
+            },
+
+            _requestFields: ['id', 'collection', 'title'],
+            _historyFields: ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'],
+            _environmentFields: ['id', 'name'],
+
+            _requestNavItems: [],
+            _requestNavItemsOffset: 0,
+            _environmentNavItem: null,
+            _environmentNavItemIndex: 0,
+            _historyNavItems: [],
+            _historyNavItemsOffset: 0,
+
+            _createNavigation () {
+                this._setItems([]);
+
+                Promise.all([
+                    RESTer.rester.getRequests(this._requestFields),
+                    RESTer.rester.getHistoryEntries(-5, this._historyFields),
+                    RESTer.rester.settingsLoaded.then(() => this._getActiveEnvironment())
+                ]).then(([requests, historyEntries, activeEnvironment]) => {
+                    this.push('items', {
+                        isSubheader: true,
+                        title: 'Requests',
+                        action: {
+                            icon: 'add',
+                            url: '#/'
+                        }
+                    });
+
+                    this._requestNavItemsOffset = 1;
+                    requests = requests.map(r => {
+                        r = _.cloneDeep(r);
+                        r.collection = r.collection.split(/\s*\/\s*/i);
+                        return r;
+                    });
+                    this._requestNavItems = this._createListOfRequestNavItems(requests);
+
+                    this.push('items', ...this._requestNavItems);
+
+                    this.push('items',
+                        {
+                            isDivider: true
+                        },
+                        {
+                            isSubheader: true,
+                            title: 'Settings',
+                            action: {
+                                icon: 'settings',
+                                url: '#/settings'
+                            }
+                        }
+                    );
+
+                    this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItems.length + 2;
+                    this._environmentNavItem = {
+                        isItem: true,
+                        title: 'Environment',
+                        subtitle: activeEnvironment && activeEnvironment.name,
+                        action: {
+                            url: '#/environments'
+                        }
+                    };
+                    this.push('items', this._environmentNavItem);
+
+                    this.push('items',
+                        {
+                            isDivider: true
+                        },
+                        {
+                            isSubheader: true,
+                            title: 'History',
+                            action: {
+                                icon: 'history',
+                                url: '#/history'
+                            }
+                        }
+                    );
+
+                    this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
+                    this._historyNavItems = historyEntries.map(entry => this._createHistoryNavItem(entry));
+                    this.push('items', ...this._historyNavItems);
+                });
+            },
+
+            _createListOfRequestNavItems (rawRequests) {
+                return _(rawRequests)
+                    .groupBy(request => request.collection[0])
+                    .pairs()
+                    .sortBy(0)
+                    .map(coll => {
+                        coll[1].forEach(request => request.collection.splice(0, 1));
+
+                        let collItem = this._createRequestCollectionNavItem(coll[0]);
+                        let subrequests = coll[1]
+                            .filter(request => request.collection.length === 0)
+                            .map(request => this._createRequestNavItem(request));
+                        let subcollections = this._createListOfRequestNavItems(
+                            coll[1].filter(request => request.collection.length > 0));
+                        collItem.items = _.sortBy(subcollections.concat(subrequests), 'title');
+
+                        return collItem;
+                    })
+                    .value();
+            },
+
+            _createRequestCollectionNavItem (collection) {
+                return {
+                    isGroup: true,
+                    title: collection,
+                    items: []
+                };
+            },
+
+            _createRequestNavItem (request) {
+                return {
+                    isItem: true,
+                    title: request.title,
+                    action: {
+                        url: `#/request/${request.id}`
+                    },
+                    data: {
+                        id: request.id
+                    }
+                };
+            },
+
+            _createHistoryNavItem (historyEntry) {
+                let requestTitle = '';
+                if (historyEntry.request.id) {
+                    requestTitle = `${historyEntry.request.collection} / ${historyEntry.request.title}`;
+                }
+
+                let compiledRequest = historyEntry.request;
+                if (historyEntry.request.variables.enabled) {
+                    compiledRequest = RESTer.variables.replace(historyEntry.request, historyEntry.request.variables.values);
+                }
+
+                return {
+                    isItem: true,
+                    title: `${RESTer.format.time(historyEntry.time)} ${requestTitle}`,
+                    subtitle: `${compiledRequest.method} ${compiledRequest.url}`,
+                    action: {
+                        url: `#/request/${historyEntry.request.id}/history/${historyEntry.id}`
+                    }
+                };
+            },
+
+            _removeRequestNavigationItem (requestId, requests = this._requestNavItems) {
+                for (let requestIndex = 0; requestIndex < requests.length; requestIndex++) {
+                    let request = requests[requestIndex];
+                    if (request.isItem && request.data.id === requestId) {
+                        requests.splice(requestIndex, 1);
+                        return true;
+                    }
+
+                    if (request.isGroup && this._removeRequestNavigationItem(requestId, request.items)) {
+                        if (request.items.length === 0) {
+                            requests.splice(requestIndex, 1);
+                            if (requests === this._requestNavItems) {
+                                this.splice('items', requestIndex + this._requestNavItemsOffset, 1);
+
+                                this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItems.length + 2;
+                                this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+
+            _updateNavigationBasedOnDataChanges (changes) {
+                changes.forEach(change => {
+                    if (change.itemType === 'Request') {
+                        if (change.action === 'put' || change.action === 'delete') {
+                            this._removeRequestNavigationItem(change.item.id);
+                        }
+
+                        if (change.action === 'add' || change.action === 'put') {
+                            let collectionParts = change.item.collection.split(/\s*\/\s*/i),
+                                collectionItems = this._requestNavItems;
+
+                            while (collectionParts.length > 0) {
+                                let collection = collectionItems.find(item => item.title === collectionParts[0]);
+                                if (!collection) {
+                                    collection = this._createRequestCollectionNavItem(collectionParts[0]);
+
+                                    let insertAtIndex = _.sortedIndexBy(collectionItems, {title: collectionParts[0]}, item => item.title);
+                                    collectionItems.splice(insertAtIndex, 0, collection);
+                                    if (collectionItems === this._requestNavItems) {
+                                        this.splice('items', insertAtIndex + this._requestNavItemsOffset, 0, collection);
+                                    }
+                                }
+
+                                collectionItems = collection.items;
+                                collectionParts.splice(0, 1);
+                            }
+
+                            let insertAtIndex = _.sortedIndexBy(collectionItems, change.item, item => item.title);
+                            collectionItems.splice(insertAtIndex, 0, this._createRequestNavItem(change.item));
+                        }
+
+                        this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItems.length + 2;
+                        this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
+                    } else if (change.itemType === 'HistoryEntry') {
+                        if (change.action === 'add') {
+                            let newHistoryItem = this._createHistoryNavItem(change.item);
+
+                            this.splice('items', this._historyNavItemsOffset, 0, newHistoryItem);
+                            if (this._historyNavItems.unshift(newHistoryItem) > 5) {
+                                this.splice('items', this._historyNavItemsOffset + 5, 1);
+                                this._historyNavItems.pop();
+                            }
+                        }
+                    } else if (change.itemType === 'Environment') {
+                        if (change.item.id === RESTer.rester.settings.activeEnvironment) {
+                            this._updateEnvironmentNavItemSubtitle(change.item);
+                        }
+                    }
+                });
+            },
+
+            _updateNavigationBasedOnSettingsChanges () {
+                this._getActiveEnvironment().then(() => this._updateEnvironmentNavItemSubtitle());
+            },
+
+            _getActiveEnvironment () {
+                const envId = RESTer.rester.settings.activeEnvironment;
+                if (envId) {
+                    return RESTer.rester.getEnvironment(envId, this._environmentFields);
+                } else {
+                    return Promise.resolve();
+                }
+            },
+
+            _updateEnvironmentNavItemSubtitle (env) {
+                this.set(`items.${this._environmentNavItemIndex}.subtitle`, env && env.name);
+            },
+
+            getNextRequestId (requestId) {
+                const result = this._findNextRequestId(requestId, this._requestNavItems);
+                if (result !== 'noNextInGroup') {
+                    return result;
+                }
+            },
+
+            _findNextRequestId (requestId, requestItems) {
+                function findNextId(i) {
+                    let nextItem;
+                    if (i < requestItems.length - 1) {
+                        nextItem = requestItems[i + 1];
+                    } else if (i > 0) {
+                        nextItem = requestItems[i - 1];
+                    } else {
+                        return 'noNextInGroup';
+                    }
+
+                    while (nextItem.isGroup) {
+                        nextItem = nextItem.items[0];
+                    }
+
+                    return nextItem.data.id;
+                }
+
+                for (let i = 0; i < requestItems.length; i++) {
+                    const item = requestItems[i];
+                    if (item.isGroup) {
+                        const result = this._findNextRequestId(requestId, item.items);
+                        if (result === 'noNextInGroup') {
+                            return findNextId(i);
+                        } else if (typeof result !== 'undefined') {
+                            return result;
+                        }
+                    } else if (item.data.id === requestId) {
+                        return findNextId(i);
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>

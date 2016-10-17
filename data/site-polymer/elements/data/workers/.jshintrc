@@ -1,0 +1,10 @@
+{
+    "extends": "../../.jshintrc",
+    "browser": false,
+    "varstmt": false,
+    "worker": true,
+    "globals": {
+        "hljs": false,
+        "vkbeautify": false
+    }
+}

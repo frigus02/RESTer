@@ -1,0 +1,223 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-subheader/paper-subheader.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="rester-navigation-list-item">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+                --paper-item-body-two-line-min-height: 48px;
+                --paper-item-body-secondary: {
+                    font-size: 12px;
+                    line-height: 1em;
+                };
+            }
+
+            :host[subitem] {
+                --paper-item-min-height: 36px;
+                --paper-item-body-two-line-min-height: 36px;
+            }
+
+            :host[active] paper-item {
+                background-color: var(--paper-grey-800);
+                color: var(--primary-color);
+                font-weight: bold;
+
+                --paper-item-body-secondary-color: var(--primary-color);
+                --paper-item-body-secondary: {
+                    font-weight: bold;
+                };
+            }
+            :host[active] paper-item-body [secondary] {
+                color: var(--primary-color);
+                font-weight: bold;
+            }
+
+            .subheader-action {
+                margin-right: -8px;
+            }
+
+            .divider {
+                border-top: 1px solid var(--divider-color);
+            }
+
+            paper-item[role="button"] {
+                cursor: pointer;
+                line-height: 1.1em;
+            }
+
+            .group > paper-item iron-icon {
+                transition: transform 0.25s ease;
+            }
+
+            .group.expanded > paper-item iron-icon {
+                transform: rotate(-180deg);
+            }
+
+            .group .subitems {
+                background-color: var(--primary-background-color);
+                transition: transform 0.25s ease,
+                            opacity 0.25s ease;
+            }
+        </style>
+
+        <template is="dom-if" if="[[item.isSubheader]]">
+            <paper-subheader>
+                <div class="flex">[[item.title]]</div>
+                <template is="dom-if" if="[[item.action]]">
+                    <paper-icon-button
+                            class="subheader-action"
+                            icon="[[item.action.icon]]"
+                            on-tap="_invokeAction"></paper-icon-button>
+                </template>
+            </paper-subheader>
+        </template>
+
+        <template is="dom-if" if="[[item.isItem]]">
+            <paper-item on-tap="_invokeAction" role="button">
+                <paper-ripple></paper-ripple>
+                <paper-item-body two-line style$="padding-left: [[_getIndentionInPixel()]]px;">
+                    <div>[[item.title]]</div>
+                    <div secondary>[[item.subtitle]]</div>
+                </paper-item-body>
+            </paper-item>
+        </template>
+
+        <template is="dom-if" if="[[item.isGroup]]">
+            <div class$="group [[_getExpandedClass(item.isExpanded)]]">
+                <paper-item on-tap="_toggleGroup" role="button">
+                    <paper-ripple></paper-ripple>
+                    <paper-item-body style$="padding-left: [[_getIndentionInPixel()]]px;">
+                        <div>[[item.title]]</div>
+                    </paper-item-body>
+                    <iron-icon icon="expand-more"></iron-icon>
+                </paper-item>
+                <div class="subitems">
+                    <template is="dom-repeat" items="[[item.items]]" as="subitem">
+                        <rester-navigation-list-item
+                                item="[[subitem]]"
+                                indent-level="[[_getIndentLevelForSubitems()]]"
+                                route="[[route]]"
+                                on-rester-group-toggled="_onGroupToggled"
+                                on-rester-item-activated="_onSubitemActivated"
+                                subitem></rester-navigation-list-item>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <template is="dom-if" if="[[item.isDivider]]">
+            <div class="divider"></div>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-navigation-list-item',
+
+            properties: {
+                item: Object,
+                indentLevel: {
+                    type: Number,
+                    value: 0
+                },
+                route: {
+                    type: Object,
+                    observer: '_onRouteChanged'
+                },
+                active: {
+                    type: Boolean,
+                    computed: '_computeActive(route)',
+                    reflectToAttribute: true
+                }
+            },
+
+            observers: [
+                '_onGroupToggled(item.isExpanded)'
+            ],
+
+            ready () {
+                this.async(() => this._onGroupToggled());
+            },
+
+            _getIndentionInPixel () {
+                return this.indentLevel * 24;
+            },
+
+            _getIndentLevelForSubitems () {
+                return this.indentLevel + 1;
+            },
+
+            _toggleGroup () {
+                this.set('item.isExpanded', !this.item.isExpanded);
+            },
+
+            _getExpandedClass () {
+                return this.item.isExpanded ? 'expanded' : '';
+            },
+
+            _onGroupToggled () {
+                const height = getSubitemsHeight(this.item),
+                      subitems = this.$$('.subitems');
+                if (!subitems) return;
+
+                subitems.style.height = `${height}px`;
+                if (height === 0) {
+                    subitems.style.transform = `scaleY(0)`;
+                    subitems.style.opacity = 0;
+                } else {
+                    subitems.style.removeProperty('transform');
+                    subitems.style.removeProperty('opacity');
+                }
+
+                this.fire('rester-group-toggled');
+
+                function getSubitemsHeight(item) {
+                    if (item.isGroup && item.isExpanded) {
+                        return _.sum(item.items, item => 36 + getSubitemsHeight(item));
+                    } else {
+                        return 0;
+                    }
+                }
+            },
+
+            _onSubitemActivated () {
+                this.set('item.isExpanded', true);
+            },
+
+            _onRouteChanged () {
+                this.set('item.isExpanded', false);
+                this.async(() => {
+                    if (this.active) {
+                        this.fire('rester-item-activated');
+                    }
+                });
+            },
+
+            _computeActive () {
+                const url = this.item.action && this.item.action.url;
+                if (!url) return false;
+
+                return this.route.path.startsWith(url.substr(1));
+            },
+
+            _invokeAction () {
+                const action = this.item.action;
+                if (action.url) {
+                    window.location = action.url;
+                } else if (action.handler) {
+                    action.handler();
+                }
+            }
+        });
+    </script>
+</dom-module>

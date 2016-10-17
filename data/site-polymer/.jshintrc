@@ -1,0 +1,12 @@
+{
+    "extends": "../../.jshintrc",
+    "browser": true,
+    "strict": "implied",
+    "globals": {
+        "_": false,
+        "Mousetrap": false,
+        "Polymer": false,
+        "RESTer": false,
+        "vkbeautify": false
+    }
+}

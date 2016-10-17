@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../data/rester-data-navigation.html">
+<link rel="import" href="rester-navigation-list-item.html">
+
+<dom-module id="rester-navigation-list">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <rester-data-navigation items="{{items}}"></rester-data-navigation>
+
+        <template is="dom-repeat" items="[[items]]">
+            <rester-navigation-list-item item="[[item]]" route="[[route]]"></rester-navigation-list-item>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-navigation-list',
+
+            properties: {
+                route: Object
+            }
+        });
+    </script>
+</dom-module>
