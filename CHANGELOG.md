@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Improved OAuth 2 error messages. It should be much easier now to figure out, why an authorization attempt didn't work.
 
+### Fixed
+- Fixed saving of seting "Inspections for requests".
+
 ## [1.15.1] - 2016-10-08
 ### Fixed
 - Fixed deletion of history entries.
