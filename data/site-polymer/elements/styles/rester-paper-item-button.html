@@ -1,0 +1,26 @@
+<dom-module id="rester-paper-item-button">
+    <template>
+        <style>
+            paper-item[role="button"] {
+                cursor: pointer;
+            }
+
+            paper-item[role="button"]::before {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: transparent;
+                content: '';
+                opacity: 0.12;
+                pointer-events: none;
+                transition: background-color .25s ease;
+            }
+
+            paper-item[role="button"]:hover::before {
+                background-color: currentColor;
+            }
+        </style>
+    </template>
+</dom-module>

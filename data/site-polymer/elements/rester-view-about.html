@@ -1,0 +1,98 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/device-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+
+<link rel="import" href="data/rester-data.html">
+
+<dom-module id="rester-view-about">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+                --paper-item-focused-before: {
+                    background: none;
+                };
+
+                --paper-icon-item: {
+                    align-items: flex-start;
+                    margin-top: 16px;
+                };
+
+                --paper-item-icon: {
+                    margin-top: 2px;
+                };
+
+                --paper-item-body-two-line-min-height: 0;
+            }
+        </style>
+
+        <paper-icon-item>
+            <iron-icon icon="home" item-icon></iron-icon>
+            <paper-item-body two-line>
+                <div>Homepage</div>
+                <div secondary>https://github.com/frigus02/RESTer</div>
+            </paper-item-body>
+        </paper-icon-item>
+        <paper-icon-item>
+            <iron-icon icon="social:person" item-icon></iron-icon>
+            <paper-item-body two-line>
+                <div>Author</div>
+                <div secondary>Jan K&uuml;hle</div>
+            </paper-item-body>
+        </paper-icon-item>
+        <paper-icon-item>
+            <iron-icon icon="update" item-icon></iron-icon>
+            <paper-item-body two-line>
+                <div>Version</div>
+                <div secondary>[[version]]</div>
+            </paper-item-body>
+        </paper-icon-item>
+        <paper-icon-item>
+            <iron-icon icon="device:widgets" item-icon></iron-icon>
+            <paper-item-body two-line>
+                <div>Libraries and frameworks</div>
+                <div secondary>
+                    <template is="dom-repeat" items="[[libraries]]">
+                        <div><span>{{item.name}}</span> <span>{{item.version}}</span></div>
+                    </template>
+                </div>
+            </paper-item-body>
+        </paper-icon-item>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-view-about',
+
+            properties: {
+                version: {
+                    type: String,
+                    readOnly: true
+                },
+                libraries: {
+                    type: Array,
+                    readOnly: true
+                }
+            },
+
+            _bowerComponents: /*START*/[{"name":"angular","version":"1.5.8"},{"name":"angular-animate","version":"1.5.8"},{"name":"angular-aria","version":"1.5.8"},{"name":"angular-material","version":"1.1.1"},{"name":"angular-messages","version":"1.5.8"},{"name":"angular-sanitize","version":"1.5.8"},{"name":"angular-ui-codemirror","version":"0.3.0"},{"name":"codemirror","version":"5.19.0"},{"name":"lodash","version":"4.16.2"},{"name":"mousetrap","version":"1.6.0"},{"name":"string_score","version":"joshaven/string_score#0.1.22"},{"name":"ui-router","version":"0.2.18"}]/*END*/,
+
+            _otherComponents: [
+                {name: 'highlight.js', version: '9.4.0'},
+                {name: 'vkbeautify', version: '0.99.00.beta'}
+            ],
+
+            ready () {
+                this._setLibraries(_.sortByOrder(this._bowerComponents.concat(this._otherComponents), 'name'));
+
+                RESTer.rester.getInfo().then(info => {
+                    this._setVersion(info.version);
+                });
+            }
+        });
+    </script>
+</dom-module>

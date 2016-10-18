@@ -1,0 +1,77 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<link rel="import" href="data/rester-data.html">
+<link rel="import" href="styles/rester-hint.html">
+
+<dom-module id="rester-view-settings">
+    <template>
+        <style include="rester-hint">
+            :host {
+                display: block;
+            }
+
+            .setting {
+                margin-bottom: 32px;
+            }
+
+            paper-toggle-button {
+                margin: 16px 0;
+            }
+        </style>
+
+        <div class="setting">
+            <paper-toggle-button checked="{{settings.enableRequestLintInspections}}">
+                Inspections for requests
+            </paper-toggle-button>
+            <div class="hint">
+                RESTer can analyze your request as you type and point out possible mistakes.
+                Currently this includes:
+                <ul>
+                    <li>Using placeholders without having variables enabled.</li>
+                    <li>Using a variable with an empty value.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="setting">
+            <paper-toggle-button checked="{{settings.stripDefaultHeaders}}">
+                Strip default headers
+            </paper-toggle-button>
+            <div class="hint">
+                RESTer uses the browser to send requests, which will add a couple of default
+                headers to requests like <code>Accept</code>, <code>Accept-Encoding</code>
+                or <code>User-Agent</code>. When you enable this option, RESTer will strip
+                these headers unless they are explicitly provided in a request.
+            </div>
+        </div>
+
+        <div class="setting">
+            <paper-toggle-button checked="{{settings.experimentalResponseHighlighting}}">
+                [Experimental] Different response rendering
+            </paper-toggle-button>
+            <div class="hint">
+                Test a difference response rendering. It should work a lot better with very
+                large responses and provides code folding. However it only works with JSON
+                and XML currently and it will always have an additional scrollbar.
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-view-settings',
+
+            properties: {
+                settings: {
+                    type: Object,
+                    readOnly: true
+                }
+            },
+
+            ready () {
+                this._setSettings(RESTer.rester.settings);
+            }
+        });
+    </script>
+</dom-module>

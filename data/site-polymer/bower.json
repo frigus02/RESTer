@@ -25,7 +25,8 @@
     "polymer": "Polymer/polymer#^1.6.0",
     "lodash-element": "^1.0.2",
     "mousetrap": "1.6.0",
-    "string_score": "joshaven/string_score#0.1.22"
+    "string_score": "joshaven/string_score#0.1.22",
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

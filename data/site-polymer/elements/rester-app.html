@@ -4,14 +4,10 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="../bower_components/paper-subheader/paper-subheader.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
@@ -37,11 +33,11 @@
                 --light-accent-color: var(--paper-amber-a100);
                 --dark-accent-color: var(--paper-amber-a400);
 
-                @apply(--paper-font-common-base);
                 display: block;
+                min-height: 100vh;
                 background-color: var(--primary-background-color);
                 color: var(--primary-text-color);
-                min-height: 100vh;
+                @apply(--paper-font-common-base);
             }
 
             paper-drawer-panel {
@@ -61,13 +57,10 @@
                 };
             }
 
-            .paper-subheader-divider {
-                border-top: 1px solid var(--divider-color);
-            }
-
-            .paper-item-link {
-                color: inherit;
-                text-decoration: none;
+            paper-header-panel[main] iron-pages {
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: 16px;
             }
         </style>
 
@@ -106,9 +99,11 @@
                         selected="[[page]]"
                         attr-for-selected="name"
                         role="main">
+                    <rester-view-about name="about" route="[[routeTail]]"></rester-view-about>
                     <rester-view-environments name="environments" route="[[routeTail]]"></rester-view-environments>
                     <rester-view-history name="history" route="[[routeTail]]"></rester-view-history>
                     <rester-view-request name="request" route="[[routeTail]]"></rester-view-request>
+                    <rester-view-settings name="settings" route="[[routeTail]]"></rester-view-settings>
                 </iron-pages>
             </paper-header-panel>
         </paper-drawer-panel>

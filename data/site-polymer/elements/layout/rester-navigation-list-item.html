@@ -9,9 +9,11 @@
 <link rel="import" href="../../bower_components/paper-subheader/paper-subheader.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 
+<link rel="import" href="../styles/rester-paper-item-button.html">
+
 <dom-module id="rester-navigation-list-item">
     <template>
-        <style>
+        <style include="rester-paper-item-button">
             :host {
                 display: block;
 
@@ -51,7 +53,6 @@
             }
 
             paper-item[role="button"] {
-                cursor: pointer;
                 line-height: 1.1em;
             }
 
