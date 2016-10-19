@@ -43,11 +43,39 @@
                 },
                 pageTitleElementValue: {
                     type: String,
+                    notify: true,
+                    observer: '_onPageTitleElementValueChanged'
+                },
+                pageActions: {
+                    type: Array,
+                    readOnly: true,
                     notify: true
                 },
                 route: {
                     type: Object,
                     observer: '_onRouteChanged'
+                }
+            },
+
+            ready () {
+                this._setPageActions([{
+                    icon: 'save'
+                }]);
+            },
+
+            _onPageTitleElementValueChanged () {
+                if (!this.pageActions) return;
+
+                const deleteActionIndex = this.pageActions.findIndex(a => a.icon === 'delete');
+
+                if (this.pageTitleElementValue && deleteActionIndex === -1) {
+                    console.log('Add delete action');
+                    this.push('pageActions', {
+                        icon: 'delete'
+                    });
+                } else if (!this.pageTitleElementValue && deleteActionIndex > -1) {
+                    console.log('Remove delete action');
+                    this.splice('pageActions', deleteActionIndex, 1);
                 }
             },
 

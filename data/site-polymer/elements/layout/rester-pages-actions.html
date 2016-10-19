@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="rester-pages-actions">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <template is="dom-repeat" items="[[actions]]">
+            <paper-icon-button icon="[[item.icon]]"></paper-icon-button>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-pages-actions',
+
+            properties: {
+                actions: Array
+            }
+        });
+    </script>
+</dom-module>

@@ -10,7 +10,6 @@
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0",
     "iron-icons": "PolymerElements/iron-icons#^1.0.0",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
-    "iron-pages": "PolymerElements/iron-pages#^1.0.0",
     "lodash-element": "^1.0.2",
     "mousetrap": "1.6.0",
     "neon-animation": "PolymerElements/neon-animation#^1.2.4",
