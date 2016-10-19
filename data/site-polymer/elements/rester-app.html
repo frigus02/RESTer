@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
@@ -11,6 +12,7 @@
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
+<link rel="import" href="data/rester-data-settings-behavior.html">
 <link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
 <link rel="import" href="utils/rester-error.html">
@@ -73,12 +75,18 @@
                 data="{{routeData}}"
                 tail="{{routeTail}}"></app-route>
 
-        <paper-drawer-panel drawer-width="320px" narrow="{{isDrawerNarrow}}">
+        <paper-drawer-panel drawer-width="[[drawerWidth]]" responsive-width="[[responsiveWidth]]">
             <!-- Navigation -->
             <paper-header-panel drawer mode="seamed">
                 <paper-toolbar>
                     <div class="title">RESTer</div>
-                    <paper-icon-button icon="lock-open" hidden="[[!isDrawerNarrow]]"></paper-icon-button>
+                    <iron-media-query
+                            query="(min-width: [[responsiveWidthMin]]) and (max-width: [[responsiveWidthMax]])"
+                            query-matches="{{showDrawerLock}}"></iron-media-query>
+                    <paper-icon-button
+                            icon="[[_getDrawerToggleIcon(settings.pinSidenav)]]"
+                            on-tap="_toggleDrawerLockOpen"
+                            hidden="[[!showDrawerLock]]"></paper-icon-button>
                 </paper-toolbar>
                 <div class="fit layout vertical justified">
                     <rester-navigation-list route="[[route]]"></rester-navigation-list>
@@ -118,11 +126,31 @@
         Polymer({
             is: 'rester-app',
 
+            behaviors: [
+                RESTer.SettingsBehavior
+            ],
+
             properties: {
                 page: {
                     type: String,
                     reflectToAttribute: true,
                     observer: '_pageChanged'
+                },
+                drawerWidth: {
+                    type: String,
+                    value: '320px'
+                },
+                responsiveWidth: {
+                    type: String,
+                    computed: '_computeResponsiveWidth(settings.pinSidenav)'
+                },
+                responsiveWidthMin: {
+                    type: String,
+                    value: '600px'
+                },
+                responsiveWidthMax: {
+                    type: String,
+                    value: '1279px'
                 }
             },
 
@@ -137,6 +165,18 @@
             _pageChanged (page) {
                 const resolvedPageUrl = this.resolveUrl('rester-view-' + page + '.html');
                 this.importHref(resolvedPageUrl, null, null, true);
+            },
+
+            _computeResponsiveWidth () {
+                return this.settings.pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
+            },
+
+            _getDrawerToggleIcon () {
+                return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
+            },
+
+            _toggleDrawerLockOpen () {
+                this.set('settings.pinSidenav', !this.settings.pinSidenav);
             },
 
             _showShortcuts (e) {

@@ -1,0 +1,19 @@
+<link rel="import" href="rester-data.html">
+
+<script>
+    /**
+     * Makes RESTer settings available in property `settings`.
+     */
+    RESTer.SettingsBehavior = {
+        properties: {
+            settings: {
+                type: Object,
+                readOnly: true
+            }
+        },
+
+        ready () {
+            this._setSettings(RESTer.rester.settings);
+        }
+    };
+</script>

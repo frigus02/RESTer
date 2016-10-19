@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 
-<link rel="import" href="data/rester-data.html">
+<link rel="import" href="data/rester-data-settings-behavior.html">
 <link rel="import" href="styles/rester-hint.html">
 
 <dom-module id="rester-view-settings">
@@ -62,16 +62,9 @@
         Polymer({
             is: 'rester-view-settings',
 
-            properties: {
-                settings: {
-                    type: Object,
-                    readOnly: true
-                }
-            },
-
-            ready () {
-                this._setSettings(RESTer.rester.settings);
-            }
+            behaviors: [
+                RESTer.SettingsBehavior
+            ]
         });
     </script>
 </dom-module>
