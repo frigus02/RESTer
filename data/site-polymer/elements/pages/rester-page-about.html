@@ -5,9 +5,9 @@
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 
-<link rel="import" href="data/rester-data.html">
+<link rel="import" href="../data/rester-data.html">
 
-<dom-module id="rester-view-about">
+<dom-module id="rester-page-about">
     <template>
         <style>
             :host {
@@ -66,9 +66,14 @@
 
     <script>
         Polymer({
-            is: 'rester-view-about',
+            is: 'rester-page-about',
 
             properties: {
+                pageTitle: {
+                    type: String,
+                    readOnly: true,
+                    value: 'About'
+                },
                 version: {
                     type: String,
                     readOnly: true

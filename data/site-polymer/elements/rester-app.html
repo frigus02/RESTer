@@ -15,6 +15,14 @@
 <link rel="import" href="data/rester-data-settings-behavior.html">
 <link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
+<link rel="import" href="layout/rester-pages-title.html">
+<link rel="import" href="layout/rester-pages.html">
+<link rel="import" href="pages/rester-page-about.html">
+<link rel="import" href="pages/rester-page-environments.html">
+<link rel="import" href="pages/rester-page-history.html">
+<link rel="import" href="pages/rester-page-request.html">
+<link rel="import" href="pages/rester-page-settings.html">
+<link rel="import" href="pages/rester-pagetitle-request.html">
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
 
@@ -61,7 +69,7 @@
                 };
             }
 
-            paper-header-panel[main] iron-pages {
+            paper-header-panel[main] rester-pages {
                 max-width: 1000px;
                 margin: 0 auto;
                 padding: 16px;
@@ -106,20 +114,20 @@
             <paper-header-panel main>
                 <paper-toolbar>
                     <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                    <div class="title">Request Foo</div>
-                    <paper-icon-button id="maintoolbaraction_save" icon="save"></paper-icon-button>
-                    <paper-tooltip for="maintoolbaraction_save" offset="0">Save&nbsp;request</paper-tooltip>
+                    <div class="title" hidden="[[pageTitleElementAvailable]]">[[pageTitle]]</div>
+                    <rester-pages-title
+                            page="[[page]]"
+                            available="{{pageTitleElementAvailable}}"
+                            value="{{pageTitleElementValue}}"
+                            hidden="[[!pageTitleElementAvailable]]"
+                            class="flex"></rester-pages-title>
                 </paper-toolbar>
-                <iron-pages
-                        selected="[[page]]"
-                        attr-for-selected="name"
-                        role="main">
-                    <rester-view-about name="about" route="[[routeTail]]"></rester-view-about>
-                    <rester-view-environments name="environments" route="[[routeTail]]"></rester-view-environments>
-                    <rester-view-history name="history" route="[[routeTail]]"></rester-view-history>
-                    <rester-view-request name="request" route="[[routeTail]]"></rester-view-request>
-                    <rester-view-settings name="settings" route="[[routeTail]]"></rester-view-settings>
-                </iron-pages>
+                <rester-pages
+                        page="[[page]]"
+                        page-title="{{pageTitle}}"
+                        page-title-element-value="{{pageTitleElementValue}}"
+                        route="[[routeTail]]"
+                        role="main"></rester-pages>
             </paper-header-panel>
         </paper-drawer-panel>
 
@@ -136,10 +144,10 @@
             ],
 
             properties: {
-                page: {
+                page: String,
+                pageTitle: {
                     type: String,
-                    reflectToAttribute: true,
-                    observer: '_pageChanged'
+                    observer: '_onPageTitleChanged'
                 },
                 drawerWidth: {
                     type: String,
@@ -167,9 +175,8 @@
                 this.page = page || 'request';
             },
 
-            _pageChanged (page) {
-                const resolvedPageUrl = this.resolveUrl('rester-view-' + page + '.html');
-                this.importHref(resolvedPageUrl, null, null, true);
+            _onPageTitleChanged () {
+                document.title = `RESTer - ${this.pageTitle}`;
             },
 
             _computeResponsiveWidth () {

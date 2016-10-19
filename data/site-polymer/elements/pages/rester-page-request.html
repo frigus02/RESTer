@@ -1,0 +1,65 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="rester-page-request">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <app-route
+                route="{{route}}"
+                pattern="/:requestId"
+                active="{{routeActive}}"
+                data="{{routeData}}"
+                tail="{{historyRoute}}"></app-route>
+        <app-route
+                route="{{historyRoute}}"
+                pattern="/history/:historyId"
+                active="{{historyRouteActive}}"
+                data="{{historyRouteData}}"></app-route>
+
+        <div class="card">
+            <h1>Requests</h1>
+            <p>Route: <span>[[routeActive]]</span> <span>[[routeData.requestId]]</span></p>
+            <p>HistoryRoute: <span>[[historyRouteActive]]</span> <span>[[historyRouteData.historyId]]</span></p>
+        </div>
+        <paper-input label="Title" value="{{pageTitleElementValue}}"></paper-input>
+        <div>[[pageTitleElementValue]]</div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-page-request',
+
+            properties: {
+                pageTitle: {
+                    type: String,
+                    readOnly: true,
+                    notify: true
+                },
+                pageTitleElementValue: {
+                    type: String,
+                    notify: true
+                },
+                route: {
+                    type: Object,
+                    observer: '_onRouteChanged'
+                }
+            },
+
+            _onRouteChanged () {
+                if (this.routeActive && this.historyRouteActive) {
+                    this._setPageTitle(`Request ${this.routeData.requestId} (History: ${this.historyRouteData.historyId})`);
+                } else if (this.routeActive) {
+                    this._setPageTitle(`Request ${this.routeData.requestId}`);
+                } else {
+                    this._setPageTitle(`Request NEW`);
+                }
+            }
+        });
+    </script>
+</dom-module>

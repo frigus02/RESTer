@@ -5,12 +5,12 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
-<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 
-<link rel="import" href="data/rester-data.html">
-<link rel="import" href="styles/rester-paper-item-button.html">
+<link rel="import" href="../data/rester-data.html">
+<link rel="import" href="../styles/rester-paper-item-button.html">
 
-<dom-module id="rester-view-history">
+<dom-module id="rester-page-history">
     <template>
         <style include="rester-paper-item-button">
             :host {
@@ -66,9 +66,14 @@
 
     <script>
         Polymer({
-            is: 'rester-view-history',
+            is: 'rester-page-history',
 
             properties: {
+                pageTitle: {
+                    type: String,
+                    readOnly: true,
+                    value: 'History'
+                },
                 historyEntries: {
                     type: Array,
                     readOnly: true

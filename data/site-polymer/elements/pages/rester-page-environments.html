@@ -1,13 +1,10 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<dom-module id="rester-view-environments">
+<dom-module id="rester-page-environments">
     <template>
-        <style include="shared-styles">
+        <style>
             :host {
                 display: block;
-
-                padding: 10px;
             }
         </style>
 
@@ -21,7 +18,15 @@
 
     <script>
         Polymer({
-            is: 'rester-view-environments'
+            is: 'rester-page-environments',
+
+            properties: {
+                pageTitle: {
+                    type: String,
+                    readOnly: true,
+                    value: 'Environments'
+                }
+            }
         });
     </script>
 </dom-module>

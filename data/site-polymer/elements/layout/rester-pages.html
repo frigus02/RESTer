@@ -1,0 +1,77 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="rester-pages">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-pages',
+
+            properties: {
+                page: {
+                    type: String,
+                    observer: '_onPageChanged'
+                },
+                pageTitle: {
+                    type: String,
+                    readOnly: true,
+                    notify: true
+                },
+                pageTitleElementValue: {
+                    type: String,
+                    notify: true,
+                    observer: '_onPageTitleElementValueChanged'
+                },
+                route: {
+                    type: Object,
+                    observer: '_onRouteChanged'
+                }
+            },
+
+            _currentElement: null,
+
+            _onPageChanged () {
+                if (this._currentElement) {
+                    Polymer.dom(this.root).removeChild(this._currentElement);
+                    this._currentElement = null;
+                }
+
+                if (this.page) {
+                    this._currentElement = document.createElement(`rester-page-${this.page}`);
+
+                    Polymer.dom(this.root).appendChild(this._currentElement);
+
+                    this._setPageTitle(this._currentElement.pageTitle);
+                    this._currentElement.addEventListener('page-title-changed', () => {
+                        this._setPageTitle(this._currentElement.pageTitle);
+                    });
+
+                    this.pageTitleElementValue = this._currentElement.pageTitleElementValue;
+                    this._currentElement.addEventListener('page-title-element-value-changed', () => {
+                        this.pageTitleElementValue = this._currentElement.pageTitleElementValue;
+                    });
+
+                    this._currentElement.route = this.route;
+                }
+            },
+
+            _onPageTitleElementValueChanged () {
+                if (this._currentElement) {
+                    this._currentElement.pageTitleElementValue = this.pageTitleElementValue;
+                }
+            },
+
+            _onRouteChanged () {
+                if (this._currentElement) {
+                    this._currentElement.route = this.route;
+                }
+            }
+        });
+    </script>
+</dom-module>
