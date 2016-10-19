@@ -1,0 +1,86 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="rester-error">
+    <template>
+        <style>
+            paper-dialog {
+                max-width: 600px;
+            }
+
+            paper-dialog-scrollable p:not(:first-child) {
+                text-indent: -16px;
+                padding-left: 16px;
+                word-wrap: break-word;
+                white-space: pre-line;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop>
+            <h2>[[title]]</h2>
+            <paper-dialog-scrollable>
+                <template is="dom-repeat" items="[[errorMessageLines]]">
+                    <p>[[item]]</p>
+                </template>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss autofocus>OK</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-error',
+
+            properties: {
+                title: String,
+                error: Object,
+                errorMessage: {
+                    type: String,
+                    computed: '_computeErrorMessage(error)'
+                },
+                errorMessageLines: {
+                    type: Array,
+                    computed: '_computeErrorMessageLines(errorMessage)'
+                }
+            },
+
+            _titles: [
+                'Ups, something went wrong!',
+                'Oh no, this shouldn\'t happen.'
+            ],
+
+            show (error) {
+                this.title = _.sample(this._titles);
+                this.error = error;
+                this.$.dialog.open();
+            },
+
+            _computeErrorMessage (error) {
+                if (typeof error === 'string') {
+                    return error;
+                } else if (error.message) {
+                    return error.message;
+                } else {
+                    try {
+                        return JSON.stringify(error);
+                    } catch (e) {
+                        return 'Unknown error.';
+                    }
+                }
+            },
+
+            _computeErrorMessageLines (errorMessage) {
+                return errorMessage.split('\n');
+            }
+        });
+    </script>
+</dom-module>

@@ -12,7 +12,34 @@ Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
 
     const self = RESTer.register('hotkeys'),
           hotkeys = [],
-          safeKeysForFormControls = ['ctrl', 'alt', 'meta', 'command', 'option', 'mod'];
+          safeKeysForFormControls = ['ctrl', 'alt', 'meta', 'command', 'option', 'mod'],
+          formattingMap = {
+              command   : '\u2318',  // ⌘
+              shift     : '\u21E7',  // ⇧
+              left      : '\u2190',  // ←
+              right     : '\u2192',  // →
+              up        : '\u2191',  // ↑
+              down      : '\u2193',  // ↓
+              'return'  : '\u23CE',  // ⏎
+              backspace : '\u232B'   // ⌫
+          };
+
+
+    function getFormattedCombo(combo) {
+        return combo.split('+')
+            .map(key => {
+                if (key === 'mod') {
+                    if (window.navigator && window.navigator.platform.indexOf('Mac') >= 0) {
+                        key = 'command';
+                    } else {
+                        key = 'ctrl';
+                    }
+                }
+
+                return formattingMap[key] || key;
+            })
+            .join(' + ');
+    }
 
     /**
      * @typedef $hotkeys~Hotkey
@@ -26,35 +53,7 @@ Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
             this.combos = props.combos || [];
             this.description = props.description || '';
             this.callback = props.callback;
-        }
-
-        getFormattedCombos () {
-            const map = {
-                command   : '\u2318',  // ⌘
-                shift     : '\u21E7',  // ⇧
-                left      : '\u2190',  // ←
-                right     : '\u2192',  // →
-                up        : '\u2191',  // ↑
-                down      : '\u2193',  // ↓
-                'return'  : '\u23CE',  // ⏎
-                backspace : '\u232B'   // ⌫
-            };
-
-            return this.combos.map(binding => {
-                return binding.split('+')
-                    .map(key => {
-                        if (key === 'mod') {
-                            if (window.navigator && window.navigator.platform.indexOf('Mac') >= 0) {
-                                key = 'command';
-                            } else {
-                                key = 'ctrl';
-                            }
-                        }
-
-                        return map[key] || key;
-                    })
-                    .join(' + ');
-            });
+            this.combosFormatted = this.combos.map(getFormattedCombo);
         }
     };
 

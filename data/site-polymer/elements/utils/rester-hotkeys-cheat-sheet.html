@@ -1,0 +1,102 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../data/rester-data-hotkeys-behavior.html">
+
+<dom-module id="rester-hotkeys-cheat-sheet">
+    <template>
+        <style>
+            .hotkeys {
+                display: table;
+                border-spacing: 8px;
+                border-collapse: separate;
+            }
+
+            .hotkey {
+                display: table-row;
+            }
+
+            .hotkey__combos {
+                display: table-cell;
+            }
+
+            .hotkey__combo {
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+                            0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                            0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+                background-color: #00BCD4;
+                padding: 4px 8px;
+                border-radius: 2px;
+                display: inline-block;
+                margin-right: 4px;
+                text-transform: capitalize;
+            }
+
+            .hotkey__combo:last-child {
+                margin-right: 0;
+            }
+
+            .hotkey__description {
+                display: table-cell;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop>
+            <h2>Shortcuts</h2>
+            <paper-dialog-scrollable>
+                <div class="hotkeys">
+                    <template is="dom-repeat" items="[[hotkeys]]">
+                        <div class="hotkey">
+                            <span class="hotkey__combos">
+                                <template is="dom-repeat" items="[[item.combosFormatted]]">
+                                    <span class="hotkey__combo">[[item]]</span>
+                                </template>
+                            </span>
+                            <span class="hotkey__description">[[item.description]]</span>
+                        </div>
+                    </template>
+                </div>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss autofocus>Close</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-hotkeys-cheat-sheet',
+
+            behaviors: [
+                RESTer.HotkeysBehavior
+            ],
+
+            properties: {
+                hotkeys: {
+                    type: Array,
+                    readOnly: true
+                }
+            },
+
+            resterHotkeys: {
+                '?': {
+                    description: 'Shows this cheat sheet.',
+                    callback: 'show'
+                }
+            },
+
+            show () {
+                this._setHotkeys(RESTer.hotkeys.getAll());
+
+                this.$.dialog.open();
+            }
+        });
+    </script>
+</dom-module>

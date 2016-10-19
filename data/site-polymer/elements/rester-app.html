@@ -13,6 +13,8 @@
 
 <link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
+<link rel="import" href="utils/rester-error.html">
+<link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
 
 <dom-module id="rester-app">
     <template>
@@ -81,7 +83,7 @@
                 <div class="fit layout vertical justified">
                     <rester-navigation-list route="[[route]]"></rester-navigation-list>
                     <rester-drawer-footer-links>
-                        <a href="#" on-click="showShortcuts($event)">Shortcuts</a> &dash;
+                        <a href="#" on-tap="_showShortcuts">Shortcuts</a> &dash;
                         <a href="#/about">About</a>
                     </rester-drawer-footer-links>
                 </div>
@@ -107,6 +109,9 @@
                 </iron-pages>
             </paper-header-panel>
         </paper-drawer-panel>
+
+        <rester-error></rester-error>
+        <rester-hotkeys-cheat-sheet id="cheatSheet"></rester-hotkeys-cheat-sheet>
     </template>
 
     <script>
@@ -132,6 +137,11 @@
             _pageChanged (page) {
                 const resolvedPageUrl = this.resolveUrl('rester-view-' + page + '.html');
                 this.importHref(resolvedPageUrl, null, null, true);
+            },
+
+            _showShortcuts (e) {
+                e.preventDefault();
+                this.$.cheatSheet.show();
             }
         });
     </script>

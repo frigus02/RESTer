@@ -1,0 +1,47 @@
+<link rel="import" href="rester-data.html">
+
+<script>
+    /**
+     * Registers hotkeys in attached and unregisters them in detached
+     * lifecycle callbacks.
+     *
+     * Define hotkeys in your element by adding a resterHotkeys property,
+     * which should look like the following:
+     *
+     * resterHotkeys: {
+     *     'ctrl+o, ctrl+p': {
+     *         description: 'My awesome hotkey',
+     *         callback: '_onHotkeyCtrlPPressed'
+     *     }
+     * }
+     */
+    RESTer.HotkeysBehavior = {
+        attached () {
+            const hotkeys = this._getHotkeys();
+            for (let hotkey of hotkeys) {
+                RESTer.hotkeys.add(hotkey);
+            }
+        },
+
+        detached () {
+            const hotkeys = this._getHotkeys();
+            for (let hotkey of hotkeys) {
+                RESTer.hotkeys.remove(hotkey);
+            }
+        },
+
+        _getHotkeys () {
+            const hotkeys = this.resterHotkeys || {};
+
+            return Object.keys(hotkeys).map(comboString => {
+                const details = hotkeys[comboString];
+
+                return new RESTer.hotkeys.Hotkey({
+                    combos: comboString.split(/\s*,\s*/i),
+                    description: details.description,
+                    callback: this[details.callback].bind(this)
+                });
+            });
+        }
+    };
+</script>

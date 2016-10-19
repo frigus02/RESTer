@@ -1,0 +1,20 @@
+<script>
+    /**
+     * Adds a function showError to the element, which can be used to display
+     * an error in the default error dialog. Use it like follows:
+     *
+     * try {
+     *     // Do sth, which can throw.
+     * } catch (e) {
+     *     this.showError(e);
+     * }
+     */
+    RESTer.ErrorBehavior = {
+        showError (error) {
+            const resterError = document.querySelector('rester-error');
+            if (resterError) {
+                resterError.show(error);
+            }
+        }
+    };
+</script>
