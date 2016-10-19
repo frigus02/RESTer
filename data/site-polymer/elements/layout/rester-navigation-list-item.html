@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -39,6 +40,7 @@
                     font-weight: bold;
                 };
             }
+
             :host[active] paper-item-body [secondary] {
                 color: var(--primary-color);
                 font-weight: bold;
@@ -56,18 +58,12 @@
                 line-height: 1.1em;
             }
 
-            .group > paper-item iron-icon {
+            .toggle-icon {
                 transition: transform 0.25s ease;
             }
 
-            .group.expanded > paper-item iron-icon {
+            .toggle-icon.expanded {
                 transform: rotate(-180deg);
-            }
-
-            .group .subitems {
-                background-color: var(--primary-background-color);
-                transition: transform 0.25s ease,
-                            opacity 0.25s ease;
             }
         </style>
 
@@ -94,26 +90,25 @@
         </template>
 
         <template is="dom-if" if="[[item.isGroup]]">
-            <div class$="group [[_getExpandedClass(item.isExpanded)]]">
-                <paper-item on-tap="_toggleGroup" role="button">
-                    <paper-ripple></paper-ripple>
-                    <paper-item-body style$="padding-left: [[_getIndentionInPixel()]]px;">
-                        <div>[[item.title]]</div>
-                    </paper-item-body>
-                    <iron-icon icon="expand-more"></iron-icon>
-                </paper-item>
-                <div class="subitems">
-                    <template is="dom-repeat" items="[[item.items]]" as="subitem">
-                        <rester-navigation-list-item
-                                item="[[subitem]]"
-                                indent-level="[[_getIndentLevelForSubitems()]]"
-                                route="[[route]]"
-                                on-group-toggled="_onGroupToggled"
-                                on-item-activated="_onSubitemActivated"
-                                subitem></rester-navigation-list-item>
-                    </template>
-                </div>
-            </div>
+            <paper-item on-tap="_toggleGroup" role="button">
+                <paper-ripple></paper-ripple>
+                <paper-item-body style$="padding-left: [[_getIndentionInPixel()]]px;">
+                    <div>[[item.title]]</div>
+                </paper-item-body>
+                <iron-icon
+                        icon="expand-more"
+                        class$="toggle-icon [[_getExpandedClass(item.isExpanded)]]"></iron-icon>
+            </paper-item>
+            <iron-collapse opened="[[item.isExpanded]]">
+                <template is="dom-repeat" items="[[item.items]]" as="subitem">
+                    <rester-navigation-list-item
+                            item="[[subitem]]"
+                            indent-level="[[_getIndentLevelForSubitems()]]"
+                            route="[[route]]"
+                            on-item-activated="_onSubitemActivated"
+                            subitem></rester-navigation-list-item>
+                </template>
+            </iron-collapse>
         </template>
 
         <template is="dom-if" if="[[item.isDivider]]">
@@ -142,14 +137,6 @@
                 }
             },
 
-            observers: [
-                '_onGroupToggled(item.isExpanded)'
-            ],
-
-            ready () {
-                this.async(() => this._onGroupToggled());
-            },
-
             _getIndentionInPixel () {
                 return this.indentLevel * 24;
             },
@@ -164,31 +151,6 @@
 
             _getExpandedClass () {
                 return this.item.isExpanded ? 'expanded' : '';
-            },
-
-            _onGroupToggled () {
-                const height = getSubitemsHeight(this.item),
-                      subitems = this.$$('.subitems');
-                if (!subitems) return;
-
-                subitems.style.height = `${height}px`;
-                if (height === 0) {
-                    subitems.style.transform = `scaleY(0)`;
-                    subitems.style.opacity = 0;
-                } else {
-                    subitems.style.removeProperty('transform');
-                    subitems.style.removeProperty('opacity');
-                }
-
-                this.fire('group-toggled');
-
-                function getSubitemsHeight(item) {
-                    if (item.isGroup && item.isExpanded) {
-                        return _.sum(item.items, item => 36 + getSubitemsHeight(item));
-                    } else {
-                        return 0;
-                    }
-                }
             },
 
             _onSubitemActivated () {
