@@ -108,8 +108,8 @@
                                 item="[[subitem]]"
                                 indent-level="[[_getIndentLevelForSubitems()]]"
                                 route="[[route]]"
-                                on-rester-group-toggled="_onGroupToggled"
-                                on-rester-item-activated="_onSubitemActivated"
+                                on-group-toggled="_onGroupToggled"
+                                on-item-activated="_onSubitemActivated"
                                 subitem></rester-navigation-list-item>
                     </template>
                 </div>
@@ -180,7 +180,7 @@
                     subitems.style.removeProperty('opacity');
                 }
 
-                this.fire('rester-group-toggled');
+                this.fire('group-toggled');
 
                 function getSubitemsHeight(item) {
                     if (item.isGroup && item.isExpanded) {
@@ -199,7 +199,7 @@
                 this.set('item.isExpanded', false);
                 this.async(() => {
                     if (this.active) {
-                        this.fire('rester-item-activated');
+                        this.fire('item-activated');
                     }
                 });
             },

@@ -75,7 +75,10 @@
                 data="{{routeData}}"
                 tail="{{routeTail}}"></app-route>
 
-        <paper-drawer-panel drawer-width="[[drawerWidth]]" responsive-width="[[responsiveWidth]]">
+        <paper-drawer-panel
+                id="drawer"
+                drawer-width="[[drawerWidth]]"
+                responsive-width="[[responsiveWidth]]">
             <!-- Navigation -->
             <paper-header-panel drawer mode="seamed">
                 <paper-toolbar>
@@ -89,7 +92,9 @@
                             hidden="[[!showDrawerLock]]"></paper-icon-button>
                 </paper-toolbar>
                 <div class="fit layout vertical justified">
-                    <rester-navigation-list route="[[route]]"></rester-navigation-list>
+                    <rester-navigation-list
+                            route="[[route]]"
+                            on-item-activated="_onNavigationItemActivated"></rester-navigation-list>
                     <rester-drawer-footer-links>
                         <a href="#" on-tap="_showShortcuts">Shortcuts</a> &dash;
                         <a href="#/about">About</a>
@@ -177,6 +182,10 @@
 
             _toggleDrawerLockOpen () {
                 this.set('settings.pinSidenav', !this.settings.pinSidenav);
+            },
+
+            _onNavigationItemActivated () {
+                this.$.drawer.closeDrawer();
             },
 
             _showShortcuts (e) {
