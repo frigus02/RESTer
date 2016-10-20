@@ -1,10 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../pages/rester-page-about.html">
+<link rel="import" href="../pages/rester-page-environments.html">
+<link rel="import" href="../pages/rester-page-history.html">
+<link rel="import" href="../pages/rester-page-request.html">
+<link rel="import" href="../pages/rester-page-settings.html">
+
 <dom-module id="rester-pages">
     <template>
         <style>
             :host {
                 display: block;
+            }
+
+            .current-page {
+                height: 100%;
             }
         </style>
     </template>
@@ -23,16 +33,6 @@
                     readOnly: true,
                     notify: true
                 },
-                pageTitleElementValue: {
-                    type: String,
-                    notify: true,
-                    observer: '_onPageTitleElementValueChanged'
-                },
-                pageActions: {
-                    type: Array,
-                    readOnly: true,
-                    notify: true
-                },
                 route: {
                     type: Object,
                     observer: '_onRouteChanged'
@@ -46,12 +46,11 @@
                     Polymer.dom(this.root).removeChild(this._currentElement);
                     this._currentElement = null;
                     this._setPageTitle(undefined);
-                    this.pageTitleElementValue = undefined;
-                    this._setPageActions(undefined);
                 }
 
                 if (this.page) {
                     this._currentElement = document.createElement(`rester-page-${this.page}`);
+                    this._currentElement.classList.add('current-page');
 
                     Polymer.dom(this.root).appendChild(this._currentElement);
 
@@ -60,27 +59,7 @@
                         this._setPageTitle(this._currentElement.pageTitle);
                     });
 
-                    this.pageTitleElementValue = this._currentElement.pageTitleElementValue;
-                    this._currentElement.addEventListener('page-title-element-value-changed', () => {
-                        this.pageTitleElementValue = this._currentElement.pageTitleElementValue;
-                    });
-
-                    this._setPageActions(this._currentElement.pageActions);
-                    this._currentElement.addEventListener('page-actions-changed', (e) => {
-                        if (this.pageActions !== this._currentElement.pageActions) {
-                            this._setPageActions(this._currentElement.pageActions);
-                        } else {
-                            this.fire('page-actions-changed', e.detail, {bubbles: false});
-                        }
-                    });
-
                     this._currentElement.route = this.route;
-                }
-            },
-
-            _onPageTitleElementValueChanged () {
-                if (this._currentElement) {
-                    this._currentElement.pageTitleElementValue = this.pageTitleElementValue;
                 }
             },
 

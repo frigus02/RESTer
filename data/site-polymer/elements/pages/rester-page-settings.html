@@ -1,12 +1,18 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <link rel="import" href="../data/rester-data-settings-behavior.html">
+<link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-hint.html">
+<link rel="import" href="../styles/rester-page-styles.html">
 
 <dom-module id="rester-page-settings">
     <template>
-        <style include="rester-hint">
+        <style include="rester-page-styles rester-hint">
             :host {
                 display: block;
             }
@@ -20,42 +26,50 @@
             }
         </style>
 
-        <div class="setting">
-            <paper-toggle-button checked="{{settings.enableRequestLintInspections}}">
-                Inspections for requests
-            </paper-toggle-button>
-            <div class="hint">
-                RESTer can analyze your request as you type and point out possible mistakes.
-                Currently this includes:
-                <ul>
-                    <li>Using placeholders without having variables enabled.</li>
-                    <li>Using a variable with an empty value.</li>
-                </ul>
-            </div>
-        </div>
+        <paper-header-panel>
+            <paper-toolbar>
+                <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                <div class="title">[[pageTitle]]</div>
+            </paper-toolbar>
+            <div role="main">
+                <div class="setting">
+                    <paper-toggle-button checked="{{settings.enableRequestLintInspections}}">
+                        Inspections for requests
+                    </paper-toggle-button>
+                    <div class="hint">
+                        RESTer can analyze your request as you type and point out possible mistakes.
+                        Currently this includes:
+                        <ul>
+                            <li>Using placeholders without having variables enabled.</li>
+                            <li>Using a variable with an empty value.</li>
+                        </ul>
+                    </div>
+                </div>
 
-        <div class="setting">
-            <paper-toggle-button checked="{{settings.stripDefaultHeaders}}">
-                Strip default headers
-            </paper-toggle-button>
-            <div class="hint">
-                RESTer uses the browser to send requests, which will add a couple of default
-                headers to requests like <code>Accept</code>, <code>Accept-Encoding</code>
-                or <code>User-Agent</code>. When you enable this option, RESTer will strip
-                these headers unless they are explicitly provided in a request.
-            </div>
-        </div>
+                <div class="setting">
+                    <paper-toggle-button checked="{{settings.stripDefaultHeaders}}">
+                        Strip default headers
+                    </paper-toggle-button>
+                    <div class="hint">
+                        RESTer uses the browser to send requests, which will add a couple of default
+                        headers to requests like <code>Accept</code>, <code>Accept-Encoding</code>
+                        or <code>User-Agent</code>. When you enable this option, RESTer will strip
+                        these headers unless they are explicitly provided in a request.
+                    </div>
+                </div>
 
-        <div class="setting">
-            <paper-toggle-button checked="{{settings.experimentalResponseHighlighting}}">
-                [Experimental] Different response rendering
-            </paper-toggle-button>
-            <div class="hint">
-                Test a difference response rendering. It should work a lot better with very
-                large responses and provides code folding. However it only works with JSON
-                and XML currently and it will always have an additional scrollbar.
+                <div class="setting">
+                    <paper-toggle-button checked="{{settings.experimentalResponseHighlighting}}">
+                        [Experimental] Different response rendering
+                    </paper-toggle-button>
+                    <div class="hint">
+                        Test a difference response rendering. It should work a lot better with very
+                        large responses and provides code folding. However it only works with JSON
+                        and XML currently and it will always have an additional scrollbar.
+                    </div>
+                </div>
             </div>
-        </div>
+        </paper-header-panel>
     </template>
 
     <script>
@@ -63,15 +77,12 @@
             is: 'rester-page-settings',
 
             behaviors: [
+                RESTer.PageBehavior,
                 RESTer.SettingsBehavior
             ],
 
-            properties: {
-                pageTitle: {
-                    type: String,
-                    readOnly: true,
-                    value: 'Settings'
-                }
+            ready () {
+                this._setPageTitle('Settings');
             }
         });
     </script>

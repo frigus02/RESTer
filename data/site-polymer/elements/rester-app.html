@@ -13,15 +13,7 @@
 <link rel="import" href="data/rester-data-settings-behavior.html">
 <link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
-<link rel="import" href="layout/rester-pages-actions.html">
-<link rel="import" href="layout/rester-pages-title.html">
 <link rel="import" href="layout/rester-pages.html">
-<link rel="import" href="pages/rester-page-about.html">
-<link rel="import" href="pages/rester-page-environments.html">
-<link rel="import" href="pages/rester-page-history.html">
-<link rel="import" href="pages/rester-page-request.html">
-<link rel="import" href="pages/rester-page-settings.html">
-<link rel="import" href="pages/rester-pagetitle-request.html">
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
 
@@ -58,7 +50,7 @@
                 };
             }
 
-            paper-header-panel[drawer] paper-toolbar {
+            paper-drawer-panel [drawer] paper-toolbar {
                 --paper-toolbar-background: none;
                 --paper-toolbar-title: {
                     margin-left: 0;
@@ -66,12 +58,6 @@
                 --paper-toolbar: {
                     border-bottom: 1px solid var(--divider-color);
                 };
-            }
-
-            paper-header-panel[main] rester-pages {
-                max-width: 1000px;
-                margin: 0 auto;
-                padding: 16px;
             }
         </style>
 
@@ -110,26 +96,12 @@
             </paper-header-panel>
 
             <!-- Main -->
-            <paper-header-panel main>
-                <paper-toolbar>
-                    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                    <div class="title" hidden="[[pageTitleElementAvailable]]">[[pageTitle]]</div>
-                    <rester-pages-title
-                            page="[[page]]"
-                            available="{{pageTitleElementAvailable}}"
-                            value="{{pageTitleElementValue}}"
-                            hidden="[[!pageTitleElementAvailable]]"
-                            class="flex"></rester-pages-title>
-                    <rester-pages-actions actions="[[pageActions]]"></rester-pages-title>
-                </paper-toolbar>
-                <rester-pages
-                        page="[[page]]"
-                        page-title="{{pageTitle}}"
-                        page-title-element-value="{{pageTitleElementValue}}"
-                        page-actions="{{pageActions}}"
-                        route="[[routeTail]]"
-                        role="main"></rester-pages>
-            </paper-header-panel>
+            <rester-pages
+                    main
+                    page="[[page]]"
+                    page-title="{{pageTitle}}"
+                    route="[[routeTail]]"
+                    on-drawer-toggle-tapped="_onDrawerToggleTapped"></rester-pages>
         </paper-drawer-panel>
 
         <rester-error></rester-error>
@@ -190,6 +162,10 @@
 
             _toggleDrawerLockOpen () {
                 this.set('settings.pinSidenav', !this.settings.pinSidenav);
+            },
+
+            _onDrawerToggleTapped () {
+                this.$.drawer.togglePanel();
             },
 
             _onNavigationItemActivated () {
