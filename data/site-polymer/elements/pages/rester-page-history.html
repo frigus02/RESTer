@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -23,6 +24,11 @@
 
             paper-item {
                 margin: 8px 0;
+            }
+
+            paper-spinner {
+                display: block;
+                margin: 0 auto;
             }
 
             .button-container {
@@ -63,7 +69,8 @@
                                 on-tap="_deleteHistoryEntry"></paper-icon-button>
                     </paper-item>
                 </template>
-                <div class="button-container">
+                <paper-spinner active hidden="[[!loading]]"></paper-spinner>
+                <div class="button-container" hidden="[[loading]]">
                     <paper-button
                             raised
                             on-tap="loadAll"
@@ -91,6 +98,10 @@
                 moreEntriesAvailable: {
                     type: Boolean,
                     computed: '_computeMoreEntriesAvailable(historyEntries.length)'
+                },
+                loading: {
+                    type: Boolean,
+                    readOnly: true
                 }
             },
 
@@ -107,7 +118,9 @@
             },
 
             _load (count) {
+                this._setLoading(true);
                 RESTer.rester.getHistoryEntries(count, this._historyFields).then(entries => {
+                    this._setLoading(false);
                     this._setHistoryEntries(entries.map(e => {
                         e.timeFormatted = RESTer.format.dateTime(e.time);
 

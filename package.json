@@ -37,6 +37,7 @@
     "postinstall": "bower install",
     "test": "karma start",
     "start": "browser-sync start --server \"data/site\" --files \"data/site/**\"",
+    "startpoly": "browser-sync start --server \"data/site-polymer\" --files \"data/site-polymer/**\"",
     "build": "node tools/build.js",
     "post": "jpm post --post-url http://127.0.0.1:8888",
     "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888"
