@@ -256,7 +256,7 @@
             },
 
             _updateNavigationBasedOnSettingsChanges () {
-                this._getActiveEnvironment().then(() => this._updateEnvironmentNavItemSubtitle());
+                this._getActiveEnvironment().then(env => this._updateEnvironmentNavItemSubtitle(env));
             },
 
             _getActiveEnvironment () {

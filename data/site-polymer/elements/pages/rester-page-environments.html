@@ -1,9 +1,15 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
+<link rel="import" href="../data/rester-data-settings-behavior.html">
+<link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
@@ -13,6 +19,28 @@
             :host {
                 display: block;
             }
+
+            paper-radio-group {
+                display: block;
+                --paper-radio-group-item-padding: 8px;
+            }
+
+            paper-radio-button {
+                box-sizing: border-box;
+                display: inline-block;
+                width: calc(100% - 40px);
+            }
+
+            paper-radio-button div[secondary] {
+                font-size: 14px;
+            }
+
+            paper-fab {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                color: var(--light-theme-text-color);
+            }
         </style>
 
         <paper-header-panel>
@@ -21,7 +49,25 @@
                 <div class="title">[[pageTitle]]</div>
             </paper-toolbar>
             <div role="main">
-                <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+                <p>
+                    Environments can be used to store a list of values, which are available as variables in requests
+                    by using the placeholder <code>{$env.&lt;name&gt;}</code>. Example: <code>{$env.hostname}</code>
+                    if the active environment contains a value with the key <em>hostname</em>.
+                </p>
+
+                <paper-radio-group selected="{{settings.activeEnvironment}}">
+                    <template is="dom-repeat" items="[[environments]]" as="env">
+                        <paper-radio-button name="[[env.id]]">
+                            <div>[[env.name]]</div>
+                            <template is="dom-repeat" items="[[env.valueItems]]">
+                                <div secondary>[[item.key]]: [[item.value]]</div>
+                            </template>
+                        </paper-radio-button>
+                        <paper-icon-button icon="image:edit" on-tap="_editEnvironment"></paper-icon-button>
+                    </template>
+                </paper-radio-group>
+
+                <paper-fab icon="add" on-tap="_addEnvironment"></paper-fab>
             </div>
         </paper-header-panel>
     </template>
@@ -31,11 +77,41 @@
             is: 'rester-page-environments',
 
             behaviors: [
-                RESTer.PageBehavior
+                RESTer.PageBehavior,
+                RESTer.SettingsBehavior
             ],
+
+            properties: {
+                environments: {
+                    type: Array,
+                    readOnly: true
+                }
+            },
 
             ready () {
                 this._setPageTitle('Environments');
+                this._load();
+            },
+
+            _load () {
+                RESTer.rester.getEnvironments().then(envs => {
+                    this._setEnvironments(_.sortByOrder(envs.map(env => {
+                        env.valueItems = Object.keys(env.values).map(key => ({
+                            key,
+                            value: env.values[key]
+                        }));
+
+                        return env;
+                    }), 'name'));
+                });
+            },
+
+            _addEnvironment () {
+
+            },
+
+            _editEnvironment (e) {
+                const env = e.model.env;
             }
         });
     </script>

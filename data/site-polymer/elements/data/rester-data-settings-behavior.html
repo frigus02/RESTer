@@ -14,6 +14,23 @@
 
         ready () {
             this._setSettings(RESTer.rester.settings);
+            this._onSettingsChanged = this._onSettingsChanged.bind(this);
+        },
+
+        attached () {
+            RESTer.rester.addEventListener('settingsChange', this._onSettingsChanged);
+        },
+
+        detached () {
+            RESTer.rester.removeEventListener('settingsChange', this._onSettingsChanged);
+        },
+
+        _onSettingsChanged (changedSettings) {
+            for (let key in changedSettings) {
+                if (changedSettings.hasOwnProperty(key)) {
+                    this.notifyPath(`settings.${key}`);
+                }
+            }
         }
     };
 </script>
