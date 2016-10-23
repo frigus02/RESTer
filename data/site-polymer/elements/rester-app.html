@@ -148,6 +148,10 @@
             ],
 
             resterHotkeys: {
+                'mod+m': {
+                    description: 'New request.',
+                    callback: '_newRequest'
+                },
                 'mod+e': {
                     description: 'Cycle through environments.',
                     callback: '_activateNextEnvironment'
@@ -185,6 +189,10 @@
             _showShortcuts (e) {
                 e.preventDefault();
                 this.$.cheatSheet.show();
+            },
+
+            _newRequest () {
+                window.location = '#/request';
             },
 
             _activateNextEnvironment () {
