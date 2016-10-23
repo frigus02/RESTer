@@ -10,9 +10,11 @@
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 
+<link rel="import" href="data/rester-data-hotkeys-behavior.html">
 <link rel="import" href="data/rester-data-settings-behavior.html">
-<link rel="import" href="layout/rester-navigation-list.html">
+<link rel="import" href="data/rester-data.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
+<link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-pages.html">
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
@@ -113,6 +115,7 @@
             is: 'rester-app',
 
             behaviors: [
+                RESTer.HotkeysBehavior,
                 RESTer.SettingsBehavior
             ],
 
@@ -143,6 +146,13 @@
             observers: [
                 '_routePageChanged(routeData.page)'
             ],
+
+            resterHotkeys: {
+                'mod+e': {
+                    description: 'Cycle through environments.',
+                    callback: '_activateNextEnvironment'
+                }
+            },
 
             _routePageChanged (page) {
                 this.page = page || 'request';
@@ -175,6 +185,18 @@
             _showShortcuts (e) {
                 e.preventDefault();
                 this.$.cheatSheet.show();
+            },
+
+            _activateNextEnvironment () {
+                RESTer.rester.getEnvironments().then(envs => {
+                    if (envs.length === 0) return;
+
+                    const index = envs.findIndex(env => env.id === this.settings.activeEnvironment),
+                          newIndex = (index + 1) % envs.length,
+                          newEnv = envs[newIndex];
+
+                    this.settings.activeEnvironment = newEnv.id;
+                });
             }
         });
     </script>
