@@ -80,7 +80,7 @@
         </template>
 
         <template is="dom-if" if="[[item.isItem]]">
-            <paper-item on-tap="_invokeAction" role="button">
+            <paper-item on-tap="_invokeAction" class="button">
                 <paper-ripple></paper-ripple>
                 <paper-item-body two-line style$="padding-left: [[_getIndentionInPixel()]]px;">
                     <div>[[item.title]]</div>
@@ -90,7 +90,7 @@
         </template>
 
         <template is="dom-if" if="[[item.isGroup]]">
-            <paper-item on-tap="_toggleGroup" role="button">
+            <paper-item on-tap="_toggleGroup" class="button">
                 <paper-ripple></paper-ripple>
                 <paper-item-body style$="padding-left: [[_getIndentionInPixel()]]px;">
                     <div>[[item.title]]</div>

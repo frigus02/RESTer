@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
+<link rel="import" href="../controls/rester-autocomplete-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
@@ -38,13 +39,18 @@
                 <paper-icon-button icon="delete"></paper-icon-button>
             </paper-toolbar>
             <div role="main">
-                <div class="card">
-                    <h1>Requests</h1>
+                <div>
                     <p>Route: <span>[[routeActive]]</span> <span>[[routeData.requestId]]</span></p>
                     <p>HistoryRoute: <span>[[historyRouteActive]]</span> <span>[[historyRouteData.historyId]]</span></p>
+                    <p>Request Title: [[requestTitle]]</p>
                 </div>
-                <paper-input label="Title" value="{{requestTitle}}"></paper-input>
-                <div>[[requestTitle]]</div>
+                <div>
+                    <rester-autocomplete-input
+                            value="{{autocompleteValue}}"
+                            placeholder="Type to open..."
+                            items="[[items]]"></rester-autocomplete-input>
+                    <p>Selected value: [[autocompleteValue]]</p>
+                </div>
             </div>
         </paper-header-panel>
     </template>
@@ -62,7 +68,16 @@
                 route: {
                     type: Object,
                     observer: '_onRouteChanged'
+                },
+                items: {
+                    type: Array
                 }
+            },
+
+            ready () {
+                RESTer.rester.getRequestCollections().then(r => {
+                    this.items = r;
+                });
             },
 
             _onRouteChanged () {

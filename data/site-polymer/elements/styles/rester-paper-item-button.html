@@ -1,11 +1,13 @@
 <dom-module id="rester-paper-item-button">
     <template>
         <style>
-            paper-item[role="button"] {
+            paper-item.button,
+            paper-icon-item.button {
                 cursor: pointer;
             }
 
-            paper-item[role="button"]::before {
+            paper-item.button::before,
+            paper-icon-item.button::before {
                 position: absolute;
                 top: 0;
                 right: 0;
@@ -18,7 +20,10 @@
                 transition: background-color .25s ease;
             }
 
-            paper-item[role="button"]:hover::before {
+            paper-item.button:hover::before,
+            paper-icon-item.button:hover::before,
+            paper-item.button.selected::before,
+            paper-icon-item.button.selected::before {
                 background-color: currentColor;
             }
         </style>

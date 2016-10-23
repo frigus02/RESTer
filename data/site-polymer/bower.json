@@ -1,5 +1,5 @@
 {
-  "name": "RESTer",
+  "name": "rester",
   "authors": [
     "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)"
   ],
@@ -11,6 +11,7 @@
     "iron-form": "PolymerElements/iron-form#^1.1.4",
     "iron-icons": "PolymerElements/iron-icons#^1.0.0",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
+    "iron-selector": "PolymerElements/iron-selector#^1.5.2",
     "lodash-element": "^1.0.2",
     "mousetrap": "1.6.0",
     "neon-animation": "PolymerElements/neon-animation#^1.2.4",

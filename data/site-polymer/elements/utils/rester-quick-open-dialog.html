@@ -1,0 +1,88 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../controls/rester-autocomplete-input.html">
+
+<dom-module id="rester-quick-open-dialog">
+    <template>
+        <style>
+            paper-dialog {
+                max-width: 400px;
+                width: 100%;
+                margin: 0;
+                border-radius: 4px;
+                top: 12px !important;
+            }
+
+            @media only screen and (max-width: 600px) {
+                paper-dialog {
+                    top: 8px !important;
+                }
+            }
+
+            paper-dialog > :first-child,
+            paper-dialog > :last-child,
+            paper-dialog > * {
+                margin: 0;
+                padding: 0 8px;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close>
+            <rester-autocomplete-input
+                    placeholder="Type to open a request..."
+                    items="[[items]]"
+                    value="{{searchText}}"
+                    on-item-selected="_onItemSelected"
+                    autofocus
+                    no-label-float></rester-autocomplete-input>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-quick-open-dialog',
+
+            properties: {
+                searchText: String,
+                items: {
+                    type: Array,
+                    readOnly: true
+                }
+            },
+
+            _requestFields: ['id', 'collection', 'title', 'method', 'url'],
+
+            ready () {
+                RESTer.rester.getRequests(this._requestFields).then(requests => {
+                    this._setItems(requests.map(r => ({
+                        title: `${r.collection} / ${r.title}`,
+                        description: `${r.method} ${r.url}`,
+                        score: 0,
+                        data: r
+                    })));
+                });
+            },
+
+            show () {
+                this.searchText = '';
+                this.$.dialog.open();
+            },
+
+            _onItemSelected (e) {
+                this.$.dialog.close();
+
+                const item = e.detail;
+                if (item) {
+                    window.location = `#/request/${item.data.id}`;
+                }
+            }
+        });
+    </script>
+</dom-module>

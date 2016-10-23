@@ -18,6 +18,7 @@
 <link rel="import" href="layout/rester-pages.html">
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
+<link rel="import" href="utils/rester-quick-open-dialog.html">
 
 <dom-module id="rester-app">
     <template>
@@ -108,6 +109,7 @@
 
         <rester-error></rester-error>
         <rester-hotkeys-cheat-sheet id="cheatSheet"></rester-hotkeys-cheat-sheet>
+        <rester-quick-open-dialog id="quickOpenDialog"></rester-quick-open-dialog>
     </template>
 
     <script>
@@ -152,6 +154,10 @@
                     description: 'New request.',
                     callback: '_newRequest'
                 },
+                'mod+o, mod+p': {
+                    description: 'Open request.',
+                    callback: '_showQuickOpenDialog'
+                },
                 'mod+e': {
                     description: 'Cycle through environments.',
                     callback: '_activateNextEnvironment'
@@ -193,6 +199,10 @@
 
             _newRequest () {
                 window.location = '#/request';
+            },
+
+            _showQuickOpenDialog () {
+                this.$.quickOpenDialog.show();
             },
 
             _activateNextEnvironment () {
