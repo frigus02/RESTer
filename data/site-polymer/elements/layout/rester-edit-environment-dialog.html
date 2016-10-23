@@ -1,0 +1,144 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="rester-edit-environment-dialog">
+    <template>
+        <style include="iron-flex iron-flex-alignment iron-flex-factors">
+            paper-dialog {
+                max-width: 600px;
+            }
+
+            .value-line paper-input {
+                margin-right: 16px;
+            }
+
+            .value-line paper-icon-button {
+                margin-top: 19px;
+            }
+
+            .delete-button {
+                color: var(--error-color);
+                margin-left: -8px;
+                margin-right: auto;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop>
+            <paper-dialog-scrollable>
+                <form is="iron-form" id="editForm">
+                    <paper-input
+                            label="Environment"
+                            value="{{environment.name}}"
+                            required
+                            error-message="This is required!"
+                            autofocus></paper-input>
+                    <template is="dom-repeat" items="[[valueItems]]">
+                        <div class="layout horizontal start value-line">
+                            <paper-input
+                                    class="flex-1"
+                                    label="Key"
+                                    value="{{item.key}}"
+                                    on-value-changed="_ensureEmptyValueItem"></paper-input>
+                            <paper-textarea
+                                    class="flex-2"
+                                    label="Value"
+                                    value="{{item.value}}"
+                                    on-value-changed="_ensureEmptyValueItem"></paper-textarea>
+                            <paper-icon-button
+                                    icon="remove"
+                                    on-tap="_removeValueItem"></paper-icon-button>
+                        </div>
+                    </template>
+                </form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button class="delete-button" hidden="[[!environment.id]]" on-tap="_delete">
+                    Delete
+                </paper-button>
+                <paper-button dialog-dismiss>
+                    Cancel
+                </paper-button>
+                <paper-button on-tap="_save">
+                    Save
+                </paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-edit-environment-dialog',
+
+            properties: {
+                environment: Object,
+                valueItems: {
+                    type: Array,
+                    readOnly: true
+                }
+            },
+
+            show (environment) {
+                this.environment = undefined;
+                this.$.editForm.reset();
+
+                this.async(() => {
+                    this.environment = environment;
+                    this._setValueItems(Object.keys(this.environment.values).map(key => ({
+                        key,
+                        value: this.environment.values[key]
+                    })));
+                    this._ensureEmptyValueItem();
+
+                    this.$.dialog.open();
+                }, 1);
+            },
+
+            _ensureEmptyValueItem () {
+                if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
+                    this.push('valueItems', {key: '', value: ''});
+                }
+            },
+
+            _removeValueItem (e) {
+                this.splice('valueItems', e.model.index, 1);
+                this._ensureEmptyValueItem();
+            },
+
+            _delete () {
+                this._closeDialogWithAction('delete');
+            },
+
+            _save () {
+                if (this.$.editForm.validate()) {
+                    this.environment.values = {};
+                    this.valueItems.forEach(value => {
+                        if (value.key.trim() !== '') {
+                            this.environment.values[value.key.trim()] = value.value;
+                        }
+                    });
+
+                    this._closeDialogWithAction('save');
+                }
+            },
+
+            _closeDialogWithAction (action) {
+                this.$.dialog.closingReason.canceled = false;
+                this.$.dialog.closingReason.confirmed = true;
+                this.$.dialog.closingReason.action = action;
+                this.$.dialog.close();
+            }
+        });
+    </script>
+</dom-module>

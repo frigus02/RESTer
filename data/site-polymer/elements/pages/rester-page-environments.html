@@ -11,6 +11,7 @@
 <link rel="import" href="../data/rester-data-settings-behavior.html">
 <link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
+<link rel="import" href="../layout/rester-edit-environment-dialog.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
 <dom-module id="rester-page-environments">
@@ -56,10 +57,10 @@
                 </p>
 
                 <paper-radio-group selected="{{settings.activeEnvironment}}">
-                    <template is="dom-repeat" items="[[environments]]" as="env">
+                    <template is="dom-repeat" items="[[environments]]" as="env" sort="_compareEnvironments">
                         <paper-radio-button name="[[env.id]]">
                             <div>[[env.name]]</div>
-                            <template is="dom-repeat" items="[[env.valueItems]]">
+                            <template is="dom-repeat" items="[[_computeValueItems(env)]]">
                                 <div secondary>[[item.key]]: [[item.value]]</div>
                             </template>
                         </paper-radio-button>
@@ -70,6 +71,10 @@
                 <paper-fab icon="add" on-tap="_addEnvironment"></paper-fab>
             </div>
         </paper-header-panel>
+
+        <rester-edit-environment-dialog
+                id="editDialog"
+                on-iron-overlay-closed="_onEditDialogClosed"></rester-edit-environment-dialog>
     </template>
 
     <script>
@@ -88,30 +93,59 @@
                 }
             },
 
+            _environmentInDialog: undefined,
+            _environmentInDialogIndex: -1,
+
             ready () {
                 this._setPageTitle('Environments');
-                this._load();
-            },
-
-            _load () {
                 RESTer.rester.getEnvironments().then(envs => {
-                    this._setEnvironments(_.sortByOrder(envs.map(env => {
-                        env.valueItems = Object.keys(env.values).map(key => ({
-                            key,
-                            value: env.values[key]
-                        }));
-
-                        return env;
-                    }), 'name'));
+                    this._setEnvironments(envs);
                 });
             },
 
             _addEnvironment () {
-
+                this._environmentInDialog = {
+                    name: '',
+                    values: {}
+                };
+                this._environmentInDialogIndex = -1;
+                this.$.editDialog.show(this._environmentInDialog);
             },
 
             _editEnvironment (e) {
-                const env = e.model.env;
+                this._environmentInDialog = _.cloneDeep(e.model.env);
+                this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
+                this.$.editDialog.show(this._environmentInDialog);
+            },
+
+            _onEditDialogClosed (e) {
+                const reason = e.detail;
+                if (reason.confirmed && reason.action === 'save') {
+                    RESTer.rester.putEnvironment(this._environmentInDialog).then(id => {
+                        this._environmentInDialog.id = id;
+
+                        if (this._environmentInDialogIndex > -1) {
+                            this.splice('environments', this._environmentInDialogIndex, 1, this._environmentInDialog);
+                        } else {
+                            this.push('environments', this._environmentInDialog);
+                        }
+                    });
+                } else if (reason.confirmed && reason.action === 'delete') {
+                    RESTer.rester.deleteEnvironment(this._environmentInDialog.id).then(() => {
+                        this.splice('environments', this._environmentInDialogIndex, 1);
+                    });
+                }
+            },
+
+            _compareEnvironments (a, b) {
+                return a.name.localeCompare(b.name);
+            },
+
+            _computeValueItems(env) {
+                return Object.keys(env.values).map(key => ({
+                    key,
+                    value: env.values[key]
+                }));
             }
         });
     </script>
