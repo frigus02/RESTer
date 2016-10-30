@@ -3,18 +3,24 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="../controls/rester-autocomplete-input.html">
+<link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
 <dom-module id="rester-page-request">
     <template>
-        <style include="rester-page-styles">
+        <style include="rester-page-styles iron-flex iron-flex-alignment iron-positioning">
             :host {
                 display: block;
+            }
+
+            .send-button {
+                background-color: var(--accent-color);
+                color: var(--light-theme-text-color);
             }
         </style>
 
@@ -39,17 +45,72 @@
                 <paper-icon-button icon="delete"></paper-icon-button>
             </paper-toolbar>
             <div role="main">
-                <div>
-                    <p>Route: <span>[[routeActive]]</span> <span>[[routeData.requestId]]</span></p>
-                    <p>HistoryRoute: <span>[[historyRouteActive]]</span> <span>[[historyRouteData.historyId]]</span></p>
-                    <p>Request Title: [[requestTitle]]</p>
-                </div>
-                <div>
-                    <rester-autocomplete-input
-                            value="{{autocompleteValue}}"
-                            placeholder="Type to open..."
-                            items="[[items]]"></rester-autocomplete-input>
-                    <p>Selected value: [[autocompleteValue]]</p>
+                <!-- Request -->
+                <form is="iron-form" id="requestForm">
+                    <div class="layout horizontal baseline justified">
+                        <rester-autocomplete-input
+                                label="Method"
+                                value="{{request.method}}"
+                                items="[[requestMethods]]"
+                                required></rester-autocomplete-input>
+                        <rester-url-input
+                                value="{{request.url}}"
+                                required
+                                class="flex"></rester-url-input>
+                        <paper-button
+                                raised
+                                type="submit"
+                                class="send-button"
+                                on-tap="_sendRequest"
+                                disabled$="[[requestIsSending]]">
+                            <span hidden$="[[requestIsSending]]">Send</span>
+                            <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
+                        </paper-button>
+                    </div>
+
+                    <md-tabs md-dynamic-height md-selected="selectedTab">
+                        <md-tab label="Headers">
+                            <header-input ng-model="request.headers"></header-input>
+                        </md-tab>
+                        <md-tab label="Body">
+                            <body-input ng-model="request.body" headers="request.headers"></body-input>
+                        </md-tab>
+                        <md-tab label="Authorization">
+                            <authorization-input headers="request.headers"></authorization-input>
+                        </md-tab>
+                        <md-tab label="Variables">
+                            <variables-input
+                                ng-model="requestVariableValues"
+                                source-obj="request"
+                                enabled="request.variables.enabled">
+                            </variables-input>
+                        </md-tab>
+                    </md-tabs>
+                </form>
+
+                <!-- Response -->
+                <div ng-show="response">
+                    <h2 layout="row" layout-align="start center">
+                        Response
+                        <div class="badge {{getResponseBadgeModifierClass()}}">{{response.status}} {{response.statusText}}</div>
+                        <div class="badge badge--pull-right">in {{elapsedMillis}} ms</div>
+                    </h2>
+                    <highlight-code
+                        code="{{getResponseHeadersAsString()}}"
+                        language="http">
+                    </highlight-code>
+                    <highlight-code
+                        code="{{response.body}}"
+                        language="{{getResponseBodyHighlightLanguage()}}"
+                        show-options="true"
+                        ng-if="!experimentalResponseHighlighting"
+                        ng-show="response.body">
+                    </highlight-code>
+                    <highlight-code-experimental
+                        code="response.body"
+                        language="getResponseBodyHighlightLanguage()"
+                        ng-if="experimentalResponseHighlighting && response.body">
+                    </highlight-code-experimental>
                 </div>
             </div>
         </paper-header-panel>
@@ -64,13 +125,19 @@
             ],
 
             properties: {
-                requestTitle: String,
                 route: {
                     type: Object,
                     observer: '_onRouteChanged'
                 },
-                items: {
-                    type: Array
+                requestMethods: {
+                    type: Array,
+                    readOnly: true,
+                    value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+                },
+                requestIsSending: {
+                    type: Boolean,
+                    readOnly: true,
+                    value: false
                 }
             },
 
@@ -78,6 +145,12 @@
                 RESTer.rester.getRequestCollections().then(r => {
                     this.items = r;
                 });
+            },
+
+            _sendRequest () {
+                if (this.$.requestForm.validate()) {
+                    this._setRequestIsSending(true);
+                }
             },
 
             _onRouteChanged () {

@@ -1,0 +1,42 @@
+<link rel="import" href="rester-data.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../../bower_components/iron-behaviors/iron-control-state.html">
+
+<script>
+    RESTer.InputControlBehaviorImpl = {
+        keyBindings: {
+            'shift+tab:keydown': '_onShiftTabDown'
+        },
+
+        hostAttributes: {
+            tabindex: 0
+        },
+
+        get _focusableElement () {},
+
+        _focusBlurHandler (e) {
+            if (e.target !== this) return;
+
+            Polymer.IronControlState._focusBlurHandler.call(this, e);
+            if (this.focused && !this._shiftTabPressed && this._focusableElement) {
+                this._focusableElement.focus();
+            }
+        },
+
+        _onShiftTabDown () {
+            const oldTabIndex = this.getAttribute('tabindex');
+            this._shiftTabPressed = true;
+            this.setAttribute('tabindex', '-1');
+            this.async(() => {
+                this.setAttribute('tabindex', oldTabIndex);
+                this._shiftTabPressed = false;
+            }, 1);
+        },
+    };
+
+    RESTer.InputControlBehavior = [
+        Polymer.IronControlState,
+        Polymer.IronA11yKeysBehavior,
+        RESTer.InputControlBehaviorImpl
+    ];
+</script>

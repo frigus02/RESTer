@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <link rel="import" href="../styles/rester-paper-item-button.html">
+<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-autocomplete-input">
     <template>
@@ -48,7 +49,8 @@
                 placeholder$="[[placeholder]]"
                 autocomplete="off"
                 autofocus$="[[autofocus]]"
-                no-label-float="[[noLabelFloat]]">
+                no-label-float="[[noLabelFloat]]"
+                required$="[[required]]">
             <iron-selector
                     id="dropdown"
                     role="menu"
@@ -92,11 +94,16 @@
         Polymer({
             is: 'rester-autocomplete-input',
 
+            behaviors: [
+                RESTer.InputControlBehavior
+            ],
+
             properties: {
                 placeholder: String,
                 label: String,
                 autofocus: Boolean,
                 noLabelFloat: Boolean,
+                required: Boolean,
                 value: {
                     type: String,
                     notify: true
@@ -121,14 +128,6 @@
                 }
             },
 
-            listeners: {
-                'focus': '_onFocus'
-            },
-
-            hostAttributes: {
-                tabindex: 0
-            },
-
             _inputFocused: false,
 
             ready () {
@@ -149,8 +148,8 @@
                 this.$.input.inputElement.removeEventListener('blur', this._onInputBlur);
             },
 
-            _onFocus () {
-                this.$.input.focus();
+            get _focusableElement () {
+                return this.$.input;
             },
 
             _computeItemTemplate () {

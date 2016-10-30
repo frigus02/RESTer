@@ -1,0 +1,111 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="rester-input-control-behavior.html">
+<link rel="import" href="rester-url-query-input.html">
+
+<dom-module id="rester-url-input">
+    <template>
+        <style include="iron-flex iron-positioning">
+            :host {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            paper-icon-button {
+                transition: transform 0.25s ease;
+            }
+
+            :host[expanded] paper-icon-button {
+                transform: rotate(-180deg);
+            }
+        </style>
+
+        <div hidden$="[[expanded]]" class="flex">
+            <paper-input
+                    id="inputAbsolute"
+                    value="{{value}}"
+                    label="URL"
+                    required$="[[required]]">
+            </paper-input>
+        </div>
+
+        <div hidden$="[[!expanded]]" class="flex">
+            <paper-input
+                    id="inputOriginAndPath"
+                    value="{{originAndPath}}"
+                    label="URL">
+            </paper-input>
+            <rester-url-query-input
+                    value="{{query}}"></rester-url-query-input>
+        </div>
+
+        <paper-icon-button
+                aria-label="Expand"
+                icon="expand-less"
+                on-tap="_toggleExpanded"></paper-icon-button>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-url-input',
+
+            behaviors: [
+                RESTer.InputControlBehavior
+            ],
+
+            properties: {
+                required: Boolean,
+                value: {
+                    type: String,
+                    notify: true,
+                    observer: '_onValueChanged'
+                },
+                originAndPath: {
+                    type: String,
+                    observer: '_onOriginAndPathOrQueryChanged'
+                },
+                query: {
+                    type: String,
+                    observer: '_onOriginAndPathOrQueryChanged'
+                },
+                expanded: {
+                    type: Boolean,
+                    value: false,
+                    reflectToAttribute: true
+                }
+            },
+
+            get _focusableElement () {
+                if (this.expanded) {
+                    return this.$.inputOriginAndPath;
+                } else {
+                    return this.$.inputAbsolute;
+                }
+            },
+
+            _toggleExpanded () {
+                this.expanded = !this.expanded;
+            },
+
+            _onValueChanged () {
+                const parts = this.value.split('?');
+                this.originAndPath = parts[0];
+                this.query = parts[1] || '';
+            },
+
+            _onOriginAndPathOrQueryChanged () {
+                let url = this.originAndPath;
+                if (this.query) {
+                    url += '?' + this.query;
+                }
+
+                this.value = url;
+            },
+        });
+    </script>
+</dom-module>

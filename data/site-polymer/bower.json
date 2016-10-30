@@ -6,6 +6,8 @@
   "private": true,
   "dependencies": {
     "app-route": "PolymerElements/app-route#^0.9.0",
+    "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#^1.1.9",
+    "iron-behaviors": "PolymerElements/iron-behaviors#^1.0.17",
     "iron-collapse": "PolymerElements/iron-collapse#^1.2.1",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0",
     "iron-form": "PolymerElements/iron-form#^1.1.4",
