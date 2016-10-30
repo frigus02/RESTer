@@ -12,15 +12,16 @@
             :host {
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: space-between;
             }
 
-            paper-icon-button {
+            .expand-button {
+                margin-top: 19px;
                 transition: transform 0.25s ease;
             }
 
-            :host[expanded] paper-icon-button {
+            :host[expanded] .expand-button {
                 transform: rotate(-180deg);
             }
         </style>
@@ -41,12 +42,14 @@
                     label="URL">
             </paper-input>
             <rester-url-query-input
-                    value="{{query}}"></rester-url-query-input>
+                    value="{{query}}"
+                    no-encode></rester-url-query-input>
         </div>
 
         <paper-icon-button
                 aria-label="Expand"
-                icon="expand-less"
+                icon="expand-more"
+                class="expand-button"
                 on-tap="_toggleExpanded"></paper-icon-button>
     </template>
 
@@ -90,6 +93,7 @@
 
             _toggleExpanded () {
                 this.expanded = !this.expanded;
+                this._focusableElement.focus();
             },
 
             _onValueChanged () {
@@ -105,7 +109,7 @@
                 }
 
                 this.value = url;
-            },
+            }
         });
     </script>
 </dom-module>

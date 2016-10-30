@@ -18,9 +18,20 @@
                 display: block;
             }
 
+            .method-input,
+            .url-input {
+                margin-right: 16px;
+            }
+
             .send-button {
+                top: 22px;
                 background-color: var(--accent-color);
                 color: var(--light-theme-text-color);
+            }
+
+            .send-button paper-spinner {
+                width: 20px;
+                height: 20px;
             }
         </style>
 
@@ -49,6 +60,7 @@
                 <form is="iron-form" id="requestForm">
                     <div class="layout horizontal baseline justified">
                         <rester-autocomplete-input
+                                class="method-input"
                                 label="Method"
                                 value="{{request.method}}"
                                 items="[[requestMethods]]"
@@ -56,7 +68,7 @@
                         <rester-url-input
                                 value="{{request.url}}"
                                 required
-                                class="flex"></rester-url-input>
+                                class="url-input flex"></rester-url-input>
                         <paper-button
                                 raised
                                 type="submit"

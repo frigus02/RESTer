@@ -106,9 +106,13 @@
                 required: Boolean,
                 value: {
                     type: String,
-                    notify: true
+                    notify: true,
+                    observer: '_onValueChanged'
                 },
-                items: Array,
+                items: {
+                    type: Array,
+                    value: []
+                },
                 dropdownItemsVisible: {
                     type: Number,
                     value: 4.7
@@ -119,7 +123,8 @@
                 },
                 selectedIndex: {
                     type: Number,
-                    readOnly: true
+                    readOnly: true,
+                    value: 0
                 },
                 dropdownVisible: {
                     type: Boolean,
@@ -150,6 +155,13 @@
 
             get _focusableElement () {
                 return this.$.input;
+            },
+
+            _onValueChanged () {
+                const selectedItem = this.items[this.selectedIndex];
+                if (!this._isItemVisible(selectedItem, this.value)) {
+                    this._moveSelectedIndexToNextItem();
+                }
             },
 
             _computeItemTemplate () {
@@ -210,14 +222,12 @@
                     case 40: // down
                         e.stopPropagation();
                         e.preventDefault();
-                        this._setSelectedIndex(Math.min(this.selectedIndex + 1, this.items.length - 1));
-                        this._updateDrodownScroll(false);
+                        this._moveSelectedIndexToNextItem();
                         break;
                     case 38: // up
                         e.stopPropagation();
                         e.preventDefault();
-                        this._setSelectedIndex(Math.max(this.selectedIndex - 1, 0));
-                        this._updateDrodownScroll(true);
+                        this._moveSelectedIndexToPreviousItem();
                         break;
                     case 9: // tab
                         if (this.dropdownVisible) {
@@ -255,6 +265,32 @@
                         this._setDropdownVisible(false);
                     }
                 }, 100);
+            },
+
+            _moveSelectedIndexToNextItem () {
+                const maxIndex = this.items.length - 1;
+                let nextIndex = this.selectedIndex;
+                do {
+                    nextIndex = Math.min(nextIndex + 1, maxIndex);
+                } while (!this._isItemVisible(this.items[nextIndex], this.value) && nextIndex < maxIndex);
+
+                if (this._isItemVisible(this.items[nextIndex], this.value)) {
+                    this._setSelectedIndex(nextIndex);
+                    this._updateDrodownScroll(false);
+                } else {
+                    this._moveSelectedIndexToPreviousItem();
+                }
+            },
+
+            _moveSelectedIndexToPreviousItem () {
+                const minIndex = 0;
+                let prevIndex = this.selectedIndex;
+                do {
+                    prevIndex = Math.max(prevIndex - 1, minIndex);
+                } while (!this._isItemVisible(this.items[prevIndex], this.value) && prevIndex > minIndex);
+
+                this._setSelectedIndex(prevIndex);
+                this._updateDrodownScroll(true);
             },
 
             _updateDrodownScroll (alignTop) {
