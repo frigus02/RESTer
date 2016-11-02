@@ -1,10 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
-<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="../controls/rester-autocomplete-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
@@ -16,6 +18,13 @@
         <style include="rester-page-styles iron-flex iron-flex-alignment iron-positioning">
             :host {
                 display: block;
+
+                --paper-tabs-selection-bar-color: var(--accent-color);
+                --paper-tab-ink: var(--accent-color);
+                --paper-tab: {
+                    padding: 0 24px;
+                    text-transform: uppercase;
+                };
             }
 
             .method-input,
@@ -32,6 +41,10 @@
             .send-button paper-spinner {
                 width: 20px;
                 height: 20px;
+            }
+
+            .input-tabs {
+                margin-top: 8px;
             }
         </style>
 
@@ -80,24 +93,32 @@
                         </paper-button>
                     </div>
 
-                    <md-tabs md-dynamic-height md-selected="selectedTab">
-                        <md-tab label="Headers">
+                    <div class="input-tabs layout horizontal">
+                        <paper-tabs selected="{{requestSelectedTab}}">
+                            <paper-tab id="request-tab-0">Headers</paper-tab>
+                            <paper-tab id="request-tab-1">Body</paper-tab>
+                            <paper-tab id="request-tab-2">Authorization</paper-tab>
+                            <paper-tab id="request-tab-3">Variables</paper-tab>
+                        </paper-tabs>
+                    </div>
+                    <iron-pages selected="[[requestSelectedTab]]">
+                        <div role="tabpanel" aria-labelledby="request-tab-0">
                             <header-input ng-model="request.headers"></header-input>
-                        </md-tab>
-                        <md-tab label="Body">
+                        </div>
+                        <div role="tabpanel" aria-labelledby="request-tab-1">
                             <body-input ng-model="request.body" headers="request.headers"></body-input>
-                        </md-tab>
-                        <md-tab label="Authorization">
+                        </div>
+                        <div role="tabpanel" aria-labelledby="request-tab-2">
                             <authorization-input headers="request.headers"></authorization-input>
-                        </md-tab>
-                        <md-tab label="Variables">
+                        </div>
+                        <div role="tabpanel" aria-labelledby="request-tab-3">
                             <variables-input
                                 ng-model="requestVariableValues"
                                 source-obj="request"
                                 enabled="request.variables.enabled">
                             </variables-input>
-                        </md-tab>
-                    </md-tabs>
+                        </div>
+                    </iron-pages>
                 </form>
 
                 <!-- Response -->
@@ -150,6 +171,10 @@
                     type: Boolean,
                     readOnly: true,
                     value: false
+                },
+                requestSelectedTab: {
+                    type: Number,
+                    value: 0
                 }
             },
 
