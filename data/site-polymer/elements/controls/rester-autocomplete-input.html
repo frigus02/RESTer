@@ -26,6 +26,7 @@
                 top: calc(100% + 2px);
                 left: 0;
                 right: 0;
+                z-index: 1;
                 overflow: auto;
                 padding: 0;
                 background-color: var(--light-theme-background-color);
@@ -124,7 +125,7 @@
                 selectedIndex: {
                     type: Number,
                     readOnly: true,
-                    value: 0
+                    value: -1
                 },
                 dropdownVisible: {
                     type: Boolean,
@@ -158,8 +159,10 @@
             },
 
             _onValueChanged () {
+                if (this.selectedIndex === -1) return;
+
                 const selectedItem = this.items[this.selectedIndex];
-                if (!this._isItemVisible(selectedItem, this.value)) {
+                if (selectedItem && !this._isItemVisible(selectedItem, this.value)) {
                     this._moveSelectedIndexToNextItem();
                 }
             },
@@ -268,6 +271,11 @@
             },
 
             _moveSelectedIndexToNextItem () {
+                if (this.items.length === 0) {
+                    this._setSelectedIndex(-1);
+                    return;
+                }
+
                 const maxIndex = this.items.length - 1;
                 let nextIndex = this.selectedIndex;
                 do {
@@ -283,6 +291,11 @@
             },
 
             _moveSelectedIndexToPreviousItem () {
+                if (this.items.length === 0) {
+                    this._setSelectedIndex(-1);
+                    return;
+                }
+
                 const minIndex = 0;
                 let prevIndex = this.selectedIndex;
                 do {
@@ -294,6 +307,8 @@
             },
 
             _updateDrodownScroll (alignTop) {
+                if (this.selectedIndex === -1) return;
+
                 const list = this.$.dropdown;
                 const item = list.getElementsByTagName('paper-item')[this.selectedIndex];
                 if (!item) return;

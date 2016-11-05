@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <link rel="import" href="../controls/rester-autocomplete-input.html">
+<link rel="import" href="../controls/rester-header-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
@@ -103,7 +104,7 @@
                     </div>
                     <iron-pages selected="[[requestSelectedTab]]">
                         <div role="tabpanel" aria-labelledby="request-tab-0">
-                            <header-input ng-model="request.headers"></header-input>
+                            <rester-header-input value="{{request.headers}}"></rester-header-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="request-tab-1">
                             <body-input ng-model="request.body" headers="request.headers"></body-input>
