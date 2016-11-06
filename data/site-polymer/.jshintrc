@@ -4,6 +4,7 @@
     "strict": "implied",
     "globals": {
         "_": false,
+        "ace": false,
         "Mousetrap": false,
         "Polymer": false,
         "RESTer": false,

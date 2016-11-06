@@ -1,0 +1,190 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script src="../../bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+
+<link rel="import" href="rester-input-control-behavior.html">
+
+<dom-module id="rester-ace-input">
+    <template>
+        <style>
+            :host {
+                display: block;
+                height: 300px;
+            }
+
+            #editor {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+
+        <div id="editor"></div>
+    </template>
+
+    <script>
+        RESTer.AceShadowDomBehavior = (function () {
+            const aceShadowRoots = [],
+                  styles = getStyles();
+
+            createDomHook();
+
+            function createDomHook () {
+                const domHook = ace.require('ace/lib/dom');
+                const dom = {
+                    getDocumentHead: domHook.getDocumentHead,
+                    importCssString: domHook.importCssString,
+                    hasCssString: domHook.hasCssString
+                };
+
+                const docHook = {
+                    createElement: document.createElement.bind(document),
+                    createTextNode: document.createTextNode.bind(document),
+                    cssHead: null // change by importCssString
+                };
+
+                domHook.getDocumentHead = function (doc) {
+                    if (doc === docHook) {
+                        return docHook.cssHead;
+                    }
+
+                    return dom.getDocumentHead.apply(doc, arguments);
+                };
+
+                domHook.hasCssString = function (id, doc) {
+                    if (doc === docHook) {
+                        let index = 0,
+                            sheets;
+                        doc = docHook.cssHead || document;
+                        if (doc.createStyleSheet && doc.styleSheets) {
+                            sheets = doc.styleSheets;
+                            while (index < sheets.length) {
+                                if (sheets[index++].owningElement.id === id) {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            sheets = Polymer.dom(doc).querySelectorAll('style');
+                            while (index < sheets.length) {
+                                if (sheets[index++].id === id) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+
+                    return dom.hasCssString(id, doc);
+                };
+
+                domHook.importCssString = function (cssText, id) {
+                    let result;
+                    aceShadowRoots.forEach(cssHead => {
+                        docHook.cssHead = cssHead;
+                        result = dom.importCssString.call(this, cssText, id, docHook);
+                    });
+
+                    return result;
+                };
+            }
+
+            function getStyles () {
+                const style1 = document.getElementById('ace_editor.css') || document.getElementById('ace_editor');
+                const style2 = document.getElementById('ace-tm');
+                const style3 = style2.nextSibling;
+
+                return [style1, style2, style3];
+            }
+
+            const AceWidgetShadowDom = {
+                _dom: null,
+
+                ready () {
+                    this._dom = Polymer.dom(this.root);
+
+                    if (Polymer.Settings.dom === 'shadow') {
+                        styles.forEach(style => {
+                            this._dom.appendChild(style.cloneNode(true));
+                        });
+                    }
+                },
+
+                attached () {
+                    if (Polymer.Settings.dom === 'shadow') {
+                        aceShadowRoots.push(this._dom);
+                    }
+                },
+
+                detached () {
+                    if (Polymer.Settings.dom === 'shadow') {
+                        const index = aceShadowRoots.indexOf(this._dom);
+                        aceShadowRoots.splice(index, 1);
+                    }
+                }
+            };
+
+            return AceWidgetShadowDom;
+        })();
+
+        Polymer({
+            is: 'rester-ace-input',
+
+            behaviors: [
+                RESTer.AceShadowDomBehavior,
+                RESTer.InputControlBehavior
+            ],
+
+            properties: {
+                value: {
+                    type: String,
+                    notify: true,
+                    observer: '_onValueChanged'
+                },
+                mode: {
+                    type: String,
+                    observer: '_onModeChanged'
+                }
+            },
+
+            get _focusableElement () {
+                return this.$.editor;
+            },
+
+            _editor: undefined,
+            _oldValue: '',
+
+            ready () {
+                ace.config.set('basePath', this.resolveUrl('../../bower_components/ace-builds/src-min-noconflict/'));
+            },
+
+            attached () {
+                this._editor = ace.edit(this.$.editor);
+                this._editor.setTheme('ace/theme/twilight');
+                this._editor.on('change', () => {
+                    this._oldValue = this._editor.getValue();
+                    this.value = this._oldValue;
+                });
+
+                this._onModeChanged();
+                this._onValueChanged();
+            },
+
+            detached () {
+                this._editor.destroy();
+                this._editor = undefined;
+                this._oldValue = '';
+            },
+
+            _onModeChanged () {
+                if (!this._editor) return;
+                this._editor.session.setMode(this.mode);
+            },
+
+            _onValueChanged () {
+                if (!this._editor || this.value === this._oldValue) return;
+                this._oldValue = this.value || '';
+                this._editor.setValue(this._oldValue);
+                this._editor.clearSelection();
+            }
+        });
+    </script>
+</dom-module>

@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <link rel="import" href="../controls/rester-autocomplete-input.html">
+<link rel="import" href="../controls/rester-body-input.html">
 <link rel="import" href="../controls/rester-header-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
@@ -107,7 +108,10 @@
                             <rester-header-input value="{{request.headers}}"></rester-header-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="request-tab-1">
-                            <body-input ng-model="request.body" headers="request.headers"></body-input>
+                            <rester-body-input
+                                    value="{{request.body}}"
+                                    content-type="[[requestContentType]]"
+                                    on-content-type-changed="_onRequestContentTypeChangedByBody"></rester-body-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="request-tab-2">
                             <authorization-input headers="request.headers"></authorization-input>
@@ -163,6 +167,15 @@
                     type: Object,
                     observer: '_onRouteChanged'
                 },
+                request: {
+                    type: Object,
+                    value: {
+                        method: '',
+                        url: '',
+                        headers: [],
+                        body: ''
+                    }
+                },
                 requestMethods: {
                     type: Array,
                     readOnly: true,
@@ -176,6 +189,10 @@
                 requestSelectedTab: {
                     type: Number,
                     value: 0
+                },
+                requestContentType: {
+                    type: String,
+                    computed: '_computeRequestContentType(request.headers.*)'
                 }
             },
 
@@ -199,6 +216,31 @@
                 } else {
                     this._setPageTitle(`Request NEW`);
                 }
+            },
+
+            _computeRequestContentType () {
+                let contentTypeHeader = this.request.headers.find(h => h.name.toLowerCase() === 'content-type'),
+                    contentType = contentTypeHeader ? contentTypeHeader.value : '';
+
+                return contentType.toLowerCase();
+            },
+
+            _onRequestContentTypeChangedByBody (e) {
+                const index = this.request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
+                if (index > -1) {
+                    this.request.headers.splice(index, 1);
+                }
+
+                if (e.detail.value) {
+                    const newHeader = {
+                        name: 'Content-Type',
+                        value: e.detail.value
+                    };
+
+                    this.request.headers.push(newHeader);
+                }
+
+                this.set('request.headers', [...this.request.headers]);
             }
         });
     </script>
