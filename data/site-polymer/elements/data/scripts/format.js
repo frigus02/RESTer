@@ -12,4 +12,16 @@
         return formatDateTime.format(new Date(date));
     };
 
+    self.expirationDate = function (date) {
+        if (date) {
+            if (new Date(date) < new Date()) {
+                return 'Expired';
+            } else {
+                return 'Expires ' + self.dateTime(date);
+            }
+        } else {
+            return 'Never expires';
+        }
+    };
+
 })();

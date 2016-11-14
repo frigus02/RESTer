@@ -1,0 +1,117 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="rester-authorization-provider-basic">
+    <template>
+        <style>
+            paper-dialog {
+                max-width: 600px;
+            }
+        </style>
+
+        <paper-dialog id="generateTokenDialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                on-iron-overlay-closed="_onDialogClosed">
+            <paper-dialog-scrollable>
+                <form is="iron-form" id="generateTokenForm">
+                    <paper-input
+                            label="User name"
+                            value="{{_userName}}"
+                            required
+                            error-message="This is required!"
+                            autofocus></paper-input>
+                    <paper-input
+                            label="Password"
+                            value="{{_password}}"
+                            type="password"
+                            required
+                            error-message="This is required!"></paper-input>
+                </form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss>
+                    Cancel
+                </paper-button>
+                <paper-button dialog-confirm on-tap="_validate">
+                    Save
+                </paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-authorization-provider-basic',
+
+            properties: {
+                providerId: {
+                    type: Number,
+                    readOnly: true,
+                    value: 2
+                },
+                title: {
+                    type: String,
+                    readOnly: true,
+                    value: 'Basic'
+                },
+                needsConfiguration: {
+                    type: Boolean,
+                    readOnly: true,
+                    value: false
+                },
+
+                _userName: String,
+                _password: String
+            },
+
+            _dialogPromise: undefined,
+
+            generateToken () {
+                if (this._dialogPromise) return;
+
+                this._dialogPromise = {};
+                this.$.generateTokenForm.reset();
+
+                return new Promise((resolve, reject) => {
+                    this._dialogPromise.resolve = resolve;
+                    this._dialogPromise.reject = reject;
+
+                    this.async(() => {
+                        this.$.generateTokenDialog.open();
+                    }, 1);
+                });
+            },
+
+            _validate (e) {
+                if (!this.$.generateTokenForm.validate()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            },
+
+            _onDialogClosed (e) {
+                if (e.detail.confirmed) {
+                    const token = {};
+                    token.providerId = this.providerId;
+                    token.title = this._userName;
+                    token.scheme = 'Basic';
+                    token.token = window.btoa(`${this._userName}:${this._password}`);
+
+                    this._dialogPromise.resolve(token);
+                } else {
+                    this._dialogPromise.reject();
+                }
+
+                this._dialogPromise = undefined;
+            }
+        });
+    </script>
+</dom-module>

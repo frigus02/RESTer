@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
+<link rel="import" href="../controls/rester-authorization-input.html">
 <link rel="import" href="../controls/rester-autocomplete-input.html">
 <link rel="import" href="../controls/rester-body-input.html">
 <link rel="import" href="../controls/rester-header-input.html">
@@ -114,7 +115,9 @@
                                     on-content-type-changed="_onRequestContentTypeChangedByBody"></rester-body-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="request-tab-2">
-                            <authorization-input headers="request.headers"></authorization-input>
+                            <rester-authorization-input
+                                    authorization="[[requestAuthorization]]"
+                                    on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="request-tab-3">
                             <variables-input
@@ -192,7 +195,11 @@
                 },
                 requestContentType: {
                     type: String,
-                    computed: '_computeRequestContentType(request.headers.*)'
+                    computed: '_computeRequestHeader(request.headers.*, \'Content-Type\')'
+                },
+                requestAuthorization: {
+                    type: String,
+                    computed: '_computeRequestHeader(request.headers.*, \'Authorization\')'
                 }
             },
 
@@ -218,23 +225,31 @@
                 }
             },
 
-            _computeRequestContentType () {
-                let contentTypeHeader = this.request.headers.find(h => h.name.toLowerCase() === 'content-type'),
-                    contentType = contentTypeHeader ? contentTypeHeader.value : '';
+            _computeRequestHeader (headers, headerName) {
+                let header = this.request.headers.find(h => h.name.toLowerCase() === headerName.toLowerCase()),
+                    headerValue = header ? header.value : '';
 
-                return contentType.toLowerCase();
+                return headerValue.toLowerCase();
             },
 
             _onRequestContentTypeChangedByBody (e) {
-                const index = this.request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
+                this._setRequestHeader('Content-Type', e.detail.value);
+            },
+
+            _onRequestAuthorizationChanged (e) {
+                this._setRequestHeader('Authorization', e.detail.value);
+            },
+
+            _setRequestHeader (headerName, value) {
+                const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
                 if (index > -1) {
                     this.request.headers.splice(index, 1);
                 }
 
-                if (e.detail.value) {
+                if (value) {
                     const newHeader = {
-                        name: 'Content-Type',
-                        value: e.detail.value
+                        name: headerName,
+                        value: value
                     };
 
                     this.request.headers.push(newHeader);

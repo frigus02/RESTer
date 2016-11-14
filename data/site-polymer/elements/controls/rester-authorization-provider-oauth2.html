@@ -1,0 +1,323 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+
+<link rel="import" href="../data/rester-data.html">
+<link rel="import" href="../styles/rester-hint.html">
+
+<dom-module id="rester-authorization-provider-oauth2">
+    <template>
+        <style include="rester-hint">
+            paper-dialog {
+                max-width: 600px;
+            }
+
+            paper-checkbox,
+            paper-dropdown-menu {
+                display: block;
+            }
+
+            paper-checkbox {
+                padding: 16px 8px;
+            }
+
+            .delete-button {
+                color: var(--error-color);
+                margin-left: -8px;
+                margin-right: auto;
+            }
+        </style>
+
+        <paper-dialog id="configurationDialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                on-iron-overlay-closed="_onConfigurationDialogClosed">
+            <paper-dialog-scrollable>
+                <form is="iron-form" id="configurationForm">
+                    <paper-input
+                            label="Title"
+                            value="{{_configuration.title}}"
+                            required
+                            error-message="This is required!"
+                            autofocus></paper-input>
+                    <div class="hint">A name for this configuration, only used to identify the config in RESTer.</div>
+                    <paper-checkbox checked="{{_configuration.enableVariables}}">
+                        Enable environment variables
+                    </paper-checkbox>
+                    <paper-dropdown-menu
+                            label="OAuth 2 Flow"
+                            required
+                            error-message="This is required!">
+                        <paper-listbox
+                                class="dropdown-content"
+                                selected="{{_configuration.flow}}"
+                                attr-for-selected="value">
+                            <paper-item value="code">Authorization Code</paper-item>
+                            <paper-item value="implicit">Implicit</paper-item>
+                            <paper-item value="resource_owner">Resource Owner Password Credentials</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <paper-input
+                            label="Authorization Request: Endpoint"
+                            value="{{_configuration.authorizationRequestEndpoint}}"
+                            hidden$="[[!_isFieldVisible('authorizationRequestEndpoint', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('authorizationRequestEndpoint', _configuration.flow)]]"
+                            error-message="This is required!"></paper-input>
+                    <paper-dropdown-menu
+                            label="Access Token Request: Method"
+                            hidden$="[[!_isFieldVisible('accessTokenRequestMethod', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('accessTokenRequestMethod', _configuration.flow)]]">
+                        <paper-listbox
+                                class="dropdown-content"
+                                selected="{{_configuration.accessTokenRequestMethod}}"
+                                attr-for-selected="value">
+                            <paper-item value="POST">POST</paper-item>
+                            <paper-item value="GET">GET</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <paper-input
+                            label="Access Token Request: Endpoint"
+                            value="{{_configuration.accessTokenRequestEndpoint}}"
+                            hidden$="[[!_isFieldVisible('accessTokenRequestEndpoint', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('accessTokenRequestEndpoint', _configuration.flow)]]"
+                            error-message="This is required!"></paper-input>
+                    <paper-dropdown-menu
+                            label="Access Token Request: Client Authentication"
+                            hidden$="[[!_isFieldVisible('accessTokenRequestAuthentication', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('accessTokenRequestAuthentication', _configuration.flow)]]">
+                        <paper-listbox
+                                class="dropdown-content"
+                                selected="{{_configuration.accessTokenRequestAuthentication}}"
+                                attr-for-selected="value">
+                            <paper-item value="basic">HTTP Basic authentication</paper-item>
+                            <paper-item value="body">Credentials in request-body</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <paper-input
+                            label="Client ID"
+                            value="{{_configuration.clientId}}"
+                            hidden$="[[!_isFieldVisible('clientId', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('clientId', _configuration.flow)]]"
+                            error-message="This is required!"></paper-input>
+                    <paper-input
+                            label="Client Secret"
+                            value="{{_configuration.clientSecret}}"
+                            hidden$="[[!_isFieldVisible('clientSecret', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('clientSecret', _configuration.flow)]]"
+                            error-message="This is required!"></paper-input>
+                    <paper-input
+                            label="Redirect URI"
+                            value="{{_configuration.redirectUri}}"
+                            hidden$="[[!_isFieldVisible('redirectUri', _configuration.flow)]]"
+                            required$="[[_isFieldVisible('redirectUri', _configuration.flow)]]"
+                            error-message="This is required!"></paper-input>
+                    <div class="hint">Please provide any valid redirect uri for the OAuth 2 client. When this URL is loaded, RESTer will grap the access token from the URL and finish the authorization flow.</div>
+                    <paper-input
+                            hidden$="[[!_isFieldVisible('scope', _configuration.flow)]]"
+                            label="Scope"
+                            value="{{_configuration.scope}}"></paper-input>
+                </form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button class="delete-button" hidden="[[!_configuration.id]]" on-tap="_deleteConfiguration">
+                    Delete
+                </paper-button>
+                <paper-button dialog-dismiss>
+                    Cancel
+                </paper-button>
+                <paper-button dialog-confirm on-tap="_validateConfiguration">
+                    Save
+                </paper-button>
+            </div>
+        </paper-dialog>
+
+        <paper-dialog id="generateTokenResourceOwnerDialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                on-iron-overlay-closed="_onGenerateTokenResourceOwnerDialogClosed">
+            <paper-dialog-scrollable>
+                <form is="iron-form" id="generateTokenResourceOwnerForm">
+                    <paper-input
+                            label="User name"
+                            value="{{_resourceOwnerGenerateTokenData.username}}"
+                            required
+                            error-message="This is required!"
+                            autofocus></paper-input>
+                    <paper-input
+                            label="Password"
+                            value="{{_resourceOwnerGenerateTokenData.password}}"
+                            type="password"
+                            required
+                            error-message="This is required!"></paper-input>
+                </form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss>
+                    Cancel
+                </paper-button>
+                <paper-button dialog-confirm on-tap="_validateGenerateTokenResourceOwner">
+                    Save
+                </paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-authorization-provider-oauth2',
+
+            properties: {
+                providerId: {
+                    type: Number,
+                    readOnly: true,
+                    value: 3
+                },
+                title: {
+                    type: String,
+                    readOnly: true,
+                    value: 'OAuth 2'
+                },
+                needsConfiguration: {
+                    type: Boolean,
+                    readOnly: true,
+                    value: true
+                },
+
+                _configuration: Object,
+                _resourceOwnerGenerateTokenData: Object
+            },
+
+            _configurationDialogPromise: undefined,
+            _generateTokenResourceOwnerDialogPromise: undefined,
+
+            get _configProperties () {
+                return {
+                    code: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'redirectUri', 'scope'],
+                    implicit: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'clientId', 'redirectUri', 'scope'],
+                    resource_owner: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope']
+                };
+            },
+
+            createConfiguration () {
+                return this.editConfiguration({flow: null});
+            },
+
+            editConfiguration (config) {
+                if (this._configurationDialogPromise) return;
+
+                this._configurationDialogPromise = {};
+                this.$.configurationForm.reset();
+
+                return new Promise((resolve, reject) => {
+                    this._configurationDialogPromise.resolve = resolve;
+                    this._configurationDialogPromise.reject = reject;
+
+                    this.async(() => {
+                        this._configuration = _.clone(config);
+
+                        this.$.configurationDialog.closingReason = {};
+                        this.$.configurationDialog.open();
+                    }, 1);
+                });
+            },
+
+            generateToken (config) {
+                return Promise.resolve()
+                    .then(() => {
+                        if (config.flow === 'resource_owner') {
+                            return this._getResourceOwnerGenerateTokenData();
+                        }
+                    })
+                    .then(creds => {
+                        return RESTer.oauth2.generateToken(config, creds);
+                    })
+                    .then(token => {
+                        token.providerId = 3;
+                        return token;
+                    });
+            },
+
+            _getResourceOwnerGenerateTokenData () {
+                if (this._generateTokenResourceOwnerDialogPromise) return;
+
+                this._generateTokenResourceOwnerDialogPromise = {};
+                this._resourceOwnerGenerateTokenData = {};
+                this.$.generateTokenResourceOwnerForm.reset();
+
+                return new Promise((resolve, reject) => {
+                    this._generateTokenResourceOwnerDialogPromise.resolve = resolve;
+                    this._generateTokenResourceOwnerDialogPromise.reject = reject;
+
+                    this.async(() => {
+                        this.$.generateTokenResourceOwnerDialog.closingReason = {};
+                        this.$.generateTokenResourceOwnerDialog.open();
+                    }, 1);
+                });
+            },
+
+            _isFieldVisible (field, selectedFlow) {
+                return selectedFlow && this._configProperties[selectedFlow].includes(field);
+            },
+
+            _deleteConfiguration () {
+                this.$.configurationDialog.closingReason.deleted = true;
+                this.$.configurationDialog.close();
+            },
+
+            _validateConfiguration (e) {
+                if (!this.$.configurationForm.validate()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            },
+
+            _validateGenerateTokenResourceOwner (e) {
+                if (!this.$.generateTokenResourceOwnerForm.validate()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            },
+
+            _onConfigurationDialogClosed (e) {
+                if (e.target !== this.$.configurationDialog) return;
+
+                if (e.detail.confirmed) {
+                    const newConfig = {};
+                    newConfig.providerId = this.providerId;
+                    this._configProperties[this._configuration.flow].forEach(prop => {
+                        if (this._configuration.hasOwnProperty(prop)) {
+                            newConfig[prop] = this._configuration[prop];
+                        }
+                    });
+
+                    this._configurationDialogPromise.resolve(newConfig);
+                } else if (e.detail.deleted) {
+                    this._configurationDialogPromise.resolve('delete');
+                } else {
+                    this._configurationDialogPromise.reject();
+                }
+
+                this._configurationDialogPromise = undefined;
+            },
+
+            _onGenerateTokenResourceOwnerDialogClosed (e) {
+                if (e.detail.confirmed) {
+                    this._generateTokenResourceOwnerDialogPromise.resolve(this._resourceOwnerGenerateTokenData);
+                } else {
+                    this._generateTokenResourceOwnerDialogPromise.reject();
+                }
+
+                this._generateTokenResourceOwnerDialogPromise = undefined;
+            }
+        });
+    </script>
+</dom-module>
