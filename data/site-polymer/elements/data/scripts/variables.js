@@ -1,23 +1,37 @@
 (function () {
 
-    const self = RESTer.register('variables'),
+    const self = RESTer.register('variables', ['eventListeners']),
           RE_VARS = /\{(\S+?)\}/gi;
 
-    self.getProvidedValues = function () {
-        const values = {};
+    self.providedValues = {};
+
+    collectProvidedValues();
+    initVarProviderChangeListeners();
+
+    function collectProvidedValues() {
+        self.providedValues = {};
         for (let name in self.providers) {
             if (self.providers.hasOwnProperty(name)) {
                 const provider = self.providers[name];
                 for (let key in provider.values) {
                     if (provider.values.hasOwnProperty(key)) {
-                        values[`$${name}.${key}`] = provider.values[key];
+                        self.providedValues[`$${name}.${key}`] = provider.values[key];
                     }
                 }
             }
         }
 
-        return values;
-    };
+        self.fireEvent('providedValuesChanged', self.providedValues);
+    }
+
+    function initVarProviderChangeListeners() {
+        for (let name in self.providers) {
+            if (self.providers.hasOwnProperty(name)) {
+                const provider = self.providers[name];
+                provider.addEventListener('valuesChanged', collectProvidedValues);
+            }
+        }
+    }
 
     self.extract = function (obj) {
         let vars = [];
@@ -60,9 +74,7 @@
     }
 
     self.replace = function (obj, values = {}, usedValues = {}) {
-        let providedValues = self.getProvidedValues();
-
-        return replaceInternal(obj, Object.assign({}, providedValues, values), usedValues);
+        return replaceInternal(obj, Object.assign({}, self.providedValues, values), usedValues);
     };
 
 })();

@@ -1,6 +1,6 @@
 (function () {
 
-    const self = RESTer.register('variables.providers.$env');
+    const self = RESTer.register('variables.providers.env', ['eventListeners']);
 
     self.values = {};
 
@@ -9,9 +9,11 @@
         if (envId) {
             RESTer.rester.getEnvironment(envId).then(env => {
                 self.values = env.values;
+                self.fireEvent('valuesChanged', self.values);
             });
         } else {
             self.values = {};
+            self.fireEvent('valuesChanged', self.values);
         }
     }
 

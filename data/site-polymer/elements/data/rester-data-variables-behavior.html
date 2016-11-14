@@ -1,0 +1,32 @@
+<link rel="import" href="rester-data.html">
+
+<script>
+    /**
+     * Makes RESTer provided variable values available in property `providedVariableValues`.
+     */
+    RESTer.VariablesBehavior = {
+        properties: {
+            providedVariableValues: {
+                type: Object,
+                readOnly: true
+            }
+        },
+
+        ready () {
+            this._setProvidedVariableValues(RESTer.variables.providedValues);
+            this._onProvidedValuesChanged = this._onProvidedValuesChanged.bind(this);
+        },
+
+        attached () {
+            RESTer.variables.addEventListener('providedValuesChanged', this._onProvidedValuesChanged);
+        },
+
+        detached () {
+            RESTer.variables.removeEventListener('providedValuesChanged', this._onProvidedValuesChanged);
+        },
+
+        _onProvidedValuesChanged (newProvidedValues) {
+            this._setProvidedVariableValues(newProvidedValues);
+        }
+    };
+</script>

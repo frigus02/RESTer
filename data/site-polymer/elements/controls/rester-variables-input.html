@@ -1,0 +1,127 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<link rel="import" href="../data/rester-data-variables-behavior.html">
+<link rel="import" href="../data/rester-data.html">
+
+<dom-module id="rester-variables-input">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <p>
+            You can use placeholders everywhere in the request by specifying variable names in
+            curly brackets, e.g. <code>{id}</code> or <code>{title}</code>. Below you will see
+            input fields for each variable mentioned in the request. Variable values will not be
+            saved with the request. Instead values are shared between requests.
+        </p>
+
+        <paper-toggle-button checked="{{enabled}}">
+            Enable variables for this request
+        </paper-toggle-button>
+
+        <template is="dom-repeat" items="[[variables]]" sort="_compareVariables">
+            <paper-input
+                    label="[[item.name]]"
+                    value="{{item.value}}"
+                    on-value-changed="_onVariableValueChanged"
+                    disabled$="[[!enabled]]"></paper-input>
+        </template>
+        <template is="dom-repeat" items="[[providedVariables]]" sort="_compareVariables">
+            <paper-input
+                    label="[[item.name]]"
+                    value="{{item.value}}"
+                    disabled></paper-input>
+        </template>
+    </template>
+
+    <script>
+        const CACHED_VARIABLE_VALUES = {};
+
+        Polymer({
+            is: 'rester-variables-input',
+
+            behaviors: [
+                RESTer.VariablesBehavior
+            ],
+
+            properties: {
+                value: {
+                    type: Object,
+                    notify: true,
+                    observer: '_updateVariables'
+                },
+                sourceObj: {
+                    type: Object
+                },
+                enabled: {
+                    type: Boolean,
+                    notify: true
+                },
+                variables: {
+                    type: Array,
+                    readOnly: true
+                },
+                providedVariables: {
+                    type: Array,
+                    readOnly: true
+                }
+            },
+
+            observers: [
+                '_updateVariables(sourceObj.*)'
+            ],
+
+            _updateVariables () {
+                if (!this.value) {
+                    this.value = {};
+                }
+
+                this.debounce('updateVariables', () => {
+                    const allVarNames = RESTer.variables.extract(this.sourceObj),
+                          varNames = allVarNames.filter(n => !n.startsWith('$')),
+                          providedVarNames = allVarNames.filter(n => n.startsWith('$')),
+                          values = this.value || {};
+
+                    for (let varName of varNames) {
+                        if (this.value[varName]) {
+                            CACHED_VARIABLE_VALUES[varName] = this.value[varName];
+                        } else {
+                            this.set(`value.${varName}`, CACHED_VARIABLE_VALUES[varName]);
+                        }
+                    }
+
+                    this._setVariables(varNames.map(varName => ({
+                        name: varName,
+                        value: values[varName]
+                    })));
+
+                    this._setProvidedVariables(providedVarNames.map(varName => ({
+                        name: varName,
+                        value: this.providedVariableValues[varName]
+                    })));
+                }, 300);
+            },
+
+            _onVariableValueChanged (e) {
+                const variable = e.model.item;
+                if (!variable) return;
+
+                if (!this.value) {
+                    this.value = { [variable.name]: variable.value };
+                } else {
+                    CACHED_VARIABLE_VALUES[variable.name] = variable.value;
+                    this.set(`value.${variable.name}`, variable.value);
+                }
+            },
+
+            _compareVariables (a, b) {
+                return a.name.localeCompare(b.title);
+            }
+        });
+    </script>
+</dom-module>

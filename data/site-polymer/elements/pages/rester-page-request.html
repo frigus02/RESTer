@@ -13,6 +13,7 @@
 <link rel="import" href="../controls/rester-body-input.html">
 <link rel="import" href="../controls/rester-header-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
+<link rel="import" href="../controls/rester-variables-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
@@ -120,11 +121,11 @@
                                     on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="request-tab-3">
-                            <variables-input
-                                ng-model="requestVariableValues"
-                                source-obj="request"
-                                enabled="request.variables.enabled">
-                            </variables-input>
+                            <rester-variables-input
+                                value="{{requestVariableValues}}"
+                                source-obj="[[request]]"
+                                enabled="{{request.variables.enabled}}">
+                            </rester-variables-input>
                         </div>
                     </iron-pages>
                 </form>
@@ -173,10 +174,13 @@
                 request: {
                     type: Object,
                     value: {
-                        method: '',
-                        url: '',
+                        method: 'GET',
+                        url: 'https://{$env.acshost}/api/enterprises/{enterpriseId}',
                         headers: [],
-                        body: ''
+                        body: '',
+                        variables: {
+                            enabled: false
+                        }
                     }
                 },
                 requestMethods: {
