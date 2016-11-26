@@ -12,6 +12,7 @@
 <link rel="import" href="../controls/rester-autocomplete-input.html">
 <link rel="import" href="../controls/rester-body-input.html">
 <link rel="import" href="../controls/rester-header-input.html">
+<link rel="import" href="../controls/rester-request-title-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../controls/rester-variables-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
@@ -68,7 +69,10 @@
             <paper-toolbar>
                 <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
                 <div class="title" hidden>[[requestTitle]]</div>
-                <paper-input label="Title" value="{{requestTitle}}" class="flex"></paper-input>
+                <rester-request-title-input
+                        request-collection="{{request.collection}}"
+                        request-title="{{request.title}}"
+                        class="flex"></rester-request-title-input>
                 <paper-icon-button icon="save"></paper-icon-button>
                 <paper-icon-button icon="delete"></paper-icon-button>
             </paper-toolbar>
@@ -174,6 +178,8 @@
                 request: {
                     type: Object,
                     value: {
+                        collection: '',
+                        title: '',
                         method: 'GET',
                         url: 'https://{$env.acshost}/api/enterprises/{enterpriseId}',
                         headers: [],
@@ -205,12 +211,6 @@
                     type: String,
                     computed: '_computeRequestHeader(request.headers.*, \'Authorization\')'
                 }
-            },
-
-            ready () {
-                RESTer.rester.getRequestCollections().then(r => {
-                    this.items = r;
-                });
             },
 
             _sendRequest () {

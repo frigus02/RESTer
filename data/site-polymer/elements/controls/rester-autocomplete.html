@@ -1,0 +1,326 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../styles/rester-paper-item-button.html">
+
+<dom-module id="rester-autocomplete">
+    <template>
+        <style include="rester-paper-item-button">
+            :host {
+                --paper-item-body-two-line-min-height: 48px;
+                --paper-item-body-secondary: {
+                    font-size: 12px;
+                    line-height: 1em;
+                };
+            }
+
+            #dropdown {
+                position: absolute;
+                top: calc(100% + 2px);
+                left: 0;
+                right: 0;
+                z-index: 1;
+                overflow: auto;
+                padding: 0;
+                background-color: var(--light-theme-background-color);
+                color: var(--light-theme-text-color);
+
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s ease;
+            }
+
+            #dropdown.visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        </style>
+
+        <iron-selector
+                id="dropdown"
+                role="menu"
+                prefix
+                class$="[[_getDropdownVisibilityClass(dropdownVisible)]]"
+                style$="max-height: [[_getDropdownMaxHeight(dropdownItemsVisible)]]"
+                tabindex="-1"
+                selected="[[selectedIndex]]"
+                selected-class="selected">
+            <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'simple')]]" restamp>
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems">
+                    <paper-item
+                            hidden$="[[!_isItemVisible(item, inputValue)]]"
+                            class="button"
+                            on-tap="_onItemClick"
+                            tabindex="-1">
+                        [[item]]
+                    </paper-item>
+                </template>
+            </template>
+            <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'two-line-score')]]" restamp>
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score">
+                    <paper-icon-item
+                            hidden$="[[!_isItemVisible(item, inputValue)]]"
+                            class="button"
+                            on-tap="_onItemClick"
+                            tabindex="-1">
+                        <div class="score" item-icon>[[item.score]]</div>
+                        <paper-item-body two-line>
+                            <div>[[item.title]]</div>
+                            <div secondary>[[item.description]]</div>
+                        </paper-item-body>
+                    </paper-icon-item>
+                </template>
+            </template>
+        </iron-selector>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-autocomplete',
+
+            properties: {
+                for: String,
+                items: {
+                    type: Array,
+                    value: []
+                },
+                dropdownItemsVisible: {
+                    type: Number,
+                    value: 4.7
+                },
+                itemTemplate: {
+                    type: String,
+                    computed: '_computeItemTemplate(items)'
+                },
+                selectedIndex: {
+                    type: Number,
+                    readOnly: true,
+                    value: -1
+                },
+                dropdownVisible: {
+                    type: Boolean,
+                    value: false,
+                    readOnly: true
+                },
+                inputValue: {
+                    type: String,
+                    readOnly: true
+                }
+            },
+
+            _input: undefined,
+            _inputFocused: false,
+
+            ready () {
+                this._onInputValueChanged = this._onInputValueChanged.bind(this);
+                this._onInputKeyDown = this._onInputKeyDown.bind(this);
+                this._onInputFocus = this._onInputFocus.bind(this);
+                this._onInputBlur = this._onInputBlur.bind(this);
+            },
+
+            attached () {
+                this._input = this.domHost.querySelector(`#${this.for}`);
+                this._setInputValue(this._input.value);
+                this._input.addEventListener('bind-value-changed', this._onInputValueChanged);
+                this._input.addEventListener('keydown', this._onInputKeyDown);
+                this._input.addEventListener('focus', this._onInputFocus);
+                this._input.addEventListener('blur', this._onInputBlur);
+            },
+
+            detached () {
+                this._input.removeEventListener('bind-value-changed', this._onInputValueChanged);
+                this._input.removeEventListener('keydown', this._onInputKeyDown);
+                this._input.removeEventListener('focus', this._onInputFocus);
+                this._input.removeEventListener('blur', this._onInputBlur);
+            },
+
+            _computeItemTemplate () {
+                const item = this.items && this.items[0];
+                if (item) {
+                    if (item.hasOwnProperty('title') &&
+                        item.hasOwnProperty('description') &&
+                        item.hasOwnProperty('score')) {
+                        return 'two-line-score';
+                    } else {
+                        return 'simple';
+                    }
+                }
+            },
+
+            _getDropdownVisibilityClass () {
+                return this.dropdownVisible ? 'visible' : '';
+            },
+
+            _getDropdownMaxHeight () {
+                return `${48 * this.dropdownItemsVisible}px`;
+            },
+
+            _isActiveItemTemplate (itemTemplate, templateName) {
+                return itemTemplate === templateName;
+            },
+
+            _isItemVisible (item, value) {
+                if (this.itemTemplate === 'two-line-score') {
+                    const index = this.items.indexOf(item);
+                    if (value) {
+                        const originalScore = Math.max(item.title.score(value), item.description.score(value));
+                        this.set(`items.${index}.score`, Math.round(originalScore * 1000));
+                    } else {
+                        this.set(`items.${index}.score`, 0);
+                    }
+
+                    return item.score > 0;
+                } else {
+                    if (value) {
+                        return item.toLowerCase().includes(value.toLowerCase());
+                    } else {
+                        return true;
+                    }
+                }
+            },
+
+            _compareItems (itemA, itemB) {
+                if (this.itemTemplate === 'two-line-score') {
+                    return itemB.score - itemA.score;
+                } else {
+                    return itemA.localeCompare(itemB);
+                }
+            },
+
+            _onInputValueChanged () {
+                this._setInputValue(this._input.value);
+
+                if (this.selectedIndex === -1) return;
+
+                const selectedItem = this.items[this.selectedIndex];
+                if (selectedItem && !this._isItemVisible(selectedItem, this._input.value)) {
+                    this._moveSelectedIndexToNextItem();
+                }
+            },
+
+            _onInputKeyDown (e) {
+                switch (e.keyCode) {
+                    case 40: // down
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this._moveSelectedIndexToNextItem();
+                        break;
+                    case 38: // up
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this._moveSelectedIndexToPreviousItem();
+                        break;
+                    case 9: // tab
+                        if (this.dropdownVisible) {
+                            this._selectItem(this.items[this.selectedIndex]);
+                        }
+
+                        break;
+                    case 13: // enter
+                        if (this.dropdownVisible) {
+                            e.stopPropagation();
+                            e.preventDefault();
+
+                            this._selectItem(this.items[this.selectedIndex]);
+                        }
+
+                        break;
+                    case 27: // esc
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this._setDropdownVisible(false);
+                        break;
+                }
+            },
+
+            _onInputFocus () {
+                this._inputFocused = true;
+                this._setSelectedIndex(0);
+                this._setDropdownVisible(true);
+            },
+
+            _onInputBlur () {
+                this._inputFocused = false;
+                this.async(() => {
+                    if (!this._inputFocused) {
+                        this._setDropdownVisible(false);
+                    }
+                }, 100);
+            },
+
+            _moveSelectedIndexToNextItem () {
+                if (this.items.length === 0) {
+                    this._setSelectedIndex(-1);
+                    return;
+                }
+
+                const maxIndex = this.items.length - 1;
+                let nextIndex = this.selectedIndex;
+                do {
+                    nextIndex = Math.min(nextIndex + 1, maxIndex);
+                } while (!this._isItemVisible(this.items[nextIndex], this._input.value) && nextIndex < maxIndex);
+
+                if (this._isItemVisible(this.items[nextIndex], this._input.value)) {
+                    this._setSelectedIndex(nextIndex);
+                    this._updateDrodownScroll(false);
+                } else {
+                    this._moveSelectedIndexToPreviousItem();
+                }
+            },
+
+            _moveSelectedIndexToPreviousItem () {
+                if (this.items.length === 0) {
+                    this._setSelectedIndex(-1);
+                    return;
+                }
+
+                const minIndex = 0;
+                let prevIndex = this.selectedIndex;
+                do {
+                    prevIndex = Math.max(prevIndex - 1, minIndex);
+                } while (!this._isItemVisible(this.items[prevIndex], this._input.value) && prevIndex > minIndex);
+
+                this._setSelectedIndex(prevIndex);
+                this._updateDrodownScroll(true);
+            },
+
+            _updateDrodownScroll (alignTop) {
+                if (this.selectedIndex === -1) return;
+
+                const list = this.$.dropdown;
+                const item = list.getElementsByTagName('paper-item')[this.selectedIndex];
+                if (!item) return;
+
+                if (item.offsetTop >= list.scrollTop &&
+                    item.offsetTop + item.offsetHeight <= list.scrollTop + list.clientHeight) {
+                    // Element is already in view. Nothing to do.
+                    return;
+                }
+
+                if (alignTop) {
+                    list.scrollTop = item.offsetTop;
+                } else {
+                    list.scrollTop = item.offsetTop + item.offsetHeight - list.clientHeight;
+                }
+            },
+
+            _onItemClick (e) {
+                this._selectItem(e.model.item);
+            },
+
+            _selectItem (item) {
+                if (this.itemTemplate === 'two-line-score') {
+                    this._input.bindValue = item.title;
+                } else {
+                    this._input.bindValue = item;
+                }
+
+                this._setDropdownVisible(false);
+                this.fire('item-selected', item);
+            }
+        });
+    </script>
+</dom-module>
