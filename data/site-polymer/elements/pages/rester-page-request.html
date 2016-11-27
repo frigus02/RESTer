@@ -17,6 +17,7 @@
 <link rel="import" href="../controls/rester-variables-input.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
+<link rel="import" href="../utils/rester-badge.html">
 
 <dom-module id="rester-page-request">
     <template>
@@ -50,6 +51,10 @@
 
             .input-tabs {
                 margin-top: 8px;
+            }
+
+            .pull-right {
+                margin-left: auto;
             }
         </style>
 
@@ -135,11 +140,11 @@
                 </form>
 
                 <!-- Response -->
-                <div ng-show="response">
-                    <h2 layout="row" layout-align="start center">
+                <div hidden$="[[!response]]">
+                    <h2 class="layout horizontal">
                         Response
-                        <div class="badge {{getResponseBadgeModifierClass()}}">{{response.status}} {{response.statusText}}</div>
-                        <div class="badge badge--pull-right">in {{elapsedMillis}} ms</div>
+                        <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
+                        <rester-badge class="pull-right">in [[historyEntryElapsedMillis]] ms</rester-badge>
                     </h2>
                     <highlight-code
                         code="{{getResponseHeadersAsString()}}"
@@ -152,11 +157,6 @@
                         ng-if="!experimentalResponseHighlighting"
                         ng-show="response.body">
                     </highlight-code>
-                    <highlight-code-experimental
-                        code="response.body"
-                        language="getResponseBodyHighlightLanguage()"
-                        ng-if="experimentalResponseHighlighting && response.body">
-                    </highlight-code-experimental>
                 </div>
             </div>
         </paper-header-panel>
@@ -210,12 +210,30 @@
                 requestAuthorization: {
                     type: String,
                     computed: '_computeRequestHeader(request.headers.*, \'Authorization\')'
-                }
-            },
-
-            _sendRequest () {
-                if (this.$.requestForm.validate()) {
-                    this._setRequestIsSending(true);
+                },
+                response: {
+                    type: Object,
+                    value: {
+                        status: 200,
+                        statusText: 'OK',
+                        headers: [],
+                        body: ''
+                    }
+                },
+                responseBadgeType: {
+                    type: String,
+                    computed: '_computeResponseBadgeType(response.status)'
+                },
+                historyEntry: {
+                    type: Object,
+                    value: {
+                        time: new Date('2016-11-27 11:35:10.123'),
+                        timeEnd: new Date('2016-11-27 11:35:11.653')
+                    }
+                },
+                historyEntryElapsedMillis: {
+                    type: Number,
+                    computed: '_computeHistoryEntryElapsedMillis(historyEntry.time, historyEntry.timeEnd)'
                 }
             },
 
@@ -234,6 +252,22 @@
                     headerValue = header ? header.value : '';
 
                 return headerValue.toLowerCase();
+            },
+
+            _computeResponseBadgeType (status) {
+                if (status >= 100 && status < 200) {
+                    return 'info';
+                } else if (status >= 200 && status < 300) {
+                    return 'success';
+                } else if (status >= 300 && status < 400) {
+                    return 'info';
+                } else if (status >= 400) {
+                    return 'warn';
+                }
+            },
+
+            _computeHistoryEntryElapsedMillis (time, timeEnd) {
+                return new Date(timeEnd) - new Date(time);
             },
 
             _onRequestContentTypeChangedByBody (e) {
@@ -260,6 +294,12 @@
                 }
 
                 this.set('request.headers', [...this.request.headers]);
+            },
+
+            _sendRequest () {
+                if (this.$.requestForm.validate()) {
+                    this._setRequestIsSending(true);
+                }
             }
         });
     </script>
