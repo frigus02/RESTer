@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script src="../../bower_components/dompurify/src/purify.js"></script>
+
+<dom-module id="rester-dom-purify-frame">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            iframe {
+                border: none;
+                width: 100%;
+            }
+        </style>
+
+        <iframe id="frame"
+                src="data:utf-8,<html lang='en'><head><meta charset='utf-8'></head><body></body></html>"
+                on-load="_onFrameLoaded"></iframe>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-dom-purify-frame',
+
+            properties: {
+                html: {
+                    type: String,
+                    observer: '_onHtmlChanged'
+                }
+            },
+
+            _frameLoaded: false,
+
+            _onFrameLoaded () {
+                this._frameLoaded = true;
+            },
+
+            _onHtmlChanged () {
+                if (!this._frameLoaded) {
+                    this.async(() => this._onHtmlChanged(), 100);
+                    return;
+                }
+
+                const doc = this.$.frame.contentWindow.document;
+                while (doc.body.children.length > 0) {
+                    doc.body.children[0].remove();
+                }
+
+                const divEl = doc.body.appendChild(doc.createElement('div'));
+                divEl.innerHTML = DOMPurify.sanitize(this.html);
+
+                this.$.frame.contentWindow.setTimeout(() => {
+                    this.$.frame.style.height = `${doc.body.clientHeight + 16}px`;
+                });
+            }
+        });
+    </script>
+</dom-module>

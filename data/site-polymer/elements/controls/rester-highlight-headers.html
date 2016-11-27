@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="rester-highlight-headers">
+    <template>
+        <style>
+            :host {
+                display: block;
+                font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 16px;
+                background-color: rgb(20, 20, 20);
+                padding: 4px;
+                margin-bottom: 16px;
+            }
+
+            .name {
+                color: #7587A6;
+            }
+
+            .value {
+                color: #8F9D6A;
+            }
+        </style>
+
+        <template is="dom-repeat" items="[[headers]]">
+            <div class="header">
+                <span class="name">[[item.name]]</span>:
+                <span class="value">[[item.value]]</span>
+            </div>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-highlight-headers',
+
+            properties: {
+                headers: {
+                    type: Array,
+                    value: []
+                }
+            }
+        });
+    </script>
+</dom-module>

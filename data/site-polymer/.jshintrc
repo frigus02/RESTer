@@ -5,6 +5,7 @@
     "globals": {
         "_": false,
         "ace": false,
+        "DOMPurify": false,
         "Mousetrap": false,
         "Polymer": false,
         "RESTer": false,

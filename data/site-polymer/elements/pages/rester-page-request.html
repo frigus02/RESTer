@@ -12,6 +12,8 @@
 <link rel="import" href="../controls/rester-autocomplete-input.html">
 <link rel="import" href="../controls/rester-body-input.html">
 <link rel="import" href="../controls/rester-header-input.html">
+<link rel="import" href="../controls/rester-highlight-body.html">
+<link rel="import" href="../controls/rester-highlight-headers.html">
 <link rel="import" href="../controls/rester-request-title-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../controls/rester-variables-input.html">
@@ -146,17 +148,12 @@
                         <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
                         <rester-badge class="pull-right">in [[historyEntryElapsedMillis]] ms</rester-badge>
                     </h2>
-                    <highlight-code
-                        code="{{getResponseHeadersAsString()}}"
-                        language="http">
-                    </highlight-code>
-                    <highlight-code
-                        code="{{response.body}}"
-                        language="{{getResponseBodyHighlightLanguage()}}"
-                        show-options="true"
-                        ng-if="!experimentalResponseHighlighting"
-                        ng-show="response.body">
-                    </highlight-code>
+                    <rester-highlight-headers
+                            headers="[[response.headers]]"></rester-highlight-headers>
+                    <rester-highlight-body
+                            body="[[response.body]]"
+                            content-type="[[responseContentType]]"
+                            hidden$="[[!response.body]]"></rester-highlight-body>
                 </div>
             </div>
         </paper-header-panel>
@@ -205,24 +202,37 @@
                 },
                 requestContentType: {
                     type: String,
-                    computed: '_computeRequestHeader(request.headers.*, \'Content-Type\')'
+                    computed: '_computeHeader(request.headers.*, \'Content-Type\')'
                 },
                 requestAuthorization: {
                     type: String,
-                    computed: '_computeRequestHeader(request.headers.*, \'Authorization\')'
+                    computed: '_computeHeader(request.headers.*, \'Authorization\')'
                 },
                 response: {
                     type: Object,
                     value: {
                         status: 200,
                         statusText: 'OK',
-                        headers: [],
-                        body: ''
+                        headers: [
+                            { name: 'Accept-Ranges', value: 'bytes' },
+                            { name: 'Cache-Control', value: 'public, max-age=0' },
+                            { name: 'Last-Modified', value: 'Wed, 19 Oct 2016 08:27:53 GMT' },
+                            { name: 'Etag', value: 'W/"558-157dc0dcafc"' },
+                            { name: 'Content-Type', value: 'text/html; charset=UTF-8' },
+                            { name: 'Content-Length', value: '1368' },
+                            { name: 'Date', value: 'Sun, 27 Nov 2016 10:46:01 GMT' },
+                            { name: 'Connection', value: 'keep-alive' }
+                        ],
+                        body: `{"userId":1,"id":1,"title":"sunt aut facere repellat provident occaecati excepturi optio reprehenderit","body":"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto"}<h1>test</h1><p style="color:red;">bla blub</p><script>alert(1);</` + 'script>'
                     }
                 },
                 responseBadgeType: {
                     type: String,
                     computed: '_computeResponseBadgeType(response.status)'
+                },
+                responseContentType: {
+                    type: String,
+                    computed: '_computeHeader(response.headers.*, \'Content-Type\')'
                 },
                 historyEntry: {
                     type: Object,
@@ -247,8 +257,8 @@
                 }
             },
 
-            _computeRequestHeader (headers, headerName) {
-                let header = this.request.headers.find(h => h.name.toLowerCase() === headerName.toLowerCase()),
+            _computeHeader (headers, headerName) {
+                let header = headers.value.find(h => h.name.toLowerCase() === headerName.toLowerCase()),
                     headerValue = header ? header.value : '';
 
                 return headerValue.toLowerCase();

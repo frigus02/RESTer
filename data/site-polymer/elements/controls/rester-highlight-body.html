@@ -1,0 +1,257 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+
+<link rel="import" href="../data/rester-data.html">
+<link rel="import" href="../utils/rester-error-behavior.html">
+<link rel="import" href="rester-ace-input.html">
+<link rel="import" href="rester-dom-purify-frame.html">
+
+<dom-module id="rester-highlight-body">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+            }
+
+            #options {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 10;
+                padding: 0;
+
+                --paper-menu: {
+                    width: 256px;
+                };
+            }
+
+            .menu-item-divider {
+                border-top: 1px solid var(--divider-color);
+                margin: 4px 0;
+            }
+
+            #chooseLanguageDialog paper-radio-button {
+                display: block;
+            }
+        </style>
+
+        <paper-menu-button id="options" horizontal-align="right" restore-focus-on-close>
+            <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+            <paper-menu class="dropdown-content" selectable="paper-icon-item[role='menuitemradio']">
+                <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
+                    <iron-icon icon="check" item-icon hidden$="[[!wrap]]"></iron-icon> Wrap
+                </paper-icon-item>
+                <paper-icon-item role="menuitemcheckbox" on-tap="_togglePrettyPrint" hidden$="[[!isPrettyPrintSupported]]">
+                    <iron-icon icon="check" item-icon hidden$="[[!prettyPrint]]"></iron-icon> Pretty Print
+                </paper-icon-item>
+                <paper-icon-item role="menuitemcheckbox" on-tap="_togglePreview" hidden$="[[!isPreviewSupported]]">
+                    <iron-icon icon="check" item-icon hidden$="[[!preview]]"></iron-icon> Preview
+                </paper-icon-item>
+                <div class="menu-item-divider"></div>
+                <paper-icon-item on-tap="_changeLanguage">
+                    <iron-icon icon="language" item-icon></iron-icon> Change highlighting ([[language]])
+                </paper-icon-item>
+            </paper-menu>
+        </paper-menu-button>
+
+        <template is="dom-if" if="[[!preview]]">
+            <rester-ace-input
+                    mode="[[languageObject.aceMode]]"
+                    value="[[renderedBody]]"
+                    use-wrap-mode="[[wrap]]"
+                    read-only></rester-ace-input>
+        </template>
+        <template is="dom-if" if="[[preview]]">
+            <rester-dom-purify-frame html="[[body]]"></rester-dom-purify-frame>
+        </template>
+
+        <paper-dialog id="chooseLanguageDialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close>
+            <paper-dialog-scrollable>
+                <paper-radio-group selected="{{language}}" on-paper-radio-group-changed="_closeChangeLanguageDialog">
+                    <template is="dom-repeat" items="[[supportedLanguages]]">
+                        <paper-radio-button name="[[item.title]]">
+                            <div>[[item.title]]</div>
+                        </paper-radio-button>
+                    </template>
+                </paper-radio-group>
+            </paper-dialog-scrollable>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-highlight-body',
+
+            behaviors: [
+                RESTer.ErrorBehavior
+            ],
+
+            properties: {
+                body: String,
+                bodyFormatted: {
+                    type: String,
+                    readOnly: true
+                },
+                renderedBody: {
+                    type: String,
+                    computed: '_computeRenderedBody(body, bodyFormatted, prettyPrint)'
+                },
+                contentType: String,
+                language: String,
+                languageObject: {
+                    type: Object,
+                    computed: '_computeLanguageObject(language)'
+                },
+                wrap: {
+                    type: Boolean,
+                    value: true
+                },
+                prettyPrint: {
+                    type: Boolean,
+                    value: true
+                },
+                preview: {
+                    type: Boolean,
+                    value: false
+                },
+                isPrettyPrintSupported: {
+                    type: Boolean,
+                    computed: '_computeIsPrettyPrintSupported(languageObject.formatLanguage)'
+                },
+                isPreviewSupported: {
+                    type: Boolean,
+                    computed: '_computeIsPreviewSupported(language)'
+                },
+                supportedLanguages: {
+                    type: Array,
+                    readOnly: true,
+                    value: [
+                        {
+                            title: 'Plain',
+                            aceMode: 'ace/mode/text'
+                        },
+                        {
+                            title: 'HTML',
+                            aceMode: 'ace/mode/html',
+                            formatLanguage: 'xml'
+                        },
+                        {
+                            title: 'JSON',
+                            aceMode: 'ace/mode/json',
+                            formatLanguage: 'json'
+                        },
+                        {
+                            title: 'XML',
+                            aceMode: 'ace/mode/xml',
+                            formatLanguage: 'xml'
+                        }
+                    ]
+                }
+            },
+
+            observers: [
+                '_formatBody(body, languageObject.formatLanguage)',
+                '_autoSelectLanguage(contentType)'
+            ],
+
+            _formatBodyWorker: undefined,
+
+            _computeRenderedBody (body, bodyFormatted, prettyPrint) {
+                if (prettyPrint && bodyFormatted) {
+                    return bodyFormatted;
+                } else {
+                    return body;
+                }
+            },
+
+            _computeLanguageObject (language) {
+                return this.supportedLanguages.find(l => l.title === language);
+            },
+
+            _computeIsPrettyPrintSupported (formatLanguage) {
+                return !!formatLanguage;
+            },
+
+            _computeIsPreviewSupported (language) {
+                return language === 'HTML';
+            },
+
+            _formatBody (body, formatLanguage) {
+                this._setBodyFormatted('');
+                if (this._formatBodyWorker) {
+                    this._formatBodyWorker.cancel();
+                    this._formatBodyWorker = undefined;
+                }
+
+                if (!formatLanguage) return;
+
+                this.debounce('formatBody', () => {
+                    this._formatBodyWorker = RESTer.worker.FormatCode.run({
+                        code: body,
+                        language: formatLanguage
+                    });
+
+                    this._formatBodyWorker.then(result => {
+                        this._formatBodyWorker = undefined;
+                        this._setBodyFormatted(result);
+                    });
+
+                    this._formatBodyWorker.catch(error => {
+                        this._formatBodyWorker = undefined;
+                        this.showError(error);
+                    });
+                }, 100);
+            },
+
+            _autoSelectLanguage (contentType) {
+                let newLanguage = this.supportedLanguages[0];
+                if (contentType) {
+                    if (contentType.toLowerCase().includes('json')) {
+                        newLanguage = this.supportedLanguages[2];
+                    } else if (contentType.toLowerCase().includes('html')) {
+                        newLanguage = this.supportedLanguages[1];
+                    } else if (contentType.toLowerCase().includes('xml')) {
+                        newLanguage = this.supportedLanguages[3];
+                    }
+                }
+
+                this.language = newLanguage.title;
+            },
+
+            _toggleWrap () {
+                this.$.options.close();
+                this.wrap = !this.wrap;
+            },
+
+            _togglePrettyPrint () {
+                this.$.options.close();
+                this.prettyPrint = !this.prettyPrint;
+            },
+
+            _togglePreview () {
+                this.$.options.close();
+                this.preview = !this.preview;
+            },
+
+            _changeLanguage () {
+                this.$.options.close();
+                this.$.chooseLanguageDialog.open();
+            },
+
+            _closeChangeLanguageDialog () {
+                this.$.chooseLanguageDialog.close();
+            }
+        });
+    </script>
+</dom-module>

@@ -39,6 +39,6 @@
         return url.toString();
     }
 
-    self.HighlightCode = new SimpleWorker(getAbsoluteUrl('elements/data/workers/highlight-code.js'));
+    self.FormatCode = new SimpleWorker(getAbsoluteUrl('elements/data/workers/format-code.js'));
 
 })();

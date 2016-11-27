@@ -142,6 +142,16 @@
                 mode: {
                     type: String,
                     observer: '_onModeChanged'
+                },
+                readOnly: {
+                    type: Boolean,
+                    value: false,
+                    observer: '_onReadOnlyChanged'
+                },
+                useWrapMode: {
+                    type: Boolean,
+                    value: false,
+                    observer: '_onUseWrapModeChanged'
                 }
             },
 
@@ -165,6 +175,8 @@
                 });
 
                 this._onModeChanged();
+                this._onReadOnlyChanged();
+                this._onUseWrapModeChanged();
                 this._onValueChanged();
             },
 
@@ -174,16 +186,26 @@
                 this._oldValue = '';
             },
 
-            _onModeChanged () {
-                if (!this._editor) return;
-                this._editor.session.setMode(this.mode);
-            },
-
             _onValueChanged () {
                 if (!this._editor || this.value === this._oldValue) return;
                 this._oldValue = this.value || '';
                 this._editor.setValue(this._oldValue);
                 this._editor.clearSelection();
+            },
+
+            _onModeChanged () {
+                if (!this._editor) return;
+                this._editor.session.setMode(this.mode);
+            },
+
+            _onReadOnlyChanged () {
+                if (!this._editor) return;
+                this._editor.setReadOnly(this.readOnly);
+            },
+
+            _onUseWrapModeChanged () {
+                if (!this._editor) return;
+                this._editor.session.setUseWrapMode(this.useWrapMode);
             }
         });
     </script>
