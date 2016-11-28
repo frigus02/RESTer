@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <script src="../../bower_components/ace-builds/src-min-noconflict/ace.js"></script>
 
 <link rel="import" href="rester-input-control-behavior.html">
@@ -130,7 +131,8 @@
 
             behaviors: [
                 RESTer.AceShadowDomBehavior,
-                RESTer.InputControlBehavior
+                RESTer.InputControlBehavior,
+                Polymer.IronFormElementBehavior
             ],
 
             properties: {

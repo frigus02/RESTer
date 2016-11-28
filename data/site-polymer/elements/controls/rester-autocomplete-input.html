@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 
@@ -14,12 +15,15 @@
         </style>
 
         <paper-input-container
-                no-label-float="[[noLabelFloat]]">
+                no-label-float="[[noLabelFloat]]"
+                invalid="[[invalid]]">
             <label for="input">[[label]]</label>
             <input is="iron-input" id="input"
                     bind-value="{{value}}"
+                    invalid="{{invalid}}"
                     placeholder$="[[placeholder]]"
                     autocomplete="off"
+                    name$="[[name]]"
                     autofocus$="[[autofocus]]"
                     required$="[[required]]">
             <rester-autocomplete
@@ -35,7 +39,8 @@
             is: 'rester-autocomplete-input',
 
             behaviors: [
-                RESTer.InputControlBehavior
+                RESTer.InputControlBehavior,
+                Polymer.IronFormElementBehavior
             ],
 
             properties: {
@@ -43,7 +48,6 @@
                 label: String,
                 autofocus: Boolean,
                 noLabelFloat: Boolean,
-                required: Boolean,
                 items: {
                     type: Array,
                     value: []
@@ -51,11 +55,20 @@
                 dropdownItemsVisible: {
                     type: Number,
                     value: 4.7
+                },
+                invalid: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
                 }
             },
 
             get _focusableElement () {
                 return this.$.input;
+            },
+
+            validate () {
+                return this._focusableElement.validate();
             }
         });
     </script>

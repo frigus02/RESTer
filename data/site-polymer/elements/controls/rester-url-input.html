@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
@@ -30,7 +31,9 @@
             <paper-input
                     id="inputAbsolute"
                     value="{{value}}"
-                    label="URL"
+                    name="[[name]]"
+                    invalid="{{invalid}}"
+                    label="[[label]]"
                     required$="[[required]]">
             </paper-input>
         </div>
@@ -39,7 +42,7 @@
             <paper-input
                     id="inputOriginAndPath"
                     value="{{originAndPath}}"
-                    label="URL">
+                    label="[[label]]">
             </paper-input>
             <rester-url-query-input
                     value="{{query}}"
@@ -58,11 +61,12 @@
             is: 'rester-url-input',
 
             behaviors: [
-                RESTer.InputControlBehavior
+                RESTer.InputControlBehavior,
+                Polymer.IronFormElementBehavior
             ],
 
             properties: {
-                required: Boolean,
+                label: String,
                 value: {
                     type: String,
                     notify: true,
@@ -80,6 +84,11 @@
                     type: Boolean,
                     value: false,
                     reflectToAttribute: true
+                },
+                invalid: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
                 }
             },
 
@@ -109,6 +118,10 @@
                 }
 
                 this.value = url;
+            },
+
+            validate () {
+                return this.$.inputAbsolute.validate();
             }
         });
     </script>

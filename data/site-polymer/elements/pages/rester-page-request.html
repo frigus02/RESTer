@@ -17,9 +17,11 @@
 <link rel="import" href="../controls/rester-request-title-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../controls/rester-variables-input.html">
+<link rel="import" href="../data/rester-data-settings-behavior.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 <link rel="import" href="../utils/rester-badge.html">
+<link rel="import" href="../utils/rester-error-behavior.html">
 
 <dom-module id="rester-page-request">
     <template>
@@ -75,13 +77,13 @@
         <paper-header-panel>
             <paper-toolbar>
                 <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                <div class="title" hidden>[[requestTitle]]</div>
+                <div class="title" hidden>[[request.collection]] / [[request.title]]</div>
                 <rester-request-title-input
                         request-collection="{{request.collection}}"
                         request-title="{{request.title}}"
                         class="flex"></rester-request-title-input>
-                <paper-icon-button icon="save"></paper-icon-button>
-                <paper-icon-button icon="delete"></paper-icon-button>
+                <paper-icon-button icon="save" on-tap="_saveRequest"></paper-icon-button>
+                <paper-icon-button icon="delete" hidden$="[[!request.id]]" on-tap="_deleteRequest"></paper-icon-button>
             </paper-toolbar>
             <div role="main">
                 <!-- Request -->
@@ -90,17 +92,20 @@
                         <rester-autocomplete-input
                                 class="method-input"
                                 label="Method"
+                                name="method"
                                 value="{{request.method}}"
                                 items="[[requestMethods]]"
                                 required></rester-autocomplete-input>
                         <rester-url-input
+                                class="url-input flex"
+                                label="URL"
+                                name="url"
                                 value="{{request.url}}"
-                                required
-                                class="url-input flex"></rester-url-input>
+                                required></rester-url-input>
                         <paper-button
+                                class="send-button"
                                 raised
                                 type="submit"
-                                class="send-button"
                                 on-tap="_sendRequest"
                                 disabled$="[[requestIsSending]]">
                             <span hidden$="[[requestIsSending]]">Send</span>
@@ -164,7 +169,9 @@
             is: 'rester-page-request',
 
             behaviors: [
-                RESTer.PageBehavior
+                RESTer.PageBehavior,
+                RESTer.ErrorBehavior,
+                RESTer.SettingsBehavior
             ],
 
             properties: {
@@ -174,17 +181,10 @@
                 },
                 request: {
                     type: Object,
-                    value: {
-                        collection: '',
-                        title: '',
-                        method: 'GET',
-                        url: 'https://{$env.acshost}/api/enterprises/{enterpriseId}',
-                        headers: [],
-                        body: '',
-                        variables: {
-                            enabled: false
-                        }
-                    }
+                    readOnly: true
+                },
+                requestVariableValues: {
+                    type: Object
                 },
                 requestMethods: {
                     type: Array,
@@ -210,21 +210,7 @@
                 },
                 response: {
                     type: Object,
-                    value: {
-                        status: 200,
-                        statusText: 'OK',
-                        headers: [
-                            { name: 'Accept-Ranges', value: 'bytes' },
-                            { name: 'Cache-Control', value: 'public, max-age=0' },
-                            { name: 'Last-Modified', value: 'Wed, 19 Oct 2016 08:27:53 GMT' },
-                            { name: 'Etag', value: 'W/"558-157dc0dcafc"' },
-                            { name: 'Content-Type', value: 'text/html; charset=UTF-8' },
-                            { name: 'Content-Length', value: '1368' },
-                            { name: 'Date', value: 'Sun, 27 Nov 2016 10:46:01 GMT' },
-                            { name: 'Connection', value: 'keep-alive' }
-                        ],
-                        body: `{"userId":1,"id":1,"title":"sunt aut facere repellat provident occaecati excepturi optio reprehenderit","body":"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto"}<h1>test</h1><p style="color:red;">bla blub</p><script>alert(1);</` + 'script>'
-                    }
+                    readOnly: true
                 },
                 responseBadgeType: {
                     type: String,
@@ -236,6 +222,7 @@
                 },
                 historyEntry: {
                     type: Object,
+                    readOnly: true,
                     value: {
                         time: new Date('2016-11-27 11:35:10.123'),
                         timeEnd: new Date('2016-11-27 11:35:11.653')
@@ -247,13 +234,52 @@
                 }
             },
 
+            observers: [
+                '_updatePageTitle(request, historyEntry)'
+            ],
+
             _onRouteChanged () {
                 if (this.routeActive && this.historyRouteActive) {
-                    this._setPageTitle(`Request ${this.routeData.requestId} (History: ${this.historyRouteData.historyId})`);
+                    RESTer.rester.getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
+                        if (historyEntry.request.id !== +this.routeData.requestId &&
+                            !(historyEntry.request.id === undefined && this.routeData.requestId === null)) {
+                            this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
+                            window.location = '#/';
+                        } else {
+                            if (historyEntry.request.variables && historyEntry.request.variables.values) {
+                                this.requestVariableValues = historyEntry.request.variables.values;
+                                delete historyEntry.request.variables.values;
+                            } else {
+                                this.requestVariableValues = {};
+                            }
+
+                            this._setHistoryEntry(historyEntry);
+                            this._setRequest(historyEntry.request);
+                            this._setResponse(historyEntry.response);
+                        }
+                    });
                 } else if (this.routeActive) {
-                    this._setPageTitle(`Request ${this.routeData.requestId}`);
+                    RESTer.rester.getRequest(+this.routeData.requestId).then(request => {
+                        this._setHistoryEntry(null);
+                        this._setRequest(request);
+                        this.requestVariableValues = {};
+                        this._setResponse(null);
+                    });
                 } else {
-                    this._setPageTitle(`Request NEW`);
+                    this._setHistoryEntry(null);
+                    this._setRequest({
+                        collection: '',
+                        title: '',
+                        method: '',
+                        url: '',
+                        headers: [],
+                        body: '',
+                        variables: {
+                            enabled: false
+                        }
+                    });
+                    this.requestVariableValues = {};
+                    this._setResponse(null);
                 }
             },
 
@@ -278,6 +304,19 @@
 
             _computeHistoryEntryElapsedMillis (time, timeEnd) {
                 return new Date(timeEnd) - new Date(time);
+            },
+
+            _updatePageTitle(request, historyEntry) {
+                const collection = request.collection || '<no collection>',
+                      title = request.title || '<no title>',
+                      time = historyEntry && historyEntry.time ? RESTer.format.dateTime(historyEntry.time) : '';
+
+                let pageTitle = `${collection} / ${title}`;
+                if (time) {
+                    pageTitle += ` (${time})`;
+                }
+
+                this._setPageTitle(pageTitle);
             },
 
             _onRequestContentTypeChangedByBody (e) {
@@ -306,10 +345,56 @@
                 this.set('request.headers', [...this.request.headers]);
             },
 
+            _saveRequest () {
+
+            },
+
+            _deleteRequest () {
+
+            },
+
             _sendRequest () {
-                if (this.$.requestForm.validate()) {
-                    this._setRequestIsSending(true);
+                if (!this.$.requestForm.validate()) return;
+
+                let compiledRequest = this.request,
+                    usedVariableValues = {};
+
+                if (this.request.variables.enabled) {
+                    compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
                 }
+
+                if (this.settings.stripDefaultHeaders) {
+                    compiledRequest.stripDefaultHeaders = true;
+                }
+
+                this._setRequestIsSending(true);
+                RESTer.rester.sendRequest(compiledRequest)
+                    .then(plainResponse => {
+                        const requestClone = _.cloneDeep(this.request);
+                        requestClone.variables.values = usedVariableValues;
+
+                        const response = {
+                            status: plainResponse.status,
+                            statusText: plainResponse.statusText,
+                            headers: plainResponse.headers,
+                            body: plainResponse.body
+                        };
+
+                        return RESTer.rester.addHistoryEntry({
+                            time: new Date(plainResponse.timeStart),
+                            timeEnd: new Date(plainResponse.timeEnd),
+                            request: requestClone,
+                            response: response
+                        });
+                    })
+                    .then(historyId => {
+                        this._setRequestIsSending(false);
+                        window.location = `#/request/${this.request.id}/history/${historyId}`;
+                    })
+                    .catch(error => {
+                        this._setRequestIsSending(false);
+                        this.showError(error);
+                    });
             }
         });
     </script>

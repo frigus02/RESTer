@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
@@ -46,7 +47,8 @@
             is: 'rester-variables-input',
 
             behaviors: [
-                RESTer.VariablesBehavior
+                RESTer.VariablesBehavior,
+                Polymer.IronFormElementBehavior
             ],
 
             properties: {
