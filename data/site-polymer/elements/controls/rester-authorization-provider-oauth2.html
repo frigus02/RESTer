@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
@@ -41,6 +42,11 @@
                 with-backdrop
                 on-iron-overlay-closed="_onConfigurationDialogClosed">
             <paper-dialog-scrollable>
+                <iron-a11y-keys
+                        target="[[_configForm]]"
+                        keys="enter"
+                        on-keys-pressed="_onConfigurationFormEnterPressed"
+                        stop-keyboard-event-propagation></iron-a11y-keys>
                 <form is="iron-form" id="configurationForm">
                     <paper-input
                             label="Title"
@@ -145,6 +151,11 @@
                 with-backdrop
                 on-iron-overlay-closed="_onGenerateTokenResourceOwnerDialogClosed">
             <paper-dialog-scrollable>
+                <iron-a11y-keys
+                        target="[[_generateTokenResourceOwnerForm]]"
+                        keys="enter"
+                        on-keys-pressed="_onGenerateTokenResourceOwnerFormEnterPressed"
+                        stop-keyboard-event-propagation></iron-a11y-keys>
                 <form is="iron-form" id="generateTokenResourceOwnerForm">
                     <paper-input
                             label="User name"
@@ -192,7 +203,19 @@
                     value: true
                 },
 
+                _configForm: {
+                    type: Object,
+                    value () {
+                        return this.$.configurationForm;
+                    }
+                },
                 _configuration: Object,
+                _generateTokenResourceOwnerForm: {
+                    type: Object,
+                    value () {
+                        return this.$.generateTokenResourceOwnerForm;
+                    }
+                },
                 _resourceOwnerGenerateTokenData: Object
             },
 
@@ -271,6 +294,20 @@
             _deleteConfiguration () {
                 this.$.configurationDialog.closingReason.deleted = true;
                 this.$.configurationDialog.close();
+            },
+
+            _onConfigurationFormEnterPressed () {
+                if (this.$.configurationForm.validate()) {
+                    this.$.configurationDialog.closingReason.confirmed = true;
+                    this.$.configurationDialog.close();
+                }
+            },
+
+            _onGenerateTokenResourceOwnerFormEnterPressed () {
+                if (this.$.generateTokenResourceOwnerForm.validate()) {
+                    this.$.generateTokenResourceOwnerDialog.closingReason.confirmed = true;
+                    this.$.generateTokenResourceOwnerDialog.close();
+                }
             },
 
             _validateConfiguration (e) {

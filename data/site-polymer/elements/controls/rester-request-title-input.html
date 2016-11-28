@@ -126,12 +126,12 @@
                       isSelection = this.$.input.selectionStart !== this.$.input.selectionEnd,
                       value = this.$.input.value;
 
-                if (e.keyCode === 8) { // backspace
+                if (e.key === 'Backspace') {
                     if (!isSelection && value.substr(caretPos - 3, 3) === ' / ') {
                         this.value = value.substr(0, caretPos - 2) + value.substr(caretPos);
                         this.$.input.setSelectionRange(caretPos - 2, caretPos - 2);
                     }
-                } else if (e.keyCode === 46) { // delete
+                } else if (e.keyCode === 'Delete') {
                     if (!isSelection && value.substr(caretPos, 3) === ' / ') {
                         this.value = value.substr(0, caretPos) + value.substr(caretPos + 2);
                         this.$.input.setSelectionRange(caretPos, caretPos);

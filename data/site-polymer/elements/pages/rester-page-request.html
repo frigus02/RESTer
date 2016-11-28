@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
@@ -87,19 +88,17 @@
             </paper-toolbar>
             <div role="main">
                 <!-- Request -->
-                <form is="iron-form" id="requestForm">
+                <form is="iron-form" id="requestForm" on-keydown="_onFormKeyDown">
                     <div class="layout horizontal baseline justified">
                         <rester-autocomplete-input
                                 class="method-input"
                                 label="Method"
-                                name="method"
                                 value="{{request.method}}"
                                 items="[[requestMethods]]"
                                 required></rester-autocomplete-input>
                         <rester-url-input
                                 class="url-input flex"
                                 label="URL"
-                                name="url"
                                 value="{{request.url}}"
                                 required></rester-url-input>
                         <paper-button
@@ -317,6 +316,13 @@
                 }
 
                 this._setPageTitle(pageTitle);
+            },
+
+            _onFormKeyDown (e) {
+                if (!e.defaultPrevented && e.target.nodeName !== 'TEXTAREA' && e.key === 'Enter') {
+                    e.preventDefault();
+                    this._sendRequest();
+                }
             },
 
             _onRequestContentTypeChangedByBody (e) {

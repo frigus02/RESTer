@@ -202,24 +202,24 @@
             },
 
             _onInputKeyDown (e) {
-                switch (e.keyCode) {
-                    case 40: // down
+                switch (e.key) {
+                    case 'ArrowDown':
                         e.stopPropagation();
                         e.preventDefault();
                         this._moveSelectedIndexToNextItem();
                         break;
-                    case 38: // up
+                    case 'ArrowUp':
                         e.stopPropagation();
                         e.preventDefault();
                         this._moveSelectedIndexToPreviousItem();
                         break;
-                    case 9: // tab
+                    case 'Tab':
                         if (this.dropdownVisible) {
                             this._selectItem(this.items[this.selectedIndex]);
                         }
 
                         break;
-                    case 13: // enter
+                    case 'Enter':
                         if (this.dropdownVisible) {
                             e.stopPropagation();
                             e.preventDefault();
@@ -228,7 +228,7 @@
                         }
 
                         break;
-                    case 27: // esc
+                    case 'Escape':
                         e.stopPropagation();
                         e.preventDefault();
                         this._setDropdownVisible(false);
@@ -238,7 +238,8 @@
 
             _onInputFocus () {
                 this._inputFocused = true;
-                this._setSelectedIndex(0);
+                this._setSelectedIndex(-1);
+                this._moveSelectedIndexToNextItem();
                 this._setDropdownVisible(true);
             },
 
