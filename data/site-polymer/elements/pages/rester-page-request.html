@@ -6,6 +6,9 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -18,6 +21,7 @@
 <link rel="import" href="../controls/rester-request-title-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../controls/rester-variables-input.html">
+<link rel="import" href="../data/rester-data-hotkeys-behavior.html">
 <link rel="import" href="../data/rester-data-settings-behavior.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-page-styles.html">
@@ -83,8 +87,19 @@
                         request-collection="{{request.collection}}"
                         request-title="{{request.title}}"
                         class="flex"></rester-request-title-input>
-                <paper-icon-button icon="save" on-tap="_saveRequest"></paper-icon-button>
-                <paper-icon-button icon="delete" hidden$="[[!request.id]]" on-tap="_deleteRequest"></paper-icon-button>
+                <paper-menu-button id="saveOptions" horizontal-align="right" restore-focus-on-close>
+                    <paper-icon-button icon="save" class="dropdown-trigger"></paper-icon-button>
+                    <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+                        <paper-item role="menuitem" on-tap="_saveRequest">Save</paper-item>
+                        <paper-item role="menuitem" on-tap="_saveRequestAsNew">Save as new</paper-item>
+                    </paper-menu>
+                </paper-menu-button>
+                <paper-menu-button id="deleteOptions" horizontal-align="right" restore-focus-on-close hidden$="[[!request.id]]">
+                    <paper-icon-button icon="delete" class="dropdown-trigger"></paper-icon-button>
+                    <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+                        <paper-item role="menuitem" on-tap="_deleteRequest">Delete</paper-item>
+                    </paper-menu>
+                </paper-menu-button>
             </paper-toolbar>
             <div role="main">
                 <!-- Request -->
@@ -170,6 +185,7 @@
             behaviors: [
                 RESTer.PageBehavior,
                 RESTer.ErrorBehavior,
+                RESTer.HotkeysBehavior,
                 RESTer.SettingsBehavior
             ],
 
@@ -236,6 +252,17 @@
             observers: [
                 '_updatePageTitle(request, historyEntry)'
             ],
+
+            resterHotkeys: {
+                'mod+s': {
+                    description: 'Save the current request.',
+                    callback: '_saveRequest'
+                },
+                'mod+enter': {
+                    description: 'Send the current request.',
+                    callback: '_sendRequest'
+                }
+            },
 
             _onRouteChanged () {
                 if (this.routeActive && this.historyRouteActive) {
@@ -319,6 +346,8 @@
             },
 
             _onFormKeyDown (e) {
+                // Do not intercept Enter presses inside of a textarea. In this case you
+                // could no longer enter newlines, which is not what we want.
                 if (!e.defaultPrevented && e.target.nodeName !== 'TEXTAREA' && e.key === 'Enter') {
                     e.preventDefault();
                     this._sendRequest();
@@ -352,11 +381,35 @@
             },
 
             _saveRequest () {
+                this.$.saveOptions.close();
 
+                if (!this.request.title || !this.request.collection) return;
+
+                RESTer.rester.putRequest(this.request).then(id => {
+                    this.request.id = id;
+
+                    window.location = `#/request/${id}`;
+                });
+            },
+
+            _saveRequestAsNew () {
+                this.$.saveOptions.close();
+                delete this.request.id;
+                this._saveRequest();
             },
 
             _deleteRequest () {
+                this.$.deleteOptions.close();
 
+                const resterNavigation = document.querySelector('rester-data-navigation');
+                const nextId = resterNavigation.getNextRequestId(this.request.id);
+                RESTer.rester.deleteRequest(this.request.id).then(() => {
+                    if (typeof nextId !== 'undefined') {
+                        window.location = `#/request/${nextId}`;
+                    } else {
+                        window.location = `#/`;
+                    }
+                });
             },
 
             _sendRequest () {

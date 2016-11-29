@@ -44,7 +44,7 @@
 
         <paper-menu-button id="options" horizontal-align="right" restore-focus-on-close>
             <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" selectable="paper-icon-item[role='menuitemradio']">
+            <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
                     <iron-icon icon="check" item-icon hidden$="[[!wrap]]"></iron-icon> Wrap
                 </paper-icon-item>

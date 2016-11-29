@@ -16,21 +16,22 @@
      * }
      */
     RESTer.HotkeysBehavior = {
+        _addedResterHotkeys: undefined,
+
         attached () {
-            const hotkeys = this._getHotkeys();
-            for (let hotkey of hotkeys) {
+            this._addedResterHotkeys = this._getResterHotkeys();
+            for (let hotkey of this._addedResterHotkeys) {
                 RESTer.hotkeys.add(hotkey);
             }
         },
 
         detached () {
-            const hotkeys = this._getHotkeys();
-            for (let hotkey of hotkeys) {
+            for (let hotkey of this._addedResterHotkeys) {
                 RESTer.hotkeys.remove(hotkey);
             }
         },
 
-        _getHotkeys () {
+        _getResterHotkeys () {
             const hotkeys = this.resterHotkeys || {};
 
             return Object.keys(hotkeys).map(comboString => {

@@ -36,12 +36,12 @@
             _historyFields: ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'],
             _environmentFields: ['id', 'name'],
 
-            _requestNavItems: [],
             _requestNavItemsOffset: 0,
+            _requestNavItemsCount: 0,
             _environmentNavItem: null,
             _environmentNavItemIndex: 0,
-            _historyNavItems: [],
             _historyNavItemsOffset: 0,
+            _historyNavItemsCount: 0,
 
             _createNavigation () {
                 this._setItems([]);
@@ -66,9 +66,10 @@
                         r.collection = r.collection.split(/\s*\/\s*/i);
                         return r;
                     });
-                    this._requestNavItems = this._createListOfRequestNavItems(requests);
+                    const requestNavItems = this._createListOfRequestNavItems(requests);
+                    this._requestNavItemsCount = requestNavItems.length;
 
-                    this.push('items', ...this._requestNavItems);
+                    this.push('items', ...requestNavItems);
 
                     this.push('items',
                         {
@@ -84,7 +85,7 @@
                         }
                     );
 
-                    this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItems.length + 2;
+                    this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
                     this._environmentNavItem = {
                         isItem: true,
                         title: 'Environment',
@@ -110,8 +111,9 @@
                     );
 
                     this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
-                    this._historyNavItems = historyEntries.map(entry => this._createHistoryNavItem(entry));
-                    this.push('items', ...this._historyNavItems);
+                    const historyNavItems = historyEntries.map(entry => this._createHistoryNavItem(entry));
+                    this._historyNavItemsCount = historyNavItems.length;
+                    this.push('items', ...historyNavItems);
                 });
             },
 
@@ -178,21 +180,22 @@
                 };
             },
 
-            _removeRequestNavigationItem (requestId, requests = this._requestNavItems) {
-                for (let requestIndex = 0; requestIndex < requests.length; requestIndex++) {
-                    let request = requests[requestIndex];
+            _removeRequestNavigationItem (requestId, path = ['items'], offset = this._requestNavItemsOffset, count = this._requestNavItemsCount) {
+                const requests = this.get(path);
+                for (let requestIndex = offset; requestIndex < offset + count; requestIndex++) {
+                    const request = requests[requestIndex];
                     if (request.isItem && request.data.id === requestId) {
-                        requests.splice(requestIndex, 1);
+                        this.splice(path, requestIndex, 1);
                         return true;
                     }
 
-                    if (request.isGroup && this._removeRequestNavigationItem(requestId, request.items)) {
+                    if (request.isGroup && this._removeRequestNavigationItem(requestId, [...path, requestIndex, 'items'], 0, request.items.length)) {
                         if (request.items.length === 0) {
-                            requests.splice(requestIndex, 1);
-                            if (requests === this._requestNavItems) {
-                                this.splice('items', requestIndex + this._requestNavItemsOffset, 1);
+                            this.splice(path, requestIndex, 1);
 
-                                this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItems.length + 2;
+                            if (path.length === 1) {
+                                this._requestNavItemsCount--;
+                                this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
                                 this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
                             }
                         }
@@ -213,38 +216,45 @@
 
                         if (change.action === 'add' || change.action === 'put') {
                             let collectionParts = change.item.collection.split(/\s*\/\s*/i),
-                                collectionItems = this._requestNavItems;
+                                collectionPath = ['items'],
+                                collectionOffset = this._requestNavItemsOffset,
+                                collectionCount = this._requestNavItemsCount;
 
                             while (collectionParts.length > 0) {
-                                let collection = collectionItems.find(item => item.title === collectionParts[0]);
-                                if (!collection) {
-                                    collection = this._createRequestCollectionNavItem(collectionParts[0]);
+                                const collectionItems = this.get(collectionPath).slice(collectionOffset, collectionOffset + collectionCount);
+                                let collectionIndex = collectionItems.findIndex(item => item.title === collectionParts[0]);
+                                if (collectionIndex === -1) {
+                                    const collection = this._createRequestCollectionNavItem(collectionParts[0]);
 
-                                    let insertAtIndex = _.sortedIndexBy(collectionItems, {title: collectionParts[0]}, item => item.title);
-                                    collectionItems.splice(insertAtIndex, 0, collection);
-                                    if (collectionItems === this._requestNavItems) {
-                                        this.splice('items', insertAtIndex + this._requestNavItemsOffset, 0, collection);
+                                    collectionIndex = _.sortedIndex(collectionItems, {title: collectionParts[0]}, 'title');
+                                    this.splice(collectionPath, collectionOffset + collectionIndex, 0, collection);
+                                    if (collectionPath.length === 1) {
+                                        this._requestNavItemsCount++;
                                     }
                                 }
 
-                                collectionItems = collection.items;
                                 collectionParts.splice(0, 1);
+                                collectionPath.push(collectionOffset + collectionIndex, 'items');
+                                collectionOffset = 0;
+                                collectionCount = this.get(collectionPath).length;
                             }
 
-                            let insertAtIndex = _.sortedIndexBy(collectionItems, change.item, item => item.title);
-                            collectionItems.splice(insertAtIndex, 0, this._createRequestNavItem(change.item));
+                            const collectionItems = this.get(collectionPath);
+                            const insertAtIndex = _.sortedIndex(collectionItems, change.item, 'title');
+                            this.splice(collectionPath, insertAtIndex, 0, this._createRequestNavItem(change.item));
                         }
 
-                        this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItems.length + 2;
+                        this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
                         this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
                     } else if (change.itemType === 'HistoryEntry') {
                         if (change.action === 'add') {
                             let newHistoryItem = this._createHistoryNavItem(change.item);
 
                             this.splice('items', this._historyNavItemsOffset, 0, newHistoryItem);
-                            if (this._historyNavItems.unshift(newHistoryItem) > 5) {
+                            this._historyNavItemsCount++;
+                            if (this._historyNavItemsCount > 5) {
                                 this.splice('items', this._historyNavItemsOffset + 5, 1);
-                                this._historyNavItems.pop();
+                                this._historyNavItemsCount--;
                             }
                         }
                     } else if (change.itemType === 'Environment') {
@@ -273,7 +283,8 @@
             },
 
             getNextRequestId (requestId) {
-                const result = this._findNextRequestId(requestId, this._requestNavItems);
+                const requests = this.items.slice(this._requestNavItemsOffset, this._requestNavItemsOffset + this._requestNavItemsCount);
+                const result = this._findNextRequestId(requestId, requests);
                 if (result !== 'noNextInGroup') {
                     return result;
                 }

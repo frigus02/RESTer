@@ -45,7 +45,7 @@
 
         <paper-menu-button id="options" horizontal-align="right" restore-focus-on-close>
             <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" selectable="paper-icon-item[role='menuitemradio']">
+            <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
                 <template is="dom-repeat" items="[[inputOptions]]">
                     <paper-icon-item role="menuitemradio" on-tap="_selectInputOption">
                         <iron-icon

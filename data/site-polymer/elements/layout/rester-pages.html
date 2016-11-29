@@ -14,11 +14,11 @@
                 position: relative;
             }
 
-            .page {
+            :host ::content > .page {
                 height: 100%;
             }
 
-            .old-page {
+            :host ::content > .old-page {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -32,10 +32,12 @@
                 will-change: opacity;
             }
 
-            .old-page.animate-out {
+            :host ::content > .old-page.animate-out {
                 opacity: 0;
             }
         </style>
+
+        <content></content>
     </template>
 
     <script>
@@ -71,7 +73,7 @@
                     requestAnimationFrame(() => {
                         oldElement.classList.add('animate-out');
                         oldElement.addEventListener('transitionend', () => {
-                            Polymer.dom(this.root).removeChild(oldElement);
+                            Polymer.dom(this).removeChild(oldElement);
                         });
                     });
                 }
@@ -80,7 +82,7 @@
                     this._currentElement = document.createElement(`rester-page-${this.page}`);
                     this._currentElement.classList.add('page');
 
-                    Polymer.dom(this.root).appendChild(this._currentElement);
+                    Polymer.dom(this).appendChild(this._currentElement);
 
                     this._setPageTitle(this._currentElement.pageTitle);
                     this._currentElement.addEventListener('page-title-changed', () => {

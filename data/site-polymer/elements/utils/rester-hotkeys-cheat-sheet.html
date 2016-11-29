@@ -53,14 +53,14 @@
             <h2>Shortcuts</h2>
             <paper-dialog-scrollable>
                 <div class="hotkeys">
-                    <template is="dom-repeat" items="[[hotkeys]]">
+                    <template is="dom-repeat" items="[[hotkeys]]" as="hotkey">
                         <div class="hotkey">
                             <span class="hotkey__combos">
-                                <template is="dom-repeat" items="[[item.combosFormatted]]">
-                                    <span class="hotkey__combo">[[item]]</span>
+                                <template is="dom-repeat" items="[[hotkey.combosFormatted]]" as="combo">
+                                    <span class="hotkey__combo">[[combo]]</span>
                                 </template>
                             </span>
-                            <span class="hotkey__description">[[item.description]]</span>
+                            <span class="hotkey__description">[[hotkey.description]]</span>
                         </div>
                     </template>
                 </div>
@@ -94,7 +94,7 @@
             },
 
             show () {
-                this._setHotkeys(RESTer.hotkeys.getAll());
+                this._setHotkeys([...RESTer.hotkeys.getAll()]);
 
                 this.$.dialog.open();
             }
