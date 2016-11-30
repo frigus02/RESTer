@@ -27,6 +27,8 @@
 <link rel="import" href="../styles/rester-page-styles.html">
 <link rel="import" href="../utils/rester-badge.html">
 <link rel="import" href="../utils/rester-error-behavior.html">
+<link rel="import" href="../utils/rester-lint-behavior.html">
+<link rel="import" href="../utils/rester-lint-messages.html">
 
 <dom-module id="rester-page-request">
     <template>
@@ -64,6 +66,13 @@
 
             .pull-right {
                 margin-left: auto;
+            }
+
+            rester-lint-messages {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
             }
         </style>
 
@@ -176,6 +185,8 @@
                 </div>
             </div>
         </paper-header-panel>
+
+        <rester-lint-messages></rester-lint-messages>
     </template>
 
     <script>
@@ -186,7 +197,8 @@
                 RESTer.PageBehavior,
                 RESTer.ErrorBehavior,
                 RESTer.HotkeysBehavior,
-                RESTer.SettingsBehavior
+                RESTer.SettingsBehavior,
+                RESTer.LintBehavior
             ],
 
             properties: {
@@ -250,7 +262,8 @@
             },
 
             observers: [
-                '_updatePageTitle(request, historyEntry)'
+                '_updatePageTitle(request, historyEntry)',
+                '_runLintInspections(request.*, requestVariableValues.*)'
             ],
 
             resterHotkeys: {
@@ -263,6 +276,21 @@
                     callback: '_sendRequest'
                 }
             },
+
+            resterLintInspections: [
+                {
+                    message: 'There are placeholders in your request, but the variables feature is not enabled.',
+                    check: '_lintCheckPlaceholdersWithoutVariables',
+                    fixLabel: 'Enable variables',
+                    fix: '_lintFixPlaceholdersWithoutVariables'
+                },
+                {
+                    message: 'Some variables have an empty value.',
+                    check: '_lintCheckEmptyVariables',
+                    fixLabel: 'View variables',
+                    fix: '_lintFixEmptyVariables'
+                }
+            ],
 
             _onRouteChanged () {
                 if (this.routeActive && this.historyRouteActive) {
@@ -454,6 +482,30 @@
                         this._setRequestIsSending(false);
                         this.showError(error);
                     });
+            },
+
+            _lintCheckPlaceholdersWithoutVariables () {
+                return this.request.variables.enabled ||
+                    RESTer.variables.extract(this.request).length === 0;
+            },
+
+            _lintFixPlaceholdersWithoutVariables () {
+                this.set('request.variables.enabled', true);
+            },
+
+            _lintCheckEmptyVariables () {
+                if (this.request.variables.enabled) {
+                    const variables = RESTer.variables.extract(this.request);
+                    const usedVariableValues = {};
+                    RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
+                    return variables.every(name => !!usedVariableValues[name]);
+                } else {
+                    return true;
+                }
+            },
+
+            _lintFixEmptyVariables () {
+                this.requestSelectedTab = 3;
             }
         });
     </script>

@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="rester-lint-messages">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .lint-message {
+                background-color: var(--accent-color);
+                color: var(--light-theme-text-color);
+                padding: 4px 16px;
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .text {
+                flex: 1;
+            }
+
+            .dismiss-button {
+                margin-right: -8px;
+            }
+        </style>
+
+        <template is="dom-repeat" items="[[messages]]" filter="_filterDismissedMessage" observe="dismissed">
+            <div class="lint-message">
+                <div class="text">[[item.message]]</div>
+                <template is="dom-if" if="[[item.fix]]">
+                    <paper-button on-tap="_fixMessage">[[item.fixLabel]]</paper-button>
+                </template>
+                <paper-icon-button
+                        icon="close"
+                        class="dismiss-button"
+                        on-tap="_dismissMessage"></paper-icon-button>
+            </div>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-lint-messages',
+
+            properties: {
+                messages: {
+                    type: Array,
+                    readOnly: true,
+                    value: []
+                }
+            },
+
+            putMessage (id, message) {
+                if (!this.messages.some(m => m.id === id)) {
+                    message.id = id;
+                    this.push('messages', message);
+                }
+            },
+
+            removeMessage (id) {
+                const index = this.messages.findIndex(m => m.id === id);
+                if (index > -1) {
+                    this.splice('messages', index, 1);
+                }
+            },
+
+            _filterDismissedMessage (message) {
+                return !message.dismissed;
+            },
+
+            _fixMessage (e) {
+                e.model.item.fix();
+            },
+
+            _dismissMessage (e) {
+                this.set(['messages', e.model.index, 'dismissed'], true);
+            }
+        });
+    </script>
+</dom-module>
