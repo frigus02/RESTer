@@ -195,7 +195,7 @@
 
                 if (this.selectedIndex === -1) return;
 
-                const selectedItem = this.items[this.selectedIndex];
+                const selectedItem = this._getItemByRenderedIndex(this.selectedIndex);
                 if (selectedItem && !this._isItemVisible(selectedItem, this._input.value)) {
                     this._moveSelectedIndexToNextItem();
                 }
@@ -215,7 +215,7 @@
                         break;
                     case 'Tab':
                         if (this.dropdownVisible) {
-                            this._selectItem(this.items[this.selectedIndex]);
+                            this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
                         }
 
                         break;
@@ -224,7 +224,7 @@
                             e.stopPropagation();
                             e.preventDefault();
 
-                            this._selectItem(this.items[this.selectedIndex]);
+                            this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
                         }
 
                         break;
@@ -262,9 +262,9 @@
                 let nextIndex = this.selectedIndex;
                 do {
                     nextIndex = Math.min(nextIndex + 1, maxIndex);
-                } while (!this._isItemVisible(this.items[nextIndex], this._input.value) && nextIndex < maxIndex);
+                } while (!this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this._input.value) && nextIndex < maxIndex);
 
-                if (this._isItemVisible(this.items[nextIndex], this._input.value)) {
+                if (this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this._input.value)) {
                     this._setSelectedIndex(nextIndex);
                     this._updateDrodownScroll(false);
                 } else {
@@ -282,7 +282,7 @@
                 let prevIndex = this.selectedIndex;
                 do {
                     prevIndex = Math.max(prevIndex - 1, minIndex);
-                } while (!this._isItemVisible(this.items[prevIndex], this._input.value) && prevIndex > minIndex);
+                } while (!this._isItemVisible(this._getItemByRenderedIndex(prevIndex), this._input.value) && prevIndex > minIndex);
 
                 this._setSelectedIndex(prevIndex);
                 this._updateDrodownScroll(true);
@@ -292,7 +292,7 @@
                 if (this.selectedIndex === -1) return;
 
                 const list = this.$.dropdown;
-                const item = list.getElementsByTagName('paper-item')[this.selectedIndex];
+                const item = list.getElementsByClassName('button')[this.selectedIndex];
                 if (!item) return;
 
                 if (item.offsetTop >= list.scrollTop &&
@@ -306,6 +306,13 @@
                 } else {
                     list.scrollTop = item.offsetTop + item.offsetHeight - list.clientHeight;
                 }
+            },
+
+            _getItemByRenderedIndex (index) {
+                const domRepeat = this.$.dropdown.querySelector('template[is="dom-repeat"]');
+                const itemElement = this.$.dropdown.getElementsByClassName('button')[index];
+
+                return domRepeat.itemForElement(itemElement);
             },
 
             _onItemClick (e) {

@@ -1,9 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="../controls/rester-autocomplete-input.html">
+<link rel="import" href="../controls/rester-autocomplete.html">
 
 <dom-module id="rester-quick-open-dialog">
     <template>
@@ -26,7 +27,23 @@
             paper-dialog > :last-child,
             paper-dialog > * {
                 margin: 0;
-                padding: 0 8px;
+                padding: 0;
+            }
+
+            input {
+                padding: 8px;
+                width: 100%;
+                max-width: 100%;
+                background: transparent;
+                border: none;
+                color: var(--primary-text-color);
+                -webkit-appearance: none;
+
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 24px;
+                font-family: 'Roboto', 'Noto', sans-serif;
+                -webkit-font-smoothing: antialiased;
             }
         </style>
 
@@ -35,13 +52,18 @@
                 exit-animation="fade-out-animation"
                 with-backdrop
                 restore-focus-on-close>
-            <rester-autocomplete-input
-                    placeholder="Type to open a request..."
-                    items="[[items]]"
-                    value="{{searchText}}"
-                    on-item-selected="_onItemSelected"
-                    autofocus
-                    no-label-float></rester-autocomplete-input>
+            <div>
+                <input is="iron-input" id="input"
+                        bind-value="{{searchText}}"
+                        placeholder="Type to open a request..."
+                        autocomplete="off"
+                        autofocus>
+                <rester-autocomplete
+                        prefix
+                        for="input"
+                        items="[[items]]"
+                        on-item-selected="_onItemSelected"></rester-autocomplete>
+            </div>
         </paper-dialog>
     </template>
 
