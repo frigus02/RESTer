@@ -119,6 +119,9 @@
                     this.$.providerBasic,
                     this.$.providerOAuth2
                 ]);
+                this._setProvidersRequireConfiguration([]);
+                this._setConfigurations([]);
+                this._setTokens([]);
 
                 const configPromises = [];
 
