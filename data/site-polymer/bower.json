@@ -36,6 +36,7 @@
     "paper-item": "PolymerElements/paper-item#^1.0.0",
     "paper-menu": "PolymerElements/paper-menu#^1.2.2",
     "paper-menu-button": "PolymerElements/paper-menu-button#^1.5.2",
+    "paper-progress": "PolymerElements/paper-progress#^1.0.11",
     "paper-radio-button": "PolymerElements/paper-radio-button#^1.2.1",
     "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
     "paper-spinner": "PolymerElements/paper-spinner#^1.0.0",
