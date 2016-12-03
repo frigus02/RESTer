@@ -83,12 +83,12 @@
                 <paper-toolbar>
                     <div class="title">RESTer</div>
                     <iron-media-query
-                            query="(min-width: [[responsiveWidthMin]]) and (max-width: [[responsiveWidthMax]])"
+                            query="[[showDrawerLockMediaQuery]]"
                             query-matches="{{showDrawerLock}}"></iron-media-query>
                     <paper-icon-button
                             icon="[[_getDrawerToggleIcon(settings.pinSidenav)]]"
                             on-tap="_toggleDrawerLockOpen"
-                            hidden="[[!showDrawerLock]]"></paper-icon-button>
+                            hidden$="[[!showDrawerLock]]"></paper-icon-button>
                 </paper-toolbar>
                 <div class="fit layout vertical justified">
                     <rester-navigation-list
@@ -125,6 +125,9 @@
             ],
 
             properties: {
+                route: Object,
+                routeData: Object,
+                routeTail: Object,
                 page: String,
                 pageTitle: {
                     type: String,
@@ -145,6 +148,10 @@
                 responsiveWidthMax: {
                     type: String,
                     value: '1279px'
+                },
+                showDrawerLockMediaQuery: {
+                    type: String,
+                    computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
                 }
             },
 
@@ -177,6 +184,10 @@
 
             _computeResponsiveWidth () {
                 return this.settings.pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
+            },
+
+            _computeShowDrawerLockMediaQuery (responsiveWidthMin, responsiveWidthMax) {
+                return `(min-width: ${responsiveWidthMin}) and (max-width: ${responsiveWidthMax})`;
             },
 
             _getDrawerToggleIcon () {

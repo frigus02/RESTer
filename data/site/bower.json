@@ -15,6 +15,7 @@
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0",
     "iron-form": "PolymerElements/iron-form#^1.1.4",
     "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#^1.0.6",
+    "iron-icon": "PolymerElements/iron-icon#1.0.10",
     "iron-icons": "PolymerElements/iron-icons#^1.0.0",
     "iron-input": "PolymerElements/iron-input#^1.0.10",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",

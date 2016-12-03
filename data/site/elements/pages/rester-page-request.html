@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -77,13 +78,13 @@
         </style>
 
         <app-route
-                route="{{route}}"
+                route="[[route]]"
                 pattern="/:requestId"
                 active="{{routeActive}}"
                 data="{{routeData}}"
                 tail="{{historyRoute}}"></app-route>
         <app-route
-                route="{{historyRoute}}"
+                route="[[historyRoute]]"
                 pattern="/history/:historyId"
                 active="{{historyRouteActive}}"
                 data="{{historyRouteData}}"></app-route>
@@ -206,6 +207,11 @@
                     type: Object,
                     observer: '_onRouteChanged'
                 },
+                routeActive: Boolean,
+                routeData: Object,
+                historyRoute: Object,
+                historyRouteActive: Boolean,
+                historyRouteData: Object,
                 request: {
                     type: Object,
                     readOnly: true
