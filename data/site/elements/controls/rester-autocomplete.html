@@ -122,7 +122,7 @@
             },
 
             attached () {
-                this._input = this.domHost.querySelector(`#${this.for}`);
+                this._input = this.domHost.$$(`#${this.for}`);
                 this._setInputValue(this._input.value);
                 this._input.addEventListener('bind-value-changed', this._onInputValueChanged);
                 this._input.addEventListener('keydown', this._onInputKeyDown);

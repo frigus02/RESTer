@@ -77,7 +77,8 @@
         <paper-drawer-panel
                 id="drawer"
                 drawer-width="[[drawerWidth]]"
-                responsive-width="[[responsiveWidth]]">
+                responsive-width="[[responsiveWidth]]"
+                narrow="{{drawerIsNarrow}}">
             <!-- Navigation -->
             <paper-header-panel drawer mode="seamed">
                 <paper-toolbar>
@@ -107,6 +108,7 @@
                     page="[[page]]"
                     page-title="{{pageTitle}}"
                     route="[[routeTail]]"
+                    show-drawer-toggle="[[drawerIsNarrow]]"
                     on-drawer-toggle-tapped="_onDrawerToggleTapped"></rester-pages>
         </paper-drawer-panel>
 

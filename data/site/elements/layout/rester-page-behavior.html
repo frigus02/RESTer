@@ -8,6 +8,10 @@
                 type: String,
                 readOnly: true,
                 notify: true
+            },
+            showDrawerToggle: {
+                type: Boolean,
+                observer: '_onShowDrawerToggleChanged'
             }
         },
 
@@ -25,6 +29,12 @@
         detached () {
             if (this._drawerToggle) {
                 this._drawerToggle.removeEventListener('tap', this._onDrawerTap);
+            }
+        },
+
+        _onShowDrawerToggleChanged () {
+            if (this._drawerToggle) {
+                this._drawerToggle.hidden = !this.showDrawerToggle;
             }
         },
 

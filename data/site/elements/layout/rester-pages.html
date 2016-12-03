@@ -57,6 +57,10 @@
                 route: {
                     type: Object,
                     observer: '_onRouteChanged'
+                },
+                showDrawerToggle: {
+                    type: Boolean,
+                    observer: '_onShowDrawerToggleChanged'
                 }
             },
 
@@ -90,12 +94,19 @@
                     });
 
                     this._currentElement.route = this.route;
+                    this._currentElement.showDrawerToggle = this.showDrawerToggle;
                 }
             },
 
             _onRouteChanged () {
                 if (this._currentElement) {
                     this._currentElement.route = this.route;
+                }
+            },
+
+            _onShowDrawerToggleChanged () {
+                if (this._currentElement) {
+                    this._currentElement.showDrawerToggle = this.showDrawerToggle;
                 }
             }
         });

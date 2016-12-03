@@ -96,15 +96,31 @@
                 }
             },
 
-            _bowerComponents: /*START*/[{"name":"angular","version":"1.5.8"},{"name":"angular-animate","version":"1.5.8"},{"name":"angular-aria","version":"1.5.8"},{"name":"angular-material","version":"1.1.1"},{"name":"angular-messages","version":"1.5.8"},{"name":"angular-sanitize","version":"1.5.8"},{"name":"angular-ui-codemirror","version":"0.3.0"},{"name":"codemirror","version":"5.19.0"},{"name":"lodash","version":"4.16.2"},{"name":"mousetrap","version":"1.6.0"},{"name":"string_score","version":"joshaven/string_score#0.1.22"},{"name":"ui-router","version":"0.2.18"}]/*END*/,
-
             _otherComponents: [
                 {name: 'vkbeautify', version: '0.99.00.beta'}
             ],
 
             ready () {
                 this._setPageTitle('About');
-                this._setLibraries(_.sortByOrder(this._bowerComponents.concat(this._otherComponents), 'name'));
+
+                fetch('../../bower.json')
+                    .then(response => response.json())
+                    .then(bower => {
+                        const bowerComponents = Object.keys(bower.dependencies).map(name => {
+                            let version = bower.dependencies[name];
+
+                            if (version.includes('#')) {
+                                [name, version] = version.split('#');
+                            }
+
+                            return {
+                                name,
+                                version
+                            };
+                        });
+
+                        this._setLibraries(_.sortBy(bowerComponents.concat(this._otherComponents), x => x.name.toLowerCase()));
+                    });
 
                 RESTer.rester.getInfo().then(info => {
                     this._setVersion(info.version);
