@@ -1,0 +1,9 @@
+{
+    "plugins": {
+        "local": {
+            "browsers": [
+                "firefox"
+            ]
+        }
+    }
+}

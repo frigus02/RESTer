@@ -52,6 +52,6 @@
     "string_score": "joshaven/string_score#0.1.22"
   },
   "devDependencies": {
-    "web-component-tester": "4.3.5"
+    "web-component-tester": "5.0.0"
   }
 }

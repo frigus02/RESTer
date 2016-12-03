@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../data/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../data/site/bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../../data/site/elements/data/rester-data-navigation.html">
+</head>
+<body>
+    <test-fixture id="rester-data-navigation-fixture">
+        <template>
+            <rester-data-navigation></rester-data-navigation>
+        </template>
+    </test-fixture>
+    <script>
+        suite('<rester-data-navigation>', function () {
+            const requestFields = ['id', 'collection', 'title'],
+                  historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'],
+                  environmentFields = ['id', 'name'];
+
+            const fakeRequests = [
+                {id: 1, collection: 'JSONPlaceholder', title: 'Get Posts', method: 'GET', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}},
+                {id: 5, collection: 'JSONPlaceholder', title: 'Create Post',  method: 'POST', url: 'http://jsonplaceholder.com/posts', variables: {enabled: false}},
+                {id: 6, collection: 'Google', title: 'Get Profile',  method: 'GET', url: 'https://api.googleapis.com/profile', variables: {enabled: false}},
+                {id: 7, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}}
+            ];
+            const fakeHistoryEntries = [
+                {id: 46, time: new Date('2016-02-21T12:50:00'), request: {method: 'GET', url: 'http://google.com', variables: {enabled: false}}},
+                {id: 45, time: new Date('2016-02-21T12:43:00'), request: fakeRequests[0]},
+                {id: 44, time: new Date('2016-02-21T12:40:00'), request: fakeRequests[1]},
+                {id: 43, time: new Date('2016-02-21T12:39:00'), request: fakeRequests[0]},
+                {id: 42, time: new Date('2016-02-18T15:03:00'), request: fakeRequests[2]},
+                {id: 41, time: new Date('2016-02-18T15:01:00'), request: fakeRequests[3]}
+            ];
+            const fakeEnvironments = [
+                {id: 1, name: 'dev', values: {}},
+                {id: 3, name: 'prod', values: {}}
+            ];
+
+            let nav;
+
+            setup(function () {
+                sinon.stub(RESTer.rester, 'getRequests');
+                sinon.stub(RESTer.rester, 'getHistoryEntries');
+                sinon.stub(RESTer.rester, 'getEnvironment');
+                sinon.stub(RESTer.rester, 'addEventListener');
+                RESTer.rester.settings = {
+                    activeEnvironment: 1
+                };
+                RESTer.rester.settingsLoaded = Promise.resolve();
+
+                sinon.spy(RESTer.variables, 'replace');
+            });
+
+            teardown(function () {
+                RESTer.rester.getRequests.restore();
+                RESTer.rester.getHistoryEntries.restore();
+                RESTer.rester.getEnvironment.restore();
+                RESTer.rester.addEventListener.restore();
+                RESTer.variables.replace.restore();
+            });
+
+            suite('with initial data', function () {
+                setup(function () {
+                    RESTer.rester.getRequests.returns(Promise.resolve(fakeRequests));
+                    RESTer.rester.getHistoryEntries.returns(Promise.resolve(fakeHistoryEntries.slice(1)));
+                    RESTer.rester.getEnvironment.returns(Promise.resolve(fakeEnvironments[0]));
+
+                    nav = fixture('rester-data-navigation-fixture');
+                });
+
+                test('items are created on startup', function () {
+                    assert.deepEqual(nav.items, []);
+
+                    assert(RESTer.rester.getRequests.calledOnce);
+                    assert(RESTer.rester.getRequests.calledWithExactly(requestFields));
+                    assert(RESTer.rester.getHistoryEntries.calledOnce);
+                    assert(RESTer.rester.getHistoryEntries.calledWithExactly(-5, historyFields));
+
+                    return Promise.resolve()
+                        .then(() => {
+                            assert(RESTer.rester.getEnvironment.calledWithExactly(RESTer.rester.settings.activeEnvironment, environmentFields));
+                            return new Promise(r => setTimeout(r, 100));
+                        })
+                        .then(() => {
+                            assert(RESTer.variables.replace.calledWith(fakeRequests[3], fakeRequests[3].variables.values));
+
+                            assert.equal(nav.items.length, 13);
+                            assert.isTrue(nav.items[0].isSubheader);
+                            assert.equal(nav.items[0].title, 'Requests');
+                            assert.isTrue(nav.items[1].isGroup);
+                            assert.equal(nav.items[1].title, 'Google');
+                            assert.isTrue(nav.items[2].isGroup);
+                            assert.equal(nav.items[2].title, 'JSONPlaceholder');
+                            assert.isTrue(nav.items[3].isDivider);
+                            assert.isTrue(nav.items[4].isSubheader);
+                            assert.equal(nav.items[4].title, 'Settings');
+                            assert.isTrue(nav.items[5].isItem);
+                            assert.equal(nav.items[5].title, 'Environment');
+                            assert.equal(nav.items[5].subtitle, fakeEnvironments[0].name);
+                            assert.isTrue(nav.items[6].isDivider);
+                            assert.isTrue(nav.items[7].isSubheader);
+                            assert.equal(nav.items[7].title, 'History');
+                            assert.isTrue(nav.items[8].isItem);
+                            assert.equal(nav.items[8].title, '12:43:00 JSONPlaceholder / Get Posts');
+                            assert.equal(nav.items[8].subtitle, 'GET http://jsonplaceholder.com/posts');
+                            assert.isTrue(nav.items[12].isItem);
+                            assert.equal(nav.items[12].title, '15:01:00 JSONPlaceholder / Get Post');
+                            assert.equal(nav.items[12].subtitle, 'GET http://jsonplaceholder.com/posts/123');
+                        });
+                });
+
+                test('getNextRequestId returns id from next item', function () {
+                    return new Promise(r => setTimeout(r, 100)).then(() => {
+                        assert.equal(nav.getNextRequestId(5), 7);
+                    });
+                });
+
+                test('getNextRequestId returns id from previous item when no next item is available', function () {
+                    return new Promise(r => setTimeout(r, 100)).then(() => {
+                        assert.equal(nav.getNextRequestId(1), 7);
+                    });
+                });
+
+                test('getNextRequestId returns id from first item in next collection when current collection has only one item', function () {
+                    return new Promise(r => setTimeout(r, 100)).then(() => {
+                        assert.equal(nav.getNextRequestId(6), 5);
+                    });
+                });
+
+                test('getNextRequestId returns undefined when only one item exists', function () {
+                    const changeListener = RESTer.rester.addEventListener.getCall(0).args[1];
+
+                    return new Promise(r => setTimeout(r, 100)).then(() => {
+                        // Delete all items except one.
+                        changeListener([
+                            {action: 'delete', item: { id: fakeRequests[0].id }, itemType: 'Request'},
+                            {action: 'delete', item: { id: fakeRequests[1].id }, itemType: 'Request'},
+                            {action: 'delete', item: { id: fakeRequests[2].id }, itemType: 'Request'}
+                        ]);
+
+                        assert.isUndefined(nav.getNextRequestId(7));
+                    });
+                });
+            });
+
+            suite('with empty initial data', function () {
+                setup(function () {
+                    RESTer.rester.getRequests.returns(Promise.resolve([]));
+                    RESTer.rester.getHistoryEntries.returns(Promise.resolve([]));
+                    RESTer.rester.getEnvironment.returns(Promise.resolve(fakeEnvironments[0]));
+
+                    nav = fixture('rester-data-navigation-fixture');
+                });
+
+                test('items are updated when data changes', function () {
+                    assert(RESTer.rester.addEventListener.calledWithExactly('dataChange', sinon.match.func));
+
+                    const changeListener = RESTer.rester.addEventListener.getCall(0).args[1];
+                    let envItem;
+
+                    return new Promise(r => setTimeout(r, 100)).then(() => {
+                        // Check preconditions.
+                        assert.equal(nav.items.length, 6);
+                        envItem = nav.items.find(item => item.title === 'Environment');
+
+                        // Add some requests and history entries.
+                        changeListener([
+                            {action: 'add', item: fakeRequests[0], itemType: 'Request'},
+                            {action: 'add', item: fakeRequests[1], itemType: 'Request'},
+                            {action: 'add', item: fakeRequests[2], itemType: 'Request'},
+                            {action: 'add', item: fakeHistoryEntries[5], itemType: 'HistoryEntry'},
+                            {action: 'add', item: fakeHistoryEntries[4], itemType: 'HistoryEntry'}
+                        ]);
+
+                        assert.equal(nav.items.length, 10);
+
+                        // Delete a request. Now the collection is empty and we should have one item less.
+                        changeListener([
+                            {action: 'delete', item: { id: fakeRequests[2].id }, itemType: 'Request'}
+                        ]);
+
+                        assert.equal(nav.items.length, 9);
+
+                        // Change a request and add more history entries.
+                        changeListener([
+                            {action: 'put', item: fakeRequests[1], itemType: 'Request'},
+                            {action: 'add', item: fakeHistoryEntries[3], itemType: 'HistoryEntry'},
+                            {action: 'add', item: fakeHistoryEntries[2], itemType: 'HistoryEntry'},
+                            {action: 'add', item: fakeHistoryEntries[1], itemType: 'HistoryEntry'}
+                        ]);
+
+                        assert.equal(nav.items.length, 12);
+
+                        // Add a 6th history entry. This should remove the oldest history entry from the
+                        // list because we only want to show 5 items max.
+                        changeListener([
+                            {action: 'add', item: fakeHistoryEntries[0], itemType: 'HistoryEntry'}
+                        ]);
+
+                        assert.equal(nav.items.length, 12);
+
+                        // Delete a request. This time the collection is not empty yet. So the overall count
+                        // should stay the same.
+                        changeListener([
+                            {action: 'delete', item: { id: fakeRequests[0].id }, itemType: 'Request'}
+                        ]);
+
+                        assert.equal(nav.items.length, 12);
+
+                        // Should handle name changes of the active environment
+                        fakeEnvironments[0].name = 'prod';
+                        changeListener([
+                            {action: 'put', item: fakeEnvironments[0], itemType: 'Environment'}
+                        ]);
+
+                        assert.equal(envItem.subtitle, fakeEnvironments[0].name);
+
+                    });
+                });
+
+                test('items are updated when settings change', function () {
+                    assert(RESTer.rester.addEventListener.calledWithExactly('settingsChange', sinon.match.func));
+
+                    const settingsChangeListener = RESTer.rester.addEventListener.getCall(1).args[1];
+                    let envItem;
+
+                    return new Promise(r => setTimeout(r, 100)).then(() => {
+                        // Check preconditions.
+                        assert.equal(nav.items.length, 6);
+                        envItem = nav.items.find(item => item.title === 'Environment');
+
+                        // Should handle change of active environment
+                        RESTer.rester.settings.activeEnvironment = null;
+                        settingsChangeListener();
+                    }).then(() => {
+                        assert.isUndefined(envItem.subtitle);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

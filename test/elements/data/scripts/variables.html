@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../data/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../../data/site/bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../../../data/site/elements/data/rester-data.html">
+</head>
+<body>
+    <script>
+        suite('RESTer.variables', function () {
+            const fakeObject = {
+                title: 'Post by ID',
+                url: 'https://{$env.host}/api/posts/{id}',
+                headers: [
+                    {
+                        name: 'Authorization',
+                        value: 'Bearer {token}'
+                    }
+                ]
+            };
+
+            test('providedValues contains aggregated values from all providers', function () {
+                assert.deepEqual({}, RESTer.variables.providedValues);
+
+                RESTer.variables.providers.env.values = {
+                    host: 'example.com',
+                    port: 443
+                };
+                RESTer.variables.providers.env.fireEvent('valuesChanged', RESTer.variables.providers.env.values);
+
+                assert.equal(Object.keys(RESTer.variables.providedValues).length, 2);
+                assert.equal(RESTer.variables.providedValues['$env.host'], 'example.com');
+                assert.equal(RESTer.variables.providedValues['$env.port'], 443);
+            });
+
+            test('extract aggregates placeholders from given object', function () {
+                const variables = RESTer.variables.extract(fakeObject);
+
+                assert.equal(variables.length, 3);
+                assert.deepEqual(variables, [
+                    '$env.host',
+                    'id',
+                    'token'
+                ]);
+            });
+
+            test('replace replaces all variables with their values', function () {
+                RESTer.variables.providedValues = {
+                    '$env.host': 'example.com'
+                };
+
+                const values = {
+                    id: 12
+                };
+                const usedValues = {};
+                const newObject = RESTer.variables.replace(fakeObject, values, usedValues);
+
+                assert.deepEqual(newObject, {
+                    title: 'Post by ID',
+                    url: 'https://example.com/api/posts/12',
+                    headers: [
+                        {
+                            name: 'Authorization',
+                            value: 'Bearer {token}'
+                        }
+                    ]
+                });
+                assert.deepEqual(usedValues, {
+                    '$env.host': 'example.com',
+                    'id': 12
+                });
+            });
+
+            test('replace prefers local values over provided values', function () {
+                RESTer.variables.providedValues = {
+                    '$env.host': 'example.com'
+                };
+
+                const values = {
+                    '$env.host': 'mycoolsite.com',
+                    id: 12
+                };
+                const newObject = RESTer.variables.replace(fakeObject, values);
+
+                assert.deepEqual(newObject, {
+                    title: 'Post by ID',
+                    url: 'https://mycoolsite.com/api/posts/12',
+                    headers: [
+                        {
+                            name: 'Authorization',
+                            value: 'Bearer {token}'
+                        }
+                    ]
+                });
+            });
+        });
+    </script>
+</body>
+</html>

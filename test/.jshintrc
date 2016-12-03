@@ -1,4 +1,18 @@
 {
     "extends": "../.jshintrc",
-    "node": true
+    "browser": true,
+    "mocha": true,
+    "strict": "implied",
+    "globals": {
+        "Polymer": false,
+        "RESTer": false,
+
+        "assert": false,
+
+        "sinon": false,
+
+        "fixture": false,
+        "stub": false,
+        "replace": false
+    }
 }

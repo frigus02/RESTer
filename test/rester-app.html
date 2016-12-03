@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../data/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../data/site/bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../data/site/elements/rester-app.html">
+</head>
+<body>
+    <test-fixture id="rester-app-fixture">
+        <template>
+            <rester-app></rester-app>
+        </template>
+    </test-fixture>
+    <script>
+        suite('<rester-app>', function () {
+            let app;
+
+            setup(function () {
+                replace('rester-splash').with('fake-rester-splash');
+
+                stub('rester-quick-open-dialog', {
+                    show: sinon.spy()
+                });
+
+                app = fixture('rester-app-fixture');
+            });
+
+            test('page updates based on routeData and defaults to "request"', function () {
+                app.routeData = {};
+
+                assert.equal(app.page, 'request');
+
+                app.set('routeData.page', 'foo');
+                assert.equal(app.page, 'foo');
+            });
+
+            test('pageTitle change updates page title', function () {
+                app.pageTitle = 'Foo';
+                assert.equal(document.title, 'RESTer - Foo');
+
+                app.pageTitle = 'Bar';
+                assert.equal(document.title, 'RESTer - Bar');
+            });
+
+            test('responsiveWidth changes when drawer is locked', function () {
+                app.settings = { pinSidenav: false };
+
+                assert.equal(app.responsiveWidth, app.responsiveWidthMax);
+
+                app.set('settings.pinSidenav', true);
+                assert.equal(app.responsiveWidth, app.responsiveWidthMin);
+
+                app.set('settings.pinSidenav', false);
+                assert.equal(app.responsiveWidth, app.responsiveWidthMax);
+            });
+
+            test('hotkey mod+m navigates to new request page', function () {
+                const callback = app[app.resterHotkeys['mod+m'].callback];
+
+                window.location = '#/test';
+
+                callback.call(app);
+                assert.equal(location.hash, '#/');
+            });
+
+            test('hotkey mod+o, mod+p shows quick open dialog', function () {
+                const callback = app[app.resterHotkeys['mod+o, mod+p'].callback];
+                const quickOpenDialog = Polymer.dom(app.root).querySelector('rester-quick-open-dialog');
+
+                callback.call(app);
+                assert(quickOpenDialog.show.calledOnce);
+            });
+
+            test('hotkey mod+e cycles through environments', function () {
+                app.settings = { activeEnvironment: undefined };
+                RESTer.rester.getEnvironments = sinon.stub().returns(Promise.resolve([
+                    { id: 1 },
+                    { id: 5 }
+                ]));
+
+                const callback = app[app.resterHotkeys['mod+e'].callback];
+
+                return Promise.resolve()
+                    .then(() => callback.call(app))
+                    .then(() => {
+                        assert(RESTer.rester.getEnvironments.calledOnce);
+                        assert.equal(1, app.settings.activeEnvironment);
+                    })
+                    .then(() => callback.call(app))
+                    .then(() => {
+                        assert(RESTer.rester.getEnvironments.calledTwice);
+                        assert.equal(5, app.settings.activeEnvironment);
+                    })
+                    .then(() => callback.call(app))
+                    .then(() => {
+                        assert(RESTer.rester.getEnvironments.calledThrice);
+                        assert.equal(1, app.settings.activeEnvironment);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

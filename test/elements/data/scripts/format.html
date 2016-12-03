@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../data/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../../data/site/bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../../../data/site/elements/data/rester-data.html">
+</head>
+<body>
+    <script>
+        suite('RESTer.format', function () {
+            test('time returns the formatted time of the specified date', function () {
+                assert.equal(RESTer.format.time(new Date('2015-10-23T11:25:00')), '11:25:00');
+            });
+
+            test('dateTime returns the formatted date and time of the specified date', function () {
+                assert.equal(RESTer.format.dateTime(new Date('2015-10-23T11:25:00')), '23.10.2015, 11:25:00');
+            });
+
+            test('expirationDate returns "Never expires" when given null', function () {
+                assert.equal(RESTer.format.expirationDate(null), 'Never expires');
+            });
+
+            test('expirationDate returns "Expired" when given a date before now', function () {
+                assert.equal(RESTer.format.expirationDate(Date.now() - 1000), 'Expired');
+            });
+
+            test('expirationDate returns the date when given a date after now', function () {
+                const input = Date.now() + 1000;
+
+                assert.equal(RESTer.format.expirationDate(input), `Expires ${RESTer.format.dateTime(input)}`);
+            });
+        });
+    </script>
+</body>
+</html>
