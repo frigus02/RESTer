@@ -2,7 +2,7 @@
 
     const self = RESTer.register('rester', ['eventListeners']),
           requests = {},
-          settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav', 'experimentalResponseHighlighting'],
+          settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav'],
           cachedSettings = {};
 
     window.addEventListener('message', event => {
