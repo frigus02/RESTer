@@ -1,18 +1,20 @@
 {
-    "root": "data/site-polymer",
-    "entrypoint": "data/site-polymer/index.html",
-    "shell": "data/site-polymer/elements/rester-app.html",
+    "root": "data/site",
+    "entrypoint": "index.html",
+    "shell": "elements/rester-app.html",
     "fragments": [
-        "data/site-polymer/elements/rester-view-environments.html",
-        "data/site-polymer/elements/rester-view-history.html",
-        "data/site-polymer/elements/rester-view-request.html"
+        "elements/pages/rester-page-about.html",
+        "elements/pages/rester-page-environments.html",
+        "elements/pages/rester-page-history.html",
+        "elements/pages/rester-page-request.html",
+        "elements/pages/rester-page-settings.html"
     ],
     "sourceGlobs": [
-        "data/site-polymer/elements/**/*",
-        "data/site-polymer/images/**/*",
-        "data/site-polymer/bower.json"
+        "elements/**/*",
+        "images/**/*",
+        "bower.json"
     ],
     "includeDependencies": [
-        "data/site-polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"
+        "bower_components/webcomponentsjs/webcomponents-lite.min.js"
     ]
 }

@@ -1,6 +1,0 @@
-.error-dialog .md-dialog-content-body p:not(:first-child) {
-    text-indent: -16px;
-    padding-left: 16px;
-    word-wrap: break-word;
-    white-space: pre-line;
-}

@@ -1,8 +1,0 @@
-url-input {
-    display: flex;
-    flex-direction: row;
-}
-
-url-input .md-button.expand {
-    margin-top: 16px;
-}

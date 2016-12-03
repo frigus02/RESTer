@@ -1,115 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
-    <title>RESTer - {{title}}</title>
 
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <title>RESTer</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
-    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/directives/body-input.css">
-    <link rel="stylesheet" href="styles/directives/highlight-code.css">
-    <link rel="stylesheet" href="styles/directives/input-suggestions.css">
-    <link rel="stylesheet" href="styles/directives/navigation-list.css">
-    <link rel="stylesheet" href="styles/directives/navigation-list-item.css">
-    <link rel="stylesheet" href="styles/directives/splash.css">
-    <link rel="stylesheet" href="styles/directives/toolbar-title.css">
-    <link rel="stylesheet" href="styles/directives/ui-codemirror.css">
-    <link rel="stylesheet" href="styles/directives/ui-codemirror-addon-foldgutter.css">
-    <link rel="stylesheet" href="styles/directives/ui-codemirror-theme-darkula.css">
-    <link rel="stylesheet" href="styles/directives/url-input.css">
-    <link rel="stylesheet" href="styles/directives/url-query-input.css">
-    <link rel="stylesheet" href="styles/components/about-list-item.css">
-    <link rel="stylesheet" href="styles/components/badge.css">
-    <link rel="stylesheet" href="styles/components/error-dialog.css">
-    <link rel="stylesheet" href="styles/components/highlight-code-experimental.css">
-    <link rel="stylesheet" href="styles/components/hint.css">
-    <link rel="stylesheet" href="styles/components/hotkeys.css">
-    <link rel="stylesheet" href="styles/components/input-row.css">
-    <link rel="stylesheet" href="styles/components/lint-messages.css">
-    <link rel="stylesheet" href="styles/components/md-dialog-content-input-column.css">
-    <link rel="stylesheet" href="styles/components/md-list-item-active.css">
-    <link rel="stylesheet" href="styles/components/md-radio-button-row.css">
-    <link rel="stylesheet" href="styles/components/neutral-action.css">
-    <link rel="stylesheet" href="styles/components/progress-button.css">
-    <link rel="stylesheet" href="styles/components/quick-open.css">
-    <link rel="stylesheet" href="styles/components/sidenav-footer-links.css">
+    <script>
+        // Setup Polymer options
+        window.Polymer = {
+            dom: 'shadow',
+            lazyRegister: true,
+            useNativeCSSProperties: true
+        };
+
+        // Load webcomponentsjs polyfill if browser does not support native Web Components
+        (function() {
+            function onLoad() {
+                // For native Imports, manually fire WebComponentsReady so user code
+                // can use the same code path for native and polyfill'd imports.
+                if (!window.HTMLImports) {
+                    document.dispatchEvent(new CustomEvent('WebComponentsReady', {bubbles: true}));
+                }
+            }
+
+            const webComponentsSupported =
+                'registerElement' in document &&
+                'import' in document.createElement('link') &&
+                'content' in document.createElement('template');
+
+            if (!webComponentsSupported) {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+                script.onload = onLoad;
+                document.head.appendChild(script);
+            } else {
+                onLoad();
+            }
+        })();
+    </script>
+
+    <link rel="import" href="elements/rester-app.html">
+
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
 </head>
-<body layout="row">
-    <splash></splash>
-    <div flex layout="row" ui-view></div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.min.js"></script>
-    <script src="bower_components/angular-material/angular-material.min.js"></script>
-    <script src="bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
-    <script src="bower_components/codemirror/lib/codemirror.js"></script>
-    <script src="bower_components/codemirror/addon/fold/foldcode.js"></script>
-    <script src="bower_components/codemirror/addon/fold/foldgutter.js"></script>
-    <script src="bower_components/codemirror/addon/fold/brace-fold.js"></script>
-    <script src="bower_components/codemirror/addon/fold/xml-fold.js"></script>
-    <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
-    <script src="bower_components/codemirror/mode/xml/xml.js"></script>
-    <script src="bower_components/lodash/dist/lodash.min.js"></script>
-    <script src="bower_components/mousetrap/mousetrap.min.js"></script>
-    <script src="bower_components/string_score/string_score.min.js"></script>
-    <script src="bower_components/ui-router/release/angular-ui-router.min.js"></script>
-
-    <script src="other_components/vkbeautify/vkbeautify.js"></script>
-
-    <script type="application/javascript;version=1.7" src="scripts/app.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/main.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/main.about.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/main.request.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/main.environments.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/main.history.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/main.settings.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-basic-generate-token.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-custom-generate-token.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-oauth2-configuration.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/authorization-provider-oauth2-resource-owner-generate-token.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/edit-environment.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/highlight-code-change-language.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/hotkey-cheat-sheet.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/controllers/dialogs/quick-open.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/authorization-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/body-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/header-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/highlight-code.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/input-suggestions.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/navigation-list.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/navigation-list-item.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/request-title-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/splash.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/toolbar-title.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/url-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/url-query-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/directives/variables-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/components/highlight-code-experimental.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/components/lint-messages.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/filters/expiration-date.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/authorization.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/authorization-provider-basic.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/authorization-provider-custom.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/authorization-provider-oauth2.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/error.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/hotkeys.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/lint-inspections.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/md-dialog.focus-input.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/navigation.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/rester.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/variables.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/variables-provider-env.js"></script>
-    <script type="application/javascript;version=1.7" src="scripts/services/worker.js"></script>
+<body>
+    <rester-app></rester-app>
 </body>
 </html>

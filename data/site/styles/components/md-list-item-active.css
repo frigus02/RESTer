@@ -1,8 +1,0 @@
-md-list-item.active {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: #00BCD4;
-}
-
-md-list-item.active._md-button-wrap > div.md-button:first-child {
-    font-weight: bold;
-}

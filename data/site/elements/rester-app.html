@@ -19,6 +19,7 @@
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
 <link rel="import" href="utils/rester-quick-open-dialog.html">
+<link rel="import" href="utils/rester-splash.html">
 
 <dom-module id="rester-app">
     <template>
@@ -63,6 +64,8 @@
                 };
             }
         </style>
+
+        <rester-splash></rester-splash>
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route

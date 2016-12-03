@@ -20,24 +20,17 @@
   "author": "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)",
   "license": "MIT",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "polymer-cli": "^0.17.0"
+  },
   "devDependencies": {
-    "bower": "^1.6.5",
-    "browser-sync": "^2.11.1",
-    "cheerio": "^0.20.0",
-    "jasmine-core": "^2.4.1",
-    "karma": "^1.1.1",
-    "karma-coverage": "^1.1.0",
-    "karma-firefox-launcher": "^1.0.0",
-    "karma-jasmine": "^1.0.2",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^2.4.3"
+    "bower": "^1.8.0",
+    "browser-sync": "^2.11.1"
   },
   "scripts": {
     "postinstall": "bower install",
     "test": "karma start",
     "start": "browser-sync start --server \"data/site\" --files \"data/site/**\"",
-    "startpoly": "browser-sync start --server \"data/site-polymer\" --files \"data/site-polymer/**\"",
     "build": "node tools/build.js",
     "post": "jpm post --post-url http://127.0.0.1:8888",
     "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888"
