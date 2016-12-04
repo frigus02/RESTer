@@ -23,14 +23,16 @@
   "devDependencies": {
     "bower": "^1.8.0",
     "browser-sync": "^2.11.1",
-    "polymer-cli": "^0.17.0"
+    "crisper": "^2.0.2",
+    "polylint": "^2.10.1",
+    "vulcanize": "^1.14.12",
+    "web-component-tester": "^5.0.0"
   },
   "scripts": {
     "postinstall": "bower install",
-    "test": "polymer test",
-    "testi": "browser-sync start --server \".\" --files \"./**\"",
-    "start": "browser-sync start --server \"data/site\" --files \"data/site/**\"",
-    "build": "polymer lint",
+    "test": "wct",
+    "testi": "browser-sync start --server . --files ./**",
+    "start": "browser-sync start --server data/site --files data/site/**",
     "post": "jpm post --post-url http://127.0.0.1:8888",
     "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888"
   }

@@ -33,12 +33,6 @@ Install all other dependencies with the following command:
 
 Windows users might need the argument `--msvs_version=2013` to build the dependencies of browser-sync.
 
-### Build
-
-Some parts of the add-on need to be build. Execute this command on the first start and after changing bower dependencies:
-
-    npm run build
-
 ### Test
 
 The addon is basically split in two parts:
@@ -58,3 +52,10 @@ To install the full extension from the local code use one of the following short
     npm run watchpost
 
 These commands require the awesome [Extension Auto-Installer](https://addons.mozilla.org/de/thunderbird/addon/autoinstaller). In addition you might need to set the preference `xpinstall.signatures.required` in about:config to `false`.
+
+### Package
+
+To package the addon for AMO, run the following commands:
+
+    .\tools\build.ps1
+    .\tools\package.ps1
