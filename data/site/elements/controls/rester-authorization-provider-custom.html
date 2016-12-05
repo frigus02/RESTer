@@ -14,6 +14,15 @@
             paper-dialog {
                 max-width: 600px;
             }
+
+            form {
+                /*
+                * The paper-input-error inside of the paper-input is positioned
+                * absolute underneath the input and has 20px height. Without the
+                * padding the dialog would start scrolling.
+                */
+                padding-bottom: 20px;
+            }
         </style>
 
         <paper-dialog id="generateTokenDialog"
