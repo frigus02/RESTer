@@ -172,6 +172,7 @@
             attached () {
                 this._editor = ace.edit(this.$.editor);
                 this._editor.setTheme('ace/theme/twilight');
+                this._editor.$blockScrolling = Infinity;
                 this._editor.on('change', () => {
                     this._oldValue = this._editor.getValue();
                     this.value = this._oldValue;
@@ -194,6 +195,7 @@
                 this._oldValue = this.value || '';
                 this._editor.setValue(this._oldValue);
                 this._editor.clearSelection();
+                this._editor.scrollToLine(0);
             },
 
             _onModeChanged () {
