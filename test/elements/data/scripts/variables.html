@@ -73,7 +73,7 @@
                 });
             });
 
-            test('replace prefers local values over provided values', function () {
+            test('replace prefers provided values over local values', function () {
                 RESTer.variables.providedValues = {
                     '$env.host': 'example.com'
                 };
@@ -86,7 +86,7 @@
 
                 assert.deepEqual(newObject, {
                     title: 'Post by ID',
-                    url: 'https://mycoolsite.com/api/posts/12',
+                    url: 'https://example.com/api/posts/12',
                     headers: [
                         {
                             name: 'Authorization',

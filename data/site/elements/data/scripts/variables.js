@@ -74,7 +74,7 @@
     }
 
     self.replace = function (obj, values = {}, usedValues = {}) {
-        return replaceInternal(obj, Object.assign({}, self.providedValues, values), usedValues);
+        return replaceInternal(obj, Object.assign({}, values, self.providedValues), usedValues);
     };
 
 })();
