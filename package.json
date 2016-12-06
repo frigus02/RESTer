@@ -32,8 +32,6 @@
     "postinstall": "bower install",
     "test": "wct",
     "testi": "browser-sync start --server . --files ./**",
-    "start": "browser-sync start --server data/site --files data/site/**",
-    "post": "jpm post --post-url http://127.0.0.1:8888",
-    "watchpost": "jpm watchpost --post-url http://127.0.0.1:8888"
+    "start": "browser-sync start --server data/site --files data/site/**"
   }
 }

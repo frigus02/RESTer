@@ -103,7 +103,7 @@
             ready () {
                 this._setPageTitle('About');
 
-                fetch('../../bower.json')
+                fetch('bower.json')
                     .then(response => response.json())
                     .then(bower => {
                         const bowerComponents = Object.keys(bower.dependencies).map(name => {

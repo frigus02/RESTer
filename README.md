@@ -46,13 +46,6 @@ Working on the website works best with livereload features. To have them, first 
 
     npm start
 
-To install the full extension from the local code use one of the following shortcuts for *jpm*:
-
-    npm run post
-    npm run watchpost
-
-These commands require the awesome [Extension Auto-Installer](https://addons.mozilla.org/de/thunderbird/addon/autoinstaller). In addition you might need to set the preference `xpinstall.signatures.required` in about:config to `false`.
-
 ### Package
 
 To package the addon for AMO, run the following commands:

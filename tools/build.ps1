@@ -7,6 +7,7 @@ Param(
 $ScriptPath = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . $ScriptPath\_helpers.ps1
 $OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 
 $polylint = ".\node_modules\.bin\polylint"
