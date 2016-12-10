@@ -81,7 +81,8 @@
 
             _requestFields: ['id', 'collection', 'title', 'method', 'url'],
 
-            ready () {
+            show () {
+                this.searchText = '';
                 RESTer.rester.getRequests(this._requestFields).then(requests => {
                     this._setItems(requests.map(r => ({
                         title: `${r.collection} / ${r.title}`,
@@ -90,10 +91,7 @@
                         data: r
                     })));
                 });
-            },
 
-            show () {
-                this.searchText = '';
                 this.$.dialog.open();
             },
 
