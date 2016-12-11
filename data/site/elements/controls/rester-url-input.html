@@ -4,8 +4,8 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
+<link rel="import" href="rester-form-data-input.html">
 <link rel="import" href="rester-input-control-behavior.html">
-<link rel="import" href="rester-url-query-input.html">
 
 <dom-module id="rester-url-input">
     <template>
@@ -44,9 +44,10 @@
                     value="{{originAndPath}}"
                     label="[[label]]">
             </paper-input>
-            <rester-url-query-input
+            <rester-form-data-input
                     value="{{query}}"
-                    no-encode></rester-url-query-input>
+                    no-encode
+                    text-only></rester-form-data-input>
         </div>
 
         <paper-icon-button

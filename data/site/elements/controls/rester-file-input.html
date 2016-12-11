@@ -1,0 +1,65 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
+
+<link rel="import" href="rester-input-control-behavior.html">
+
+<dom-module id="rester-file-input">
+    <template>
+        <style>
+            :host {
+                display: inline;
+            }
+
+            input {
+                width: 100%;
+            }
+        </style>
+
+        <input id="input"
+                type="file"
+                name$="[[name]]"
+                required$="[[required]]"
+                on-change="_onInputChange">
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rester-file-input',
+
+            behaviors: [
+                RESTer.InputControlBehavior,
+                Polymer.IronFormElementBehavior
+            ],
+
+            properties: {
+                value: {
+                    type: String,
+                    notify: true,
+                    observer: '_onValueChanged'
+                },
+                files: {
+                    type: Array,
+                    notify: true,
+                    readOnly: true
+                }
+            },
+
+            get _focusableElement () {
+                return this.$.input;
+            },
+
+            _onValueChanged () {
+                if (!this.value) {
+                    this.$.input.value = null;
+                }
+            },
+
+            _onInputChange () {
+                this._setFiles(Array.from(this.$.input.files));
+
+                const file = this.files[0];
+                this.value = file ? file.name : '';
+            }
+        });
+    </script>
+</dom-module>

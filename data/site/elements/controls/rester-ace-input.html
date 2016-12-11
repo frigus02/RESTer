@@ -164,6 +164,7 @@
 
             _editor: undefined,
             _oldValue: '',
+            _ignoreEditorChangeEvents: false,
 
             ready () {
                 ace.config.set('basePath', this.resolveUrl('../../bower_components/ace-builds/src-min-noconflict/'));
@@ -174,6 +175,8 @@
                 this._editor.setTheme('ace/theme/twilight');
                 this._editor.$blockScrolling = Infinity;
                 this._editor.on('change', () => {
+                    if (this._ignoreEditorChangeEvents) return;
+
                     this._oldValue = this._editor.getValue();
                     this.value = this._oldValue;
                 });
@@ -193,7 +196,9 @@
             _onValueChanged () {
                 if (!this._editor || this.value === this._oldValue) return;
                 this._oldValue = this.value || '';
+                this._ignoreEditorChangeEvents = true;
                 this._editor.setValue(this._oldValue);
+                this._ignoreEditorChangeEvents = false;
                 this._editor.clearSelection();
                 this._editor.scrollToLine(0);
             },

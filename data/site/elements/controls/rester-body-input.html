@@ -9,8 +9,9 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 <link rel="import" href="rester-ace-input.html">
+<link rel="import" href="rester-form-data-input.html">
+<link rel="import" href="rester-form-data-input.html">
 <link rel="import" href="rester-input-control-behavior.html">
-<link rel="import" href="rester-url-query-input.html">
 
 <dom-module id="rester-body-input">
     <template>
@@ -18,7 +19,6 @@
             :host {
                 display: block;
                 position: relative;
-                padding-top: 8px;
             }
 
             #options {
@@ -38,7 +38,11 @@
                 margin: 4px 0;
             }
 
-            rester-url-query-input {
+            rester-ace-input {
+                padding-top: 8px;
+            }
+
+            rester-form-data-input {
                 margin-right: 40px;
             }
         </style>
@@ -80,11 +84,13 @@
         </template>
 
         <template is="dom-if" if="[[selectedInputOption.isInputTypeForm]]">
-            <rester-url-query-input
+            <rester-form-data-input
                     value="{{value}}"
                     name="[[name]]"
+                    no-encode$="[[!selectedInputOption.isInputTypeFormMultipart]]"
+                    text-only$="[[!selectedInputOption.isInputTypeFormMultipart]]"
                     required$="[[required]]">
-            </rester-url-query-input>
+            </rester-form-data-input>
         </template>
     </template>
 
@@ -134,10 +140,17 @@
                             beautifyMethod: 'xml'
                         },
                         {
-                            title: 'Form',
+                            title: 'Form (URL encoded)',
                             isInputTypeForm: true,
                             contentType: 'application/x-www-form-urlencoded',
                             contentTypeSearch: 'x-www-form-urlencoded'
+                        },
+                        {
+                            title: 'Form (Multipart)',
+                            isInputTypeForm: true,
+                            isInputTypeFormMultipart: true,
+                            contentType: 'multipart/form-data',
+                            contentTypeSearch: 'form-data'
                         }
                     ]
                 },
