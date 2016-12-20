@@ -43,120 +43,124 @@
     </template>
 
     <script>
-        const COMMON_MIME_TYPES = [
-            'application/json',
-            'application/x-www-form-urlencoded',
-            'application/xhtml+xml',
-            'application/xml',
-            'text/html',
-            'text/plain',
-            'text/xml'
-        ];
+        (function () {
 
-        const REQUEST_HEADERS = [
-            'Accept',
-            'Accept-Charset',
-            'Accept-Encoding',
-            'Accept-Language',
-            'Authorization',
-            'Cache-Control',
-            'Connection',
-            'Content-Type',
-            'Date',
-            'Expect',
-            'From',
-            'Host',
-            'If-Match',
-            'If-Modified-Since',
-            'If-None-Match',
-            'If-Range',
-            'If-Unmodified-Since',
-            'Max-Forwards',
-            'Pragma',
-            'Proxy-Authorization',
-            'Range',
-            'Referer',
-            'TE',
-            'Trailer',
-            'Transfer-Encoding',
-            'Upgrade',
-            'User-Agent',
-            'Via',
-            'Warning'
-        ];
+            const COMMON_MIME_TYPES = [
+                'application/json',
+                'application/x-www-form-urlencoded',
+                'application/xhtml+xml',
+                'application/xml',
+                'text/html',
+                'text/plain',
+                'text/xml'
+            ];
 
-        const REQUEST_HEADER_VALUES = {
-            'Accept': COMMON_MIME_TYPES,
-            'Accept-Charset': ['utf-8', 'iso-8859-1'],
-            'Accept-Encoding': ['gzip', 'deflate'],
-            'Authorization': ['Basic ', 'Bearer ', 'Digest '],
-            'Cache-Control': ['no-cache'],
-            'Connection': ['close', 'keep-alive'],
-            'Content-Type': COMMON_MIME_TYPES
-        };
+            const REQUEST_HEADERS = [
+                'Accept',
+                'Accept-Charset',
+                'Accept-Encoding',
+                'Accept-Language',
+                'Authorization',
+                'Cache-Control',
+                'Connection',
+                'Content-Type',
+                'Date',
+                'Expect',
+                'From',
+                'Host',
+                'If-Match',
+                'If-Modified-Since',
+                'If-None-Match',
+                'If-Range',
+                'If-Unmodified-Since',
+                'Max-Forwards',
+                'Pragma',
+                'Proxy-Authorization',
+                'Range',
+                'Referer',
+                'TE',
+                'Trailer',
+                'Transfer-Encoding',
+                'Upgrade',
+                'User-Agent',
+                'Via',
+                'Warning'
+            ];
 
-        Polymer({
-            is: 'rester-header-input',
+            const REQUEST_HEADER_VALUES = {
+                'Accept': COMMON_MIME_TYPES,
+                'Accept-Charset': ['utf-8', 'iso-8859-1'],
+                'Accept-Encoding': ['gzip', 'deflate'],
+                'Authorization': ['Basic ', 'Bearer ', 'Digest '],
+                'Cache-Control': ['no-cache'],
+                'Connection': ['close', 'keep-alive'],
+                'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data']
+            };
 
-            behaviors: [
-                RESTer.InputControlBehavior
-            ],
+            Polymer({
+                is: 'rester-header-input',
 
-            properties: {
-                value: {
-                    type: Array,
-                    notify: true,
-                    observer: '_onValueChanged'
+                behaviors: [
+                    RESTer.InputControlBehavior
+                ],
+
+                properties: {
+                    value: {
+                        type: Array,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    headers: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
+                    },
+                    requestHeaders: {
+                        type: Array,
+                        readOnly: true,
+                        value: REQUEST_HEADERS
+                    },
+                    requestHeaderValues: {
+                        type: Object,
+                        readOnly: true,
+                        value: REQUEST_HEADER_VALUES
+                    }
                 },
-                headers: {
-                    type: Array,
-                    readOnly: true,
-                    value: []
+
+                get _focusableElement () {
+                    return this.$$('rester-autocomplete-input');
                 },
-                requestHeaders: {
-                    type: Array,
-                    readOnly: true,
-                    value: REQUEST_HEADERS
+
+                ready () {
+                    this._ensureEmptyHeader();
                 },
-                requestHeaderValues: {
-                    type: Object,
-                    readOnly: true,
-                    value: REQUEST_HEADER_VALUES
+
+                _onValueChanged () {
+                    this._setHeaders([...this.value]);
+                    this._ensureEmptyHeader();
+                },
+
+                _onHeadersChanged () {
+                    this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
+                    this._ensureEmptyHeader();
+                },
+
+                _ensureEmptyHeader () {
+                    if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
+                        this.push('headers', {name: '', value: ''});
+                    }
+                },
+
+                _removeHeader (e) {
+                    this.splice('headers', e.model.index, 1);
+                    this._onHeadersChanged();
+                },
+
+                _getRequestHeaderValues (headerName) {
+                    return this.requestHeaderValues[headerName] || [];
                 }
-            },
+            });
 
-            get _focusableElement () {
-                return this.$$('rester-autocomplete-input');
-            },
-
-            ready () {
-                this._ensureEmptyHeader();
-            },
-
-            _onValueChanged () {
-                this._setHeaders([...this.value]);
-                this._ensureEmptyHeader();
-            },
-
-            _onHeadersChanged () {
-                this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
-                this._ensureEmptyHeader();
-            },
-
-            _ensureEmptyHeader () {
-                if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
-                    this.push('headers', {name: '', value: ''});
-                }
-            },
-
-            _removeHeader (e) {
-                this.splice('headers', e.model.index, 1);
-                this._onHeadersChanged();
-            },
-
-            _getRequestHeaderValues (headerName) {
-                return this.requestHeaderValues[headerName] || [];
-            }
-        });
+        })();
     </script>
 </dom-module>

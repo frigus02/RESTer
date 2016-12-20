@@ -86,9 +86,9 @@
         <template is="dom-if" if="[[selectedInputOption.isInputTypeForm]]">
             <rester-form-data-input
                     value="{{value}}"
+                    files="{{files}}"
                     name="[[name]]"
-                    no-encode$="[[!selectedInputOption.isInputTypeFormMultipart]]"
-                    text-only$="[[!selectedInputOption.isInputTypeFormMultipart]]"
+                    no-encode
                     required$="[[required]]">
             </rester-form-data-input>
         </template>
@@ -109,6 +109,9 @@
                     notify: true,
                     value: ''
                 },
+                files: {
+                    type: Object
+                },
                 contentType: {
                     type: String,
                     notify: true,
@@ -127,7 +130,7 @@
                             title: 'JSON',
                             isInputTypeAce: true,
                             contentType: 'application/json',
-                            contentTypeSearch: 'json',
+                            contentTypeSearch: ['json'],
                             aceMode: 'ace/mode/json',
                             beautifyMethod: 'json'
                         },
@@ -135,22 +138,19 @@
                             title: 'XML',
                             isInputTypeAce: true,
                             contentType: 'application/xml',
-                            contentTypeSearch: 'xml',
+                            contentTypeSearch: ['xml'],
                             aceMode: 'ace/mode/xml',
                             beautifyMethod: 'xml'
                         },
                         {
-                            title: 'Form (URL encoded)',
+                            title: 'Form',
                             isInputTypeForm: true,
-                            contentType: 'application/x-www-form-urlencoded',
-                            contentTypeSearch: 'x-www-form-urlencoded'
-                        },
-                        {
-                            title: 'Form (Multipart)',
-                            isInputTypeForm: true,
-                            isInputTypeFormMultipart: true,
-                            contentType: 'multipart/form-data',
-                            contentTypeSearch: 'form-data'
+                            contentType () {
+                                return this.files && Object.keys(this.files).length > 0
+                                    ? 'multipart/form-data'
+                                    : 'application/x-www-form-urlencoded';
+                            },
+                            contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
                         }
                     ]
                 },
@@ -161,6 +161,10 @@
                 }
             },
 
+            observers: [
+                '_onFilesChanged(files.*)'
+            ],
+
             get _focusableElement () {
                 return this.$$('rester-ace-input');
             },
@@ -169,9 +173,15 @@
                 this.selectedInputOption = this.inputOptions[0];
             },
 
+            _onFilesChanged () {
+                this._updateContentType();
+            },
+
             _onContentTypeChanged () {
-                const newOption = this.inputOptions.find(o =>
-                    this.contentType.toLowerCase().includes(o.contentTypeSearch));
+                const lowerContentType = this.contentType.toLowerCase();
+                const newOption = this.inputOptions.find(option =>
+                    option.contentTypeSearch && option.contentTypeSearch.some(
+                        search => lowerContentType.includes(search)));
 
                 if (newOption) {
                     this.selectedInputOption = newOption;
@@ -184,9 +194,7 @@
 
             _selectInputOption (e) {
                 this.selectedInputOption = e.model.item;
-                if (this.setContentTypeHeader) {
-                    this.contentType = this.selectedInputOption.contentType;
-                }
+                this._updateContentType();
             },
 
             _toggleSetContentTypeHeader () {
@@ -197,6 +205,15 @@
                 this.$.options.close();
                 if (this.selectedInputOption.beautifyMethod) {
                     this.value = vkbeautify[this.selectedInputOption.beautifyMethod](this.value, 4);
+                }
+            },
+
+            _updateContentType () {
+                if (this.setContentTypeHeader) {
+                    const newContentType = this.selectedInputOption.contentType;
+                    this.contentType = typeof newContentType === 'function'
+                        ? newContentType.call(this)
+                        : newContentType;
                 }
             }
         });

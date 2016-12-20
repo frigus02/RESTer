@@ -140,28 +140,29 @@
 
                     <div class="input-tabs layout horizontal">
                         <paper-tabs selected="{{requestSelectedTab}}">
-                            <paper-tab id="request-tab-0">Headers</paper-tab>
-                            <paper-tab id="request-tab-1">Body</paper-tab>
-                            <paper-tab id="request-tab-2">Authorization</paper-tab>
-                            <paper-tab id="request-tab-3">Variables</paper-tab>
+                            <paper-tab id="requestTab0">Headers</paper-tab>
+                            <paper-tab id="requestTab1">Body</paper-tab>
+                            <paper-tab id="requestTab2">Authorization</paper-tab>
+                            <paper-tab id="requestTab3">Variables</paper-tab>
                         </paper-tabs>
                     </div>
                     <iron-pages selected="[[requestSelectedTab]]">
-                        <div role="tabpanel" aria-labelledby="request-tab-0">
+                        <div role="tabpanel" aria-labelledby="requestTab0">
                             <rester-header-input value="{{request.headers}}"></rester-header-input>
                         </div>
-                        <div role="tabpanel" aria-labelledby="request-tab-1">
+                        <div role="tabpanel" aria-labelledby="requestTab1">
                             <rester-body-input
+                                    id="bodyInput"
                                     value="{{request.body}}"
                                     content-type="[[requestContentType]]"
                                     on-content-type-changed="_onRequestContentTypeChangedByBody"></rester-body-input>
                         </div>
-                        <div role="tabpanel" aria-labelledby="request-tab-2">
+                        <div role="tabpanel" aria-labelledby="requestTab2">
                             <rester-authorization-input
                                     authorization="[[requestAuthorization]]"
                                     on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
                         </div>
-                        <div role="tabpanel" aria-labelledby="request-tab-3">
+                        <div role="tabpanel" aria-labelledby="requestTab3">
                             <rester-variables-input
                                 value="{{requestVariableValues}}"
                                 source-obj="[[request]]"
@@ -256,11 +257,7 @@
                 },
                 historyEntry: {
                     type: Object,
-                    readOnly: true,
-                    value: {
-                        time: new Date('2016-11-27 11:35:10.123'),
-                        timeEnd: new Date('2016-11-27 11:35:11.653')
-                    }
+                    readOnly: true
                 },
                 historyEntryElapsedMillis: {
                     type: Number,
@@ -462,7 +459,12 @@
                 }
 
                 this._setRequestIsSending(true);
-                RESTer.rester.sendRequest(compiledRequest)
+                RESTer.encode.readFilesAsVariableValues(this.$.bodyInput.files)
+                    .then(files => {
+                        compiledRequest.variables.values = files;
+
+                        return RESTer.rester.sendRequest(compiledRequest);
+                    })
                     .then(plainResponse => {
                         const requestClone = _.cloneDeep(this.request);
                         requestClone.variables.values = usedVariableValues;

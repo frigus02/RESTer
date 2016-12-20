@@ -7,6 +7,7 @@
     "freeze": true,
     "futurehostile": true,
     "latedef": "nofunc",
+    "laxbreak": true,
     "loopfunc": true,
     "noarg": true,
     "nocomma": true,

@@ -2,24 +2,6 @@
 
     const self = RESTer.register('oauth2');
 
-    function encodeQueryString(params) {
-        return Object.keys(params)
-            .map(p => `${p}=${encodeURIComponent(params[p])}`)
-            .join('&');
-    }
-
-    function decodeQueryString(str) {
-        return str.split('&').reduce((params, currentParam) => {
-            const keyValue = currentParam.split('=');
-            params[keyValue[0]] = decodeURIComponent(keyValue[1]);
-            return params;
-        }, {});
-    }
-
-    function generateUri(base, params) {
-        return base + '?' + encodeQueryString(params);
-    }
-
     /**
      * Decode a JSON web token.
      *
@@ -106,7 +88,7 @@
         }
 
         return RESTer.rester.sendBrowserRequest({
-            url: generateUri(config.authorizationRequestEndpoint, params),
+            url: RESTer.encode.generateUri(config.authorizationRequestEndpoint, params),
             targetUrl: config.redirectUri
         });
     }
@@ -135,10 +117,10 @@
         }
 
         if (config.accessTokenRequestMethod === 'GET') {
-            accessTokenRequest.url = generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
+            accessTokenRequest.url = RESTer.encode.generateUri(config.accessTokenRequestEndpoint, accessTokenRequestParams);
         } else {
             accessTokenRequest.url = config.accessTokenRequestEndpoint;
-            accessTokenRequest.body = encodeQueryString(accessTokenRequestParams);
+            accessTokenRequest.body = RESTer.encode.encodeQueryString(accessTokenRequestParams);
         }
 
         return RESTer.rester.sendRequest(accessTokenRequest);
@@ -149,8 +131,8 @@
         // part of the url and some in the fragment part. So we just check both.
 
         const url = new URL(response.url),
-              hash = decodeQueryString(url.hash.substr(1)),
-              search = decodeQueryString(url.search.substr(1));
+              hash = RESTer.encode.decodeQueryString(url.hash.substr(1)),
+              search = RESTer.encode.decodeQueryString(url.search.substr(1));
 
         if (requiredProperties.every(p => hash[p])) {
             return hash;

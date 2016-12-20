@@ -92,6 +92,7 @@
                 },
                 files: {
                     type: Object,
+                    notify: true,
                     readOnly: true,
                     value: {}
                 },
@@ -131,21 +132,24 @@
 
                 if (oldValue) {
                     delete this.files[oldValue];
+                    this.notifyPath(['files', oldValue]);
                 }
 
                 if (file) {
                     let name = file.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                    if (this._isFileNameInUse(name)) {
+                    if (this._isFileNameInUse(name, index)) {
                         let suffix;
-                        for (suffix = 1; this._isFileNameInUse(name + suffix); suffix++);
+                        for (suffix = 1; this._isFileNameInUse(name + suffix, index); suffix++);
                         name += suffix;
                     }
 
-                    this.files[name] = file;
+                    this.set(['files', name], file);
                     this.set(['formDataEntries', index, 'value'], name);
                 } else {
                     this.set(['formDataEntries', index, 'value'], '');
                 }
+
+                this._onFormDataEntriesChanged();
             },
 
             _ensureEmptyFormDataEntry () {
@@ -189,7 +193,12 @@
                               fileMatch = /^\{\$file\.([^}]*)\}$/gi.exec(value);
 
                         if (fileMatch && !this.textOnly) {
-                            return {name, value: fileMatch[1], type: 'file'};
+                            let fileName = fileMatch[1];
+                            if (!this.files[fileName]) {
+                                fileName = null;
+                            }
+
+                            return {name, value: fileName, type: 'file'};
                         } else {
                             return {name, value, type: 'text'};
                         }
@@ -201,6 +210,7 @@
                 for (let key in this.files) {
                     if (this.files.hasOwnProperty(key) && !this._isFileNameInUse(key)) {
                         delete this.files[key];
+                        this.notifyPath(['files', key]);
                     }
                 }
             },
@@ -213,8 +223,9 @@
                 return this.noEncode ? value : decodeURIComponent(value);
             },
 
-            _isFileNameInUse (name) {
-                return this.formDataEntries.some(e => e.type === 'file' && e.value === name);
+            _isFileNameInUse (name, ignoreIndex) {
+                return this.formDataEntries.some((e, i) =>
+                    i !== ignoreIndex && e.type === 'file' && e.value === name);
             }
         });
     </script>
