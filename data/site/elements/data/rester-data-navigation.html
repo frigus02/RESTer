@@ -175,7 +175,7 @@
                     title: `${RESTer.format.time(historyEntry.time)} ${requestTitle}`,
                     subtitle: `${compiledRequest.method} ${compiledRequest.url}`,
                     action: {
-                        url: `#/request/${historyEntry.request.id}/history/${historyEntry.id}`
+                        url: `#/request/${historyEntry.request.id || ''}/history/${historyEntry.id}`
                     }
                 };
             },

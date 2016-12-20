@@ -303,7 +303,7 @@
                 if (this.routeActive && this.historyRouteActive) {
                     RESTer.rester.getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
                         if (historyEntry.request.id !== +this.routeData.requestId &&
-                            !(historyEntry.request.id === undefined && this.routeData.requestId === null)) {
+                            !(historyEntry.request.id === undefined && this.routeData.requestId === '')) {
                             this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
                             window.location = '#/';
                         } else {
@@ -483,7 +483,7 @@
                     })
                     .then(historyId => {
                         this._setRequestIsSending(false);
-                        window.location = `#/request/${this.request.id}/history/${historyId}`;
+                        window.location = `#/request/${this.request.id || ''}/history/${historyId}`;
                     })
                     .catch(error => {
                         this._setRequestIsSending(false);
