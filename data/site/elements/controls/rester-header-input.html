@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="rester-autocomplete-input.html">
-<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-header-input">
     <template>
@@ -100,10 +99,6 @@
             Polymer({
                 is: 'rester-header-input',
 
-                behaviors: [
-                    RESTer.InputControlBehavior
-                ],
-
                 properties: {
                     value: {
                         type: Array,
@@ -127,10 +122,6 @@
                     }
                 },
 
-                get _focusableElement () {
-                    return this.$$('rester-autocomplete-input');
-                },
-
                 ready () {
                     this._ensureEmptyHeader();
                 },
@@ -141,8 +132,12 @@
                 },
 
                 _onHeadersChanged () {
-                    this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
-                    this._ensureEmptyHeader();
+                    // Async ensures, this event is triggered after item.name and item.value
+                    // properties have been updated.
+                    this.async(() => {
+                        this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
+                        this._ensureEmptyHeader();
+                    });
                 },
 
                 _ensureEmptyHeader () {

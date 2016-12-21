@@ -9,7 +9,6 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
 <link rel="import" href="rester-file-input.html">
-<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-form-data-input">
     <template>
@@ -80,7 +79,6 @@
             is: 'rester-form-data-input',
 
             behaviors: [
-                RESTer.InputControlBehavior,
                 Polymer.IronFormElementBehavior
             ],
 
@@ -108,10 +106,6 @@
                     type: Array,
                     readOnly: true
                 }
-            },
-
-            get _focusableElement () {
-                return this.$$('paper-input');
             },
 
             _onValueChanged () {

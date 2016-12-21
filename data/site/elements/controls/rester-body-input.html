@@ -166,7 +166,9 @@
             ],
 
             get _focusableElement () {
-                return this.$$('rester-ace-input');
+                return this.selectedInputOption.isInputTypeAce
+                    ? this.$$('rester-ace-input')
+                    : this.$$('rester-form-data-input');
             },
 
             ready () {

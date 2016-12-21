@@ -5,7 +5,6 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 <link rel="import" href="rester-form-data-input.html">
-<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-url-input">
     <template>
@@ -62,7 +61,6 @@
             is: 'rester-url-input',
 
             behaviors: [
-                RESTer.InputControlBehavior,
                 Polymer.IronFormElementBehavior
             ],
 
@@ -90,14 +88,6 @@
                     type: Boolean,
                     value: false,
                     notify: true
-                }
-            },
-
-            get _focusableElement () {
-                if (this.expanded) {
-                    return this.$.inputOriginAndPath;
-                } else {
-                    return this.$.inputAbsolute;
                 }
             },
 
