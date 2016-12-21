@@ -173,7 +173,7 @@
                     .map(entry => {
                         let str = this._encode(entry.name);
                         if (entry.type === 'file') {
-                            str += '=' + `{$file.${entry.value}}`;
+                            str += '=' + `[$file.${entry.value}]`;
                         } else if (entry.value) {
                             str += '=' + this._encode(entry.value);
                         }
@@ -190,7 +190,7 @@
                         const keyValue = row.split('='),
                               name = this._decode(keyValue[0]),
                               value = this._decode(keyValue[1] || ''),
-                              fileMatch = /^\{\$file\.([^}]*)\}$/gi.exec(value);
+                              fileMatch = /^\[\$file\.([^}]*)\]$/gi.exec(value);
 
                         if (fileMatch && !this.textOnly) {
                             let fileName = fileMatch[1];

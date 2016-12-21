@@ -293,6 +293,18 @@
                     check: '_lintCheckEmptyVariables',
                     fixLabel: 'View variables',
                     fix: '_lintFixEmptyVariables'
+                },
+                {
+                    message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
+                    check: '_lintCheckFilesWithoutMultipart',
+                    fixLabel: 'Set content type',
+                    fix: '_lintFixFilesWithoutMultipart'
+                },
+                {
+                    message: 'There are empty file inputs.',
+                    check: '_lintCheckEmptyFiles',
+                    fixLabel: 'View body',
+                    fix: '_lintFixEmptyFiles'
                 }
             ],
 
@@ -460,8 +472,10 @@
 
                 this._setRequestIsSending(true);
                 RESTer.encode.readFilesAsVariableValues(this.$.bodyInput.files)
-                    .then(files => {
-                        compiledRequest.variables.values = files;
+                    .then(fileValues => {
+                        compiledRequest.serverVariables = {
+                            values: fileValues
+                        };
 
                         return RESTer.rester.sendRequest(compiledRequest);
                     })
@@ -515,6 +529,28 @@
 
             _lintFixEmptyVariables () {
                 this.requestSelectedTab = 3;
+            },
+
+            _lintCheckFilesWithoutMultipart () {
+                return this.requestContentType === 'multipart/form-data' ||
+                    Object.keys(this.$.bodyInput.files || {}).length === 0;
+            },
+
+            _lintFixFilesWithoutMultipart () {
+                this._setRequestHeader('Content-Type', 'multipart/form-data');
+            },
+
+            _lintCheckEmptyFiles () {
+                const requiredFiles = this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+                const selectedFiles = this.$.bodyInput.files;
+
+                return !requiredFiles || requiredFiles
+                    .map(file => file.substring(7, file.length - 1))
+                    .every(file => selectedFiles[file]);
+            },
+
+            _lintFixEmptyFiles () {
+                this.requestSelectedTab = 1;
             }
         });
     </script>
