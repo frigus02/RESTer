@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.0] - 2016-12-21
+### Added
+- Support for multipart forms including files.
+
+### Fixed
+- Smaller UI issues with navigation and autocompletion of input fields.
+
 ## [1.16.0] - 2016-12-10
 ### Changed
 - Switched framework from AngularJS to Polymer. AngularJS is discouraged (old versions are even banned) from AMO ([details](https://github.com/mozilla/addons-linter/blob/master/docs/third-party-libraries.md)).
@@ -193,7 +200,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.16.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/1.17.0...HEAD
+[1.17.0]: https://github.com/frigus02/RESTer/compare/1.16.0...1.17.0
 [1.16.0]: https://github.com/frigus02/RESTer/compare/1.15.2...1.16.0
 [1.15.2]: https://github.com/frigus02/RESTer/compare/1.15.1...1.15.2
 [1.15.1]: https://github.com/frigus02/RESTer/compare/1.15.0...1.15.1
