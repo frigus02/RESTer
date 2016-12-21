@@ -218,7 +218,7 @@
                         this._moveSelectedIndexToPreviousItem();
                         break;
                     case 'Tab':
-                        if (this.dropdownVisible) {
+                        if (this.dropdownVisible && !e.shiftKey) {
                             this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
                         }
 

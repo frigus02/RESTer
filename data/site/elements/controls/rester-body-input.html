@@ -75,23 +75,21 @@
             </paper-menu>
         </paper-menu-button>
 
-        <template is="dom-if" if="[[selectedInputOption.isInputTypeAce]]">
-            <rester-ace-input
-                    mode="[[selectedInputOption.aceMode]]"
-                    value="{{value}}"
-                    name="[[name]]"
-                    required$="[[required]]"></rester-ace-input>
-        </template>
+        <rester-ace-input
+                hidden$="[[!selectedInputOption.isInputTypeAce]]"
+                mode="[[selectedInputOption.aceMode]]"
+                value="{{value}}"
+                name="[[name]]"
+                required$="[[required]]"></rester-ace-input>
 
-        <template is="dom-if" if="[[selectedInputOption.isInputTypeForm]]">
-            <rester-form-data-input
-                    value="{{value}}"
-                    files="{{files}}"
-                    name="[[name]]"
-                    no-encode
-                    required$="[[required]]">
-            </rester-form-data-input>
-        </template>
+        <rester-form-data-input
+                hidden$="[[!selectedInputOption.isInputTypeForm]]"
+                value="{{value}}"
+                files="{{files}}"
+                name="[[name]]"
+                no-encode
+                required$="[[required]]">
+        </rester-form-data-input>
     </template>
 
     <script>
@@ -180,7 +178,7 @@
             },
 
             _onContentTypeChanged () {
-                const lowerContentType = this.contentType.toLowerCase();
+                const lowerContentType = (this.contentType || '').toLowerCase();
                 const newOption = this.inputOptions.find(option =>
                     option.contentTypeSearch && option.contentTypeSearch.some(
                         search => lowerContentType.includes(search)));
@@ -211,7 +209,7 @@
             },
 
             _updateContentType () {
-                if (this.setContentTypeHeader) {
+                if (this.setContentTypeHeader && this.selectedInputOption) {
                     const newContentType = this.selectedInputOption.contentType;
                     this.contentType = typeof newContentType === 'function'
                         ? newContentType.call(this)

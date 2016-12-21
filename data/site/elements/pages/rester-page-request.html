@@ -354,10 +354,10 @@
             },
 
             _computeHeader (headers, headerName) {
-                let header = headers.value.find(h => h.name.toLowerCase() === headerName.toLowerCase()),
-                    headerValue = header ? header.value : '';
+                let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase()),
+                    headerValue = header && header.value;
 
-                return headerValue.toLowerCase();
+                return headerValue ? headerValue.toLowerCase() : headerValue;
             },
 
             _computeResponseBadgeType (status) {
@@ -412,7 +412,7 @@
                     this.request.headers.splice(index, 1);
                 }
 
-                if (value) {
+                if (value || value === '') {
                     const newHeader = {
                         name: headerName,
                         value: value
