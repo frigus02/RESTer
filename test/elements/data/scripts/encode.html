@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../data/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../../data/site/bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../../../data/site/elements/data/rester-data.html">
+</head>
+<body>
+    <script>
+        suite('RESTer.encode', function () {
+            const params = {
+                $filter: "Name eq 'John'",
+                $select: 'Age,MailAddress',
+                custom: '12'
+            };
+
+            const queryString = '$filter=Name%20eq%20\'John\'&$select=Age%2CMailAddress&custom=12';
+
+            test('encodeQueryString encodes specified object into query string', function () {
+                assert.equal(RESTer.encode.encodeQueryString(params), queryString);
+            });
+
+            test('decodeQueryString decodes specified query string into object', function () {
+                assert.deepEqual(RESTer.encode.decodeQueryString(queryString), params);
+            });
+
+            suite('with stubbed encodeQueryString', function () {
+                const stubbedQueryString = 'a=b';
+
+                setup(function () {
+                    sinon.stub(RESTer.encode, 'encodeQueryString').returns(stubbedQueryString);
+                });
+
+                teardown(function () {
+                    RESTer.encode.encodeQueryString.restore();
+                });
+
+                test('generateUri appends encoded params to base url', function () {
+                    const baseUrl = 'https://example.com';
+
+                    assert.equal(RESTer.encode.generateUri(baseUrl, params), `${baseUrl}?${stubbedQueryString}`);
+                });
+            });
+
+            suite('with stubbed FileReader', function () {
+                const StubFileReader = {
+                    addEventListener: sinon.stub(),
+                    readAsDataURL: sinon.stub()
+                };
+
+                setup(function () {
+                    sinon.stub(window, 'FileReader').returns(StubFileReader);
+                });
+
+                teardown(function () {
+                    window.FileReader.restore();
+                });
+
+                test('readFileAsBase64CustomObject returns promise of with custom object containing the file data', function () {
+                    const file = {
+                        lastModified: Date.now(),
+                        name: 'example.txt',
+                        type: 'text/plain'
+                    };
+                    const fileData = 'SomeTestData';
+                    const promise = RESTer.encode.readFileAsBase64CustomObject(file);
+
+                    assert.instanceOf(promise, Promise);
+                    assert(StubFileReader.addEventListener.calledTwice);
+                    assert(StubFileReader.readAsDataURL.calledOnce);
+
+                    const loadListener = StubFileReader.addEventListener.getCall(0).args[1];
+                    loadListener({
+                        target: {
+                            result: 'data:text/plain;base64,' + fileData
+                        }
+                    });
+
+                    return promise.then(result => {
+                        assert.equal(result.lastModified, file.lastModified);
+                        assert.equal(result.name, file.name);
+                        assert.equal(result.type, file.type);
+                        assert.equal(result.data, fileData);
+                    });
+                });
+            });
+
+            suite('with stubbed readFileAsBase64CustomObject', function () {
+                const firstFile = {};
+                const secondFile = {};
+
+                setup(function () {
+                    sinon.stub(RESTer.encode, 'readFileAsBase64CustomObject')
+                        .onFirstCall().returns(Promise.resolve(firstFile))
+                        .onSecondCall().returns(Promise.resolve(secondFile));
+                });
+
+                teardown(function () {
+                    RESTer.encode.readFileAsBase64CustomObject.restore();
+                });
+
+                test('readFilesAsVariableValues returns promise with object containing all file data', function () {
+                    const promise = RESTer.encode.readFilesAsVariableValues({
+                        first: {},
+                        second: {}
+                    });
+
+                    assert.instanceOf(promise, Promise);
+
+                    return promise.then(result => {
+                        assert.equal(result['$file.first'], firstFile);
+                        assert.equal(result['$file.second'], secondFile);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
