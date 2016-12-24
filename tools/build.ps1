@@ -13,9 +13,8 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 $polylint = ".\node_modules\.bin\polylint"
 $vulcanize = ".\node_modules\.bin\vulcanize"
 $crisper = ".\node_modules\.bin\crisper"
-$browserSync = ".\node_modules\.bin\browser-sync"
 
-$src = "data/site"
+$src = "src"
 $dst = ".build"
 
 
@@ -31,34 +30,38 @@ function Clean
 function Lint
 {
     Write-Host "Lint..."
-    & $polylint --root $src --input elements/rester-app.html
+    & $polylint --root $src/site --input elements/rester-app.html
     QuitIfLastCommandFailed
 }
 
 function Build
 {
     Write-Host "Build..."
-    mkdir $dst/elements | Out-Null
+    mkdir $dst/site/elements | Out-Null
 
-    & $vulcanize $src/elements/rester-app.html --inline-script --strip-comments | & $crisper --html $dst/elements/rester-app.html --js $dst/elements/rester-app.js
+    #& $vulcanize $src/site/elements/rester-app.html --inline-script --strip-comments | & $crisper --html $dst/site/elements/rester-app.html --js $dst/site/elements/rester-app.js
+    & $vulcanize $src/site/index.html --inline-script --strip-comments | & $crisper --html $dst/site/index.html --js $dst/site/index.js
     QuitIfLastCommandFailed
 
     $additionalFiles = @(
-        "bower_components/ace-builds/src-min-noconflict/theme-twilight.js",
-        "bower_components/ace-builds/src-min-noconflict/mode-json.js",
-        "bower_components/ace-builds/src-min-noconflict/worker-json.js",
-        "bower_components/ace-builds/src-min-noconflict/mode-xml.js",
-        "bower_components/ace-builds/src-min-noconflict/worker-xml.js",
-        "bower_components/ace-builds/src-min-noconflict/mode-html.js",
-        "bower_components/ace-builds/src-min-noconflict/worker-html.js",
-        "bower_components/ace-builds/src-min-noconflict/mode-text.js",
-        "bower_components/ace-builds/src-min-noconflict/ext-searchbox.js",
-        "bower_components/webcomponentsjs/webcomponents-lite.min.js",
-        "elements/data/workers/format-code.js",
+        "background",
         "images",
-        "other_components/vkbeautify/vkbeautify.js",
-        "bower.json",
-        "index.html"
+        "site/bower_components/ace-builds/src-min-noconflict/theme-twilight.js",
+        "site/bower_components/ace-builds/src-min-noconflict/mode-json.js",
+        "site/bower_components/ace-builds/src-min-noconflict/worker-json.js",
+        "site/bower_components/ace-builds/src-min-noconflict/mode-xml.js",
+        "site/bower_components/ace-builds/src-min-noconflict/worker-xml.js",
+        "site/bower_components/ace-builds/src-min-noconflict/mode-html.js",
+        "site/bower_components/ace-builds/src-min-noconflict/worker-html.js",
+        "site/bower_components/ace-builds/src-min-noconflict/mode-text.js",
+        "site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js",
+        #"site/bower_components/webcomponentsjs/webcomponents-lite.min.js",
+        "site/elements/data/workers/format-code.js",
+        "site/images",
+        "site/other_components/vkbeautify/vkbeautify.js",
+        "site/bower.json",
+        #"site/index.html",
+        "manifest.json"
     )
     foreach ($file in $additionalFiles)
     {
@@ -82,14 +85,7 @@ function Build
     }
 }
 
-function Serve
-{
-    Write-Host "Serve..."
-    & $browserSync start --server $dst
-}
-
 
 Clean
 if (-not $DontLint) { Lint }
 Build
-if ($Serve) { Serve }

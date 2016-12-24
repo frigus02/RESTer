@@ -1,0 +1,46 @@
+{
+    "manifest_version": 2,
+    "name": "RESTer",
+    "version": "1.17.0",
+    "description": "A REST client for almost any web service.",
+    "icons": {
+        "48": "images/icon48.png",
+        "96": "images/icon96.png"
+    },
+    "applications": {
+        "gecko": {
+            "id": "rester@kuehle.me",
+            "strict_min_version": "51.0.0"
+        }
+    },
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>"
+    ],
+    "background": {
+        "scripts": [
+            "background/lib/base64js.js",
+            "background/lib/utils/event-listeners.js",
+            "background/lib/utils/fields.js",
+            "background/lib/data.js",
+            "background/lib/data/utils/db.js",
+            "background/lib/data/utils/migrations.js",
+            "background/lib/data/authorization-provider-configurations.js",
+            "background/lib/data/authorization-tokens.js",
+            "background/lib/data/environments.js",
+            "background/lib/data/requests.js",
+            "background/lib/data/responses.js",
+            "background/lib/data/history.js",
+            "background/lib/data/utils/import.js",
+            "background/lib/browser-request.js",
+            "background/lib/request.js",
+            "background/lib/settings.js",
+            "background/index.js"
+        ]
+    },
+    "browser_action": {
+        "default_icon": "images/icon.svg",
+        "browser_style": true
+    }
+}

@@ -13,7 +13,7 @@
     "nocomma": true,
     "nonbsp": true,
     "singleGroups": true,
-    "strict": "global",
+    "strict": "implied",
     "undef": true,
     "unused": true,
     "varstmt": true

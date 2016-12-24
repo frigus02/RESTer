@@ -1,37 +1,29 @@
 {
-  "id": "rester@kuehle.me",
   "name": "rester",
   "version": "1.17.0",
-  "title": "RESTer",
   "description": "A REST client for almost any web service.",
   "homepage": "https://github.com/frigus02/RESTer",
-  "permissions": {
-    "multiprocess": true,
-    "private-browsing": true
-  },
-  "preferences": [
-    {
-      "name": "additionalPageModIncludes",
-      "title": "Additional page-mod include URLs",
-      "type": "string",
-      "hidden": true
-    }
-  ],
-  "author": "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)",
+  "bugs": "https://github.com/frigus02/RESTer/issues",
   "license": "MIT",
-  "main": "index.js",
-  "devDependencies": {
-    "bower": "^1.8.0",
-    "browser-sync": "^2.11.1",
-    "crisper": "^2.0.2",
-    "polylint": "^2.10.1",
-    "vulcanize": "^1.14.12",
-    "web-component-tester": "^5.0.0"
-  },
+  "author": "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)",
+  "repository": "frigus02/RESTer",
   "scripts": {
     "postinstall": "bower install",
     "test": "wct",
     "testi": "browser-sync start --server . --files ./**",
-    "start": "browser-sync start --server data/site --files data/site/**"
-  }
+    "start": "livereload src"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "browser-sync": "^2.11.1",
+    "crisper": "^2.0.2",
+    "livereload": "^0.6.0",
+    "polylint": "^2.10.1",
+    "vulcanize": "^1.14.12",
+    "web-component-tester": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "private": true
 }
