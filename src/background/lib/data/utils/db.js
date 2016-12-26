@@ -6,14 +6,19 @@
     rester.data.utils.db = {};
 
 
-    let dbInstance = null;
+    let dbInstance = null,
+        dbInstancePromise = null;
 
     function open() {
         if (dbInstance) {
             return Promise.resolve(dbInstance);
         }
 
-        return new Promise((resolve, reject) => {
+        if (dbInstancePromise) {
+            return dbInstancePromise;
+        }
+
+        dbInstancePromise = new Promise((resolve, reject) => {
             const request = indexedDB.open('rester', 3);
 
             request.onupgradeneeded = function (event) {
@@ -26,6 +31,7 @@
                     environmentsStore;
 
                 db.onerror = function (event) {
+                    dbInstancePromise = null;
                     reject('Error upgrading database: ' + event.target.errorCode);
                 };
 
@@ -49,14 +55,18 @@
             };
 
             request.onerror = function (event) {
+                dbInstancePromise = null;
                 reject('Error opening database: ' + event.target.errorCode);
             };
 
             request.onsuccess = function (event) {
                 dbInstance = event.target.result;
+                dbInstancePromise = null;
                 resolve(dbInstance);
             };
         });
+
+        return dbInstancePromise;
     }
 
     function addTransactionChange(transaction, action, item) {

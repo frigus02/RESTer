@@ -90,7 +90,7 @@
 
             _openOldDatabase () {
                 return new Promise((resolve, reject) => {
-                    const request = window.indexedDB.open('rester');
+                    const request = window.indexedDB.open('rester-old');
 
                     request.onerror = function () {
                         reject();
@@ -108,7 +108,7 @@
             },
 
             _deleteOldDatabase () {
-                window.indexedDB.deleteDatabase('rester');
+                window.indexedDB.deleteDatabase('rester-old');
             },
 
             _getAllEntitiesFromDatabase (db) {
