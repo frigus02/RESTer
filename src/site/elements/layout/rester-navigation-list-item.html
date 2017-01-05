@@ -25,12 +25,12 @@
                 };
             }
 
-            :host[subitem] {
+            :host([subitem]) {
                 --paper-item-min-height: 36px;
                 --paper-item-body-two-line-min-height: 36px;
             }
 
-            :host[active] paper-item {
+            :host([active]) paper-item {
                 background-color: var(--paper-grey-800);
                 color: var(--primary-color);
                 font-weight: bold;
@@ -41,7 +41,7 @@
                 };
             }
 
-            :host[active] paper-item-body [secondary] {
+            :host([active]) paper-item-body [secondary] {
                 color: var(--primary-color);
                 font-weight: bold;
             }

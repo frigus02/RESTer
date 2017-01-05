@@ -21,7 +21,7 @@
                 transition: transform 0.25s ease;
             }
 
-            :host[expanded] .expand-button {
+            :host([expanded]) .expand-button {
                 transform: rotate(-180deg);
             }
         </style>
@@ -93,7 +93,13 @@
 
             _toggleExpanded () {
                 this.expanded = !this.expanded;
-                this._focusableElement.focus();
+                this.async(() => {
+                    if (this.expanded) {
+                        this.$.inputAbsolute.focus();
+                    } else {
+                        this.$.inputOriginAndPath.focus();
+                    }
+                });
             },
 
             _onValueChanged () {
