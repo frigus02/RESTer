@@ -41,9 +41,8 @@
      */
     rester.data.history.add = function (entry) {
         entry = new HistoryEntry(entry);
-        return db.transaction(['history'], 'readwrite', objectStores => {
-            return db.addEntityAndUpdateId(objectStores[0], entry);
-        });
+
+        return db.transaction().add('history', entry).execute();
     };
 
     /**
@@ -54,9 +53,7 @@
      * full history entry object when resolved.
      */
     rester.data.history.get = function (id) {
-        return db.transaction(['history'], 'readonly', objectStores => {
-            return db.getEntity(objectStores[0], id, HistoryEntry);
-        });
+        return db.get('history', HistoryEntry, id);
     };
 
     /**
@@ -68,9 +65,7 @@
      * a list of history entries when resolved.
      */
     rester.data.history.query = function (top) {
-        return db.transaction(['history'], 'readonly', objectStores => {
-            return db.getAllEntities(objectStores[0], null, HistoryEntry, top);
-        });
+        return db.query('history', HistoryEntry, top);
     };
 
     /**
@@ -84,9 +79,7 @@
         const entry = new HistoryEntry();
         entry.id = id;
 
-        return db.transaction(['history'], 'readwrite', objectStores => {
-            return db.deleteEntity(objectStores[0], entry);
-        });
+        return db.transaction().delete('history', entry).execute();
     };
 
 })();

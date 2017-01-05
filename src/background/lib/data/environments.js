@@ -28,30 +28,23 @@
 
     rester.data.environments.put = function (environment) {
         environment = new Environment(environment);
-        return db.transaction(['environments'], 'readwrite', objectStores => {
-            return db.putEntityAndUpdateId(objectStores[0], environment);
-        });
+
+        return db.transaction().put('environments', environment).execute();
     };
 
     rester.data.environments.get = function (id) {
-        return db.transaction(['environments'], 'readonly', objectStores => {
-            return db.getEntity(objectStores[0], id, Environment);
-        });
+        return db.get('environments', Environment, id);
     };
 
     rester.data.environments.query = function () {
-        return db.transaction(['environments'], 'readonly', objectStores => {
-            return db.getAllEntities(objectStores[0], null, Environment);
-        });
+        return db.query('environments', Environment);
     };
 
     rester.data.environments.delete = function (id) {
         const environment = new Environment();
         environment.id = id;
 
-        return db.transaction(['environments'], 'readwrite', objectStores => {
-            return db.deleteEntity(objectStores[0], environment);
-        });
+        return db.transaction().delete('environments', environment).execute();
     };
 
 })();

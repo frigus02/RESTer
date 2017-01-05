@@ -11,49 +11,60 @@
         pinSidenav: false
     };
 
-    function hasItem(key) {
-        return localStorage.hasOwnProperty(key);
+    function getSettings() {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get('settings', result => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve(result.settings || {});
+                }
+            });
+        });
     }
 
-    function getItem(key) {
-        const item = localStorage.getItem(key);
-        try {
-            return JSON.parse(item);
-        } catch (e) {
-        }
-    }
-
-    function setItem(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
+    function setSettings(settings) {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({settings}, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve();
+                }
+            });
+        });
     }
 
 
     rester.settings.onChange = rester.utils.eventListeners.create();
 
     rester.settings.get = function () {
-        const keys = Object.keys(DEFAULTS),
-              settings = {};
-
-        for (let key of keys) {
-            if (hasItem(key)) {
-                settings[key] = getItem[key];
-            } else {
-                settings[key] = DEFAULTS[key];
+        return getSettings().then(settings => {
+            const keys = Object.keys(DEFAULTS);
+            for (let key of keys) {
+                if (!settings.hasOwnProperty(key)) {
+                    settings[key] = DEFAULTS[key];
+                }
             }
-        }
 
-        return settings;
+            return settings;
+        });
     };
 
     rester.settings.set = function (newSettings) {
+        // Filter for keys, which actually exist.
         const changedKeys = Object.keys(newSettings).filter(key => DEFAULTS.hasOwnProperty(key)),
               changedSettings = {};
         for (let key of changedKeys) {
-            setItem(key, newSettings[key]);
             changedSettings[key] = newSettings[key];
         }
 
-        rester.settings.onChange.emit(changedSettings);
+        return getSettings().then(settings => {
+            Object.assign(settings, changedSettings);
+            return setSettings(settings);
+        }).then(() => {
+            rester.settings.onChange.emit(changedSettings);
+        });
     };
 
 })();

@@ -1,8 +1,5 @@
 {
   "name": "rester",
-  "authors": [
-    "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)"
-  ],
   "private": true,
   "dependencies": {
     "ace-builds": "1.2.5",

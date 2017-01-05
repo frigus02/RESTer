@@ -27,25 +27,20 @@
 
     rester.data.authorizationProviderConfigurations.put = function (config) {
         config = new AuthorizationProviderConfiguration(config);
-        return db.transaction(['authProviderConfigs'], 'readwrite', objectStores => {
-            return db.putEntityAndUpdateId(objectStores[0], config);
-        });
+
+        return db.transaction().put('authProviderConfigs', config).execute();
     };
 
     rester.data.authorizationProviderConfigurations.query = function (providerId) {
-        return db.transaction(['authProviderConfigs'], 'readonly', objectStores => {
-            let index = objectStores[0].index('providerId');
-            return db.getAllEntities(index, IDBKeyRange.only(providerId), AuthorizationProviderConfiguration);
-        });
+        return db.query('authProviderConfigs', AuthorizationProviderConfiguration).then(configs =>
+            configs.filter(config => config.providerId === providerId));
     };
 
     rester.data.authorizationProviderConfigurations.delete = function (id) {
         const config = new AuthorizationProviderConfiguration();
         config.id = id;
 
-        return db.transaction(['authProviderConfigs'], 'readwrite', objectStores => {
-            return db.deleteEntity(objectStores[0], config);
-        });
+        return db.transaction().delete('authProviderConfigs', config).execute();
     };
 
 })();

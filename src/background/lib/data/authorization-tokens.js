@@ -36,24 +36,19 @@
 
     rester.data.authorizationTokens.add = function (token) {
         token = new AuthorizationToken(token);
-        return db.transaction(['authTokens'], 'readwrite', objectStores => {
-            return db.addEntityAndUpdateId(objectStores[0], token);
-        });
+
+        return db.transaction().add('authTokens', token).execute();
     };
 
     rester.data.authorizationTokens.query = function () {
-        return db.transaction(['authTokens'], 'readonly', objectStores => {
-            return db.getAllEntities(objectStores[0], null, AuthorizationToken);
-        });
+        return db.query('authTokens', AuthorizationToken);
     };
 
     rester.data.authorizationTokens.delete = function (id) {
         const token = new AuthorizationToken();
         token.id = id;
 
-        return db.transaction(['authTokens'], 'readwrite', objectStores => {
-            return db.deleteEntity(objectStores[0], token);
-        });
+        return db.transaction().delete('authTokens', token).execute();
     };
 
 })();

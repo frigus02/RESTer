@@ -15,24 +15,20 @@
     const db = rester.data.utils.db;
 
     rester.data.utils.import = function (data) {
-        const objectStoreNames = Object.keys(data);
+        const tableNames = Object.keys(data);
 
-        return db.transaction(objectStoreNames, 'readwrite', objectStores => {
-            const operations = [];
+        const transaction = db.transaction();
+        tableNames.forEach(tableName => {
+            const entities = data[tableName],
+                  EntityConstructor = entityConstructors[tableName];
 
-            objectStoreNames.forEach((objectStoreName, i) => {
-                const entities = data[objectStoreName],
-                      EntityConstructor = entityConstructors[objectStoreName],
-                      objectStore = objectStores[i];
-
-                for (let rawEntity of entities) {
-                    const entity = new EntityConstructor(rawEntity);
-                    operations.push(db.addEntityAndUpdateId(objectStore, entity));
-                }
-            });
-
-            return Promise.all(operations);
+            for (let rawEntity of entities) {
+                const entity = new EntityConstructor(rawEntity);
+                transaction.add(tableName, entity);
+            }
         });
+
+        return transaction.execute();
     };
 
 })();

@@ -66,9 +66,7 @@
             delete request.variables.values;
         }
 
-        return db.transaction(['requests'], 'readwrite', objectStores => {
-            return db.putEntityAndUpdateId(objectStores[0], request);
-        });
+        return db.transaction().put('requests', request).execute();
     };
 
     /**
@@ -79,9 +77,7 @@
      * object when resolved.
      */
     rester.data.requests.get = function (id) {
-        return db.transaction(['requests'], 'readonly', objectStores => {
-            return db.getEntity(objectStores[0], id, Request);
-        });
+        return db.get('requests', Request, id);
     };
 
     /**
@@ -91,9 +87,7 @@
      * requests when resolved.
      */
     rester.data.requests.query = function () {
-        return db.transaction(['requests'], 'readonly', objectStores => {
-            return db.getAllEntities(objectStores[0], null, Request);
-        });
+        return db.query('requests', Request);
     };
 
     /**
@@ -103,10 +97,7 @@
      * all used collections.
      */
     rester.data.requests.queryCollections = function () {
-        return db.transaction(['requests'], 'readonly', objectStores => {
-            let index = objectStores[0].index('collection');
-            return db.getAllUniqueKeys(index);
-        });
+        return db.getIndexKeys('requests', 'collection');
     };
 
     /**
@@ -120,9 +111,7 @@
         const request = new Request();
         request.id = id;
 
-        return db.transaction(['requests'], 'readwrite', objectStores => {
-            return db.deleteEntity(objectStores[0], request);
-        });
+        return db.transaction().delete('requests', request).execute();
     };
 
 })();
