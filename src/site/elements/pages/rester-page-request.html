@@ -445,7 +445,9 @@
             _deleteRequest () {
                 this.$.deleteOptions.close();
 
-                const resterNavigation = document.querySelector('rester-data-navigation');
+                const resterApp = document.querySelector('rester-app');
+                const resterNavigationList = resterApp.root.querySelector('rester-navigation-list');
+                const resterNavigation = resterNavigationList.root.querySelector('rester-data-navigation');
                 const nextId = resterNavigation.getNextRequestId(this.request.id);
                 RESTer.rester.deleteRequest(this.request.id).then(() => {
                     if (typeof nextId !== 'undefined') {

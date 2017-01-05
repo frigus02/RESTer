@@ -13,7 +13,8 @@
      */
     RESTer.ErrorBehavior = {
         showError (error) {
-            const resterError = document.querySelector('rester-error');
+            const resterApp = document.querySelector('rester-app');
+            const resterError = resterApp.root.querySelector('rester-error');
             if (resterError) {
                 resterError.show(error);
             }

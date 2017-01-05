@@ -29,7 +29,7 @@
     RESTer.LintBehaviorImpl = {
         detached () {
             const inspections = this.resterLintInspections || [],
-                  messages = document.querySelector('rester-lint-messages');
+                  messages = this.$$('rester-lint-messages');
 
             if (!messages) return;
 
@@ -45,7 +45,7 @@
 
             this.debounce('runLintInspections', () => {
                 const inspections = this.resterLintInspections || [],
-                      messages = document.querySelector('rester-lint-messages');
+                      messages = this.$$('rester-lint-messages');
 
                 if (!messages) return;
 
