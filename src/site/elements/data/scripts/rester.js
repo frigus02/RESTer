@@ -9,20 +9,21 @@
     port.onMessage.addListener(message => {
         if (message.action === 'apiresponse') {
             if (message.error) {
-                requests[message.id].reject(message.error);
+                requests[message.id].reject(message.error && JSON.parse(message.error));
             } else {
-                requests[message.id].resolve(message.result);
+                requests[message.id].resolve(message.result && JSON.parse(message.result));
             }
 
             requests[message.id] = undefined;
         } else if (message.action.startsWith('event.')) {
-            const eventName = message.action.split('.')[1];
+            const eventName = message.action.split('.')[1],
+                  args = message.args && JSON.parse(message.args);
 
             if (eventName === 'settingsChange' && cachedSettings) {
-                Object.assign(cachedSettings, message.args);
+                Object.assign(cachedSettings, args);
             }
 
-            self.fireEvent(eventName, message.args);
+            self.fireEvent(eventName, args);
         }
     });
 
@@ -35,7 +36,7 @@
             port.postMessage({
                 id,
                 action: 'api.' + action,
-                args,
+                args: JSON.stringify(args),
                 fields
             });
         });

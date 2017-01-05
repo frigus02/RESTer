@@ -26,11 +26,11 @@
 
     chrome.runtime.onConnect.addListener(port => {
         function onDataChange(args) {
-            port.postMessage({action: 'event.dataChange', args});
+            port.postMessage({action: 'event.dataChange', args: JSON.stringify(args)});
         }
 
         function onSettingsChange(args) {
-            port.postMessage({action: 'event.settingsChange', args});
+            port.postMessage({action: 'event.settingsChange', args: JSON.stringify(args)});
         }
 
         rester.data.onChange.addListener(onDataChange);
@@ -44,20 +44,20 @@
 
             if (!actionFunc) return;
 
-            Promise.resolve(actionFunc(args))
+            Promise.resolve(actionFunc(args && JSON.parse(args)))
                 .then(result => {
                     if (fields) {
                         result = rester.utils.fields.select(result, fields);
                     }
 
-                    port.postMessage({id, action: 'apiresponse', result});
+                    port.postMessage({id, action: 'apiresponse', result: JSON.stringify(result)});
                 })
                 .catch(error => {
                     if (error.message) {
                         error = error.message;
                     }
 
-                    port.postMessage({id, action: 'apiresponse', error});
+                    port.postMessage({id, action: 'apiresponse', error: JSON.stringify(error)});
                 });
         });
 
