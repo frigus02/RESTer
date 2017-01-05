@@ -219,7 +219,10 @@
                         break;
                     case 'Tab':
                         if (this.dropdownVisible && !e.shiftKey) {
-                            this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
+                            const item = this._getItemByRenderedIndex(this.selectedIndex);
+                            if (this._isItemVisible(item, this._input.value)) {
+                                this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
+                            }
                         }
 
                         break;
@@ -228,7 +231,10 @@
                             e.stopPropagation();
                             e.preventDefault();
 
-                            this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
+                            const item = this._getItemByRenderedIndex(this.selectedIndex);
+                            if (this._isItemVisible(item, this._input.value)) {
+                                this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
+                            }
                         }
 
                         break;
