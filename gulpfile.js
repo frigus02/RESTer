@@ -4,13 +4,17 @@ const crisper = require('gulp-crisper');
 const filter = require('gulp-filter');
 const polylint = require('gulp-polylint');
 const vulcanize = require('gulp-vulcanize');
+const zip = require('gulp-zip');
 const del = require('del');
+const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
+const packageJson = require('./package.json');
 
 
 const basePaths = {
     src: 'src/',
-    build: '.build/'
+    build: '.build/',
+    package: '.package/'
 };
 const pathsToCopy = [
     'src/background/**',
@@ -33,6 +37,36 @@ const pathsToCopy = [
     'src/site/index.html',
     'src/manifest.json'
 ];
+const additionalManifestEntries = {
+    firefox: {
+        applications: {
+            gecko: {
+                id: 'rester@kuehle.me',
+                strict_min_version: '51.0.0'
+            }
+        },
+        icons: {
+            48: 'images/icon48.png',
+            96: 'images/icon96.png'
+        },
+        browser_action: {
+            default_icon: 'images/icon.svg'
+        }
+    },
+    chrome: {
+        icons: {
+            48: 'images/icon48.png',
+            128: 'images/icon128.png'
+        },
+        browser_action: {
+            default_icon: {
+                16: 'images/icon16.png',
+                24: 'images/icon24.png',
+                32: 'images/icon32.png'
+            }
+        }
+    }
+};
 
 function logFileChangeEvent(path) {
     gutil.log('Detected file change:', path);
@@ -89,10 +123,45 @@ function watch() {
     });
 }
 
+function packageChrome() {
+    const paths = [
+        // All build files
+        basePaths.build + '**',
 
-const serve = gulp.series(clean, crispAppIntoMultipleFiles, copy, watch);
+        // But only the used images
+        '!' + basePaths.build + 'images/**',
+        basePaths.build + 'images/icon{16,24,32,48,128}.png'
+    ];
+
+    return gulp.src(paths, {base: basePaths.build})
+        .pipe(enhanceManifestJson(additionalManifestEntries.chrome))
+        .pipe(zip(`chrome-${packageJson.version}.zip`))
+        .pipe(gulp.dest(basePaths.package));
+}
+
+function packageFirefox() {
+    const paths = [
+        // All build files
+        basePaths.build + '**',
+
+        // But only the used images
+        '!' + basePaths.build + 'images/**',
+        basePaths.build + 'images/icon{48,96}.png',
+        basePaths.build + 'images/icon.svg'
+    ];
+
+    return gulp.src(paths, {base: basePaths.build})
+        .pipe(enhanceManifestJson(additionalManifestEntries.firefox))
+        .pipe(zip(`firefox-${packageJson.version}.zip`))
+        .pipe(gulp.dest(basePaths.package));
+}
+
+
+const dev = gulp.series(clean, crispAppIntoMultipleFiles, copy, watch);
 const build = gulp.series(clean, lint, crispAppIntoSingleFile, copy);
+const package = gulp.series(packageChrome, packageFirefox);
 
-gulp.task('serve', serve);
+gulp.task('dev', dev);
 gulp.task('build', build);
-gulp.task('default', serve);
+gulp.task('package', package);
+gulp.task('default', dev);

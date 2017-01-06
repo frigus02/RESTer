@@ -7,12 +7,6 @@
         "48": "images/icon48.png",
         "96": "images/icon96.png"
     },
-    "applications": {
-        "gecko": {
-            "id": "rester@kuehle.me",
-            "strict_min_version": "51.0.0"
-        }
-    },
     "permissions": [
         "storage",
         "unlimitedStorage",
@@ -43,7 +37,10 @@
         ]
     },
     "browser_action": {
-        "default_icon": "images/icon.svg",
-        "browser_style": true
+        "default_icon": {
+            "16": "images/icon16.png",
+            "24": "images/icon24.png",
+            "32": "images/icon32.png"
+        }
     }
 }
