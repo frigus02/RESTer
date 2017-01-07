@@ -446,8 +446,8 @@
                 this.$.deleteOptions.close();
 
                 const resterApp = document.querySelector('rester-app');
-                const resterNavigationList = resterApp.root.querySelector('rester-navigation-list');
-                const resterNavigation = resterNavigationList.root.querySelector('rester-data-navigation');
+                const resterNavigationList = Polymer.dom(resterApp.root).querySelector('rester-navigation-list');
+                const resterNavigation = Polymer.dom(resterNavigationList.root).querySelector('rester-data-navigation');
                 const nextId = resterNavigation.getNextRequestId(this.request.id);
                 RESTer.rester.deleteRequest(this.request.id).then(() => {
                     if (typeof nextId !== 'undefined') {
@@ -543,7 +543,7 @@
             },
 
             _lintCheckEmptyFiles () {
-                const requiredFiles = this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+                const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
                 const selectedFiles = this.$.bodyInput.files;
 
                 return !requiredFiles || requiredFiles

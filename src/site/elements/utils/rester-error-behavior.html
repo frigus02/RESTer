@@ -14,7 +14,7 @@
     RESTer.ErrorBehavior = {
         showError (error) {
             const resterApp = document.querySelector('rester-app');
-            const resterError = resterApp.root.querySelector('rester-error');
+            const resterError = Polymer.dom(resterApp.root).querySelector('rester-error');
             if (resterError) {
                 resterError.show(error);
             }
