@@ -67,4 +67,14 @@
         });
     });
 
+    const port = chrome.runtime.connect({name: 'migration-from-legacy-addon'});
+    port.onMessage.addListener(message => {
+        const importSettings = api.settings.set(message.settings);
+        const importData = api.data.utils.import(message.data);
+        Promise.all([importSettings, importData]).then(() => {
+            port.postMessage('delete');
+            port.disconnect();
+        });
+    });
+
 })();
