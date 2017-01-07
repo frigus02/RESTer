@@ -21,9 +21,11 @@
     "gulp-crisper": "^1.1.0",
     "gulp-filter": "^4.0.0",
     "gulp-polylint": "^1.0.3",
+    "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8",
     "gulp-vulcanize": "^6.1.0",
     "gulp-zip": "^3.2.0",
+    "jpm": "^1.2.2",
     "parse5": "^3.0.1",
     "through2": "^2.0.3",
     "web-component-tester": "^5.0.0"

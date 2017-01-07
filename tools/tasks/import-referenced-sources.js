@@ -1,8 +1,9 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+
 const gutil = require('gulp-util');
-const through = require('through2');
 const parse5 = require('parse5');
+const through = require('through2');
 
 
 function readFileAsBuffer(path) {
@@ -26,7 +27,7 @@ module.exports = function () {
         }
 
         if (file.isStream()) {
-            return Promise.reject(new gutil.PluginError('add-html-import-sources', 'Streaming not supported'));
+            return Promise.reject(new gutil.PluginError('import-referenced-sources', 'Streaming not supported'));
         }
 
         const fragment = parse5.parseFragment(file.contents.toString());

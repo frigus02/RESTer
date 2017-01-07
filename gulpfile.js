@@ -1,11 +1,15 @@
+const crisper = require('gulp-crisper');
+const del = require('del');
+const filter = require('gulp-filter');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
-const crisper = require('gulp-crisper');
-const filter = require('gulp-filter');
+const mergeStream = require('merge-stream');
 const polylint = require('gulp-polylint');
+const rename = require('gulp-rename');
 const vulcanize = require('gulp-vulcanize');
 const zip = require('gulp-zip');
-const del = require('del');
+
+const createFirefoxAddon = require('./tools/tasks/create-firefox-addon');
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
 const packageJson = require('./package.json');
@@ -39,12 +43,14 @@ const pathsToCopy = [
 ];
 const additionalManifestEntries = {
     firefox: {
-        applications: {
+        // As long as the WebExtension is shipped embedded in an Add-on SDK extension,
+        // the applications key is not needed.
+        /*applications: {
             gecko: {
                 id: 'rester@kuehle.me',
                 strict_min_version: '51.0.0'
             }
-        },
+        },*/
         icons: {
             48: 'images/icon48.png',
             96: 'images/icon96.png'
@@ -72,8 +78,12 @@ function logFileChangeEvent(path) {
     gutil.log('Detected file change:', path);
 }
 
-function clean() {
+function cleanBuild() {
     return del(basePaths.build);
+}
+
+function cleanPackage() {
+    return del(basePaths.package);
 }
 
 function copy() {
@@ -134,13 +144,13 @@ function packageChrome() {
     ];
 
     return gulp.src(paths, {base: basePaths.build})
-        .pipe(enhanceManifestJson(additionalManifestEntries.chrome))
+        .pipe(enhanceManifestJson(additionalManifestEntries.chrome, packageJson.version))
         .pipe(zip(`chrome-${packageJson.version}.zip`))
         .pipe(gulp.dest(basePaths.package));
 }
 
 function packageFirefox() {
-    const paths = [
+    const webExtensionPaths = [
         // All build files
         basePaths.build + '**',
 
@@ -150,18 +160,40 @@ function packageFirefox() {
         basePaths.build + 'images/icon.svg'
     ];
 
-    return gulp.src(paths, {base: basePaths.build})
-        .pipe(enhanceManifestJson(additionalManifestEntries.firefox))
-        .pipe(zip(`firefox-${packageJson.version}.zip`))
-        .pipe(gulp.dest(basePaths.package));
+    const webExtension = gulp.src(webExtensionPaths, {base: basePaths.build})
+        .pipe(enhanceManifestJson(additionalManifestEntries.firefox, packageJson.version))
+        .pipe(rename(path => {
+            path.dirname = 'webextension/' + path.dirname;
+        }));
+
+    const addonPath = 'tools/firefox-addon/';
+
+    const addon = gulp.src(addonPath + '**', {base: addonPath});
+
+    return new Promise((resolve, reject) => {
+        const addonOptions = {
+            addonDir: basePaths.package + `firefox-${packageJson.version}`,
+            destFile: basePaths.package + `firefox-${packageJson.version}.xpi`,
+            validateVersion: packageJson.version
+        };
+
+        const stream = mergeStream(addon, webExtension)
+            .pipe(gulp.dest(addonOptions.addonDir));
+
+        stream.on('finish', () => {
+            createFirefoxAddon(addonOptions).then(resolve, reject);
+        });
+
+        stream.on('error', reject);
+    });
 }
 
 
-const dev = gulp.series(clean, crispAppIntoMultipleFiles, copy, watch);
-const build = gulp.series(clean, lint, crispAppIntoSingleFile, copy);
-const package = gulp.series(packageChrome, packageFirefox);
+const dev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy, watch);
+const build = gulp.series(cleanBuild, lint, crispAppIntoSingleFile, copy);
+const package = gulp.series(cleanPackage, packageChrome, packageFirefox);
 
+gulp.task('default', dev);
 gulp.task('dev', dev);
 gulp.task('build', build);
 gulp.task('package', package);
-gulp.task('default', dev);
