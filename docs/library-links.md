@@ -6,16 +6,16 @@ The list below should be updated whenever usages of third party libraries change
 
 ```
 ace-builds
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/ace.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/ext-searchbox.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/mode-html.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/mode-json.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/mode-text.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/mode-xml.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/theme-twilight.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/worker-html.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/worker-json.js
-https://github.com/ajaxorg/ace-builds/blob/v1.2.5/src-min-noconflict/worker-xml.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/ace.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/ext-searchbox.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/mode-html.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/mode-json.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/mode-text.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/mode-xml.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/theme-twilight.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-html.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-json.js
+https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-xml.js
 
 DOMPurify
 https://github.com/cure53/DOMPurify/blob/0.8.4/dist/purify.min.js
@@ -84,10 +84,10 @@ paper-dialog-scrollable
 https://github.com/PolymerElements/paper-dialog-scrollable/blob/v1.1.5/paper-dialog-scrollable.html
 
 paper-drawer-panel
-https://github.com/PolymerElements/paper-drawer-panel/blob/v1.0.10/paper-drawer-panel.html
+https://github.com/PolymerElements/paper-drawer-panel/blob/v1.0.11/paper-drawer-panel.html
 
 paper-dropdown-menu
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v1.4.2/paper-dropdown-menu.html
+https://github.com/PolymerElements/paper-dropdown-menu/blob/v1.4.3/paper-dropdown-menu.html
 
 paper-fab
 https://github.com/PolymerElements/paper-fab/blob/v1.2.1/paper-fab.html
@@ -143,7 +143,7 @@ paper-tooltip
 https://github.com/PolymerElements/paper-tooltip/blob/v1.1.3/paper-tooltip.html
 
 polymer
-https://github.com/Polymer/polymer/blob/v1.7.0/polymer.html
+https://github.com/Polymer/polymer/blob/v1.7.1/polymer.html
 
 lodash
 https://github.com/lodash/lodash/blob/4.16.2/dist/lodash.min.js
