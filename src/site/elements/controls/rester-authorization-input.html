@@ -2,7 +2,6 @@
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
-<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
@@ -26,8 +25,8 @@
         <div hidden$="[[!tokens.length]]">
             <h3>Use existing tokens</h3>
             <template is="dom-repeat" items="[[tokens]]">
-                <paper-item role="menuitemradio" class="button">
-                    <paper-checkbox checked="[[item.isUsed]]" toggles="[[false]]"></paper-checkbox>
+                <paper-icon-item role="menuitemradio" class="button">
+                    <iron-icon icon="check" item-icon hidden$="[[!item.isUsed]]"></iron-icon>
                     <paper-item-body three-line on-tap="_useToken">
                         <div>[[item.title]]</div>
                         <div secondary>
@@ -39,7 +38,7 @@
                             icon="delete"
                             aria-label="Delete token"
                             on-tap="_deleteToken"></paper-icon-button>
-                </paper-item>
+                </paper-icon-item>
             </template>
         </div>
 
@@ -182,11 +181,19 @@
             _useToken (e) {
                 const token = e.model.item;
 
-                this.authorization = `${token.scheme} ${token.token}`;
+                if (token.isUsed) {
+                    this.authorization = null;
+                } else {
+                    this.authorization = `${token.scheme} ${token.token}`;
+                }
             },
 
             _deleteToken (e) {
                 const token = e.model.item;
+
+                if (token.isUsed) {
+                    this.authorization = null;
+                }
 
                 RESTer.rester.deleteAuthorizationToken(token.id).then(() => {
                     const index = this.tokens.indexOf(token);

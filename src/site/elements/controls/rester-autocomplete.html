@@ -49,7 +49,7 @@
                 selected="[[selectedIndex]]"
                 selected-class="selected">
             <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'simple')]]" restamp>
-                <template is="dom-repeat" items="[[items]]" sort="_compareItems">
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems" on-dom-change="_onDomForItemListChanged">
                     <paper-item
                             hidden$="[[!_isItemVisible(item, inputValue)]]"
                             class="button"
@@ -60,7 +60,7 @@
                 </template>
             </template>
             <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'two-line-score')]]" restamp>
-                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score">
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score" on-dom-change="_onDomForItemListChanged">
                     <paper-icon-item
                             hidden$="[[!_isItemVisible(item, inputValue)]]"
                             class="button"
@@ -196,12 +196,16 @@
 
             _onInputValueChanged () {
                 this._setInputValue(this._input.value);
+            },
 
-                if (this.selectedIndex === -1) return;
-
-                const selectedItem = this._getItemByRenderedIndex(this.selectedIndex);
-                if (selectedItem && !this._isItemVisible(selectedItem, this._input.value)) {
+            _onDomForItemListChanged () {
+                if (this.selectedIndex === -1) {
                     this._moveSelectedIndexToNextItem();
+                } else {
+                    const selectedItem = this._getItemByRenderedIndex(this.selectedIndex);
+                    if (selectedItem && !this._isItemVisible(selectedItem, this.inputValue)) {
+                        this._moveSelectedIndexToNextItem();
+                    }
                 }
             },
 
@@ -220,8 +224,8 @@
                     case 'Tab':
                         if (this.dropdownVisible && !e.shiftKey) {
                             const item = this._getItemByRenderedIndex(this.selectedIndex);
-                            if (this._isItemVisible(item, this._input.value)) {
-                                this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
+                            if (item && this._isItemVisible(item, this.inputValue)) {
+                                this._selectItem(item);
                             }
                         }
 
@@ -232,8 +236,8 @@
                             e.preventDefault();
 
                             const item = this._getItemByRenderedIndex(this.selectedIndex);
-                            if (this._isItemVisible(item, this._input.value)) {
-                                this._selectItem(this._getItemByRenderedIndex(this.selectedIndex));
+                            if (item && this._isItemVisible(item, this.inputValue)) {
+                                this._selectItem(item);
                             }
                         }
 
@@ -272,9 +276,9 @@
                 let nextIndex = this.selectedIndex;
                 do {
                     nextIndex = Math.min(nextIndex + 1, maxIndex);
-                } while (!this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this._input.value) && nextIndex < maxIndex);
+                } while (!this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this.inputValue) && nextIndex < maxIndex);
 
-                if (this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this._input.value)) {
+                if (this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this.inputValue)) {
                     this._setSelectedIndex(nextIndex);
                     this._updateDrodownScroll(false);
                 } else {
@@ -292,7 +296,7 @@
                 let prevIndex = this.selectedIndex;
                 do {
                     prevIndex = Math.max(prevIndex - 1, minIndex);
-                } while (!this._isItemVisible(this._getItemByRenderedIndex(prevIndex), this._input.value) && prevIndex > minIndex);
+                } while (!this._isItemVisible(this._getItemByRenderedIndex(prevIndex), this.inputValue) && prevIndex > minIndex);
 
                 this._setSelectedIndex(prevIndex);
                 this._updateDrodownScroll(true);
@@ -322,7 +326,7 @@
                 const domRepeat = this.$.dropdown.querySelector('template[is="dom-repeat"]');
                 const itemElement = this.$.dropdown.getElementsByClassName('button')[index];
 
-                return domRepeat.itemForElement(itemElement);
+                return itemElement && domRepeat.itemForElement(itemElement);
             },
 
             _onItemClick (e) {

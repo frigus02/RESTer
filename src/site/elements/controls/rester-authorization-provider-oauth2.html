@@ -230,6 +230,10 @@
                 _resourceOwnerGenerateTokenData: Object
             },
 
+            observers: [
+                '_notifyConfigurationDialogResize(_configuration.flow)'
+            ],
+
             _configurationDialogPromise: undefined,
             _generateTokenResourceOwnerDialogPromise: undefined,
 
@@ -296,6 +300,11 @@
                         this.$.generateTokenResourceOwnerDialog.open();
                     }, 1);
                 });
+            },
+
+            _notifyConfigurationDialogResize () {
+                this.$.configurationDialog.invalidateTabbables();
+                this.$.configurationDialog.notifyResize();
             },
 
             _isFieldVisible (field, selectedFlow) {

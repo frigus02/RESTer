@@ -129,7 +129,7 @@
                 },
                 isPrettyPrintSupported: {
                     type: Boolean,
-                    computed: '_computeIsPrettyPrintSupported(languageObject.formatLanguage)'
+                    computed: '_computeIsPrettyPrintSupported(languageObject)'
                 },
                 isPreviewSupported: {
                     type: Boolean,
@@ -145,8 +145,7 @@
                         },
                         {
                             title: 'HTML',
-                            aceMode: 'ace/mode/html',
-                            formatLanguage: 'xml'
+                            aceMode: 'ace/mode/html'
                         },
                         {
                             title: 'JSON',
@@ -163,7 +162,7 @@
             },
 
             observers: [
-                '_formatBody(body, languageObject.formatLanguage)',
+                '_formatBody(body, languageObject)',
                 '_autoSelectLanguage(contentType)'
             ],
 
@@ -181,27 +180,27 @@
                 return this.supportedLanguages.find(l => l.title === language);
             },
 
-            _computeIsPrettyPrintSupported (formatLanguage) {
-                return !!formatLanguage;
+            _computeIsPrettyPrintSupported (languageObject) {
+                return !!languageObject.formatLanguage;
             },
 
             _computeIsPreviewSupported (language) {
                 return language === 'HTML';
             },
 
-            _formatBody (body, formatLanguage) {
+            _formatBody (body, languageObject) {
                 this._setBodyFormatted('');
                 if (this._formatBodyWorker) {
                     this._formatBodyWorker.cancel();
                     this._formatBodyWorker = undefined;
                 }
 
-                if (!formatLanguage) return;
+                if (!languageObject.formatLanguage) return;
 
                 this.debounce('formatBody', () => {
                     this._formatBodyWorker = RESTer.worker.FormatCode.run({
                         code: body,
-                        language: formatLanguage
+                        language: languageObject.formatLanguage
                     });
 
                     this._formatBodyWorker.then(result => {

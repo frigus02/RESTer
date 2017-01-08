@@ -354,10 +354,9 @@
             },
 
             _computeHeader (headers, headerName) {
-                let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase()),
-                    headerValue = header && header.value;
+                let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
 
-                return headerValue ? headerValue.toLowerCase() : headerValue;
+                return header && header.value;
             },
 
             _computeResponseBadgeType (status) {
@@ -534,7 +533,9 @@
             },
 
             _lintCheckFilesWithoutMultipart () {
-                return this.requestContentType === 'multipart/form-data' ||
+                const contentType = this.requestContentType || '';
+
+                return contentType.toLowerCase() === 'multipart/form-data' ||
                     Object.keys(this.$.bodyInput.files || {}).length === 0;
             },
 

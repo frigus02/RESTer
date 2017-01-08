@@ -37,8 +37,8 @@
 
         query(tableName, ObjectConstructor, top) {
             const ids = [];
-            this._forEachIdInterval(tableName, (start, end) => {
-                for (let id = start; id <= end; id++) {
+            this._forEachIdIntervalReverse(tableName, (start, end) => {
+                for (let id = end; id >= start; id--) {
                     ids.push(`${tableName}.e.${id}`);
 
                     if (top && --top === 0) {
@@ -47,7 +47,9 @@
                 }
             });
 
-            return this._get(ids).then(entities => Object.values(entities).map(entity => new ObjectConstructor(entity)));
+            return this._get(ids).then(entities => Object.values(entities)
+                .map(entity => new ObjectConstructor(entity))
+                .sort((a, b) => b.id - a.id));
         }
 
         transaction() {
@@ -224,6 +226,18 @@
         _forEachIdInterval(tableName, cb) {
             const table = this.tables.find(table => table.name === tableName);
             for (let i = 0; i < table.info.ids.length / 2; i++) {
+                const start = table.info.ids[i * 2],
+                    end = table.info.ids[i * 2 + 1];
+
+                if (cb(start, end, i)) {
+                    break;
+                }
+            }
+        }
+
+        _forEachIdIntervalReverse(tableName, cb) {
+            const table = this.tables.find(table => table.name === tableName);
+            for (let i = table.info.ids.length / 2 - 1; i >= 0; i--) {
                 const start = table.info.ids[i * 2],
                     end = table.info.ids[i * 2 + 1];
 
