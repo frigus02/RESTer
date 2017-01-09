@@ -4,15 +4,15 @@ A REST client for almost any web service.
 
 You can...
 
-* perform HTTP requests with any method, URL, body and custom headers.
-* save favorite requests and organize them in collections.
-* view a history of your requests, which includes the full request and response.
+*   perform HTTP requests with any method, URL, body and custom headers.
+*   save favorite requests and organize them in collections.
+*   view a history of your requests, which includes the full request and response.
 
 The add-on supports the following goodies:
 
-* Create and save your authorization headers with Basic or OAuth2 authentication.
-* Use placeholders in saved requests.
-* Use shortcuts for the frequently used actions (try pressing "?" to see the available shortcuts for the current context).
+*   Create and save your authorization headers with Basic or OAuth2 authentication.
+*   Use placeholders in saved requests.
+*   Use shortcuts for the frequently used actions (try pressing "?" to see the available shortcuts for the current context).
 
 ## Develop
 
@@ -20,35 +20,32 @@ The add-on supports the following goodies:
 
 The project requires:
 
-* `node` in a version >= 4.
-* The package `jpm` to be installed globally.
+*   `node` in a version >= 6.
 
-If you are using windows you should turn off autocrlf in git, so files fetched from bower remain exactly the same. This is required because reviewers on AMO compare third party libaries by their MD5 hash.
-
-    git config --global core.autocrlf input
-
-Install all other dependencies with the following command:
+Install all other dependencies with the command:
 
     npm install
 
-Windows users might need the argument `--msvs_version=2013` to build the dependencies of browser-sync.
-
 ### Test
 
-The addon is basically split in two parts:
+WebExtensions enfore a content security policy (CSP) for all sites in the add-on, which does not allow inline scripts. However, as the main site uses Polymer, a big amount of the JavaScript is written as inline scripts. This affects both the add-on code itself and dependencies.
 
-*   Website: UI
-*   Background: Data storage, HTTP requests
-
-The website relies on the background part, so you need to make sure a recent version of it is installed.
-
-Working on the website works best with livereload features. To have them, first make sure the background code will attach to localhost URLs by setting the preference `extensions.rester@kuehle.me.additionalPageModIncludes` in about:config to `["http://localhost:3000/*"]` and restarting the browser. Then launch the website locally:
+To make the browser load the add-on, you should run:
 
     npm start
 
+This will generate a working add-on in the folder *.build*, where all JavaScript code is extracted into separate script files. It will also watch files for changes and update the folder accordingly.
+
+To load the add-on in the browser:
+
+*   **Firefox**: Go to [about:debugging](about:debugging), click on "Load Temporary Add-on" and select the file *manifest.json* inside the *.build* folder.
+*   **Chrome**: Go to [chrome://extensions](chrome://extensions), check the box "Developer mode", click on "Load unpacked extension..." and select the folder *.build*.
+
 ### Package
 
-To package the addon for AMO, run the following commands:
+To create packages for AMO and the Chrome Web Store run:
 
-    .\tools\build.ps1
-    .\tools\package.ps1
+    npm run build
+    npm run package
+
+Afterwards you will find the generated files in the folder *.package*.

@@ -9,16 +9,20 @@ As the [documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions
 
 This results in:
 
-    "icons": {
-        "48": "images/icon48.png",
-        "96": "images/icon96.png"
-    }
+```json
+"icons": {
+    "48": "images/icon48.png",
+    "96": "images/icon96.png"
+}
+```
 
 For the browser action, Firefox allows to use an SVG icon ([documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/browser_action#Choosing_icon_sizes)). This is easily the best option, so we use it. This results in:
 
-    "browser_action": {
-        "default_icon": "images/icon.svg"
-    }
+```json
+"browser_action": {
+    "default_icon": "images/icon.svg"
+}
+```
 
 ## Chrome
 
@@ -29,10 +33,12 @@ As the [documentation](https://developer.chrome.com/extensions/manifest/icons) s
 
 This results in:
 
-    "icons": {
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
-    }
+```json
+"icons": {
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+}
+```
 
 For the browser action, the [documentation](https://developer.chrome.com/extensions/browserAction#icon) states, you should use a 16-dip square icon. We will use the following:
 
@@ -42,10 +48,12 @@ For the browser action, the [documentation](https://developer.chrome.com/extensi
 
 This results in:
 
-    "browser_action": {
-        "default_icon": {
-            "16": "images/icon16.png",
-            "24": "images/icon24.png",
-            "32": "images/icon32.png"
-        }
+```json
+"browser_action": {
+    "default_icon": {
+        "16": "images/icon16.png",
+        "24": "images/icon24.png",
+        "32": "images/icon32.png"
     }
+}
+```
