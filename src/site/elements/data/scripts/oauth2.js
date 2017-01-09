@@ -89,7 +89,8 @@
 
         return RESTer.rester.sendBrowserRequest({
             url: RESTer.encode.generateUri(config.authorizationRequestEndpoint, params),
-            targetUrl: config.redirectUri
+            targetUrl: config.redirectUri,
+            incognito: RESTer.rester.settings.openOAuth2LoginsInIncognitoWindow
         });
     }
 

@@ -59,6 +59,16 @@
                         these headers unless they are explicitly provided in a request.
                     </div>
                 </div>
+
+                <div class="setting">
+                    <paper-toggle-button checked="{{settings.openOAuth2LoginsInIncognitoWindow}}">
+                        Open OAuth 2 logins in incognito window
+                    </paper-toggle-button>
+                    <div class="hint">
+                        When you enable this option, OAuth 2 logins will be opened in a new incognito
+                        window. This allows you to more easily test tokens from different accounts.
+                    </div>
+                </div>
             </div>
         </paper-header-panel>
     </template>

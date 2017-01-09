@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Added option to open OAuth 2 logins in incognito window. This way you can more easily test token with multiple accounts.
+
+### Changed
+- The add-on is now built on the [WebExtensions](https://developer.mozilla.org/en-US/Add-ons/WebExtensions) API, which makes it compatible with Google Chrome. This is the first version, where RESTer is also available in the Chrome Web Store.
 
 ## [1.17.0] - 2016-12-21
 ### Added

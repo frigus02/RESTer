@@ -8,7 +8,8 @@
         activeEnvironment: null,
         stripDefaultHeaders: false,
         enableRequestLintInspections: true,
-        pinSidenav: false
+        pinSidenav: false,
+        openOAuth2LoginsInIncognitoWindow: false
     };
 
     function getSettings() {

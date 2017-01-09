@@ -3,7 +3,7 @@
     const self = RESTer.register('rester', ['eventListeners']),
           port = chrome.runtime.connect(),
           requests = {},
-          settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav'],
+          settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav', 'openOAuth2LoginsInIncognitoWindow'],
           cachedSettings = {};
 
     port.onMessage.addListener(message => {
