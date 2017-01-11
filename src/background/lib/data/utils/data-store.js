@@ -28,11 +28,11 @@
         }
 
         get(tableName, ObjectConstructor, id) {
-            return this._get(`${tableName}.e.${id}`).then(entity => new ObjectConstructor(entity));
+            return this._get(`${tableName}.e.${id}`).then(entity => entity && new ObjectConstructor(entity));
         }
 
         getIndexKeys(tableName, index) {
-            return this._get(`${tableName}.i.${index}`).then(indexData => Object.keys(indexData));
+            return this._get(`${tableName}.i.${index}`).then(indexData => indexData ? Object.keys(indexData) : []);
         }
 
         query(tableName, ObjectConstructor, top) {
