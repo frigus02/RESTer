@@ -49,7 +49,7 @@
                 selected="[[selectedIndex]]"
                 selected-class="selected">
             <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'simple')]]" restamp>
-                <template is="dom-repeat" items="[[items]]" sort="_compareItems" on-dom-change="_onDomForItemListChanged">
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems">
                     <paper-item
                             hidden$="[[!_isItemVisible(item, inputValue)]]"
                             class="button"
@@ -196,6 +196,10 @@
 
             _onInputValueChanged () {
                 this._setInputValue(this._input.value);
+
+                if (this.itemTemplate === 'simple') {
+                    this._onDomForItemListChanged();
+                }
             },
 
             _onDomForItemListChanged () {
