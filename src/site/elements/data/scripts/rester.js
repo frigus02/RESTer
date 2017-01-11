@@ -1,7 +1,7 @@
 (function () {
 
     const self = RESTer.register('rester', ['eventListeners']),
-          port = chrome.runtime.connect(),
+          port = chrome.runtime.connect({name: 'api'}),
           requests = {},
           settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav', 'openOAuth2LoginsInIncognitoWindow'],
           cachedSettings = {};
