@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <script src="../../../src/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../../src/site/bower_components/web-component-tester/browser.js"></script>
+    <script src="../../_utils/chrome-mock.js"></script>
 
     <link rel="import" href="../../../src/site/elements/data/rester-data-navigation.html">
 </head>
@@ -26,12 +27,12 @@
                 {id: 7, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/{id}', variables: {enabled: true, values: {id: '123'}}}
             ];
             const fakeHistoryEntries = [
-                {id: 46, time: new Date('2016-02-21T12:50:00'), request: {method: 'GET', url: 'http://google.com', variables: {enabled: false}}},
-                {id: 45, time: new Date('2016-02-21T12:43:00'), request: fakeRequests[0]},
-                {id: 44, time: new Date('2016-02-21T12:40:00'), request: fakeRequests[1]},
-                {id: 43, time: new Date('2016-02-21T12:39:00'), request: fakeRequests[0]},
-                {id: 42, time: new Date('2016-02-18T15:03:00'), request: fakeRequests[2]},
-                {id: 41, time: new Date('2016-02-18T15:01:00'), request: fakeRequests[3]}
+                {id: 46, time: new Date('2016-02-21T12:50:00+01:00'), request: {method: 'GET', url: 'http://google.com', variables: {enabled: false}}},
+                {id: 45, time: new Date('2016-02-21T12:43:00+01:00'), request: fakeRequests[0]},
+                {id: 44, time: new Date('2016-02-21T12:40:00+01:00'), request: fakeRequests[1]},
+                {id: 43, time: new Date('2016-02-21T12:39:00+01:00'), request: fakeRequests[0]},
+                {id: 42, time: new Date('2016-02-18T15:03:00+01:00'), request: fakeRequests[2]},
+                {id: 41, time: new Date('2016-02-18T15:01:00+01:00'), request: fakeRequests[3]}
             ];
             const fakeEnvironments = [
                 {id: 1, name: 'dev', values: {}},

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <script src="../../../../src/site/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../../../src/site/bower_components/web-component-tester/browser.js"></script>
+    <script src="../../../_utils/chrome-mock.js"></script>
 
     <link rel="import" href="../../../../src/site/elements/data/rester-data.html">
 </head>
@@ -11,11 +12,11 @@
     <script>
         suite('RESTer.format', function () {
             test('time returns the formatted time of the specified date', function () {
-                assert.equal(RESTer.format.time(new Date('2015-10-23T11:25:00')), '11:25:00');
+                assert.equal(RESTer.format.time(new Date('2015-10-23T11:25:00+02:00')), '11:25:00');
             });
 
             test('dateTime returns the formatted date and time of the specified date', function () {
-                assert.equal(RESTer.format.dateTime(new Date('2015-10-23T11:25:00')), '23.10.2015, 11:25:00');
+                assert.equal(RESTer.format.dateTime(new Date('2015-10-23T11:25:00+02:00')), '23.10.2015, 11:25:00');
             });
 
             test('expirationDate returns "Never expires" when given null', function () {

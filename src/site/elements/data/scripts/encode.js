@@ -48,13 +48,11 @@
         const values = {},
               promises = [];
 
-        for (let key in files) {
-            if (files.hasOwnProperty(key)) {
-                promises.push(self.readFileAsBase64CustomObject(files[key]).then(obj => {
-                    values[`$file.${key}`] = obj;
-                }));
-            }
-        }
+        Object.keys(files).forEach(key => {
+            promises.push(self.readFileAsBase64CustomObject(files[key]).then(obj => {
+                values[`$file.${key}`] = obj;
+            }));
+        });
 
         return Promise.all(promises).then(() => values);
     };
