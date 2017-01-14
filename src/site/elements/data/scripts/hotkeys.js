@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    // Monkeypatch Mousetrap's stopCallback() function, so it  doesn't return true
+    // Monkeypatch Mousetrap's stopCallback() function, so it doesn't return true
     // when the element is an INPUT, SELECT, or TEXTAREA.
     Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
         if (element.classList.contains('mousetrap')) {
@@ -65,10 +65,12 @@
      */
     self.add = function (hotkey) {
         Mousetrap.bind(hotkey.combos, function (event, combo) {
-            let handleEvent = true,
-                nodeName = event.target.nodeName.toUpperCase(),
-                pressedKeys = combo.split(/[ +]/);
+            const pressedKeys = combo.split(/[ +]/);
+            const nodeName = event.composedPath
+                ? event.composedPath()[0].nodeName.toUpperCase()
+                : event.target.nodeName.toUpperCase();
 
+            let handleEvent = true;
             if (nodeName === 'INPUT' || nodeName === 'SELECT' || nodeName === 'TEXTAREA') {
                 handleEvent = pressedKeys.some(key => safeKeysForFormControls.indexOf(key) > -1);
             }
