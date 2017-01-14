@@ -45,7 +45,6 @@ To load the add-on in the browser:
 
 To create packages for AMO and the Chrome Web Store run:
 
-    npm run build
     npm run package
 
 Afterwards you will find the generated files in the folder *.package*.

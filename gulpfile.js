@@ -217,8 +217,8 @@ function packageFirefox() {
 
 const dev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy, watch);
 const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
-const lint = gulp.series(lintJavaScript, lintWebComponents, build, lintAddon);
-const buildPackage = gulp.series(cleanPackage, packageChrome, packageFirefox);
+const lint = gulp.series(build, lintJavaScript, lintWebComponents, lintAddon);
+const buildPackage = gulp.series(lint, cleanPackage, packageChrome, packageFirefox);
 
 gulp.task('default', dev);
 gulp.task('dev', dev);
