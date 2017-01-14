@@ -394,7 +394,10 @@
                 _onFormKeyDown(e) {
                     // Do not intercept Enter presses inside of a textarea. In this case you
                     // could no longer enter newlines, which is not what we want.
-                    if (!e.defaultPrevented && e.target.nodeName !== 'TEXTAREA' && e.key === 'Enter') {
+                    const nodeName = e.composedPath
+                        ? e.composedPath()[0].nodeName.toUpperCase()
+                        : e.target.nodeName.toUpperCase();
+                    if (!e.defaultPrevented && nodeName !== 'TEXTAREA' && e.key === 'Enter') {
                         e.preventDefault();
                         this._sendRequest();
                     }
