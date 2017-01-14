@@ -2,6 +2,8 @@
 
 A REST client for almost any web service.
 
+Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Google Chrome](https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
+
 You can...
 
 *   perform HTTP requests with any method, URL, body and custom headers.
