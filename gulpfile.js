@@ -13,6 +13,7 @@ const zip = require('gulp-zip');
 const createFirefoxAddon = require('./tools/tasks/create-firefox-addon');
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
+const lintFirefoxAddon = require('./tools/tasks/lint-firefox-addon');
 const packageJson = require('./package.json');
 
 
@@ -143,6 +144,12 @@ function lintWebComponents() {
         .pipe(polylint.reporter.fail({buffer: true, ignoreWarnings: false}));
 }
 
+function lintAddon() {
+    return lintFirefoxAddon({
+        addonDir: basePaths.build
+    });
+}
+
 
 // Package
 
@@ -207,12 +214,12 @@ function packageFirefox() {
 
 
 const dev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy, watch);
-const lint = gulp.series(lintJavaScript, lintWebComponents);
 const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
+const lint = gulp.series(lintJavaScript, lintWebComponents, build, lintAddon);
 const package = gulp.series(cleanPackage, packageChrome, packageFirefox);
 
 gulp.task('default', dev);
 gulp.task('dev', dev);
-gulp.task('lint', lint);
 gulp.task('build', build);
+gulp.task('lint', lint);
 gulp.task('package', package);

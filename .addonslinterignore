@@ -1,0 +1,21 @@
+# Explanation of all rules:
+# http://mozilla.github.io/addons-linter/
+
+# Message details:
+#   "storage.local" can cause issues when loaded temporarily
+#   This API can cause issues when loaded temporarily using about:debugging
+#   in Firefox unless you specify applications > gecko > id in the manifest.
+#   Please see: https://mzl.la/2hizK4a for more.
+# But we don't want to specify an addon id, since the WebExtension is embedded
+# inside of an Add-on SDK extension. We can probably safely ignore this warning.
+background/lib/settings.js STORAGE_LOCAL
+background/lib/data/utils/data-store.js STORAGE_LOCAL
+
+# Ignore unsupported "unlimitedStorage" permissions for now. It is needed in
+# Chrome.
+manifest.json MANIFEST_PERMISSIONS
+
+# This is part of ACE.js and should be save.
+site/bower_components/ace-builds/src-min-noconflict/worker-html.js EVAL_STRING_ARG
+site/bower_components/ace-builds/src-min-noconflict/worker-json.js EVAL_STRING_ARG
+site/bower_components/ace-builds/src-min-noconflict/worker-xml.js EVAL_STRING_ARG

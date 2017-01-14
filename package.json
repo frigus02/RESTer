@@ -12,9 +12,11 @@
     "test": "wct",
     "start": "gulp dev",
     "build": "gulp build",
+    "lint": "gulp lint",
     "package": "gulp package"
   },
   "devDependencies": {
+    "addons-linter": "^0.15.15",
     "bower": "^1.8.0",
     "del": "^2.2.2",
     "eslint-config-crockford": "^1.0.0",
