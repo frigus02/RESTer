@@ -1,3 +1,5 @@
+'use strict';
+
 const webExtension = require('sdk/webextension');
 
 const customSettings = require('lib/settings');
@@ -7,7 +9,9 @@ webExtension.startup().then(api => {
     const {browser} = api;
 
     browser.runtime.onConnect.addListener(port => {
-        if (port.name !== 'migration-from-legacy-addon') return;
+        if (port.name !== 'migration-from-legacy-addon') {
+            return;
+        }
 
         port.onMessage.addListener(message => {
             if (message === 'delete') {

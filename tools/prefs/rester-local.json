@@ -1,4 +1,0 @@
-{
-    "extensions.rester@kuehle.me.additionalPageModIncludes": "[\"http://localhost:3000/*\"]",
-    "xpinstall.signatures.required": false
-}

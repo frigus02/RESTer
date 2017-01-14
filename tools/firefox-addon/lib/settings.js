@@ -1,3 +1,5 @@
+'use strict';
+
 const { storage } = require('sdk/simple-storage');
 
 exports.get = function () {

@@ -1,3 +1,5 @@
+'use strict';
+
 const { indexedDB } = require('sdk/indexed-db');
 
 exports.get = function () {
@@ -31,8 +33,8 @@ function openDatabase() {
 
 function getAllEntitiesFromDatabase(db) {
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction(db.objectStoreNames, 'readonly'),
-              entities = {};
+        const transaction = db.transaction(db.objectStoreNames, 'readonly');
+        const entities = {};
 
         transaction.oncomplete = function () {
             resolve(entities);
@@ -50,8 +52,8 @@ function getAllEntitiesFromDatabase(db) {
 }
 
 function getAllEntitiesFromObjectStore(objectStore) {
-    const cursorRequest = objectStore.openCursor(),
-          result = [];
+    const cursorRequest = objectStore.openCursor();
+    const result = [];
 
     cursorRequest.onsuccess = function (event) {
         const cursor = event.target.result;

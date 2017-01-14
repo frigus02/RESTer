@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 
@@ -45,8 +47,11 @@ module.exports = function () {
         const promises = importUrls.concat(scriptUrls).map(url => {
             const absolutePath = path.join(path.dirname(file.path), url);
 
-            if (added[absolutePath]) return;
-            added[absolutePath] = true;
+            if (added[absolutePath]) {
+                return;
+            } else {
+                added[absolutePath] = true;
+            }
 
             return readFileAsBuffer(absolutePath).then(contents => {
                 const newFile = new gutil.File({

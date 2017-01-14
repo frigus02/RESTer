@@ -1,3 +1,5 @@
+'use strict';
+
 const crisper = require('gulp-crisper');
 const del = require('del');
 const eslint = require('gulp-eslint');
