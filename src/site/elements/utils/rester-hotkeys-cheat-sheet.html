@@ -72,32 +72,36 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-hotkeys-cheat-sheet',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.HotkeysBehavior
-            ],
+            Polymer({
+                is: 'rester-hotkeys-cheat-sheet',
 
-            properties: {
-                hotkeys: {
-                    type: Array,
-                    readOnly: true
+                behaviors: [
+                    RESTer.HotkeysBehavior
+                ],
+
+                properties: {
+                    hotkeys: {
+                        type: Array,
+                        readOnly: true
+                    }
+                },
+
+                resterHotkeys: {
+                    '?': {
+                        description: 'Shows this cheat sheet.',
+                        callback: 'show'
+                    }
+                },
+
+                show() {
+                    this._setHotkeys([...RESTer.hotkeys.getAll()]);
+
+                    this.$.dialog.open();
                 }
-            },
-
-            resterHotkeys: {
-                '?': {
-                    description: 'Shows this cheat sheet.',
-                    callback: 'show'
-                }
-            },
-
-            show () {
-                this._setHotkeys([...RESTer.hotkeys.getAll()]);
-
-                this.$.dialog.open();
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

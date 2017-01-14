@@ -1,6 +1,4 @@
 {
-    "extends": "../../.jshintrc",
-    "browser": true,
     "globals": {
         "base64js": false,
         "chrome": false,

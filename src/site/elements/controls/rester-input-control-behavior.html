@@ -4,41 +4,47 @@
 <link rel="import" href="../data/rester-data.html">
 
 <script>
-    /** @polymerBehavior RESTer.InputControlBehavior */
-    RESTer.InputControlBehaviorImpl = {
-        keyBindings: {
-            'shift+tab:keydown': '_onShiftTabDown'
-        },
+    (function () {
+        'use strict';
 
-        hostAttributes: {
-            tabindex: 0
-        },
+        /** @polymerBehavior RESTer.InputControlBehavior */
+        RESTer.InputControlBehaviorImpl = {
+            keyBindings: {
+                'shift+tab:keydown': '_onShiftTabDown'
+            },
 
-        get _focusableElement () {},
+            hostAttributes: {
+                tabindex: 0
+            },
 
-        _focusBlurHandler (e) {
-            if (e.target !== this) return;
+            get _focusableElement() {},
 
-            Polymer.IronControlState._focusBlurHandler.call(this, e);
-            if (this.focused && !this._shiftTabPressed && this._focusableElement) {
-                this._focusableElement.focus();
+            _focusBlurHandler(e) {
+                if (e.target !== this) {
+                    return;
+                }
+
+                Polymer.IronControlState._focusBlurHandler.call(this, e);
+                if (this.focused && !this._shiftTabPressed && this._focusableElement) {
+                    this._focusableElement.focus();
+                }
+            },
+
+            _onShiftTabDown() {
+                const oldTabIndex = this.getAttribute('tabindex');
+                this._shiftTabPressed = true;
+                this.setAttribute('tabindex', '-1');
+                this.async(() => {
+                    this.setAttribute('tabindex', oldTabIndex);
+                    this._shiftTabPressed = false;
+                }, 1);
             }
-        },
+        };
 
-        _onShiftTabDown () {
-            const oldTabIndex = this.getAttribute('tabindex');
-            this._shiftTabPressed = true;
-            this.setAttribute('tabindex', '-1');
-            this.async(() => {
-                this.setAttribute('tabindex', oldTabIndex);
-                this._shiftTabPressed = false;
-            }, 1);
-        }
-    };
-
-    RESTer.InputControlBehavior = [
-        Polymer.IronControlState,
-        Polymer.IronA11yKeysBehavior,
-        RESTer.InputControlBehaviorImpl
-    ];
+        RESTer.InputControlBehavior = [
+            Polymer.IronControlState,
+            Polymer.IronA11yKeysBehavior,
+            RESTer.InputControlBehaviorImpl
+        ];
+    })();
 </script>

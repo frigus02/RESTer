@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.data = rester.data || {};
@@ -16,11 +17,11 @@
 
     rester.data.utils.import = function (data) {
         const tableNames = Object.keys(data);
-
         const transaction = db.transaction();
+
         tableNames.forEach(tableName => {
-            const entities = data[tableName],
-                  EntityConstructor = entityConstructors[tableName];
+            const entities = data[tableName];
+            const EntityConstructor = entityConstructors[tableName];
 
             for (let rawEntity of entities) {
                 const entity = new EntityConstructor(rawEntity);
@@ -30,5 +31,4 @@
 
         return transaction.execute();
     };
-
 })();

@@ -1,6 +1,4 @@
 {
-    "extends": "../../.jshintrc",
-    "browser": true,
     "globals": {
         "_": false,
         "ace": false,
@@ -10,5 +8,8 @@
         "Polymer": false,
         "RESTer": false,
         "vkbeautify": false
+    },
+    "rules": {
+        "new-cap": [2, {"capIsNewExceptions": ["Polymer"]}]
     }
 }

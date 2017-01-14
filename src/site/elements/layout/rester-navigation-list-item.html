@@ -117,70 +117,76 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-navigation-list-item',
+        (function () {
+            'use strict';
 
-            properties: {
-                item: Object,
-                indentLevel: {
-                    type: Number,
-                    value: 0
-                },
-                route: {
-                    type: Object,
-                    observer: '_onRouteChanged'
-                },
-                active: {
-                    type: Boolean,
-                    computed: '_computeActive(route)',
-                    reflectToAttribute: true
-                }
-            },
+            Polymer({
+                is: 'rester-navigation-list-item',
 
-            _getIndentionInPixel () {
-                return this.indentLevel * 24;
-            },
-
-            _getIndentLevelForSubitems () {
-                return this.indentLevel + 1;
-            },
-
-            _toggleGroup () {
-                this.set('item.isExpanded', !this.item.isExpanded);
-            },
-
-            _getExpandedClass () {
-                return this.item.isExpanded ? 'expanded' : '';
-            },
-
-            _onSubitemActivated () {
-                this.set('item.isExpanded', true);
-            },
-
-            _onRouteChanged () {
-                this.set('item.isExpanded', false);
-                this.async(() => {
-                    if (this.active) {
-                        this.fire('item-activated');
+                properties: {
+                    item: Object,
+                    indentLevel: {
+                        type: Number,
+                        value: 0
+                    },
+                    route: {
+                        type: Object,
+                        observer: '_onRouteChanged'
+                    },
+                    active: {
+                        type: Boolean,
+                        computed: '_computeActive(route)',
+                        reflectToAttribute: true
                     }
-                });
-            },
+                },
 
-            _computeActive () {
-                const url = this.item.action && this.item.action.url;
-                if (!url) return false;
+                _getIndentionInPixel() {
+                    return this.indentLevel * 24;
+                },
 
-                return this.route.path.startsWith(url.substr(1));
-            },
+                _getIndentLevelForSubitems() {
+                    return this.indentLevel + 1;
+                },
 
-            _invokeAction () {
-                const action = this.item.action;
-                if (action.url) {
-                    window.location = action.url;
-                } else if (action.handler) {
-                    action.handler();
+                _toggleGroup() {
+                    this.set('item.isExpanded', !this.item.isExpanded);
+                },
+
+                _getExpandedClass() {
+                    return this.item.isExpanded ? 'expanded' : '';
+                },
+
+                _onSubitemActivated() {
+                    this.set('item.isExpanded', true);
+                },
+
+                _onRouteChanged() {
+                    this.set('item.isExpanded', false);
+                    this.async(() => {
+                        if (this.active) {
+                            this.fire('item-activated');
+                        }
+                    });
+                },
+
+                _computeActive() {
+                    const url = this.item.action && this.item.action.url;
+                    if (!url) {
+                        return false;
+                    }
+
+                    return this.route.path.startsWith(url.substr(1));
+                },
+
+                _invokeAction() {
+                    const action = this.item.action;
+                    if (action.url) {
+                        window.location = action.url;
+                    } else if (action.handler) {
+                        action.handler();
+                    }
                 }
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

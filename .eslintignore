@@ -1,0 +1,3 @@
+src/background/lib/base64js.js
+src/site/bower_components/*
+src/site/other_components/*

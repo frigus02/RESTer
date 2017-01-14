@@ -78,75 +78,79 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-page-environments',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.PageBehavior,
-                RESTer.SettingsBehavior
-            ],
+            Polymer({
+                is: 'rester-page-environments',
 
-            properties: {
-                environments: {
-                    type: Array,
-                    readOnly: true
-                }
-            },
+                behaviors: [
+                    RESTer.PageBehavior,
+                    RESTer.SettingsBehavior
+                ],
 
-            _environmentInDialog: undefined,
-            _environmentInDialogIndex: -1,
+                properties: {
+                    environments: {
+                        type: Array,
+                        readOnly: true
+                    }
+                },
 
-            ready () {
-                this._setPageTitle('Environments');
-                RESTer.rester.getEnvironments().then(envs => {
-                    this._setEnvironments(envs);
-                });
-            },
+                _environmentInDialog: undefined,
+                _environmentInDialogIndex: -1,
 
-            _addEnvironment () {
-                this._environmentInDialog = {
-                    name: '',
-                    values: {}
-                };
-                this._environmentInDialogIndex = -1;
-                this.$.editDialog.show(this._environmentInDialog);
-            },
-
-            _editEnvironment (e) {
-                this._environmentInDialog = _.cloneDeep(e.model.env);
-                this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
-                this.$.editDialog.show(this._environmentInDialog);
-            },
-
-            _onEditDialogClosed (e) {
-                const reason = e.detail;
-                if (reason.confirmed && reason.action === 'save') {
-                    RESTer.rester.putEnvironment(this._environmentInDialog).then(id => {
-                        this._environmentInDialog.id = id;
-
-                        if (this._environmentInDialogIndex > -1) {
-                            this.splice('environments', this._environmentInDialogIndex, 1, this._environmentInDialog);
-                        } else {
-                            this.push('environments', this._environmentInDialog);
-                        }
+                ready() {
+                    this._setPageTitle('Environments');
+                    RESTer.rester.getEnvironments().then(envs => {
+                        this._setEnvironments(envs);
                     });
-                } else if (reason.confirmed && reason.action === 'delete') {
-                    RESTer.rester.deleteEnvironment(this._environmentInDialog.id).then(() => {
-                        this.splice('environments', this._environmentInDialogIndex, 1);
-                    });
+                },
+
+                _addEnvironment() {
+                    this._environmentInDialog = {
+                        name: '',
+                        values: {}
+                    };
+                    this._environmentInDialogIndex = -1;
+                    this.$.editDialog.show(this._environmentInDialog);
+                },
+
+                _editEnvironment(e) {
+                    this._environmentInDialog = _.cloneDeep(e.model.env);
+                    this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
+                    this.$.editDialog.show(this._environmentInDialog);
+                },
+
+                _onEditDialogClosed(e) {
+                    const reason = e.detail;
+                    if (reason.confirmed && reason.action === 'save') {
+                        RESTer.rester.putEnvironment(this._environmentInDialog).then(id => {
+                            this._environmentInDialog.id = id;
+
+                            if (this._environmentInDialogIndex > -1) {
+                                this.splice('environments', this._environmentInDialogIndex, 1, this._environmentInDialog);
+                            } else {
+                                this.push('environments', this._environmentInDialog);
+                            }
+                        });
+                    } else if (reason.confirmed && reason.action === 'delete') {
+                        RESTer.rester.deleteEnvironment(this._environmentInDialog.id).then(() => {
+                            this.splice('environments', this._environmentInDialogIndex, 1);
+                        });
+                    }
+                },
+
+                _compareEnvironments(a, b) {
+                    return a.name.localeCompare(b.name);
+                },
+
+                _computeValueItems(env) {
+                    return Object.keys(env.values).map(key => ({
+                        key,
+                        value: env.values[key]
+                    }));
                 }
-            },
-
-            _compareEnvironments (a, b) {
-                return a.name.localeCompare(b.name);
-            },
-
-            _computeValueItems(env) {
-                return Object.keys(env.values).map(key => ({
-                    key,
-                    value: env.values[key]
-                }));
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

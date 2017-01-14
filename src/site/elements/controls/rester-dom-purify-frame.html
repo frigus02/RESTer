@@ -20,40 +20,44 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-dom-purify-frame',
+        (function () {
+            'use strict';
 
-            properties: {
-                html: {
-                    type: String,
-                    observer: '_onHtmlChanged'
+            Polymer({
+                is: 'rester-dom-purify-frame',
+
+                properties: {
+                    html: {
+                        type: String,
+                        observer: '_onHtmlChanged'
+                    }
+                },
+
+                _frameLoaded: false,
+
+                _onFrameLoaded() {
+                    this._frameLoaded = true;
+                },
+
+                _onHtmlChanged() {
+                    if (!this._frameLoaded) {
+                        this.async(() => this._onHtmlChanged(), 100);
+                        return;
+                    }
+
+                    const doc = this.$.frame.contentWindow.document;
+                    while (doc.body.children.length > 0) {
+                        doc.body.children[0].remove();
+                    }
+
+                    const divEl = doc.body.appendChild(doc.createElement('div'));
+                    divEl.innerHTML = DOMPurify.sanitize(this.html);
+
+                    this.$.frame.contentWindow.setTimeout(() => {
+                        this.$.frame.style.height = `${doc.body.clientHeight + 16}px`;
+                    });
                 }
-            },
-
-            _frameLoaded: false,
-
-            _onFrameLoaded () {
-                this._frameLoaded = true;
-            },
-
-            _onHtmlChanged () {
-                if (!this._frameLoaded) {
-                    this.async(() => this._onHtmlChanged(), 100);
-                    return;
-                }
-
-                const doc = this.$.frame.contentWindow.document;
-                while (doc.body.children.length > 0) {
-                    doc.body.children[0].remove();
-                }
-
-                const divEl = doc.body.appendChild(doc.createElement('div'));
-                divEl.innerHTML = DOMPurify.sanitize(this.html);
-
-                this.$.frame.contentWindow.setTimeout(() => {
-                    this.$.frame.style.height = `${doc.body.clientHeight + 16}px`;
-                });
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

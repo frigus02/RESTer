@@ -41,89 +41,95 @@
     </template>
 
     <script>
-        const CACHED_VARIABLE_VALUES = {};
+        (function () {
+            'use strict';
 
-        Polymer({
-            is: 'rester-variables-input',
+            const CACHED_VARIABLE_VALUES = {};
 
-            behaviors: [
-                RESTer.VariablesBehavior,
-                Polymer.IronFormElementBehavior
-            ],
+            Polymer({
+                is: 'rester-variables-input',
 
-            properties: {
-                value: {
-                    type: Object,
-                    notify: true,
-                    observer: '_updateVariables'
+                behaviors: [
+                    RESTer.VariablesBehavior,
+                    Polymer.IronFormElementBehavior
+                ],
+
+                properties: {
+                    value: {
+                        type: Object,
+                        notify: true,
+                        observer: '_updateVariables'
+                    },
+                    sourceObj: {
+                        type: Object
+                    },
+                    enabled: {
+                        type: Boolean,
+                        notify: true
+                    },
+                    variables: {
+                        type: Array,
+                        readOnly: true
+                    },
+                    providedVariables: {
+                        type: Array,
+                        readOnly: true
+                    }
                 },
-                sourceObj: {
-                    type: Object
-                },
-                enabled: {
-                    type: Boolean,
-                    notify: true
-                },
-                variables: {
-                    type: Array,
-                    readOnly: true
-                },
-                providedVariables: {
-                    type: Array,
-                    readOnly: true
-                }
-            },
 
-            observers: [
-                '_updateVariables(sourceObj.*, providedVariableValues)'
-            ],
+                observers: [
+                    '_updateVariables(sourceObj.*, providedVariableValues)'
+                ],
 
-            _updateVariables () {
-                if (!this.value) {
-                    this.value = {};
-                }
-
-                this.debounce('updateVariables', () => {
-                    const allVarNames = RESTer.variables.extract(this.sourceObj),
-                          varNames = allVarNames.filter(n => !n.startsWith('$')),
-                          providedVarNames = allVarNames.filter(n => n.startsWith('$')),
-                          values = this.value || {};
-
-                    for (let varName of varNames) {
-                        if (this.value[varName]) {
-                            CACHED_VARIABLE_VALUES[varName] = this.value[varName];
-                        } else {
-                            this.set(`value.${varName}`, CACHED_VARIABLE_VALUES[varName]);
-                        }
+                _updateVariables() {
+                    if (!this.value) {
+                        this.value = {};
                     }
 
-                    this._setVariables(varNames.map(varName => ({
-                        name: varName,
-                        value: values[varName]
-                    })));
+                    this.debounce('updateVariables', () => {
+                        const allVarNames = RESTer.variables.extract(this.sourceObj);
+                        const varNames = allVarNames.filter(n => !n.startsWith('$'));
+                        const providedVarNames = allVarNames.filter(n => n.startsWith('$'));
+                        const values = this.value || {};
 
-                    this._setProvidedVariables(providedVarNames.map(varName => ({
-                        name: varName,
-                        value: this.providedVariableValues[varName]
-                    })));
-                }, 300);
-            },
+                        for (let varName of varNames) {
+                            if (this.value[varName]) {
+                                CACHED_VARIABLE_VALUES[varName] = this.value[varName];
+                            } else {
+                                this.set(`value.${varName}`, CACHED_VARIABLE_VALUES[varName]);
+                            }
+                        }
 
-            _onVariableValueChanged (e) {
-                const variable = e.model.item;
-                if (!variable) return;
+                        this._setVariables(varNames.map(varName => ({
+                            name: varName,
+                            value: values[varName]
+                        })));
 
-                if (!this.value) {
-                    this.value = { [variable.name]: variable.value };
-                } else {
-                    CACHED_VARIABLE_VALUES[variable.name] = variable.value;
-                    this.set(`value.${variable.name}`, variable.value);
+                        this._setProvidedVariables(providedVarNames.map(varName => ({
+                            name: varName,
+                            value: this.providedVariableValues[varName]
+                        })));
+                    }, 300);
+                },
+
+                _onVariableValueChanged(e) {
+                    const variable = e.model.item;
+                    if (!variable) {
+                        return;
+                    }
+
+                    if (!this.value) {
+                        this.value = { [variable.name]: variable.value };
+                    } else {
+                        CACHED_VARIABLE_VALUES[variable.name] = variable.value;
+                        this.set(`value.${variable.name}`, variable.value);
+                    }
+                },
+
+                _compareVariables(a, b) {
+                    return a.name.localeCompare(b.title);
                 }
-            },
-
-            _compareVariables (a, b) {
-                return a.name.localeCompare(b.title);
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

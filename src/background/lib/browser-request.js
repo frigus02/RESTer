@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.browserRequest = {};
@@ -48,7 +49,9 @@
             }
 
             function onBeforeRequest(details) {
-                if (details.tabId !== thisTabId) return;
+                if (details.tabId !== thisTabId) {
+                    return;
+                }
 
                 requestFinished = true;
                 chrome.windows.remove(thisWindowId, () => {
@@ -63,5 +66,4 @@
             }
         });
     };
-
 })();

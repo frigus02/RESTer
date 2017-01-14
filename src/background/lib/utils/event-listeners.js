@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.utils = rester.utils || {};
@@ -9,19 +10,18 @@
         const listeners = [];
 
         return {
-            addListener (listener) {
+            addListener(listener) {
                 listeners.push(listener);
             },
-            removeListener (listener) {
+            removeListener(listener) {
                 const index = listeners.indexOf(listener);
                 if (index >= 0) {
                     listeners.splice(index, 1);
                 }
             },
-            emit (message) {
+            emit(message) {
                 listeners.forEach(l => l(message));
             }
         };
     };
-
 })();

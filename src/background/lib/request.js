@@ -1,30 +1,9 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.request = {};
 
-
-    function generateFormData(body, serverVariables) {
-        const rawData = decodeQueryString(body),
-              variableValues = serverVariables.values,
-              formData = new FormData();
-
-        for (let key in rawData) {
-            if (rawData.hasOwnProperty(key)) {
-                const value = rawData[key],
-                      fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
-
-                if (fileMatch) {
-                    const file = variableValues[fileMatch[1]];
-                    formData.append(key, readBase64CustomObjectAsBlob(file), file.name);
-                } else {
-                    formData.append(key, value);
-                }
-            }
-        }
-
-        return formData;
-    }
 
     function decodeQueryString(str) {
         return str.split('&').reduce((params, currentParam) => {
@@ -40,6 +19,28 @@
         return new Blob([bytes], {
             type: obj.type
         });
+    }
+
+    function generateFormData(body, serverVariables) {
+        const rawData = decodeQueryString(body);
+        const variableValues = serverVariables.values;
+        const formData = new FormData();
+
+        for (let key in rawData) {
+            if (rawData.hasOwnProperty(key)) {
+                const value = rawData[key];
+                const fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
+
+                if (fileMatch) {
+                    const file = variableValues[fileMatch[1]];
+                    formData.append(key, readBase64CustomObjectAsBlob(file), file.name);
+                } else {
+                    formData.append(key, value);
+                }
+            }
+        }
+
+        return formData;
     }
 
 
@@ -118,8 +119,8 @@
                 }
 
                 // Special handling for multipart requests.
-                const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type'),
-                      contentType = request.headers[contentTypeIndex];
+                const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
+                const contentType = request.headers[contentTypeIndex];
                 if (contentType && contentType.value === 'multipart/form-data') {
                     request.headers.splice(contentTypeIndex, 1);
                     request.body = generateFormData(request.body, request.serverVariables);
@@ -137,5 +138,4 @@
             }
         });
     };
-
 })();

@@ -1,28 +1,29 @@
-// Monkeypatch Mousetrap's stopCallback() function, so it  doesn't return true
-// when the element is an INPUT, SELECT, or TEXTAREA.
-Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
-    if (element.classList.contains('mousetrap')) {
-        return false;
-    }
-
-    return element.contentEditable && element.contentEditable === 'true';
-};
-
 (function () {
+    'use strict';
 
-    const self = RESTer.register('hotkeys'),
-          hotkeys = [],
-          safeKeysForFormControls = ['ctrl', 'alt', 'meta', 'command', 'option', 'mod'],
-          formattingMap = {
-              command   : '\u2318',  // ⌘
-              shift     : '\u21E7',  // ⇧
-              left      : '\u2190',  // ←
-              right     : '\u2192',  // →
-              up        : '\u2191',  // ↑
-              down      : '\u2193',  // ↓
-              'return'  : '\u23CE',  // ⏎
-              backspace : '\u232B'   // ⌫
-          };
+    // Monkeypatch Mousetrap's stopCallback() function, so it  doesn't return true
+    // when the element is an INPUT, SELECT, or TEXTAREA.
+    Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
+        if (element.classList.contains('mousetrap')) {
+            return false;
+        }
+
+        return element.contentEditable && element.contentEditable === 'true';
+    };
+
+    const self = RESTer.register('hotkeys');
+    const hotkeys = [];
+    const safeKeysForFormControls = ['ctrl', 'alt', 'meta', 'command', 'option', 'mod'];
+    const formattingMap = {
+        command: '\u2318',
+        shift: '\u21E7',
+        left: '\u2190',
+        right: '\u2192',
+        up: '\u2191',
+        down: '\u2193',
+        'return': '\u23CE',
+        backspace: '\u232B'
+    };
 
 
     function getFormattedCombo(combo) {
@@ -49,7 +50,7 @@ Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
      * @param {Function} callback - A method to call when key is pressed.
      */
     self.Hotkey = class Hotkey {
-        constructor (props) {
+        constructor(props) {
             this.combos = props.combos || [];
             this.description = props.description || '';
             this.callback = props.callback;
@@ -103,5 +104,4 @@ Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
             hotkeys.splice(index, 1);
         }
     };
-
 })();

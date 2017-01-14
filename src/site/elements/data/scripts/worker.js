@@ -1,13 +1,14 @@
 (function () {
+    'use strict';
 
     const self = RESTer.register('worker');
 
     class SimpleWorker {
-        constructor (workerScript) {
+        constructor(workerScript) {
             this.workerScript = workerScript;
         }
 
-        run (data) {
+        run(data) {
             const worker = new Worker(this.workerScript);
             const promise = new Promise((resolve, reject) => {
                 worker.onmessage = function (event) {
@@ -40,5 +41,4 @@
     }
 
     self.FormatCode = new SimpleWorker(getAbsoluteUrl('elements/data/workers/format-code.js'));
-
 })();

@@ -43,42 +43,46 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-lint-messages',
+        (function () {
+            'use strict';
 
-            properties: {
-                messages: {
-                    type: Array,
-                    readOnly: true,
-                    value: []
+            Polymer({
+                is: 'rester-lint-messages',
+
+                properties: {
+                    messages: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
+                    }
+                },
+
+                putMessage(id, message) {
+                    if (!this.messages.some(m => m.id === id)) {
+                        message.id = id;
+                        this.push('messages', message);
+                    }
+                },
+
+                removeMessage(id) {
+                    const index = this.messages.findIndex(m => m.id === id);
+                    if (index > -1) {
+                        this.splice('messages', index, 1);
+                    }
+                },
+
+                _filterDismissedMessage(message) {
+                    return !message.dismissed;
+                },
+
+                _fixMessage(e) {
+                    e.model.item.fix();
+                },
+
+                _dismissMessage(e) {
+                    this.set(['messages', e.model.index, 'dismissed'], true);
                 }
-            },
-
-            putMessage (id, message) {
-                if (!this.messages.some(m => m.id === id)) {
-                    message.id = id;
-                    this.push('messages', message);
-                }
-            },
-
-            removeMessage (id) {
-                const index = this.messages.findIndex(m => m.id === id);
-                if (index > -1) {
-                    this.splice('messages', index, 1);
-                }
-            },
-
-            _filterDismissedMessage (message) {
-                return !message.dismissed;
-            },
-
-            _fixMessage (e) {
-                e.model.item.fix();
-            },
-
-            _dismissMessage (e) {
-                this.set(['messages', e.model.index, 'dismissed'], true);
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

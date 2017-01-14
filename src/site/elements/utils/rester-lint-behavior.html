@@ -1,75 +1,85 @@
 <link rel="import" href="../data/rester-data-settings-behavior.html">
 
 <script>
-    /**
-     * Allows to register lint inspections, which can be used to inspect
-     * the current properties and show warnings, when they don't comply
-     * to the rules.
-     *
-     * Define inspections like this:
-     *
-     * resterLintInspections: [
-     *     {
-     *         message: 'You are doing it wrong. :-)',
-     *         check: '_lintYouAreDoingItWrong',
-     *         fixLabel: 'Help me!',
-     *         fix: '_fixYouAreDoingItWrong'
-     *     }
-     * ]
-     *
-     * Then run inspections, when the observed properties change by setting
-     * up an observer:
-     *
-     * observers: [
-     *     '_runLintInspections(YOUR_OBSERVED_PROPERTIES_HERE)'
-     * ]
-     *
-     * @polymerBehavior RESTer.LintBehavior
-     */
-    RESTer.LintBehaviorImpl = {
-        detached () {
-            const inspections = this.resterLintInspections || [],
-                  messages = this.$$('rester-lint-messages');
+    (function () {
+        'use strict';
 
-            if (!messages) return;
+        /**
+         * Allows to register lint inspections, which can be used to inspect
+         * the current properties and show warnings, when they don't comply
+         * to the rules.
+         *
+         * Define inspections like this:
+         *
+         * resterLintInspections: [
+         *     {
+         *         message: 'You are doing it wrong. :-)',
+         *         check: '_lintYouAreDoingItWrong',
+         *         fixLabel: 'Help me!',
+         *         fix: '_fixYouAreDoingItWrong'
+         *     }
+         * ]
+         *
+         * Then run inspections, when the observed properties change by setting
+         * up an observer:
+         *
+         * observers: [
+         *     '_runLintInspections(YOUR_OBSERVED_PROPERTIES_HERE)'
+         * ]
+         *
+         * @polymerBehavior RESTer.LintBehavior
+         */
+        RESTer.LintBehaviorImpl = {
+            detached() {
+                const inspections = this.resterLintInspections || [];
+                const messages = this.$$('rester-lint-messages');
 
-            inspections.forEach(inspection => {
-                if (inspection.id) {
-                    messages.removeMessage(inspection.id);
+                if (!messages) {
+                    return;
                 }
-            });
-        },
-
-        _runLintInspections () {
-            if (!this.settings.enableRequestLintInspections) return;
-
-            this.debounce('runLintInspections', () => {
-                const inspections = this.resterLintInspections || [],
-                      messages = this.$$('rester-lint-messages');
-
-                if (!messages) return;
 
                 inspections.forEach(inspection => {
-                    if (!inspection.id) {
-                        inspection.id = Math.random();
-                    }
-
-                    if (!this[inspection.check].call(this)) {
-                        messages.putMessage(inspection.id, {
-                            message: inspection.message,
-                            fixLabel: inspection.fixLabel,
-                            fix: this[inspection.fix].bind(this)
-                        });
-                    } else {
+                    if (inspection.id) {
                         messages.removeMessage(inspection.id);
                     }
                 });
-            }, 300);
-        }
-    };
+            },
 
-    RESTer.LintBehavior = [
-        RESTer.SettingsBehavior,
-        RESTer.LintBehaviorImpl
-    ];
+            _runLintInspections() {
+                if (!this.settings.enableRequestLintInspections) {
+                    return;
+                }
+
+                this.debounce('runLintInspections', () => {
+                    const inspections = this.resterLintInspections || [];
+                    const messages = this.$$('rester-lint-messages');
+
+                    if (!messages) {
+                        return;
+                    }
+
+                    inspections.forEach(inspection => {
+                        if (!inspection.id) {
+                            inspection.id = Math.random();
+                        }
+
+                        if (!this[inspection.check].call(this)) {
+                            messages.putMessage(inspection.id, {
+                                message: inspection.message,
+                                fixLabel: inspection.fixLabel,
+                                fix: this[inspection.fix].bind(this)
+                            });
+                        } else {
+                            messages.removeMessage(inspection.id);
+                        }
+                    });
+                }, 300);
+            }
+        };
+
+        RESTer.LintBehavior = [
+            RESTer.SettingsBehavior,
+            RESTer.LintBehaviorImpl
+        ];
+    })();
 </script>

@@ -38,50 +38,54 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-error',
+        (function () {
+            'use strict';
 
-            properties: {
-                title: String,
-                error: Object,
-                errorMessage: {
-                    type: String,
-                    computed: '_computeErrorMessage(error)'
-                },
-                errorMessageLines: {
-                    type: Array,
-                    computed: '_computeErrorMessageLines(errorMessage)'
-                }
-            },
+            Polymer({
+                is: 'rester-error',
 
-            _titles: [
-                'Ups, something went wrong!',
-                'Oh no, this shouldn\'t happen.'
-            ],
-
-            show (error) {
-                this.title = _.sample(this._titles);
-                this.error = error;
-                this.$.dialog.open();
-            },
-
-            _computeErrorMessage (error) {
-                if (typeof error === 'string') {
-                    return error;
-                } else if (error.message) {
-                    return error.message;
-                } else {
-                    try {
-                        return JSON.stringify(error);
-                    } catch (e) {
-                        return 'Unknown error.';
+                properties: {
+                    title: String,
+                    error: Object,
+                    errorMessage: {
+                        type: String,
+                        computed: '_computeErrorMessage(error)'
+                    },
+                    errorMessageLines: {
+                        type: Array,
+                        computed: '_computeErrorMessageLines(errorMessage)'
                     }
-                }
-            },
+                },
 
-            _computeErrorMessageLines (errorMessage) {
-                return errorMessage.split('\n');
-            }
-        });
+                _titles: [
+                    'Ups, something went wrong!',
+                    'Oh no, this shouldn\'t happen.'
+                ],
+
+                show(error) {
+                    this.title = _.sample(this._titles);
+                    this.error = error;
+                    this.$.dialog.open();
+                },
+
+                _computeErrorMessage(error) {
+                    if (typeof error === 'string') {
+                        return error;
+                    } else if (error.message) {
+                        return error.message;
+                    } else {
+                        try {
+                            return JSON.stringify(error);
+                        } catch (e) {
+                            return 'Unknown error.';
+                        }
+                    }
+                },
+
+                _computeErrorMessageLines(errorMessage) {
+                    return errorMessage.split('\n');
+                }
+            });
+        })();
     </script>
 </dom-module>

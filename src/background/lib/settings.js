@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.settings = {};
@@ -54,8 +55,8 @@
 
     rester.settings.set = function (newSettings) {
         // Filter for keys, which actually exist.
-        const changedKeys = Object.keys(newSettings).filter(key => DEFAULTS.hasOwnProperty(key)),
-              changedSettings = {};
+        const changedKeys = Object.keys(newSettings).filter(key => DEFAULTS.hasOwnProperty(key));
+        const changedSettings = {};
         for (let key of changedKeys) {
             changedSettings[key] = newSettings[key];
         }
@@ -67,5 +68,4 @@
             rester.settings.onChange.emit(changedSettings);
         });
     };
-
 })();

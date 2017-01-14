@@ -193,368 +193,376 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-page-request',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.PageBehavior,
-                RESTer.ErrorBehavior,
-                RESTer.HotkeysBehavior,
-                RESTer.SettingsBehavior,
-                RESTer.LintBehavior
-            ],
+            Polymer({
+                is: 'rester-page-request',
 
-            properties: {
-                route: {
-                    type: Object,
-                    observer: '_onRouteChanged'
-                },
-                routeActive: Boolean,
-                routeData: Object,
-                historyRoute: Object,
-                historyRouteActive: Boolean,
-                historyRouteData: Object,
-                request: {
-                    type: Object,
-                    readOnly: true
-                },
-                requestVariableValues: {
-                    type: Object
-                },
-                requestMethods: {
-                    type: Array,
-                    readOnly: true,
-                    value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
-                },
-                requestIsSending: {
-                    type: Boolean,
-                    readOnly: true,
-                    value: false
-                },
-                requestSelectedTab: {
-                    type: Number,
-                    value: 0
-                },
-                requestContentType: {
-                    type: String,
-                    computed: '_computeHeader(request.headers.*, \'Content-Type\')'
-                },
-                requestAuthorization: {
-                    type: String,
-                    computed: '_computeHeader(request.headers.*, \'Authorization\')'
-                },
-                response: {
-                    type: Object,
-                    readOnly: true
-                },
-                responseBadgeType: {
-                    type: String,
-                    computed: '_computeResponseBadgeType(response.status)'
-                },
-                responseContentType: {
-                    type: String,
-                    computed: '_computeHeader(response.headers.*, \'Content-Type\')'
-                },
-                historyEntry: {
-                    type: Object,
-                    readOnly: true
-                },
-                historyEntryElapsedMillis: {
-                    type: Number,
-                    computed: '_computeHistoryEntryElapsedMillis(historyEntry.time, historyEntry.timeEnd)'
-                }
-            },
+                behaviors: [
+                    RESTer.PageBehavior,
+                    RESTer.ErrorBehavior,
+                    RESTer.HotkeysBehavior,
+                    RESTer.SettingsBehavior,
+                    RESTer.LintBehavior
+                ],
 
-            observers: [
-                '_updatePageTitle(request, historyEntry)',
-                '_runLintInspections(request.*, requestVariableValues.*)'
-            ],
+                properties: {
+                    route: {
+                        type: Object,
+                        observer: '_onRouteChanged'
+                    },
+                    routeActive: Boolean,
+                    routeData: Object,
+                    historyRoute: Object,
+                    historyRouteActive: Boolean,
+                    historyRouteData: Object,
+                    request: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    requestVariableValues: {
+                        type: Object
+                    },
+                    requestMethods: {
+                        type: Array,
+                        readOnly: true,
+                        value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+                    },
+                    requestIsSending: {
+                        type: Boolean,
+                        readOnly: true,
+                        value: false
+                    },
+                    requestSelectedTab: {
+                        type: Number,
+                        value: 0
+                    },
+                    requestContentType: {
+                        type: String,
+                        computed: '_computeHeader(request.headers.*, \'Content-Type\')'
+                    },
+                    requestAuthorization: {
+                        type: String,
+                        computed: '_computeHeader(request.headers.*, \'Authorization\')'
+                    },
+                    response: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    responseBadgeType: {
+                        type: String,
+                        computed: '_computeResponseBadgeType(response.status)'
+                    },
+                    responseContentType: {
+                        type: String,
+                        computed: '_computeHeader(response.headers.*, \'Content-Type\')'
+                    },
+                    historyEntry: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    historyEntryElapsedMillis: {
+                        type: Number,
+                        computed: '_computeHistoryEntryElapsedMillis(historyEntry.time, historyEntry.timeEnd)'
+                    }
+                },
 
-            resterHotkeys: {
-                'mod+s': {
-                    description: 'Save the current request.',
-                    callback: '_saveRequest'
-                },
-                'mod+enter': {
-                    description: 'Send the current request.',
-                    callback: '_sendRequest'
-                }
-            },
+                observers: [
+                    '_updatePageTitle(request, historyEntry)',
+                    '_runLintInspections(request.*, requestVariableValues.*)'
+                ],
 
-            resterLintInspections: [
-                {
-                    message: 'There are placeholders in your request, but the variables feature is not enabled.',
-                    check: '_lintCheckPlaceholdersWithoutVariables',
-                    fixLabel: 'Enable variables',
-                    fix: '_lintFixPlaceholdersWithoutVariables'
+                resterHotkeys: {
+                    'mod+s': {
+                        description: 'Save the current request.',
+                        callback: '_saveRequest'
+                    },
+                    'mod+enter': {
+                        description: 'Send the current request.',
+                        callback: '_sendRequest'
+                    }
                 },
-                {
-                    message: 'Some variables have an empty value.',
-                    check: '_lintCheckEmptyVariables',
-                    fixLabel: 'View variables',
-                    fix: '_lintFixEmptyVariables'
-                },
-                {
-                    message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
-                    check: '_lintCheckFilesWithoutMultipart',
-                    fixLabel: 'Set content type',
-                    fix: '_lintFixFilesWithoutMultipart'
-                },
-                {
-                    message: 'There are empty file inputs.',
-                    check: '_lintCheckEmptyFiles',
-                    fixLabel: 'View body',
-                    fix: '_lintFixEmptyFiles'
-                }
-            ],
 
-            _onRouteChanged () {
-                if (this.routeActive && this.historyRouteActive) {
-                    RESTer.rester.getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
-                        if (historyEntry.request.id !== +this.routeData.requestId &&
-                            !(historyEntry.request.id === undefined && this.routeData.requestId === '')) {
-                            this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
-                            window.location = '#/';
-                        } else {
-                            if (historyEntry.request.variables && historyEntry.request.variables.values) {
-                                this.requestVariableValues = historyEntry.request.variables.values;
-                                delete historyEntry.request.variables.values;
+                resterLintInspections: [
+                    {
+                        message: 'There are placeholders in your request, but the variables feature is not enabled.',
+                        check: '_lintCheckPlaceholdersWithoutVariables',
+                        fixLabel: 'Enable variables',
+                        fix: '_lintFixPlaceholdersWithoutVariables'
+                    },
+                    {
+                        message: 'Some variables have an empty value.',
+                        check: '_lintCheckEmptyVariables',
+                        fixLabel: 'View variables',
+                        fix: '_lintFixEmptyVariables'
+                    },
+                    {
+                        message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
+                        check: '_lintCheckFilesWithoutMultipart',
+                        fixLabel: 'Set content type',
+                        fix: '_lintFixFilesWithoutMultipart'
+                    },
+                    {
+                        message: 'There are empty file inputs.',
+                        check: '_lintCheckEmptyFiles',
+                        fixLabel: 'View body',
+                        fix: '_lintFixEmptyFiles'
+                    }
+                ],
+
+                _onRouteChanged() {
+                    if (this.routeActive && this.historyRouteActive) {
+                        RESTer.rester.getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
+                            if (historyEntry.request.id !== +this.routeData.requestId &&
+                                !(historyEntry.request.id === undefined && this.routeData.requestId === '')) {
+                                this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
+                                window.location = '#/';
                             } else {
-                                this.requestVariableValues = {};
-                            }
+                                if (historyEntry.request.variables && historyEntry.request.variables.values) {
+                                    this.requestVariableValues = historyEntry.request.variables.values;
+                                    delete historyEntry.request.variables.values;
+                                } else {
+                                    this.requestVariableValues = {};
+                                }
 
-                            this._setHistoryEntry(historyEntry);
-                            this._setRequest(historyEntry.request);
-                            this._setResponse(historyEntry.response);
-                        }
-                    });
-                } else if (this.routeActive) {
-                    RESTer.rester.getRequest(+this.routeData.requestId).then(request => {
+                                this._setHistoryEntry(historyEntry);
+                                this._setRequest(historyEntry.request);
+                                this._setResponse(historyEntry.response);
+                            }
+                        });
+                    } else if (this.routeActive) {
+                        RESTer.rester.getRequest(+this.routeData.requestId).then(request => {
+                            this._setHistoryEntry(null);
+                            this._setRequest(request);
+                            this.requestVariableValues = {};
+                            this._setResponse(null);
+                        });
+                    } else {
                         this._setHistoryEntry(null);
-                        this._setRequest(request);
+                        this._setRequest({
+                            collection: '',
+                            title: '',
+                            method: '',
+                            url: '',
+                            headers: [],
+                            body: '',
+                            variables: {
+                                enabled: false
+                            }
+                        });
                         this.requestVariableValues = {};
                         this._setResponse(null);
+                    }
+                },
+
+                _computeHeader(headers, headerName) {
+                    let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
+
+                    return header && header.value;
+                },
+
+                _computeResponseBadgeType(status) {
+                    if (status >= 100 && status < 200) {
+                        return 'info';
+                    } else if (status >= 200 && status < 300) {
+                        return 'success';
+                    } else if (status >= 300 && status < 400) {
+                        return 'info';
+                    } else if (status >= 400) {
+                        return 'warn';
+                    }
+                },
+
+                _computeHistoryEntryElapsedMillis(time, timeEnd) {
+                    return new Date(timeEnd) - new Date(time);
+                },
+
+                _updatePageTitle(request, historyEntry) {
+                    const collection = request.collection || '<no collection>';
+                    const title = request.title || '<no title>';
+                    const time = historyEntry && historyEntry.time ? RESTer.format.dateTime(historyEntry.time) : '';
+
+                    let pageTitle = `${collection} / ${title}`;
+                    if (time) {
+                        pageTitle += ` (${time})`;
+                    }
+
+                    this._setPageTitle(pageTitle);
+                },
+
+                _onFormKeyDown(e) {
+                    // Do not intercept Enter presses inside of a textarea. In this case you
+                    // could no longer enter newlines, which is not what we want.
+                    if (!e.defaultPrevented && e.target.nodeName !== 'TEXTAREA' && e.key === 'Enter') {
+                        e.preventDefault();
+                        this._sendRequest();
+                    }
+                },
+
+                _onRequestContentTypeChangedByBody(e) {
+                    this._setRequestHeader('Content-Type', e.detail.value);
+                },
+
+                _onRequestAuthorizationChanged(e) {
+                    this._setRequestHeader('Authorization', e.detail.value);
+                },
+
+                _setRequestHeader(headerName, value) {
+                    const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
+                    if (index > -1) {
+                        this.request.headers.splice(index, 1);
+                    }
+
+                    if (value || value === '') {
+                        const newHeader = {
+                            name: headerName,
+                            value: value
+                        };
+
+                        this.request.headers.push(newHeader);
+                    }
+
+                    this.set('request.headers', [...this.request.headers]);
+                },
+
+                _saveRequest() {
+                    this.$.saveOptions.close();
+
+                    if (!this.request.title || !this.request.collection) {
+                        return;
+                    }
+
+                    RESTer.rester.putRequest(this.request).then(id => {
+                        this.request.id = id;
+
+                        window.location = `#/request/${id}`;
                     });
-                } else {
-                    this._setHistoryEntry(null);
-                    this._setRequest({
-                        collection: '',
-                        title: '',
-                        method: '',
-                        url: '',
-                        headers: [],
-                        body: '',
-                        variables: {
-                            enabled: false
+                },
+
+                _saveRequestAsNew() {
+                    this.$.saveOptions.close();
+                    delete this.request.id;
+                    this._saveRequest();
+                },
+
+                _deleteRequest() {
+                    this.$.deleteOptions.close();
+
+                    const resterApp = document.querySelector('rester-app');
+                    const resterNavigationList = Polymer.dom(resterApp.root).querySelector('rester-navigation-list');
+                    const resterNavigation = Polymer.dom(resterNavigationList.root).querySelector('rester-data-navigation');
+                    const nextId = resterNavigation.getNextRequestId(this.request.id);
+                    RESTer.rester.deleteRequest(this.request.id).then(() => {
+                        if (typeof nextId !== 'undefined') {
+                            window.location = `#/request/${nextId}`;
+                        } else {
+                            window.location = `#/`;
                         }
                     });
-                    this.requestVariableValues = {};
-                    this._setResponse(null);
-                }
-            },
+                },
 
-            _computeHeader (headers, headerName) {
-                let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
-
-                return header && header.value;
-            },
-
-            _computeResponseBadgeType (status) {
-                if (status >= 100 && status < 200) {
-                    return 'info';
-                } else if (status >= 200 && status < 300) {
-                    return 'success';
-                } else if (status >= 300 && status < 400) {
-                    return 'info';
-                } else if (status >= 400) {
-                    return 'warn';
-                }
-            },
-
-            _computeHistoryEntryElapsedMillis (time, timeEnd) {
-                return new Date(timeEnd) - new Date(time);
-            },
-
-            _updatePageTitle(request, historyEntry) {
-                const collection = request.collection || '<no collection>',
-                      title = request.title || '<no title>',
-                      time = historyEntry && historyEntry.time ? RESTer.format.dateTime(historyEntry.time) : '';
-
-                let pageTitle = `${collection} / ${title}`;
-                if (time) {
-                    pageTitle += ` (${time})`;
-                }
-
-                this._setPageTitle(pageTitle);
-            },
-
-            _onFormKeyDown (e) {
-                // Do not intercept Enter presses inside of a textarea. In this case you
-                // could no longer enter newlines, which is not what we want.
-                if (!e.defaultPrevented && e.target.nodeName !== 'TEXTAREA' && e.key === 'Enter') {
-                    e.preventDefault();
-                    this._sendRequest();
-                }
-            },
-
-            _onRequestContentTypeChangedByBody (e) {
-                this._setRequestHeader('Content-Type', e.detail.value);
-            },
-
-            _onRequestAuthorizationChanged (e) {
-                this._setRequestHeader('Authorization', e.detail.value);
-            },
-
-            _setRequestHeader (headerName, value) {
-                const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
-                if (index > -1) {
-                    this.request.headers.splice(index, 1);
-                }
-
-                if (value || value === '') {
-                    const newHeader = {
-                        name: headerName,
-                        value: value
-                    };
-
-                    this.request.headers.push(newHeader);
-                }
-
-                this.set('request.headers', [...this.request.headers]);
-            },
-
-            _saveRequest () {
-                this.$.saveOptions.close();
-
-                if (!this.request.title || !this.request.collection) return;
-
-                RESTer.rester.putRequest(this.request).then(id => {
-                    this.request.id = id;
-
-                    window.location = `#/request/${id}`;
-                });
-            },
-
-            _saveRequestAsNew () {
-                this.$.saveOptions.close();
-                delete this.request.id;
-                this._saveRequest();
-            },
-
-            _deleteRequest () {
-                this.$.deleteOptions.close();
-
-                const resterApp = document.querySelector('rester-app');
-                const resterNavigationList = Polymer.dom(resterApp.root).querySelector('rester-navigation-list');
-                const resterNavigation = Polymer.dom(resterNavigationList.root).querySelector('rester-data-navigation');
-                const nextId = resterNavigation.getNextRequestId(this.request.id);
-                RESTer.rester.deleteRequest(this.request.id).then(() => {
-                    if (typeof nextId !== 'undefined') {
-                        window.location = `#/request/${nextId}`;
-                    } else {
-                        window.location = `#/`;
+                _sendRequest() {
+                    if (!this.$.requestForm.validate()) {
+                        return;
                     }
-                });
-            },
 
-            _sendRequest () {
-                if (!this.$.requestForm.validate()) return;
+                    let compiledRequest = this.request,
+                        usedVariableValues = {};
 
-                let compiledRequest = this.request,
-                    usedVariableValues = {};
+                    if (this.request.variables.enabled) {
+                        compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
+                    }
 
-                if (this.request.variables.enabled) {
-                    compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-                }
+                    if (this.settings.stripDefaultHeaders) {
+                        compiledRequest.stripDefaultHeaders = true;
+                    }
 
-                if (this.settings.stripDefaultHeaders) {
-                    compiledRequest.stripDefaultHeaders = true;
-                }
+                    this._setRequestIsSending(true);
+                    RESTer.encode.readFilesAsVariableValues(this.$.bodyInput.files)
+                        .then(fileValues => {
+                            compiledRequest.serverVariables = {
+                                values: fileValues
+                            };
 
-                this._setRequestIsSending(true);
-                RESTer.encode.readFilesAsVariableValues(this.$.bodyInput.files)
-                    .then(fileValues => {
-                        compiledRequest.serverVariables = {
-                            values: fileValues
-                        };
+                            return RESTer.rester.sendRequest(compiledRequest);
+                        })
+                        .then(plainResponse => {
+                            const requestClone = _.cloneDeep(this.request);
+                            requestClone.variables.values = usedVariableValues;
 
-                        return RESTer.rester.sendRequest(compiledRequest);
-                    })
-                    .then(plainResponse => {
-                        const requestClone = _.cloneDeep(this.request);
-                        requestClone.variables.values = usedVariableValues;
+                            const response = {
+                                status: plainResponse.status,
+                                statusText: plainResponse.statusText,
+                                headers: plainResponse.headers,
+                                body: plainResponse.body
+                            };
 
-                        const response = {
-                            status: plainResponse.status,
-                            statusText: plainResponse.statusText,
-                            headers: plainResponse.headers,
-                            body: plainResponse.body
-                        };
-
-                        return RESTer.rester.addHistoryEntry({
-                            time: new Date(plainResponse.timeStart),
-                            timeEnd: new Date(plainResponse.timeEnd),
-                            request: requestClone,
-                            response: response
+                            return RESTer.rester.addHistoryEntry({
+                                time: new Date(plainResponse.timeStart),
+                                timeEnd: new Date(plainResponse.timeEnd),
+                                request: requestClone,
+                                response: response
+                            });
+                        })
+                        .then(historyId => {
+                            this._setRequestIsSending(false);
+                            window.location = `#/request/${this.request.id || ''}/history/${historyId}`;
+                        })
+                        .catch(error => {
+                            this._setRequestIsSending(false);
+                            this.showError(error);
                         });
-                    })
-                    .then(historyId => {
-                        this._setRequestIsSending(false);
-                        window.location = `#/request/${this.request.id || ''}/history/${historyId}`;
-                    })
-                    .catch(error => {
-                        this._setRequestIsSending(false);
-                        this.showError(error);
-                    });
-            },
+                },
 
-            _lintCheckPlaceholdersWithoutVariables () {
-                return this.request.variables.enabled ||
-                    RESTer.variables.extract(this.request).length === 0;
-            },
+                _lintCheckPlaceholdersWithoutVariables() {
+                    return this.request.variables.enabled ||
+                        RESTer.variables.extract(this.request).length === 0;
+                },
 
-            _lintFixPlaceholdersWithoutVariables () {
-                this.set('request.variables.enabled', true);
-            },
+                _lintFixPlaceholdersWithoutVariables() {
+                    this.set('request.variables.enabled', true);
+                },
 
-            _lintCheckEmptyVariables () {
-                if (this.request.variables.enabled) {
-                    const variables = RESTer.variables.extract(this.request);
-                    const usedVariableValues = {};
-                    RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-                    return variables.every(name => !!usedVariableValues[name]);
-                } else {
-                    return true;
+                _lintCheckEmptyVariables() {
+                    if (this.request.variables.enabled) {
+                        const variables = RESTer.variables.extract(this.request);
+                        const usedVariableValues = {};
+                        RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
+                        return variables.every(name => !!usedVariableValues[name]);
+                    } else {
+                        return true;
+                    }
+                },
+
+                _lintFixEmptyVariables() {
+                    this.requestSelectedTab = 3;
+                },
+
+                _lintCheckFilesWithoutMultipart() {
+                    const contentType = this.requestContentType || '';
+
+                    return contentType.toLowerCase() === 'multipart/form-data' ||
+                        Object.keys(this.$.bodyInput.files || {}).length === 0;
+                },
+
+                _lintFixFilesWithoutMultipart() {
+                    this._setRequestHeader('Content-Type', 'multipart/form-data');
+                },
+
+                _lintCheckEmptyFiles() {
+                    const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+                    const selectedFiles = this.$.bodyInput.files;
+
+                    return !requiredFiles || requiredFiles
+                        .map(file => file.substring(7, file.length - 1))
+                        .every(file => selectedFiles[file]);
+                },
+
+                _lintFixEmptyFiles() {
+                    this.requestSelectedTab = 1;
                 }
-            },
-
-            _lintFixEmptyVariables () {
-                this.requestSelectedTab = 3;
-            },
-
-            _lintCheckFilesWithoutMultipart () {
-                const contentType = this.requestContentType || '';
-
-                return contentType.toLowerCase() === 'multipart/form-data' ||
-                    Object.keys(this.$.bodyInput.files || {}).length === 0;
-            },
-
-            _lintFixFilesWithoutMultipart () {
-                this._setRequestHeader('Content-Type', 'multipart/form-data');
-            },
-
-            _lintCheckEmptyFiles () {
-                const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
-                const selectedFiles = this.$.bodyInput.files;
-
-                return !requiredFiles || requiredFiles
-                    .map(file => file.substring(7, file.length - 1))
-                    .every(file => selectedFiles[file]);
-            },
-
-            _lintFixEmptyFiles () {
-                this.requestSelectedTab = 1;
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

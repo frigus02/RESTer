@@ -22,201 +22,219 @@
     </template>
 
     <script>
-        /** @polymerBehavior RESTer.AceShadowDomBehavior */
-        RESTer.AceShadowDomBehavior = (function () {
-            const aceShadowRoots = [],
-                  styles = getStyles();
+        (function () {
+            'use strict';
 
-            createDomHook();
+            /** @polymerBehavior RESTer.AceShadowDomBehavior */
+            RESTer.AceShadowDomBehavior = (function () {
+                const aceShadowRoots = [];
+                const styles = getStyles();
 
-            function createDomHook () {
-                const domHook = ace.require('ace/lib/dom');
-                const dom = {
-                    getDocumentHead: domHook.getDocumentHead,
-                    importCssString: domHook.importCssString,
-                    hasCssString: domHook.hasCssString
-                };
+                createDomHook();
 
-                const docHook = {
-                    createElement: document.createElement.bind(document),
-                    createTextNode: document.createTextNode.bind(document),
-                    cssHead: null // change by importCssString
-                };
+                function createDomHook() {
+                    const domHook = ace.require('ace/lib/dom');
+                    const dom = {
+                        getDocumentHead: domHook.getDocumentHead,
+                        importCssString: domHook.importCssString,
+                        hasCssString: domHook.hasCssString
+                    };
 
-                domHook.getDocumentHead = function (doc) {
-                    if (doc === docHook) {
-                        return docHook.cssHead;
-                    }
+                    const docHook = {
+                        createElement: document.createElement.bind(document),
+                        createTextNode: document.createTextNode.bind(document),
+                        cssHead: null // change by importCssString
+                    };
 
-                    return dom.getDocumentHead.apply(doc, arguments);
-                };
-
-                domHook.hasCssString = function (id, doc) {
-                    if (doc === docHook) {
-                        let index = 0,
-                            sheets;
-                        doc = docHook.cssHead || document;
-                        if (doc.createStyleSheet && doc.styleSheets) {
-                            sheets = doc.styleSheets;
-                            while (index < sheets.length) {
-                                if (sheets[index++].owningElement.id === id) {
-                                    return true;
-                                }
-                            }
-                        } else {
-                            sheets = Polymer.dom(doc).querySelectorAll('style');
-                            while (index < sheets.length) {
-                                if (sheets[index++].id === id) {
-                                    return true;
-                                }
-                            }
+                    domHook.getDocumentHead = function (doc) {
+                        if (doc === docHook) {
+                            return docHook.cssHead;
                         }
 
-                        return false;
-                    }
+                        return dom.getDocumentHead.apply(doc, arguments);
+                    };
 
-                    return dom.hasCssString(id, doc);
+                    domHook.hasCssString = function (id, doc) {
+                        if (doc === docHook) {
+                            let index = 0,
+                                sheets;
+                            doc = docHook.cssHead || document;
+                            if (doc.createStyleSheet && doc.styleSheets) {
+                                sheets = doc.styleSheets;
+                                while (index < sheets.length) {
+                                    if (sheets[index++].owningElement.id === id) {
+                                        return true;
+                                    }
+                                }
+                            } else {
+                                sheets = Polymer.dom(doc).querySelectorAll('style');
+                                while (index < sheets.length) {
+                                    if (sheets[index++].id === id) {
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            return false;
+                        }
+
+                        return dom.hasCssString(id, doc);
+                    };
+
+                    domHook.importCssString = function (cssText, id) {
+                        let result;
+                        aceShadowRoots.forEach(cssHead => {
+                            docHook.cssHead = cssHead;
+                            result = dom.importCssString.call(this, cssText, id, docHook);
+                        });
+
+                        return result;
+                    };
+                }
+
+                function getStyles() {
+                    const style1 = document.getElementById('ace_editor.css') || document.getElementById('ace_editor');
+                    const style2 = document.getElementById('ace-tm');
+                    const style3 = style2.nextSibling;
+
+                    return [style1, style2, style3];
+                }
+
+                const AceWidgetShadowDom = {
+                    _dom: null,
+
+                    ready() {
+                        this._dom = Polymer.dom(this.root);
+
+                        if (Polymer.Settings.dom === 'shadow') {
+                            styles.forEach(style => {
+                                this._dom.appendChild(style.cloneNode(true));
+                            });
+                        }
+                    },
+
+                    attached() {
+                        if (Polymer.Settings.dom === 'shadow') {
+                            aceShadowRoots.push(this._dom);
+                        }
+                    },
+
+                    detached() {
+                        if (Polymer.Settings.dom === 'shadow') {
+                            const index = aceShadowRoots.indexOf(this._dom);
+                            aceShadowRoots.splice(index, 1);
+                        }
+                    }
                 };
 
-                domHook.importCssString = function (cssText, id) {
-                    let result;
-                    aceShadowRoots.forEach(cssHead => {
-                        docHook.cssHead = cssHead;
-                        result = dom.importCssString.call(this, cssText, id, docHook);
+                return AceWidgetShadowDom;
+            })();
+
+            Polymer({
+                is: 'rester-ace-input',
+
+                behaviors: [
+                    RESTer.AceShadowDomBehavior,
+                    RESTer.InputControlBehavior,
+                    Polymer.IronFormElementBehavior
+                ],
+
+                properties: {
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    mode: {
+                        type: String,
+                        observer: '_onModeChanged'
+                    },
+                    readOnly: {
+                        type: Boolean,
+                        value: false,
+                        observer: '_onReadOnlyChanged'
+                    },
+                    useWrapMode: {
+                        type: Boolean,
+                        value: false,
+                        observer: '_onUseWrapModeChanged'
+                    }
+                },
+
+                get _focusableElement() {
+                    return this.$.editor;
+                },
+
+                _editor: undefined,
+                _oldValue: '',
+                _ignoreEditorChangeEvents: false,
+
+                ready() {
+                    ace.config.set('basePath', this.resolveUrl('../../bower_components/ace-builds/src-min-noconflict/'));
+                },
+
+                attached() {
+                    this._editor = ace.edit(this.$.editor);
+                    this._editor.setTheme('ace/theme/twilight');
+                    this._editor.$blockScrolling = Infinity;
+                    this._editor.on('change', () => {
+                        if (this._ignoreEditorChangeEvents) {
+                            return;
+                        }
+
+                        this._oldValue = this._editor.getValue();
+                        this.value = this._oldValue;
                     });
 
-                    return result;
-                };
-            }
-
-            function getStyles () {
-                const style1 = document.getElementById('ace_editor.css') || document.getElementById('ace_editor');
-                const style2 = document.getElementById('ace-tm');
-                const style3 = style2.nextSibling;
-
-                return [style1, style2, style3];
-            }
-
-            const AceWidgetShadowDom = {
-                _dom: null,
-
-                ready () {
-                    this._dom = Polymer.dom(this.root);
-
-                    if (Polymer.Settings.dom === 'shadow') {
-                        styles.forEach(style => {
-                            this._dom.appendChild(style.cloneNode(true));
-                        });
-                    }
+                    this._onModeChanged();
+                    this._onReadOnlyChanged();
+                    this._onUseWrapModeChanged();
+                    this._onValueChanged();
                 },
 
-                attached () {
-                    if (Polymer.Settings.dom === 'shadow') {
-                        aceShadowRoots.push(this._dom);
-                    }
+                detached() {
+                    this._editor.destroy();
+                    this._editor = undefined;
+                    this._oldValue = '';
                 },
 
-                detached () {
-                    if (Polymer.Settings.dom === 'shadow') {
-                        const index = aceShadowRoots.indexOf(this._dom);
-                        aceShadowRoots.splice(index, 1);
+                _onValueChanged() {
+                    if (!this._editor || this.value === this._oldValue) {
+                        return;
                     }
+
+                    this._oldValue = this.value || '';
+                    this._ignoreEditorChangeEvents = true;
+                    this._editor.setValue(this._oldValue);
+                    this._ignoreEditorChangeEvents = false;
+                    this._editor.clearSelection();
+                    this._editor.scrollToLine(0);
+                },
+
+                _onModeChanged() {
+                    if (!this._editor) {
+                        return;
+                    }
+
+                    this._editor.session.setMode(this.mode);
+                },
+
+                _onReadOnlyChanged() {
+                    if (!this._editor) {
+                        return;
+                    }
+
+                    this._editor.setReadOnly(this.readOnly);
+                },
+
+                _onUseWrapModeChanged() {
+                    if (!this._editor) {
+                        return;
+                    }
+
+                    this._editor.session.setUseWrapMode(this.useWrapMode);
                 }
-            };
-
-            return AceWidgetShadowDom;
+            });
         })();
-
-        Polymer({
-            is: 'rester-ace-input',
-
-            behaviors: [
-                RESTer.AceShadowDomBehavior,
-                RESTer.InputControlBehavior,
-                Polymer.IronFormElementBehavior
-            ],
-
-            properties: {
-                value: {
-                    type: String,
-                    notify: true,
-                    observer: '_onValueChanged'
-                },
-                mode: {
-                    type: String,
-                    observer: '_onModeChanged'
-                },
-                readOnly: {
-                    type: Boolean,
-                    value: false,
-                    observer: '_onReadOnlyChanged'
-                },
-                useWrapMode: {
-                    type: Boolean,
-                    value: false,
-                    observer: '_onUseWrapModeChanged'
-                }
-            },
-
-            get _focusableElement () {
-                return this.$.editor;
-            },
-
-            _editor: undefined,
-            _oldValue: '',
-            _ignoreEditorChangeEvents: false,
-
-            ready () {
-                ace.config.set('basePath', this.resolveUrl('../../bower_components/ace-builds/src-min-noconflict/'));
-            },
-
-            attached () {
-                this._editor = ace.edit(this.$.editor);
-                this._editor.setTheme('ace/theme/twilight');
-                this._editor.$blockScrolling = Infinity;
-                this._editor.on('change', () => {
-                    if (this._ignoreEditorChangeEvents) return;
-
-                    this._oldValue = this._editor.getValue();
-                    this.value = this._oldValue;
-                });
-
-                this._onModeChanged();
-                this._onReadOnlyChanged();
-                this._onUseWrapModeChanged();
-                this._onValueChanged();
-            },
-
-            detached () {
-                this._editor.destroy();
-                this._editor = undefined;
-                this._oldValue = '';
-            },
-
-            _onValueChanged () {
-                if (!this._editor || this.value === this._oldValue) return;
-                this._oldValue = this.value || '';
-                this._ignoreEditorChangeEvents = true;
-                this._editor.setValue(this._oldValue);
-                this._ignoreEditorChangeEvents = false;
-                this._editor.clearSelection();
-                this._editor.scrollToLine(0);
-            },
-
-            _onModeChanged () {
-                if (!this._editor) return;
-                this._editor.session.setMode(this.mode);
-            },
-
-            _onReadOnlyChanged () {
-                if (!this._editor) return;
-                this._editor.setReadOnly(this.readOnly);
-            },
-
-            _onUseWrapModeChanged () {
-                if (!this._editor) return;
-                this._editor.session.setUseWrapMode(this.useWrapMode);
-            }
-        });
     </script>
 </dom-module>

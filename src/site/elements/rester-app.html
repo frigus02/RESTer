@@ -115,120 +115,126 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-app',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.HotkeysBehavior,
-                RESTer.SettingsBehavior
-            ],
+            Polymer({
+                is: 'rester-app',
 
-            properties: {
-                route: Object,
-                routeData: Object,
-                routeTail: Object,
-                page: String,
-                pageTitle: {
-                    type: String,
-                    observer: '_onPageTitleChanged'
+                behaviors: [
+                    RESTer.HotkeysBehavior,
+                    RESTer.SettingsBehavior
+                ],
+
+                properties: {
+                    route: Object,
+                    routeData: Object,
+                    routeTail: Object,
+                    page: String,
+                    pageTitle: {
+                        type: String,
+                        observer: '_onPageTitleChanged'
+                    },
+                    drawerWidth: {
+                        type: String,
+                        value: '320px'
+                    },
+                    responsiveWidth: {
+                        type: String,
+                        computed: '_computeResponsiveWidth(settings.pinSidenav)'
+                    },
+                    responsiveWidthMin: {
+                        type: String,
+                        value: '600px'
+                    },
+                    responsiveWidthMax: {
+                        type: String,
+                        value: '1279px'
+                    },
+                    showDrawerLockMediaQuery: {
+                        type: String,
+                        computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
+                    }
                 },
-                drawerWidth: {
-                    type: String,
-                    value: '320px'
+
+                observers: [
+                    '_routePageChanged(routeData.page)'
+                ],
+
+                resterHotkeys: {
+                    'mod+m': {
+                        description: 'New request.',
+                        callback: '_newRequest'
+                    },
+                    'mod+o, mod+p': {
+                        description: 'Open request.',
+                        callback: '_showQuickOpenDialog'
+                    },
+                    'mod+e': {
+                        description: 'Cycle through environments.',
+                        callback: '_activateNextEnvironment'
+                    }
                 },
-                responsiveWidth: {
-                    type: String,
-                    computed: '_computeResponsiveWidth(settings.pinSidenav)'
+
+                _routePageChanged(page) {
+                    this.page = page || 'request';
                 },
-                responsiveWidthMin: {
-                    type: String,
-                    value: '600px'
+
+                _onPageTitleChanged() {
+                    document.title = `RESTer - ${this.pageTitle}`;
                 },
-                responsiveWidthMax: {
-                    type: String,
-                    value: '1279px'
+
+                _computeResponsiveWidth() {
+                    return this.settings.pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
                 },
-                showDrawerLockMediaQuery: {
-                    type: String,
-                    computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
+
+                _computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax) {
+                    return `(min-width: ${responsiveWidthMin}) and (max-width: ${responsiveWidthMax})`;
+                },
+
+                _getDrawerToggleIcon() {
+                    return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
+                },
+
+                _toggleDrawerLockOpen() {
+                    this.set('settings.pinSidenav', !this.settings.pinSidenav);
+                },
+
+                _onDrawerToggleTapped() {
+                    this.$.drawer.togglePanel();
+                },
+
+                _onNavigationItemActivated() {
+                    this.$.drawer.closeDrawer();
+                },
+
+                _showShortcuts(e) {
+                    e.preventDefault();
+                    this.$.cheatSheet.show();
+                },
+
+                _newRequest() {
+                    window.location = '#/';
+                },
+
+                _showQuickOpenDialog() {
+                    this.$.quickOpenDialog.show();
+                },
+
+                _activateNextEnvironment() {
+                    RESTer.rester.getEnvironments().then(envs => {
+                        if (envs.length === 0) {
+                            return;
+                        }
+
+                        const index = envs.findIndex(env => env.id === this.settings.activeEnvironment);
+                        const newIndex = (index + 1) % envs.length;
+                        const newEnv = envs[newIndex];
+
+                        this.settings.activeEnvironment = newEnv.id;
+                    });
                 }
-            },
-
-            observers: [
-                '_routePageChanged(routeData.page)'
-            ],
-
-            resterHotkeys: {
-                'mod+m': {
-                    description: 'New request.',
-                    callback: '_newRequest'
-                },
-                'mod+o, mod+p': {
-                    description: 'Open request.',
-                    callback: '_showQuickOpenDialog'
-                },
-                'mod+e': {
-                    description: 'Cycle through environments.',
-                    callback: '_activateNextEnvironment'
-                }
-            },
-
-            _routePageChanged (page) {
-                this.page = page || 'request';
-            },
-
-            _onPageTitleChanged () {
-                document.title = `RESTer - ${this.pageTitle}`;
-            },
-
-            _computeResponsiveWidth () {
-                return this.settings.pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
-            },
-
-            _computeShowDrawerLockMediaQuery (responsiveWidthMin, responsiveWidthMax) {
-                return `(min-width: ${responsiveWidthMin}) and (max-width: ${responsiveWidthMax})`;
-            },
-
-            _getDrawerToggleIcon () {
-                return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
-            },
-
-            _toggleDrawerLockOpen () {
-                this.set('settings.pinSidenav', !this.settings.pinSidenav);
-            },
-
-            _onDrawerToggleTapped () {
-                this.$.drawer.togglePanel();
-            },
-
-            _onNavigationItemActivated () {
-                this.$.drawer.closeDrawer();
-            },
-
-            _showShortcuts (e) {
-                e.preventDefault();
-                this.$.cheatSheet.show();
-            },
-
-            _newRequest () {
-                window.location = '#/';
-            },
-
-            _showQuickOpenDialog () {
-                this.$.quickOpenDialog.show();
-            },
-
-            _activateNextEnvironment () {
-                RESTer.rester.getEnvironments().then(envs => {
-                    if (envs.length === 0) return;
-
-                    const index = envs.findIndex(env => env.id === this.settings.activeEnvironment),
-                          newIndex = (index + 1) % envs.length,
-                          newEnv = envs[newIndex];
-
-                    this.settings.activeEnvironment = newEnv.id;
-                });
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

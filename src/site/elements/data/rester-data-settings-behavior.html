@@ -1,38 +1,42 @@
 <link rel="import" href="rester-data.html">
 
 <script>
-    /**
-     * Makes RESTer settings available in property `settings`.
-     *
-     * @polymerBehavior RESTer.SettingsBehavior
-     */
-    RESTer.SettingsBehavior = {
-        properties: {
-            settings: {
-                type: Object,
-                readOnly: true
-            }
-        },
+    (function () {
+        'use strict';
 
-        ready () {
-            this._setSettings(RESTer.rester.settings);
-            this._onSettingsChanged = this._onSettingsChanged.bind(this);
-        },
+        /**
+         * Makes RESTer settings available in property `settings`.
+         *
+         * @polymerBehavior RESTer.SettingsBehavior
+         */
+        RESTer.SettingsBehavior = {
+            properties: {
+                settings: {
+                    type: Object,
+                    readOnly: true
+                }
+            },
 
-        attached () {
-            RESTer.rester.addEventListener('settingsChange', this._onSettingsChanged);
-        },
+            ready() {
+                this._setSettings(RESTer.rester.settings);
+                this._onSettingsChanged = this._onSettingsChanged.bind(this);
+            },
 
-        detached () {
-            RESTer.rester.removeEventListener('settingsChange', this._onSettingsChanged);
-        },
+            attached() {
+                RESTer.rester.addEventListener('settingsChange', this._onSettingsChanged);
+            },
 
-        _onSettingsChanged (changedSettings) {
-            for (let key in changedSettings) {
-                if (changedSettings.hasOwnProperty(key)) {
-                    this.notifyPath(`settings.${key}`);
+            detached() {
+                RESTer.rester.removeEventListener('settingsChange', this._onSettingsChanged);
+            },
+
+            _onSettingsChanged(changedSettings) {
+                for (let key in changedSettings) {
+                    if (changedSettings.hasOwnProperty(key)) {
+                        this.notifyPath(`settings.${key}`);
+                    }
                 }
             }
-        }
-    };
+        };
+    })();
 </script>

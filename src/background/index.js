@@ -1,16 +1,17 @@
 (function () {
+    'use strict';
 
     const api = {
         info: {
-            get () {
+            get() {
                 return chrome.runtime.getManifest();
             }
         },
         request: {
-            send (request) {
+            send(request) {
                 return rester.request.send(request);
             },
-            sendBrowser (request) {
+            sendBrowser(request) {
                 return rester.browserRequest.send(request);
             }
         },
@@ -25,7 +26,9 @@
     });
 
     chrome.runtime.onConnect.addListener(port => {
-        if (port.name !== 'api') return;
+        if (port.name !== 'api') {
+            return;
+        }
 
         function onDataChange(args) {
             port.postMessage({action: 'event.dataChange', args: JSON.stringify(args)});
@@ -39,12 +42,16 @@
         rester.settings.onChange.addListener(onSettingsChange);
 
         port.onMessage.addListener(({id, action, args, fields}) => {
-            if (!action.startsWith('api.')) return;
+            if (!action.startsWith('api.')) {
+                return;
+            }
 
-            const actionPath = action.split('.'),
-                  actionFunc = actionPath.reduce((api, path) => api && api[path], {api});
+            const actionPath = action.split('.');
+            const actionFunc = actionPath.reduce((api, path) => api && api[path], {api});
 
-            if (!actionFunc) return;
+            if (!actionFunc) {
+                return;
+            }
 
             Promise.resolve(actionFunc(args && JSON.parse(args)))
                 .then(result => {
@@ -102,5 +109,4 @@
             }
         });
     }
-
 })();

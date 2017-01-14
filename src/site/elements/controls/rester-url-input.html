@@ -57,69 +57,73 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-url-input',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                Polymer.IronFormElementBehavior
-            ],
+            Polymer({
+                is: 'rester-url-input',
 
-            properties: {
-                label: String,
-                value: {
-                    type: String,
-                    notify: true,
-                    observer: '_onValueChanged'
-                },
-                originAndPath: {
-                    type: String,
-                    observer: '_onOriginAndPathOrQueryChanged'
-                },
-                query: {
-                    type: String,
-                    observer: '_onOriginAndPathOrQueryChanged'
-                },
-                expanded: {
-                    type: Boolean,
-                    value: false,
-                    reflectToAttribute: true
-                },
-                invalid: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
-                }
-            },
+                behaviors: [
+                    Polymer.IronFormElementBehavior
+                ],
 
-            _toggleExpanded () {
-                this.expanded = !this.expanded;
-                this.async(() => {
-                    if (this.expanded) {
-                        this.$.inputAbsolute.focus();
-                    } else {
-                        this.$.inputOriginAndPath.focus();
+                properties: {
+                    label: String,
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    originAndPath: {
+                        type: String,
+                        observer: '_onOriginAndPathOrQueryChanged'
+                    },
+                    query: {
+                        type: String,
+                        observer: '_onOriginAndPathOrQueryChanged'
+                    },
+                    expanded: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true
+                    },
+                    invalid: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
                     }
-                });
-            },
+                },
 
-            _onValueChanged () {
-                const parts = this.value.split('?');
-                this.originAndPath = parts[0];
-                this.query = parts[1] || '';
-            },
+                _toggleExpanded() {
+                    this.expanded = !this.expanded;
+                    this.async(() => {
+                        if (this.expanded) {
+                            this.$.inputAbsolute.focus();
+                        } else {
+                            this.$.inputOriginAndPath.focus();
+                        }
+                    });
+                },
 
-            _onOriginAndPathOrQueryChanged () {
-                let url = this.originAndPath;
-                if (this.query) {
-                    url += '?' + this.query;
+                _onValueChanged() {
+                    const parts = this.value.split('?');
+                    this.originAndPath = parts[0];
+                    this.query = parts[1] || '';
+                },
+
+                _onOriginAndPathOrQueryChanged() {
+                    let url = this.originAndPath;
+                    if (this.query) {
+                        url += '?' + this.query;
+                    }
+
+                    this.value = url;
+                },
+
+                validate() {
+                    return this.$.inputAbsolute.validate();
                 }
-
-                this.value = url;
-            },
-
-            validate () {
-                return this.$.inputAbsolute.validate();
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

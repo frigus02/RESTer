@@ -1,0 +1,12 @@
+{
+    "env": {
+        "worker": true
+    },
+    "globals": {
+        "hljs": false,
+        "vkbeautify": false
+    },
+    "rules": {
+        "strict": [2, "global"]
+    }
+}

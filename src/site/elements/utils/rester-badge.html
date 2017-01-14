@@ -28,15 +28,19 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-badge',
+        (function () {
+            'use strict';
 
-            properties: {
-                type: {
-                    type: String,
-                    reflectToAttribute: true
+            Polymer({
+                is: 'rester-badge',
+
+                properties: {
+                    type: {
+                        type: String,
+                        reflectToAttribute: true
+                    }
                 }
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

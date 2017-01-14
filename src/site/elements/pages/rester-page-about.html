@@ -78,54 +78,58 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-page-about',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.PageBehavior
-            ],
+            Polymer({
+                is: 'rester-page-about',
 
-            properties: {
-                version: {
-                    type: String,
-                    readOnly: true
+                behaviors: [
+                    RESTer.PageBehavior
+                ],
+
+                properties: {
+                    version: {
+                        type: String,
+                        readOnly: true
+                    },
+                    libraries: {
+                        type: Array,
+                        readOnly: true
+                    }
                 },
-                libraries: {
-                    type: Array,
-                    readOnly: true
-                }
-            },
 
-            _otherComponents: [
-                {name: 'vkbeautify', version: '0.99.00.beta'}
-            ],
+                _otherComponents: [
+                    {name: 'vkbeautify', version: '0.99.00.beta'}
+                ],
 
-            ready () {
-                this._setPageTitle('About');
+                ready() {
+                    this._setPageTitle('About');
 
-                fetch('bower.json')
-                    .then(response => response.json())
-                    .then(bower => {
-                        const bowerComponents = Object.keys(bower.dependencies).map(name => {
-                            let version = bower.dependencies[name];
+                    fetch('bower.json')
+                        .then(response => response.json())
+                        .then(bower => {
+                            const bowerComponents = Object.keys(bower.dependencies).map(name => {
+                                let version = bower.dependencies[name];
 
-                            if (version.includes('#')) {
-                                [name, version] = version.split('#');
-                            }
+                                if (version.includes('#')) {
+                                    [name, version] = version.split('#');
+                                }
 
-                            return {
-                                name,
-                                version
-                            };
+                                return {
+                                    name,
+                                    version
+                                };
+                            });
+
+                            this._setLibraries(_.sortBy(bowerComponents.concat(this._otherComponents), x => x.name.toLowerCase()));
                         });
 
-                        this._setLibraries(_.sortBy(bowerComponents.concat(this._otherComponents), x => x.name.toLowerCase()));
+                    RESTer.rester.getInfo().then(info => {
+                        this._setVersion(info.version);
                     });
-
-                RESTer.rester.getInfo().then(info => {
-                    this._setVersion(info.version);
-                });
-            }
-        });
+                }
+            });
+        })();
     </script>
 </dom-module>

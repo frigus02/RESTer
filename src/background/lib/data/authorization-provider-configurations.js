@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.data = rester.data || {};
@@ -42,5 +43,4 @@
 
         return db.transaction().delete('authProviderConfigs', config).execute();
     };
-
 })();

@@ -1,7 +1,8 @@
 (function () {
+    'use strict';
 
     const availableMixins = {
-        eventListeners (element) {
+        eventListeners(element) {
             const eventListeners = {};
 
             element.addEventListener = function (eventName, listener) {
@@ -29,7 +30,7 @@
     };
 
     window.RESTer = {
-        register (path, mixins = []) {
+        register(path, mixins = []) {
             const element = path.split('.').reduce((obj, partOfPath) => {
                 if (!obj.hasOwnProperty(partOfPath)) {
                     obj[partOfPath] = {};
@@ -45,5 +46,4 @@
             return element;
         }
     };
-
 })();

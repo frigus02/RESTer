@@ -35,41 +35,45 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-autocomplete-input',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.InputControlBehavior,
-                Polymer.IronFormElementBehavior
-            ],
+            Polymer({
+                is: 'rester-autocomplete-input',
 
-            properties: {
-                placeholder: String,
-                label: String,
-                autofocus: Boolean,
-                noLabelFloat: Boolean,
-                items: {
-                    type: Array,
-                    value: []
+                behaviors: [
+                    RESTer.InputControlBehavior,
+                    Polymer.IronFormElementBehavior
+                ],
+
+                properties: {
+                    placeholder: String,
+                    label: String,
+                    autofocus: Boolean,
+                    noLabelFloat: Boolean,
+                    items: {
+                        type: Array,
+                        value: []
+                    },
+                    dropdownItemsVisible: {
+                        type: Number,
+                        value: 4.7
+                    },
+                    invalid: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    }
                 },
-                dropdownItemsVisible: {
-                    type: Number,
-                    value: 4.7
+
+                get _focusableElement() {
+                    return this.$.input;
                 },
-                invalid: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
+
+                validate() {
+                    return this._focusableElement.validate();
                 }
-            },
-
-            get _focusableElement () {
-                return this.$.input;
-            },
-
-            validate () {
-                return this._focusableElement.validate();
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

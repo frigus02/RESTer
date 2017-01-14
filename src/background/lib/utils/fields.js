@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.utils = rester.utils || {};
@@ -49,5 +50,4 @@
             return filterProperties(data, fields);
         }
     };
-
 })();

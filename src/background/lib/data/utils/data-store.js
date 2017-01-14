@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.data = rester.data || {};
@@ -119,9 +120,9 @@
 
                                 const oldEntity = result[`${tableName}.e.${entity.id}`] || {};
                                 table.indexes.forEach(index => {
-                                    const oldValue = oldEntity[index],
-                                          newValue = entity[index],
-                                          indexData = result[`${tableName}.i.${index}`] || {};
+                                    const oldValue = oldEntity[index];
+                                    const newValue = entity[index];
+                                    const indexData = result[`${tableName}.i.${index}`] || {};
 
                                     if (oldValue && indexData[oldValue]) {
                                         if (indexData[oldValue].length === 1) {
@@ -206,7 +207,9 @@
         _removeIdFromIntervals(tableName, id) {
             const table = this.tables.find(table => table.name === tableName);
             const interval = this._findIdInterval(tableName, (start, end) => id >= start && id <= end);
-            if (!interval) return;
+            if (!interval) {
+                return;
+            }
 
             if (id === interval.start && id === interval.end) {
                 // Interval contains only this ID --> remove interval
@@ -226,8 +229,8 @@
         _forEachIdInterval(tableName, cb) {
             const table = this.tables.find(table => table.name === tableName);
             for (let i = 0; i < table.info.ids.length / 2; i++) {
-                const start = table.info.ids[i * 2],
-                    end = table.info.ids[i * 2 + 1];
+                const start = table.info.ids[i * 2];
+                const end = table.info.ids[i * 2 + 1];
 
                 if (cb(start, end, i)) {
                     break;
@@ -238,8 +241,8 @@
         _forEachIdIntervalReverse(tableName, cb) {
             const table = this.tables.find(table => table.name === tableName);
             for (let i = table.info.ids.length / 2 - 1; i >= 0; i--) {
-                const start = table.info.ids[i * 2],
-                    end = table.info.ids[i * 2 + 1];
+                const start = table.info.ids[i * 2];
+                const end = table.info.ids[i * 2 + 1];
 
                 if (cb(start, end, i)) {
                     break;
@@ -299,5 +302,4 @@
             });
         }
     };
-
 })();

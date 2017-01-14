@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     const self = RESTer.register('encode');
 
@@ -45,8 +46,8 @@
     };
 
     self.readFilesAsVariableValues = function (files) {
-        const values = {},
-              promises = [];
+        const values = {};
+        const promises = [];
 
         Object.keys(files).forEach(key => {
             promises.push(self.readFileAsBase64CustomObject(files[key]).then(obj => {
@@ -56,5 +57,4 @@
 
         return Promise.all(promises).then(() => values);
     };
-
 })();

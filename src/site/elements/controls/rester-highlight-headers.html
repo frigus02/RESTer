@@ -32,15 +32,19 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-highlight-headers',
+        (function () {
+            'use strict';
 
-            properties: {
-                headers: {
-                    type: Array,
-                    value: []
+            Polymer({
+                is: 'rester-highlight-headers',
+
+                properties: {
+                    headers: {
+                        type: Array,
+                        value: []
+                    }
                 }
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

@@ -23,43 +23,47 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-file-input',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.InputControlBehavior,
-                Polymer.IronFormElementBehavior
-            ],
+            Polymer({
+                is: 'rester-file-input',
 
-            properties: {
-                value: {
-                    type: String,
-                    notify: true,
-                    observer: '_onValueChanged'
+                behaviors: [
+                    RESTer.InputControlBehavior,
+                    Polymer.IronFormElementBehavior
+                ],
+
+                properties: {
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    files: {
+                        type: Array,
+                        notify: true,
+                        readOnly: true
+                    }
                 },
-                files: {
-                    type: Array,
-                    notify: true,
-                    readOnly: true
+
+                get _focusableElement() {
+                    return this.$.input;
+                },
+
+                _onValueChanged() {
+                    if (!this.value) {
+                        this.$.input.value = null;
+                    }
+                },
+
+                _onInputChange() {
+                    this._setFiles(Array.from(this.$.input.files));
+
+                    const file = this.files[0];
+                    this.value = file ? file.name : '';
                 }
-            },
-
-            get _focusableElement () {
-                return this.$.input;
-            },
-
-            _onValueChanged () {
-                if (!this.value) {
-                    this.$.input.value = null;
-                }
-            },
-
-            _onInputChange () {
-                this._setFiles(Array.from(this.$.input.files));
-
-                const file = this.files[0];
-                this.value = file ? file.name : '';
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

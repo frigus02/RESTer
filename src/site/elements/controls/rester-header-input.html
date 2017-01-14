@@ -43,6 +43,7 @@
 
     <script>
         (function () {
+            'use strict';
 
             const COMMON_MIME_TYPES = [
                 'application/json',
@@ -122,16 +123,16 @@
                     }
                 },
 
-                ready () {
+                ready() {
                     this._ensureEmptyHeader();
                 },
 
-                _onValueChanged () {
+                _onValueChanged() {
                     this._setHeaders([...this.value]);
                     this._ensureEmptyHeader();
                 },
 
-                _onHeadersChanged () {
+                _onHeadersChanged() {
                     // Async ensures, this event is triggered after item.name and item.value
                     // properties have been updated.
                     this.async(() => {
@@ -140,18 +141,18 @@
                     });
                 },
 
-                _ensureEmptyHeader () {
+                _ensureEmptyHeader() {
                     if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
                         this.push('headers', {name: '', value: ''});
                     }
                 },
 
-                _removeHeader (e) {
+                _removeHeader(e) {
                     this.splice('headers', e.model.index, 1);
                     this._onHeadersChanged();
                 },
 
-                _getRequestHeaderValues (headerName) {
+                _getRequestHeaderValues(headerName) {
                     return this.requestHeaderValues[headerName] || [];
                 }
             });

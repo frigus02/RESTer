@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     const self = RESTer.register('variables.providers.env', ['eventListeners']);
 
@@ -20,5 +21,4 @@
     RESTer.rester.settingsLoaded.then(updateValues);
     RESTer.rester.addEventListener('dataChange', updateValues);
     RESTer.rester.addEventListener('settingsChange', updateValues);
-
 })();

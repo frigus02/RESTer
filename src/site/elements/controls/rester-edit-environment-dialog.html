@@ -78,67 +78,71 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-edit-environment-dialog',
+        (function () {
+            'use strict';
 
-            properties: {
-                environment: Object,
-                valueItems: {
-                    type: Array,
-                    readOnly: true
-                }
-            },
+            Polymer({
+                is: 'rester-edit-environment-dialog',
 
-            show (environment) {
-                this.environment = undefined;
-                this.$.editForm.reset();
+                properties: {
+                    environment: Object,
+                    valueItems: {
+                        type: Array,
+                        readOnly: true
+                    }
+                },
 
-                this.async(() => {
-                    this.environment = environment;
-                    this._setValueItems(Object.keys(this.environment.values).map(key => ({
-                        key,
-                        value: this.environment.values[key]
-                    })));
+                show(environment) {
+                    this.environment = undefined;
+                    this.$.editForm.reset();
+
+                    this.async(() => {
+                        this.environment = environment;
+                        this._setValueItems(Object.keys(this.environment.values).map(key => ({
+                            key,
+                            value: this.environment.values[key]
+                        })));
+                        this._ensureEmptyValueItem();
+
+                        this.$.dialog.open();
+                    }, 1);
+                },
+
+                _ensureEmptyValueItem() {
+                    if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
+                        this.push('valueItems', {key: '', value: ''});
+                    }
+                },
+
+                _removeValueItem(e) {
+                    this.splice('valueItems', e.model.index, 1);
                     this._ensureEmptyValueItem();
+                },
 
-                    this.$.dialog.open();
-                }, 1);
-            },
+                _delete() {
+                    this._closeDialogWithAction('delete');
+                },
 
-            _ensureEmptyValueItem () {
-                if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
-                    this.push('valueItems', {key: '', value: ''});
+                _save() {
+                    if (this.$.editForm.validate()) {
+                        this.environment.values = {};
+                        this.valueItems.forEach(value => {
+                            if (value.key.trim() !== '') {
+                                this.environment.values[value.key.trim()] = value.value;
+                            }
+                        });
+
+                        this._closeDialogWithAction('save');
+                    }
+                },
+
+                _closeDialogWithAction(action) {
+                    this.$.dialog.closingReason.canceled = false;
+                    this.$.dialog.closingReason.confirmed = true;
+                    this.$.dialog.closingReason.action = action;
+                    this.$.dialog.close();
                 }
-            },
-
-            _removeValueItem (e) {
-                this.splice('valueItems', e.model.index, 1);
-                this._ensureEmptyValueItem();
-            },
-
-            _delete () {
-                this._closeDialogWithAction('delete');
-            },
-
-            _save () {
-                if (this.$.editForm.validate()) {
-                    this.environment.values = {};
-                    this.valueItems.forEach(value => {
-                        if (value.key.trim() !== '') {
-                            this.environment.values[value.key.trim()] = value.value;
-                        }
-                    });
-
-                    this._closeDialogWithAction('save');
-                }
-            },
-
-            _closeDialogWithAction (action) {
-                this.$.dialog.closingReason.canceled = false;
-                this.$.dialog.closingReason.confirmed = true;
-                this.$.dialog.closingReason.action = action;
-                this.$.dialog.close();
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

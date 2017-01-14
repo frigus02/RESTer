@@ -1,5 +1,6 @@
 const crisper = require('gulp-crisper');
 const del = require('del');
+const eslint = require('gulp-eslint');
 const filter = require('gulp-filter');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
@@ -74,16 +75,11 @@ const additionalManifestEntries = {
     }
 };
 
-function logFileChangeEvent(path) {
-    gutil.log('Detected file change:', path);
-}
+
+// Build
 
 function cleanBuild() {
     return del(basePaths.build);
-}
-
-function cleanPackage() {
-    return del(basePaths.package);
 }
 
 function copy() {
@@ -118,19 +114,40 @@ function crispAppIntoSingleFile() {
         .pipe(gulp.dest(basePaths.build));
 }
 
-function lint() {
+function watch() {
+    function logFileChangeEvent(path) {
+        gutil.log('Detected file change:', path);
+    }
+
+    gulp.watch(pathsToCopy, copy).on('change', logFileChangeEvent);
+    gulp.watch('src/site/elements/**/*.{html,js}').on('change', path => {
+        logFileChangeEvent(path);
+        crispElementIntoMultipleFiles(path);
+    });
+}
+
+
+// Lint
+
+function lintJavaScript() {
+    return gulp.src(basePaths.src + '**/*.{js,html}')
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+}
+
+function lintWebComponents() {
     return gulp.src(basePaths.src + 'site/elements/rester-app.html')
         .pipe(polylint())
         .pipe(polylint.reporter(polylint.reporter.stylishlike))
         .pipe(polylint.reporter.fail({buffer: true, ignoreWarnings: false}));
 }
 
-function watch() {
-    gulp.watch(pathsToCopy, copy).on('change', logFileChangeEvent);
-    gulp.watch('src/site/elements/**/*.{html,js}').on('change', path => {
-        logFileChangeEvent(path);
-        crispElementIntoMultipleFiles(path);
-    });
+
+// Package
+
+function cleanPackage() {
+    return del(basePaths.package);
 }
 
 function packageChrome() {
@@ -190,10 +207,12 @@ function packageFirefox() {
 
 
 const dev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy, watch);
-const build = gulp.series(cleanBuild, lint, crispAppIntoSingleFile, copy);
+const lint = gulp.series(lintJavaScript, lintWebComponents);
+const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
 const package = gulp.series(cleanPackage, packageChrome, packageFirefox);
 
 gulp.task('default', dev);
 gulp.task('dev', dev);
+gulp.task('lint', lint);
 gulp.task('build', build);
 gulp.task('package', package);

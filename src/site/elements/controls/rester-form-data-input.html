@@ -75,152 +75,159 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-form-data-input',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                Polymer.IronFormElementBehavior
-            ],
+            Polymer({
+                is: 'rester-form-data-input',
 
-            properties: {
-                value: {
-                    type: String,
-                    notify: true,
-                    observer: '_onValueChanged'
+                behaviors: [
+                    Polymer.IronFormElementBehavior
+                ],
+
+                properties: {
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    files: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true,
+                        value: {}
+                    },
+                    noEncode: {
+                        type: Boolean,
+                        value: false
+                    },
+                    textOnly: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formDataEntries: {
+                        type: Array,
+                        readOnly: true
+                    }
                 },
-                files: {
-                    type: Object,
-                    notify: true,
-                    readOnly: true,
-                    value: {}
+
+                _onValueChanged() {
+                    this._setFormDataEntries(this._parseFormDataEntries(this.value));
+                    this._cleanUpUnusedFiles();
+                    this._ensureEmptyFormDataEntry();
                 },
-                noEncode: {
-                    type: Boolean,
-                    value: false
+
+                _onFormDataEntriesChanged() {
+                    this.value = this._stringifyFormDataEntries(this.formDataEntries);
+                    this._ensureEmptyFormDataEntry();
                 },
-                textOnly: {
-                    type: Boolean,
-                    value: false
-                },
-                formDataEntries: {
-                    type: Array,
-                    readOnly: true
-                }
-            },
 
-            _onValueChanged () {
-                this._setFormDataEntries(this._parseFormDataEntries(this.value));
-                this._cleanUpUnusedFiles();
-                this._ensureEmptyFormDataEntry();
-            },
+                _onFormDataEntryFileSelected(e) {
+                    const file = e.target.files[0];
+                    const index = this.$.repeat.indexForElement(e.target);
+                    const oldValue = this.get(['formDataEntries', index, 'value']);
 
-            _onFormDataEntriesChanged () {
-                this.value = this._stringifyFormDataEntries(this.formDataEntries);
-                this._ensureEmptyFormDataEntry();
-            },
-
-            _onFormDataEntryFileSelected (e) {
-                const file = e.target.files[0],
-                      index = this.$.repeat.indexForElement(e.target),
-                      oldValue = this.get(['formDataEntries', index, 'value']);
-
-                if (oldValue) {
-                    delete this.files[oldValue];
-                    this.notifyPath(['files', oldValue]);
-                }
-
-                if (file) {
-                    let name = file.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                    if (this._isFileNameInUse(name, index)) {
-                        let suffix;
-                        for (suffix = 1; this._isFileNameInUse(name + suffix, index); suffix++);
-                        name += suffix;
+                    if (oldValue) {
+                        delete this.files[oldValue];
+                        this.notifyPath(['files', oldValue]);
                     }
 
-                    this.set(['files', name], file);
-                    this.set(['formDataEntries', index, 'value'], name);
-                } else {
-                    this.set(['formDataEntries', index, 'value'], '');
-                }
-
-                this._onFormDataEntriesChanged();
-            },
-
-            _ensureEmptyFormDataEntry () {
-                if (!this.formDataEntries.some(e => e.name.trim() === '' && e.value.trim() === '')) {
-                    this.push('formDataEntries', {name: '', value: '', type: 'text'});
-                }
-            },
-
-            _removeFormDataEntry (e) {
-                this.splice('formDataEntries', e.model.index, 1);
-                this._onFormDataEntriesChanged();
-            },
-
-            _isFormDataType (selectedType, comparedType) {
-                return selectedType === comparedType;
-            },
-
-            _stringifyFormDataEntries (entries) {
-                return entries
-                    .filter(entry => entry.name.trim())
-                    .map(entry => {
-                        let str = this._encode(entry.name);
-                        if (entry.type === 'file') {
-                            str += '=' + `[$file.${entry.value}]`;
-                        } else if (entry.value) {
-                            str += '=' + this._encode(entry.value);
-                        }
-
-                        return str;
-                    })
-                    .join('&');
-            },
-
-            _parseFormDataEntries (str) {
-                return (str || '')
-                    .split('&')
-                    .map(row => {
-                        const keyValue = row.split('='),
-                              name = this._decode(keyValue[0]),
-                              value = this._decode(keyValue[1] || ''),
-                              fileMatch = /^\[\$file\.([^}]*)\]$/gi.exec(value);
-
-                        if (fileMatch && !this.textOnly) {
-                            let fileName = fileMatch[1];
-                            if (!this.files[fileName]) {
-                                fileName = null;
+                    if (file) {
+                        let name = file.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        if (this._isFileNameInUse(name, index)) {
+                            let suffix;
+                            for (suffix = 1; this._isFileNameInUse(name + suffix, index); suffix++) {
+                                // empty
                             }
 
-                            return {name, value: fileName, type: 'file'};
-                        } else {
-                            return {name, value, type: 'text'};
+                            name += suffix;
                         }
-                    })
-                    .filter(row => row.name.trim());
-            },
 
-            _cleanUpUnusedFiles () {
-                for (let key in this.files) {
-                    if (this.files.hasOwnProperty(key) && !this._isFileNameInUse(key)) {
-                        delete this.files[key];
-                        this.notifyPath(['files', key]);
+                        this.set(['files', name], file);
+                        this.set(['formDataEntries', index, 'value'], name);
+                    } else {
+                        this.set(['formDataEntries', index, 'value'], '');
                     }
+
+                    this._onFormDataEntriesChanged();
+                },
+
+                _ensureEmptyFormDataEntry() {
+                    if (!this.formDataEntries.some(e => e.name.trim() === '' && e.value.trim() === '')) {
+                        this.push('formDataEntries', {name: '', value: '', type: 'text'});
+                    }
+                },
+
+                _removeFormDataEntry(e) {
+                    this.splice('formDataEntries', e.model.index, 1);
+                    this._onFormDataEntriesChanged();
+                },
+
+                _isFormDataType(selectedType, comparedType) {
+                    return selectedType === comparedType;
+                },
+
+                _stringifyFormDataEntries(entries) {
+                    return entries
+                        .filter(entry => entry.name.trim())
+                        .map(entry => {
+                            let str = this._encode(entry.name);
+                            if (entry.type === 'file') {
+                                str += '=' + `[$file.${entry.value}]`;
+                            } else if (entry.value) {
+                                str += '=' + this._encode(entry.value);
+                            }
+
+                            return str;
+                        })
+                        .join('&');
+                },
+
+                _parseFormDataEntries(str) {
+                    return (str || '')
+                        .split('&')
+                        .map(row => {
+                            const keyValue = row.split('=');
+                            const name = this._decode(keyValue[0]);
+                            const value = this._decode(keyValue[1] || '');
+                            const fileMatch = /^\[\$file\.([^}]*)\]$/gi.exec(value);
+
+                            if (fileMatch && !this.textOnly) {
+                                let fileName = fileMatch[1];
+                                if (!this.files[fileName]) {
+                                    fileName = null;
+                                }
+
+                                return {name, value: fileName, type: 'file'};
+                            } else {
+                                return {name, value, type: 'text'};
+                            }
+                        })
+                        .filter(row => row.name.trim());
+                },
+
+                _cleanUpUnusedFiles() {
+                    for (let key in this.files) {
+                        if (this.files.hasOwnProperty(key) && !this._isFileNameInUse(key)) {
+                            delete this.files[key];
+                            this.notifyPath(['files', key]);
+                        }
+                    }
+                },
+
+                _encode(value) {
+                    return this.noEncode ? value : encodeURIComponent(value);
+                },
+
+                _decode(value) {
+                    return this.noEncode ? value : decodeURIComponent(value);
+                },
+
+                _isFileNameInUse(name, ignoreIndex) {
+                    return this.formDataEntries.some((e, i) =>
+                        i !== ignoreIndex && e.type === 'file' && e.value === name);
                 }
-            },
-
-            _encode (value) {
-                return this.noEncode ? value : encodeURIComponent(value);
-            },
-
-            _decode (value) {
-                return this.noEncode ? value : decodeURIComponent(value);
-            },
-
-            _isFileNameInUse (name, ignoreIndex) {
-                return this.formDataEntries.some((e, i) =>
-                    i !== ignoreIndex && e.type === 'file' && e.value === name);
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

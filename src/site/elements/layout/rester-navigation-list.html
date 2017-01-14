@@ -19,13 +19,17 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-navigation-list',
+        (function () {
+            'use strict';
 
-            properties: {
-                route: Object,
-                items: Array
-            }
-        });
+            Polymer({
+                is: 'rester-navigation-list',
+
+                properties: {
+                    route: Object,
+                    items: Array
+                }
+            });
+        })();
     </script>
 </dom-module>

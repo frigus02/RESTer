@@ -1,0 +1,27 @@
+{
+    "plugins": [
+        "html"
+    ],
+    "settings": {
+        "html/indent": "+4",
+        "html/report-bad-indent": 2
+    },
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "crockford"
+    ],
+    "rules": {
+        "indent": [2, 4, {"SwitchCase": 1}],
+        "no-plusplus": 0,
+        "no-underscore-dangle": 0,
+        "no-use-before-define": 0,
+        "no-var": 2,
+        "one-var": 0,
+        "strict": 2,
+        "wrap-iife": [2, "inside"]
+    }
+}

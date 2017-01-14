@@ -1,10 +1,11 @@
 (function () {
+    'use strict';
 
-    const self = RESTer.register('rester', ['eventListeners']),
-          port = chrome.runtime.connect({name: 'api'}),
-          requests = {},
-          settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav', 'openOAuth2LoginsInIncognitoWindow'],
-          cachedSettings = {};
+    const self = RESTer.register('rester', ['eventListeners']);
+    const port = chrome.runtime.connect({name: 'api'});
+    const requests = {};
+    const settingsKeys = ['activeEnvironment', 'stripDefaultHeaders', 'enableRequestLintInspections', 'pinSidenav', 'openOAuth2LoginsInIncognitoWindow'];
+    const cachedSettings = {};
 
     port.onMessage.addListener(message => {
         if (message.action === 'apiresponse') {
@@ -16,8 +17,8 @@
 
             requests[message.id] = undefined;
         } else if (message.action.startsWith('event.')) {
-            const eventName = message.action.split('.')[1],
-                  args = message.args && JSON.parse(message.args);
+            const eventName = message.action.split('.')[1];
+            const args = message.args && JSON.parse(message.args);
 
             if (eventName === 'settingsChange' && cachedSettings) {
                 Object.assign(cachedSettings, args);
@@ -177,5 +178,4 @@
             resolve();
         });
     });
-
 })();

@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     window.rester = window.rester || {};
     rester.data = rester.data || {};
@@ -14,7 +15,8 @@
      * Each object has the properties `name` and `value`.
      * @property {String} body - The response body as string.
      */
-    rester.data.responses.Response = function (dbObject) {
+    rester.data.responses.Response = Response;
+    function Response(dbObject) {
         if (dbObject) {
             Object.assign(this, dbObject);
 
@@ -25,6 +27,5 @@
             this.headers = [];
             this.body = null;
         }
-    };
-
+    }
 })();

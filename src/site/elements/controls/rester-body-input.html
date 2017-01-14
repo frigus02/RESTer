@@ -93,129 +93,133 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-body-input',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.InputControlBehavior,
-                Polymer.IronFormElementBehavior
-            ],
+            Polymer({
+                is: 'rester-body-input',
 
-            properties: {
-                value: {
-                    type: String,
-                    notify: true,
-                    value: ''
-                },
-                files: {
-                    type: Object
-                },
-                contentType: {
-                    type: String,
-                    notify: true,
-                    observer: '_onContentTypeChanged'
-                },
-                inputOptions: {
-                    type: Array,
-                    readOnly: true,
-                    value: [
-                        {
-                            title: 'Plain',
-                            isInputTypeAce: true,
-                            aceMode: 'ace/mode/text'
-                        },
-                        {
-                            title: 'JSON',
-                            isInputTypeAce: true,
-                            contentType: 'application/json',
-                            contentTypeSearch: ['json'],
-                            aceMode: 'ace/mode/json',
-                            beautifyMethod: 'json'
-                        },
-                        {
-                            title: 'XML',
-                            isInputTypeAce: true,
-                            contentType: 'application/xml',
-                            contentTypeSearch: ['xml'],
-                            aceMode: 'ace/mode/xml',
-                            beautifyMethod: 'xml'
-                        },
-                        {
-                            title: 'Form',
-                            isInputTypeForm: true,
-                            contentType () {
-                                return this.files && Object.keys(this.files).length > 0
-                                    ? 'multipart/form-data'
-                                    : 'application/x-www-form-urlencoded';
+                behaviors: [
+                    RESTer.InputControlBehavior,
+                    Polymer.IronFormElementBehavior
+                ],
+
+                properties: {
+                    value: {
+                        type: String,
+                        notify: true,
+                        value: ''
+                    },
+                    files: {
+                        type: Object
+                    },
+                    contentType: {
+                        type: String,
+                        notify: true,
+                        observer: '_onContentTypeChanged'
+                    },
+                    inputOptions: {
+                        type: Array,
+                        readOnly: true,
+                        value: [
+                            {
+                                title: 'Plain',
+                                isInputTypeAce: true,
+                                aceMode: 'ace/mode/text'
                             },
-                            contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
-                        }
-                    ]
+                            {
+                                title: 'JSON',
+                                isInputTypeAce: true,
+                                contentType: 'application/json',
+                                contentTypeSearch: ['json'],
+                                aceMode: 'ace/mode/json',
+                                beautifyMethod: 'json'
+                            },
+                            {
+                                title: 'XML',
+                                isInputTypeAce: true,
+                                contentType: 'application/xml',
+                                contentTypeSearch: ['xml'],
+                                aceMode: 'ace/mode/xml',
+                                beautifyMethod: 'xml'
+                            },
+                            {
+                                title: 'Form',
+                                isInputTypeForm: true,
+                                contentType() {
+                                    return this.files && Object.keys(this.files).length > 0
+                                        ? 'multipart/form-data'
+                                        : 'application/x-www-form-urlencoded';
+                                },
+                                contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
+                            }
+                        ]
+                    },
+                    selectedInputOption: Object,
+                    setContentTypeHeader: {
+                        type: Boolean,
+                        value: true
+                    }
                 },
-                selectedInputOption: Object,
-                setContentTypeHeader: {
-                    type: Boolean,
-                    value: true
+
+                observers: [
+                    '_onFilesChanged(files.*)'
+                ],
+
+                get _focusableElement() {
+                    return this.selectedInputOption.isInputTypeAce
+                        ? this.$$('rester-ace-input')
+                        : this.$$('rester-form-data-input');
+                },
+
+                ready() {
+                    this.selectedInputOption = this.inputOptions[0];
+                },
+
+                _onFilesChanged() {
+                    this._updateContentType();
+                },
+
+                _onContentTypeChanged() {
+                    const lowerContentType = (this.contentType || '').toLowerCase();
+                    const newOption = this.inputOptions.find(option =>
+                        option.contentTypeSearch && option.contentTypeSearch.some(
+                            search => lowerContentType.includes(search)));
+
+                    if (newOption) {
+                        this.selectedInputOption = newOption;
+                    }
+                },
+
+                _isInputOptionSelected(option, selectedInputOption) {
+                    return selectedInputOption === option;
+                },
+
+                _selectInputOption(e) {
+                    this.selectedInputOption = e.model.item;
+                    this._updateContentType();
+                },
+
+                _toggleSetContentTypeHeader() {
+                    this.setContentTypeHeader = !this.setContentTypeHeader;
+                },
+
+                _beautify() {
+                    this.$.options.close();
+                    if (this.selectedInputOption.beautifyMethod) {
+                        this.value = vkbeautify[this.selectedInputOption.beautifyMethod](this.value, 4);
+                    }
+                },
+
+                _updateContentType() {
+                    if (this.setContentTypeHeader && this.selectedInputOption) {
+                        const newContentType = this.selectedInputOption.contentType;
+                        this.contentType = typeof newContentType === 'function'
+                            ? newContentType.call(this)
+                            : newContentType;
+                    }
                 }
-            },
-
-            observers: [
-                '_onFilesChanged(files.*)'
-            ],
-
-            get _focusableElement () {
-                return this.selectedInputOption.isInputTypeAce
-                    ? this.$$('rester-ace-input')
-                    : this.$$('rester-form-data-input');
-            },
-
-            ready () {
-                this.selectedInputOption = this.inputOptions[0];
-            },
-
-            _onFilesChanged () {
-                this._updateContentType();
-            },
-
-            _onContentTypeChanged () {
-                const lowerContentType = (this.contentType || '').toLowerCase();
-                const newOption = this.inputOptions.find(option =>
-                    option.contentTypeSearch && option.contentTypeSearch.some(
-                        search => lowerContentType.includes(search)));
-
-                if (newOption) {
-                    this.selectedInputOption = newOption;
-                }
-            },
-
-            _isInputOptionSelected (option, selectedInputOption) {
-                return selectedInputOption === option;
-            },
-
-            _selectInputOption (e) {
-                this.selectedInputOption = e.model.item;
-                this._updateContentType();
-            },
-
-            _toggleSetContentTypeHeader () {
-                this.setContentTypeHeader = !this.setContentTypeHeader;
-            },
-
-            _beautify () {
-                this.$.options.close();
-                if (this.selectedInputOption.beautifyMethod) {
-                    this.value = vkbeautify[this.selectedInputOption.beautifyMethod](this.value, 4);
-                }
-            },
-
-            _updateContentType () {
-                if (this.setContentTypeHeader && this.selectedInputOption) {
-                    const newContentType = this.selectedInputOption.contentType;
-                    this.contentType = typeof newContentType === 'function'
-                        ? newContentType.call(this)
-                        : newContentType;
-                }
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

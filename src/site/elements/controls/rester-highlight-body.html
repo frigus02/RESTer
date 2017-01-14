@@ -92,167 +92,173 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-highlight-body',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.ErrorBehavior
-            ],
+            Polymer({
+                is: 'rester-highlight-body',
 
-            properties: {
-                body: String,
-                bodyFormatted: {
-                    type: String,
-                    readOnly: true
-                },
-                renderedBody: {
-                    type: String,
-                    computed: '_computeRenderedBody(body, bodyFormatted, prettyPrint)'
-                },
-                contentType: String,
-                language: String,
-                languageObject: {
-                    type: Object,
-                    computed: '_computeLanguageObject(language)'
-                },
-                wrap: {
-                    type: Boolean,
-                    value: true
-                },
-                prettyPrint: {
-                    type: Boolean,
-                    value: true
-                },
-                preview: {
-                    type: Boolean,
-                    value: false
-                },
-                isPrettyPrintSupported: {
-                    type: Boolean,
-                    computed: '_computeIsPrettyPrintSupported(languageObject)'
-                },
-                isPreviewSupported: {
-                    type: Boolean,
-                    computed: '_computeIsPreviewSupported(language)'
-                },
-                supportedLanguages: {
-                    type: Array,
-                    readOnly: true,
-                    value: [
-                        {
-                            title: 'Plain',
-                            aceMode: 'ace/mode/text'
-                        },
-                        {
-                            title: 'HTML',
-                            aceMode: 'ace/mode/html'
-                        },
-                        {
-                            title: 'JSON',
-                            aceMode: 'ace/mode/json',
-                            formatLanguage: 'json'
-                        },
-                        {
-                            title: 'XML',
-                            aceMode: 'ace/mode/xml',
-                            formatLanguage: 'xml'
-                        }
-                    ]
-                }
-            },
+                behaviors: [
+                    RESTer.ErrorBehavior
+                ],
 
-            observers: [
-                '_formatBody(body, languageObject)',
-                '_autoSelectLanguage(contentType)'
-            ],
-
-            _formatBodyWorker: undefined,
-
-            _computeRenderedBody (body, bodyFormatted, prettyPrint) {
-                if (prettyPrint && bodyFormatted) {
-                    return bodyFormatted;
-                } else {
-                    return body;
-                }
-            },
-
-            _computeLanguageObject (language) {
-                return this.supportedLanguages.find(l => l.title === language);
-            },
-
-            _computeIsPrettyPrintSupported (languageObject) {
-                return !!languageObject.formatLanguage;
-            },
-
-            _computeIsPreviewSupported (language) {
-                return language === 'HTML';
-            },
-
-            _formatBody (body, languageObject) {
-                this._setBodyFormatted('');
-                if (this._formatBodyWorker) {
-                    this._formatBodyWorker.cancel();
-                    this._formatBodyWorker = undefined;
-                }
-
-                if (!languageObject.formatLanguage) return;
-
-                this.debounce('formatBody', () => {
-                    this._formatBodyWorker = RESTer.worker.FormatCode.run({
-                        code: body,
-                        language: languageObject.formatLanguage
-                    });
-
-                    this._formatBodyWorker.then(result => {
-                        this._formatBodyWorker = undefined;
-                        this._setBodyFormatted(result);
-                    });
-
-                    this._formatBodyWorker.catch(error => {
-                        this._formatBodyWorker = undefined;
-                        this.showError(error);
-                    });
-                }, 100);
-            },
-
-            _autoSelectLanguage (contentType) {
-                let newLanguage = this.supportedLanguages[0];
-                if (contentType) {
-                    if (contentType.toLowerCase().includes('json')) {
-                        newLanguage = this.supportedLanguages[2];
-                    } else if (contentType.toLowerCase().includes('html')) {
-                        newLanguage = this.supportedLanguages[1];
-                    } else if (contentType.toLowerCase().includes('xml')) {
-                        newLanguage = this.supportedLanguages[3];
+                properties: {
+                    body: String,
+                    bodyFormatted: {
+                        type: String,
+                        readOnly: true
+                    },
+                    renderedBody: {
+                        type: String,
+                        computed: '_computeRenderedBody(body, bodyFormatted, prettyPrint)'
+                    },
+                    contentType: String,
+                    language: String,
+                    languageObject: {
+                        type: Object,
+                        computed: '_computeLanguageObject(language)'
+                    },
+                    wrap: {
+                        type: Boolean,
+                        value: true
+                    },
+                    prettyPrint: {
+                        type: Boolean,
+                        value: true
+                    },
+                    preview: {
+                        type: Boolean,
+                        value: false
+                    },
+                    isPrettyPrintSupported: {
+                        type: Boolean,
+                        computed: '_computeIsPrettyPrintSupported(languageObject)'
+                    },
+                    isPreviewSupported: {
+                        type: Boolean,
+                        computed: '_computeIsPreviewSupported(language)'
+                    },
+                    supportedLanguages: {
+                        type: Array,
+                        readOnly: true,
+                        value: [
+                            {
+                                title: 'Plain',
+                                aceMode: 'ace/mode/text'
+                            },
+                            {
+                                title: 'HTML',
+                                aceMode: 'ace/mode/html'
+                            },
+                            {
+                                title: 'JSON',
+                                aceMode: 'ace/mode/json',
+                                formatLanguage: 'json'
+                            },
+                            {
+                                title: 'XML',
+                                aceMode: 'ace/mode/xml',
+                                formatLanguage: 'xml'
+                            }
+                        ]
                     }
+                },
+
+                observers: [
+                    '_formatBody(body, languageObject)',
+                    '_autoSelectLanguage(contentType)'
+                ],
+
+                _formatBodyWorker: undefined,
+
+                _computeRenderedBody(body, bodyFormatted, prettyPrint) {
+                    if (prettyPrint && bodyFormatted) {
+                        return bodyFormatted;
+                    } else {
+                        return body;
+                    }
+                },
+
+                _computeLanguageObject(language) {
+                    return this.supportedLanguages.find(l => l.title === language);
+                },
+
+                _computeIsPrettyPrintSupported(languageObject) {
+                    return !!languageObject.formatLanguage;
+                },
+
+                _computeIsPreviewSupported(language) {
+                    return language === 'HTML';
+                },
+
+                _formatBody(body, languageObject) {
+                    this._setBodyFormatted('');
+                    if (this._formatBodyWorker) {
+                        this._formatBodyWorker.cancel();
+                        this._formatBodyWorker = undefined;
+                    }
+
+                    if (!languageObject.formatLanguage) {
+                        return;
+                    }
+
+                    this.debounce('formatBody', () => {
+                        this._formatBodyWorker = RESTer.worker.FormatCode.run({
+                            code: body,
+                            language: languageObject.formatLanguage
+                        });
+
+                        this._formatBodyWorker.then(result => {
+                            this._formatBodyWorker = undefined;
+                            this._setBodyFormatted(result);
+                        });
+
+                        this._formatBodyWorker.catch(error => {
+                            this._formatBodyWorker = undefined;
+                            this.showError(error);
+                        });
+                    }, 100);
+                },
+
+                _autoSelectLanguage(contentType) {
+                    let newLanguage = this.supportedLanguages[0];
+                    if (contentType) {
+                        if (contentType.toLowerCase().includes('json')) {
+                            newLanguage = this.supportedLanguages[2];
+                        } else if (contentType.toLowerCase().includes('html')) {
+                            newLanguage = this.supportedLanguages[1];
+                        } else if (contentType.toLowerCase().includes('xml')) {
+                            newLanguage = this.supportedLanguages[3];
+                        }
+                    }
+
+                    this.language = newLanguage.title;
+                },
+
+                _toggleWrap() {
+                    this.$.options.close();
+                    this.wrap = !this.wrap;
+                },
+
+                _togglePrettyPrint() {
+                    this.$.options.close();
+                    this.prettyPrint = !this.prettyPrint;
+                },
+
+                _togglePreview() {
+                    this.$.options.close();
+                    this.preview = !this.preview;
+                },
+
+                _changeLanguage() {
+                    this.$.options.close();
+                    this.$.chooseLanguageDialog.open();
+                },
+
+                _closeChangeLanguageDialog() {
+                    this.$.chooseLanguageDialog.close();
                 }
-
-                this.language = newLanguage.title;
-            },
-
-            _toggleWrap () {
-                this.$.options.close();
-                this.wrap = !this.wrap;
-            },
-
-            _togglePrettyPrint () {
-                this.$.options.close();
-                this.prettyPrint = !this.prettyPrint;
-            },
-
-            _togglePreview () {
-                this.$.options.close();
-                this.preview = !this.preview;
-            },
-
-            _changeLanguage () {
-                this.$.options.close();
-                this.$.chooseLanguageDialog.open();
-            },
-
-            _closeChangeLanguageDialog () {
-                this.$.chooseLanguageDialog.close();
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>

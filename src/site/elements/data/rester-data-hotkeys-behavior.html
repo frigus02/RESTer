@@ -1,50 +1,54 @@
 <link rel="import" href="rester-data.html">
 
 <script>
-    /**
-     * Registers hotkeys in attached and unregisters them in detached
-     * lifecycle callbacks.
-     *
-     * Define hotkeys in your element by adding a resterHotkeys property,
-     * which should look like the following:
-     *
-     * resterHotkeys: {
-     *     'ctrl+o, ctrl+p': {
-     *         description: 'My awesome hotkey',
-     *         callback: '_onHotkeyCtrlPPressed'
-     *     }
-     * }
-     *
-     * @polymerBehavior RESTer.HotkeysBehavior
-     */
-    RESTer.HotkeysBehavior = {
-        _addedResterHotkeys: undefined,
+    (function () {
+        'use strict';
 
-        attached () {
-            this._addedResterHotkeys = this._getResterHotkeys();
-            for (let hotkey of this._addedResterHotkeys) {
-                RESTer.hotkeys.add(hotkey);
-            }
-        },
+        /**
+         * Registers hotkeys in attached and unregisters them in detached
+         * lifecycle callbacks.
+         *
+         * Define hotkeys in your element by adding a resterHotkeys property,
+         * which should look like the following:
+         *
+         * resterHotkeys: {
+         *     'ctrl+o, ctrl+p': {
+         *         description: 'My awesome hotkey',
+         *         callback: '_onHotkeyCtrlPPressed'
+         *     }
+         * }
+         *
+         * @polymerBehavior RESTer.HotkeysBehavior
+         */
+        RESTer.HotkeysBehavior = {
+            _addedResterHotkeys: undefined,
 
-        detached () {
-            for (let hotkey of this._addedResterHotkeys) {
-                RESTer.hotkeys.remove(hotkey);
-            }
-        },
+            attached() {
+                this._addedResterHotkeys = this._getResterHotkeys();
+                for (let hotkey of this._addedResterHotkeys) {
+                    RESTer.hotkeys.add(hotkey);
+                }
+            },
 
-        _getResterHotkeys () {
-            const hotkeys = this.resterHotkeys || {};
+            detached() {
+                for (let hotkey of this._addedResterHotkeys) {
+                    RESTer.hotkeys.remove(hotkey);
+                }
+            },
 
-            return Object.keys(hotkeys).map(comboString => {
-                const details = hotkeys[comboString];
+            _getResterHotkeys() {
+                const hotkeys = this.resterHotkeys || {};
 
-                return new RESTer.hotkeys.Hotkey({
-                    combos: comboString.split(/\s*,\s*/i),
-                    description: details.description,
-                    callback: this[details.callback].bind(this)
+                return Object.keys(hotkeys).map(comboString => {
+                    const details = hotkeys[comboString];
+
+                    return new RESTer.hotkeys.Hotkey({
+                        combos: comboString.split(/\s*,\s*/i),
+                        description: details.description,
+                        callback: this[details.callback].bind(this)
+                    });
                 });
-            });
-        }
-    };
+            }
+        };
+    })();
 </script>

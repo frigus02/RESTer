@@ -1,23 +1,27 @@
 <script>
-    /**
-     * Adds a function showError to the element, which can be used to display
-     * an error in the default error dialog. Use it like follows:
-     *
-     * try {
-     *     // Do sth, which can throw.
-     * } catch (e) {
-     *     this.showError(e);
-     * }
-     *
-     * @polymerBehavior RESTer.ErrorBehavior
-     */
-    RESTer.ErrorBehavior = {
-        showError (error) {
-            const resterApp = document.querySelector('rester-app');
-            const resterError = Polymer.dom(resterApp.root).querySelector('rester-error');
-            if (resterError) {
-                resterError.show(error);
+    (function () {
+        'use strict';
+
+        /**
+         * Adds a function showError to the element, which can be used to display
+         * an error in the default error dialog. Use it like follows:
+         *
+         * try {
+         *     // Do sth, which can throw.
+         * } catch (e) {
+         *     this.showError(e);
+         * }
+         *
+         * @polymerBehavior RESTer.ErrorBehavior
+         */
+        RESTer.ErrorBehavior = {
+            showError(error) {
+                const resterApp = document.querySelector('rester-app');
+                const resterError = Polymer.dom(resterApp.root).querySelector('rester-error');
+                if (resterError) {
+                    resterError.show(error);
+                }
             }
-        }
-    };
+        };
+    })();
 </script>

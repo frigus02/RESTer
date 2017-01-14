@@ -1,7 +1,8 @@
 (function () {
+    'use strict';
 
-    const self = RESTer.register('variables', ['eventListeners']),
-          RE_VARS = /\{(\S+?)\}/gi;
+    const self = RESTer.register('variables', ['eventListeners']);
+    const RE_VARS = /\{(\S+?)\}/gi;
 
     self.providedValues = {};
 
@@ -76,5 +77,4 @@
     self.replace = function (obj, values = {}, usedValues = {}) {
         return replaceInternal(obj, Object.assign({}, values, self.providedValues), usedValues);
     };
-
 })();

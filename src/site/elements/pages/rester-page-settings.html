@@ -74,17 +74,21 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'rester-page-settings',
+        (function () {
+            'use strict';
 
-            behaviors: [
-                RESTer.PageBehavior,
-                RESTer.SettingsBehavior
-            ],
+            Polymer({
+                is: 'rester-page-settings',
 
-            ready () {
-                this._setPageTitle('Settings');
-            }
-        });
+                behaviors: [
+                    RESTer.PageBehavior,
+                    RESTer.SettingsBehavior
+                ],
+
+                ready() {
+                    this._setPageTitle('Settings');
+                }
+            });
+        })();
     </script>
 </dom-module>

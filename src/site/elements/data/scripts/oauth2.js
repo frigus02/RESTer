@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     const self = RESTer.register('oauth2');
 
@@ -104,9 +105,9 @@
         };
 
         if (config.accessTokenRequestAuthentication === 'basic') {
-            const userName = encodeURI(config.clientId),
-                  password = encodeURI(config.clientSecret),
-                  token = window.btoa(`${userName}:${password}`);
+            const userName = encodeURI(config.clientId);
+            const password = encodeURI(config.clientSecret);
+            const token = window.btoa(`${userName}:${password}`);
 
             accessTokenRequest.headers.push({
                 name: 'Authorization',
@@ -131,9 +132,9 @@
         // Some authorization servers return the authorization response in the search
         // part of the url and some in the fragment part. So we just check both.
 
-        const url = new URL(response.url),
-              hash = RESTer.encode.decodeQueryString(url.hash.substr(1)),
-              search = RESTer.encode.decodeQueryString(url.search.substr(1));
+        const url = new URL(response.url);
+        const hash = RESTer.encode.decodeQueryString(url.hash.substr(1));
+        const search = RESTer.encode.decodeQueryString(url.search.substr(1));
 
         if (requiredProperties.every(p => hash[p])) {
             return hash;
@@ -260,5 +261,4 @@
             }
         });
     };
-
 })();
