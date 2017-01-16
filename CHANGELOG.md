@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [2.0.1] - 2017-01-16
+### Fixed
+- The navigation accidentally showed all history items. Now it's again only the 5 newest items.
+- Fixed exception when a not existing environment was selected as active.
 
 ## [2.0.0] - 2017-01-14
 ### Added
@@ -208,7 +212,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/1.17.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.0.1...HEAD
+[2.0.1]: https://github.com/frigus02/RESTer/compare/2.0.0...2.0.1
+[2.0.0]: https://github.com/frigus02/RESTer/compare/1.17.0...2.0.0
 [1.17.0]: https://github.com/frigus02/RESTer/compare/1.16.0...1.17.0
 [1.16.0]: https://github.com/frigus02/RESTer/compare/1.15.2...1.16.0
 [1.15.2]: https://github.com/frigus02/RESTer/compare/1.15.1...1.15.2
