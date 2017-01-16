@@ -9,7 +9,7 @@
         let envId = RESTer.rester.settings.activeEnvironment;
         if (envId) {
             RESTer.rester.getEnvironment(envId).then(env => {
-                self.values = env.values;
+                self.values = env ? env.values : {};
                 self.fireEvent('valuesChanged', self.values);
             });
         } else {

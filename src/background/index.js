@@ -55,7 +55,7 @@
 
             Promise.resolve(actionFunc(args && JSON.parse(args)))
                 .then(result => {
-                    if (fields) {
+                    if (result && fields) {
                         result = rester.utils.fields.select(result, fields);
                     }
 
