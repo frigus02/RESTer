@@ -51,7 +51,7 @@
 
                     Promise.all([
                         RESTer.rester.getRequests(this._requestFields),
-                        RESTer.rester.getHistoryEntries(-5, this._historyFields),
+                        RESTer.rester.getHistoryEntries(5, this._historyFields),
                         RESTer.rester.settingsLoaded.then(() => this._getActiveEnvironment())
                     ]).then(([requests, historyEntries, activeEnvironment]) => {
                         this.push('items', {
