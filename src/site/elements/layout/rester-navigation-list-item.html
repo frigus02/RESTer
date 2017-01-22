@@ -175,7 +175,10 @@
                         return false;
                     }
 
-                    return this.route.path.startsWith(url.substr(1));
+                    const activePath = this.route.path.split('/');
+                    const path = url.substr(1).split('/');
+
+                    return path.every((part, i) => part === activePath[i]);
                 },
 
                 _invokeAction() {
