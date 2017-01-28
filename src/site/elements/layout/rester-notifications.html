@@ -1,0 +1,129 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+
+<link rel="import" href="rester-notification-slow-performance.html">
+
+<dom-module id="rester-notifications">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+            }
+
+            paper-menu-button {
+                --paper-menu-button: {
+                    padding: 0;
+                };
+            }
+
+            paper-badge {
+                --paper-badge: {
+                    margin-top: 4px;
+                    margin-left: -8px;
+                };
+            }
+        </style>
+
+        <div id="notifications">
+            <rester-notification-slow-performance></rester-notification-slow-performance>
+        </div>
+
+        <paper-menu-button
+                id="options"
+                dynamic-align
+                vertical-offset="48"
+                restore-focus-on-close>
+            <paper-icon-button
+                    id="menu-button"
+                    icon="[[icon]]"
+                    class="dropdown-trigger"></paper-icon-button>
+            <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+                <template is="dom-repeat"
+                        id="repeater"
+                        items="[[notifications]]"
+                        rendered-item-count="{{visibleNotifications}}"
+                        filter="_isNotificationVisible">
+                    <paper-item role="menuitem" on-tap="_openNotification">
+                        <paper-item-body two-line>
+                            <div>[[item.title]]</div>
+                            <div secondary>[[item.description]]</div>
+                        </paper-item-body>
+                    </paper-item>
+                </template>
+                <template is="dom-if" if="[[isEmpty]]">
+                    <paper-item role="menuitem" disabled>
+                        No notifications
+                    </paper-item>
+                </template>
+            </paper-menu>
+        </paper-menu-button>
+
+        <paper-badge
+                for="menu-button"
+                label="[[visibleNotifications]]"
+                hidden$="[[isEmpty]]"></paper-badge>
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'rester-notifications',
+
+                properties: {
+                    notifications: {
+                        type: Array,
+                        readOnly: true
+                    },
+                    visibleNotifications: Number,
+                    isEmpty: {
+                        type: Boolean,
+                        computed: '_computeIsEmpty(visibleNotifications)'
+                    },
+                    icon: {
+                        type: String,
+                        computed: '_computeIcon(isEmpty)'
+                    }
+                },
+
+                ready() {
+                    this._setNotifications(Array.from(this.$.notifications.children));
+
+                    this.notifications.forEach(notification => {
+                        notification.addEventListener('visible-changed', this._update.bind(this));
+                    });
+                },
+
+                _computeIsEmpty(visibleNotifications) {
+                    return visibleNotifications === 0;
+                },
+
+                _computeIcon(isEmpty) {
+                    return isEmpty ? 'social:notifications-none' : 'social:notifications';
+                },
+
+                _update() {
+                    this.$.repeater.render();
+                },
+
+                _isNotificationVisible(notification) {
+                    return notification.visible;
+                },
+
+                _openNotification(e) {
+                    this.$.options.close();
+
+                    const notification = e.model.item;
+                    notification.open();
+                }
+            });
+        })();
+    </script>
+</dom-module>

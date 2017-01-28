@@ -71,6 +71,9 @@ https://github.com/PolymerElements/iron-selector/blob/v1.5.2/iron-selector.html
 neon-animation
 https://github.com/PolymerElements/neon-animation/blob/v1.2.4/neon-animation.html
 
+paper-badge
+https://github.com/PolymerElements/paper-badge/blob/v1.1.4/paper-badge.html
+
 paper-button
 https://github.com/PolymerElements/paper-button/blob/v1.0.14/paper-button.html
 
@@ -123,6 +126,9 @@ https://github.com/PolymerElements/paper-radio-button/blob/v1.3.1/paper-radio-bu
 
 paper-radio-group
 https://github.com/PolymerElements/paper-radio-group/blob/v1.2.1/paper-radio-group.html
+
+paper-slider
+https://github.com/PolymerElements/paper-slider/blob/v1.0.13/paper-slider.html
 
 paper-spinner
 https://github.com/PolymerElements/paper-spinner/blob/v1.2.1/paper-spinner.html

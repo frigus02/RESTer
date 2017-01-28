@@ -15,6 +15,7 @@
 <link rel="import" href="data/rester-data.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
 <link rel="import" href="layout/rester-navigation-list.html">
+<link rel="import" href="layout/rester-notifications.html">
 <link rel="import" href="layout/rester-pages.html">
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
@@ -62,6 +63,12 @@
                     border-bottom: 1px solid var(--divider-color);
                 };
             }
+
+            paper-toolbar {
+                --paper-toolbar-content: {
+                    padding-right: 8px;
+                };
+            }
         </style>
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -87,6 +94,7 @@
                             icon="[[_getDrawerToggleIcon(settings.pinSidenav)]]"
                             on-tap="_toggleDrawerLockOpen"
                             hidden$="[[!showDrawerLock]]"></paper-icon-button>
+                    <rester-notifications></rester-notifications>
                 </paper-toolbar>
                 <div class="fit layout vertical justified">
                     <rester-navigation-list

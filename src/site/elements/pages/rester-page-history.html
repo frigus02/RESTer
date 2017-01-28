@@ -151,7 +151,7 @@
 
                 _deleteHistoryEntry(e) {
                     const entry = e.model.item;
-                    RESTer.rester.deleteHistoryEntry(entry.id).then(() => {
+                    RESTer.rester.deleteHistoryEntries(entry.id).then(() => {
                         const index = this.historyEntries.indexOf(entry);
                         this.splice('historyEntries', index, 1);
                     });

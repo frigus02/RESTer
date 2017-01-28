@@ -102,8 +102,8 @@
         return sendApiRequest('data.history.query', top, fields);
     };
 
-    self.deleteHistoryEntry = function (id) {
-        return sendApiRequest('data.history.delete', id);
+    self.deleteHistoryEntries = function (ids) {
+        return sendApiRequest('data.history.delete', ids);
     };
 
     self.putAuthorizationProviderConfiguration = function (config) {

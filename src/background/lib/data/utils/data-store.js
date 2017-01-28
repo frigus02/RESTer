@@ -72,7 +72,6 @@
 
             actions.execute = function () {
                 return dataStore._withWriteLock(changes => {
-
                     const result = [];
 
                     const tableNames = Object.keys(queue);
@@ -154,7 +153,9 @@
                                 }
                             });
 
-                            return dataStore._remove(dataToRemove);
+                            if (dataToRemove.length > 0) {
+                                return dataStore._remove(dataToRemove);
+                            }
                         }).then(() => {
                             queue[tableName].forEach(({action, entity}) => {
                                 changes.push({
@@ -169,7 +170,6 @@
                     });
 
                     return Promise.all(promises).then(() => result.length === 1 ? result[0] : result);
-
                 });
             };
 
@@ -267,36 +267,31 @@
         }
 
         _get(keys) {
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get(keys, result => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve(typeof keys === 'string' ? result[keys] : result);
-                    }
-                });
-            });
+            return this._performStorageLocalOperation('get', keys,
+                result => typeof keys === 'string' ? result[keys] : result);
         }
 
         _set(keys) {
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set(keys, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve();
-                    }
-                });
-            });
+            return this._performStorageLocalOperation('set', keys);
         }
 
         _remove(keys) {
+            return this._performStorageLocalOperation('remove', keys);
+        }
+
+        _performStorageLocalOperation(op, keys, transformSuccessResult = arg => arg) {
             return new Promise((resolve, reject) => {
-                chrome.storage.local.remove(keys, () => {
+                const start = performance.now();
+                chrome.storage.local[op](keys, result => {
+                    const millis = performance.now() - start;
+                    if (millis > 500) {
+                        rester.data.onSlowPerformance.emit(`Operation storage.local.${op}(...) took ${Math.round(millis)}ms.`);
+                    }
+
                     if (chrome.runtime.lastError) {
                         reject(chrome.runtime.lastError);
                     } else {
-                        resolve();
+                        resolve(transformSuccessResult(result));
                     }
                 });
             });

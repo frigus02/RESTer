@@ -34,11 +34,16 @@
             port.postMessage({action: 'event.dataChange', args: JSON.stringify(args)});
         }
 
+        function onDataSlowPerformance(args) {
+            port.postMessage({action: 'event.dataSlowPerformance', args: JSON.stringify(args)});
+        }
+
         function onSettingsChange(args) {
             port.postMessage({action: 'event.settingsChange', args: JSON.stringify(args)});
         }
 
         rester.data.onChange.addListener(onDataChange);
+        rester.data.onSlowPerformance.addListener(onDataSlowPerformance);
         rester.settings.onChange.addListener(onSettingsChange);
 
         port.onMessage.addListener(({id, action, args, fields}) => {
@@ -72,6 +77,7 @@
 
         port.onDisconnect.addListener(() => {
             rester.data.onChange.removeListener(onDataChange);
+            rester.data.onSlowPerformance.removeListener(onDataSlowPerformance);
             rester.settings.onChange.removeListener(onSettingsChange);
         });
     });

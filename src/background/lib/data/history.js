@@ -24,6 +24,7 @@
 
             this.request = new rester.data.requests.Request(dbObject.request);
             this.response = new rester.data.responses.Response(dbObject.response);
+            this.size = JSON.stringify(this).length;
         } else {
             this.time = 0;
             this.timeEnd = 0;
@@ -72,14 +73,24 @@
     /**
      * Deletes an existing history entry from the database.
      *
-     * @param {Number} id - The id of the history entry.
+     * @param {Number|Array<Number>} ids - The id of the history entry or
+     * an array of ids.
      * @returns {Promise} A promise which gets resolved, when the entry was
      * successfully deleted.
      */
-    rester.data.history.delete = function (id) {
-        const entry = new HistoryEntry();
-        entry.id = id;
+    rester.data.history.delete = function (ids) {
+        if (!Array.isArray(ids)) {
+            ids = [ids];
+        }
 
-        return db.transaction().delete('history', entry).execute();
+        const transaction = db.transaction();
+        for (let id of ids) {
+            const entry = new HistoryEntry();
+            entry.id = id;
+
+            transaction.delete('history', entry);
+        }
+
+        return transaction.execute();
     };
 })();
