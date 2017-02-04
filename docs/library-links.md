@@ -90,7 +90,7 @@ paper-drawer-panel
 https://github.com/PolymerElements/paper-drawer-panel/blob/v1.0.11/paper-drawer-panel.html
 
 paper-dropdown-menu
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v1.4.3/paper-dropdown-menu.html
+https://github.com/PolymerElements/paper-dropdown-menu/blob/v1.5.0/paper-dropdown-menu.html
 
 paper-fab
 https://github.com/PolymerElements/paper-fab/blob/v1.2.1/paper-fab.html
@@ -102,7 +102,7 @@ paper-icon-button
 https://github.com/PolymerElements/paper-icon-button/blob/v1.1.4/paper-icon-button.html
 
 paper-input
-https://github.com/PolymerElements/paper-input/blob/v1.1.22/paper-input.html
+https://github.com/PolymerElements/paper-input/blob/v1.1.23/paper-input.html
 
 paper-item
 https://github.com/PolymerElements/paper-item/blob/v1.2.1/paper-icon-item.html
@@ -140,7 +140,7 @@ paper-tabs
 https://github.com/PolymerElements/paper-tabs/blob/v1.7.0/paper-tabs.html
 
 paper-toggle-button
-https://github.com/PolymerElements/paper-toggle-button/blob/v1.2.1/paper-toggle-button.html
+https://github.com/PolymerElements/paper-toggle-button/blob/v1.3.0/paper-toggle-button.html
 
 paper-toolbar
 https://github.com/PolymerElements/paper-toolbar/blob/v1.1.7/paper-toolbar.html
