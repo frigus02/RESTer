@@ -21,6 +21,7 @@
         return new Promise(function (resolve, reject) {
             let thisWindowId,
                 thisTabId,
+                thisTabIdPromise,
                 requestFinished = false;
 
             chrome.windows.create({
@@ -28,7 +29,20 @@
                 incognito: request.incognito
             }, window => {
                 thisWindowId = window.id;
-                thisTabId = window.tabs[0].id;
+                if (window.tabs) {
+                    thisTabId = window.tabs[0].id;
+                } else {
+                    // Firefox supports the window.tabs property only from
+                    // version 52 onwards. Once this is min version for RESTer,
+                    // this special code can be removed.
+                    thisTabId = -1;
+                    thisTabIdPromise = new Promise(resolve => {
+                        chrome.tabs.query({windowId: thisWindowId}, tabs => {
+                            thisTabId = tabs[0].id;
+                            resolve();
+                        });
+                    });
+                }
 
                 chrome.windows.onRemoved.addListener(onWindowRemoved);
                 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {
@@ -48,7 +62,7 @@
                 }
             }
 
-            function onBeforeRequest(details) {
+            function checkOnBeforeRequestDetails(details) {
                 if (details.tabId !== thisTabId) {
                     return;
                 }
@@ -63,6 +77,17 @@
                 return {
                     cancel: true
                 };
+            }
+
+            function onBeforeRequest(details) {
+                if (thisTabId === -1) {
+                    thisTabIdPromise.then(() => {
+                        checkOnBeforeRequestDetails(details);
+                    });
+                    return;
+                } else {
+                    return checkOnBeforeRequestDetails(details);
+                }
             }
         });
     };

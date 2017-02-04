@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- The global option for OAuth 2 incognito mode is gone. There is now a button in every OAuth 2 configuration, which generates one token in incognito mode. I think the option is much more useful now.
+- Starting in version 2.0.0 RESTer runs slowly, when you storage large amounts of history data. This happens because in the new extension model in Firefox (called WebExtensions) it's not possible anymore to use IndexedDB in private browsing mode. So RESTer now uses the only other storage API available: chrome.storage.local. However this one is pretty slow in Firefox when handling bigger amounts of data (~50MB). Until I have a better solution, RESTer now automatically detects when it's running slow and offers to remove some older history data.
+
+### Fixed
+- Fixed OAuth 2 flow in Firefox 51.
+
 ## [2.0.1] - 2017-01-16
 ### Fixed
 - The navigation accidentally showed all history items. Now it's again only the 5 newest items.
