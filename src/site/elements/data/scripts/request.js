@@ -1,12 +1,9 @@
 (function () {
     'use strict';
 
-    window.rester = window.rester || {};
-    rester.request = {};
-
+    const self = RESTer.register('request');
 
     const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
-    const headerPrefixLength = headerPrefix.length;
     const headerCommand = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8`;
     const defaultHeaders = [
         'accept',
@@ -19,71 +16,59 @@
         'user-agent'
     ];
 
-    function onBeforeSendHeaders(details) {
-        // Only care for requests sent from the background page, which
-        // has a tabId of -1.
-        if (details.tabId !== -1) {
-            return;
-        }
+    chrome.tabs.getCurrent(tab => {
+        setupHeaderInterceptor(tab.id);
+    });
 
-        const newHeaders = [];
-        const indexesToRemove = [];
-        const removeDefaultHeaders = details.requestHeaders.some(h => h.name.toLowerCase() === headerCommand && h.value === 'stripdefaultheaders');
-        for (let i = 0; i < details.requestHeaders.length; i++) {
-            const header = details.requestHeaders[i];
-            const lowerCaseName = header.name.toLowerCase();
-            if (lowerCaseName.startsWith(headerPrefix)) {
-                newHeaders.push({
-                    name: header.name.substr(headerPrefixLength),
-                    value: header.value
-                });
-                indexesToRemove.push(i);
-            } else if (lowerCaseName === headerCommand) {
-                indexesToRemove.push(i);
-            } else if (removeDefaultHeaders && defaultHeaders.includes(lowerCaseName)) {
-                indexesToRemove.push(i);
+    function setupHeaderInterceptor(currentTabId) {
+        function onBeforeSendHeaders(details) {
+            if (details.tabId !== currentTabId) {
+                return;
             }
+
+            const newHeaders = [];
+            const indexesToRemove = [];
+            const removeDefaultHeaders = details.requestHeaders.some(h => h.name.toLowerCase() === headerCommand && h.value === 'stripdefaultheaders');
+            for (let i = 0; i < details.requestHeaders.length; i++) {
+                const header = details.requestHeaders[i];
+                const lowerCaseName = header.name.toLowerCase();
+                if (lowerCaseName.startsWith(headerPrefix)) {
+                    newHeaders.push({
+                        name: header.name.substr(headerPrefix.length),
+                        value: header.value
+                    });
+                    indexesToRemove.push(i);
+                } else if (lowerCaseName === headerCommand) {
+                    indexesToRemove.push(i);
+                } else if (removeDefaultHeaders && defaultHeaders.includes(lowerCaseName)) {
+                    indexesToRemove.push(i);
+                }
+            }
+
+            indexesToRemove.reverse();
+            for (let index of indexesToRemove) {
+                details.requestHeaders.splice(index, 1);
+            }
+
+            for (let header of newHeaders) {
+                details.requestHeaders.push(header);
+            }
+
+            return {
+                requestHeaders: details.requestHeaders
+            };
         }
 
-        indexesToRemove.reverse();
-        for (let index of indexesToRemove) {
-            details.requestHeaders.splice(index, 1);
-        }
-
-        for (let header of newHeaders) {
-            details.requestHeaders.push(header);
-        }
-
-        return {
-            requestHeaders: details.requestHeaders
-        };
+        chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
+            urls: ['<all_urls>'],
+            types: ['xmlhttprequest'],
+            tabId: currentTabId
+        }, ['blocking', 'requestHeaders']);
     }
 
-    chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
-        urls: ['<all_urls>'],
-        types: ['xmlhttprequest']
-    }, ['blocking', 'requestHeaders']);
-
-
-    function decodeQueryString(str) {
-        return str.split('&').reduce((params, currentParam) => {
-            const keyValue = currentParam.split('=');
-            params[keyValue[0]] = decodeURIComponent(keyValue[1]);
-            return params;
-        }, {});
-    }
-
-    function readBase64CustomObjectAsBlob(obj) {
-        const bytes = base64js.toByteArray(obj.data);
-
-        return new Blob([bytes], {
-            type: obj.type
-        });
-    }
-
-    function generateFormData(body, serverVariables) {
-        const rawData = decodeQueryString(body);
-        const variableValues = serverVariables.values;
+    function generateFormData(body, tempVariables) {
+        const rawData = RESTer.encode.decodeQueryString(body);
+        const variableValues = tempVariables.values;
         const formData = new FormData();
 
         for (let key in rawData) {
@@ -93,7 +78,7 @@
 
                 if (fileMatch) {
                     const file = variableValues[fileMatch[1]];
-                    formData.append(key, readBase64CustomObjectAsBlob(file), file.name);
+                    formData.append(key, file, file.name);
                 } else {
                     formData.append(key, value);
                 }
@@ -118,7 +103,7 @@
      * @returns {Promise.<Object>} A promise which gets resolved, when the request
      * was successfully saved and returns the request response.
      */
-    rester.request.send = function (request) {
+    self.send = function (request) {
         return new Promise(function (resolve, reject) {
             try {
                 const xhr = new XMLHttpRequest({
@@ -172,22 +157,24 @@
                 // Special handling for multipart requests.
                 const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
                 const contentType = request.headers[contentTypeIndex];
+                let requestHeaders = request.headers;
+                let requestBody = request.body;
                 if (contentType && contentType.value === 'multipart/form-data') {
-                    request.headers.splice(contentTypeIndex, 1);
-                    request.body = generateFormData(request.body, request.serverVariables);
-                }
-
-                for (let header of request.headers) {
-                    if (header && header.name && header.value) {
-                        xhr.setRequestHeader(headerPrefix + header.name, header.value);
-                    }
+                    requestHeaders = request.headers.filter(h => h !== contentType);
+                    requestBody = generateFormData(request.body, request.tempVariables);
                 }
 
                 if (request.stripDefaultHeaders) {
                     xhr.setRequestHeader(headerCommand, 'stripdefaultheaders');
                 }
 
-                xhr.send(request.body);
+                for (let header of requestHeaders) {
+                    if (header && header.name && header.value) {
+                        xhr.setRequestHeader(headerPrefix + header.name, header.value);
+                    }
+                }
+
+                xhr.send(requestBody);
             } catch (e) {
                 reject('Could not set up XHR: ' + e.message);
             }

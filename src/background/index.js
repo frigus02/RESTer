@@ -2,19 +2,6 @@
     'use strict';
 
     const api = {
-        info: {
-            get() {
-                return chrome.runtime.getManifest();
-            }
-        },
-        request: {
-            send(request) {
-                return rester.request.send(request);
-            },
-            sendBrowser(request) {
-                return rester.browserRequest.send(request);
-            }
-        },
         data: rester.data,
         settings: rester.settings
     };
@@ -84,14 +71,11 @@
 
 
     // Migration from legacy addon
-
-    if (chrome.runtime.getBrowserInfo) {
-        chrome.runtime.getBrowserInfo(browserInfo => {
-            if (browserInfo.name === 'Firefox') {
-                migrateFromLegacyAddon();
-            }
-        });
-    }
+    chrome.runtime.getBrowserInfo(browserInfo => {
+        if (browserInfo.name === 'Firefox') {
+            migrateFromLegacyAddon();
+        }
+    });
 
     function migrateFromLegacyAddon() {
         const port = chrome.runtime.connect({name: 'migration-from-legacy-addon'});

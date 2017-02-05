@@ -21,40 +21,12 @@
         return base + '?' + self.encodeQueryString(params);
     };
 
-    self.readFileAsBase64CustomObject = function (file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.addEventListener('load', e => {
-                // data:image/png;base64,XXXXXXXX
-                const dataUri = e.target.result;
-
-                resolve({
-                    lastModified: file.lastModified,
-                    name: file.name,
-                    type: file.type,
-                    data: dataUri.split(',')[1]
-                });
-            });
-
-            reader.addEventListener('error', () => {
-                reject();
-            });
-
-            reader.readAsDataURL(file);
-        });
-    };
-
-    self.readFilesAsVariableValues = function (files) {
+    self.mapFilesToVariableValues = function (files) {
         const values = {};
-        const promises = [];
-
         Object.keys(files).forEach(key => {
-            promises.push(self.readFileAsBase64CustomObject(files[key]).then(obj => {
-                values[`$file.${key}`] = obj;
-            }));
+            values[`$file.${key}`] = files[key];
         });
 
-        return Promise.all(promises).then(() => values);
+        return values;
     };
 })();

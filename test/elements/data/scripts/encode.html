@@ -45,76 +45,16 @@
                 });
             });
 
-            suite('with stubbed FileReader', function () {
-                const StubFileReader = {
-                    addEventListener: sinon.stub(),
-                    readAsDataURL: sinon.stub()
-                };
-
-                setup(function () {
-                    sinon.stub(window, 'FileReader').returns(StubFileReader);
-                });
-
-                teardown(function () {
-                    window.FileReader.restore();
-                });
-
-                test('readFileAsBase64CustomObject returns promise of with custom object containing the file data', function () {
-                    const file = {
-                        lastModified: Date.now(),
-                        name: 'example.txt',
-                        type: 'text/plain'
-                    };
-                    const fileData = 'SomeTestData';
-                    const promise = RESTer.encode.readFileAsBase64CustomObject(file);
-
-                    assert.instanceOf(promise, Promise);
-                    assert(StubFileReader.addEventListener.calledTwice);
-                    assert(StubFileReader.readAsDataURL.calledOnce);
-
-                    const loadListener = StubFileReader.addEventListener.getCall(0).args[1];
-                    loadListener({
-                        target: {
-                            result: 'data:text/plain;base64,' + fileData
-                        }
-                    });
-
-                    return promise.then(result => {
-                        assert.equal(result.lastModified, file.lastModified);
-                        assert.equal(result.name, file.name);
-                        assert.equal(result.type, file.type);
-                        assert.equal(result.data, fileData);
-                    });
-                });
-            });
-
-            suite('with stubbed readFileAsBase64CustomObject', function () {
+            test('mapFilesToVariableValues returns object containing all file data', function () {
                 const firstFile = {};
                 const secondFile = {};
-
-                setup(function () {
-                    sinon.stub(RESTer.encode, 'readFileAsBase64CustomObject')
-                        .onFirstCall().returns(Promise.resolve(firstFile))
-                        .onSecondCall().returns(Promise.resolve(secondFile));
+                const result = RESTer.encode.mapFilesToVariableValues({
+                    first: firstFile,
+                    second: secondFile
                 });
 
-                teardown(function () {
-                    RESTer.encode.readFileAsBase64CustomObject.restore();
-                });
-
-                test('readFilesAsVariableValues returns promise with object containing all file data', function () {
-                    const promise = RESTer.encode.readFilesAsVariableValues({
-                        first: {},
-                        second: {}
-                    });
-
-                    assert.instanceOf(promise, Promise);
-
-                    return promise.then(result => {
-                        assert.equal(result['$file.first'], firstFile);
-                        assert.equal(result['$file.second'], secondFile);
-                    });
-                });
+                assert.equal(result['$file.first'], firstFile);
+                assert.equal(result['$file.second'], secondFile);
             });
         });
     </script>

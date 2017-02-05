@@ -125,9 +125,8 @@
                             this._setLibraries(_.sortBy(bowerComponents.concat(this._otherComponents), x => x.name.toLowerCase()));
                         });
 
-                    RESTer.rester.getInfo().then(info => {
-                        this._setVersion(info.version);
-                    });
+                    const manifest = chrome.runtime.getManifest();
+                    this._setVersion(manifest.version);
                 }
             });
         })();

@@ -45,28 +45,6 @@
 
 
     /*
-    * Info
-    */
-
-    self.getInfo = function () {
-        return sendApiRequest('info.get');
-    };
-
-
-    /*
-    * Requests
-    */
-
-    self.sendRequest = function (request) {
-        return sendApiRequest('request.send', request);
-    };
-
-    self.sendBrowserRequest = function (request) {
-        return sendApiRequest('request.sendBrowser', request);
-    };
-
-
-    /*
     * Data
     */
 

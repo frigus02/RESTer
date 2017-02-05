@@ -481,15 +481,12 @@
                         compiledRequest.stripDefaultHeaders = true;
                     }
 
-                    this._setRequestIsSending(true);
-                    RESTer.encode.readFilesAsVariableValues(this.$.bodyInput.files)
-                        .then(fileValues => {
-                            compiledRequest.serverVariables = {
-                                values: fileValues
-                            };
+                    compiledRequest.tempVariables = {
+                        values: RESTer.encode.mapFilesToVariableValues(this.$.bodyInput.files)
+                    };
 
-                            return RESTer.rester.sendRequest(compiledRequest);
-                        })
+                    this._setRequestIsSending(true);
+                    return RESTer.request.send(compiledRequest)
                         .then(plainResponse => {
                             const requestClone = _.cloneDeep(this.request);
                             requestClone.variables.values = usedVariableValues;

@@ -88,7 +88,7 @@
             params.scope = config.scope;
         }
 
-        return RESTer.rester.sendBrowserRequest({
+        return RESTer.browserRequest.send({
             url: RESTer.encode.generateUri(config.authorizationRequestEndpoint, params),
             targetUrl: config.redirectUri,
             incognito: config.incognito
@@ -125,7 +125,7 @@
             accessTokenRequest.body = RESTer.encode.encodeQueryString(accessTokenRequestParams);
         }
 
-        return RESTer.rester.sendRequest(accessTokenRequest);
+        return RESTer.request.send(accessTokenRequest);
     }
 
     function validateAuthorizationResponse(response, requiredProperties) {

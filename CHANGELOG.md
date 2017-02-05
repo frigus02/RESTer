@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Fixed OAuth 2 flow in Firefox 51.
+- Fixed specifying a cookie header in the request.
 
 ## [2.0.1] - 2017-01-16
 ### Fixed

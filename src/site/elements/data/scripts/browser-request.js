@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    window.rester = window.rester || {};
-    rester.browserRequest = {};
-
+    const self = RESTer.register('browserRequest');
 
     /**
      * Executes the specified browser request.
@@ -17,7 +15,7 @@
      *     request was successfully saved and returns the request, which
      *     matches the targetUrl.
      */
-    rester.browserRequest.send = function (request) {
+    self.send = function (request) {
         return new Promise(function (resolve, reject) {
             let thisWindowId,
                 thisTabId,
