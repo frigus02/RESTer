@@ -5,6 +5,66 @@
     rester.request = {};
 
 
+    const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
+    const headerPrefixLength = headerPrefix.length;
+    const headerCommand = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8`;
+    const defaultHeaders = [
+        'accept',
+        'accept-charset',
+        'accept-language',
+        'content-type',
+        'cookie',
+        'if-none-match',
+        'origin',
+        'user-agent'
+    ];
+
+    function onBeforeSendHeaders(details) {
+        // Only care for requests sent from the background page, which
+        // has a tabId of -1.
+        if (details.tabId !== -1) {
+            return;
+        }
+
+        const newHeaders = [];
+        const indexesToRemove = [];
+        const removeDefaultHeaders = details.requestHeaders.some(h => h.name.toLowerCase() === headerCommand && h.value === 'stripdefaultheaders');
+        for (let i = 0; i < details.requestHeaders.length; i++) {
+            const header = details.requestHeaders[i];
+            const lowerCaseName = header.name.toLowerCase();
+            if (lowerCaseName.startsWith(headerPrefix)) {
+                newHeaders.push({
+                    name: header.name.substr(headerPrefixLength),
+                    value: header.value
+                });
+                indexesToRemove.push(i);
+            } else if (lowerCaseName === headerCommand) {
+                indexesToRemove.push(i);
+            } else if (removeDefaultHeaders && defaultHeaders.includes(lowerCaseName)) {
+                indexesToRemove.push(i);
+            }
+        }
+
+        indexesToRemove.reverse();
+        for (let index of indexesToRemove) {
+            details.requestHeaders.splice(index, 1);
+        }
+
+        for (let header of newHeaders) {
+            details.requestHeaders.push(header);
+        }
+
+        return {
+            requestHeaders: details.requestHeaders
+        };
+    }
+
+    chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
+        urls: ['<all_urls>'],
+        types: ['xmlhttprequest']
+    }, ['blocking', 'requestHeaders']);
+
+
     function decodeQueryString(str) {
         return str.split('&').reduce((params, currentParam) => {
             const keyValue = currentParam.split('=');
@@ -109,15 +169,6 @@
 
                 xhr.open(request.method, request.url, true);
 
-                // Remove default headers.
-                if (request.stripDefaultHeaders) {
-                    xhr.setRequestHeader('Accept', '');
-                    xhr.setRequestHeader('Accept-Encoding', '');
-                    xhr.setRequestHeader('Accept-Language', '');
-                    xhr.setRequestHeader('User-Agent', '');
-                    xhr.setRequestHeader('If-None-Match', '');
-                }
-
                 // Special handling for multipart requests.
                 const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
                 const contentType = request.headers[contentTypeIndex];
@@ -128,8 +179,12 @@
 
                 for (let header of request.headers) {
                     if (header && header.name && header.value) {
-                        xhr.setRequestHeader(header.name, header.value);
+                        xhr.setRequestHeader(headerPrefix + header.name, header.value);
                     }
+                }
+
+                if (request.stripDefaultHeaders) {
+                    xhr.setRequestHeader(headerCommand, 'stripdefaultheaders');
                 }
 
                 xhr.send(request.body);
