@@ -77,7 +77,7 @@
                     assert(RESTer.rester.getRequests.calledOnce);
                     assert(RESTer.rester.getRequests.calledWithExactly(requestFields));
                     assert(RESTer.rester.getHistoryEntries.calledOnce);
-                    assert(RESTer.rester.getHistoryEntries.calledWithExactly(-5, historyFields));
+                    assert(RESTer.rester.getHistoryEntries.calledWithExactly(5, historyFields));
 
                     return Promise.resolve()
                         .then(() => {
