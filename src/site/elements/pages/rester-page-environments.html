@@ -32,8 +32,16 @@
                 width: calc(100% - 40px);
             }
 
+            paper-radio-button > div[id="radioLabel"] {
+                width: calc(100% - 26px);
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
             paper-radio-button div[secondary] {
                 font-size: 14px;
+                word-break: break-all;
             }
 
             paper-fab {
@@ -147,7 +155,7 @@
                 _computeValueItems(env) {
                     return Object.keys(env.values).map(key => ({
                         key,
-                        value: env.values[key]
+                        value: RESTer.encode.truncate(env.values[key], 120)
                     }));
                 }
             });

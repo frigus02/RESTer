@@ -29,4 +29,12 @@
 
         return values;
     };
+
+    self.truncate = function (str, maxLength, ellipsis = '...') {
+        if (str.length > maxLength) {
+            return str.substr(0, maxLength - ellipsis.length) + ellipsis;
+        } else {
+            return str;
+        }
+    };
 })();
