@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [2.1.0] - 2017-02-06
 ### Changed
 - The global option for OAuth 2 incognito mode is gone. There is now a button in every OAuth 2 configuration, which generates one token in incognito mode. I think the option is much more useful now.
 - Starting in version 2.0.0 RESTer runs slowly, when you storage large amounts of history data. This happens because in the new extension model in Firefox (called WebExtensions) it's not possible anymore to use IndexedDB in private browsing mode. So RESTer now uses the only other storage API available: chrome.storage.local. However this one is pretty slow in Firefox when handling bigger amounts of data (~50MB). Until I have a better solution, RESTer now automatically detects when it's running slow and offers to remove some older history data.
@@ -9,6 +11,9 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed OAuth 2 flow in Firefox 51.
 - Fixed specifying a cookie header in the request.
+- Fixed pasting a string including "==" into the request body. Everything including after (including the equal signs) was cut off.
+- Fixed highlighting of active navigation item. Before sometimes a wrong item was highlighted.
+- Fixed UI glitches when entering a long value without spaces in the request body form value or environment value textboxes.
 
 ## [2.0.1] - 2017-01-16
 ### Fixed
@@ -220,7 +225,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.0.1...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/frigus02/RESTer/compare/2.0.1...2.1.0
 [2.0.1]: https://github.com/frigus02/RESTer/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/frigus02/RESTer/compare/1.17.0...2.0.0
 [1.17.0]: https://github.com/frigus02/RESTer/compare/1.16.0...1.17.0
