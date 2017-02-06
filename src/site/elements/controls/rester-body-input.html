@@ -75,21 +75,24 @@
             </paper-menu>
         </paper-menu-button>
 
-        <rester-ace-input
-                hidden$="[[!selectedInputOption.isInputTypeAce]]"
-                mode="[[selectedInputOption.aceMode]]"
-                value="{{value}}"
-                name="[[name]]"
-                required$="[[required]]"></rester-ace-input>
+        <template is="dom-if" if="[[selectedInputOption.isInputTypeAce]]" restamp>
+            <rester-ace-input
+                    mode="[[selectedInputOption.aceMode]]"
+                    value="{{value}}"
+                    name="[[name]]"
+                    required$="[[required]]">
+            </rester-ace-input>
+        </template>
 
-        <rester-form-data-input
-                hidden$="[[!selectedInputOption.isInputTypeForm]]"
-                value="{{value}}"
-                files="{{files}}"
-                name="[[name]]"
-                no-encode
-                required$="[[required]]">
-        </rester-form-data-input>
+        <template is="dom-if" if="[[selectedInputOption.isInputTypeForm]]" restamp>
+            <rester-form-data-input
+                    value="{{value}}"
+                    files="{{files}}"
+                    name="[[name]]"
+                    no-encode
+                    required$="[[required]]">
+            </rester-form-data-input>
+        </template>
     </template>
 
     <script>
