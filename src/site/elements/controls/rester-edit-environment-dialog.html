@@ -116,6 +116,8 @@
                     if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
                         this.push('valueItems', {key: '', value: ''});
                     }
+
+                    this.$.dialog.notifyResize();
                 },
 
                 _removeValueItem(e) {
