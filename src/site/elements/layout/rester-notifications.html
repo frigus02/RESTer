@@ -44,11 +44,7 @@
                     icon="[[icon]]"
                     class="dropdown-trigger"></paper-icon-button>
             <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
-                <template is="dom-repeat"
-                        id="repeater"
-                        items="[[notifications]]"
-                        rendered-item-count="{{visibleNotifications}}"
-                        filter="_isNotificationVisible">
+                <template is="dom-repeat" items="[[visibleNotifications]]">
                     <paper-item role="menuitem" on-tap="_openNotification">
                         <paper-item-body two-line>
                             <div>[[item.title]]</div>
@@ -66,7 +62,7 @@
 
         <paper-badge
                 for="menu-button"
-                label="[[visibleNotifications]]"
+                label="[[visibleNotifications.length]]"
                 hidden$="[[isEmpty]]"></paper-badge>
     </template>
 
@@ -82,10 +78,13 @@
                         type: Array,
                         readOnly: true
                     },
-                    visibleNotifications: Number,
+                    visibleNotifications: {
+                        type: Array,
+                        readOnly: true
+                    },
                     isEmpty: {
                         type: Boolean,
-                        computed: '_computeIsEmpty(visibleNotifications)'
+                        computed: '_computeIsEmpty(visibleNotifications.length)'
                     },
                     icon: {
                         type: String,
@@ -95,26 +94,29 @@
 
                 ready() {
                     this._setNotifications(Array.from(this.$.notifications.children));
+                    this._setVisibleNotifications(this.notifications.filter(n => n.visible));
 
                     this.notifications.forEach(notification => {
                         notification.addEventListener('visible-changed', this._update.bind(this));
                     });
                 },
 
-                _computeIsEmpty(visibleNotifications) {
-                    return visibleNotifications === 0;
+                _computeIsEmpty(visibleNotificationsCount) {
+                    return visibleNotificationsCount === 0;
                 },
 
                 _computeIcon(isEmpty) {
                     return isEmpty ? 'social:notifications-none' : 'social:notifications';
                 },
 
-                _update() {
-                    this.$.repeater.render();
-                },
-
-                _isNotificationVisible(notification) {
-                    return notification.visible;
+                _update(e) {
+                    const notification = e.target;
+                    const index = this.visibleNotifications.indexOf(notification);
+                    if (notification.visible && index === -1) {
+                        this.push('visibleNotifications', notification);
+                    } else if (!notification.visible && index > -1) {
+                        this.splice('visibleNotifications', index, 1);
+                    }
                 },
 
                 _openNotification(e) {

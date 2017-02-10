@@ -18,7 +18,7 @@ https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-json
 https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-xml.js
 
 DOMPurify
-https://github.com/cure53/DOMPurify/blob/0.8.4/dist/purify.min.js
+https://github.com/cure53/DOMPurify/blob/0.8.5/dist/purify.min.js
 
 lodash-element
 https://github.com/Waxolunist/lodash-element/blob/v1.0.2/lodash.js.html
@@ -137,7 +137,7 @@ paper-styles
 https://github.com/PolymerElements/paper-styles/blob/v1.1.5/paper-styles.html
 
 paper-tabs
-https://github.com/PolymerElements/paper-tabs/blob/v1.7.0/paper-tabs.html
+https://github.com/PolymerElements/paper-tabs/blob/v1.8.0/paper-tabs.html
 
 paper-toggle-button
 https://github.com/PolymerElements/paper-toggle-button/blob/v1.3.0/paper-toggle-button.html
@@ -149,7 +149,7 @@ paper-tooltip
 https://github.com/PolymerElements/paper-tooltip/blob/v1.1.3/paper-tooltip.html
 
 polymer
-https://github.com/Polymer/polymer/blob/v1.7.1/polymer.html
+https://github.com/Polymer/polymer/blob/v1.8.0/polymer.html
 
 lodash
 https://github.com/lodash/lodash/blob/4.16.2/dist/lodash.min.js

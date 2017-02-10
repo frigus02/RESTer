@@ -60,7 +60,7 @@
                 </template>
             </template>
             <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'two-line-score')]]" restamp>
-                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score" on-dom-change="_onDomForItemListChanged">
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score" notify-dom-change on-dom-change="_onDomForItemListChanged">
                     <paper-icon-item
                             hidden$="[[!_isItemVisible(item, inputValue)]]"
                             class="button"

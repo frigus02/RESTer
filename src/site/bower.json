@@ -4,7 +4,7 @@
   "dependencies": {
     "ace-builds": "1.2.6",
     "app-route": "PolymerElements/app-route#0.9.3",
-    "DOMPurify": "dompurify#0.8.4",
+    "DOMPurify": "dompurify#0.8.5",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1.0.6",
     "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#1.1.9",
     "iron-behaviors": "PolymerElements/iron-behaviors#1.0.17",
@@ -43,11 +43,11 @@
     "paper-spinner": "PolymerElements/paper-spinner#1.2.1",
     "paper-styles": "PolymerElements/paper-styles#1.1.5",
     "paper-subheader": "1.0.8",
-    "paper-tabs": "PolymerElements/paper-tabs#1.7.0",
+    "paper-tabs": "PolymerElements/paper-tabs#1.8.0",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#1.3.0",
     "paper-toolbar": "PolymerElements/paper-toolbar#1.1.7",
     "paper-tooltip": "PolymerElements/paper-tooltip#1.1.3",
-    "polymer": "Polymer/polymer#1.7.1",
+    "polymer": "Polymer/polymer#1.8.0",
     "string_score": "joshaven/string_score#0.1.22"
   },
   "devDependencies": {
