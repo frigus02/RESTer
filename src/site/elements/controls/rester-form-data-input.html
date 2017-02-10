@@ -115,26 +115,12 @@
                 _ignoreFormDataEntryChangedEvents: false,
 
                 _onValueChanged() {
-                    // When the value changes from the outside, we need to disable
-                    // _onFormDataEntriesChanged events, as they would cause to change
-                    // the value to a form-data-parsable format. If the user just
-                    // by accident switched from text mode to form input mode, this
-                    // would change his text.
-                    this._ignoreFormDataEntryChangedEvents = true;
-
                     this._setFormDataEntries(this._parseFormDataEntries(this.value));
                     this._cleanUpUnusedFiles();
                     this._ensureEmptyFormDataEntry();
-
-                    this.$.repeat.render();
-                    this._ignoreFormDataEntryChangedEvents = false;
                 },
 
                 _onFormDataEntriesChanged() {
-                    if (this._ignoreFormDataEntryChangedEvents) {
-                        return;
-                    }
-
                     this.value = this._stringifyFormDataEntries(this.formDataEntries);
                     this._ensureEmptyFormDataEntry();
                 },

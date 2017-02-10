@@ -121,9 +121,10 @@
                     if (!this.value) {
                         this.value = { [variable.name]: variable.value };
                     } else {
-                        CACHED_VARIABLE_VALUES[variable.name] = variable.value;
                         this.set(`value.${variable.name}`, variable.value);
                     }
+
+                    CACHED_VARIABLE_VALUES[variable.name] = variable.value;
                 },
 
                 _compareVariables(a, b) {
