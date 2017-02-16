@@ -482,7 +482,7 @@
                     }
 
                     compiledRequest.tempVariables = {
-                        values: RESTer.encode.mapFilesToVariableValues(this.$.bodyInput.files)
+                        values: RESTer.encode.mapFilesToVariableValues(this.$.bodyInput.files || {})
                     };
 
                     this._setRequestIsSending(true);
