@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [2.1.1] - 2017-02-16
+### Fixed
+- Fix bug, where request cannot be sent, when not at least one file is selected.
 
 ## [2.1.0] - 2017-02-06
 ### Changed
@@ -225,7 +228,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.1.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.1.1...HEAD
+[2.1.1]: https://github.com/frigus02/RESTer/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/frigus02/RESTer/compare/2.0.1...2.1.0
 [2.0.1]: https://github.com/frigus02/RESTer/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/frigus02/RESTer/compare/1.17.0...2.0.0
