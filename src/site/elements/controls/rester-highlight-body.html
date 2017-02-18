@@ -53,6 +53,9 @@
                 <paper-icon-item role="menuitemcheckbox" on-tap="_togglePrettyPrint" hidden$="[[!isPrettyPrintSupported]]">
                     <iron-icon icon="check" item-icon hidden$="[[!prettyPrint]]"></iron-icon> Pretty Print
                 </paper-icon-item>
+                <paper-icon-item role="menuitemcheckbox" on-tap="_toggleFullSize">
+                    <iron-icon icon="check" item-icon hidden$="[[!fullSize]]"></iron-icon> Full Size
+                </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_togglePreview" hidden$="[[!isPreviewSupported]]">
                     <iron-icon icon="check" item-icon hidden$="[[!preview]]"></iron-icon> Preview
                 </paper-icon-item>
@@ -65,10 +68,12 @@
 
         <template is="dom-if" if="[[!preview]]">
             <rester-ace-input
-                    mode="[[languageObject.aceMode]]"
+                    mode="[[aceMode]]"
                     value="[[renderedBody]]"
                     use-wrap-mode="[[wrap]]"
-                    read-only></rester-ace-input>
+                    read-only
+                    max-lines="[[aceMaxLines]]"
+                    disable-search="[[fullSize]]"></rester-ace-input>
         </template>
         <template is="dom-if" if="[[preview]]">
             <rester-dom-purify-frame html="[[body]]"></rester-dom-purify-frame>
@@ -114,9 +119,17 @@
                     },
                     contentType: String,
                     language: String,
-                    languageObject: {
-                        type: Object,
-                        computed: '_computeLanguageObject(language)'
+                    aceMode: {
+                        type: String,
+                        computed: '_computeAceMode(language)'
+                    },
+                    aceMaxLines: {
+                        type: Number,
+                        computed: '_computeAceMaxLines(fullSize)'
+                    },
+                    prettyPrintMode: {
+                        type: String,
+                        computed: '_computePrettyPrintMode(language)'
                     },
                     wrap: {
                         type: Boolean,
@@ -126,13 +139,17 @@
                         type: Boolean,
                         value: true
                     },
+                    fullSize: {
+                        type: Boolean,
+                        value: false
+                    },
                     preview: {
                         type: Boolean,
                         value: false
                     },
                     isPrettyPrintSupported: {
                         type: Boolean,
-                        computed: '_computeIsPrettyPrintSupported(languageObject)'
+                        computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
                     },
                     isPreviewSupported: {
                         type: Boolean,
@@ -142,30 +159,16 @@
                         type: Array,
                         readOnly: true,
                         value: [
-                            {
-                                title: 'Plain',
-                                aceMode: 'ace/mode/text'
-                            },
-                            {
-                                title: 'HTML',
-                                aceMode: 'ace/mode/html'
-                            },
-                            {
-                                title: 'JSON',
-                                aceMode: 'ace/mode/json',
-                                formatLanguage: 'json'
-                            },
-                            {
-                                title: 'XML',
-                                aceMode: 'ace/mode/xml',
-                                formatLanguage: 'xml'
-                            }
+                            'Plain',
+                            'HTML',
+                            'JSON',
+                            'XML'
                         ]
                     }
                 },
 
                 observers: [
-                    '_formatBody(body, languageObject)',
+                    '_formatBody(body, prettyPrintMode)',
                     '_autoSelectLanguage(contentType)'
                 ],
 
@@ -179,33 +182,53 @@
                     }
                 },
 
-                _computeLanguageObject(language) {
-                    return this.supportedLanguages.find(l => l.title === language);
+                _computeAceMode(language) {
+                    const aceModes = {
+                        Plain: 'ace/mode/text',
+                        HTML: 'ace/mode/html',
+                        JSON: 'ace/mode/json',
+                        XML: 'ace/mode/xml'
+                    };
+
+                    return aceModes[language];
                 },
 
-                _computeIsPrettyPrintSupported(languageObject) {
-                    return !!languageObject.formatLanguage;
+                _computeAceMaxLines(fullSize) {
+                    return fullSize ? Infinity : 25;
+                },
+
+                _computePrettyPrintMode(language) {
+                    const prettyPrintModes = {
+                        JSON: 'json',
+                        XML: 'xml'
+                    };
+
+                    return prettyPrintModes[language];
+                },
+
+                _computeIsPrettyPrintSupported(prettyPrintMode) {
+                    return !!prettyPrintMode;
                 },
 
                 _computeIsPreviewSupported(language) {
                     return language === 'HTML';
                 },
 
-                _formatBody(body, languageObject) {
+                _formatBody(body, prettyPrintMode) {
                     this._setBodyFormatted('');
                     if (this._formatBodyWorker) {
                         this._formatBodyWorker.cancel();
                         this._formatBodyWorker = undefined;
                     }
 
-                    if (!languageObject.formatLanguage) {
+                    if (!prettyPrintMode) {
                         return;
                     }
 
                     this.debounce('formatBody', () => {
                         this._formatBodyWorker = RESTer.worker.FormatCode.run({
                             code: body,
-                            language: languageObject.formatLanguage
+                            language: prettyPrintMode
                         });
 
                         this._formatBodyWorker.then(result => {
@@ -232,7 +255,7 @@
                         }
                     }
 
-                    this.language = newLanguage.title;
+                    this.language = newLanguage;
                 },
 
                 _toggleWrap() {
@@ -243,6 +266,11 @@
                 _togglePrettyPrint() {
                     this.$.options.close();
                     this.prettyPrint = !this.prettyPrint;
+                },
+
+                _toggleFullSize() {
+                    this.$.options.close();
+                    this.fullSize = !this.fullSize;
                 },
 
                 _togglePreview() {
