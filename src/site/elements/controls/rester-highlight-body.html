@@ -44,7 +44,7 @@
             }
         </style>
 
-        <paper-menu-button id="options" horizontal-align="right" restore-focus-on-close>
+        <paper-menu-button id="options" dynamic-align horizontal-align="right" restore-focus-on-close>
             <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
             <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
@@ -87,8 +87,8 @@
             <paper-dialog-scrollable>
                 <paper-radio-group selected="{{language}}" on-paper-radio-group-changed="_closeChangeLanguageDialog">
                     <template is="dom-repeat" items="[[supportedLanguages]]">
-                        <paper-radio-button name="[[item.title]]">
-                            <div>[[item.title]]</div>
+                        <paper-radio-button name="[[item]]">
+                            <div>[[item]]</div>
                         </paper-radio-button>
                     </template>
                 </paper-radio-group>
@@ -99,6 +99,18 @@
     <script>
         (function () {
             'use strict';
+
+            const aceModes = {
+                Plain: 'ace/mode/text',
+                HTML: 'ace/mode/html',
+                JSON: 'ace/mode/json',
+                XML: 'ace/mode/xml'
+            };
+
+            const prettyPrintModes = {
+                JSON: 'json',
+                XML: 'xml'
+            };
 
             Polymer({
                 is: 'rester-highlight-body',
@@ -172,14 +184,7 @@
                 },
 
                 _computeAceMode(language) {
-                    const aceModes = {
-                        Plain: 'ace/mode/text',
-                        HTML: 'ace/mode/html',
-                        JSON: 'ace/mode/json',
-                        XML: 'ace/mode/xml'
-                    };
-
-                    return aceModes[language];
+                    return aceModes[language] || null;
                 },
 
                 _computeAceMaxLines(fullSize) {
@@ -187,12 +192,7 @@
                 },
 
                 _computePrettyPrintMode(language) {
-                    const prettyPrintModes = {
-                        JSON: 'json',
-                        XML: 'xml'
-                    };
-
-                    return prettyPrintModes[language];
+                    return prettyPrintModes[language] || null;
                 },
 
                 _computeIsPrettyPrintSupported(prettyPrintMode) {
