@@ -54,7 +54,8 @@
                     divEl.innerHTML = DOMPurify.sanitize(this.html);
 
                     this.$.frame.contentWindow.setTimeout(() => {
-                        this.$.frame.style.height = `${doc.body.clientHeight + 16}px`;
+                        const htmlEl = doc.querySelector('html');
+                        this.$.frame.style.height = `${htmlEl.offsetHeight}px`;
                     });
                 }
             });
