@@ -15,11 +15,11 @@
          * @polymerBehavior RESTer.ErrorBehavior
          */
         RESTer.ErrorBehavior = {
-            showError(error) {
+            showError(error, title) {
                 const resterApp = document.querySelector('rester-app');
                 const resterError = Polymer.dom(resterApp.root).querySelector('rester-error');
                 if (resterError) {
-                    resterError.show(error);
+                    resterError.show(error, title);
                 }
             }
         };

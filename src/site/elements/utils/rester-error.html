@@ -62,8 +62,8 @@
                     'Oh no, this shouldn\'t happen.'
                 ],
 
-                show(error) {
-                    this.title = _.sample(this._titles);
+                show(error, title) {
+                    this.title = title || _.sample(this._titles);
                     this.error = error;
                     this.$.dialog.open();
                 },
