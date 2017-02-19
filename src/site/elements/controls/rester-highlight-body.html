@@ -48,16 +48,16 @@
             <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
             <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
-                    <iron-icon icon="check" item-icon hidden$="[[!wrap]]"></iron-icon> Wrap
+                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyWrap]]"></iron-icon> Wrap
                 </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_togglePrettyPrint" hidden$="[[!isPrettyPrintSupported]]">
-                    <iron-icon icon="check" item-icon hidden$="[[!prettyPrint]]"></iron-icon> Pretty Print
+                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyPrettyPrint]]"></iron-icon> Pretty Print
                 </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleFullSize">
-                    <iron-icon icon="check" item-icon hidden$="[[!fullSize]]"></iron-icon> Full Size
+                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyFullSize]]"></iron-icon> Full Size
                 </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_togglePreview" hidden$="[[!isPreviewSupported]]">
-                    <iron-icon icon="check" item-icon hidden$="[[!preview]]"></iron-icon> Preview
+                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyPreview]]"></iron-icon> Preview
                 </paper-icon-item>
                 <div class="menu-item-divider"></div>
                 <paper-icon-item on-tap="_changeLanguage">
@@ -66,16 +66,16 @@
             </paper-menu>
         </paper-menu-button>
 
-        <template is="dom-if" if="[[!preview]]">
+        <template is="dom-if" if="[[!renderPreview]]">
             <rester-ace-input
                     mode="[[aceMode]]"
                     value="[[renderedBody]]"
-                    use-wrap-mode="[[wrap]]"
+                    use-wrap-mode="[[settings.responseBodyWrap]]"
                     read-only
                     max-lines="[[aceMaxLines]]"
-                    disable-search="[[fullSize]]"></rester-ace-input>
+                    disable-search="[[settings.responseBodyFullSize]]"></rester-ace-input>
         </template>
-        <template is="dom-if" if="[[preview]]">
+        <template is="dom-if" if="[[renderPreview]]">
             <rester-dom-purify-frame html="[[body]]"></rester-dom-purify-frame>
         </template>
 
@@ -104,7 +104,8 @@
                 is: 'rester-highlight-body',
 
                 behaviors: [
-                    RESTer.ErrorBehavior
+                    RESTer.ErrorBehavior,
+                    RESTer.SettingsBehavior
                 ],
 
                 properties: {
@@ -115,7 +116,7 @@
                     },
                     renderedBody: {
                         type: String,
-                        computed: '_computeRenderedBody(body, bodyFormatted, prettyPrint)'
+                        computed: '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
                     },
                     contentType: String,
                     language: String,
@@ -125,27 +126,11 @@
                     },
                     aceMaxLines: {
                         type: Number,
-                        computed: '_computeAceMaxLines(fullSize)'
+                        computed: '_computeAceMaxLines(settings.responseBodyFullSize)'
                     },
                     prettyPrintMode: {
                         type: String,
                         computed: '_computePrettyPrintMode(language)'
-                    },
-                    wrap: {
-                        type: Boolean,
-                        value: true
-                    },
-                    prettyPrint: {
-                        type: Boolean,
-                        value: true
-                    },
-                    fullSize: {
-                        type: Boolean,
-                        value: false
-                    },
-                    preview: {
-                        type: Boolean,
-                        value: false
                     },
                     isPrettyPrintSupported: {
                         type: Boolean,
@@ -154,6 +139,10 @@
                     isPreviewSupported: {
                         type: Boolean,
                         computed: '_computeIsPreviewSupported(language)'
+                    },
+                    renderPreview: {
+                        type: Boolean,
+                        computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
                     },
                     supportedLanguages: {
                         type: Array,
@@ -214,6 +203,10 @@
                     return language === 'HTML';
                 },
 
+                _computeRenderPreview(preview, isPreviewSupported) {
+                    return preview && isPreviewSupported;
+                },
+
                 _formatBody(body, prettyPrintMode) {
                     this._setBodyFormatted('');
                     if (this._formatBodyWorker) {
@@ -260,22 +253,22 @@
 
                 _toggleWrap() {
                     this.$.options.close();
-                    this.wrap = !this.wrap;
+                    this.settings.responseBodyWrap = !this.settings.responseBodyWrap;
                 },
 
                 _togglePrettyPrint() {
                     this.$.options.close();
-                    this.prettyPrint = !this.prettyPrint;
+                    this.settings.responseBodyPrettyPrint = !this.settings.responseBodyPrettyPrint;
                 },
 
                 _toggleFullSize() {
                     this.$.options.close();
-                    this.fullSize = !this.fullSize;
+                    this.settings.responseBodyFullSize = !this.settings.responseBodyFullSize;
                 },
 
                 _togglePreview() {
                     this.$.options.close();
-                    this.preview = !this.preview;
+                    this.settings.responseBodyPreview = !this.settings.responseBodyPreview;
                 },
 
                 _changeLanguage() {

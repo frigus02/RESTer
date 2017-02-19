@@ -9,7 +9,11 @@
         activeEnvironment: null,
         stripDefaultHeaders: false,
         enableRequestLintInspections: true,
-        pinSidenav: false
+        pinSidenav: false,
+        responseBodyWrap: true,
+        responseBodyPrettyPrint: true,
+        responseBodyFullSize: false,
+        responseBodyPreview: false
     };
 
     function getSettings() {
