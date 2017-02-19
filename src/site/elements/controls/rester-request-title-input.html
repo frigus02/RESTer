@@ -23,12 +23,22 @@
                     margin-top: 2px;
                 };
             }
+
+            #label {
+                position: absolute;
+                pointer-events: none;
+                font-size: 20px;
+                color: var(--secondary-text-color);
+            }
+
+            #label .size-helper {
+                visibility: hidden;
+            }
         </style>
 
         <paper-input-container no-label-float>
             <input is="iron-input" id="input"
                     bind-value="{{value}}"
-                    placeholder="Collection / Title"
                     autocomplete="off"
                     name="[[name]]"
                     required$="[[required]]">
@@ -36,6 +46,11 @@
                     prefix
                     for="input"
                     items="[[requestCollections]]"></rester-autocomplete>
+            <div suffix id="label">
+                <span class="size-helper">[[value]]</span>
+                <span hidden$="[[hasCollection]]">Collection</span>
+                <span hidden$="[[hasTitle]]"><span hidden$="[[hasTrailingSlash]]">/</span> Title</span>
+            </div>
         </paper-input-container>
     </template>
 
@@ -69,6 +84,18 @@
                     requestCollections: {
                         type: Array,
                         readOnly: true
+                    },
+                    hasCollection: {
+                        type: Boolean,
+                        computed: '_computeHasCollection(requestCollection)'
+                    },
+                    hasTrailingSlash: {
+                        type: Boolean,
+                        computed: '_computeHasTrailingSlash(value)'
+                    },
+                    hasTitle: {
+                        type: Boolean,
+                        computed: '_computeHasTitle(requestTitle)'
                     }
                 },
 
@@ -122,6 +149,18 @@
 
                     this._knownCollection = parts.map(p => p.trim()).filter(p => p).join(' / ');
                     this.requestCollection = this._knownCollection;
+                },
+
+                _computeHasCollection(requestCollection) {
+                    return !!requestCollection;
+                },
+
+                _computeHasTrailingSlash(value) {
+                    return (value || '').trim().endsWith('/');
+                },
+
+                _computeHasTitle(requestTitle) {
+                    return !!requestTitle;
                 },
 
                 _onInputKeyDown(e) {
