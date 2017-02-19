@@ -59,14 +59,6 @@
                         [[item.title]]
                     </paper-icon-item>
                 </template>
-                <div class="menu-item-divider"></div>
-                <paper-icon-item role="menuitemcheckbox" on-tap="_toggleSetContentTypeHeader">
-                    <iron-icon
-                            icon="check"
-                            item-icon
-                            hidden$="[[!setContentTypeHeader]]"></iron-icon>
-                    Set Content-Type header
-                </paper-icon-item>
                 <div class="menu-item-divider" hidden$="[[!selectedInputOption.beautifyMethod]]"></div>
                 <paper-icon-item role="menuitem" hidden$="[[!selectedInputOption.beautifyMethod]]" on-tap="_beautify">
                     <iron-icon icon="editor:format-paint" item-icon></iron-icon>
@@ -118,7 +110,6 @@
                     },
                     contentType: {
                         type: String,
-                        notify: true,
                         observer: '_onContentTypeChanged'
                     },
                     inputOptions: {
@@ -133,7 +124,6 @@
                             {
                                 title: 'JSON',
                                 isInputTypeAce: true,
-                                contentType: 'application/json',
                                 contentTypeSearch: ['json'],
                                 aceMode: 'ace/mode/json',
                                 beautifyMethod: 'json'
@@ -141,7 +131,6 @@
                             {
                                 title: 'XML',
                                 isInputTypeAce: true,
-                                contentType: 'application/xml',
                                 contentTypeSearch: ['xml'],
                                 aceMode: 'ace/mode/xml',
                                 beautifyMethod: 'xml'
@@ -149,25 +138,12 @@
                             {
                                 title: 'Form',
                                 isInputTypeForm: true,
-                                contentType() {
-                                    return this.files && Object.keys(this.files).length > 0
-                                        ? 'multipart/form-data'
-                                        : 'application/x-www-form-urlencoded';
-                                },
                                 contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
                             }
                         ]
                     },
-                    selectedInputOption: Object,
-                    setContentTypeHeader: {
-                        type: Boolean,
-                        value: true
-                    }
+                    selectedInputOption: Object
                 },
-
-                observers: [
-                    '_onFilesChanged(files.*)'
-                ],
 
                 get _focusableElement() {
                     return this.selectedInputOption.isInputTypeAce
@@ -179,8 +155,16 @@
                     this.selectedInputOption = this.inputOptions[0];
                 },
 
-                _onFilesChanged() {
-                    this._updateContentType();
+                getSuggestedContentType() {
+                    if (this.selectedInputOption.title === 'JSON') {
+                        return 'application/json';
+                    } else if (this.selectedInputOption.title === 'XML') {
+                        return 'application/xml';
+                    } else if (this.selectedInputOption.title === 'Form') {
+                        return  this.files && Object.keys(this.files).length > 0
+                            ? 'multipart/form-data'
+                            : 'application/x-www-form-urlencoded';
+                    }
                 },
 
                 _onContentTypeChanged() {
@@ -200,26 +184,12 @@
 
                 _selectInputOption(e) {
                     this.selectedInputOption = e.model.item;
-                    this._updateContentType();
-                },
-
-                _toggleSetContentTypeHeader() {
-                    this.setContentTypeHeader = !this.setContentTypeHeader;
                 },
 
                 _beautify() {
                     this.$.options.close();
                     if (this.selectedInputOption.beautifyMethod) {
                         this.value = vkbeautify[this.selectedInputOption.beautifyMethod](this.value, 4);
-                    }
-                },
-
-                _updateContentType() {
-                    if (this.setContentTypeHeader && this.selectedInputOption) {
-                        const newContentType = this.selectedInputOption.contentType;
-                        this.contentType = typeof newContentType === 'function'
-                            ? newContentType.call(this)
-                            : newContentType;
                     }
                 }
             });

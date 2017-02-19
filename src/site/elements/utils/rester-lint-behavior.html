@@ -63,10 +63,11 @@
                             inspection.id = Math.random();
                         }
 
-                        if (!this[inspection.check].call(this)) {
+                        const result = this[inspection.check].call(this);
+                        if (result) {
                             messages.putMessage(inspection.id, {
-                                message: inspection.message,
-                                fixLabel: inspection.fixLabel,
+                                message: RESTer.variables.replace(inspection.message, result),
+                                fixLabel: RESTer.variables.replace(inspection.fixLabel, result),
                                 fix: this[inspection.fix].bind(this)
                             });
                         } else {

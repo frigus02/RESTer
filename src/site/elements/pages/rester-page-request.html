@@ -154,8 +154,7 @@
                             <rester-body-input
                                     id="bodyInput"
                                     value="{{request.body}}"
-                                    content-type="[[requestContentType]]"
-                                    on-content-type-changed="_onRequestContentTypeChangedByBody"></rester-body-input>
+                                    content-type="[[requestContentType]]"></rester-body-input>
                         </div>
                         <div role="tabpanel" aria-labelledby="requestTab2">
                             <rester-authorization-input
@@ -300,7 +299,7 @@
                     {
                         message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
                         check: '_lintCheckFilesWithoutMultipart',
-                        fixLabel: 'Set content type',
+                        fixLabel: 'Change content type',
                         fix: '_lintFixFilesWithoutMultipart'
                     },
                     {
@@ -308,6 +307,12 @@
                         check: '_lintCheckEmptyFiles',
                         fixLabel: 'View body',
                         fix: '_lintFixEmptyFiles'
+                    },
+                    {
+                        message: 'Suggested content type based on body is {contentType}.',
+                        check: '_lintCheckSuggestedContentType',
+                        fixLabel: 'Set content type',
+                        fix: '_lintFixSuggestedContentType'
                     }
                 ],
 
@@ -401,10 +406,6 @@
                         e.preventDefault();
                         this._sendRequest();
                     }
-                },
-
-                _onRequestContentTypeChangedByBody(e) {
-                    this._setRequestHeader('Content-Type', e.detail.value);
                 },
 
                 _onRequestAuthorizationChanged(e) {
@@ -516,8 +517,7 @@
                 },
 
                 _lintCheckPlaceholdersWithoutVariables() {
-                    return this.request.variables.enabled ||
-                        RESTer.variables.extract(this.request).length === 0;
+                    return !this.request.variables.enabled && RESTer.variables.extract(this.request).length > 0;
                 },
 
                 _lintFixPlaceholdersWithoutVariables() {
@@ -529,9 +529,7 @@
                         const variables = RESTer.variables.extract(this.request);
                         const usedVariableValues = {};
                         RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-                        return variables.every(name => !!usedVariableValues[name]);
-                    } else {
-                        return true;
+                        return variables.some(name => !usedVariableValues[name]);
                     }
                 },
 
@@ -542,8 +540,8 @@
                 _lintCheckFilesWithoutMultipart() {
                     const contentType = this.requestContentType || '';
 
-                    return contentType.toLowerCase() === 'multipart/form-data' ||
-                        Object.keys(this.$.bodyInput.files || {}).length === 0;
+                    return contentType.toLowerCase() !== 'multipart/form-data' &&
+                        Object.keys(this.$.bodyInput.files || {}).length > 0;
                 },
 
                 _lintFixFilesWithoutMultipart() {
@@ -554,13 +552,31 @@
                     const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
                     const selectedFiles = this.$.bodyInput.files;
 
-                    return !requiredFiles || requiredFiles
+                    return requiredFiles && requiredFiles
                         .map(file => file.substring(7, file.length - 1))
-                        .every(file => selectedFiles[file]);
+                        .some(file => !selectedFiles[file]);
                 },
 
                 _lintFixEmptyFiles() {
                     this.requestSelectedTab = 1;
+                },
+
+                _lintCheckSuggestedContentType() {
+                    const contentType = this.requestContentType || '';
+                    const suggested = this.$.bodyInput.getSuggestedContentType();
+
+                    if (suggested && suggested !== contentType.toLowerCase() &&
+                        !this._lintCheckFilesWithoutMultipart()) {
+                        return {
+                            contentType: suggested
+                        };
+                    }
+                },
+
+                _lintFixSuggestedContentType() {
+                    const suggested = this.$.bodyInput.getSuggestedContentType();
+
+                    this._setRequestHeader('Content-Type', suggested);
                 }
             });
         })();

@@ -58,9 +58,13 @@
                 },
 
                 putMessage(id, message) {
-                    if (!this.messages.some(m => m.id === id)) {
-                        message.id = id;
+                    const index = this.messages.findIndex(m => m.id === id);
+
+                    message.id = id;
+                    if (index === -1) {
                         this.push('messages', message);
+                    } else {
+                        this.splice('messages', index, 1, message);
                     }
                 },
 
