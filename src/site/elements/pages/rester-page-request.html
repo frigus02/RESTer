@@ -562,6 +562,10 @@
                 },
 
                 _lintCheckSuggestedContentType() {
+                    if (!this.request.body) {
+                        return false;
+                    }
+
                     const contentType = this.requestContentType || '';
                     const suggested = this.$.bodyInput.getSuggestedContentType();
 
