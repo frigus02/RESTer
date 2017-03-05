@@ -262,7 +262,10 @@
                     }
 
                     if (this.disableSearch) {
-                        this._editor.searchBox.hide();
+                        if (this._editor.searchBox) {
+                            this._editor.searchBox.hide();
+                        }
+
                         this._editor.commands.removeCommand('find');
                     } else {
                         this._editor.commands.addCommand(this._findCommand);
