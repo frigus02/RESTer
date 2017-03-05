@@ -30,7 +30,7 @@ app-route
 https://github.com/PolymerElements/app-route/blob/v0.9.3/app-route.html
 
 iron-a11y-keys
-https://github.com/PolymerElements/iron-a11y-keys/blob/v1.0.6/iron-a11y-keys.html
+https://github.com/PolymerElements/iron-a11y-keys/blob/v1.0.7/iron-a11y-keys.html
 
 iron-a11y-keys-behavior
 https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/v1.1.9/iron-a11y-keys-behavior.html
@@ -42,7 +42,7 @@ iron-collapse
 https://github.com/PolymerElements/iron-collapse/blob/v1.3.0/iron-collapse.html
 
 iron-flex-layout
-https://github.com/PolymerElements/iron-flex-layout/blob/v1.3.1/iron-flex-layout.html
+https://github.com/PolymerElements/iron-flex-layout/blob/v1.3.2/iron-flex-layout.html
 
 iron-form
 https://github.com/PolymerElements/iron-form/blob/v1.1.4/iron-form.html
@@ -134,7 +134,7 @@ paper-spinner
 https://github.com/PolymerElements/paper-spinner/blob/v1.2.1/paper-spinner.html
 
 paper-styles
-https://github.com/PolymerElements/paper-styles/blob/v1.1.5/paper-styles.html
+https://github.com/PolymerElements/paper-styles/blob/v1.2.0/paper-styles.html
 
 paper-tabs
 https://github.com/PolymerElements/paper-tabs/blob/v1.8.0/paper-tabs.html
@@ -149,7 +149,7 @@ paper-tooltip
 https://github.com/PolymerElements/paper-tooltip/blob/v1.1.3/paper-tooltip.html
 
 polymer
-https://github.com/Polymer/polymer/blob/v1.8.0/polymer.html
+https://github.com/Polymer/polymer/blob/v1.8.1/polymer.html
 
 lodash
 https://github.com/lodash/lodash/blob/4.16.2/dist/lodash.min.js
