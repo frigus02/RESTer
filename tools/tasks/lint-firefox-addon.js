@@ -88,7 +88,15 @@ function getIgnoreList() {
 
             // Otherwise lines should have the following structure:
             // <file> <code>
-            const [file, code] = line.split(' ');
+            let [file, code] = line.split(' ');
+
+            // Some codes sentences instead of short, uppercase names. In
+            // this case the code should start with "_" in the ignore file
+            // and all spaces should be replaced by "_".
+            if (code.startsWith('_')) {
+                code = code.substr(1).replace(/_/g, ' ');
+            }
+
             ignore.push({
                 file: path.resolve(file),
                 code

@@ -215,10 +215,12 @@ function packageFirefox() {
 }
 
 
-const dev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy, watch);
 const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
-const lint = gulp.series(build, lintJavaScript, lintWebComponents, lintAddon);
-const buildPackage = gulp.series(lint, cleanPackage, packageChrome, packageFirefox);
+const buildDev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy);
+
+const dev = gulp.series(buildDev, watch);
+const lint = gulp.series(buildDev, lintJavaScript, lintWebComponents, lintAddon);
+const buildPackage = gulp.series(build, cleanPackage, packageChrome, packageFirefox);
 
 gulp.task('default', dev);
 gulp.task('dev', dev);
