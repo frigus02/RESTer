@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [2.2.0] - 2017-03-05
 ### Added
 - Add option to view response body full size. This removes the extra scrolling for the response body. However, when the body is very big, this might slow down your browser.
 
@@ -238,7 +240,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.1.1...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/frigus02/RESTer/compare/2.1.1...2.2.0
 [2.1.1]: https://github.com/frigus02/RESTer/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/frigus02/RESTer/compare/2.0.1...2.1.0
 [2.0.1]: https://github.com/frigus02/RESTer/compare/2.0.0...2.0.1
