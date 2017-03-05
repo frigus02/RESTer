@@ -171,14 +171,18 @@
                 },
 
                 _stringifyFormDataEntries(entries) {
+                    const encode = (!this.noEncode || this._isEncodeNeeded(entries))
+                        ? encodeURIComponent
+                        : str => str;
+
                     return entries
                         .filter(entry => entry.name.trim())
                         .map(entry => {
-                            let str = this._encode(entry.name);
+                            let str = encode(entry.name);
                             if (entry.type === 'file') {
                                 str += '=' + `[$file.${entry.value}]`;
                             } else if (entry.value) {
-                                str += '=' + this._encode(entry.value);
+                                str += '=' + encode(entry.value);
                             }
 
                             return str;
@@ -191,8 +195,8 @@
                         .split('&')
                         .map(row => {
                             const keyValue = row.split('=');
-                            const name = this._decode(keyValue[0]);
-                            const value = this._decode(keyValue[1] || '');
+                            const name = decodeURIComponent(keyValue[0]);
+                            const value = decodeURIComponent(keyValue[1] || '');
                             const fileMatch = /^\[\$file\.([^}]*)\]$/gi.exec(value);
 
                             if (fileMatch && !this.textOnly) {
@@ -218,12 +222,12 @@
                     }
                 },
 
-                _encode(value) {
-                    return this.noEncode ? value : encodeURIComponent(value);
-                },
-
-                _decode(value) {
-                    return this.noEncode ? value : decodeURIComponent(value);
+                _isEncodeNeeded(entries) {
+                    return entries.some(entry =>
+                        entry.name.includes('&') ||
+                        entry.name.includes('=') ||
+                        entry.value.includes('&') ||
+                        entry.value.includes('='));
                 },
 
                 _isFileNameInUse(name, ignoreIndex) {

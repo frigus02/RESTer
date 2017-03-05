@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Add option to view response body full size. This removes the extra scrolling for the response body. However, when the body is very big, this might slow down your browser.
+
+### Changed
+- Change the way you set a content type header. Previously whenever you select a different body input method, the content type header was automatically changed. This could be confusing and unexpected. Now RESTer will tell you, when the body input method does not match the selected content type. Changing the content type is then a manual action.
+
+### Fixed
+- Make it more obvious how to enter title and description for a request.
+- Make it possible to enter equal sign in form input mode of request body.
+
 ## [2.1.1] - 2017-02-16
 ### Fixed
 - Fix bug, where request cannot be sent, when not at least one file is selected.
