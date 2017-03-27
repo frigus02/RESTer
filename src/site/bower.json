@@ -5,6 +5,7 @@
     "ace-builds": "1.2.6",
     "app-route": "PolymerElements/app-route#0.9.3",
     "DOMPurify": "dompurify#0.8.5",
+    "font-roboto": "PolymerElements/font-roboto-local#1.0.1",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1.0.7",
     "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#1.1.9",
     "iron-behaviors": "PolymerElements/iron-behaviors#1.0.17",
