@@ -114,8 +114,9 @@
                                 class="dropdown-content"
                                 selected="{{_configuration.accessTokenRequestAuthentication}}"
                                 attr-for-selected="value">
+                            <paper-item value="none">None (public client)</paper-item>
                             <paper-item value="basic">HTTP Basic authentication</paper-item>
-                            <paper-item value="body">Credentials in request-body</paper-item>
+                            <paper-item value="body">Credentials in request body</paper-item>
                         </paper-listbox>
                     </paper-dropdown-menu>
                     <paper-input
@@ -127,8 +128,8 @@
                     <paper-input
                             label="Client Secret"
                             value="{{_configuration.clientSecret}}"
-                            hidden$="[[!_isFieldVisible('clientSecret', _configuration.flow)]]"
-                            required$="[[_isFieldVisible('clientSecret', _configuration.flow)]]"
+                            hidden$="[[!_isFieldVisible('clientSecret', _configuration.flow, _configuration.accessTokenRequestAuthentication)]]"
+                            required$="[[_isFieldVisible('clientSecret', _configuration.flow, _configuration.accessTokenRequestAuthentication)]]"
                             error-message="This is required!"></paper-input>
                     <paper-input
                             label="Redirect URI"
@@ -249,7 +250,11 @@
                 },
 
                 createConfiguration() {
-                    return this.editConfiguration({flow: null});
+                    return this.editConfiguration({
+                        flow: null,
+                        accessTokenRequestMethod: 'POST',
+                        accessTokenRequestAuthentication: 'basic'
+                    });
                 },
 
                 editConfiguration(config) {
@@ -314,8 +319,18 @@
                     this.$.configurationDialog.notifyResize();
                 },
 
-                _isFieldVisible(field, selectedFlow) {
-                    return selectedFlow && this._configProperties[selectedFlow].includes(field);
+                _isFieldVisible(field, selectedFlow, additionalField) {
+                    const flowMatches = selectedFlow && this._configProperties[selectedFlow].includes(field);
+                    if (!flowMatches) {
+                        return false;
+                    }
+
+                    // The client secret is not needed, when no authentication is performed.
+                    if (field === 'clientSecret' && (!additionalField || additionalField === 'none')) {
+                        return false;
+                    }
+
+                    return true;
                 },
 
                 _deleteConfiguration() {

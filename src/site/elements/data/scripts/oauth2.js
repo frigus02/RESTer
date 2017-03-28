@@ -113,9 +113,11 @@
                 name: 'Authorization',
                 value: `Basic ${token}`
             });
-        } else {
+        } else if (config.accessTokenRequestAuthentication === 'body') {
             accessTokenRequestParams.client_id = config.clientId;
             accessTokenRequestParams.client_secret = config.clientSecret;
+        } else {
+            accessTokenRequestParams.client_id = config.clientId;
         }
 
         if (config.accessTokenRequestMethod === 'GET') {
