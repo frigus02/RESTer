@@ -14,10 +14,10 @@
             const params = {
                 $filter: "Name eq 'John'",
                 $select: 'Age,MailAddress',
-                custom: '12'
+                numbers: ['12', '24']
             };
 
-            const queryString = '$filter=Name%20eq%20\'John\'&$select=Age%2CMailAddress&custom=12';
+            const queryString = '%24filter=Name%20eq%20\'John\'&%24select=Age%2CMailAddress&numbers=12&numbers=24';
 
             test('encodeQueryString encodes specified object into query string', function () {
                 assert.equal(RESTer.encode.encodeQueryString(params), queryString);

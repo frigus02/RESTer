@@ -4,17 +4,41 @@
     const self = RESTer.register('encode');
 
     self.encodeQueryString = function (params) {
-        return Object.keys(params)
-            .map(p => `${p}=${encodeURIComponent(params[p])}`)
-            .join('&');
+        const parts = [];
+        for (let key in params) {
+            if (params.hasOwnProperty(key)) {
+                const encodedKey = encodeURIComponent(key);
+                const values = Array.isArray(params[key]) ? params[key] : [params[key]];
+
+                for (let value of values) {
+                    const encodedValue = encodeURIComponent(value);
+                    parts.push(`${encodedKey}=${encodedValue}`);
+                }
+            }
+        }
+
+        return parts.join('&');
     };
 
     self.decodeQueryString = function (str) {
-        return str.split('&').reduce((params, currentParam) => {
-            const keyValue = currentParam.split('=');
-            params[keyValue[0]] = decodeURIComponent(keyValue[1]);
-            return params;
-        }, {});
+        const params = {};
+        const parts = str.split('&');
+
+        for (let part of parts) {
+            const keyValue = part.split('=');
+            const key = decodeURIComponent(keyValue[0]);
+            const value = decodeURIComponent(keyValue[1]);
+
+            if (!params[key]) {
+                params[key] = value;
+            } else if (Array.isArray(params[key])) {
+                params[key].push(value);
+            } else {
+                params[key] = [params[key], value];
+            }
+        }
+
+        return params;
     };
 
     self.generateUri = function (base, params) {

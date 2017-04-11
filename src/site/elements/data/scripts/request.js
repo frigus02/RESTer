@@ -73,14 +73,16 @@
 
         for (let key in rawData) {
             if (rawData.hasOwnProperty(key)) {
-                const value = rawData[key];
-                const fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
+                const values = Array.isArray(rawData[key]) ? rawData[key] : [rawData[key]];
+                for (let value of values) {
+                    const fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
 
-                if (fileMatch) {
-                    const file = variableValues[fileMatch[1]];
-                    formData.append(key, file, file.name);
-                } else {
-                    formData.append(key, value);
+                    if (fileMatch) {
+                        const file = variableValues[fileMatch[1]];
+                        formData.append(key, file, file.name);
+                    } else {
+                        formData.append(key, value);
+                    }
                 }
             }
         }
