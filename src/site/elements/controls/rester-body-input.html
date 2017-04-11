@@ -165,6 +165,12 @@
                     }
                 },
 
+                notifyVisibilityChanged() {
+                    if (this.selectedInputOption.isInputTypeAce) {
+                        this.$$('rester-ace-input').notifyVisibilityChanged();
+                    }
+                },
+
                 _onContentTypeChanged() {
                     const lowerContentType = (this.contentType || '').toLowerCase();
                     const newOption = this.inputOptions.find(option =>

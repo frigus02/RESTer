@@ -235,7 +235,8 @@
                     },
                     requestSelectedTab: {
                         type: Number,
-                        value: 0
+                        value: 0,
+                        observer: '_onRequestSelectedTabChanged'
                     },
                     requestContentType: {
                         type: String,
@@ -358,6 +359,12 @@
                         });
                         this.requestVariableValues = {};
                         this._setResponse(null);
+                    }
+                },
+
+                _onRequestSelectedTabChanged() {
+                    if (this.requestSelectedTab === 1) {
+                        this.$.bodyInput.notifyVisibilityChanged();
                     }
                 },
 

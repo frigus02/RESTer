@@ -211,6 +211,22 @@
                     this._oldValue = '';
                 },
 
+                /**
+                 * If the value is updated while the ACE editor is not
+                 * visible on the screen (e.g. it's inside of a hidden
+                 * div), the editor is not redrawn once it gets visible.
+                 *
+                 * To fix this, elements should call this method as soon
+                 * as the editor gets visible again.
+                 */
+                notifyVisibilityChanged() {
+                    if (!this._editor) {
+                        return;
+                    }
+
+                    this._editor.resize();
+                },
+
                 _onValueChanged() {
                     if (!this._editor || this.value === this._oldValue) {
                         return;
