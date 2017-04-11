@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../data/rester-data-theme-behavior.html">
+
 <dom-module id="rester-highlight-headers">
     <template>
         <style>
@@ -9,17 +11,34 @@
                 font-size: 12px;
                 font-weight: 400;
                 line-height: 16px;
-                background-color: rgb(20, 20, 20);
                 padding: 4px;
                 margin-bottom: 16px;
             }
 
-            .name {
+            :host([theme="dark"]) {
+                background-color: #141414;
+                color: #F8F8F8;
+            }
+
+            :host([theme="dark"]) .name {
                 color: #7587A6;
             }
 
-            .value {
+            :host([theme="dark"]) .value {
                 color: #8F9D6A;
+            }
+
+            :host([theme="light"]) {
+                background-color: #f5f5f5;
+                color: #000;
+            }
+
+            :host([theme="light"]) .name {
+                color: #318495;
+            }
+
+            :host([theme="light"]) .value {
+                color: #1A1AA6;
             }
         </style>
 
@@ -37,6 +56,10 @@
 
             Polymer({
                 is: 'rester-highlight-headers',
+
+                behaviors: [
+                    RESTer.ThemeBehavior
+                ],
 
                 properties: {
                     headers: {

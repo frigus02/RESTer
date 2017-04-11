@@ -13,7 +13,8 @@
         responseBodyWrap: true,
         responseBodyPrettyPrint: true,
         responseBodyFullSize: false,
-        responseBodyPreview: false
+        responseBodyPreview: false,
+        theme: 'dark'
     };
 
     function getSettings() {

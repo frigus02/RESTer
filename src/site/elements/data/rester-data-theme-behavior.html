@@ -1,0 +1,45 @@
+<link rel="import" href="rester-data.html">
+
+<script>
+    (function () {
+        'use strict';
+
+        /**
+         * Makes RESTer theme available in property and attribute `theme`.
+         *
+         * @polymerBehavior RESTer.ThemeBehavior
+         */
+        RESTer.ThemeBehavior = {
+            properties: {
+                theme: {
+                    type: String,
+                    readOnly: true,
+                    reflectToAttribute: true
+                }
+            },
+
+            ready() {
+                this._setTheme(RESTer.rester.settings.theme);
+                this._onSettingsChanged = this._onSettingsChanged.bind(this);
+            },
+
+            attached() {
+                RESTer.rester.addEventListener('settingsChange', this._onSettingsChanged);
+            },
+
+            detached() {
+                RESTer.rester.removeEventListener('settingsChange', this._onSettingsChanged);
+            },
+
+            _onSettingsChanged(changedSettings) {
+                if (changedSettings.theme) {
+                    this._setTheme(changedSettings.theme);
+
+                    if (this._onThemeChanged) {
+                        this._onThemeChanged(this.theme);
+                    }
+                }
+            }
+        };
+    })();
+</script>

@@ -12,6 +12,7 @@
 
 <link rel="import" href="data/rester-data-hotkeys-behavior.html">
 <link rel="import" href="data/rester-data-settings-behavior.html">
+<link rel="import" href="data/rester-data-theme-behavior.html">
 <link rel="import" href="data/rester-data.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
 <link rel="import" href="layout/rester-navigation-list.html">
@@ -47,6 +48,14 @@
                 @apply(--paper-font-common-base);
             }
 
+            :host([theme="light"]) {
+                --primary-text-color: var(--light-theme-text-color);
+                --primary-background-color: var(--light-theme-background-color);
+                --secondary-text-color: var(--light-theme-secondary-color);
+                --disabled-text-color: var(--light-theme-disabled-color);
+                --divider-color: var(--light-theme-divider-color);
+            }
+
             paper-drawer-panel {
                 --paper-drawer-panel-drawer-container: {
                     background-color: var(--primary-background-color);
@@ -58,6 +67,7 @@
                 --paper-toolbar-background: none;
                 --paper-toolbar-title: {
                     margin-left: 0;
+                    color: var(--primary-text-color);
                 };
                 --paper-toolbar: {
                     border-bottom: 1px solid var(--divider-color);
@@ -131,7 +141,8 @@
 
                 behaviors: [
                     RESTer.HotkeysBehavior,
-                    RESTer.SettingsBehavior
+                    RESTer.SettingsBehavior,
+                    RESTer.ThemeBehavior
                 ],
 
                 properties: {
@@ -214,6 +225,12 @@
 
                 _onNavigationItemActivated() {
                     this.$.drawer.closeDrawer();
+                },
+
+                _onThemeChanged(theme) {
+                    // index.html will pick up the theme from localStorage
+                    // to show the splash screen in the correct colors.
+                    window.localStorage.theme = theme;
                 },
 
                 _showShortcuts(e) {

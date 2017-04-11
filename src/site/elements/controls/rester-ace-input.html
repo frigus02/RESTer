@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <script src="../../bower_components/ace-builds/src-min-noconflict/ace.js"></script>
 
+<link rel="import" href="../data/rester-data-theme-behavior.html">
 <link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-ace-input">
@@ -134,6 +135,7 @@
                 behaviors: [
                     RESTer.AceShadowDomBehavior,
                     RESTer.InputControlBehavior,
+                    RESTer.ThemeBehavior,
                     Polymer.IronFormElementBehavior
                 ],
 
@@ -186,7 +188,6 @@
                     this._editor = ace.edit(this.$.editor);
                     this._findCommand = this._editor.commands.commands.find;
 
-                    this._editor.setTheme('ace/theme/twilight');
                     this._editor.setOption('minLines', 5);
                     this._editor.$blockScrolling = Infinity;
                     this._editor.on('change', () => {
@@ -203,6 +204,7 @@
                     this._onUseWrapModeChanged();
                     this._onMaxLinesChanged();
                     this._onValueChanged();
+                    this._onThemeChanged();
                 },
 
                 detached() {
@@ -285,6 +287,20 @@
                         this._editor.commands.removeCommand('find');
                     } else {
                         this._editor.commands.addCommand(this._findCommand);
+                    }
+                },
+
+                _onThemeChanged() {
+                    if (!this._editor) {
+                        return;
+                    }
+
+                    if (this.theme === 'dark') {
+                        this._editor.setTheme('ace/theme/twilight');
+                        this.$.editor.style.removeProperty('background-color');
+                    } else {
+                        this._editor.setTheme('ace/theme/chrome');
+                        this.$.editor.style.backgroundColor = '#f5f5f5';
                     }
                 }
             });

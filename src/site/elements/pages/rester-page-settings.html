@@ -33,6 +33,18 @@
             </paper-toolbar>
             <div role="main">
                 <div class="setting">
+                    <paper-dropdown-menu label="Theme">
+                        <paper-listbox
+                                class="dropdown-content"
+                                selected="{{settings.theme}}"
+                                attr-for-selected="value">
+                            <paper-item value="dark">Dark</paper-item>
+                            <paper-item value="light">Light</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </div>
+
+                <div class="setting">
                     <paper-toggle-button checked="{{settings.enableRequestLintInspections}}">
                         Inspections for requests
                     </paper-toggle-button>
