@@ -27,7 +27,7 @@ paper-subheader
 https://github.com/Collaborne/paper-subheader/blob/1.0.8/paper-subheader.html
 
 app-route
-https://github.com/PolymerElements/app-route/blob/v0.9.3/app-route.html
+https://github.com/PolymerElements/app-route/blob/v1.0.0/app-route.html
 
 iron-a11y-keys
 https://github.com/PolymerElements/iron-a11y-keys/blob/v1.0.7/iron-a11y-keys.html
@@ -42,7 +42,7 @@ iron-collapse
 https://github.com/PolymerElements/iron-collapse/blob/v1.3.0/iron-collapse.html
 
 iron-flex-layout
-https://github.com/PolymerElements/iron-flex-layout/blob/v1.3.2/iron-flex-layout.html
+https://github.com/PolymerElements/iron-flex-layout/blob/v1.3.3/iron-flex-layout.html
 
 iron-form
 https://github.com/PolymerElements/iron-form/blob/v1.1.4/iron-form.html
@@ -122,19 +122,19 @@ paper-progress
 https://github.com/PolymerElements/paper-progress/blob/v1.0.11/paper-progress.html
 
 paper-radio-button
-https://github.com/PolymerElements/paper-radio-button/blob/v1.3.1/paper-radio-button.html
+https://github.com/PolymerElements/paper-radio-button/blob/v1.3.3/paper-radio-button.html
 
 paper-radio-group
 https://github.com/PolymerElements/paper-radio-group/blob/v1.2.1/paper-radio-group.html
 
 paper-slider
-https://github.com/PolymerElements/paper-slider/blob/v1.0.13/paper-slider.html
+https://github.com/PolymerElements/paper-slider/blob/v1.0.15/paper-slider.html
 
 paper-spinner
 https://github.com/PolymerElements/paper-spinner/blob/v1.2.1/paper-spinner.html
 
 paper-styles
-https://github.com/PolymerElements/paper-styles/blob/v1.2.0/paper-styles.html
+https://github.com/PolymerElements/paper-styles/blob/v1.2.1/paper-styles.html
 
 paper-tabs
 https://github.com/PolymerElements/paper-tabs/blob/v1.8.0/paper-tabs.html
@@ -149,13 +149,13 @@ paper-tooltip
 https://github.com/PolymerElements/paper-tooltip/blob/v1.1.3/paper-tooltip.html
 
 polymer
-https://github.com/Polymer/polymer/blob/v1.8.1/polymer.html
+https://github.com/Polymer/polymer/blob/v1.9.0/polymer.html
 
 lodash
 https://github.com/lodash/lodash/blob/4.16.2/dist/lodash.min.js
 
 mousetrap
-https://github.com/ccampbell/mousetrap/blob/1.6.0/mousetrap.min.js
+https://github.com/ccampbell/mousetrap/blob/1.6.1/mousetrap.min.js
 
 string_score
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.min.js
