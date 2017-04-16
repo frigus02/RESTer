@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.3.0] - 2017-04-16
+### Added
+- Add a lite theme, which can be selected on the settings page.
+- Support for public OAuth 2 clients, which don't require a client secret.
+
+### Fixed
+- The dropdown for the request method was hidden underneath the body input, when the body tab was selected. It's not anymore.
+- All fonts are now included in the extension, so it should no longer require an internet connection to load correctly.
+- It was possible that the body input looked like it wasn't updated, when switching requests. Now it should always show the correct content.
+- For `multipart/form-data` requests it was not possible to add a key multiple times, creating an array of values. Also the keys were incorrectly encoded. This should be fixed.
+
 ## [2.2.0] - 2017-03-05
 ### Added
 - Add option to view response body full size. This removes the extra scrolling for the response body. However, when the body is very big, this might slow down your browser.
@@ -240,7 +251,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.2.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.3.0...HEAD
+[2.3.0]: https://github.com/frigus02/RESTer/compare/2.2.0...2.3.0
 [2.2.0]: https://github.com/frigus02/RESTer/compare/2.1.1...2.2.0
 [2.1.1]: https://github.com/frigus02/RESTer/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/frigus02/RESTer/compare/2.0.1...2.1.0
