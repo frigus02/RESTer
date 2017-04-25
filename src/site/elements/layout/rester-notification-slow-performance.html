@@ -165,7 +165,7 @@
                 },
 
                 _onDataSlowPerformance(details) {
-                    const seconds = (details.lastDuration / 1000).toFixed(1);
+                    const seconds = (details.duration / 1000).toFixed(1);
                     this._setDescription(`The last operation took ${seconds}s to complete. Clean up some old history to speed it up.`);
                     this._setVisible(true);
                 },

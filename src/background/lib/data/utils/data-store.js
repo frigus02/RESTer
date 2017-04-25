@@ -285,7 +285,10 @@
                 chrome.storage.local[op](keys, result => {
                     const millis = performance.now() - start;
                     if (millis > 500) {
-                        rester.data.onSlowPerformance.emit(`Operation storage.local.${op}(...) took ${Math.round(millis)}ms.`);
+                        rester.data.onSlowPerformance.emit({
+                            operation: `storage.local.${op}(...)`,
+                            duration: Math.round(millis)
+                        });
                     }
 
                     if (chrome.runtime.lastError) {
