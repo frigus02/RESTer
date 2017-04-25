@@ -96,6 +96,29 @@
                     ]
                 });
             });
+
+            test('replaceWithoutProvidedValues does not use provided values', function () {
+                RESTer.variables.providedValues = {
+                    '$env.host': 'example.com'
+                };
+
+                const values = {
+                    '$env.host': 'mycoolsite.com',
+                    id: 12
+                };
+                const newObject = RESTer.variables.replace(fakeObject, values);
+
+                assert.deepEqual(newObject, {
+                    title: 'Post by ID',
+                    url: 'https://mycoolsite.com/api/posts/12',
+                    headers: [
+                        {
+                            name: 'Authorization',
+                            value: 'Bearer {token}'
+                        }
+                    ]
+                });
+            });
         });
     </script>
 </body>

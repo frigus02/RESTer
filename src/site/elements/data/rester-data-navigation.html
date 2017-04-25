@@ -170,7 +170,7 @@
 
                     let compiledRequest = historyEntry.request;
                     if (historyEntry.request.variables.enabled) {
-                        compiledRequest = RESTer.variables.replace(historyEntry.request, historyEntry.request.variables.values);
+                        compiledRequest = RESTer.variables.replaceWithoutProvidedValues(historyEntry.request, historyEntry.request.variables.values);
                     }
 
                     return {
