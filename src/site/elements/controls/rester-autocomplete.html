@@ -111,6 +111,10 @@
                     inputValue: {
                         type: String,
                         readOnly: true
+                    },
+                    sortByIndex: {
+                        type: Boolean,
+                        value: false
                     }
                 },
 
@@ -170,6 +174,10 @@
                 },
 
                 _isItemVisible(item, value) {
+                    if (!item) {
+                        return false;
+                    }
+
                     if (this.itemTemplate === 'two-line-score') {
                         const index = this.items.indexOf(item);
                         if (value) {
@@ -190,7 +198,9 @@
                 },
 
                 _compareItems(itemA, itemB) {
-                    if (this.itemTemplate === 'two-line-score') {
+                    if (this.sortByIndex) {
+                        return this.items.indexOf(itemA) - this.items.indexOf(itemB);
+                    } if (this.itemTemplate === 'two-line-score') {
                         return itemB.score - itemA.score;
                     } else {
                         return itemA.localeCompare(itemB);

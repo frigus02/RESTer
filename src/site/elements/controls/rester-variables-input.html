@@ -5,6 +5,7 @@
 
 <link rel="import" href="../data/rester-data-variables-behavior.html">
 <link rel="import" href="../data/rester-data.html">
+<link rel="import" href="rester-autocomplete-input.html">
 
 <dom-module id="rester-variables-input">
     <template>
@@ -26,11 +27,13 @@
         </paper-toggle-button>
 
         <template is="dom-repeat" items="[[variables]]" sort="_compareVariables">
-            <paper-input
+            <rester-autocomplete-input
                     label="[[item.name]]"
                     value="{{item.value}}"
                     on-value-changed="_onVariableValueChanged"
-                    disabled$="[[!enabled]]"></paper-input>
+                    items="[[item.history]]"
+                    sort-by-index
+                    disabled$="[[!enabled]]"></rester-autocomplete-input>
         </template>
         <template is="dom-repeat" items="[[providedVariables]]" sort="_compareVariables">
             <paper-input
@@ -43,8 +46,6 @@
     <script>
         (function () {
             'use strict';
-
-            const CACHED_VARIABLE_VALUES = {};
 
             Polymer({
                 is: 'rester-variables-input',
@@ -74,12 +75,42 @@
                     providedVariables: {
                         type: Array,
                         readOnly: true
+                    },
+                    lastUsedVariables: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    variableHistory: {
+                        type: Object,
+                        readOnly: true
                     }
                 },
 
                 observers: [
                     '_updateVariables(sourceObj.*, providedVariableValues)'
                 ],
+
+                created() {
+                    this._onDataChanges = this._onDataChanges.bind(this);
+                },
+
+                attached() {
+                    this._setLastUsedVariables({});
+                    this._setVariableHistory({});
+
+                    RESTer.rester.getHistoryEntries(25, ['request.variables.values']).then(entries => {
+                        entries.reverse();
+                        for (let entry of entries) {
+                            this._addHistoryEntryToVariableHistory(entry);
+                        }
+                    });
+
+                    RESTer.rester.addEventListener('dataChange', this._onDataChanges);
+                },
+
+                detached() {
+                    RESTer.rester.removeEventListener('dataChange', this._onDataChanges);
+                },
 
                 _updateVariables() {
                     if (!this.value) {
@@ -94,15 +125,21 @@
 
                         for (let varName of varNames) {
                             if (this.value[varName]) {
-                                CACHED_VARIABLE_VALUES[varName] = this.value[varName];
+                                this.set(['lastUsedVariables', varName], this.value[varName]);
+                            } else if (this.lastUsedVariables[varName]) {
+                                this.set(['value', varName], this.lastUsedVariables[varName]);
+                            } else if (this.variableHistory[varName]) {
+                                this.set(['lastUsedVariables', varName], this.variableHistory[varName][0]);
+                                this.set(['value', varName], this.variableHistory[varName][0]);
                             } else {
-                                this.set(`value.${varName}`, CACHED_VARIABLE_VALUES[varName]);
+                                this.set(['value', varName], '');
                             }
                         }
 
                         this._setVariables(varNames.map(varName => ({
                             name: varName,
-                            value: values[varName]
+                            value: values[varName],
+                            history: this.variableHistory[varName] || []
                         })));
 
                         this._setProvidedVariables(providedVarNames.map(varName => ({
@@ -121,14 +158,50 @@
                     if (!this.value) {
                         this.value = { [variable.name]: variable.value };
                     } else {
-                        this.set(`value.${variable.name}`, variable.value);
+                        this.set(['value', variable.name], variable.value);
                     }
 
-                    CACHED_VARIABLE_VALUES[variable.name] = variable.value;
+                    this.set(['lastUsedVariables', variable.name], variable.value);
+                },
+
+                _onDataChanges(changes) {
+                    for (let change of changes) {
+                        if (change.itemType === 'HistoryEntry' && change.action === 'add') {
+                            this._addHistoryEntryToVariableHistory(change.item);
+                        }
+                    }
+                },
+
+                _addHistoryEntryToVariableHistory(entry) {
+                    const values = entry.request.variables.values || {};
+                    for (let name in values) {
+                        if (values.hasOwnProperty(name)) {
+                            if (!this.variableHistory.hasOwnProperty(name)) {
+                                this.set(['variableHistory', name], [values[name]]);
+                            } else {
+                                const index = this.variableHistory[name].indexOf(values[name]);
+                                if (index > -1) {
+                                    this.splice(['variableHistory', name], index, 1);
+                                }
+
+                                this.unshift(['variableHistory', name], values[name]);
+                            }
+
+                            // Update the history property in the variable item, which is used
+                            // in the dom-repeat element.
+                            if (this.variables) {
+                                const index = this.variables.findIndex(v => v.name === name);
+                                if (index > -1) {
+                                    this.set(['variables', index, 'history'], []);
+                                    this.set(['variables', index, 'history'], this.variableHistory[name]);
+                                }
+                            }
+                        }
+                    }
                 },
 
                 _compareVariables(a, b) {
-                    return a.name.localeCompare(b.title);
+                    return a.name.localeCompare(b.name);
                 }
             });
         })();

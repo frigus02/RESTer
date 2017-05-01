@@ -16,7 +16,8 @@
 
         <paper-input-container
                 no-label-float="[[noLabelFloat]]"
-                invalid="[[invalid]]">
+                invalid="[[invalid]]"
+                disabled$="[[disabled]]">
             <label for="input">[[label]]</label>
             <input is="iron-input" id="input"
                     bind-value="{{value}}"
@@ -25,12 +26,14 @@
                     autocomplete="off"
                     name$="[[name]]"
                     autofocus$="[[autofocus]]"
-                    required$="[[required]]">
+                    required$="[[required]]"
+                    disabled$="[[disabled]]">
             <rester-autocomplete
                     prefix
                     for="input"
                     items="[[items]]"
-                    dropdown-items-visible="[[dropdownItemsVisible]]"></rester-autocomplete>
+                    dropdown-items-visible="[[dropdownItemsVisible]]"
+                    sort-by-index="[[sortByIndex]]"></rester-autocomplete>
         </paper-input-container>
     </template>
 
@@ -59,11 +62,17 @@
                         type: Number,
                         value: 4.7
                     },
+                    sortByIndex: {
+                        type: Boolean,
+                        value: false
+                    },
                     invalid: {
                         type: Boolean,
                         value: false,
                         notify: true
-                    }
+                    },
+                    required: Boolean,
+                    disabled: Boolean
                 },
 
                 get _focusableElement() {

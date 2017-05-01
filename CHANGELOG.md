@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Variable inputs now have a dropdown with the last used values.
 
 ## [2.3.0] - 2017-04-16
 ### Added
