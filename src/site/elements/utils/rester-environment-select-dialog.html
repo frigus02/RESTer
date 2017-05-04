@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+
+<link rel="import" href="../data/rester-data-settings-behavior.html">
+
+<dom-module id="rester-environment-select-dialog">
+    <template>
+        <style>
+            paper-dialog {
+                max-width: 600px;
+            }
+
+            paper-radio-button {
+                display: block;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close>
+            <paper-dialog-scrollable>
+                <paper-radio-group selected="{{settings.activeEnvironment}}" on-paper-radio-group-changed="_close">
+                    <template is="dom-repeat" items="[[environments]]" as="env" sort="_compareEnvironments">
+                        <paper-radio-button name="[[env.id]]">
+                            <div>[[env.name]]</div>
+                        </paper-radio-button>
+                    </template>
+                </paper-radio-group>
+            </paper-dialog-scrollable>
+        </paper-dialog>
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'rester-environment-select-dialog',
+
+                behaviors: [
+                    RESTer.SettingsBehavior
+                ],
+
+                properties: {
+                    environments: {
+                        type: Array,
+                        readOnly: true
+                    }
+                },
+
+                show() {
+                    RESTer.rester.getEnvironments().then(envs => {
+                        this._setEnvironments(envs);
+                        this.$.dialog.open();
+                    });
+                },
+
+                _compareEnvironments(a, b) {
+                    return a.name.localeCompare(b.name);
+                },
+
+                _close() {
+                    this.$.dialog.close();
+                }
+            });
+        })();
+    </script>
+</dom-module>

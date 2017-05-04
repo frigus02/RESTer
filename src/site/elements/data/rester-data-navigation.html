@@ -95,6 +95,16 @@
                             subtitle: activeEnvironment && activeEnvironment.name,
                             action: {
                                 url: '#/environments'
+                            },
+                            secondaryAction: {
+                                icon: 'more-vert',
+                                handler() {
+                                    const resterApp = document.querySelector('rester-app');
+                                    const resterEnvSelectDialog = Polymer.dom(resterApp.root).querySelector('rester-environment-select-dialog');
+                                    if (resterEnvSelectDialog) {
+                                        resterEnvSelectDialog.show();
+                                    }
+                                }
                             }
                         };
                         this.push('items', this._environmentNavItem);

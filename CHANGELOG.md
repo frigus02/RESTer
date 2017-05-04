@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Added
 - Variable inputs now have a dropdown with the last used values.
+- If you have many environments, you might appreciate a quick environment selection dialog. You can now press Ctrl+Shift+E or click on the icon in the environments navigation item to bring it up. This allows to easier to select an environment without leaving the current request.
 
 ## [2.3.0] - 2017-04-16
 ### Added

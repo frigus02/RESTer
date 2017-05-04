@@ -18,6 +18,7 @@
 <link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-notifications.html">
 <link rel="import" href="layout/rester-pages.html">
+<link rel="import" href="utils/rester-environment-select-dialog.html">
 <link rel="import" href="utils/rester-error.html">
 <link rel="import" href="utils/rester-hotkeys-cheat-sheet.html">
 <link rel="import" href="utils/rester-quick-open-dialog.html">
@@ -130,6 +131,7 @@
         <rester-error></rester-error>
         <rester-hotkeys-cheat-sheet id="cheatSheet"></rester-hotkeys-cheat-sheet>
         <rester-quick-open-dialog id="quickOpenDialog"></rester-quick-open-dialog>
+        <rester-environment-select-dialog id="environmentSelectDialog"></rester-environment-select-dialog>
     </template>
 
     <script>
@@ -192,6 +194,10 @@
                     'mod+e': {
                         description: 'Cycle through environments.',
                         callback: '_activateNextEnvironment'
+                    },
+                    'mod+shift+e': {
+                        description: 'Open environment selection dialog.',
+                        callback: '_showEnvironmentSelectDialog'
                     }
                 },
 
@@ -258,6 +264,10 @@
 
                         this.settings.activeEnvironment = newEnv.id;
                     });
+                },
+
+                _showEnvironmentSelectDialog() {
+                    this.$.environmentSelectDialog.show();
                 }
             });
         })();
