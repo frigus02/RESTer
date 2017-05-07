@@ -18,7 +18,7 @@ https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-json
 https://github.com/ajaxorg/ace-builds/blob/v1.2.6/src-min-noconflict/worker-xml.js
 
 DOMPurify
-https://github.com/cure53/DOMPurify/blob/0.8.5/dist/purify.min.js
+https://github.com/cure53/DOMPurify/blob/0.8.9/dist/purify.min.js
 
 lodash-element
 https://github.com/Waxolunist/lodash-element/blob/v1.0.2/lodash.js.html
@@ -27,55 +27,55 @@ paper-subheader
 https://github.com/Collaborne/paper-subheader/blob/1.0.8/paper-subheader.html
 
 app-route
-https://github.com/PolymerElements/app-route/blob/v1.0.0/app-route.html
+https://github.com/PolymerElements/app-route/blob/v1.0.1/app-route.html
 
 iron-a11y-keys
-https://github.com/PolymerElements/iron-a11y-keys/blob/v1.0.7/iron-a11y-keys.html
+https://github.com/PolymerElements/iron-a11y-keys/blob/v1.0.9/iron-a11y-keys.html
 
 iron-a11y-keys-behavior
 https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/v1.1.9/iron-a11y-keys-behavior.html
 
 iron-behaviors
-https://github.com/PolymerElements/iron-behaviors/blob/v1.0.17/iron-behaviors.html
+https://github.com/PolymerElements/iron-behaviors/blob/v1.0.18/iron-behaviors.html
 
 iron-collapse
 https://github.com/PolymerElements/iron-collapse/blob/v1.3.0/iron-collapse.html
 
 iron-flex-layout
-https://github.com/PolymerElements/iron-flex-layout/blob/v1.3.3/iron-flex-layout.html
+https://github.com/PolymerElements/iron-flex-layout/blob/v1.3.7/iron-flex-layout.html
 
 iron-form
 https://github.com/PolymerElements/iron-form/blob/v1.1.4/iron-form.html
 
 iron-form-element-behavior
-https://github.com/PolymerElements/iron-form-element-behavior/blob/v1.0.6/iron-form-element-behavior.html
+https://github.com/PolymerElements/iron-form-element-behavior/blob/v1.0.7/iron-form-element-behavior.html
 
 iron-icon
 https://github.com/PolymerElements/iron-icon/blob/v1.0.10/iron-icon.html
 
 iron-icons
-https://github.com/PolymerElements/iron-icons/blob/v1.2.0/iron-icons.html
+https://github.com/PolymerElements/iron-icons/blob/v1.2.1/iron-icons.html
 
 iron-input
-https://github.com/PolymerElements/iron-input/blob/v1.0.10/iron-input.html
+https://github.com/PolymerElements/iron-input/blob/v1.0.11/iron-input.html
 
 iron-media-query
 https://github.com/PolymerElements/iron-media-query/blob/v1.0.8/iron-media-query.html
 
 iron-pages
-https://github.com/PolymerElements/iron-pages/blob/v1.0.8/iron-pages.html
+https://github.com/PolymerElements/iron-pages/blob/v1.0.9/iron-pages.html
 
 iron-selector
-https://github.com/PolymerElements/iron-selector/blob/v1.5.2/iron-selector.html
+https://github.com/PolymerElements/iron-selector/blob/v1.5.3/iron-selector.html
 
 neon-animation
-https://github.com/PolymerElements/neon-animation/blob/v1.2.4/neon-animation.html
+https://github.com/PolymerElements/neon-animation/blob/v1.2.5/neon-animation.html
 
 paper-badge
 https://github.com/PolymerElements/paper-badge/blob/v1.1.4/paper-badge.html
 
 paper-button
-https://github.com/PolymerElements/paper-button/blob/v1.0.14/paper-button.html
+https://github.com/PolymerElements/paper-button/blob/v1.0.15/paper-button.html
 
 paper-checkbox
 https://github.com/PolymerElements/paper-checkbox/blob/v1.4.2/paper-checkbox.html
@@ -90,42 +90,42 @@ paper-drawer-panel
 https://github.com/PolymerElements/paper-drawer-panel/blob/v1.0.11/paper-drawer-panel.html
 
 paper-dropdown-menu
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v1.5.0/paper-dropdown-menu.html
+https://github.com/PolymerElements/paper-dropdown-menu/blob/v1.5.1/paper-dropdown-menu.html
 
 paper-fab
-https://github.com/PolymerElements/paper-fab/blob/v1.2.1/paper-fab.html
+https://github.com/PolymerElements/paper-fab/blob/v1.2.2/paper-fab.html
 
 paper-header-panel
 https://github.com/PolymerElements/paper-header-panel/blob/v1.1.7/paper-header-panel.html
 
 paper-icon-button
-https://github.com/PolymerElements/paper-icon-button/blob/v1.1.4/paper-icon-button.html
+https://github.com/PolymerElements/paper-icon-button/blob/v1.1.6/paper-icon-button.html
 
 paper-input
-https://github.com/PolymerElements/paper-input/blob/v1.1.23/paper-input.html
+https://github.com/PolymerElements/paper-input/blob/v1.1.24/paper-input.html
 
 paper-item
-https://github.com/PolymerElements/paper-item/blob/v1.2.1/paper-icon-item.html
-https://github.com/PolymerElements/paper-item/blob/v1.2.1/paper-item-body.html
-https://github.com/PolymerElements/paper-item/blob/v1.2.1/paper-item.html
+https://github.com/PolymerElements/paper-item/blob/v1.2.2/paper-icon-item.html
+https://github.com/PolymerElements/paper-item/blob/v1.2.2/paper-item-body.html
+https://github.com/PolymerElements/paper-item/blob/v1.2.2/paper-item.html
 
 paper-listbox
-https://github.com/PolymerElements/paper-listbox/blob/v1.1.2/paper-listbox.html
+https://github.com/PolymerElements/paper-listbox/blob/v1.1.3/paper-listbox.html
 
 paper-menu
-https://github.com/PolymerElements/paper-menu/blob/v1.2.2/paper-menu.html
+https://github.com/PolymerElements/paper-menu/blob/v1.3.0/paper-menu.html
 
 paper-menu-button
 https://github.com/PolymerElements/paper-menu-button/blob/v1.5.2/paper-menu-button.html
 
 paper-progress
-https://github.com/PolymerElements/paper-progress/blob/v1.0.11/paper-progress.html
+https://github.com/PolymerElements/paper-progress/blob/v1.0.12/paper-progress.html
 
 paper-radio-button
-https://github.com/PolymerElements/paper-radio-button/blob/v1.3.3/paper-radio-button.html
+https://github.com/PolymerElements/paper-radio-button/blob/v1.4.0/paper-radio-button.html
 
 paper-radio-group
-https://github.com/PolymerElements/paper-radio-group/blob/v1.2.1/paper-radio-group.html
+https://github.com/PolymerElements/paper-radio-group/blob/v1.2.2/paper-radio-group.html
 
 paper-slider
 https://github.com/PolymerElements/paper-slider/blob/v1.0.15/paper-slider.html
@@ -146,10 +146,10 @@ paper-toolbar
 https://github.com/PolymerElements/paper-toolbar/blob/v1.1.7/paper-toolbar.html
 
 paper-tooltip
-https://github.com/PolymerElements/paper-tooltip/blob/v1.1.3/paper-tooltip.html
+https://github.com/PolymerElements/paper-tooltip/blob/v1.1.4/paper-tooltip.html
 
 polymer
-https://github.com/Polymer/polymer/blob/v1.9.0/polymer.html
+https://github.com/Polymer/polymer/blob/v1.9.1/polymer.html
 
 lodash
 https://github.com/lodash/lodash/blob/4.16.2/dist/lodash.min.js
