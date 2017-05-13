@@ -19,7 +19,10 @@
             },
 
             ready() {
-                this._setTheme(RESTer.rester.settings.theme);
+                RESTer.rester.settingsLoaded.then(() => {
+                    this._setThemeAndCallChangedListener(RESTer.rester.settings.theme);
+                });
+
                 this._onSettingsChanged = this._onSettingsChanged.bind(this);
             },
 
@@ -31,13 +34,17 @@
                 RESTer.rester.removeEventListener('settingsChange', this._onSettingsChanged);
             },
 
+            _setThemeAndCallChangedListener(newTheme) {
+                this._setTheme(newTheme);
+
+                if (this._onThemeChanged) {
+                    this._onThemeChanged(this.theme);
+                }
+            },
+
             _onSettingsChanged(changedSettings) {
                 if (changedSettings.theme) {
-                    this._setTheme(changedSettings.theme);
-
-                    if (this._onThemeChanged) {
-                        this._onThemeChanged(this.theme);
-                    }
+                    this._setThemeAndCallChangedListener(changedSettings.theme);
                 }
             }
         };
