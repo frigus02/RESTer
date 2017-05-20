@@ -9,22 +9,17 @@
 
 <dom-module id="rester-variables-input">
     <template>
-        <style>
+        <style include="rester-hint">
             :host {
                 display: block;
             }
         </style>
 
-        <p>
-            You can use placeholders everywhere in the request by specifying variable names in
-            curly brackets, e.g. <code>{id}</code> or <code>{title}</code>. Below you will see
-            input fields for each variable mentioned in the request. Variable values will not be
-            saved with the request. Instead values are shared between requests.
+        <p class="hint">
+            You can use placeholders everywhere in the request with curly brackets,
+            e.g. <code>{id}</code> or <code>{title}</code>. Below you see input fields
+            for each of these variables.
         </p>
-
-        <paper-toggle-button checked="{{enabled}}">
-            Enable variables for this request
-        </paper-toggle-button>
 
         <template is="dom-repeat" items="[[variables]]" sort="_compareVariables">
             <rester-autocomplete-input
@@ -32,8 +27,7 @@
                     value="{{item.value}}"
                     on-value-changed="_onVariableValueChanged"
                     items="[[item.history]]"
-                    sort-by-index
-                    disabled$="[[!enabled]]"></rester-autocomplete-input>
+                    sort-by-index></rester-autocomplete-input>
         </template>
         <template is="dom-repeat" items="[[providedVariables]]" sort="_compareVariables">
             <paper-input
@@ -63,10 +57,6 @@
                     },
                     sourceObj: {
                         type: Object
-                    },
-                    enabled: {
-                        type: Boolean,
-                        notify: true
                     },
                     variables: {
                         type: Array,

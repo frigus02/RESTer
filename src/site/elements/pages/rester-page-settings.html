@@ -52,7 +52,6 @@
                         RESTer can analyze your request as you type and point out possible mistakes.
                         Currently this includes:
                         <ul>
-                            <li>Using placeholders without having variables enabled.</li>
                             <li>Using a variable with an empty value.</li>
                             <li>Using files in a form body without <code>multipart/form-data</code> content type.</li>
                             <li>Using an empty file input in a form body.</li>
@@ -69,6 +68,17 @@
                         headers to requests like <code>Accept</code>, <code>Accept-Charset</code>
                         or <code>User-Agent</code>. When you enable this option, RESTer will strip
                         these headers unless they are explicitly provided in a request.
+                    </div>
+                </div>
+
+                <div class="setting">
+                    <paper-toggle-button checked="{{settings.showVariablesOnSide}}">
+                        Show variables on right side
+                    </paper-toggle-button>
+                    <div class="hint">
+                        By default variables are shown in a tab. When enabling this option and the
+                        browser is wide enough, variables will be shown on the right side of the
+                        request instead.
                     </div>
                 </div>
             </div>

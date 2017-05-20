@@ -11,26 +11,28 @@
 <body>
     <script>
         suite('RESTer.format', function () {
+            'use strict';
+
             test('time returns the formatted time of the specified date', function () {
-                assert.equal(RESTer.format.time(new Date('October 23, 2015 11:25')), '11:25:00');
+                expect(RESTer.format.time(new Date('October 23, 2015 11:25'))).to.equal('11:25:00');
             });
 
             test('dateTime returns the formatted date and time of the specified date', function () {
-                assert.equal(RESTer.format.dateTime(new Date('October 23, 2015 11:25')), '23.10.2015, 11:25:00');
+                expect(RESTer.format.dateTime(new Date('October 23, 2015 11:25'))).to.equal('23.10.2015, 11:25:00');
             });
 
             test('expirationDate returns "Never expires" when given null', function () {
-                assert.equal(RESTer.format.expirationDate(null), 'Never expires');
+                expect(RESTer.format.expirationDate(null)).to.equal('Never expires');
             });
 
             test('expirationDate returns "Expired" when given a date before now', function () {
-                assert.equal(RESTer.format.expirationDate(Date.now() - 1000), 'Expired');
+                expect(RESTer.format.expirationDate(Date.now() - 1000)).to.equal('Expired');
             });
 
             test('expirationDate returns the date when given a date after now', function () {
                 const input = Date.now() + 1000;
 
-                assert.equal(RESTer.format.expirationDate(input), `Expires ${RESTer.format.dateTime(input)}`);
+                expect(RESTer.format.expirationDate(input)).to.equal(`Expires ${RESTer.format.dateTime(input)}`);
             });
         });
     </script>

@@ -11,6 +11,8 @@
 <body>
     <script>
         suite('RESTer.encode', function () {
+            'use strict';
+
             const params = {
                 $filter: "Name eq 'John'",
                 $select: 'Age,MailAddress',
@@ -20,11 +22,11 @@
             const queryString = '%24filter=Name%20eq%20\'John\'&%24select=Age%2CMailAddress&numbers=12&numbers=24';
 
             test('encodeQueryString encodes specified object into query string', function () {
-                assert.equal(RESTer.encode.encodeQueryString(params), queryString);
+                expect(RESTer.encode.encodeQueryString(params)).to.equal(queryString);
             });
 
             test('decodeQueryString decodes specified query string into object', function () {
-                assert.deepEqual(RESTer.encode.decodeQueryString(queryString), params);
+                expect(RESTer.encode.decodeQueryString(queryString)).to.deep.equal(params);
             });
 
             suite('with stubbed encodeQueryString', function () {
@@ -41,7 +43,7 @@
                 test('generateUri appends encoded params to base url', function () {
                     const baseUrl = 'https://example.com';
 
-                    assert.equal(RESTer.encode.generateUri(baseUrl, params), `${baseUrl}?${stubbedQueryString}`);
+                    expect(RESTer.encode.generateUri(baseUrl, params)).to.equal(`${baseUrl}?${stubbedQueryString}`);
                 });
             });
 
@@ -53,8 +55,8 @@
                     second: secondFile
                 });
 
-                assert.equal(result['$file.first'], firstFile);
-                assert.equal(result['$file.second'], secondFile);
+                expect(result['$file.first']).to.equal(firstFile);
+                expect(result['$file.second']).to.equal(secondFile);
             });
         });
     </script>

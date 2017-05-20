@@ -178,10 +178,7 @@
                         requestTitle = `${historyEntry.request.collection} / ${historyEntry.request.title}`;
                     }
 
-                    let compiledRequest = historyEntry.request;
-                    if (historyEntry.request.variables.enabled) {
-                        compiledRequest = RESTer.variables.replaceWithoutProvidedValues(historyEntry.request, historyEntry.request.variables.values);
-                    }
+                    const compiledRequest = RESTer.variables.replaceWithoutProvidedValues(historyEntry.request, historyEntry.request.variables.values);
 
                     return {
                         isItem: true,

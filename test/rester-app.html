@@ -16,6 +16,8 @@
     </test-fixture>
     <script>
         suite('<rester-app>', function () {
+            'use strict';
+
             let app;
 
             setup(function () {
@@ -31,30 +33,30 @@
             test('page updates based on routeData and defaults to "request"', function () {
                 app.routeData = {};
 
-                assert.equal(app.page, 'request');
+                expect(app.page).to.equal('request');
 
                 app.set('routeData.page', 'foo');
-                assert.equal(app.page, 'foo');
+                expect(app.page).to.equal('foo');
             });
 
             test('pageTitle change updates page title', function () {
                 app.pageTitle = 'Foo';
-                assert.equal(document.title, 'RESTer - Foo');
+                expect(document.title).to.equal('RESTer - Foo');
 
                 app.pageTitle = 'Bar';
-                assert.equal(document.title, 'RESTer - Bar');
+                expect(document.title).to.equal('RESTer - Bar');
             });
 
             test('responsiveWidth changes when drawer is locked', function () {
-                app.settings = { pinSidenav: false };
+                app._setSettings({ pinSidenav: false });
 
-                assert.equal(app.responsiveWidth, app.responsiveWidthMax);
+                expect(app.responsiveWidth).to.equal(app.responsiveWidthMax);
 
                 app.set('settings.pinSidenav', true);
-                assert.equal(app.responsiveWidth, app.responsiveWidthMin);
+                expect(app.responsiveWidth).to.equal(app.responsiveWidthMin);
 
                 app.set('settings.pinSidenav', false);
-                assert.equal(app.responsiveWidth, app.responsiveWidthMax);
+                expect(app.responsiveWidth).to.equal(app.responsiveWidthMax);
             });
 
             test('hotkey mod+m navigates to new request page', function () {
@@ -63,7 +65,7 @@
                 window.location = '#/test';
 
                 callback.call(app);
-                assert.equal(location.hash, '#/');
+                expect(location.hash).to.equal('#/');
             });
 
             test('hotkey mod+o, mod+p shows quick open dialog', function () {
@@ -71,11 +73,11 @@
                 const quickOpenDialog = Polymer.dom(app.root).querySelector('rester-quick-open-dialog');
 
                 callback.call(app);
-                assert(quickOpenDialog.show.calledOnce);
+                expect(quickOpenDialog.show).to.have.been.calledOnce;
             });
 
             test('hotkey mod+e cycles through environments', function () {
-                app.settings = { activeEnvironment: undefined };
+                app._setSettings({ activeEnvironment: undefined });
                 RESTer.rester.getEnvironments = sinon.stub().returns(Promise.resolve([
                     { id: 1 },
                     { id: 5 }
@@ -86,18 +88,18 @@
                 return Promise.resolve()
                     .then(() => callback.call(app))
                     .then(() => {
-                        assert(RESTer.rester.getEnvironments.calledOnce);
-                        assert.equal(1, app.settings.activeEnvironment);
+                        expect(RESTer.rester.getEnvironments).to.have.been.calledOnce;
+                        expect(app.settings.activeEnvironment).to.equal(1);
                     })
                     .then(() => callback.call(app))
                     .then(() => {
-                        assert(RESTer.rester.getEnvironments.calledTwice);
-                        assert.equal(5, app.settings.activeEnvironment);
+                        expect(RESTer.rester.getEnvironments).to.have.been.calledTwice;
+                        expect(app.settings.activeEnvironment).to.equal(5);
                     })
                     .then(() => callback.call(app))
                     .then(() => {
-                        assert(RESTer.rester.getEnvironments.calledThrice);
-                        assert.equal(1, app.settings.activeEnvironment);
+                        expect(RESTer.rester.getEnvironments).to.have.been.calledThrice;
+                        expect(app.settings.activeEnvironment).to.equal(1);
                     });
             });
         });

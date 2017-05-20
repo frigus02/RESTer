@@ -20,10 +20,10 @@
 
     rester.data.utils.migrations.migrateVariablesObject = function (variables) {
         if (!variables) {
-            return {enabled: false};
+            return {};
         } else {
-            if (!variables.hasOwnProperty('enabled')) {
-                variables.enabled = false;
+            if (variables.hasOwnProperty('enabled')) {
+                delete variables.enabled;
             }
 
             return variables;

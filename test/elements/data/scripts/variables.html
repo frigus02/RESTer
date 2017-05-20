@@ -11,6 +11,8 @@
 <body>
     <script>
         suite('RESTer.variables', function () {
+            'use strict';
+
             const fakeObject = {
                 title: 'Post by ID',
                 url: 'https://{$env.host}/api/posts/{id}',
@@ -23,7 +25,7 @@
             };
 
             test('providedValues contains aggregated values from all providers', function () {
-                assert.deepEqual({}, RESTer.variables.providedValues);
+                expect({}).to.deep.equal(RESTer.variables.providedValues);
 
                 RESTer.variables.providers.env.values = {
                     host: 'example.com',
@@ -31,16 +33,16 @@
                 };
                 RESTer.variables.providers.env.fireEvent('valuesChanged', RESTer.variables.providers.env.values);
 
-                assert.equal(Object.keys(RESTer.variables.providedValues).length, 2);
-                assert.equal(RESTer.variables.providedValues['$env.host'], 'example.com');
-                assert.equal(RESTer.variables.providedValues['$env.port'], 443);
+                expect(Object.keys(RESTer.variables.providedValues).length).to.equal(2);
+                expect(RESTer.variables.providedValues['$env.host']).to.equal('example.com');
+                expect(RESTer.variables.providedValues['$env.port']).to.equal(443);
             });
 
             test('extract aggregates placeholders from given object', function () {
                 const variables = RESTer.variables.extract(fakeObject);
 
-                assert.equal(variables.length, 3);
-                assert.deepEqual(variables, [
+                expect(variables.length).to.equal(3);
+                expect(variables).to.deep.equal([
                     '$env.host',
                     'id',
                     'token'
@@ -58,7 +60,7 @@
                 const usedValues = {};
                 const newObject = RESTer.variables.replace(fakeObject, values, usedValues);
 
-                assert.deepEqual(newObject, {
+                expect(newObject).to.deep.equal({
                     title: 'Post by ID',
                     url: 'https://example.com/api/posts/12',
                     headers: [
@@ -68,7 +70,7 @@
                         }
                     ]
                 });
-                assert.deepEqual(usedValues, {
+                expect(usedValues).to.deep.equal({
                     '$env.host': 'example.com',
                     'id': 12
                 });
@@ -85,7 +87,7 @@
                 };
                 const newObject = RESTer.variables.replace(fakeObject, values);
 
-                assert.deepEqual(newObject, {
+                expect(newObject).to.deep.equal({
                     title: 'Post by ID',
                     url: 'https://example.com/api/posts/12',
                     headers: [
@@ -106,9 +108,9 @@
                     '$env.host': 'mycoolsite.com',
                     id: 12
                 };
-                const newObject = RESTer.variables.replace(fakeObject, values);
+                const newObject = RESTer.variables.replaceWithoutProvidedValues(fakeObject, values);
 
-                assert.deepEqual(newObject, {
+                expect(newObject).to.deep.equal({
                     title: 'Post by ID',
                     url: 'https://mycoolsite.com/api/posts/12',
                     headers: [

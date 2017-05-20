@@ -14,6 +14,7 @@
         responseBodyPrettyPrint: true,
         responseBodyFullSize: false,
         responseBodyPreview: false,
+        showVariablesOnSide: false,
         theme: 'dark'
     };
 

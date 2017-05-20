@@ -45,6 +45,10 @@
                 };
             }
 
+            :host([request-show-variables-on-side]) [role="main"] {
+                max-width: 1200px;
+            }
+
             .method-input,
             .url-input {
                 margin-right: 16px;
@@ -63,6 +67,11 @@
 
             .input-tabs {
                 margin-top: 8px;
+            }
+
+            .input-side {
+                margin-top: 8px;
+                margin-left: 32px;
             }
 
             .pull-right {
@@ -114,61 +123,79 @@
             </paper-toolbar>
             <div role="main">
                 <!-- Request -->
-                <form is="iron-form" id="requestForm" on-keydown="_onFormKeyDown">
-                    <div class="layout horizontal baseline justified">
-                        <rester-autocomplete-input
-                                class="method-input"
-                                label="Method"
-                                value="{{request.method}}"
-                                items="[[requestMethods]]"
-                                required></rester-autocomplete-input>
-                        <rester-url-input
-                                class="url-input flex"
-                                label="URL"
-                                value="{{request.url}}"
-                                required></rester-url-input>
-                        <paper-button
-                                class="send-button"
-                                raised
-                                type="submit"
-                                on-tap="_sendRequest"
-                                disabled$="[[requestIsSending]]">
-                            <span hidden$="[[requestIsSending]]">Send</span>
-                            <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
-                        </paper-button>
+                <form is="iron-form" id="requestForm" on-keydown="_onFormKeyDown" class="layout horizontal">
+                    <iron-media-query
+                            query="(min-width: 1279px)"
+                            query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
+
+                    <div class="flex-3">
+                        <div class="layout horizontal baseline justified">
+                            <rester-autocomplete-input
+                                    class="method-input"
+                                    label="Method"
+                                    value="{{request.method}}"
+                                    items="[[requestMethods]]"
+                                    required></rester-autocomplete-input>
+                            <rester-url-input
+                                    class="url-input flex"
+                                    label="URL"
+                                    value="{{request.url}}"
+                                    required></rester-url-input>
+                            <paper-button
+                                    class="send-button"
+                                    raised
+                                    type="submit"
+                                    on-tap="_sendRequest"
+                                    disabled$="[[requestIsSending]]">
+                                <span hidden$="[[requestIsSending]]">Send</span>
+                                <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
+                            </paper-button>
+                        </div>
+
+                        <div class="input-tabs layout horizontal">
+                            <paper-tabs selected="{{requestSelectedTab}}">
+                                <paper-tab id="requestTab0">Headers</paper-tab>
+                                <paper-tab id="requestTab1">Body</paper-tab>
+                                <paper-tab id="requestTab2">Authorization</paper-tab>
+                                <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
+                                    <paper-tab id="requestTab3">Variables</paper-tab>
+                                </template>
+                            </paper-tabs>
+                        </div>
+                        <iron-pages selected="[[requestSelectedTab]]">
+                            <div role="tabpanel" aria-labelledby="requestTab0">
+                                <rester-header-input value="{{request.headers}}"></rester-header-input>
+                            </div>
+                            <div role="tabpanel" aria-labelledby="requestTab1">
+                                <rester-body-input
+                                        id="bodyInput"
+                                        value="{{request.body}}"
+                                        content-type="[[requestContentType]]"></rester-body-input>
+                            </div>
+                            <div role="tabpanel" aria-labelledby="requestTab2">
+                                <rester-authorization-input
+                                        authorization="[[requestAuthorization]]"
+                                        on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
+                            </div>
+                            <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
+                                <div role="tabpanel" aria-labelledby="requestTab3">
+                                    <rester-variables-input
+                                        value="{{requestVariableValues}}"
+                                        source-obj="[[request]]">
+                                    </rester-variables-input>
+                                </div>
+                            </template>
+                        </iron-pages>
                     </div>
 
-                    <div class="input-tabs layout horizontal">
-                        <paper-tabs selected="{{requestSelectedTab}}">
-                            <paper-tab id="requestTab0">Headers</paper-tab>
-                            <paper-tab id="requestTab1">Body</paper-tab>
-                            <paper-tab id="requestTab2">Authorization</paper-tab>
-                            <paper-tab id="requestTab3">Variables</paper-tab>
-                        </paper-tabs>
-                    </div>
-                    <iron-pages selected="[[requestSelectedTab]]">
-                        <div role="tabpanel" aria-labelledby="requestTab0">
-                            <rester-header-input value="{{request.headers}}"></rester-header-input>
-                        </div>
-                        <div role="tabpanel" aria-labelledby="requestTab1">
-                            <rester-body-input
-                                    id="bodyInput"
-                                    value="{{request.body}}"
-                                    content-type="[[requestContentType]]"></rester-body-input>
-                        </div>
-                        <div role="tabpanel" aria-labelledby="requestTab2">
-                            <rester-authorization-input
-                                    authorization="[[requestAuthorization]]"
-                                    on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
-                        </div>
-                        <div role="tabpanel" aria-labelledby="requestTab3">
+                    <template is="dom-if" if="[[requestShowVariablesOnSide]]">
+                        <div class="flex-1 input-side">
                             <rester-variables-input
                                 value="{{requestVariableValues}}"
-                                source-obj="[[request]]"
-                                enabled="{{request.variables.enabled}}">
+                                source-obj="[[request]]">
                             </rester-variables-input>
                         </div>
-                    </iron-pages>
+                    </template>
                 </form>
 
                 <!-- Response -->
@@ -233,6 +260,11 @@
                         readOnly: true,
                         value: false
                     },
+                    requestShowVariablesOnSide: {
+                        type: Boolean,
+                        computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
+                        reflectToAttribute: true
+                    },
                     requestSelectedTab: {
                         type: Number,
                         value: 0,
@@ -285,12 +317,6 @@
                 },
 
                 resterLintInspections: [
-                    {
-                        message: 'There are placeholders in your request, but the variables feature is not enabled.',
-                        check: '_lintCheckPlaceholdersWithoutVariables',
-                        fixLabel: 'Enable variables',
-                        fix: '_lintFixPlaceholdersWithoutVariables'
-                    },
                     {
                         message: 'Some variables have an empty value.',
                         check: '_lintCheckEmptyVariables',
@@ -366,6 +392,10 @@
                     if (this.requestSelectedTab === 1) {
                         this.$.bodyInput.notifyVisibilityChanged();
                     }
+                },
+
+                _computeRequestShowVariablesOnSide(setting, isWideEnough) {
+                    return setting && isWideEnough;
                 },
 
                 _computeHeader(headers, headerName) {
@@ -479,12 +509,8 @@
                         return;
                     }
 
-                    let compiledRequest = this.request,
-                        usedVariableValues = {};
-
-                    if (this.request.variables.enabled) {
-                        compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-                    }
+                    const usedVariableValues = {};
+                    const compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
 
                     if (this.settings.stripDefaultHeaders) {
                         compiledRequest.stripDefaultHeaders = true;
@@ -524,21 +550,11 @@
                         });
                 },
 
-                _lintCheckPlaceholdersWithoutVariables() {
-                    return !this.request.variables.enabled && RESTer.variables.extract(this.request).length > 0;
-                },
-
-                _lintFixPlaceholdersWithoutVariables() {
-                    this.set('request.variables.enabled', true);
-                },
-
                 _lintCheckEmptyVariables() {
-                    if (this.request.variables.enabled) {
-                        const variables = RESTer.variables.extract(this.request);
-                        const usedVariableValues = {};
-                        RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-                        return variables.some(name => !usedVariableValues[name]);
-                    }
+                    const variables = RESTer.variables.extract(this.request);
+                    const usedVariableValues = {};
+                    RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
+                    return variables.some(name => !usedVariableValues[name]);
                 },
 
                 _lintFixEmptyVariables() {

@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Variable inputs now have a dropdown with the last used values.
 - If you have many environments, you might appreciate a quick environment selection dialog. You can now press Ctrl+Shift+E or click on the icon in the environments navigation item to bring it up. This allows to easier to select an environment without leaving the current request.
+- Variables can not be shown on the right side of a request, instead of in a tab. This should make them easier to use. This is behind a setting for now, because I'm not too happy with the design yet.
 
 ## [2.3.0] - 2017-04-16
 ### Added

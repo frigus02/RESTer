@@ -21,8 +21,6 @@
      * @property {String} body - The request body as string.
      * @property {Object} variables - Configuration of replacement variables,
      * which are applied when sending the request.
-     * @property {Boolean} variables.enabled - Whether replacement variables
-     * are enabled for this request.
      * @property {Object} variables.values - The replacement values. This will
      * never be stored when saving requests. It is however available in the
      * history of completed requests.

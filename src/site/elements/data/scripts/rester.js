@@ -13,6 +13,7 @@
         'responseBodyPrettyPrint',
         'responseBodyFullSize',
         'responseBodyPreview',
+        'showVariablesOnSide',
         'theme'
     ];
     const cachedSettings = {};

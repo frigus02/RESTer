@@ -127,10 +127,7 @@
                         this._setHistoryEntries(entries.map(e => {
                             e.timeFormatted = RESTer.format.dateTime(e.time);
 
-                            let compiledRequest = e.request;
-                            if (e.request.variables.enabled) {
-                                compiledRequest = RESTer.variables.replaceWithoutProvidedValues(e.request, e.request.variables.values);
-                            }
+                            const compiledRequest = RESTer.variables.replaceWithoutProvidedValues(e.request, e.request.variables.values);
 
                             e.request.methodCompiled = compiledRequest.method;
                             e.request.urlCompiled = compiledRequest.url;

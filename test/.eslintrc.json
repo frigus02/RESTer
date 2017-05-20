@@ -1,11 +1,13 @@
 {
-    "extends": "../.jshintrc",
-    "browser": true,
-    "mocha": true,
+    "env": {
+        "browser": true,
+        "es6": true,
+        "mocha": true
+    },
     "globals": {
         "Polymer": false,
         "RESTer": false,
-        "assert": false,
+        "expect": false,
         "sinon": false,
         "fixture": false,
         "stub": false,
