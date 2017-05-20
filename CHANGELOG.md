@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [2.4.0] - 2017-05-20
 ### Added
 - Variable inputs now have a dropdown with the last used values.
 - If you have many environments, you might appreciate a quick environment selection dialog. You can now press Ctrl+Shift+E or click on the icon in the environments navigation item to bring it up. This allows to easier to select an environment without leaving the current request.
@@ -255,7 +257,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.3.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.4.0...HEAD
+[2.4.0]: https://github.com/frigus02/RESTer/compare/2.3.0...2.4.0
 [2.3.0]: https://github.com/frigus02/RESTer/compare/2.2.0...2.3.0
 [2.2.0]: https://github.com/frigus02/RESTer/compare/2.1.1...2.2.0
 [2.1.1]: https://github.com/frigus02/RESTer/compare/2.1.0...2.1.1
