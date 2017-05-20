@@ -33,3 +33,6 @@ site/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.js _Unsafe_a
 site/bower_components/polymer/polymer-mini.js _Unsafe_assignment_to_innerHTML
 site/bower_components/web-animations-js/web-animations-next-lite.min.js _eval_can_be_harmful.
 site/bower_components/webcomponentsjs/webcomponents-lite.min.js _Unsafe_assignment_to_innerHTML
+
+# Known libraries
+site\bower_components\dompurify\src\purify.js KNOWN_LIBRARY
