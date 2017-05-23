@@ -79,6 +79,7 @@
                                 attr-for-selected="value">
                             <paper-item value="code">Authorization Code</paper-item>
                             <paper-item value="implicit">Implicit</paper-item>
+                            <paper-item value="client_credentials">Client Credentials</paper-item>
                             <paper-item value="resource_owner">Resource Owner Password Credentials</paper-item>
                         </paper-listbox>
                     </paper-dropdown-menu>
@@ -245,6 +246,7 @@
                     return {
                         code: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'redirectUri', 'scope'],
                         implicit: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'clientId', 'redirectUri', 'scope'],
+                        client_credentials: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope'],
                         resource_owner: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope']
                     };
                 },

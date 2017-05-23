@@ -213,6 +213,25 @@
         });
     }
 
+    function executeClientCredentialsFlow(config) {
+        const accessTokenRequestParams = {
+            grant_type: 'client_credentials'
+        };
+
+        if (config.scope) {
+            accessTokenRequestParams.scope = config.scope;
+        }
+
+        return sendAccessTokenRequest(config, accessTokenRequestParams).then(response => {
+            try {
+                const result = validateAccessTokenResponse(response, [400, 401]);
+                return createToken(config, result);
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        });
+    }
+
     function executeResourceOwnerPasswordCredentialsFlow(config, credentials) {
         const accessTokenRequestParams = {
             grant_type: 'password',
@@ -254,6 +273,8 @@
                 return executeCodeFlow(config);
             } else if (config.flow === 'implicit') {
                 return executeImplicitFlow(config);
+            } else if (config.flow === 'client_credentials') {
+                return executeClientCredentialsFlow(config);
             } else if (config.flow === 'resource_owner') {
                 return executeResourceOwnerPasswordCredentialsFlow(config, credentials);
             } else {
