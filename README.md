@@ -50,3 +50,7 @@ To create packages for AMO and the Chrome Web Store run:
     npm run package
 
 Afterwards you will find the generated files in the folder *.package*.
+
+## Contributors
+
+* Adam Zimmerman
