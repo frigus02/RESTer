@@ -45,6 +45,13 @@
         return base + '?' + self.encodeQueryString(params);
     };
 
+    self.encodeFormValue = function (value) {
+        const encoded = encodeURIComponent(value);
+
+        // The characters { and } are required for variables to work correctly.
+        return encoded.replace(/%(?:7B|7D)/g, unescape);
+    };
+
     self.mapFilesToVariableValues = function (files) {
         const values = {};
         Object.keys(files).forEach(key => {

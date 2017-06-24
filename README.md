@@ -53,4 +53,4 @@ Afterwards you will find the generated files in the folder *.package*.
 
 ## Contributors
 
-* Adam Zimmerman
+*   Adam Zimmerman

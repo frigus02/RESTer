@@ -21,13 +21,19 @@
 
             const queryString = '%24filter=Name%20eq%20\'John\'&%24select=Age%2CMailAddress&numbers=12&numbers=24';
 
+            // encodeQueryString
+
             test('encodeQueryString encodes specified object into query string', function () {
                 expect(RESTer.encode.encodeQueryString(params)).to.equal(queryString);
             });
 
+            // decodeQueryString
+
             test('decodeQueryString decodes specified query string into object', function () {
                 expect(RESTer.encode.decodeQueryString(queryString)).to.deep.equal(params);
             });
+
+            // generateUri
 
             suite('with stubbed encodeQueryString', function () {
                 const stubbedQueryString = 'a=b';
@@ -47,6 +53,16 @@
                 });
             });
 
+            // encodeFormValue
+
+            test('encodeFormValue encodes the given string but leaves curly braces in for variable detection', function () {
+                const value = '{foo}&bar{&baz}';
+
+                expect(RESTer.encode.encodeFormValue(value)).to.equal('{foo}%26bar{%26baz}');
+            });
+
+            // mapFilesToVariableValues
+
             test('mapFilesToVariableValues returns object containing all file data', function () {
                 const firstFile = {};
                 const secondFile = {};
@@ -57,6 +73,20 @@
 
                 expect(result['$file.first']).to.equal(firstFile);
                 expect(result['$file.second']).to.equal(secondFile);
+            });
+
+            // truncate
+
+            test('truncate leaves string untouched when shorter than maxlength', function () {
+                const value = 'my short string';
+
+                expect(RESTer.encode.truncate(value, 100)).to.equal(value);
+            });
+
+            test('truncate trims string and appends ellipsis when longer than maxlength', function () {
+                const value = 'my loooooooooooooooooong string';
+
+                expect(RESTer.encode.truncate(value, 15)).to.equal('my loooooooo...');
             });
         });
     </script>

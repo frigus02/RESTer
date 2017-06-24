@@ -172,7 +172,7 @@
 
                 _stringifyFormDataEntries(entries) {
                     const encode = (!this.noEncode || this._isEncodeNeeded(entries))
-                        ? encodeURIComponent
+                        ? RESTer.encode.encodeFormValue
                         : str => str;
 
                     return entries
