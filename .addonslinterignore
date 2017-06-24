@@ -14,25 +14,20 @@ background/lib/data/utils/data-store.js STORAGE_LOCAL
 # Ignore unsupported "unlimitedStorage" permissions for now. It is needed in
 # Chrome.
 manifest.json MANIFEST_PERMISSIONS
+manifest.json MANIFEST_ICON_NOT_FOUND
 
 # HTML is sanitized with DOMPurify, so it's save to use with innerHTML.
-site/elements/controls/rester-dom-purify-frame.js _Unsafe_assignment_to_innerHTML
+site/elements/controls/rester-dom-purify-frame.js UNSAFE_VAR_ASSIGNMENT
 
 # This is part of ACE.js and should be save.
-site/bower_components/ace-builds/src-min-noconflict/ace.js _Unsafe_assignment_to_innerHTML
-site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js _Unsafe_assignment_to_innerHTML
-site/bower_components/ace-builds/src-min-noconflict/worker-html.js EVAL_STRING_ARG
-site/bower_components/ace-builds/src-min-noconflict/worker-json.js EVAL_STRING_ARG
-site/bower_components/ace-builds/src-min-noconflict/worker-xml.js EVAL_STRING_ARG
+site/bower_components/ace-builds/src-min-noconflict/ace.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js UNSAFE_VAR_ASSIGNMENT
 
 # These are part of other bower components and should be fine.
-site/bower_components/dompurify/src/purify.js _Unsafe_assignment_to_innerHTML
-site/bower_components/dompurify/src/purify.js _Unsafe_assignment_to_outerHTML
-site/bower_components/dompurify/src/purify.js _Unsafe_call_to_insertAdjacentHTML
-site/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.js _Unsafe_assignment_to_innerHTML
-site/bower_components/polymer/polymer-mini.js _Unsafe_assignment_to_innerHTML
-site/bower_components/web-animations-js/web-animations-next-lite.min.js _eval_can_be_harmful.
-site/bower_components/webcomponentsjs/webcomponents-lite.min.js _Unsafe_assignment_to_innerHTML
+site/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/polymer/polymer-mini.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/web-animations-js/web-animations-next-lite.min.js DANGEROUS_EVAL
+site/bower_components/webcomponentsjs/webcomponents-lite.min.js UNSAFE_VAR_ASSIGNMENT
 
 # Known libraries
 site\bower_components\dompurify\src\purify.js KNOWN_LIBRARY

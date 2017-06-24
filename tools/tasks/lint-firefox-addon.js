@@ -9,6 +9,8 @@ const chalk = require('chalk');
 const logSymbols = require('log-symbols');
 const plur = require('plur');
 
+const ignoreFileName = '.addonslinterignore';
+
 
 /**
  * Lints a Firefox addon.
@@ -20,26 +22,22 @@ const plur = require('plur');
 function lintFirefoxAddon(options) {
     const linter = addonsLinter.createInstance({
         config: {
-            logLevel: 'fatal',
-            selfHosted: false,
-
             // This mimics the first command line argument from yargs,
             // which should be the directory to the extension.
-            _: [options.addonDir]
-        }
+            _: [options.addonDir],
+            logLevel: process.env.VERBOSE ? 'debug' : 'fatal',
+            stack: Boolean(process.env.VERBOSE),
+            pretty: false,
+            warningsAsErrors: false,
+            metadata: false,
+            output: 'none',
+            boring: false,
+            selfHosted: false
+        },
+        runAsBinary: false
     });
 
-    return linter.extractMetadata()
-        .then(() => {
-            return linter.io.getFiles();
-        })
-        .then(files => {
-            // Known libraries do not need to be scanned
-            const filesWithoutJSLibraries = Object.keys(files).filter((file) => {
-                return !linter.addonMetadata.jsLibs.hasOwnProperty(file);
-            }, this);
-            return linter.scanFiles(filesWithoutJSLibraries);
-        })
+    return linter.run()
         .then(() => {
             return getIgnoreList();
         })
@@ -52,9 +50,15 @@ function lintFirefoxAddon(options) {
                 result[list] = result[list].filter(message => {
                     const file = path.resolve(message.file);
 
-                    return !ignoreList.some(ignore =>
+                    const ignoreEntry = ignoreList.find(ignore =>
                         ignore.file === file &&
                         ignore.code === message.code);
+                    if (ignoreEntry) {
+                        ignoreEntry.used = true;
+                        return false;
+                    } else {
+                        return true;
+                    }
                 });
 
                 result.summary[list] = result[list].length;
@@ -63,6 +67,14 @@ function lintFirefoxAddon(options) {
 
             reportResult(result);
 
+            const unusedIgnoreEntries = ignoreList.filter(ignore => !ignore.used);
+            if (unusedIgnoreEntries.length > 0) {
+                console.log(`Unused entries in ${ignoreFileName}:`);
+                for (const ignoreEntry of unusedIgnoreEntries) {
+                    console.log(` ${ignoreEntry.file} ${ignoreEntry.code}`);
+                }
+            }
+
             if (result.count > 0) {
                 throw new Error(`Lint discovered ${result.count} errors.`);
             }
@@ -70,7 +82,7 @@ function lintFirefoxAddon(options) {
 }
 
 function getIgnoreList() {
-    const ignoreFile = path.join(process.cwd(), '.addonslinterignore');
+    const ignoreFile = path.join(process.cwd(), ignoreFileName);
     return new Promise(resolve => {
         const lineReader = readline.createInterface({
             input: fs.createReadStream(ignoreFile)
@@ -137,12 +149,24 @@ function reportResult(result) {
             prevFile = message.file;
         }
 
+        let location;
+        if (message.line || message.column) {
+            location = `line ${message.line} col ${message.column}`;
+        } else if (message.dataPath) {
+            location = `data path ${message.dataPath}`;
+        } else {
+            location = 'unknown location';
+        }
+
         console.log([
             '',
-            chalk.gray('line ' + message.line),
-            chalk.gray('col ' + message.column),
+            chalk.gray(location),
             chalk[colors[message._type]](`${message.code} ${message.message}`)
         ].join(' '));
+
+        if (message.description) {
+            console.log(`  ${message.description}`);
+        }
     });
 
     if (messages.length > 0) {

@@ -16,14 +16,14 @@
     "package": "gulp package"
   },
   "devDependencies": {
-    "addons-linter": "^0.19.2",
+    "addons-linter": "^0.22.2",
     "bower": "^1.8.0",
-    "del": "^2.2.2",
+    "del": "^3.0.0",
     "eslint-config-crockford": "^1.0.0",
-    "eslint-plugin-html": "^2.0.0",
+    "eslint-plugin-html": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-crisper": "^1.1.0",
-    "gulp-eslint": "^3.0.1",
+    "gulp-eslint": "^4.0.0",
     "gulp-filter": "^5.0.0",
     "gulp-polylint": "^1.0.3",
     "gulp-rename": "^1.2.2",
