@@ -1,6 +1,6 @@
 {
   "name": "rester",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "A REST client for almost any web service.",
   "homepage": "https://github.com/frigus02/RESTer",
   "bugs": "https://github.com/frigus02/RESTer/issues",
@@ -36,7 +36,8 @@
     "web-component-tester": "^5.0.1"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=6.0.0",
+    "npm": ">=5.0.0"
   },
   "private": true
 }

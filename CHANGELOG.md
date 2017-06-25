@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [2.5.0] - 2017-06-25
+### Added
+- Support for the OAuth 2 Client Credentials flow.
+
+### Fixed
+- Variables did not work in form request body.
 
 ## [2.4.0] - 2017-05-20
 ### Added
@@ -257,7 +263,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.4.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.5.0...HEAD
+[2.5.0]: https://github.com/frigus02/RESTer/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/frigus02/RESTer/compare/2.3.0...2.4.0
 [2.3.0]: https://github.com/frigus02/RESTer/compare/2.2.0...2.3.0
 [2.2.0]: https://github.com/frigus02/RESTer/compare/2.1.1...2.2.0
