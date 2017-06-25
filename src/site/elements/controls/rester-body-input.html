@@ -1,12 +1,12 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 <link rel="import" href="rester-ace-input.html">
 <link rel="import" href="rester-form-data-input.html">
@@ -47,23 +47,23 @@
         </style>
 
         <paper-menu-button id="options" horizontal-align="right" restore-focus-on-close>
-            <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+            <paper-icon-button slot="dropdown-trigger" icon="more-vert"></paper-icon-button>
+            <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
                 <template is="dom-repeat" items="[[inputOptions]]">
                     <paper-icon-item role="menuitemradio" on-tap="_selectInputOption">
                         <iron-icon
+                                slot="item-icon"
                                 icon="check"
-                                item-icon
                                 hidden$="[[!_isInputOptionSelected(item, selectedInputOption)]]"></iron-icon>
                         [[item.title]]
                     </paper-icon-item>
                 </template>
                 <div class="menu-item-divider" hidden$="[[!selectedInputOption.beautifyMethod]]"></div>
                 <paper-icon-item role="menuitem" hidden$="[[!selectedInputOption.beautifyMethod]]" on-tap="_beautify">
-                    <iron-icon icon="editor:format-paint" item-icon></iron-icon>
+                    <iron-icon slot="item-icon" icon="editor:format-paint"></iron-icon>
                     Beautify
                 </paper-icon-item>
-            </paper-menu>
+            </paper-listbox>
         </paper-menu-button>
 
         <template is="dom-if" if="[[selectedInputOption.isInputTypeAce]]" restamp>
@@ -89,69 +89,69 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-body-input',
+            class RESTerBodyInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-body-input';
+                }
 
-                behaviors: [
-                    RESTer.InputControlBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
-
-                properties: {
-                    value: {
-                        type: String,
-                        notify: true,
-                        value: ''
-                    },
-                    files: {
-                        type: Object
-                    },
-                    contentType: {
-                        type: String,
-                        observer: '_onContentTypeChanged'
-                    },
-                    inputOptions: {
-                        type: Array,
-                        readOnly: true,
-                        value: [
-                            {
-                                title: 'Plain',
-                                isInputTypeAce: true,
-                                aceMode: 'ace/mode/text'
-                            },
-                            {
-                                title: 'JSON',
-                                isInputTypeAce: true,
-                                contentTypeSearch: ['json'],
-                                aceMode: 'ace/mode/json',
-                                beautifyMethod: 'json'
-                            },
-                            {
-                                title: 'XML',
-                                isInputTypeAce: true,
-                                contentTypeSearch: ['xml'],
-                                aceMode: 'ace/mode/xml',
-                                beautifyMethod: 'xml'
-                            },
-                            {
-                                title: 'Form',
-                                isInputTypeForm: true,
-                                contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
-                            }
-                        ]
-                    },
-                    selectedInputOption: Object
-                },
+                static get properties() {
+                    return {
+                        value: {
+                            type: String,
+                            notify: true,
+                            value: ''
+                        },
+                        files: {
+                            type: Object
+                        },
+                        contentType: {
+                            type: String,
+                            observer: '_onContentTypeChanged'
+                        },
+                        inputOptions: {
+                            type: Array,
+                            readOnly: true,
+                            value: [
+                                {
+                                    title: 'Plain',
+                                    isInputTypeAce: true,
+                                    aceMode: 'ace/mode/text'
+                                },
+                                {
+                                    title: 'JSON',
+                                    isInputTypeAce: true,
+                                    contentTypeSearch: ['json'],
+                                    aceMode: 'ace/mode/json',
+                                    beautifyMethod: 'json'
+                                },
+                                {
+                                    title: 'XML',
+                                    isInputTypeAce: true,
+                                    contentTypeSearch: ['xml'],
+                                    aceMode: 'ace/mode/xml',
+                                    beautifyMethod: 'xml'
+                                },
+                                {
+                                    title: 'Form',
+                                    isInputTypeForm: true,
+                                    contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
+                                }
+                            ]
+                        },
+                        selectedInputOption: Object
+                    };
+                }
 
                 get _focusableElement() {
                     return this.selectedInputOption.isInputTypeAce
                         ? this.$$('rester-ace-input')
                         : this.$$('rester-form-data-input');
-                },
+                }
 
                 ready() {
+                    super.ready();
                     this.selectedInputOption = this.inputOptions[0];
-                },
+                }
 
                 getSuggestedContentType() {
                     if (this.selectedInputOption.title === 'JSON') {
@@ -163,13 +163,13 @@
                             ? 'multipart/form-data'
                             : 'application/x-www-form-urlencoded';
                     }
-                },
+                }
 
                 notifyVisibilityChanged() {
                     if (this.selectedInputOption.isInputTypeAce) {
                         this.$$('rester-ace-input').notifyVisibilityChanged();
                     }
-                },
+                }
 
                 _onContentTypeChanged() {
                     const lowerContentType = (this.contentType || '').toLowerCase();
@@ -180,15 +180,15 @@
                     if (newOption) {
                         this.selectedInputOption = newOption;
                     }
-                },
+                }
 
                 _isInputOptionSelected(option, selectedInputOption) {
                     return selectedInputOption === option;
-                },
+                }
 
                 _selectInputOption(e) {
                     this.selectedInputOption = e.model.item;
-                },
+                }
 
                 _beautify() {
                     this.$.options.close();
@@ -196,7 +196,9 @@
                         this.value = vkbeautify[this.selectedInputOption.beautifyMethod](this.value, 4);
                     }
                 }
-            });
+            }
+
+            customElements.define(RESTerBodyInput.is, RESTerBodyInput);
         })();
     </script>
 </dom-module>

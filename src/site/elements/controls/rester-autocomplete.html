@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
@@ -66,7 +66,7 @@
                             class="button"
                             on-tap="_onItemClick"
                             tabindex="-1">
-                        <div class="score" item-icon>[[item.score]]</div>
+                        <div slot="item-icon" class="score">[[item.score]]</div>
                         <paper-item-body two-line>
                             <div>[[item.title]]</div>
                             <div secondary>[[item.description]]</div>
@@ -81,72 +81,81 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-autocomplete',
+            class RESTerAutocomplete extends Polymer.Element {
+                static get is() {
+                    return 'rester-autocomplete';
+                }
 
-                properties: {
-                    for: String,
-                    items: {
-                        type: Array,
-                        value: []
-                    },
-                    dropdownItemsVisible: {
-                        type: Number,
-                        value: 4.7
-                    },
-                    itemTemplate: {
-                        type: String,
-                        computed: '_computeItemTemplate(items)'
-                    },
-                    selectedIndex: {
-                        type: Number,
-                        readOnly: true,
-                        value: -1
-                    },
-                    dropdownVisible: {
-                        type: Boolean,
-                        value: false,
-                        readOnly: true
-                    },
-                    inputValue: {
-                        type: String,
-                        readOnly: true
-                    },
-                    sortByIndex: {
-                        type: Boolean,
-                        value: false
-                    }
-                },
+                static get properties() {
+                    return {
+                        for: String,
+                        items: {
+                            type: Array,
+                            value: []
+                        },
+                        dropdownItemsVisible: {
+                            type: Number,
+                            value: 4.7
+                        },
+                        itemTemplate: {
+                            type: String,
+                            computed: '_computeItemTemplate(items)'
+                        },
+                        selectedIndex: {
+                            type: Number,
+                            readOnly: true,
+                            value: -1
+                        },
+                        dropdownVisible: {
+                            type: Boolean,
+                            value: false,
+                            readOnly: true
+                        },
+                        inputValue: {
+                            type: String,
+                            readOnly: true
+                        },
+                        sortByIndex: {
+                            type: Boolean,
+                            value: false
+                        }
+                    };
+                }
 
-                hostAttributes: {
-                    tabIndex: -1
-                },
-
-                _input: undefined,
-                _inputFocused: false,
+                constructor() {
+                    super();
+                    this._input = undefined;
+                    this._inputFocused = false;
+                }
 
                 ready() {
+                    super.ready();
+
+                    this._ensureAttribute('tabindex', -1);
+
                     this._onInputValueChanged = this._onInputValueChanged.bind(this);
                     this._onInputKeyDown = this._onInputKeyDown.bind(this);
                     this._onInputFocus = this._onInputFocus.bind(this);
                     this._onInputBlur = this._onInputBlur.bind(this);
-                },
+                }
 
-                attached() {
-                    this._input = this.domHost.$$(`#${this.for}`);
+                connectedCallback() {
+                    super.connectedCallback();
+                    this._input = this.getRootNode().querySelector(`#${this.for}`);
                     this._setInputValue(this._input.value);
                     this._input.addEventListener('bind-value-changed', this._onInputValueChanged);
                     this._input.addEventListener('keydown', this._onInputKeyDown);
                     this._input.addEventListener('focus', this._onInputFocus);
                     this._input.addEventListener('blur', this._onInputBlur);
-                },
+                }
 
-                detached() {
+                disconnectedCallback() {
+                    super.disconnectedCallback();
                     this._input.removeEventListener('bind-value-changed', this._onInputValueChanged);
                     this._input.removeEventListener('keydown', this._onInputKeyDown);
                     this._input.removeEventListener('focus', this._onInputFocus);
                     this._input.removeEventListener('blur', this._onInputBlur);
-                },
+                }
 
                 _computeItemTemplate() {
                     const item = this.items && this.items[0];
@@ -159,19 +168,19 @@
                             return 'simple';
                         }
                     }
-                },
+                }
 
                 _getDropdownVisibilityClass() {
                     return this.dropdownVisible ? 'visible' : '';
-                },
+                }
 
                 _getDropdownMaxHeight() {
                     return `${48 * this.dropdownItemsVisible}px`;
-                },
+                }
 
                 _isActiveItemTemplate(itemTemplate, templateName) {
                     return itemTemplate === templateName;
-                },
+                }
 
                 _isItemVisible(item, value) {
                     if (!item) {
@@ -195,7 +204,7 @@
                             return true;
                         }
                     }
-                },
+                }
 
                 _compareItems(itemA, itemB) {
                     if (this.sortByIndex) {
@@ -205,7 +214,7 @@
                     } else {
                         return itemA.localeCompare(itemB);
                     }
-                },
+                }
 
                 _onInputValueChanged() {
                     this._setInputValue(this._input.value);
@@ -213,7 +222,7 @@
                     if (this.itemTemplate === 'simple') {
                         this._onDomForItemListChanged();
                     }
-                },
+                }
 
                 _onDomForItemListChanged() {
                     if (this.selectedIndex === -1) {
@@ -224,7 +233,7 @@
                             this._moveSelectedIndexToNextItem();
                         }
                     }
-                },
+                }
 
                 _onInputKeyDown(e) {
                     switch (e.key) {
@@ -265,7 +274,7 @@
                             this._setDropdownVisible(false);
                             break;
                     }
-                },
+                }
 
                 _onInputFocus() {
                     this._inputFocused = true;
@@ -274,7 +283,7 @@
                         this._moveSelectedIndexToNextItem();
                         this._setDropdownVisible(true);
                     }
-                },
+                }
 
                 _onInputBlur() {
                     this._inputFocused = false;
@@ -287,7 +296,7 @@
                             this._setDropdownVisible(false);
                         }
                     }, 1);
-                },
+                }
 
                 _moveSelectedIndexToNextItem() {
                     if (this.items.length === 0) {
@@ -307,7 +316,7 @@
                     } else {
                         this._moveSelectedIndexToPreviousItem();
                     }
-                },
+                }
 
                 _moveSelectedIndexToPreviousItem() {
                     if (this.items.length === 0) {
@@ -323,7 +332,7 @@
 
                     this._setSelectedIndex(prevIndex);
                     this._updateDrodownScroll(true);
-                },
+                }
 
                 _updateDrodownScroll(alignTop) {
                     if (this.selectedIndex === -1) {
@@ -347,18 +356,18 @@
                     } else {
                         list.scrollTop = item.offsetTop + item.offsetHeight - list.clientHeight;
                     }
-                },
+                }
 
                 _getItemByRenderedIndex(index) {
                     const domRepeat = this.$.dropdown.querySelector('template[is="dom-repeat"]');
                     const itemElement = this.$.dropdown.getElementsByClassName('button')[index];
 
                     return itemElement && domRepeat.itemForElement(itemElement);
-                },
+                }
 
                 _onItemClick(e) {
                     this._selectItem(e.model.item);
-                },
+                }
 
                 _selectItem(item) {
                     if (this.itemTemplate === 'two-line-score') {
@@ -370,7 +379,9 @@
                     this._setDropdownVisible(false);
                     this.fire('item-selected', item);
                 }
-            });
+            }
+
+            customElements.define(RESTerAutocomplete.is, RESTerAutocomplete);
         })();
     </script>
 </dom-module>

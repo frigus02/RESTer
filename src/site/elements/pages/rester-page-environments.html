@@ -124,7 +124,7 @@
                 },
 
                 _editEnvironment(e) {
-                    this._environmentInDialog = _.cloneDeep(e.model.env);
+                    this._environmentInDialog = RESTer.util.cloneDeep(e.model.env);
                     this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
                     this.$.editDialog.show(this._environmentInDialog);
                 },

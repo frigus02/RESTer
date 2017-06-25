@@ -4,8 +4,8 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 
@@ -46,7 +46,7 @@
 
         <paper-menu-button id="options" dynamic-align horizontal-align="right" restore-focus-on-close>
             <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+            <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
                     <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyWrap]]"></iron-icon> Wrap
                 </paper-icon-item>
@@ -63,7 +63,7 @@
                 <paper-icon-item on-tap="_changeLanguage">
                     <iron-icon icon="language" item-icon></iron-icon> Change highlighting ([[language]])
                 </paper-icon-item>
-            </paper-menu>
+            </paper-listbox>
         </paper-menu-button>
 
         <template is="dom-if" if="[[!renderPreview]]">

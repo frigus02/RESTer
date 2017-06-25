@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
@@ -41,31 +41,33 @@
                 exit-animation="fade-out-animation"
                 with-backdrop>
             <paper-dialog-scrollable>
-                <form is="iron-form" id="editForm">
-                    <paper-input
-                            label="Environment"
-                            value="{{environment.name}}"
-                            required
-                            error-message="This is required!"
-                            autofocus></paper-input>
-                    <template is="dom-repeat" items="[[valueItems]]">
-                        <div class="layout horizontal start value-line">
-                            <paper-input
-                                    class="flex-1"
-                                    label="Key"
-                                    value="{{item.key}}"
-                                    on-value-changed="_ensureEmptyValueItem"></paper-input>
-                            <paper-textarea
-                                    class="flex-2"
-                                    label="Value"
-                                    value="{{item.value}}"
-                                    on-value-changed="_ensureEmptyValueItem"></paper-textarea>
-                            <paper-icon-button
-                                    icon="remove"
-                                    on-tap="_removeValueItem"></paper-icon-button>
-                        </div>
-                    </template>
-                </form>
+                <iron-form>
+                    <form id="editForm">
+                        <paper-input
+                                label="Environment"
+                                value="{{environment.name}}"
+                                required
+                                error-message="This is required!"
+                                autofocus></paper-input>
+                        <template is="dom-repeat" items="[[valueItems]]">
+                            <div class="layout horizontal start value-line">
+                                <paper-input
+                                        class="flex-1"
+                                        label="Key"
+                                        value="{{item.key}}"
+                                        on-value-changed="_ensureEmptyValueItem"></paper-input>
+                                <paper-textarea
+                                        class="flex-2"
+                                        label="Value"
+                                        value="{{item.value}}"
+                                        on-value-changed="_ensureEmptyValueItem"></paper-textarea>
+                                <paper-icon-button
+                                        icon="remove"
+                                        on-tap="_removeValueItem"></paper-icon-button>
+                            </div>
+                        </template>
+                    </form>
+                </iron-form>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button class="delete-button" hidden$="[[!environment.id]]" on-tap="_delete">
@@ -85,22 +87,26 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-edit-environment-dialog',
+            class RESTerEditEnvironmentDialog extends Polymer.Element {
+                static get is() {
+                    return 'rester-edit-environment-dialog';
+                }
 
-                properties: {
-                    environment: Object,
-                    valueItems: {
-                        type: Array,
-                        readOnly: true
-                    }
-                },
+                static get properties() {
+                    return {
+                        environment: Object,
+                        valueItems: {
+                            type: Array,
+                            readOnly: true
+                        }
+                    };
+                }
 
                 show(environment) {
                     this.environment = undefined;
                     this.$.editForm.reset();
 
-                    this.async(() => {
+                    setTimeout(() => {
                         this.environment = environment;
                         this._setValueItems(Object.keys(this.environment.values).map(key => ({
                             key,
@@ -109,8 +115,8 @@
                         this._ensureEmptyValueItem();
 
                         this.$.dialog.open();
-                    }, 1);
-                },
+                    });
+                }
 
                 _ensureEmptyValueItem() {
                     if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
@@ -118,16 +124,16 @@
                     }
 
                     this.$.dialog.notifyResize();
-                },
+                }
 
                 _removeValueItem(e) {
                     this.splice('valueItems', e.model.index, 1);
                     this._ensureEmptyValueItem();
-                },
+                }
 
                 _delete() {
                     this._closeDialogWithAction('delete');
-                },
+                }
 
                 _save() {
                     if (this.$.editForm.validate()) {
@@ -140,7 +146,7 @@
 
                         this._closeDialogWithAction('save');
                     }
-                },
+                }
 
                 _closeDialogWithAction(action) {
                     this.$.dialog.closingReason.canceled = false;
@@ -148,7 +154,9 @@
                     this.$.dialog.closingReason.action = action;
                     this.$.dialog.close();
                 }
-            });
+            }
+
+            customElements.define(RESTerEditEnvironmentDialog.is, RESTerEditEnvironmentDialog);
         })();
     </script>
 </dom-module>

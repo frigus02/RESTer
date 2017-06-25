@@ -65,7 +65,7 @@
 
                         this._requestNavItemsOffset = 1;
                         requests = requests.map(r => {
-                            r = _.cloneDeep(r);
+                            r = RESTer.util.clone(r);
                             r.collection = r.collection.split(/\s*\/\s*/i);
                             return r;
                         });
@@ -131,24 +131,31 @@
                 },
 
                 _createListOfRequestNavItems(rawRequests) {
-                    return _(rawRequests)
-                        .groupBy(request => request.collection[0])
-                        .pairs()
-                        .sortBy(0)
-                        .map(coll => {
-                            coll[1].forEach(request => request.collection.splice(0, 1));
+                    const collGroups = RESTer.util.group(rawRequests, request => request.collection[0]);
+                    const collGroupArray = Object.keys(collGroups).map(name => ({
+                        name,
+                        items: groups[name]
+                    }));
+                    const sortedCollGroupArray = RESTer.util.sort(collGroupArray, 'name');
 
-                            const collItem = this._createRequestCollectionNavItem(coll[0]);
-                            const subrequests = coll[1]
-                                .filter(request => request.collection.length === 0)
-                                .map(request => this._createRequestNavItem(request));
-                            const subcollections = this._createListOfRequestNavItems(
-                                coll[1].filter(request => request.collection.length > 0));
-                            collItem.items = _.sortBy(subcollections.concat(subrequests), 'title');
+                    return sortedCollGroupArray.map(coll => {
+                        const collection = coll.name;
+                        const requests = coll.items.map(request => {
+                            request = RESTer.util.clone(request);
+                            request.collection = request.collection.slice(1);
+                            return request;
+                        });
 
-                            return collItem;
-                        })
-                        .value();
+                        const collItem = this._createRequestCollectionNavItem(collection);
+                        const subrequests = requests
+                            .filter(request => request.collection.length === 0)
+                            .map(request => this._createRequestNavItem(request));
+                        const subcollections = this._createListOfRequestNavItems(
+                            requests.filter(request => request.collection.length > 0));
+                        collItem.items = RESTer.util.sort(subcollections.concat(subrequests), 'title');
+
+                        return collItem;
+                    });
                 },
 
                 _createRequestCollectionNavItem(collection) {
@@ -236,7 +243,7 @@
                                     if (collectionIndex === -1) {
                                         const collection = this._createRequestCollectionNavItem(collectionParts[0]);
 
-                                        collectionIndex = _.sortedIndex(collectionItems, {title: collectionParts[0]}, 'title');
+                                        collectionIndex = RESTer.util.sortedIndexOf(collectionItems, {title: collectionParts[0]}, 'title');
                                         this.splice(collectionPath, collectionOffset + collectionIndex, 0, collection);
                                         if (collectionPath.length === 1) {
                                             this._requestNavItemsCount++;
@@ -250,7 +257,7 @@
                                 }
 
                                 const collectionItems = this.get(collectionPath);
-                                const insertAtIndex = _.sortedIndex(collectionItems, change.item, 'title');
+                                const insertAtIndex = RESTer.util.sortedIndexOf(collectionItems, change.item, 'title');
                                 this.splice(collectionPath, insertAtIndex, 0, this._createRequestNavItem(change.item));
                             }
 

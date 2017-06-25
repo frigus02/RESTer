@@ -1,4 +1,4 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
@@ -95,7 +95,7 @@
                 responsive-width="[[responsiveWidth]]"
                 narrow="{{drawerIsNarrow}}">
             <!-- Navigation -->
-            <paper-header-panel drawer mode="seamed">
+            <paper-header-panel slot="drawer" mode="seamed">
                 <paper-toolbar>
                     <div class="title">RESTer</div>
                     <iron-media-query
@@ -120,7 +120,7 @@
 
             <!-- Main -->
             <rester-pages
-                    main
+                    slot="main"
                     page="[[page]]"
                     page-title="{{pageTitle}}"
                     route="[[routeTail]]"
@@ -138,119 +138,121 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-app',
+            class RESTerApp extends Polymer.mixinBehaviors([RESTer.HotkeysBehavior, RESTer.SettingsBehavior, RESTer.ThemeBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-app';
+                }
 
-                behaviors: [
-                    RESTer.HotkeysBehavior,
-                    RESTer.SettingsBehavior,
-                    RESTer.ThemeBehavior
-                ],
+                static get properties() {
+                    return {
+                        route: Object,
+                        routeData: Object,
+                        routeTail: Object,
+                        page: String,
+                        pageTitle: {
+                            type: String,
+                            observer: '_onPageTitleChanged'
+                        },
+                        drawerWidth: {
+                            type: String,
+                            value: '320px'
+                        },
+                        responsiveWidth: {
+                            type: String,
+                            computed: '_computeResponsiveWidth(settings.pinSidenav)'
+                        },
+                        responsiveWidthMin: {
+                            type: String,
+                            value: '600px'
+                        },
+                        responsiveWidthMax: {
+                            type: String,
+                            value: '1279px'
+                        },
+                        showDrawerLockMediaQuery: {
+                            type: String,
+                            computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
+                        }
+                    };
+                }
 
-                properties: {
-                    route: Object,
-                    routeData: Object,
-                    routeTail: Object,
-                    page: String,
-                    pageTitle: {
-                        type: String,
-                        observer: '_onPageTitleChanged'
-                    },
-                    drawerWidth: {
-                        type: String,
-                        value: '320px'
-                    },
-                    responsiveWidth: {
-                        type: String,
-                        computed: '_computeResponsiveWidth(settings.pinSidenav)'
-                    },
-                    responsiveWidthMin: {
-                        type: String,
-                        value: '600px'
-                    },
-                    responsiveWidthMax: {
-                        type: String,
-                        value: '1279px'
-                    },
-                    showDrawerLockMediaQuery: {
-                        type: String,
-                        computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
-                    }
-                },
+                static get observers() {
+                    return [
+                        '_routePageChanged(routeData.page)'
+                    ];
+                }
 
-                observers: [
-                    '_routePageChanged(routeData.page)'
-                ],
-
-                resterHotkeys: {
-                    'mod+m': {
-                        description: 'New request.',
-                        callback: '_newRequest'
-                    },
-                    'mod+o, mod+p': {
-                        description: 'Open request.',
-                        callback: '_showQuickOpenDialog'
-                    },
-                    'mod+e': {
-                        description: 'Cycle through environments.',
-                        callback: '_activateNextEnvironment'
-                    },
-                    'mod+shift+e': {
-                        description: 'Open environment selection dialog.',
-                        callback: '_showEnvironmentSelectDialog'
-                    }
-                },
+                static get resterHotkeys() {
+                    return {
+                        'mod+m': {
+                            description: 'New request.',
+                            callback: '_newRequest'
+                        },
+                        'mod+o, mod+p': {
+                            description: 'Open request.',
+                            callback: '_showQuickOpenDialog'
+                        },
+                        'mod+e': {
+                            description: 'Cycle through environments.',
+                            callback: '_activateNextEnvironment'
+                        },
+                        'mod+shift+e': {
+                            description: 'Open environment selection dialog.',
+                            callback: '_showEnvironmentSelectDialog'
+                        }
+                    };
+                }
 
                 _routePageChanged(page) {
                     this.page = page || 'request';
-                },
+                }
 
                 _onPageTitleChanged() {
                     document.title = `RESTer - ${this.pageTitle}`;
-                },
+                }
 
                 _computeResponsiveWidth() {
                     return this.settings.pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
-                },
+                }
 
                 _computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax) {
                     return `(min-width: ${responsiveWidthMin}) and (max-width: ${responsiveWidthMax})`;
-                },
+                }
 
                 _getDrawerToggleIcon() {
                     return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
-                },
+                }
 
                 _toggleDrawerLockOpen() {
                     this.set('settings.pinSidenav', !this.settings.pinSidenav);
-                },
+                }
 
                 _onDrawerToggleTapped() {
                     this.$.drawer.togglePanel();
-                },
+                }
 
                 _onNavigationItemActivated() {
                     this.$.drawer.closeDrawer();
-                },
+                }
 
                 _onThemeChanged(theme) {
                     // index.html will pick up the theme from localStorage
                     // to show the splash screen in the correct colors.
                     window.localStorage.theme = theme;
-                },
+                }
 
                 _showShortcuts(e) {
                     e.preventDefault();
                     this.$.cheatSheet.show();
-                },
+                }
 
                 _newRequest() {
                     window.location = '#/';
-                },
+                }
 
                 _showQuickOpenDialog() {
                     this.$.quickOpenDialog.show();
-                },
+                }
 
                 _activateNextEnvironment() {
                     RESTer.rester.getEnvironments().then(envs => {
@@ -264,12 +266,14 @@
 
                         this.settings.activeEnvironment = newEnv.id;
                     });
-                },
+                }
 
                 _showEnvironmentSelectDialog() {
                     this.$.environmentSelectDialog.show();
                 }
-            });
+            }
+
+            customElements.define(RESTerApp.is, RESTerApp);
         })();
     </script>
 </dom-module>

@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
@@ -18,18 +18,20 @@
                 no-label-float="[[noLabelFloat]]"
                 invalid="[[invalid]]"
                 disabled$="[[disabled]]">
-            <label for="input">[[label]]</label>
-            <input is="iron-input" id="input"
-                    bind-value="{{value}}"
-                    invalid="{{invalid}}"
-                    placeholder$="[[placeholder]]"
-                    autocomplete="off"
-                    name$="[[name]]"
-                    autofocus$="[[autofocus]]"
-                    required$="[[required]]"
-                    disabled$="[[disabled]]">
+            <label slot="label" for="input">[[label]]</label>
+            <iron-input slot="input">
+                <input id="input"
+                        bind-value="{{value}}"
+                        invalid="{{invalid}}"
+                        placeholder$="[[placeholder]]"
+                        autocomplete="off"
+                        name$="[[name]]"
+                        autofocus$="[[autofocus]]"
+                        required$="[[required]]"
+                        disabled$="[[disabled]]">
+            </iron-input>
             <rester-autocomplete
-                    prefix
+                    slot="prefix"
                     for="input"
                     items="[[items]]"
                     dropdown-items-visible="[[dropdownItemsVisible]]"
@@ -41,48 +43,49 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-autocomplete-input',
+            class RESTerAutocompleteInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-autocomplete-input';
+                }
 
-                behaviors: [
-                    RESTer.InputControlBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
-
-                properties: {
-                    placeholder: String,
-                    label: String,
-                    autofocus: Boolean,
-                    noLabelFloat: Boolean,
-                    items: {
-                        type: Array,
-                        value: []
-                    },
-                    dropdownItemsVisible: {
-                        type: Number,
-                        value: 4.7
-                    },
-                    sortByIndex: {
-                        type: Boolean,
-                        value: false
-                    },
-                    invalid: {
-                        type: Boolean,
-                        value: false,
-                        notify: true
-                    },
-                    required: Boolean,
-                    disabled: Boolean
-                },
+                static get properties() {
+                    return {
+                        placeholder: String,
+                        label: String,
+                        autofocus: Boolean,
+                        noLabelFloat: Boolean,
+                        items: {
+                            type: Array,
+                            value: []
+                        },
+                        dropdownItemsVisible: {
+                            type: Number,
+                            value: 4.7
+                        },
+                        sortByIndex: {
+                            type: Boolean,
+                            value: false
+                        },
+                        invalid: {
+                            type: Boolean,
+                            value: false,
+                            notify: true
+                        },
+                        required: Boolean,
+                        disabled: Boolean
+                    };
+                }
 
                 get _focusableElement() {
                     return this.$.input;
-                },
+                }
 
                 validate() {
                     return this._focusableElement.validate();
                 }
-            });
+            }
+
+            customElements.define(RESTerAutocompleteInput.is, RESTerAutocompleteInput);
         })();
     </script>
 </dom-module>

@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
@@ -60,7 +60,7 @@
                 <template is="dom-if" if="[[!textOnly]]">
                     <paper-dropdown-menu label="Type">
                         <paper-listbox
-                                class="dropdown-content"
+                                slot="dropdown-content"
                                 selected="{{item.type}}"
                                 attr-for-selected="value">
                             <paper-item value="text">Text</paper-item>
@@ -79,51 +79,54 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-form-data-input',
+            class RESTerFormDataInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-form-data-input';
+                }
 
-                behaviors: [
-                    Polymer.IronFormElementBehavior
-                ],
+                static get properties() {
+                    return {
+                        value: {
+                            type: String,
+                            notify: true,
+                            observer: '_onValueChanged'
+                        },
+                        files: {
+                            type: Object,
+                            notify: true,
+                            readOnly: true,
+                            value: {}
+                        },
+                        noEncode: {
+                            type: Boolean,
+                            value: false
+                        },
+                        textOnly: {
+                            type: Boolean,
+                            value: false
+                        },
+                        formDataEntries: {
+                            type: Array,
+                            readOnly: true
+                        }
+                    };
+                }
 
-                properties: {
-                    value: {
-                        type: String,
-                        notify: true,
-                        observer: '_onValueChanged'
-                    },
-                    files: {
-                        type: Object,
-                        notify: true,
-                        readOnly: true,
-                        value: {}
-                    },
-                    noEncode: {
-                        type: Boolean,
-                        value: false
-                    },
-                    textOnly: {
-                        type: Boolean,
-                        value: false
-                    },
-                    formDataEntries: {
-                        type: Array,
-                        readOnly: true
-                    }
-                },
-
-                _ignoreFormDataEntryChangedEvents: false,
+                constructor() {
+                    super();
+                    this._ignoreFormDataEntryChangedEvents = false;
+                }
 
                 _onValueChanged() {
                     this._setFormDataEntries(this._parseFormDataEntries(this.value));
                     this._cleanUpUnusedFiles();
                     this._ensureEmptyFormDataEntry();
-                },
+                }
 
                 _onFormDataEntriesChanged() {
                     this.value = this._stringifyFormDataEntries(this.formDataEntries);
                     this._ensureEmptyFormDataEntry();
-                },
+                }
 
                 _onFormDataEntryFileSelected(e) {
                     const file = e.target.files[0];
@@ -153,22 +156,22 @@
                     }
 
                     this._onFormDataEntriesChanged();
-                },
+                }
 
                 _ensureEmptyFormDataEntry() {
                     if (!this.formDataEntries.some(e => e.name.trim() === '' && e.value.trim() === '')) {
                         this.push('formDataEntries', {name: '', value: '', type: 'text'});
                     }
-                },
+                }
 
                 _removeFormDataEntry(e) {
                     this.splice('formDataEntries', e.model.index, 1);
                     this._onFormDataEntriesChanged();
-                },
+                }
 
                 _isFormDataType(selectedType, comparedType) {
                     return selectedType === comparedType;
-                },
+                }
 
                 _stringifyFormDataEntries(entries) {
                     const encode = (!this.noEncode || this._isEncodeNeeded(entries))
@@ -188,7 +191,7 @@
                             return str;
                         })
                         .join('&');
-                },
+                }
 
                 _parseFormDataEntries(str) {
                     return (str || '')
@@ -211,7 +214,7 @@
                             }
                         })
                         .filter(row => row.name.trim());
-                },
+                }
 
                 _cleanUpUnusedFiles() {
                     for (let key in this.files) {
@@ -220,7 +223,7 @@
                             this.notifyPath(['files', key]);
                         }
                     }
-                },
+                }
 
                 _isEncodeNeeded(entries) {
                     return entries.some(entry =>
@@ -228,13 +231,15 @@
                         entry.name.includes('=') ||
                         entry.value.includes('&') ||
                         entry.value.includes('='));
-                },
+                }
 
                 _isFileNameInUse(name, ignoreIndex) {
                     return this.formDataEntries.some((e, i) =>
                         i !== ignoreIndex && e.type === 'file' && e.value === name);
                 }
-            });
+            }
+
+            customElements.define(RESTerFormDataInput.is, RESTerFormDataInput);
         })();
     </script>
 </dom-module>

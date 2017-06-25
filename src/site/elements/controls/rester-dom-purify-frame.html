@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <script src="../../bower_components/dompurify/src/purify.js"></script>
 
 <dom-module id="rester-dom-purify-frame">
@@ -23,25 +23,32 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-dom-purify-frame',
+            class RESTerDOMPurifyIFrame extends Polymer.Element {
+                static get is() {
+                    return 'rester-dom-purify-frame';
+                }
 
-                properties: {
-                    html: {
-                        type: String,
-                        observer: '_onHtmlChanged'
-                    }
-                },
+                static get properties() {
+                    return {
+                        html: {
+                            type: String,
+                            observer: '_onHtmlChanged'
+                        }
+                    };
+                }
 
-                _frameLoaded: false,
+                constructor() {
+                    super();
+                    this._frameLoaded = false;
+                }
 
                 _onFrameLoaded() {
                     this._frameLoaded = true;
-                },
+                }
 
                 _onHtmlChanged() {
                     if (!this._frameLoaded) {
-                        this.async(() => this._onHtmlChanged(), 100);
+                        setTimeout(() => this._onHtmlChanged(), 100);
                         return;
                     }
 
@@ -58,7 +65,9 @@
                         this.$.frame.style.height = `${htmlEl.offsetHeight}px`;
                     });
                 }
-            });
+            }
+
+            customElements.define(RESTerDOMPurifyIFrame.is, RESTerDOMPurifyIFrame);
         })();
     </script>
 </dom-module>

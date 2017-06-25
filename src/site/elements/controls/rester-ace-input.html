@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <script src="../../bower_components/ace-builds/src-min-noconflict/ace.js"></script>
 
@@ -24,8 +24,7 @@
         (function () {
             'use strict';
 
-            /** @polymerBehavior RESTer.AceShadowDomBehavior */
-            RESTer.AceShadowDomBehavior = (function () {
+            RESTer.AceShadowDomMixin = (function () {
                 const aceShadowRoots = [];
                 const styles = getStyles();
 
@@ -99,92 +98,88 @@
                     return [style1, style2, style3];
                 }
 
-                const AceWidgetShadowDom = {
-                    _dom: null,
-
+                return superclass => class AceShadowDomMixin extends superclass {
                     ready() {
                         this._dom = Polymer.dom(this.root);
 
-                        if (Polymer.Settings.dom === 'shadow') {
-                            styles.forEach(style => {
-                                this._dom.appendChild(style.cloneNode(true));
-                            });
-                        }
-                    },
+                        styles.forEach(style => {
+                            this._dom.appendChild(style.cloneNode(true));
+                        });
 
-                    attached() {
-                        if (Polymer.Settings.dom === 'shadow') {
-                            aceShadowRoots.push(this._dom);
-                        }
-                    },
+                        super.ready();
+                    }
 
-                    detached() {
-                        if (Polymer.Settings.dom === 'shadow') {
-                            const index = aceShadowRoots.indexOf(this._dom);
-                            aceShadowRoots.splice(index, 1);
-                        }
+                    connectedCallback() {
+                        super.connectedCallback();
+                        aceShadowRoots.push(this._dom);
+                    }
+
+                    disconnectedCallback() {
+                        const index = aceShadowRoots.indexOf(this._dom);
+                        aceShadowRoots.splice(index, 1);
+                        super.disconnectedCallback();
                     }
                 };
-
-                return AceWidgetShadowDom;
             })();
 
-            Polymer({
-                is: 'rester-ace-input',
+            class RESTerAceInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, RESTer.ThemeBehavior, Polymer.IronFormElementBehavior], RESTer.AceShadowDomMixin(Polymer.Element)) {
+                static get is() {
+                    return 'rester-ace-input';
+                }
 
-                behaviors: [
-                    RESTer.AceShadowDomBehavior,
-                    RESTer.InputControlBehavior,
-                    RESTer.ThemeBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
+                static get properties() {
+                    return {
+                        value: {
+                            type: String,
+                            notify: true,
+                            observer: '_onValueChanged'
+                        },
+                        mode: {
+                            type: String,
+                            observer: '_onModeChanged'
+                        },
+                        readOnly: {
+                            type: Boolean,
+                            value: false,
+                            observer: '_onReadOnlyChanged'
+                        },
+                        useWrapMode: {
+                            type: Boolean,
+                            value: false,
+                            observer: '_onUseWrapModeChanged'
+                        },
+                        maxLines: {
+                            type: Number,
+                            value: 20,
+                            observer: '_onMaxLinesChanged'
+                        },
+                        disableSearch: {
+                            type: Boolean,
+                            value: false,
+                            observer: '_onDisableSearchChanged'
+                        }
+                    };
+                }
 
-                properties: {
-                    value: {
-                        type: String,
-                        notify: true,
-                        observer: '_onValueChanged'
-                    },
-                    mode: {
-                        type: String,
-                        observer: '_onModeChanged'
-                    },
-                    readOnly: {
-                        type: Boolean,
-                        value: false,
-                        observer: '_onReadOnlyChanged'
-                    },
-                    useWrapMode: {
-                        type: Boolean,
-                        value: false,
-                        observer: '_onUseWrapModeChanged'
-                    },
-                    maxLines: {
-                        type: Number,
-                        value: 20,
-                        observer: '_onMaxLinesChanged'
-                    },
-                    disableSearch: {
-                        type: Boolean,
-                        value: false,
-                        observer: '_onDisableSearchChanged'
-                    }
-                },
+                constructor() {
+                    super();
+                    this._editor = undefined;
+                    this._findCommand = undefined;
+                    this._oldValue = '';
+                    this._ignoreEditorChangeEvents = false;
+                }
 
                 get _focusableElement() {
                     return this.$.editor;
-                },
-
-                _editor: undefined,
-                _findCommand: undefined,
-                _oldValue: '',
-                _ignoreEditorChangeEvents: false,
+                }
 
                 ready() {
+                    super.ready();
                     ace.config.set('basePath', this.resolveUrl('../../bower_components/ace-builds/src-min-noconflict/'));
-                },
+                }
 
-                attached() {
+                connectedCallback() {
+                    super.connectedCallback();
                     this._editor = ace.edit(this.$.editor);
                     this._findCommand = this._editor.commands.commands.find;
 
@@ -205,13 +200,14 @@
                     this._onMaxLinesChanged();
                     this._onValueChanged();
                     this._onThemeChanged();
-                },
+                }
 
-                detached() {
+                disconnectedCallback() {
                     this._editor.destroy();
                     this._editor = undefined;
                     this._oldValue = '';
-                },
+                    super.disconnectedCallback();
+                }
 
                 /**
                  * If the value is updated while the ACE editor is not
@@ -227,7 +223,7 @@
                     }
 
                     this._editor.resize();
-                },
+                }
 
                 _onValueChanged() {
                     if (!this._editor || this.value === this._oldValue) {
@@ -240,7 +236,7 @@
                     this._ignoreEditorChangeEvents = false;
                     this._editor.clearSelection();
                     this._editor.scrollToLine(0);
-                },
+                }
 
                 _onModeChanged() {
                     if (!this._editor) {
@@ -248,7 +244,7 @@
                     }
 
                     this._editor.session.setMode(this.mode);
-                },
+                }
 
                 _onReadOnlyChanged() {
                     if (!this._editor) {
@@ -256,7 +252,7 @@
                     }
 
                     this._editor.setReadOnly(this.readOnly);
-                },
+                }
 
                 _onUseWrapModeChanged() {
                     if (!this._editor) {
@@ -264,7 +260,7 @@
                     }
 
                     this._editor.session.setUseWrapMode(this.useWrapMode);
-                },
+                }
 
                 _onMaxLinesChanged() {
                     if (!this._editor) {
@@ -272,7 +268,7 @@
                     }
 
                     this._editor.setOption('maxLines', this.maxLines);
-                },
+                }
 
                 _onDisableSearchChanged() {
                     if (!this._editor) {
@@ -288,7 +284,7 @@
                     } else {
                         this._editor.commands.addCommand(this._findCommand);
                     }
-                },
+                }
 
                 _onThemeChanged() {
                     if (!this._editor) {
@@ -303,7 +299,9 @@
                         this.$.editor.style.backgroundColor = '#f5f5f5';
                     }
                 }
-            });
+            }
+
+            customElements.define(RESTerAceInput.is, RESTerAceInput);
         })();
     </script>
 </dom-module>

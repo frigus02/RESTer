@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 
 <link rel="import" href="rester-input-control-behavior.html">
@@ -26,36 +26,35 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-file-input',
+            class RESTerFileInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-file-input';
+                }
 
-                behaviors: [
-                    RESTer.InputControlBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
-
-                properties: {
-                    value: {
-                        type: String,
-                        notify: true,
-                        observer: '_onValueChanged'
-                    },
-                    files: {
-                        type: Array,
-                        notify: true,
-                        readOnly: true
-                    }
-                },
+                static get properties() {
+                    return {
+                        value: {
+                            type: String,
+                            notify: true,
+                            observer: '_onValueChanged'
+                        },
+                        files: {
+                            type: Array,
+                            notify: true,
+                            readOnly: true
+                        }
+                    };
+                }
 
                 get _focusableElement() {
                     return this.$.input;
-                },
+                }
 
                 _onValueChanged() {
                     if (!this.value) {
                         this.$.input.value = null;
                     }
-                },
+                }
 
                 _onInputChange() {
                     this._setFiles(Array.from(this.$.input.files));
@@ -63,7 +62,9 @@
                     const file = this.files[0];
                     this.value = file ? file.name : '';
                 }
-            });
+            }
+
+            customElements.define(RESTerFileInput.is, RESTerFileInput);
         })();
     </script>
 </dom-module>

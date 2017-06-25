@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
@@ -36,20 +36,22 @@
                         keys="enter"
                         on-keys-pressed="_onGenerateTokenFormEnterPressed"
                         stop-keyboard-event-propagation></iron-a11y-keys>
-                <form is="iron-form" id="generateTokenForm">
-                    <paper-input
-                            label="User name"
-                            value="{{_userName}}"
-                            required
-                            error-message="This is required!"
-                            autofocus></paper-input>
-                    <paper-input
-                            label="Password"
-                            value="{{_password}}"
-                            type="password"
-                            required
-                            error-message="This is required!"></paper-input>
-                </form>
+                <iron-form>
+                    <form id="generateTokenForm">
+                        <paper-input
+                                label="User name"
+                                value="{{_userName}}"
+                                required
+                                error-message="This is required!"
+                                autofocus></paper-input>
+                        <paper-input
+                                label="Password"
+                                value="{{_password}}"
+                                type="password"
+                                required
+                                error-message="This is required!"></paper-input>
+                    </form>
+                </iron-form>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>
@@ -66,37 +68,44 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-authorization-provider-basic',
+            class RESTerAuthorizationProviderBasic extends Polymer.Element {
+                static get is() {
+                    return 'rester-authorization-provider-basic';
+                }
 
-                properties: {
-                    providerId: {
-                        type: Number,
-                        readOnly: true,
-                        value: 2
-                    },
-                    title: {
-                        type: String,
-                        readOnly: true,
-                        value: 'Basic'
-                    },
-                    needsConfiguration: {
-                        type: Boolean,
-                        readOnly: true,
-                        value: false
-                    },
+                static get properties() {
+                    return {
+                        providerId: {
+                            type: Number,
+                            readOnly: true,
+                            value: 2
+                        },
+                        title: {
+                            type: String,
+                            readOnly: true,
+                            value: 'Basic'
+                        },
+                        needsConfiguration: {
+                            type: Boolean,
+                            readOnly: true,
+                            value: false
+                        },
 
-                    _form: {
-                        type: Object,
-                        value() {
-                            return this.$.generateTokenForm;
-                        }
-                    },
-                    _userName: String,
-                    _password: String
-                },
+                        _form: Object,
+                        _userName: String,
+                        _password: String
+                    };
+                }
 
-                _dialogPromise: undefined,
+                constructor() {
+                    super();
+                    this._dialogPromise = undefined;
+                }
+
+                ready() {
+                    super.ready();
+                    this._form = this.$.generateTokenForm;
+                }
 
                 generateToken() {
                     if (this._dialogPromise) {
@@ -115,21 +124,21 @@
                             this.$.generateTokenDialog.open();
                         }, 1);
                     });
-                },
+                }
 
                 _onGenerateTokenFormEnterPressed() {
                     if (this.$.generateTokenForm.validate()) {
                         this.$.generateTokenDialog.closingReason.confirmed = true;
                         this.$.generateTokenDialog.close();
                     }
-                },
+                }
 
                 _validate(e) {
                     if (!this.$.generateTokenForm.validate()) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                },
+                }
 
                 _onDialogClosed(e) {
                     if (e.detail.confirmed) {
@@ -146,7 +155,9 @@
 
                     this._dialogPromise = undefined;
                 }
-            });
+            }
+
+            customElements.define(RESTerAuthorizationProviderBasic.is, RESTerAuthorizationProviderBasic);
         })();
     </script>
 </dom-module>

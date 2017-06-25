@@ -4,8 +4,8 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 <link rel="import" href="rester-notification-slow-performance.html">
 
@@ -43,7 +43,7 @@
                     id="menu-button"
                     icon="[[icon]]"
                     class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+            <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
                 <template is="dom-repeat" items="[[visibleNotifications]]">
                     <paper-item role="menuitem" on-tap="_openNotification">
                         <paper-item-body two-line>
@@ -57,7 +57,7 @@
                         No notifications
                     </paper-item>
                 </template>
-            </paper-menu>
+            </paper-listbox>
         </paper-menu-button>
 
         <paper-badge

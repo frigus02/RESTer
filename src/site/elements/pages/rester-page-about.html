@@ -129,7 +129,7 @@
                                 };
                             });
 
-                            this._setLibraries(_.sortBy(bowerComponents.concat(this._otherComponents), x => x.name.toLowerCase()));
+                            this._setLibraries(RESTer.util.sort(bowerComponents.concat(this._otherComponents), x => x.name.toLowerCase()));
                         });
 
                     const manifest = chrome.runtime.getManifest();

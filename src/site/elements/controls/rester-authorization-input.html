@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
@@ -27,7 +27,7 @@
             <h3>Use existing tokens</h3>
             <template is="dom-repeat" items="[[tokens]]">
                 <paper-icon-item role="menuitemradio" class="button">
-                    <iron-icon icon="check" item-icon hidden$="[[!item.isUsed]]"></iron-icon>
+                    <iron-icon slot="item-icon" icon="check" hidden$="[[!item.isUsed]]"></iron-icon>
                     <paper-item-body three-line on-tap="_useToken">
                         <div>[[item.title]]</div>
                         <div secondary>
@@ -85,43 +85,44 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-authorization-input',
+            class RESTerAuthorizationInput extends Polymer.mixinBehaviors([RESTer.ErrorBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-authorization-input';
+                }
 
-                behaviors: [
-                    RESTer.ErrorBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
-
-                properties: {
-                    authorization: {
-                        type: String,
-                        notify: true,
-                        observer: '_onAuthorizationChanged'
-                    },
-                    tokens: {
-                        type: Array,
-                        readOnly: true,
-                        value: []
-                    },
-                    configurations: {
-                        type: Array,
-                        readOnly: true,
-                        value: []
-                    },
-                    providers: {
-                        type: Array,
-                        readOnly: true,
-                        value: []
-                    },
-                    providersRequireConfiguration: {
-                        type: Array,
-                        readOnly: true,
-                        value: []
-                    }
-                },
+                static get properties() {
+                    return {
+                        authorization: {
+                            type: String,
+                            notify: true,
+                            observer: '_onAuthorizationChanged'
+                        },
+                        tokens: {
+                            type: Array,
+                            readOnly: true,
+                            value: []
+                        },
+                        configurations: {
+                            type: Array,
+                            readOnly: true,
+                            value: []
+                        },
+                        providers: {
+                            type: Array,
+                            readOnly: true,
+                            value: []
+                        },
+                        providersRequireConfiguration: {
+                            type: Array,
+                            readOnly: true,
+                            value: []
+                        }
+                    };
+                }
 
                 ready() {
+                    super.ready();
+
                     this._setProviders([
                         this.$.providerCustom,
                         this.$.providerBasic,
@@ -160,22 +161,22 @@
                             this._updateTokenIsUsedFlag();
                         });
                     });
-                },
+                }
 
                 _onAuthorizationChanged() {
                     this._updateTokenIsUsedFlag();
-                },
+                }
 
                 _generateTokenFromConfig(e) {
                     this._generateToken(e.model.item);
-                },
+                }
 
                 _generateTokenFromConfigIncognito(e) {
-                    const config = _.clone(e.model.item);
+                    const config = RESTer.util.clone(e.model.item);
                     config.incognito = true;
 
                     this._generateToken(config);
-                },
+                }
 
                 _generateToken(config) {
                     const provider = config.provider;
@@ -195,7 +196,7 @@
                                 this.showError(error);
                             }
                         });
-                },
+                }
 
                 _useToken(e) {
                     const token = e.model.item;
@@ -205,7 +206,7 @@
                     } else {
                         this.authorization = `${token.scheme} ${token.token}`;
                     }
-                },
+                }
 
                 _deleteToken(e) {
                     const token = e.model.item;
@@ -220,7 +221,7 @@
                             this.splice('tokens', index, 1);
                         }
                     });
-                },
+                }
 
                 _editConfiguration(e) {
                     const config = e.model.item;
@@ -247,7 +248,7 @@
                             });
                         }
                     });
-                },
+                }
 
                 _createConfiguration(e) {
                     const provider = e.model.item;
@@ -259,20 +260,20 @@
                             this.push('configurations', config);
                         });
                     });
-                },
+                }
 
                 _prepareTokenForRender(token) {
                     token.expirationDateFormatted = RESTer.format.expirationDate(token.expirationDate);
                     token.provider = this.providers.find(p => p.providerId === token.providerId);
                     token.configuration = this.configurations.find(c => c.id === token.configurationId);
                     return token;
-                },
+                }
 
                 _updateTokenIsUsedFlag() {
                     this.tokens.forEach((token, i) => {
                         this.set(['tokens', i, 'isUsed'], this.authorization === `${token.scheme} ${token.token}`);
                     });
-                },
+                }
 
                 _compareConfigurations(a, b) {
                     const providerCompare = a.provider.title.localeCompare(b.provider.title);
@@ -281,13 +282,15 @@
                     } else {
                         return providerCompare;
                     }
-                },
+                }
 
                 _configurationSupportsIncognito(config) {
                     // Only OAuth 2 supports incognito.
                     return config.providerId === 3;
                 }
-            });
+            }
+
+            customElements.define(RESTerAuthorizationInput.is, RESTerAuthorizationInput);
         })();
     </script>
 </dom-module>

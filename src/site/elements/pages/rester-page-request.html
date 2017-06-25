@@ -7,8 +7,8 @@
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
@@ -109,16 +109,16 @@
                         class="flex"></rester-request-title-input>
                 <paper-menu-button id="saveOptions" horizontal-align="right" restore-focus-on-close>
                     <paper-icon-button icon="save" class="dropdown-trigger"></paper-icon-button>
-                    <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+                    <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
                         <paper-item role="menuitem" on-tap="_saveRequest">Save</paper-item>
                         <paper-item role="menuitem" on-tap="_saveRequestAsNew">Save as new</paper-item>
-                    </paper-menu>
+                    </paper-listbox>
                 </paper-menu-button>
                 <paper-menu-button id="deleteOptions" horizontal-align="right" restore-focus-on-close hidden$="[[!request.id]]">
                     <paper-icon-button icon="delete" class="dropdown-trigger"></paper-icon-button>
-                    <paper-menu class="dropdown-content" selectable="[role='menuitemradio']">
+                    <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
                         <paper-item role="menuitem" on-tap="_deleteRequest">Delete</paper-item>
-                    </paper-menu>
+                    </paper-listbox>
                 </paper-menu-button>
             </paper-toolbar>
             <div role="main">
@@ -524,7 +524,7 @@
                     this._setRequestIsSending(true);
                     return RESTer.request.send(compiledRequest)
                         .then(plainResponse => {
-                            const requestClone = _.cloneDeep(this.request);
+                            const requestClone = RESTer.util.cloneDeep(this.request);
                             requestClone.variables.values = usedVariableValues;
 
                             const response = {

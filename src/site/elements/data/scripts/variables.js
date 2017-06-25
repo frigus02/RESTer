@@ -35,20 +35,22 @@
     }
 
     self.extract = function (obj) {
-        let vars = [];
+        const vars = new Set();
 
         if (typeof obj === 'string') {
-            let matches = obj.match(RE_VARS);
+            const matches = obj.match(RE_VARS);
             if (matches) {
-                vars.push(matches.map(m => m.substr(1, m.length - 2)));
+                matches
+                    .map(m => m.substr(1, m.length - 2))
+                    .forEach(v => vars.push(v));
             }
         } else if (typeof obj === 'object' && obj !== null) {
             Object.keys(obj).forEach(key => {
-                vars.push(self.extract(obj[key]));
+                self.extract(obj[key]).forEach(v => vars.push(v));
             });
         }
 
-        return _.union(...vars);
+        return Array.from(vars);
     };
 
     function replaceInternal(obj, allValues, usedValues) {
@@ -65,7 +67,7 @@
                 }
             });
         } else if (typeof obj === 'object' && obj !== null) {
-            obj = _.clone(obj);
+            obj = RESTer.util.clone(obj);
             Object.keys(obj).forEach(key => {
                 obj[key] = replaceInternal(obj[key], allValues, usedValues);
             });

@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
@@ -98,40 +98,45 @@
                 'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data']
             };
 
-            Polymer({
-                is: 'rester-header-input',
+            class RESTerHeaderInput extends Polymer.Element {
+                static get is() {
+                    return 'rester-header-input';
+                }
 
-                properties: {
-                    value: {
-                        type: Array,
-                        notify: true,
-                        observer: '_onValueChanged'
-                    },
-                    headers: {
-                        type: Array,
-                        readOnly: true,
-                        value: []
-                    },
-                    requestHeaders: {
-                        type: Array,
-                        readOnly: true,
-                        value: REQUEST_HEADERS
-                    },
-                    requestHeaderValues: {
-                        type: Object,
-                        readOnly: true,
-                        value: REQUEST_HEADER_VALUES
-                    }
-                },
+                static get properties() {
+                    return {
+                        value: {
+                            type: Array,
+                            notify: true,
+                            observer: '_onValueChanged'
+                        },
+                        headers: {
+                            type: Array,
+                            readOnly: true,
+                            value: []
+                        },
+                        requestHeaders: {
+                            type: Array,
+                            readOnly: true,
+                            value: REQUEST_HEADERS
+                        },
+                        requestHeaderValues: {
+                            type: Object,
+                            readOnly: true,
+                            value: REQUEST_HEADER_VALUES
+                        }
+                    };
+                }
 
                 ready() {
+                    super.ready();
                     this._ensureEmptyHeader();
-                },
+                }
 
                 _onValueChanged() {
                     this._setHeaders([...this.value]);
                     this._ensureEmptyHeader();
-                },
+                }
 
                 _onHeadersChanged() {
                     // Async ensures, this event is triggered after item.name and item.value
@@ -140,24 +145,25 @@
                         this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
                         this._ensureEmptyHeader();
                     });
-                },
+                }
 
                 _ensureEmptyHeader() {
                     if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
                         this.push('headers', {name: '', value: ''});
                     }
-                },
+                }
 
                 _removeHeader(e) {
                     this.splice('headers', e.model.index, 1);
                     this._onHeadersChanged();
-                },
+                }
 
                 _getRequestHeaderValues(headerName) {
                     return this.requestHeaderValues[headerName] || [];
                 }
-            });
+            }
 
+            customElements.define(RESTerHeaderInput.is, RESTerHeaderInput);
         })();
     </script>
 </dom-module>

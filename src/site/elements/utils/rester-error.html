@@ -63,7 +63,7 @@
                 ],
 
                 show(error, title) {
-                    this.title = title || _.sample(this._titles);
+                    this.title = title || RESTer.util.sample(this._titles);
                     this.error = error;
                     this.$.dialog.open();
                 },
