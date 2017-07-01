@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -60,39 +60,39 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-url-input',
+            class RESTerUrlInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-url-input';
+                }
 
-                behaviors: [
-                    Polymer.IronFormElementBehavior
-                ],
-
-                properties: {
-                    label: String,
-                    value: {
-                        type: String,
-                        notify: true,
-                        observer: '_onValueChanged'
-                    },
-                    originAndPath: {
-                        type: String,
-                        observer: '_onOriginAndPathOrQueryChanged'
-                    },
-                    query: {
-                        type: String,
-                        observer: '_onOriginAndPathOrQueryChanged'
-                    },
-                    expanded: {
-                        type: Boolean,
-                        value: false,
-                        reflectToAttribute: true
-                    },
-                    invalid: {
-                        type: Boolean,
-                        value: false,
-                        notify: true
-                    }
-                },
+                static get properties() {
+                    return {
+                        label: String,
+                        value: {
+                            type: String,
+                            notify: true,
+                            observer: '_onValueChanged'
+                        },
+                        originAndPath: {
+                            type: String,
+                            observer: '_onOriginAndPathOrQueryChanged'
+                        },
+                        query: {
+                            type: String,
+                            observer: '_onOriginAndPathOrQueryChanged'
+                        },
+                        expanded: {
+                            type: Boolean,
+                            value: false,
+                            reflectToAttribute: true
+                        },
+                        invalid: {
+                            type: Boolean,
+                            value: false,
+                            notify: true
+                        }
+                    };
+                }
 
                 _toggleExpanded() {
                     this.expanded = !this.expanded;
@@ -103,13 +103,13 @@
                             this.$.inputOriginAndPath.focus();
                         }
                     });
-                },
+                }
 
                 _onValueChanged() {
                     const parts = this.value.split('?');
                     this.originAndPath = parts[0];
                     this.query = parts[1] || '';
-                },
+                }
 
                 _onOriginAndPathOrQueryChanged() {
                     let url = this.originAndPath;
@@ -118,12 +118,14 @@
                     }
 
                     this.value = url;
-                },
+                }
 
                 validate() {
                     return this.$.inputAbsolute.validate();
                 }
-            });
+            }
+
+            customElements.define(RESTerUrlInput.is, RESTerUrlInput);
         })();
     </script>
 </dom-module>

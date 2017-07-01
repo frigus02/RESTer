@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="../data/rester-data-theme-behavior.html">
 
@@ -54,20 +54,22 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-highlight-headers',
-
-                behaviors: [
-                    RESTer.ThemeBehavior
-                ],
-
-                properties: {
-                    headers: {
-                        type: Array,
-                        value: []
-                    }
+            class RESTerHighlightHeaders extends Polymer.mixinBehaviors([RESTer.ThemeBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-highlight-headers';
                 }
-            });
+
+                static get properties() {
+                    return {
+                        headers: {
+                            type: Array,
+                            value: []
+                        }
+                    };
+                }
+            }
+
+            customElements.define(RESTerHighlightHeaders.is, RESTerHighlightHeaders);
         })();
     </script>
 </dom-module>

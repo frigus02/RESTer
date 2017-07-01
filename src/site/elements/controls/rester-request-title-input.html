@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
@@ -37,16 +37,18 @@
         </style>
 
         <paper-input-container no-label-float>
-            <input is="iron-input" id="input"
-                    bind-value="{{value}}"
-                    autocomplete="off"
-                    name="[[name]]"
-                    required$="[[required]]">
+            <iron-input slot="input">
+                <input id="input"
+                        bind-value="{{value}}"
+                        autocomplete="off"
+                        name="[[name]]"
+                        required$="[[required]]">
+            </iron-input>
             <rester-autocomplete
-                    prefix
+                    slot="prefix"
                     for="input"
                     items="[[requestCollections]]"></rester-autocomplete>
-            <div suffix id="label">
+            <div slot="suffix" id="label">
                 <span class="size-helper">[[value]]</span>
                 <span hidden$="[[hasCollection]]">Collection</span>
                 <span hidden$="[[hasTitle]]"><span hidden$="[[hasTrailingSlash]]">/</span> Title</span>
@@ -58,69 +60,75 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-request-title-input',
+            class RESTerRequestTitleInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-request-title-input';
+                }
 
-                behaviors: [
-                    RESTer.InputControlBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
+                static get properties() {
+                    return {
+                        requestCollection: {
+                            type: String,
+                            notify: true,
+                            observer: '_onRequestTitleChanged'
+                        },
+                        requestTitle: {
+                            type: String,
+                            notify: true,
+                            observer: '_onRequestTitleChanged'
+                        },
+                        value: {
+                            type: String,
+                            observer: '_onValueChanged'
+                        },
+                        requestCollections: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        hasCollection: {
+                            type: Boolean,
+                            computed: '_computeHasCollection(requestCollection)'
+                        },
+                        hasTrailingSlash: {
+                            type: Boolean,
+                            computed: '_computeHasTrailingSlash(value)'
+                        },
+                        hasTitle: {
+                            type: Boolean,
+                            computed: '_computeHasTitle(requestTitle)'
+                        }
+                    };
+                }
 
-                properties: {
-                    requestCollection: {
-                        type: String,
-                        notify: true,
-                        observer: '_onRequestTitleChanged'
-                    },
-                    requestTitle: {
-                        type: String,
-                        notify: true,
-                        observer: '_onRequestTitleChanged'
-                    },
-                    value: {
-                        type: String,
-                        observer: '_onValueChanged'
-                    },
-                    requestCollections: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    hasCollection: {
-                        type: Boolean,
-                        computed: '_computeHasCollection(requestCollection)'
-                    },
-                    hasTrailingSlash: {
-                        type: Boolean,
-                        computed: '_computeHasTrailingSlash(value)'
-                    },
-                    hasTitle: {
-                        type: Boolean,
-                        computed: '_computeHasTitle(requestTitle)'
-                    }
-                },
-
-                _knownCollection: undefined,
-                _knownTitle: undefined,
+                constructor() {
+                    super();
+                    this._knownCollection =  undefined;
+                    this._knownTitle =  undefined;
+                }
 
                 get _focusableElement() {
                     return this.$.input;
-                },
+                }
 
                 ready() {
+                    super.ready();
+
                     this._onInputKeyDown = this._onInputKeyDown.bind(this);
 
                     RESTer.rester.getRequestCollections().then(result => {
                         this._setRequestCollections(result.map(c => c + ' / '));
                     });
-                },
+                }
 
-                attached() {
+                connectedCallback() {
+                    super.connectedCallback();
                     this.$.input.addEventListener('keydown', this._onInputKeyDown);
-                },
+                }
 
-                detached() {
+                disconnectedCallback() {
+                    super.disconnectedCallback();
                     this.$.input.removeEventListener('keydown', this._onInputKeyDown);
-                },
+                }
 
                 _onRequestTitleChanged() {
                     if (this.requestCollection !== this._knownCollection ||
@@ -134,7 +142,7 @@
                             this.value = '';
                         }
                     }
-                },
+                }
 
                 _onValueChanged() {
                     const parts = this.value.split('/');
@@ -149,19 +157,19 @@
 
                     this._knownCollection = parts.map(p => p.trim()).filter(p => p).join(' / ');
                     this.requestCollection = this._knownCollection;
-                },
+                }
 
                 _computeHasCollection(requestCollection) {
                     return !!requestCollection;
-                },
+                }
 
                 _computeHasTrailingSlash(value) {
                     return (value || '').trim().endsWith('/');
-                },
+                }
 
                 _computeHasTitle(requestTitle) {
                     return !!requestTitle;
-                },
+                }
 
                 _onInputKeyDown(e) {
                     const caretPos = this.$.input.selectionStart;
@@ -195,7 +203,9 @@
                         this.$.input.setSelectionRange(caretPos + strToInsert.length, caretPos + strToInsert.length);
                     }
                 }
-            });
+            }
+
+            customElements.define(RESTerRequestTitleInput.is, RESTerRequestTitleInput);
         })();
     </script>
 </dom-module>

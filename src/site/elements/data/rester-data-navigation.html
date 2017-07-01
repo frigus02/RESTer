@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="rester-data.html">
 
@@ -7,51 +7,66 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-data-navigation',
+            class RESTerDataNavigation extends Polymer.Element {
+                static get is() {
+                    return 'rester-data-navigation';
+                }
 
-                properties: {
-                    items: {
-                        type: Array,
-                        value: [],
-                        readOnly: true,
-                        notify: true
-                    }
-                },
+                static get properties() {
+                    return {
+                        items: {
+                            type: Array,
+                            value: [],
+                            readOnly: true,
+                            notify: true
+                        }
+                    };
+                }
 
-                created() {
+                static get requestFields() {
+                    return ['id', 'collection', 'title'];
+                }
+
+                static get historyFields() {
+                    return ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'];
+                }
+
+                static get environmentFields() {
+                    return ['id', 'name'];
+                }
+
+                constructor() {
+                    super();
                     this._updateNavigationBasedOnDataChanges = this._updateNavigationBasedOnDataChanges.bind(this);
                     this._updateNavigationBasedOnSettingsChanges = this._updateNavigationBasedOnSettingsChanges.bind(this);
-                },
 
-                attached() {
+                    this._requestNavItemsOffset = 0;
+                    this._requestNavItemsCount = 0;
+                    this._environmentNavItem = null;
+                    this._environmentNavItemIndex = 0;
+                    this._historyNavItemsOffset = 0;
+                    this._historyNavItemsCount = 0;
+                }
+
+                connectedCallback() {
+                    super.connectedCallback();
                     this._createNavigation();
                     RESTer.rester.addEventListener('dataChange', this._updateNavigationBasedOnDataChanges);
                     RESTer.rester.addEventListener('settingsChange', this._updateNavigationBasedOnSettingsChanges);
-                },
+                }
 
-                detached() {
+                disconnectedCallback() {
+                    super.disconnectedCallback();
                     RESTer.rester.removeEventListener('dataChange', this._updateNavigationBasedOnDataChanges);
                     RESTer.rester.removeEventListener('settingsChange', this._updateNavigationBasedOnSettingsChanges);
-                },
-
-                _requestFields: ['id', 'collection', 'title'],
-                _historyFields: ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'],
-                _environmentFields: ['id', 'name'],
-
-                _requestNavItemsOffset: 0,
-                _requestNavItemsCount: 0,
-                _environmentNavItem: null,
-                _environmentNavItemIndex: 0,
-                _historyNavItemsOffset: 0,
-                _historyNavItemsCount: 0,
+                }
 
                 _createNavigation() {
                     this._setItems([]);
 
                     Promise.all([
-                        RESTer.rester.getRequests(this._requestFields),
-                        RESTer.rester.getHistoryEntries(5, this._historyFields),
+                        RESTer.rester.getRequests(RESTerDataNavigation.requestFields),
+                        RESTer.rester.getHistoryEntries(5, RESTerDataNavigation.historyFields),
                         RESTer.rester.settingsLoaded.then(() => this._getActiveEnvironment())
                     ]).then(([requests, historyEntries, activeEnvironment]) => {
                         this.push('items', {
@@ -128,7 +143,7 @@
                         this._historyNavItemsCount = historyNavItems.length;
                         this.push('items', ...historyNavItems);
                     });
-                },
+                }
 
                 _createListOfRequestNavItems(rawRequests) {
                     const collGroups = RESTer.util.group(rawRequests, request => request.collection[0]);
@@ -156,7 +171,7 @@
 
                         return collItem;
                     });
-                },
+                }
 
                 _createRequestCollectionNavItem(collection) {
                     return {
@@ -164,7 +179,7 @@
                         title: collection,
                         items: []
                     };
-                },
+                }
 
                 _createRequestNavItem(request) {
                     return {
@@ -177,7 +192,7 @@
                             id: request.id
                         }
                     };
-                },
+                }
 
                 _createHistoryNavItem(historyEntry) {
                     let requestTitle = '';
@@ -195,7 +210,7 @@
                             url: `#/request/${historyEntry.request.id || ''}/history/${historyEntry.id}`
                         }
                     };
-                },
+                }
 
                 _removeRequestNavigationItem(requestId, path = ['items'], offset = this._requestNavItemsOffset, count = this._requestNavItemsCount) {
                     const requests = this.get(path);
@@ -222,7 +237,7 @@
                     }
 
                     return false;
-                },
+                }
 
                 _updateNavigationBasedOnDataChanges(changes) {
                     changes.forEach(change => {
@@ -280,24 +295,24 @@
                             }
                         }
                     });
-                },
+                }
 
                 _updateNavigationBasedOnSettingsChanges() {
                     this._getActiveEnvironment().then(env => this._updateEnvironmentNavItemSubtitle(env));
-                },
+                }
 
                 _getActiveEnvironment() {
                     const envId = RESTer.rester.settings.activeEnvironment;
                     if (envId) {
-                        return RESTer.rester.getEnvironment(envId, this._environmentFields);
+                        return RESTer.rester.getEnvironment(envId, RESTerDataNavigation.environmentFields);
                     } else {
                         return Promise.resolve();
                     }
-                },
+                }
 
                 _updateEnvironmentNavItemSubtitle(env) {
                     this.set(`items.${this._environmentNavItemIndex}.subtitle`, env && env.name);
-                },
+                }
 
                 getNextRequestId(requestId) {
                     const requests = this.items.slice(this._requestNavItemsOffset, this._requestNavItemsOffset + this._requestNavItemsCount);
@@ -305,7 +320,7 @@
                     if (result !== 'noNextInGroup') {
                         return result;
                     }
-                },
+                }
 
                 _findNextRequestId(requestId, requestItems) {
                     function findNextId(i) {
@@ -339,7 +354,9 @@
                         }
                     }
                 }
-            });
+            }
+
+            customElements.define(RESTerDataNavigation.is, RESTerDataNavigation);
         })();
     </script>
 </dom-module>

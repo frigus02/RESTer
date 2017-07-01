@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -45,23 +45,23 @@
         </style>
 
         <paper-menu-button id="options" dynamic-align horizontal-align="right" restore-focus-on-close>
-            <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-            <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
+            <paper-icon-button slot="dropdown-trigger" icon="more-vert"></paper-icon-button>
+            <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
-                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyWrap]]"></iron-icon> Wrap
+                    <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyWrap]]"></iron-icon> Wrap
                 </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_togglePrettyPrint" hidden$="[[!isPrettyPrintSupported]]">
-                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyPrettyPrint]]"></iron-icon> Pretty Print
+                    <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyPrettyPrint]]"></iron-icon> Pretty Print
                 </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_toggleFullSize">
-                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyFullSize]]"></iron-icon> Full Size
+                    <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyFullSize]]"></iron-icon> Full Size
                 </paper-icon-item>
                 <paper-icon-item role="menuitemcheckbox" on-tap="_togglePreview" hidden$="[[!isPreviewSupported]]">
-                    <iron-icon icon="check" item-icon hidden$="[[!settings.responseBodyPreview]]"></iron-icon> Preview
+                    <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyPreview]]"></iron-icon> Preview
                 </paper-icon-item>
                 <div class="menu-item-divider"></div>
                 <paper-icon-item on-tap="_changeLanguage">
-                    <iron-icon icon="language" item-icon></iron-icon> Change highlighting ([[language]])
+                    <iron-icon slot="item-icon" icon="language"></iron-icon> Change highlighting ([[language]])
                 </paper-icon-item>
             </paper-listbox>
         </paper-menu-button>
@@ -112,68 +112,72 @@
                 XML: 'xml'
             };
 
-            Polymer({
-                is: 'rester-highlight-body',
+            class RESTerHighlightBody extends Polymer.mixinBehaviors([RESTer.ErrorBehavior, RESTer.SettingsBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-highlight-body';
+                }
 
-                behaviors: [
-                    RESTer.ErrorBehavior,
-                    RESTer.SettingsBehavior
-                ],
+                static get properties() {
+                    return {
+                        body: String,
+                        bodyFormatted: {
+                            type: String,
+                            readOnly: true
+                        },
+                        renderedBody: {
+                            type: String,
+                            computed: '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
+                        },
+                        contentType: String,
+                        language: String,
+                        aceMode: {
+                            type: String,
+                            computed: '_computeAceMode(language)'
+                        },
+                        aceMaxLines: {
+                            type: Number,
+                            computed: '_computeAceMaxLines(settings.responseBodyFullSize)'
+                        },
+                        prettyPrintMode: {
+                            type: String,
+                            computed: '_computePrettyPrintMode(language)'
+                        },
+                        isPrettyPrintSupported: {
+                            type: Boolean,
+                            computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
+                        },
+                        isPreviewSupported: {
+                            type: Boolean,
+                            computed: '_computeIsPreviewSupported(language)'
+                        },
+                        renderPreview: {
+                            type: Boolean,
+                            computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
+                        },
+                        supportedLanguages: {
+                            type: Array,
+                            readOnly: true,
+                            value: [
+                                'Plain',
+                                'HTML',
+                                'JSON',
+                                'XML'
+                            ]
+                        }
+                    };
+                }
 
-                properties: {
-                    body: String,
-                    bodyFormatted: {
-                        type: String,
-                        readOnly: true
-                    },
-                    renderedBody: {
-                        type: String,
-                        computed: '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
-                    },
-                    contentType: String,
-                    language: String,
-                    aceMode: {
-                        type: String,
-                        computed: '_computeAceMode(language)'
-                    },
-                    aceMaxLines: {
-                        type: Number,
-                        computed: '_computeAceMaxLines(settings.responseBodyFullSize)'
-                    },
-                    prettyPrintMode: {
-                        type: String,
-                        computed: '_computePrettyPrintMode(language)'
-                    },
-                    isPrettyPrintSupported: {
-                        type: Boolean,
-                        computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
-                    },
-                    isPreviewSupported: {
-                        type: Boolean,
-                        computed: '_computeIsPreviewSupported(language)'
-                    },
-                    renderPreview: {
-                        type: Boolean,
-                        computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
-                    },
-                    supportedLanguages: {
-                        type: Array,
-                        readOnly: true,
-                        value: [
-                            'Plain',
-                            'HTML',
-                            'JSON',
-                            'XML'
-                        ]
-                    }
-                },
+                static get observers() {
+                    return [
+                        '_formatBody(body, prettyPrintMode)',
+                        '_autoSelectLanguage(contentType)'
+                    ];
+                }
 
-                observers: [
-                    '_formatBody(body, prettyPrintMode)',
-                    '_autoSelectLanguage(contentType)'
-                ],
-
-                _formatBodyWorker: undefined,
+                constructor() {
+                    super();
+                    this._formatBodyWorker = undefined;
+                }
 
                 _computeRenderedBody(body, bodyFormatted, prettyPrint) {
                     if (prettyPrint && bodyFormatted) {
@@ -181,31 +185,31 @@
                     } else {
                         return body;
                     }
-                },
+                }
 
                 _computeAceMode(language) {
                     return aceModes[language] || null;
-                },
+                }
 
                 _computeAceMaxLines(fullSize) {
                     return fullSize ? Infinity : 25;
-                },
+                }
 
                 _computePrettyPrintMode(language) {
                     return prettyPrintModes[language] || null;
-                },
+                }
 
                 _computeIsPrettyPrintSupported(prettyPrintMode) {
                     return !!prettyPrintMode;
-                },
+                }
 
                 _computeIsPreviewSupported(language) {
                     return language === 'HTML';
-                },
+                }
 
                 _computeRenderPreview(preview, isPreviewSupported) {
                     return preview && isPreviewSupported;
-                },
+                }
 
                 _formatBody(body, prettyPrintMode) {
                     this._setBodyFormatted('');
@@ -234,7 +238,7 @@
                             this.showError(error);
                         });
                     }, 100);
-                },
+                }
 
                 _autoSelectLanguage(contentType) {
                     let newLanguage = this.supportedLanguages[0];
@@ -249,37 +253,39 @@
                     }
 
                     this.language = newLanguage;
-                },
+                }
 
                 _toggleWrap() {
                     this.$.options.close();
                     this.settings.responseBodyWrap = !this.settings.responseBodyWrap;
-                },
+                }
 
                 _togglePrettyPrint() {
                     this.$.options.close();
                     this.settings.responseBodyPrettyPrint = !this.settings.responseBodyPrettyPrint;
-                },
+                }
 
                 _toggleFullSize() {
                     this.$.options.close();
                     this.settings.responseBodyFullSize = !this.settings.responseBodyFullSize;
-                },
+                }
 
                 _togglePreview() {
                     this.$.options.close();
                     this.settings.responseBodyPreview = !this.settings.responseBodyPreview;
-                },
+                }
 
                 _changeLanguage() {
                     this.$.options.close();
                     this.$.chooseLanguageDialog.open();
-                },
+                }
 
                 _closeChangeLanguageDialog() {
                     this.$.chooseLanguageDialog.close();
                 }
-            });
+            }
+
+            customElements.define(RESTerHighlightBody.is, RESTerHighlightBody);
         })();
     </script>
 </dom-module>

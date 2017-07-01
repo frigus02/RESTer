@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
@@ -41,50 +41,54 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-variables-input',
+            class RESTerVariablesInput extends Polymer.mixinBehaviors([RESTer.VariablesBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-variables-input';
+                }
 
-                behaviors: [
-                    RESTer.VariablesBehavior,
-                    Polymer.IronFormElementBehavior
-                ],
+                static get properties() {
+                    return {
+                        value: {
+                            type: Object,
+                            notify: true,
+                            observer: '_updateVariables'
+                        },
+                        sourceObj: {
+                            type: Object
+                        },
+                        variables: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        providedVariables: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        lastUsedVariables: {
+                            type: Object,
+                            readOnly: true
+                        },
+                        variableHistory: {
+                            type: Object,
+                            readOnly: true
+                        }
+                    };
+                }
 
-                properties: {
-                    value: {
-                        type: Object,
-                        notify: true,
-                        observer: '_updateVariables'
-                    },
-                    sourceObj: {
-                        type: Object
-                    },
-                    variables: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    providedVariables: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    lastUsedVariables: {
-                        type: Object,
-                        readOnly: true
-                    },
-                    variableHistory: {
-                        type: Object,
-                        readOnly: true
-                    }
-                },
+                static get observers() {
+                    return [
+                        '_updateVariables(sourceObj.*, providedVariableValues)'
+                    ];
+                }
 
-                observers: [
-                    '_updateVariables(sourceObj.*, providedVariableValues)'
-                ],
-
-                created() {
+                constructor() {
+                    super();
                     this._onDataChanges = this._onDataChanges.bind(this);
-                },
+                }
 
-                attached() {
+                connectedCallback() {
+                    super.connectedCallback();
+
                     this._setLastUsedVariables({});
                     this._setVariableHistory({});
 
@@ -96,11 +100,12 @@
                     });
 
                     RESTer.rester.addEventListener('dataChange', this._onDataChanges);
-                },
+                }
 
-                detached() {
+                disconnectedCallback() {
+                    super.disconnectedCallback();
                     RESTer.rester.removeEventListener('dataChange', this._onDataChanges);
-                },
+                }
 
                 _updateVariables() {
                     if (!this.value) {
@@ -137,7 +142,7 @@
                             value: this.providedVariableValues[varName]
                         })));
                     }, 300);
-                },
+                }
 
                 _onVariableValueChanged(e) {
                     const variable = e.model.item;
@@ -152,7 +157,7 @@
                     }
 
                     this.set(['lastUsedVariables', variable.name], variable.value);
-                },
+                }
 
                 _onDataChanges(changes) {
                     for (let change of changes) {
@@ -160,7 +165,7 @@
                             this._addHistoryEntryToVariableHistory(change.item);
                         }
                     }
-                },
+                }
 
                 _addHistoryEntryToVariableHistory(entry) {
                     const values = entry.request.variables.values || {};
@@ -188,12 +193,14 @@
                             }
                         }
                     }
-                },
+                }
 
                 _compareVariables(a, b) {
                     return a.name.localeCompare(b.name);
                 }
-            });
+            }
+
+            customElements.define(RESTerVariablesInput.is, RESTerVariablesInput);
         })();
     </script>
 </dom-module>
