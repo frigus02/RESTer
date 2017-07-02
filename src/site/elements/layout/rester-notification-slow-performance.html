@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
@@ -75,79 +75,76 @@
         (function () {
             'use strict';
 
-            const SIZE_1MB = 1 * 1024 * 1024;
+            class RESTerNotificationSlowPerformance extends Polymer.mixinBehavior([RESTer.ErrorBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-notification-slow-performance';
+                }
 
-            function getSizeOfEntries(entries) {
-                return entries.map(e => e.size).reduce((a, b) => a + b, 0);
-            }
+                static get properties() {
+                    return {
+                        title: {
+                            type: String,
+                            readOnly: true,
+                            value: 'RESTer is running slow'
+                        },
+                        description: {
+                            type: String,
+                            readOnly: true,
+                            value: ''
+                        },
+                        visible: {
+                            type: Boolean,
+                            notify: true,
+                            readOnly: true,
+                            value: false
+                        },
+                        largeHistoryEntries: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        deleteLargeHistoryEntries: Boolean,
+                        historyEntries: {
+                            type: Number,
+                            readOnly: true
+                        },
+                        historyEntriesCountToDelete: Number,
+                        isDeletingEntries: {
+                            type: Boolean,
+                            readOnly: true,
+                            value: false
+                        }
+                    };
+                }
 
-            function isEntryLarge(entry) {
-                return entry.size > SIZE_1MB;
-            }
+                static get SIZE_1MB() {
+                    return 1 * 1024 * 1024;
+                }
 
-            Polymer({
-                is: 'rester-notification-slow-performance',
-
-                behaviors: [
-                    RESTer.ErrorBehavior
-                ],
-
-                properties: {
-                    title: {
-                        type: String,
-                        readOnly: true,
-                        value: 'RESTer is running slow'
-                    },
-                    description: {
-                        type: String,
-                        readOnly: true,
-                        value: ''
-                    },
-                    visible: {
-                        type: Boolean,
-                        notify: true,
-                        readOnly: true,
-                        value: false
-                    },
-                    largeHistoryEntries: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    deleteLargeHistoryEntries: Boolean,
-                    historyEntries: {
-                        type: Number,
-                        readOnly: true
-                    },
-                    historyEntriesCountToDelete: Number,
-                    isDeletingEntries: {
-                        type: Boolean,
-                        readOnly: true,
-                        value: false
-                    }
-                },
-
-                ready() {
+                constructor() {
+                    super();
                     this._onDataSlowPerformance = this._onDataSlowPerformance.bind(this);
-                },
+                }
 
-                attached() {
+                connectedCallback() {
+                    super.connectedCallback();
                     RESTer.rester.addEventListener('dataSlowPerformance', this._onDataSlowPerformance);
-                },
+                }
 
-                detached() {
+                disconnectedCallback() {
+                    super.disconnectedCallback();
                     RESTer.rester.removeEventListener('dataSlowPerformance', this._onDataSlowPerformance);
-                },
+                }
 
                 open() {
                     this.$.dialog.open();
                     RESTer.rester.getHistoryEntries(null, ['id', 'size']).then(entries => {
                         this._setHistoryEntries(entries);
-                        this._setLargeHistoryEntries(entries.filter(isEntryLarge));
+                        this._setLargeHistoryEntries(entries.filter(this._isEntryLarge));
                         this.deleteLargeHistoryEntries = true;
 
-                        const targetSize = SIZE_1MB * 10;
-                        const size = getSizeOfEntries(entries);
-                        const sizeOfLargeEntries = getSizeOfEntries(this.largeHistoryEntries);
+                        const targetSize = RESTerNotificationSlowPerformance.SIZE_1MB * 10;
+                        const size = this._getSizeOfEntries(entries);
+                        const sizeOfLargeEntries = this._getSizeOfEntries(this.largeHistoryEntries);
 
                         let sizeAfterDeletion = size - sizeOfLargeEntries;
                         let deleteCount = 0;
@@ -155,20 +152,20 @@
                             deleteCount++;
 
                             const entry = entries[entries.length - deleteCount];
-                            if (!isEntryLarge(entry)) {
+                            if (!this._isEntryLarge(entry)) {
                                 sizeAfterDeletion -= entry.size;
                             }
                         }
 
                         this.historyEntriesCountToDelete = deleteCount;
                     });
-                },
+                }
 
                 _onDataSlowPerformance(details) {
                     const seconds = (details.duration / 1000).toFixed(1);
                     this._setDescription(`The last operation took ${seconds}s to complete. Clean up some old history to speed it up.`);
                     this._setVisible(true);
-                },
+                }
 
                 _deleteOldHistory() {
                     this._setIsDeletingEntries(true);
@@ -198,7 +195,17 @@
                             this.showError(error);
                         });
                 }
-            });
+
+                _getSizeOfEntries(entries) {
+                    return entries.map(e => e.size).reduce((a, b) => a + b, 0);
+                }
+
+                _isEntryLarge(entry) {
+                    return entry.size > RESTerNotificationSlowPerformance.SIZE_1MB;
+                }
+            }
+
+            customElements.define(RESTerNotificationSlowPerformance.is, RESTerNotificationSlowPerformance);
         })();
     </script>
 </dom-module>

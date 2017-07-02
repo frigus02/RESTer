@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
@@ -41,32 +41,38 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-error',
+            class RESTerError extends Polymer.Element {
+                static get is() {
+                    return 'rester-error';
+                }
 
-                properties: {
-                    title: String,
-                    error: Object,
-                    errorMessage: {
-                        type: String,
-                        computed: '_computeErrorMessage(error)'
-                    },
-                    errorMessageLines: {
-                        type: Array,
-                        computed: '_computeErrorMessageLines(errorMessage)'
-                    }
-                },
+                static get properties() {
+                    return {
+                        title: String,
+                        error: Object,
+                        errorMessage: {
+                            type: String,
+                            computed: '_computeErrorMessage(error)'
+                        },
+                        errorMessageLines: {
+                            type: Array,
+                            computed: '_computeErrorMessageLines(errorMessage)'
+                        }
+                    };
+                }
 
-                _titles: [
-                    'Ups, something went wrong!',
-                    'Oh no, this shouldn\'t happen.'
-                ],
+                static get titles() {
+                    return [
+                        'Ups, something went wrong!',
+                        'Oh no, this shouldn\'t happen.'
+                    ];
+                }
 
                 show(error, title) {
-                    this.title = title || RESTer.util.sample(this._titles);
+                    this.title = title || RESTer.util.sample(RESTerError.titles);
                     this.error = error;
                     this.$.dialog.open();
-                },
+                }
 
                 _computeErrorMessage(error) {
                     if (typeof error === 'string') {
@@ -80,12 +86,14 @@
                             return 'Unknown error.';
                         }
                     }
-                },
+                }
 
                 _computeErrorMessageLines(errorMessage) {
                     return errorMessage.split('\n');
                 }
-            });
+            }
+
+            customElements.define(RESTerError.is, RESTerError);
         })();
     </script>
 </dom-module>

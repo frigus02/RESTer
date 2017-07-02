@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <dom-module id="rester-drawer-footer-links">
     <template>
@@ -10,21 +10,25 @@
                 text-align: center;
             }
 
-            :host ::content > a {
+            :host ::slotted(a) {
                 color: rgba(255, 255, 255, 0.5);
             }
         </style>
 
-        <content></content>
+        <slot></slot>
     </template>
 
     <script>
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-drawer-footer-links'
-            });
+            class RESTerDrawerFooterLinks extends Polymer.Element {
+                static get is() {
+                    return 'rester-drawer-footer-links';
+                }
+            }
+
+            customElements.define(RESTerDrawerFooterLinks.is, RESTerDrawerFooterLinks);
         })();
     </script>
 </dom-module>

@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
@@ -53,7 +53,7 @@
         </style>
 
         <paper-header-panel>
-            <paper-toolbar>
+            <paper-toolbar slot="header">
                 <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
                 <div class="title">[[pageTitle]]</div>
             </paper-toolbar>
@@ -89,30 +89,33 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-page-environments',
+            class RESTerPageEnvironments extends Polymer.mixinBehaviors([RESTer.PageBehavior, RESTer.SettingsBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-page-environments';
+                }
 
-                behaviors: [
-                    RESTer.PageBehavior,
-                    RESTer.SettingsBehavior
-                ],
+                static get properties() {
+                    return {
+                        environments: {
+                            type: Array,
+                            readOnly: true
+                        }
+                    };
+                }
 
-                properties: {
-                    environments: {
-                        type: Array,
-                        readOnly: true
-                    }
-                },
-
-                _environmentInDialog: undefined,
-                _environmentInDialogIndex: -1,
+                constructor() {
+                    super();
+                    this._environmentInDialog = undefined;
+                    this._environmentInDialogIndex = -1;
+                }
 
                 ready() {
+                    super.ready();
                     this._setPageTitle('Environments');
                     RESTer.rester.getEnvironments().then(envs => {
                         this._setEnvironments(envs);
                     });
-                },
+                }
 
                 _addEnvironment() {
                     this._environmentInDialog = {
@@ -121,13 +124,13 @@
                     };
                     this._environmentInDialogIndex = -1;
                     this.$.editDialog.show(this._environmentInDialog);
-                },
+                }
 
                 _editEnvironment(e) {
                     this._environmentInDialog = RESTer.util.cloneDeep(e.model.env);
                     this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
                     this.$.editDialog.show(this._environmentInDialog);
-                },
+                }
 
                 _onEditDialogClosed(e) {
                     const reason = e.detail;
@@ -146,11 +149,11 @@
                             this.splice('environments', this._environmentInDialogIndex, 1);
                         });
                     }
-                },
+                }
 
                 _compareEnvironments(a, b) {
                     return a.name.localeCompare(b.name);
-                },
+                }
 
                 _computeValueItems(env) {
                     return Object.keys(env.values).map(key => ({
@@ -158,7 +161,9 @@
                         value: RESTer.encode.truncate(env.values[key], 120)
                     }));
                 }
-            });
+            }
+
+            customElements.define(RESTerPageEnvironments.is, RESTerPageEnvironments);
         })();
     </script>
 </dom-module>

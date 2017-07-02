@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
@@ -40,35 +40,37 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-environment-select-dialog',
+            class RESTerEnvironmentSelectDialog extends Polymer.mixinBehaviors([RESTer.SettingsBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-environment-select-dialog';
+                }
 
-                behaviors: [
-                    RESTer.SettingsBehavior
-                ],
-
-                properties: {
-                    environments: {
-                        type: Array,
-                        readOnly: true
-                    }
-                },
+                static get properties() {
+                    return {
+                        environments: {
+                            type: Array,
+                            readOnly: true
+                        }
+                    };
+                }
 
                 show() {
                     RESTer.rester.getEnvironments().then(envs => {
                         this._setEnvironments(envs);
                         this.$.dialog.open();
                     });
-                },
+                }
 
                 _compareEnvironments(a, b) {
                     return a.name.localeCompare(b.name);
-                },
+                }
 
                 _close() {
                     this.$.dialog.close();
                 }
-            });
+            }
+
+            customElements.define(RESTerEnvironmentSelectDialog.is, RESTerEnvironmentSelectDialog);
         })();
     </script>
 </dom-module>

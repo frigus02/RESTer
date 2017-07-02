@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -40,10 +40,10 @@
                 vertical-offset="48"
                 restore-focus-on-close>
             <paper-icon-button
+                    slot="dropdown-trigger"
                     id="menu-button"
-                    icon="[[icon]]"
-                    class="dropdown-trigger"></paper-icon-button>
-            <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
+                    icon="[[icon]]"></paper-icon-button>
+            <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
                 <template is="dom-repeat" items="[[visibleNotifications]]">
                     <paper-item role="menuitem" on-tap="_openNotification">
                         <paper-item-body two-line>
@@ -70,44 +70,49 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-notifications',
+            class RESTerNotifications extends Polymer.Element {
+                static get is() {
+                    return 'rester-notifications';
+                }
 
-                properties: {
-                    notifications: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    visibleNotifications: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    isEmpty: {
-                        type: Boolean,
-                        computed: '_computeIsEmpty(visibleNotifications.length)'
-                    },
-                    icon: {
-                        type: String,
-                        computed: '_computeIcon(isEmpty)'
-                    }
-                },
+                static get properties() {
+                    return {
+                        notifications: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        visibleNotifications: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        isEmpty: {
+                            type: Boolean,
+                            computed: '_computeIsEmpty(visibleNotifications.length)'
+                        },
+                        icon: {
+                            type: String,
+                            computed: '_computeIcon(isEmpty)'
+                        }
+                    };
+                }
 
                 ready() {
+                    super.ready();
                     this._setNotifications(Array.from(this.$.notifications.children));
                     this._setVisibleNotifications(this.notifications.filter(n => n.visible));
 
                     this.notifications.forEach(notification => {
                         notification.addEventListener('visible-changed', this._update.bind(this));
                     });
-                },
+                }
 
                 _computeIsEmpty(visibleNotificationsCount) {
                     return visibleNotificationsCount === 0;
-                },
+                }
 
                 _computeIcon(isEmpty) {
                     return isEmpty ? 'social:notifications-none' : 'social:notifications';
-                },
+                }
 
                 _update(e) {
                     const notification = e.target;
@@ -117,7 +122,7 @@
                     } else if (!notification.visible && index > -1) {
                         this.splice('visibleNotifications', index, 1);
                     }
-                },
+                }
 
                 _openNotification(e) {
                     this.$.options.close();
@@ -125,7 +130,9 @@
                     const notification = e.model.item;
                     notification.open();
                 }
-            });
+            }
+
+            customElements.define(RESTerNotifications.is, RESTerNotifications);
         })();
     </script>
 </dom-module>

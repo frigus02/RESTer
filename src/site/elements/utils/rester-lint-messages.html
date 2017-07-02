@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
@@ -46,16 +46,20 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-lint-messages',
+            class RESTerLintMessages extends Polymer.Element {
+                static get is() {
+                    return 'rester-lint-messages';
+                }
 
-                properties: {
-                    messages: {
-                        type: Array,
-                        readOnly: true,
-                        value: []
-                    }
-                },
+                static get properties() {
+                    return {
+                        messages: {
+                            type: Array,
+                            readOnly: true,
+                            value: []
+                        }
+                    };
+                }
 
                 putMessage(id, message) {
                     const index = this.messages.findIndex(m => m.id === id);
@@ -66,27 +70,29 @@
                     } else {
                         this.splice('messages', index, 1, message);
                     }
-                },
+                }
 
                 removeMessage(id) {
                     const index = this.messages.findIndex(m => m.id === id);
                     if (index > -1) {
                         this.splice('messages', index, 1);
                     }
-                },
+                }
 
                 _filterDismissedMessage(message) {
                     return !message.dismissed;
-                },
+                }
 
                 _fixMessage(e) {
                     e.model.item.fix();
-                },
+                }
 
                 _dismissMessage(e) {
                     this.set(['messages', e.model.index, 'dismissed'], true);
                 }
-            });
+            }
+
+            customElements.define(RESTerLintMessages.is, RESTerLintMessages);
         })();
     </script>
 </dom-module>

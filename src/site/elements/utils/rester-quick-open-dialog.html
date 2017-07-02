@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
@@ -54,13 +54,14 @@
                 with-backdrop
                 restore-focus-on-close>
             <div>
-                <input is="iron-input" id="input"
+                <iron-input>
+                    <input id="input"
                         bind-value="{{searchText}}"
                         placeholder="Type to open a request..."
                         autocomplete="off"
                         autofocus>
+                </iron-input>
                 <rester-autocomplete
-                        prefix
                         for="input"
                         items="[[items]]"
                         on-item-selected="_onItemSelected"></rester-autocomplete>
@@ -72,22 +73,28 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-quick-open-dialog',
+            class RESTerQuickOpenDialog extends Polymer.Element {
+                static get is() {
+                    return 'rester-quick-open-dialog';
+                }
 
-                properties: {
-                    searchText: String,
-                    items: {
-                        type: Array,
-                        readOnly: true
-                    }
-                },
+                static get properties() {
+                    return {
+                        searchText: String,
+                        items: {
+                            type: Array,
+                            readOnly: true
+                        }
+                    };
+                }
 
-                _requestFields: ['id', 'collection', 'title', 'method', 'url'],
+                static get requestFields() {
+                    return ['id', 'collection', 'title', 'method', 'url'];
+                }
 
                 show() {
                     this.searchText = '';
-                    RESTer.rester.getRequests(this._requestFields).then(requests => {
+                    RESTer.rester.getRequests(RESTerQuickOpenDialog.requestFields).then(requests => {
                         this._setItems(requests.map(r => ({
                             title: `${r.collection} / ${r.title}`,
                             description: `${r.method} ${r.url}`,
@@ -97,7 +104,7 @@
                     });
 
                     this.$.dialog.open();
-                },
+                }
 
                 _onItemSelected(e) {
                     this.$.dialog.close();
@@ -107,7 +114,9 @@
                         window.location = `#/request/${item.data.id}`;
                     }
                 }
-            });
+            }
+
+            customElements.define(RESTerQuickOpenDialog.is, RESTerQuickOpenDialog);
         })();
     </script>
 </dom-module>

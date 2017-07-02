@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="../pages/rester-page-about.html">
 <link rel="import" href="../pages/rester-page-environments.html">
@@ -14,11 +14,11 @@
                 position: relative;
             }
 
-            :host ::content > .page {
+            :host ::slotted(.page) {
                 height: 100%;
             }
 
-            :host ::content > .old-page {
+            :host ::slotted(.old-page) {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -32,42 +32,49 @@
                 will-change: opacity;
             }
 
-            :host ::content > .old-page.animate-out {
+            :host ::slotted(.old-page.animate-out) {
                 opacity: 0;
             }
         </style>
 
-        <content></content>
+        <slot></slot>
     </template>
 
     <script>
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-pages',
+            class RESTerPages extends Polymer.Element {
+                static get is() {
+                    return 'rester-pages';
+                }
 
-                properties: {
-                    page: {
-                        type: String,
-                        observer: '_onPageChanged'
-                    },
-                    pageTitle: {
-                        type: String,
-                        readOnly: true,
-                        notify: true
-                    },
-                    route: {
-                        type: Object,
-                        observer: '_onRouteChanged'
-                    },
-                    showDrawerToggle: {
-                        type: Boolean,
-                        observer: '_onShowDrawerToggleChanged'
-                    }
-                },
+                static get properties() {
+                    return {
+                        page: {
+                            type: String,
+                            observer: '_onPageChanged'
+                        },
+                        pageTitle: {
+                            type: String,
+                            readOnly: true,
+                            notify: true
+                        },
+                        route: {
+                            type: Object,
+                            observer: '_onRouteChanged'
+                        },
+                        showDrawerToggle: {
+                            type: Boolean,
+                            observer: '_onShowDrawerToggleChanged'
+                        }
+                    };
+                }
 
-                _currentElement: null,
+                constructor() {
+                    super();
+                    this._currentElement = null;
+                }
 
                 _onPageChanged() {
                     if (this._currentElement) {
@@ -99,20 +106,22 @@
                         this._currentElement.route = this.route;
                         this._currentElement.showDrawerToggle = this.showDrawerToggle;
                     }
-                },
+                }
 
                 _onRouteChanged() {
                     if (this._currentElement) {
                         this._currentElement.route = this.route;
                     }
-                },
+                }
 
                 _onShowDrawerToggleChanged() {
                     if (this._currentElement) {
                         this._currentElement.showDrawerToggle = this.showDrawerToggle;
                     }
                 }
-            });
+            }
+
+            customElements.define(RESTerPages.is, RESTerPages);
         })();
     </script>
 </dom-module>

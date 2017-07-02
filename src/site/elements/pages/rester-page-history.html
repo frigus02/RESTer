@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
@@ -42,7 +42,7 @@
         </style>
 
         <paper-header-panel>
-            <paper-toolbar>
+            <paper-toolbar slot="header">
                 <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
                 <div class="title">[[pageTitle]]</div>
             </paper-toolbar>
@@ -86,43 +86,49 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-page-history',
+            class RESTerPageHistory extends Polymer.mixinBehaviors([RESTer.PageBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-page-history';
+                }
 
-                behaviors: [
-                    RESTer.PageBehavior
-                ],
+                static get properties() {
+                    return {
+                        historyEntries: {
+                            type: Array,
+                            readOnly: true
+                        },
+                        moreEntriesAvailable: {
+                            type: Boolean,
+                            computed: '_computeMoreEntriesAvailable(historyEntries.length)'
+                        },
+                        loading: {
+                            type: Boolean,
+                            readOnly: true
+                        }
+                    };
+                }
 
-                properties: {
-                    historyEntries: {
-                        type: Array,
-                        readOnly: true
-                    },
-                    moreEntriesAvailable: {
-                        type: Boolean,
-                        computed: '_computeMoreEntriesAvailable(historyEntries.length)'
-                    },
-                    loading: {
-                        type: Boolean,
-                        readOnly: true
-                    }
-                },
+                static get historyFields() {
+                    return ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status', 'response.statusText'];
+                }
 
-                _historyFields: ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status', 'response.statusText'],
-                _initialCount: 25,
+                static get initialCount() {
+                    return 25;
+                }
 
                 ready() {
+                    super.ready();
                     this._setPageTitle('History');
-                    this._load(this._initialCount);
-                },
+                    this._load(RESTerPageHistory.initialCount);
+                }
 
                 loadAll() {
                     this._load(null);
-                },
+                }
 
                 _load(count) {
                     this._setLoading(true);
-                    RESTer.rester.getHistoryEntries(count, this._historyFields).then(entries => {
+                    RESTer.rester.getHistoryEntries(count, RESTerPageHistory.historyFields).then(entries => {
                         this._setLoading(false);
                         this._setHistoryEntries(entries.map(e => {
                             e.timeFormatted = RESTer.format.dateTime(e.time);
@@ -135,16 +141,16 @@
                             return e;
                         }));
                     });
-                },
+                }
 
                 _computeMoreEntriesAvailable() {
-                    return this.historyEntries.length === this._initialCount;
-                },
+                    return this.historyEntries.length === RESTerPageHistory.initialCount;
+                }
 
                 _openHistoryEntry(e) {
                     const entry = e.model.item;
                     window.location = `#/request/${entry.request.id || ''}/history/${entry.id}`;
-                },
+                }
 
                 _deleteHistoryEntry(e) {
                     const entry = e.model.item;
@@ -153,7 +159,9 @@
                         this.splice('historyEntries', index, 1);
                     });
                 }
-            });
+            }
+
+            customElements.define(RESTerPageHistory.is, RESTerPageHistory);
         })();
     </script>
 </dom-module>

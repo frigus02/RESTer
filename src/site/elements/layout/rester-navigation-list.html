@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="../data/rester-data-navigation.html">
 <link rel="import" href="rester-navigation-list-item.html">
@@ -22,14 +22,20 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-navigation-list',
-
-                properties: {
-                    route: Object,
-                    items: Array
+            class RESTerNavigationList extends Polymer.Element {
+                static get is() {
+                    return 'rester-navigation-list';
                 }
-            });
+
+                static get properties() {
+                    return {
+                        route: Object,
+                        items: Array
+                    };
+                }
+            }
+
+            customElements.define(RESTerNavigationList.is, RESTerNavigationList);
         })();
     </script>
 </dom-module>

@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
@@ -100,7 +100,7 @@
                 data="{{historyRouteData}}"></app-route>
 
         <paper-header-panel>
-            <paper-toolbar>
+            <paper-toolbar slot="header">
                 <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
                 <div class="title" hidden>[[request.collection]] / [[request.title]]</div>
                 <rester-request-title-input
@@ -108,95 +108,97 @@
                         request-title="{{request.title}}"
                         class="flex"></rester-request-title-input>
                 <paper-menu-button id="saveOptions" horizontal-align="right" restore-focus-on-close>
-                    <paper-icon-button icon="save" class="dropdown-trigger"></paper-icon-button>
-                    <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
+                    <paper-icon-button slot="dropdown-trigger" icon="save"></paper-icon-button>
+                    <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
                         <paper-item role="menuitem" on-tap="_saveRequest">Save</paper-item>
                         <paper-item role="menuitem" on-tap="_saveRequestAsNew">Save as new</paper-item>
                     </paper-listbox>
                 </paper-menu-button>
                 <paper-menu-button id="deleteOptions" horizontal-align="right" restore-focus-on-close hidden$="[[!request.id]]">
-                    <paper-icon-button icon="delete" class="dropdown-trigger"></paper-icon-button>
-                    <paper-listbox class="dropdown-content" selectable="[role='menuitemradio']">
+                    <paper-icon-button slot="dropdown-trigger" icon="delete"></paper-icon-button>
+                    <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
                         <paper-item role="menuitem" on-tap="_deleteRequest">Delete</paper-item>
                     </paper-listbox>
                 </paper-menu-button>
             </paper-toolbar>
             <div role="main">
                 <!-- Request -->
-                <form is="iron-form" id="requestForm" on-keydown="_onFormKeyDown" class="layout horizontal">
-                    <iron-media-query
-                            query="(min-width: 1279px)"
-                            query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
+                <iron-form>
+                    <form id="requestForm" on-keydown="_onFormKeyDown" class="layout horizontal">
+                        <iron-media-query
+                                query="(min-width: 1279px)"
+                                query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
 
-                    <div class="flex-3">
-                        <div class="layout horizontal baseline justified">
-                            <rester-autocomplete-input
-                                    class="method-input"
-                                    label="Method"
-                                    value="{{request.method}}"
-                                    items="[[requestMethods]]"
-                                    required></rester-autocomplete-input>
-                            <rester-url-input
-                                    class="url-input flex"
-                                    label="URL"
-                                    value="{{request.url}}"
-                                    required></rester-url-input>
-                            <paper-button
-                                    class="send-button"
-                                    raised
-                                    type="submit"
-                                    on-tap="_sendRequest"
-                                    disabled$="[[requestIsSending]]">
-                                <span hidden$="[[requestIsSending]]">Send</span>
-                                <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
-                            </paper-button>
-                        </div>
+                        <div class="flex-3">
+                            <div class="layout horizontal baseline justified">
+                                <rester-autocomplete-input
+                                        class="method-input"
+                                        label="Method"
+                                        value="{{request.method}}"
+                                        items="[[requestMethods]]"
+                                        required></rester-autocomplete-input>
+                                <rester-url-input
+                                        class="url-input flex"
+                                        label="URL"
+                                        value="{{request.url}}"
+                                        required></rester-url-input>
+                                <paper-button
+                                        class="send-button"
+                                        raised
+                                        type="submit"
+                                        on-tap="_sendRequest"
+                                        disabled$="[[requestIsSending]]">
+                                    <span hidden$="[[requestIsSending]]">Send</span>
+                                    <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
+                                </paper-button>
+                            </div>
 
-                        <div class="input-tabs layout horizontal">
-                            <paper-tabs selected="{{requestSelectedTab}}">
-                                <paper-tab id="requestTab0">Headers</paper-tab>
-                                <paper-tab id="requestTab1">Body</paper-tab>
-                                <paper-tab id="requestTab2">Authorization</paper-tab>
-                                <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
-                                    <paper-tab id="requestTab3">Variables</paper-tab>
-                                </template>
-                            </paper-tabs>
-                        </div>
-                        <iron-pages selected="[[requestSelectedTab]]">
-                            <div role="tabpanel" aria-labelledby="requestTab0">
-                                <rester-header-input value="{{request.headers}}"></rester-header-input>
+                            <div class="input-tabs layout horizontal">
+                                <paper-tabs selected="{{requestSelectedTab}}">
+                                    <paper-tab id="requestTab0">Headers</paper-tab>
+                                    <paper-tab id="requestTab1">Body</paper-tab>
+                                    <paper-tab id="requestTab2">Authorization</paper-tab>
+                                    <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
+                                        <paper-tab id="requestTab3">Variables</paper-tab>
+                                    </template>
+                                </paper-tabs>
                             </div>
-                            <div role="tabpanel" aria-labelledby="requestTab1">
-                                <rester-body-input
-                                        id="bodyInput"
-                                        value="{{request.body}}"
-                                        content-type="[[requestContentType]]"></rester-body-input>
-                            </div>
-                            <div role="tabpanel" aria-labelledby="requestTab2">
-                                <rester-authorization-input
-                                        authorization="[[requestAuthorization]]"
-                                        on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
-                            </div>
-                            <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
-                                <div role="tabpanel" aria-labelledby="requestTab3">
-                                    <rester-variables-input
-                                        value="{{requestVariableValues}}"
-                                        source-obj="[[request]]">
-                                    </rester-variables-input>
+                            <iron-pages selected="[[requestSelectedTab]]">
+                                <div role="tabpanel" aria-labelledby="requestTab0">
+                                    <rester-header-input value="{{request.headers}}"></rester-header-input>
                                 </div>
-                            </template>
-                        </iron-pages>
-                    </div>
-
-                    <template is="dom-if" if="[[requestShowVariablesOnSide]]">
-                        <div class="flex-1 input-side">
-                            <rester-variables-input
-                                value="{{requestVariableValues}}"
-                                source-obj="[[request]]">
-                            </rester-variables-input>
+                                <div role="tabpanel" aria-labelledby="requestTab1">
+                                    <rester-body-input
+                                            id="bodyInput"
+                                            value="{{request.body}}"
+                                            content-type="[[requestContentType]]"></rester-body-input>
+                                </div>
+                                <div role="tabpanel" aria-labelledby="requestTab2">
+                                    <rester-authorization-input
+                                            authorization="[[requestAuthorization]]"
+                                            on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
+                                </div>
+                                <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
+                                    <div role="tabpanel" aria-labelledby="requestTab3">
+                                        <rester-variables-input
+                                            value="{{requestVariableValues}}"
+                                            source-obj="[[request]]">
+                                        </rester-variables-input>
+                                    </div>
+                                </template>
+                            </iron-pages>
                         </div>
-                    </template>
-                </form>
+
+                        <template is="dom-if" if="[[requestShowVariablesOnSide]]">
+                            <div class="flex-1 input-side">
+                                <rester-variables-input
+                                    value="{{requestVariableValues}}"
+                                    source-obj="[[request]]">
+                                </rester-variables-input>
+                            </div>
+                        </template>
+                    </form>
+                </iron-form>
 
                 <!-- Response -->
                 <div hidden$="[[!response]]">
@@ -222,127 +224,129 @@
         (function () {
             'use strict';
 
-            Polymer({
-                is: 'rester-page-request',
+            class RESTerPageRequest extends Polymer.mixinBehaviors([RESTer.PageBehavior, RESTer.ErrorBehavior, RESTer.HotkeysBehavior, RESTer.SettingsBehavior, RESTer.LintBehavior], Polymer.Element) {
+                static get is() {
+                    return 'rester-page-request';
+                }
 
-                behaviors: [
-                    RESTer.PageBehavior,
-                    RESTer.ErrorBehavior,
-                    RESTer.HotkeysBehavior,
-                    RESTer.SettingsBehavior,
-                    RESTer.LintBehavior
-                ],
+                static get properties() {
+                    return {
+                        route: {
+                            type: Object,
+                            observer: '_onRouteChanged'
+                        },
+                        routeActive: Boolean,
+                        routeData: Object,
+                        historyRoute: Object,
+                        historyRouteActive: Boolean,
+                        historyRouteData: Object,
+                        isWideEnoughToShowVariablesOnSide: Boolean,
+                        request: {
+                            type: Object,
+                            readOnly: true
+                        },
+                        requestVariableValues: {
+                            type: Object
+                        },
+                        requestMethods: {
+                            type: Array,
+                            readOnly: true,
+                            value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+                        },
+                        requestIsSending: {
+                            type: Boolean,
+                            readOnly: true,
+                            value: false
+                        },
+                        requestShowVariablesOnSide: {
+                            type: Boolean,
+                            computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
+                            reflectToAttribute: true
+                        },
+                        requestSelectedTab: {
+                            type: Number,
+                            value: 0,
+                            observer: '_onRequestSelectedTabChanged'
+                        },
+                        requestContentType: {
+                            type: String,
+                            computed: '_computeHeader(request.headers.*, \'Content-Type\')'
+                        },
+                        requestAuthorization: {
+                            type: String,
+                            computed: '_computeHeader(request.headers.*, \'Authorization\')'
+                        },
+                        response: {
+                            type: Object,
+                            readOnly: true
+                        },
+                        responseBadgeType: {
+                            type: String,
+                            computed: '_computeResponseBadgeType(response.status)'
+                        },
+                        responseContentType: {
+                            type: String,
+                            computed: '_computeHeader(response.headers.*, \'Content-Type\')'
+                        },
+                        historyEntry: {
+                            type: Object,
+                            readOnly: true
+                        },
+                        historyEntryElapsedMillis: {
+                            type: Number,
+                            computed: '_computeHistoryEntryElapsedMillis(historyEntry.time, historyEntry.timeEnd)'
+                        }
+                    };
+                }
 
-                properties: {
-                    route: {
-                        type: Object,
-                        observer: '_onRouteChanged'
-                    },
-                    routeActive: Boolean,
-                    routeData: Object,
-                    historyRoute: Object,
-                    historyRouteActive: Boolean,
-                    historyRouteData: Object,
-                    isWideEnoughToShowVariablesOnSide: Boolean,
-                    request: {
-                        type: Object,
-                        readOnly: true
-                    },
-                    requestVariableValues: {
-                        type: Object
-                    },
-                    requestMethods: {
-                        type: Array,
-                        readOnly: true,
-                        value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
-                    },
-                    requestIsSending: {
-                        type: Boolean,
-                        readOnly: true,
-                        value: false
-                    },
-                    requestShowVariablesOnSide: {
-                        type: Boolean,
-                        computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
-                        reflectToAttribute: true
-                    },
-                    requestSelectedTab: {
-                        type: Number,
-                        value: 0,
-                        observer: '_onRequestSelectedTabChanged'
-                    },
-                    requestContentType: {
-                        type: String,
-                        computed: '_computeHeader(request.headers.*, \'Content-Type\')'
-                    },
-                    requestAuthorization: {
-                        type: String,
-                        computed: '_computeHeader(request.headers.*, \'Authorization\')'
-                    },
-                    response: {
-                        type: Object,
-                        readOnly: true
-                    },
-                    responseBadgeType: {
-                        type: String,
-                        computed: '_computeResponseBadgeType(response.status)'
-                    },
-                    responseContentType: {
-                        type: String,
-                        computed: '_computeHeader(response.headers.*, \'Content-Type\')'
-                    },
-                    historyEntry: {
-                        type: Object,
-                        readOnly: true
-                    },
-                    historyEntryElapsedMillis: {
-                        type: Number,
-                        computed: '_computeHistoryEntryElapsedMillis(historyEntry.time, historyEntry.timeEnd)'
-                    }
-                },
+                static get observers() {
+                    return [
+                        '_updatePageTitle(request, historyEntry)',
+                        '_runLintInspections(request.*, requestVariableValues.*)'
+                    ];
+                }
 
-                observers: [
-                    '_updatePageTitle(request, historyEntry)',
-                    '_runLintInspections(request.*, requestVariableValues.*)'
-                ],
+                static get resterHotkeys() {
+                    return {
+                        'mod+s': {
+                            description: 'Save the current request.',
+                            callback: '_saveRequest'
+                        },
+                        'mod+enter': {
+                            description: 'Send the current request.',
+                            callback: '_sendRequest'
+                        }
+                    };
+                }
 
-                resterHotkeys: {
-                    'mod+s': {
-                        description: 'Save the current request.',
-                        callback: '_saveRequest'
-                    },
-                    'mod+enter': {
-                        description: 'Send the current request.',
-                        callback: '_sendRequest'
-                    }
-                },
-
-                resterLintInspections: [
-                    {
-                        message: 'Some variables have an empty value.',
-                        check: '_lintCheckEmptyVariables',
-                        fixLabel: 'View variables',
-                        fix: '_lintFixEmptyVariables'
-                    },
-                    {
-                        message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
-                        check: '_lintCheckFilesWithoutMultipart',
-                        fixLabel: 'Change content type',
-                        fix: '_lintFixFilesWithoutMultipart'
-                    },
-                    {
-                        message: 'There are empty file inputs.',
-                        check: '_lintCheckEmptyFiles',
-                        fixLabel: 'View body',
-                        fix: '_lintFixEmptyFiles'
-                    },
-                    {
-                        message: 'Suggested content type based on body is {contentType}.',
-                        check: '_lintCheckSuggestedContentType',
-                        fixLabel: 'Set content type',
-                        fix: '_lintFixSuggestedContentType'
-                    }
-                ],
+                static get resterLintInspections() {
+                    return [
+                        {
+                            message: 'Some variables have an empty value.',
+                            check: '_lintCheckEmptyVariables',
+                            fixLabel: 'View variables',
+                            fix: '_lintFixEmptyVariables'
+                        },
+                        {
+                            message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
+                            check: '_lintCheckFilesWithoutMultipart',
+                            fixLabel: 'Change content type',
+                            fix: '_lintFixFilesWithoutMultipart'
+                        },
+                        {
+                            message: 'There are empty file inputs.',
+                            check: '_lintCheckEmptyFiles',
+                            fixLabel: 'View body',
+                            fix: '_lintFixEmptyFiles'
+                        },
+                        {
+                            message: 'Suggested content type based on body is {contentType}.',
+                            check: '_lintCheckSuggestedContentType',
+                            fixLabel: 'Set content type',
+                            fix: '_lintFixSuggestedContentType'
+                        }
+                    ];
+                }
 
                 _onRouteChanged() {
                     if (this.routeActive && this.historyRouteActive) {
@@ -387,23 +391,23 @@
                         this.requestVariableValues = {};
                         this._setResponse(null);
                     }
-                },
+                }
 
                 _onRequestSelectedTabChanged() {
                     if (this.requestSelectedTab === 1) {
                         this.$.bodyInput.notifyVisibilityChanged();
                     }
-                },
+                }
 
                 _computeRequestShowVariablesOnSide(setting, isWideEnough) {
                     return setting && isWideEnough;
-                },
+                }
 
                 _computeHeader(headers, headerName) {
                     let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
 
                     return header && header.value;
-                },
+                }
 
                 _computeResponseBadgeType(status) {
                     if (status >= 100 && status < 200) {
@@ -415,11 +419,11 @@
                     } else if (status >= 400) {
                         return 'warn';
                     }
-                },
+                }
 
                 _computeHistoryEntryElapsedMillis(time, timeEnd) {
                     return new Date(timeEnd) - new Date(time);
-                },
+                }
 
                 _updatePageTitle(request, historyEntry) {
                     const collection = request.collection || '<no collection>';
@@ -432,7 +436,7 @@
                     }
 
                     this._setPageTitle(pageTitle);
-                },
+                }
 
                 _onFormKeyDown(e) {
                     // Do not intercept Enter presses inside of a textarea. In this case you
@@ -444,11 +448,11 @@
                         e.preventDefault();
                         this._sendRequest();
                     }
-                },
+                }
 
                 _onRequestAuthorizationChanged(e) {
                     this._setRequestHeader('Authorization', e.detail.value);
-                },
+                }
 
                 _setRequestHeader(headerName, value) {
                     const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
@@ -466,7 +470,7 @@
                     }
 
                     this.set('request.headers', [...this.request.headers]);
-                },
+                }
 
                 _saveRequest() {
                     this.$.saveOptions.close();
@@ -481,13 +485,13 @@
 
                         window.location = `#/request/${id}`;
                     });
-                },
+                }
 
                 _saveRequestAsNew() {
                     this.$.saveOptions.close();
                     delete this.request.id;
                     this._saveRequest();
-                },
+                }
 
                 _deleteRequest() {
                     this.$.deleteOptions.close();
@@ -503,7 +507,7 @@
                             window.location = `#/`;
                         }
                     });
-                },
+                }
 
                 _sendRequest() {
                     if (!this.$.requestForm.validate()) {
@@ -549,29 +553,29 @@
                             this._setRequestIsSending(false);
                             this.showError(error);
                         });
-                },
+                }
 
                 _lintCheckEmptyVariables() {
                     const variables = RESTer.variables.extract(this.request);
                     const usedVariableValues = {};
                     RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
                     return variables.some(name => !usedVariableValues[name]);
-                },
+                }
 
                 _lintFixEmptyVariables() {
                     this.requestSelectedTab = 3;
-                },
+                }
 
                 _lintCheckFilesWithoutMultipart() {
                     const contentType = this.requestContentType || '';
 
                     return contentType.toLowerCase() !== 'multipart/form-data' &&
                         Object.keys(this.$.bodyInput.files || {}).length > 0;
-                },
+                }
 
                 _lintFixFilesWithoutMultipart() {
                     this._setRequestHeader('Content-Type', 'multipart/form-data');
-                },
+                }
 
                 _lintCheckEmptyFiles() {
                     const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
@@ -580,11 +584,11 @@
                     return requiredFiles && requiredFiles
                         .map(file => file.substring(7, file.length - 1))
                         .some(file => !selectedFiles[file]);
-                },
+                }
 
                 _lintFixEmptyFiles() {
                     this.requestSelectedTab = 1;
-                },
+                }
 
                 _lintCheckSuggestedContentType() {
                     if (!this.request.body) {
@@ -600,14 +604,16 @@
                             contentType: suggested
                         };
                     }
-                },
+                }
 
                 _lintFixSuggestedContentType() {
                     const suggested = this.$.bodyInput.getSuggestedContentType();
 
                     this._setRequestHeader('Content-Type', suggested);
                 }
-            });
+            }
+
+            customElements.define(RESTerPageRequest.is, RESTerPageRequest);
         })();
     </script>
 </dom-module>
