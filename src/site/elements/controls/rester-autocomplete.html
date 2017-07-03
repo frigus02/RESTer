@@ -269,18 +269,24 @@
 
                 _onInputFocus() {
                     this._inputFocused = true;
-                    this._setSelectedIndex(-1);
-                    this._moveSelectedIndexToNextItem();
-                    this._setDropdownVisible(true);
+                    if (!this.dropdownVisible) {
+                        this._setSelectedIndex(-1);
+                        this._moveSelectedIndexToNextItem();
+                        this._setDropdownVisible(true);
+                    }
                 },
 
                 _onInputBlur() {
                     this._inputFocused = false;
                     this.async(() => {
-                        if (!this._inputFocused) {
+                        const nextFocus = Polymer.dom(this.root).activeElement;
+                        const isDropdownFocused = nextFocus && nextFocus.closest('iron-selector') === this.$.dropdown;
+                        if (isDropdownFocused) {
+                            this._input.focus();
+                        } else if (!this._inputFocused) {
                             this._setDropdownVisible(false);
                         }
-                    }, 100);
+                    }, 1);
                 },
 
                 _moveSelectedIndexToNextItem() {

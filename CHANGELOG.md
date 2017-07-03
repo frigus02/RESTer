@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ## [2.5.1] - 2017-07-03
 ### Fixed
 - Variables tab might not have been visible on first page load.
+- If you didn't click fast enough on a dropdown item, the autocomplete field didn't accept the selected value and stayed empty.
 
 ## [2.5.0] - 2017-06-25
 ### Added
