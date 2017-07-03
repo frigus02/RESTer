@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [2.5.1] - 2017-07-03
 ### Fixed
 - Variables tab might not have been visible on first page load.
 
@@ -266,7 +268,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.5.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/2.5.1...HEAD
+[2.5.1]: https://github.com/frigus02/RESTer/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/frigus02/RESTer/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/frigus02/RESTer/compare/2.3.0...2.4.0
 [2.3.0]: https://github.com/frigus02/RESTer/compare/2.2.0...2.3.0

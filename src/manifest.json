@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "RESTer",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "description": "A REST client for almost any web service.",
     "icons": {
         "48": "images/icon-dev48.png",
