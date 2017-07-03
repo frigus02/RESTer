@@ -19,6 +19,10 @@
 
             ready() {
                 this._setSettings(RESTer.rester.settings);
+                RESTer.rester.settingsLoaded.then(() => {
+                    this._onSettingsChanged(RESTer.rester.settings);
+                });
+
                 this._onSettingsChanged = this._onSettingsChanged.bind(this);
             },
 

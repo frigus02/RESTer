@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- Variables tab might not have been visible on first page load.
+
 ## [2.5.0] - 2017-06-25
 ### Added
 - Support for the OAuth 2 Client Credentials flow.
