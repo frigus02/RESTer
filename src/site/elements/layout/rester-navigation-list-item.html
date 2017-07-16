@@ -46,6 +46,10 @@
                 font-weight: bold;
             }
 
+            .subheader-title {
+                flex: 1;
+            }
+
             .subheader-action,
             .item-secondary-action {
                 margin-right: -8px;
@@ -70,7 +74,7 @@
 
         <template is="dom-if" if="[[item.isSubheader]]">
             <paper-subheader>
-                <div class="flex">[[item.title]]</div>
+                <div class="subheader-title">[[item.title]]</div>
                 <template is="dom-if" if="[[item.action]]">
                     <paper-icon-button
                             class="subheader-action"
@@ -173,15 +177,18 @@
 
                 _onRouteChanged() {
                     this.set('item.isExpanded', false);
-                    this.async(() => {
+                    setTimeout(() => {
                         if (this.active) {
-                            this.fire('item-activated');
+                            this.dispatchEvent(new CustomEvent('item-activated', {
+                                bubbles: true,
+                                composed: true
+                            }));
                         }
                     });
                 }
 
                 _computeActive() {
-                    const url = this.item.action && this.item.action.url;
+                    const url = this.item && this.item.action && this.item.action.url;
                     if (!url) {
                         return false;
                     }

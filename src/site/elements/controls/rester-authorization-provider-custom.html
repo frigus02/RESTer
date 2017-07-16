@@ -118,7 +118,7 @@
                         this._dialogPromise.resolve = resolve;
                         this._dialogPromise.reject = reject;
 
-                        this.async(() => {
+                        setTimeout(() => {
                             this.$.generateTokenDialog.closingReason = {};
                             this.$.generateTokenDialog.open();
                         }, 1);

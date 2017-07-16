@@ -89,6 +89,10 @@
                 }
 
                 _computeErrorMessageLines(errorMessage) {
+                    if (!errorMessage) {
+                        return [];
+                    }
+
                     return errorMessage.split('\n');
                 }
             }

@@ -42,11 +42,11 @@
             if (matches) {
                 matches
                     .map(m => m.substr(1, m.length - 2))
-                    .forEach(v => vars.push(v));
+                    .forEach(v => vars.add(v));
             }
         } else if (typeof obj === 'object' && obj !== null) {
             Object.keys(obj).forEach(key => {
-                self.extract(obj[key]).forEach(v => vars.push(v));
+                self.extract(obj[key]).forEach(v => vars.add(v));
             });
         }
 

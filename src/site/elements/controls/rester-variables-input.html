@@ -51,7 +51,7 @@
                         value: {
                             type: Object,
                             notify: true,
-                            observer: '_updateVariables'
+                            observer: '_updateVariablesDebounced'
                         },
                         sourceObj: {
                             type: Object
@@ -77,13 +77,14 @@
 
                 static get observers() {
                     return [
-                        '_updateVariables(sourceObj.*, providedVariableValues)'
+                        '_updateVariablesDebounced(sourceObj.*, providedVariableValues)'
                     ];
                 }
 
                 constructor() {
                     super();
                     this._onDataChanges = this._onDataChanges.bind(this);
+                    this._updateVariables = this._updateVariables.bind(this);
                 }
 
                 connectedCallback() {
@@ -107,41 +108,43 @@
                     RESTer.rester.removeEventListener('dataChange', this._onDataChanges);
                 }
 
-                _updateVariables() {
+                _updateVariablesDebounced() {
                     if (!this.value) {
                         this.value = {};
                     }
 
-                    this.debounce('updateVariables', () => {
-                        const allVarNames = RESTer.variables.extract(this.sourceObj);
-                        const varNames = allVarNames.filter(n => !n.startsWith('$'));
-                        const providedVarNames = allVarNames.filter(n => n.startsWith('$'));
-                        const values = this.value || {};
+                    RESTer.util.debounce(this._updateVariables, 300);
+                }
 
-                        for (let varName of varNames) {
-                            if (this.value[varName]) {
-                                this.set(['lastUsedVariables', varName], this.value[varName]);
-                            } else if (this.lastUsedVariables[varName]) {
-                                this.set(['value', varName], this.lastUsedVariables[varName]);
-                            } else if (this.variableHistory[varName]) {
-                                this.set(['lastUsedVariables', varName], this.variableHistory[varName][0]);
-                                this.set(['value', varName], this.variableHistory[varName][0]);
-                            } else {
-                                this.set(['value', varName], '');
-                            }
+                _updateVariables() {
+                    const allVarNames = RESTer.variables.extract(this.sourceObj);
+                    const varNames = allVarNames.filter(n => !n.startsWith('$'));
+                    const providedVarNames = allVarNames.filter(n => n.startsWith('$'));
+                    const values = this.value || {};
+
+                    for (let varName of varNames) {
+                        if (this.value[varName]) {
+                            this.set(['lastUsedVariables', varName], this.value[varName]);
+                        } else if (this.lastUsedVariables[varName]) {
+                            this.set(['value', varName], this.lastUsedVariables[varName]);
+                        } else if (this.variableHistory[varName]) {
+                            this.set(['lastUsedVariables', varName], this.variableHistory[varName][0]);
+                            this.set(['value', varName], this.variableHistory[varName][0]);
+                        } else {
+                            this.set(['value', varName], '');
                         }
+                    }
 
-                        this._setVariables(varNames.map(varName => ({
-                            name: varName,
-                            value: values[varName],
-                            history: this.variableHistory[varName] || []
-                        })));
+                    this._setVariables(varNames.map(varName => ({
+                        name: varName,
+                        value: values[varName],
+                        history: this.variableHistory[varName] || []
+                    })));
 
-                        this._setProvidedVariables(providedVarNames.map(varName => ({
-                            name: varName,
-                            value: this.providedVariableValues[varName]
-                        })));
-                    }, 300);
+                    this._setProvidedVariables(providedVarNames.map(varName => ({
+                        name: varName,
+                        value: this.providedVariableValues[varName]
+                    })));
                 }
 
                 _onVariableValueChanged(e) {

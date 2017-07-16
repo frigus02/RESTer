@@ -75,7 +75,7 @@
         (function () {
             'use strict';
 
-            class RESTerNotificationSlowPerformance extends Polymer.mixinBehavior([RESTer.ErrorBehavior], Polymer.Element) {
+            class RESTerNotificationSlowPerformance extends Polymer.mixinBehaviors([RESTer.ErrorBehavior], Polymer.Element) {
                 static get is() {
                     return 'rester-notification-slow-performance';
                 }

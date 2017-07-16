@@ -280,7 +280,7 @@
                         this._configurationDialogPromise.resolve = resolve;
                         this._configurationDialogPromise.reject = reject;
 
-                        this.async(() => {
+                        setTimeout(() => {
                             this._configuration = RESTer.util.clone(config);
 
                             this.$.configurationDialog.closingReason = {};
@@ -318,7 +318,7 @@
                         this._generateTokenResourceOwnerDialogPromise.resolve = resolve;
                         this._generateTokenResourceOwnerDialogPromise.reject = reject;
 
-                        this.async(() => {
+                        setTimeout(() => {
                             this.$.generateTokenResourceOwnerDialog.closingReason = {};
                             this.$.generateTokenResourceOwnerDialog.open();
                         }, 1);

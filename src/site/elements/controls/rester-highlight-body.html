@@ -177,6 +177,7 @@
                 constructor() {
                     super();
                     this._formatBodyWorker = undefined;
+                    this._startFormatBodyWorker = this._startFormatBodyWorker.bind(this);
                 }
 
                 _computeRenderedBody(body, bodyFormatted, prettyPrint) {
@@ -218,26 +219,28 @@
                         this._formatBodyWorker = undefined;
                     }
 
-                    if (!prettyPrintMode) {
+                    if (!body || !prettyPrintMode) {
                         return;
                     }
 
-                    this.debounce('formatBody', () => {
-                        this._formatBodyWorker = RESTer.worker.FormatCode.run({
-                            code: body,
-                            language: prettyPrintMode
-                        });
+                    RESTer.util.debounce(this._startFormatBodyWorker, 100, body, prettyPrintMode);
+                }
 
-                        this._formatBodyWorker.then(result => {
-                            this._formatBodyWorker = undefined;
-                            this._setBodyFormatted(result);
-                        });
+                _startFormatBodyWorker(body, prettyPrintMode) {
+                    this._formatBodyWorker = RESTer.worker.FormatCode.run({
+                        code: body,
+                        language: prettyPrintMode
+                    });
 
-                        this._formatBodyWorker.catch(error => {
-                            this._formatBodyWorker = undefined;
-                            this.showError(error);
-                        });
-                    }, 100);
+                    this._formatBodyWorker.then(result => {
+                        this._formatBodyWorker = undefined;
+                        this._setBodyFormatted(result);
+                    });
+
+                    this._formatBodyWorker.catch(error => {
+                        this._formatBodyWorker = undefined;
+                        this.showError(error);
+                    });
                 }
 
                 _autoSelectLanguage(contentType) {

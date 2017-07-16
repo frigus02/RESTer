@@ -96,7 +96,7 @@
 
                 _toggleExpanded() {
                     this.expanded = !this.expanded;
-                    this.async(() => {
+                    setTimeout(() => {
                         if (this.expanded) {
                             this.$.inputAbsolute.focus();
                         } else {

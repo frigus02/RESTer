@@ -3,12 +3,13 @@
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 
+<link rel="import" href="../styles/rester-paper-input-styles.html">
 <link rel="import" href="rester-autocomplete.html">
 <link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-autocomplete-input">
     <template>
-        <style>
+        <style include="rester-paper-input-styles">
             :host {
                 display: block;
             }
@@ -19,10 +20,11 @@
                 invalid="[[invalid]]"
                 disabled$="[[disabled]]">
             <label slot="label" for="input">[[label]]</label>
-            <iron-input slot="input">
-                <input id="input"
-                        bind-value="{{value}}"
-                        invalid="{{invalid}}"
+            <iron-input slot="input"
+                    id="input"
+                    bind-value="{{value}}"
+                    invalid="{{invalid}}">
+                <input id="nativeInput"
                         placeholder$="[[placeholder]]"
                         autocomplete="off"
                         name$="[[name]]"
@@ -31,8 +33,8 @@
                         disabled$="[[disabled]]">
             </iron-input>
             <rester-autocomplete
-                    slot="prefix"
-                    for="input"
+                    slot="suffix"
+                    for="nativeInput"
                     items="[[items]]"
                     dropdown-items-visible="[[dropdownItemsVisible]]"
                     sort-by-index="[[sortByIndex]]"></rester-autocomplete>

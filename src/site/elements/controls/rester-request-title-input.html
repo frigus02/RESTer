@@ -4,12 +4,13 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 
 <link rel="import" href="../data/rester-data.html">
+<link rel="import" href="../styles/rester-paper-input-styles.html">
 <link rel="import" href="rester-autocomplete.html">
 <link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-request-title-input">
     <template>
-        <style>
+        <style include="rester-paper-input-styles">
             :host {
                 display: block;
             }
@@ -37,22 +38,23 @@
         </style>
 
         <paper-input-container no-label-float>
-            <iron-input slot="input">
-                <input id="input"
-                        bind-value="{{value}}"
+            <div slot="label" id="label">
+                <span class="size-helper">[[value]]</span>
+                <span hidden$="[[hasCollection]]">Collection</span>
+                <span hidden$="[[hasTitle]]"><span hidden$="[[hasTrailingSlash]]">/</span> Title</span>
+            </div>
+            <iron-input slot="input"
+                    id="input"
+                    bind-value="{{value}}">
+                <input id="nativeInput"
                         autocomplete="off"
                         name="[[name]]"
                         required$="[[required]]">
             </iron-input>
             <rester-autocomplete
-                    slot="prefix"
-                    for="input"
+                    slot="suffix"
+                    for="nativeInput"
                     items="[[requestCollections]]"></rester-autocomplete>
-            <div slot="suffix" id="label">
-                <span class="size-helper">[[value]]</span>
-                <span hidden$="[[hasCollection]]">Collection</span>
-                <span hidden$="[[hasTitle]]"><span hidden$="[[hasTrailingSlash]]">/</span> Title</span>
-            </div>
         </paper-input-container>
     </template>
 

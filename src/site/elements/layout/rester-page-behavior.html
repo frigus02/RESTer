@@ -42,7 +42,10 @@
             },
 
             _onDrawerTap() {
-                this.fire('drawer-toggle-tapped');
+                this.dispatchEvent(new CustomEvent('drawer-toggle-tapped', {
+                    bubbles: true,
+                    composed: true
+                }));
             }
         };
     })();

@@ -149,7 +149,7 @@
                     const collGroups = RESTer.util.group(rawRequests, request => request.collection[0]);
                     const collGroupArray = Object.keys(collGroups).map(name => ({
                         name,
-                        items: groups[name]
+                        items: collGroups[name]
                     }));
                     const sortedCollGroupArray = RESTer.util.sort(collGroupArray, 'name');
 

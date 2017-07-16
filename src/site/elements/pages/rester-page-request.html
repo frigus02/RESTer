@@ -404,6 +404,10 @@
                 }
 
                 _computeHeader(headers, headerName) {
+                    if (!headers || !headers.base) {
+                        return;
+                    }
+
                     let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
 
                     return header && header.value;
@@ -426,6 +430,10 @@
                 }
 
                 _updatePageTitle(request, historyEntry) {
+                    if (!request) {
+                        return;
+                    }
+
                     const collection = request.collection || '<no collection>';
                     const title = request.title || '<no title>';
                     const time = historyEntry && historyEntry.time ? RESTer.format.dateTime(historyEntry.time) : '';

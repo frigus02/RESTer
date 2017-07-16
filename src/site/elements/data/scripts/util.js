@@ -32,6 +32,21 @@
         return Math.round(Math.random() * (max - min) + min);
     };
 
+    const debounceFunctionTimeouts = new WeakMap();
+
+    /**
+     * Debounces the specified function.
+     */
+    self.debounce = function (func, delay, ...args) {
+        const oldTimeout = debounceFunctionTimeouts.get(func);
+        if (oldTimeout) {
+            clearTimeout(oldTimeout);
+        }
+
+        const timeout = setTimeout(func, delay, ...args);
+        debounceFunctionTimeouts.set(func, timeout);
+    };
+
     /**
      * Compares two values of any type. If values are not of
      * the same type, they are converted to strings and compared

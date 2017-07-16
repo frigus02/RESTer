@@ -141,7 +141,7 @@
                 _onHeadersChanged() {
                     // Async ensures, this event is triggered after item.name and item.value
                     // properties have been updated.
-                    this.async(() => {
+                    setTimeout(() => {
                         this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
                         this._ensureEmptyHeader();
                     });

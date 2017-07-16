@@ -34,7 +34,7 @@
                 const oldTabIndex = this.getAttribute('tabindex');
                 this._shiftTabPressed = true;
                 this.setAttribute('tabindex', '-1');
-                this.async(() => {
+                setTimeout(() => {
                     this.setAttribute('tabindex', oldTabIndex);
                     this._shiftTabPressed = false;
                 }, 1);

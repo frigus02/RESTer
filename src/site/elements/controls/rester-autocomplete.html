@@ -287,7 +287,7 @@
 
                 _onInputBlur() {
                     this._inputFocused = false;
-                    this.async(() => {
+                    setTimeout(() => {
                         const nextFocus = Polymer.dom(this.root).activeElement;
                         const isDropdownFocused = nextFocus && nextFocus.closest('iron-selector') === this.$.dropdown;
                         if (isDropdownFocused) {
@@ -359,7 +359,7 @@
                 }
 
                 _getItemByRenderedIndex(index) {
-                    const domRepeat = this.$.dropdown.querySelector('template[is="dom-repeat"]');
+                    const domRepeat = this.$.dropdown.querySelector('dom-repeat');
                     const itemElement = this.$.dropdown.getElementsByClassName('button')[index];
 
                     return itemElement && domRepeat.itemForElement(itemElement);
@@ -377,7 +377,11 @@
                     }
 
                     this._setDropdownVisible(false);
-                    this.fire('item-selected', item);
+                    this.dispatchEvent(new CustomEvent('item-selected', {
+                        detail: item,
+                        bubbles: true,
+                        composed: true
+                    }));
                 }
             }
 

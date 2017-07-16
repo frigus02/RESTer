@@ -30,6 +30,10 @@
          * @polymerBehavior RESTer.LintBehavior
          */
         RESTer.LintBehaviorImpl = {
+            ready() {
+                this._runLintInspectionsImmediately = this._runLintInspectionsImmediately.bind(this);
+            },
+
             detached() {
                 const inspections = this.resterLintInspections || [];
                 const messages = this.$$('rester-lint-messages');
@@ -50,31 +54,33 @@
                     return;
                 }
 
-                this.debounce('runLintInspections', () => {
-                    const inspections = this.resterLintInspections || [];
-                    const messages = this.$$('rester-lint-messages');
+                RESTer.util.debounce(this._runLintInspectionsImmediately, 300);
+            },
 
-                    if (!messages) {
-                        return;
+            _runLintInspectionsImmediately() {
+                const inspections = this.resterLintInspections || [];
+                const messages = this.$$('rester-lint-messages');
+
+                if (!messages) {
+                    return;
+                }
+
+                inspections.forEach(inspection => {
+                    if (!inspection.id) {
+                        inspection.id = Math.random();
                     }
 
-                    inspections.forEach(inspection => {
-                        if (!inspection.id) {
-                            inspection.id = Math.random();
-                        }
-
-                        const result = this[inspection.check].call(this);
-                        if (result) {
-                            messages.putMessage(inspection.id, {
-                                message: RESTer.variables.replace(inspection.message, result),
-                                fixLabel: RESTer.variables.replace(inspection.fixLabel, result),
-                                fix: this[inspection.fix].bind(this)
-                            });
-                        } else {
-                            messages.removeMessage(inspection.id);
-                        }
-                    });
-                }, 300);
+                    const result = this[inspection.check].call(this);
+                    if (result) {
+                        messages.putMessage(inspection.id, {
+                            message: RESTer.variables.replace(inspection.message, result),
+                            fixLabel: RESTer.variables.replace(inspection.fixLabel, result),
+                            fix: this[inspection.fix].bind(this)
+                        });
+                    } else {
+                        messages.removeMessage(inspection.id);
+                    }
+                });
             }
         };
 
