@@ -37,7 +37,7 @@
 
             _onShowDrawerToggleChanged() {
                 if (this._drawerToggle) {
-                    this._drawerToggle.hidden = !this.showDrawerToggle;
+                    this._drawerToggle.style.display = this.showDrawerToggle ? 'block' : 'none';
                 }
             },
 
