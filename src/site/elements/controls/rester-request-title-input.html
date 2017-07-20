@@ -13,16 +13,12 @@
         <style include="rester-paper-input-styles">
             :host {
                 display: block;
+
+                --paper-input-container-focus-color: var(--accent-color);
             }
 
-            paper-input-container {
-                --paper-input-container-input: {
-                    font-size: 20px;
-                };
-
-                --paper-input-container-underline: {
-                    margin-top: 2px;
-                };
+            input {
+                font-size: 20px;
             }
 
             #label {
@@ -109,7 +105,7 @@
                 }
 
                 get _focusableElement() {
-                    return this.$.input;
+                    return this.$.nativeInput;
                 }
 
                 ready() {
@@ -124,12 +120,12 @@
 
                 connectedCallback() {
                     super.connectedCallback();
-                    this.$.input.addEventListener('keydown', this._onInputKeyDown);
+                    this.$.nativeInput.addEventListener('keydown', this._onInputKeyDown);
                 }
 
                 disconnectedCallback() {
                     super.disconnectedCallback();
-                    this.$.input.removeEventListener('keydown', this._onInputKeyDown);
+                    this.$.nativeInput.removeEventListener('keydown', this._onInputKeyDown);
                 }
 
                 _onRequestTitleChanged() {
@@ -174,25 +170,25 @@
                 }
 
                 _onInputKeyDown(e) {
-                    const caretPos = this.$.input.selectionStart;
-                    const isSelection = this.$.input.selectionStart !== this.$.input.selectionEnd;
-                    const value = this.$.input.value;
+                    const caretPos = this.$.nativeInput.selectionStart;
+                    const isSelection = this.$.nativeInput.selectionStart !== this.$.nativeInput.selectionEnd;
+                    const value = this.$.nativeInput.value;
 
                     if (e.key === 'Backspace') {
                         if (!isSelection && value.substr(caretPos - 3, 3) === ' / ') {
                             this.value = value.substr(0, caretPos - 2) + value.substr(caretPos);
-                            this.$.input.setSelectionRange(caretPos - 2, caretPos - 2);
+                            this.$.nativeInput.setSelectionRange(caretPos - 2, caretPos - 2);
                         }
                     } else if (e.keyCode === 'Delete') {
                         if (!isSelection && value.substr(caretPos, 3) === ' / ') {
                             this.value = value.substr(0, caretPos) + value.substr(caretPos + 2);
-                            this.$.input.setSelectionRange(caretPos, caretPos);
+                            this.$.nativeInput.setSelectionRange(caretPos, caretPos);
                         }
                     } else if (e.key === '/') {
                         e.preventDefault();
 
                         let strToInsert = ' / ',
-                            newValue = value.substring(0, this.$.input.selectionStart) + value.substring(this.$.input.selectionEnd);
+                            newValue = value.substring(0, this.$.nativeInput.selectionStart) + value.substring(this.$.nativeInput.selectionEnd);
 
                         if (newValue.substr(caretPos - 1, 1) === ' ') {
                             strToInsert = strToInsert.trimLeft();
@@ -202,7 +198,7 @@
                         }
 
                         this.value = newValue.substr(0, caretPos) + strToInsert + newValue.substr(caretPos);
-                        this.$.input.setSelectionRange(caretPos + strToInsert.length, caretPos + strToInsert.length);
+                        this.$.nativeInput.setSelectionRange(caretPos + strToInsert.length, caretPos + strToInsert.length);
                     }
                 }
             }

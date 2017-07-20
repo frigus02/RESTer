@@ -72,7 +72,9 @@
                                 on-tap="_deleteHistoryEntry"></paper-icon-button>
                     </paper-item>
                 </template>
-                <paper-spinner active hidden$="[[!loading]]"></paper-spinner>
+                <div hidden$="[[!loading]]">
+                    <paper-spinner active></paper-spinner>
+                </div>
                 <div class="button-container" hidden$="[[loading]]">
                     <paper-button
                             raised

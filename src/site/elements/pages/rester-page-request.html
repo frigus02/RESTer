@@ -34,7 +34,7 @@
 
 <dom-module id="rester-page-request">
     <template>
-        <style include="rester-page-styles iron-flex iron-flex-alignment iron-positioning">
+        <style include="rester-page-styles iron-flex iron-flex-alignment iron-flex-factors">
             :host {
                 display: block;
 
@@ -48,6 +48,10 @@
 
             :host([request-show-variables-on-side]) [role="main"] {
                 max-width: 1200px;
+            }
+
+            [hidden] {
+                display: none !important;
             }
 
             .method-input,

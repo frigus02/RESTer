@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
@@ -65,7 +66,9 @@
                 <paper-button dialog-dismiss>Cancel</paper-button>
                 <paper-button disabled$="[[isDeletingEntries]]" on-tap="_deleteOldHistory">
                     <span hidden$="[[isDeletingEntries]]">Delete old entries</span>
-                    <paper-spinner active hidden$="[[!isDeletingEntries]]"></paper-spinner>
+                    <span hidden$="[[!isDeletingEntries]]">
+                        <paper-spinner active></paper-spinner>
+                    </span>
                 </paper-button>
             </div>
         </paper-dialog>

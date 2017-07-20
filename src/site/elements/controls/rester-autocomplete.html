@@ -370,10 +370,14 @@
                 }
 
                 _selectItem(item) {
-                    if (this.itemTemplate === 'two-line-score') {
-                        this._input.bindValue = item.title;
+                    let newValue = this.itemTemplate === 'two-line-score'
+                        ? item.title
+                        : item;
+
+                    if (this._input.parentElement.tagName === 'IRON-INPUT') {
+                        this._input.parentElement.bindValue = item;
                     } else {
-                        this._input.bindValue = item;
+                        this._input.value = item;
                     }
 
                     this._setDropdownVisible(false);

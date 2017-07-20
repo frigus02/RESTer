@@ -91,7 +91,7 @@
                 }
 
                 function getStyles() {
-                    const style1 = document.getElementById('ace_editor.css') || document.getElementById('ace_editor');
+                    const style1 = document.getElementById('ace_editor.css') || document.getElementById('ace_editor') || document.querySelector('[id="ace_editor.css"]');
                     const style2 = document.getElementById('ace-tm');
                     const style3 = style2.nextSibling;
 
@@ -100,13 +100,13 @@
 
                 return superclass => class AceShadowDomMixin extends superclass {
                     ready() {
+                        super.ready();
+
                         this._dom = Polymer.dom(this.root);
 
                         styles.forEach(style => {
                             this._dom.appendChild(style.cloneNode(true));
                         });
-
-                        super.ready();
                     }
 
                     connectedCallback() {
