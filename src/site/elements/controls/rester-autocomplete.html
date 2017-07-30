@@ -30,7 +30,6 @@
 
                 opacity: 0;
                 pointer-events: none;
-                transition: opacity 0.25s ease;
             }
 
             #dropdown.visible {
@@ -42,9 +41,8 @@
         <iron-selector
                 id="dropdown"
                 role="menu"
-                prefix
                 class$="[[_getDropdownVisibilityClass(dropdownVisible)]]"
-                style$="max-height: [[_getDropdownMaxHeight(dropdownItemsVisible)]]"
+                style$="max-height: [[_getDropdownMaxHeight(dropdownItemsVisible, dropdownVisible)]]"
                 tabindex="-1"
                 selected="[[selectedIndex]]"
                 selected-class="selected">
@@ -171,12 +169,21 @@
                     }
                 }
 
-                _getDropdownVisibilityClass() {
-                    return this.dropdownVisible ? 'visible' : '';
+                _getDropdownVisibilityClass(dropdownVisible) {
+                    return dropdownVisible ? 'visible' : '';
                 }
 
-                _getDropdownMaxHeight() {
-                    return `${48 * this.dropdownItemsVisible}px`;
+                _getDropdownMaxHeight(dropdownItemsVisible, dropdownVisible) {
+                    const itemHeight = 48;
+                    const top = this.$.dropdown.getBoundingClientRect().top;
+
+                    const preferredHeight = itemHeight * dropdownItemsVisible;
+                    const minHeight = itemHeight * 1.5;
+                    const maxHeight = !dropdownVisible || top === 0 ? 0 : window.innerHeight - top;
+
+                    const height = Math.max(Math.min(preferredHeight, maxHeight), minHeight);
+
+                    return `${height}px`;
                 }
 
                 _isActiveItemTemplate(itemTemplate, templateName) {
