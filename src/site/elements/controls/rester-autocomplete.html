@@ -142,8 +142,9 @@
                 connectedCallback() {
                     super.connectedCallback();
                     this._input = this.getRootNode().querySelector(`#${this.for}`);
+
                     this._setInputValue(this._input.value);
-                    this._input.addEventListener('bind-value-changed', this._onInputValueChanged);
+                    this._input.addEventListener('input', this._onInputValueChanged);
                     this._input.addEventListener('keydown', this._onInputKeyDown);
                     this._input.addEventListener('focus', this._onInputFocus);
                     this._input.addEventListener('blur', this._onInputBlur);
@@ -151,7 +152,7 @@
 
                 disconnectedCallback() {
                     super.disconnectedCallback();
-                    this._input.removeEventListener('bind-value-changed', this._onInputValueChanged);
+                    this._input.removeEventListener('input', this._onInputValueChanged);
                     this._input.removeEventListener('keydown', this._onInputKeyDown);
                     this._input.removeEventListener('focus', this._onInputFocus);
                     this._input.removeEventListener('blur', this._onInputBlur);
@@ -370,14 +371,14 @@
                 }
 
                 _selectItem(item) {
-                    let newValue = this.itemTemplate === 'two-line-score'
+                    const newValue = this.itemTemplate === 'two-line-score'
                         ? item.title
                         : item;
 
                     if (this._input.parentElement.tagName === 'IRON-INPUT') {
-                        this._input.parentElement.bindValue = item;
+                        this._input.parentElement.bindValue = newValue;
                     } else {
-                        this._input.value = item;
+                        this._input.value = newValue;
                     }
 
                     this._setDropdownVisible(false);

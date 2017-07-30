@@ -55,15 +55,14 @@
                 with-backdrop
                 restore-focus-on-close>
             <div>
-                <iron-input>
-                    <input id="input"
-                        bind-value="{{searchText}}"
-                        placeholder="Type to open a request..."
-                        autocomplete="off"
-                        autofocus>
+                <iron-input bind-value="{{searchText}}">
+                    <input id="nativeInput"
+                            placeholder="Type to open a request..."
+                            autocomplete="off"
+                            autofocus>
                 </iron-input>
                 <rester-autocomplete
-                        for="input"
+                        for="nativeInput"
                         items="[[items]]"
                         on-item-selected="_onItemSelected"></rester-autocomplete>
             </div>
