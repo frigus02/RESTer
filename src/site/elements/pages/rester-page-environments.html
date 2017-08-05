@@ -12,7 +12,7 @@
 <link rel="import" href="../controls/rester-edit-environment-dialog.html">
 <link rel="import" href="../data/rester-data-settings-mixin.html">
 <link rel="import" href="../data/rester-data.html">
-<link rel="import" href="../layout/rester-page-behavior.html">
+<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
 <dom-module id="rester-page-environments">
@@ -92,7 +92,7 @@
         (function () {
             'use strict';
 
-            class RESTerPageEnvironments extends Polymer.mixinBehaviors([RESTer.PageBehavior], RESTer.SettingsMixin(Polymer.Element)) {
+            class RESTerPageEnvironments extends RESTer.PageMixin(RESTer.SettingsMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-page-environments';
                 }

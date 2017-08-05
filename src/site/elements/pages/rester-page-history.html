@@ -12,7 +12,7 @@
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 
 <link rel="import" href="../data/rester-data.html">
-<link rel="import" href="../layout/rester-page-behavior.html">
+<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 <link rel="import" href="../styles/rester-paper-item-button.html">
 
@@ -91,7 +91,7 @@
         (function () {
             'use strict';
 
-            class RESTerPageHistory extends Polymer.mixinBehaviors([RESTer.PageBehavior], Polymer.Element) {
+            class RESTerPageHistory extends RESTer.PageMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-page-history';
                 }

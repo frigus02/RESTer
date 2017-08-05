@@ -10,7 +10,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 
 <link rel="import" href="../data/rester-data.html">
-<link rel="import" href="../layout/rester-page-behavior.html">
+<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
 <dom-module id="rester-page-about">
@@ -91,7 +91,7 @@
         (function () {
             'use strict';
 
-            class RESTerPageAbout extends Polymer.mixinBehaviors([RESTer.PageBehavior], Polymer.Element) {
+            class RESTerPageAbout extends RESTer.PageMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-page-about';
                 }

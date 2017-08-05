@@ -25,7 +25,7 @@
 <link rel="import" href="../controls/rester-variables-input.html">
 <link rel="import" href="../data/rester-data-hotkeys-mixin.html">
 <link rel="import" href="../data/rester-data-settings-mixin.html">
-<link rel="import" href="../layout/rester-page-behavior.html">
+<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 <link rel="import" href="../utils/rester-badge.html">
 <link rel="import" href="../utils/rester-error-behavior.html">
@@ -231,7 +231,7 @@
         (function () {
             'use strict';
 
-            class RESTerPageRequest extends Polymer.mixinBehaviors([RESTer.PageBehavior, RESTer.ErrorBehavior, RESTer.LintBehavior], RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))) {
+            class RESTerPageRequest extends Polymer.mixinBehaviors([RESTer.ErrorBehavior, RESTer.LintBehavior], RESTer.PageMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element)))) {
                 static get is() {
                     return 'rester-page-request';
                 }
