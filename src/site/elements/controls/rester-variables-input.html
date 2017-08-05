@@ -149,17 +149,18 @@
 
                 _onVariableValueChanged(e) {
                     const variable = e.model.item;
+                    const newValue = e.detail.value;
                     if (!variable) {
                         return;
                     }
 
                     if (!this.value) {
-                        this.value = { [variable.name]: variable.value };
+                        this.value = { [variable.name]: newValue };
                     } else {
-                        this.set(['value', variable.name], variable.value);
+                        this.set(['value', variable.name], newValue);
                     }
 
-                    this.set(['lastUsedVariables', variable.name], variable.value);
+                    this.set(['lastUsedVariables', variable.name], newValue);
                 }
 
                 _onDataChanges(changes) {

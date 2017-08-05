@@ -29,8 +29,8 @@
 <link rel="import" href="../styles/rester-page-styles.html">
 <link rel="import" href="../utils/rester-badge.html">
 <link rel="import" href="../utils/rester-error-mixin.html">
-<link rel="import" href="../utils/rester-lint-behavior.html">
 <link rel="import" href="../utils/rester-lint-messages.html">
+<link rel="import" href="../utils/rester-lint-mixin.html">
 
 <dom-module id="rester-page-request">
     <template>
@@ -231,7 +231,7 @@
         (function () {
             'use strict';
 
-            class RESTerPageRequest extends Polymer.mixinBehaviors([RESTer.LintBehavior], RESTer.ErrorMixin(RESTer.PageMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))))) {
+            class RESTerPageRequest extends RESTer.LintMixin(RESTer.ErrorMixin(RESTer.PageMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))))) {
                 static get is() {
                     return 'rester-page-request';
                 }
@@ -571,6 +571,10 @@
                 }
 
                 _lintCheckEmptyVariables() {
+                    if (this.request === undefined || this.requestVariableValues === undefined) {
+                        return false;
+                    }
+
                     const variables = RESTer.variables.extract(this.request);
                     const usedVariableValues = {};
                     RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
@@ -582,8 +586,11 @@
                 }
 
                 _lintCheckFilesWithoutMultipart() {
-                    const contentType = this.requestContentType || '';
+                    if (this.requestContentType === undefined) {
+                        return false;
+                    }
 
+                    const contentType = this.requestContentType || '';
                     return contentType.toLowerCase() !== 'multipart/form-data' &&
                         Object.keys(this.$.bodyInput.files || {}).length > 0;
                 }
@@ -593,6 +600,10 @@
                 }
 
                 _lintCheckEmptyFiles() {
+                    if (this.request === undefined) {
+                        return false;
+                    }
+
                     const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
                     const selectedFiles = this.$.bodyInput.files;
 
@@ -606,7 +617,7 @@
                 }
 
                 _lintCheckSuggestedContentType() {
-                    if (!this.request.body) {
+                    if (this.request === undefined || !this.request.body || this.requestContentType === undefined) {
                         return false;
                     }
 

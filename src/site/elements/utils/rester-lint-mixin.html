@@ -11,14 +11,16 @@
          *
          * Define inspections like this:
          *
-         * resterLintInspections: [
-         *     {
-         *         message: 'You are doing it wrong. :-)',
-         *         check: '_lintYouAreDoingItWrong',
-         *         fixLabel: 'Help me!',
-         *         fix: '_fixYouAreDoingItWrong'
-         *     }
-         * ]
+         * static get resterLintInspections() {
+         *     return [
+         *         {
+         *             message: 'You are doing it wrong. :-)',
+         *             check: '_lintYouAreDoingItWrong',
+         *             fixLabel: 'Help me!',
+         *             fix: '_fixYouAreDoingItWrong'
+         *         }
+         *     ];
+         * }
          *
          * Then run inspections, when the observed properties change by setting
          * up an observer:
@@ -26,28 +28,26 @@
          * observers: [
          *     '_runLintInspections(YOUR_OBSERVED_PROPERTIES_HERE)'
          * ]
-         *
-         * @polymerBehavior RESTer.LintBehavior
          */
-        RESTer.LintBehaviorImpl = {
-            ready() {
+        RESTer.LintMixin = superclass => class extends superclass {
+            constructor() {
+                super();
                 this._runLintInspectionsImmediately = this._runLintInspectionsImmediately.bind(this);
-            },
+            }
 
-            detached() {
-                const inspections = this.resterLintInspections || [];
-                const messages = this.$$('rester-lint-messages');
+            disconnectedCallback() {
+                super.disconnectedCallback();
+                const inspections = this.constructor.resterLintInspections || [];
+                const messages = this.root.querySelector('rester-lint-messages');
 
                 if (!messages) {
                     return;
                 }
 
                 inspections.forEach(inspection => {
-                    if (inspection.id) {
-                        messages.removeMessage(inspection.id);
-                    }
+                    messages.removeMessage(inspection.check);
                 });
-            },
+            }
 
             _runLintInspections() {
                 if (!RESTer.rester.settings.enableRequestLintInspections) {
@@ -55,37 +55,29 @@
                 }
 
                 RESTer.util.debounce(this._runLintInspectionsImmediately, 300);
-            },
+            }
 
             _runLintInspectionsImmediately() {
-                const inspections = this.resterLintInspections || [];
-                const messages = this.$$('rester-lint-messages');
+                const inspections = this.constructor.resterLintInspections || [];
+                const messages = this.root.querySelector('rester-lint-messages');
 
                 if (!messages) {
                     return;
                 }
 
                 inspections.forEach(inspection => {
-                    if (!inspection.id) {
-                        inspection.id = Math.random();
-                    }
-
                     const result = this[inspection.check].call(this);
                     if (result) {
-                        messages.putMessage(inspection.id, {
+                        messages.putMessage(inspection.check, {
                             message: RESTer.variables.replace(inspection.message, result),
                             fixLabel: RESTer.variables.replace(inspection.fixLabel, result),
                             fix: this[inspection.fix].bind(this)
                         });
                     } else {
-                        messages.removeMessage(inspection.id);
+                        messages.removeMessage(inspection.check);
                     }
                 });
             }
         };
-
-        RESTer.LintBehavior = [
-            RESTer.LintBehaviorImpl
-        ];
     })();
 </script>
