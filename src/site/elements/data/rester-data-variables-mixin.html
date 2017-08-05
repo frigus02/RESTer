@@ -6,29 +6,32 @@
 
         /**
          * Makes RESTer provided variable values available in property `providedVariableValues`.
-         *
-         * @polymerBehavior RESTer.VariablesBehavior
          */
-        RESTer.VariablesBehavior = {
-            properties: {
-                providedVariableValues: {
-                    type: Object,
-                    readOnly: true
-                }
-            },
+        RESTer.VariablesMixin = superclass => class extends superclass {
+            static get properties() {
+                return {
+                    providedVariableValues: {
+                        type: Object,
+                        readOnly: true
+                    }
+                };
+            }
 
-            ready() {
-                this._setProvidedVariableValues(RESTer.variables.providedValues);
+            constructor() {
+                super();
                 this._onProvidedValuesChanged = this._onProvidedValuesChanged.bind(this);
-            },
+            }
 
-            attached() {
+            connectedCallback() {
+                this._setProvidedVariableValues(RESTer.variables.providedValues);
                 RESTer.variables.addEventListener('providedValuesChanged', this._onProvidedValuesChanged);
-            },
+                super.connectedCallback();
+            }
 
-            detached() {
+            disconnectedCallback() {
+                super.disconnectedCallback();
                 RESTer.variables.removeEventListener('providedValuesChanged', this._onProvidedValuesChanged);
-            },
+            }
 
             _onProvidedValuesChanged(newProvidedValues) {
                 this._setProvidedVariableValues(newProvidedValues);
