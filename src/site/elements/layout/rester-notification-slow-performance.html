@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 
-<link rel="import" href="../utils/rester-error-behavior.html">
+<link rel="import" href="../utils/rester-error-mixin.html">
 
 <dom-module id="rester-notification-slow-performance">
     <template>
@@ -78,7 +78,7 @@
         (function () {
             'use strict';
 
-            class RESTerNotificationSlowPerformance extends Polymer.mixinBehaviors([RESTer.ErrorBehavior], Polymer.Element) {
+            class RESTerNotificationSlowPerformance extends RESTer.ErrorMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-notification-slow-performance';
                 }

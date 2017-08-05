@@ -10,7 +10,7 @@
 
 <link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../styles/rester-paper-item-button.html">
-<link rel="import" href="../utils/rester-error-behavior.html">
+<link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="rester-authorization-provider-basic.html">
 <link rel="import" href="rester-authorization-provider-custom.html">
 <link rel="import" href="rester-authorization-provider-oauth2.html">
@@ -89,7 +89,7 @@
         (function () {
             'use strict';
 
-            class RESTerAuthorizationInput extends Polymer.mixinBehaviors([RESTer.ErrorBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+            class RESTerAuthorizationInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], RESTer.ErrorMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-authorization-input';
                 }

@@ -11,7 +11,7 @@
 
 <link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../data/rester-data-settings-mixin.html">
-<link rel="import" href="../utils/rester-error-behavior.html">
+<link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="rester-ace-input.html">
 <link rel="import" href="rester-dom-purify-frame.html">
 
@@ -113,7 +113,7 @@
                 XML: 'xml'
             };
 
-            class RESTerHighlightBody extends Polymer.mixinBehaviors([RESTer.ErrorBehavior], RESTer.SettingsMixin(Polymer.Element)) {
+            class RESTerHighlightBody extends RESTer.ErrorMixin(RESTer.SettingsMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-highlight-body';
                 }
