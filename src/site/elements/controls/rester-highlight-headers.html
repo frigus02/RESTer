@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="../data/rester-data-theme-behavior.html">
+<link rel="import" href="../data/rester-data-theme-mixin.html">
 
 <dom-module id="rester-highlight-headers">
     <template>
@@ -54,7 +54,7 @@
         (function () {
             'use strict';
 
-            class RESTerHighlightHeaders extends Polymer.mixinBehaviors([RESTer.ThemeBehavior], Polymer.Element) {
+            class RESTerHighlightHeaders extends RESTer.ThemeMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-highlight-headers';
                 }
