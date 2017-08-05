@@ -1,4 +1,4 @@
-<link rel="import" href="../data/rester-data-settings-behavior.html">
+<link rel="import" href="../data/rester-data.html">
 
 <script>
     (function () {
@@ -50,7 +50,7 @@
             },
 
             _runLintInspections() {
-                if (!this.settings.enableRequestLintInspections) {
+                if (!RESTer.rester.settings.enableRequestLintInspections) {
                     return;
                 }
 
@@ -85,7 +85,6 @@
         };
 
         RESTer.LintBehavior = [
-            RESTer.SettingsBehavior,
             RESTer.LintBehaviorImpl
         ];
     })();

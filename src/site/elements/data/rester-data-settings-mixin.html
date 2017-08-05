@@ -6,33 +6,39 @@
 
         /**
          * Makes RESTer settings available in property `settings`.
-         *
-         * @polymerBehavior RESTer.SettingsBehavior
          */
-        RESTer.SettingsBehavior = {
-            properties: {
-                settings: {
-                    type: Object,
-                    readOnly: true
-                }
-            },
+        RESTer.SettingsMixin = superclass => class extends superclass {
+            static get properties() {
+                return {
+                    settings: {
+                        type: Object,
+                        readOnly: true
+                    }
+                };
+            }
+
+            constructor() {
+                super();
+                this._onSettingsChanged = this._onSettingsChanged.bind(this);
+            }
 
             ready() {
                 this._setSettings(RESTer.rester.settings);
                 RESTer.rester.settingsLoaded.then(() => {
                     this._onSettingsChanged(RESTer.rester.settings);
                 });
+                super.ready();
+            }
 
-                this._onSettingsChanged = this._onSettingsChanged.bind(this);
-            },
-
-            attached() {
+            connectedCallback() {
+                super.connectedCallback();
                 RESTer.rester.addEventListener('settingsChange', this._onSettingsChanged);
-            },
+            }
 
-            detached() {
+            disconnectedCallback() {
+                super.disconnectedCallback();
                 RESTer.rester.removeEventListener('settingsChange', this._onSettingsChanged);
-            },
+            }
 
             _onSettingsChanged(changedSettings) {
                 for (let key in changedSettings) {

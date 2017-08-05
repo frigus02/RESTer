@@ -7,7 +7,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
-<link rel="import" href="../data/rester-data-settings-behavior.html">
+<link rel="import" href="../data/rester-data-settings-mixin.html">
 <link rel="import" href="../layout/rester-page-behavior.html">
 <link rel="import" href="../styles/rester-hint.html">
 <link rel="import" href="../styles/rester-page-styles.html">
@@ -93,7 +93,7 @@
         (function () {
             'use strict';
 
-            class RESTerPageSettings extends Polymer.mixinBehaviors([RESTer.PageBehavior, RESTer.SettingsBehavior], Polymer.Element) {
+            class RESTerPageSettings extends Polymer.mixinBehaviors([RESTer.PageBehavior], RESTer.SettingsMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-page-settings';
                 }
