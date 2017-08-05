@@ -8,36 +8,41 @@
          * Registers hotkeys in attached and unregisters them in detached
          * lifecycle callbacks.
          *
-         * Define hotkeys in your element by adding a resterHotkeys property,
-         * which should look like the following:
+         * Define hotkeys in your element by adding a static resterHotkeys
+         * getter, which should look like the following:
          *
-         * resterHotkeys: {
-         *     'ctrl+o, ctrl+p': {
-         *         description: 'My awesome hotkey',
-         *         callback: '_onHotkeyCtrlPPressed'
-         *     }
+         * static get resterHotkeys() {
+         *     return {
+         *         'ctrl+o, ctrl+p': {
+         *             description: 'My awesome hotkey',
+         *             callback: '_onHotkeyCtrlPPressed'
+         *         }
+         *     };
          * }
-         *
-         * @polymerBehavior RESTer.HotkeysBehavior
          */
-        RESTer.HotkeysBehavior = {
-            _addedResterHotkeys: undefined,
+        RESTer.HotkeysMixin = superclass => class extends superclass {
+            constructor() {
+                super();
+                this._addedResterHotkeys = null;
+            }
 
-            attached() {
+            connectedCallback() {
+                super.connectedCallback();
                 this._addedResterHotkeys = this._getResterHotkeys();
                 for (let hotkey of this._addedResterHotkeys) {
                     RESTer.hotkeys.add(hotkey);
                 }
-            },
+            }
 
-            detached() {
+            disconnectedCallback() {
+                super.disconnectedCallback();
                 for (let hotkey of this._addedResterHotkeys) {
                     RESTer.hotkeys.remove(hotkey);
                 }
-            },
+            }
 
             _getResterHotkeys() {
-                const hotkeys = this.resterHotkeys || {};
+                const hotkeys = this.constructor.resterHotkeys || {};
 
                 return Object.keys(hotkeys).map(comboString => {
                     const details = hotkeys[comboString];

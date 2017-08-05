@@ -12,7 +12,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 
-<link rel="import" href="data/rester-data-hotkeys-behavior.html">
+<link rel="import" href="data/rester-data-hotkeys-mixin.html">
 <link rel="import" href="data/rester-data-settings-behavior.html">
 <link rel="import" href="data/rester-data-theme-behavior.html">
 <link rel="import" href="data/rester-data.html">
@@ -133,7 +133,7 @@
         (function () {
             'use strict';
 
-            class RESTerApp extends Polymer.mixinBehaviors([RESTer.HotkeysBehavior, RESTer.SettingsBehavior, RESTer.ThemeBehavior], Polymer.Element) {
+            class RESTerApp extends Polymer.mixinBehaviors([RESTer.SettingsBehavior, RESTer.ThemeBehavior], RESTer.HotkeysMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-app';
                 }

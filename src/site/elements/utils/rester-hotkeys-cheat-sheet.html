@@ -6,7 +6,7 @@
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="../data/rester-data-hotkeys-behavior.html">
+<link rel="import" href="../data/rester-data-hotkeys-mixin.html">
 
 <dom-module id="rester-hotkeys-cheat-sheet">
     <template>
@@ -76,7 +76,7 @@
         (function () {
             'use strict';
 
-            class RESTerHotkeysCheatSheet extends Polymer.mixinBehaviors([RESTer.HotkeysBehavior], Polymer.Element) {
+            class RESTerHotkeysCheatSheet extends RESTer.HotkeysMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-hotkeys-cheat-sheet';
                 }
