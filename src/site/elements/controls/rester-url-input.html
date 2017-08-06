@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
@@ -60,7 +59,7 @@
         (function () {
             'use strict';
 
-            class RESTerUrlInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], Polymer.Element) {
+            class RESTerUrlInput extends Polymer.Element {
                 static get is() {
                     return 'rester-url-input';
                 }
@@ -68,10 +67,15 @@
                 static get properties() {
                     return {
                         label: String,
+                        name: String,
                         value: {
                             type: String,
                             notify: true,
                             observer: '_onValueChanged'
+                        },
+                        required: {
+                            type: Boolean,
+                            value: false
                         },
                         originAndPath: {
                             type: String,

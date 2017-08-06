@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <script src="../../bower_components/ace-builds/src-min-noconflict/ace.js"></script>
 
 <link rel="import" href="../data/rester-data-theme-mixin.html">
@@ -122,7 +121,7 @@
                 };
             })();
 
-            class RESTerAceInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, Polymer.IronFormElementBehavior], RESTer.ThemeMixin(RESTer.AceShadowDomMixin(Polymer.Element))) {
+            class RESTerAceInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior], RESTer.ThemeMixin(RESTer.AceShadowDomMixin(Polymer.Element))) {
                 static get is() {
                     return 'rester-ace-input';
                 }

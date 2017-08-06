@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 
 <link rel="import" href="rester-input-control-behavior.html">
 
@@ -26,17 +25,22 @@
         (function () {
             'use strict';
 
-            class RESTerFileInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior, Polymer.IronFormElementBehavior], Polymer.Element) {
+            class RESTerFileInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior], Polymer.Element) {
                 static get is() {
                     return 'rester-file-input';
                 }
 
                 static get properties() {
                     return {
+                        name: String,
                         value: {
                             type: String,
                             notify: true,
                             observer: '_onValueChanged'
+                        },
+                        required: {
+                            type: Boolean,
+                            value: false
                         },
                         files: {
                             type: Array,

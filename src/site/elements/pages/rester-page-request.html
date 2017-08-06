@@ -130,8 +130,8 @@
             </app-header>
             <div role="main">
                 <!-- Request -->
-                <iron-form>
-                    <form id="requestForm" on-keydown="_onFormKeyDown" class="layout horizontal">
+                <iron-form id="requestForm" on-keydown="_onFormKeyDown">
+                    <form class="layout horizontal">
                         <iron-media-query
                                 query="(min-width: 1279px)"
                                 query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>

@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
@@ -41,7 +40,7 @@
         (function () {
             'use strict';
 
-            class RESTerVariablesInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], RESTer.VariablesMixin(Polymer.Element)) {
+            class RESTerVariablesInput extends RESTer.VariablesMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-variables-input';
                 }

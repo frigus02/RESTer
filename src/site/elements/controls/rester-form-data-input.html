@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
@@ -79,7 +78,7 @@
         (function () {
             'use strict';
 
-            class RESTerFormDataInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], Polymer.Element) {
+            class RESTerFormDataInput extends Polymer.Element {
                 static get is() {
                     return 'rester-form-data-input';
                 }

@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
@@ -89,7 +88,7 @@
         (function () {
             'use strict';
 
-            class RESTerAuthorizationInput extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], RESTer.ErrorMixin(Polymer.Element)) {
+            class RESTerAuthorizationInput extends RESTer.ErrorMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-authorization-input';
                 }
