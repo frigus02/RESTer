@@ -2,7 +2,6 @@
 <script src="../../bower_components/ace-builds/src-min-noconflict/ace.js"></script>
 
 <link rel="import" href="../data/rester-data-theme-mixin.html">
-<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-ace-input">
     <template>
@@ -121,7 +120,7 @@
                 };
             })();
 
-            class RESTerAceInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior], RESTer.ThemeMixin(RESTer.AceShadowDomMixin(Polymer.Element))) {
+            class RESTerAceInput extends RESTer.ThemeMixin(RESTer.AceShadowDomMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-ace-input';
                 }
@@ -166,10 +165,6 @@
                     this._findCommand = undefined;
                     this._oldValue = '';
                     this._ignoreEditorChangeEvents = false;
-                }
-
-                get _focusableElement() {
-                    return this.$.editor;
                 }
 
                 ready() {

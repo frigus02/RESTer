@@ -5,7 +5,6 @@
 <link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../styles/rester-paper-input-styles.html">
 <link rel="import" href="rester-autocomplete.html">
-<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-request-title-input">
     <template>
@@ -57,7 +56,7 @@
         (function () {
             'use strict';
 
-            class RESTerRequestTitleInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior], Polymer.Element) {
+            class RESTerRequestTitleInput extends Polymer.Element {
                 static get is() {
                     return 'rester-request-title-input';
                 }
@@ -101,10 +100,6 @@
                     super();
                     this._knownCollection =  undefined;
                     this._knownTitle =  undefined;
-                }
-
-                get _focusableElement() {
-                    return this.$.nativeInput;
                 }
 
                 ready() {

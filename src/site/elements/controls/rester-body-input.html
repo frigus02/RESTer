@@ -9,7 +9,6 @@
 
 <link rel="import" href="rester-ace-input.html">
 <link rel="import" href="rester-form-data-input.html">
-<link rel="import" href="rester-input-control-behavior.html">
 
 <dom-module id="rester-body-input">
     <template>
@@ -88,7 +87,7 @@
         (function () {
             'use strict';
 
-            class RESTerBodyInput extends Polymer.mixinBehaviors([RESTer.InputControlBehavior], Polymer.Element) {
+            class RESTerBodyInput extends Polymer.Element {
                 static get is() {
                     return 'rester-body-input';
                 }
@@ -146,12 +145,6 @@
                     };
                 }
 
-                get _focusableElement() {
-                    return this.selectedInputOption.isInputTypeAce
-                        ? this.$$('rester-ace-input')
-                        : this.$$('rester-form-data-input');
-                }
-
                 ready() {
                     super.ready();
                     this.selectedInputOption = this.inputOptions[0];
@@ -171,7 +164,7 @@
 
                 notifyVisibilityChanged() {
                     if (this.selectedInputOption.isInputTypeAce) {
-                        this.$$('rester-ace-input').notifyVisibilityChanged();
+                        this.root.querySelector('rester-ace-input').notifyVisibilityChanged();
                     }
                 }
 
