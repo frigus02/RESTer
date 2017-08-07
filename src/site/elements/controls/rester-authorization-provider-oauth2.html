@@ -63,8 +63,8 @@
                         keys="enter"
                         on-keys-pressed="_onConfigurationFormEnterPressed"
                         stop-keyboard-event-propagation></iron-a11y-keys>
-                <iron-form>
-                    <form id="configurationForm">
+                <iron-form id="configurationForm">
+                    <form>
                         <paper-input
                                 label="Title"
                                 value="{{_configuration.title}}"
@@ -176,8 +176,8 @@
                         keys="enter"
                         on-keys-pressed="_onGenerateTokenResourceOwnerFormEnterPressed"
                         stop-keyboard-event-propagation></iron-a11y-keys>
-                <iron-form>
-                    <form id="generateTokenResourceOwnerForm">
+                <iron-form id="generateTokenResourceOwnerForm">
+                    <form>
                         <paper-input
                                 label="User name"
                                 value="{{_resourceOwnerGenerateTokenData.username}}"

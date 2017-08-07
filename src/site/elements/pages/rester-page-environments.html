@@ -23,21 +23,18 @@
             }
 
             paper-radio-group {
-                display: block;
+                display: flex;
+                flex-wrap: wrap;
                 --paper-radio-group-item-padding: 8px;
             }
 
             paper-radio-button {
                 box-sizing: border-box;
-                display: inline-block;
                 width: calc(100% - 40px);
             }
 
-            paper-radio-button > div[id="radioLabel"] {
-                width: calc(100% - 26px);
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
+            paper-radio-button div {
+                font-size: 14px;
             }
 
             paper-radio-button div[secondary] {
