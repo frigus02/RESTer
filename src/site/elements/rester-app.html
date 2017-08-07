@@ -12,6 +12,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 
+<link rel="import" href="controls/rester-edit-environment-dialog.html">
 <link rel="import" href="data/rester-data-hotkeys-mixin.html">
 <link rel="import" href="data/rester-data-settings-mixin.html">
 <link rel="import" href="data/rester-data-theme-mixin.html">
@@ -127,6 +128,12 @@
         <rester-hotkeys-cheat-sheet id="cheatSheet"></rester-hotkeys-cheat-sheet>
         <rester-quick-open-dialog id="quickOpenDialog"></rester-quick-open-dialog>
         <rester-environment-select-dialog id="environmentSelectDialog"></rester-environment-select-dialog>
+
+        <!--
+            All dialogs need to be outside of the app-drawe-layout.
+            See: https://github.com/PolymerElements/paper-dialog/issues/152
+        -->
+        <rester-edit-environment-dialog></rester-edit-environment-dialog>
     </template>
 
     <script>

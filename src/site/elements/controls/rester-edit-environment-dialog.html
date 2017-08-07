@@ -11,6 +11,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 
+<link rel="import" href="../utils/rester-dialog-controller-mixin.html">
+
 <dom-module id="rester-edit-environment-dialog">
     <template>
         <style include="iron-flex iron-flex-alignment iron-flex-factors">
@@ -42,11 +44,11 @@
                 exit-animation="fade-out-animation"
                 with-backdrop>
             <paper-dialog-scrollable>
-                <iron-form id="editForm">
+                <iron-form id="dialogForm">
                     <form>
                         <paper-input
                                 label="Environment"
-                                value="{{environment.name}}"
+                                value="{{data.name}}"
                                 required
                                 error-message="This is required!"
                                 autofocus></paper-input>
@@ -71,7 +73,7 @@
                 </iron-form>
             </paper-dialog-scrollable>
             <div class="buttons">
-                <paper-button class="delete-button" hidden$="[[!environment.id]]" on-tap="_delete">
+                <paper-button class="delete-button" hidden$="[[!data.id]]" on-tap="_delete">
                     Delete
                 </paper-button>
                 <paper-button dialog-dismiss>
@@ -88,14 +90,17 @@
         (function () {
             'use strict';
 
-            class RESTerEditEnvironmentDialog extends Polymer.Element {
+            class RESTerEditEnvironmentDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-edit-environment-dialog';
                 }
 
                 static get properties() {
                     return {
-                        environment: Object,
+                        data: {
+                            type: Object,
+                            observer: '_onDataChanged'
+                        },
                         valueItems: {
                             type: Array,
                             readOnly: true
@@ -103,20 +108,20 @@
                     };
                 }
 
-                show(environment) {
-                    this.environment = undefined;
-                    this.$.editForm.reset();
+                static get resterDialogId() {
+                    return 'editEnvironment';
+                }
 
-                    setTimeout(() => {
-                        this.environment = environment;
-                        this._setValueItems(Object.keys(this.environment.values).map(key => ({
+                _onDataChanged(newData) {
+                    if (newData === undefined) {
+                        this._setValueItems([]);
+                    } else {
+                        this._setValueItems(Object.keys(newData.values).map(key => ({
                             key,
-                            value: this.environment.values[key]
+                            value: newData.values[key]
                         })));
                         this._ensureEmptyValueItem();
-
-                        this.$.dialog.open();
-                    });
+                    }
                 }
 
                 _ensureEmptyValueItem() {
@@ -137,23 +142,16 @@
                 }
 
                 _save() {
-                    if (this.$.editForm.validate()) {
-                        this.environment.values = {};
+                    if (this.$.dialogForm.validate()) {
+                        this.data.values = {};
                         this.valueItems.forEach(value => {
                             if (value.key.trim() !== '') {
-                                this.environment.values[value.key.trim()] = value.value;
+                                this.data.values[value.key.trim()] = value.value;
                             }
                         });
 
                         this._closeDialogWithAction('save');
                     }
-                }
-
-                _closeDialogWithAction(action) {
-                    this.$.dialog.closingReason.canceled = false;
-                    this.$.dialog.closingReason.confirmed = true;
-                    this.$.dialog.closingReason.action = action;
-                    this.$.dialog.close();
                 }
             }
 

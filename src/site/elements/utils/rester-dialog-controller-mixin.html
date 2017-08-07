@@ -1,0 +1,85 @@
+<link rel="import" href="../data/rester-data.html">
+
+<script>
+    (function () {
+        'use strict';
+
+        /**
+         * Provide a `show` method, which accepts data for the dialog and returns
+         * a promise. The promise is resolved/rejected, when the dialog is closed.
+         * If the dialog is closed the the `confirmed` property of the reason is
+         * true, the promise is resolved; otherwise it's rejected.
+         *
+         * The element needs to provide a dialog with the id `dialog` and a form
+         * inside with the id `dialogForm`.
+         *
+         * The element also needs to define static getter called `resterDialogId`.
+         * The dialog registers itself with this id on the global RESTer.dialogs
+         * object.
+         */
+        RESTer.DialogControllerMixin = superclass => class extends superclass {
+            static get properties() {
+                return {
+                    data: Object
+                };
+            }
+
+            constructor() {
+                super();
+                this._onDialogClosed = this._onDialogClosed.bind(this);
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.$.dialog.addEventListener('iron-overlay-closed', this._onDialogClosed);
+                RESTer.dialogs[this.constructor.resterDialogId] = this;
+            }
+
+            disconnectedCallback() {
+                RESTer.dialogs[this.constructor.resterDialogId] = undefined;
+                this.$.dialog.removeEventListener('iron-overlay-closed', this._onDialogClosed);
+                super.disconnectedCallback();
+            }
+
+            show(data) {
+                if (this._dialogPromise) {
+                    return;
+                }
+
+                this._dialogPromise = {};
+                this.data = undefined;
+                this.$.dialogForm.reset();
+
+                return new Promise((resolve, reject) => {
+                    this._dialogPromise.resolve = resolve;
+                    this._dialogPromise.reject = reject;
+
+                    setTimeout(() => {
+                        this.data = data;
+
+                        this.$.dialog.closingReason = {};
+                        this.$.dialog.open();
+                    });
+                });
+            }
+
+            _closeDialogWithAction(action) {
+                this.$.dialog.closingReason.canceled = false;
+                this.$.dialog.closingReason.confirmed = true;
+                this.$.dialog.closingReason.action = action;
+                this.$.dialog.close();
+            }
+
+            _onDialogClosed(e) {
+                const reason = e.detail;
+                if (reason.confirmed) {
+                    this._dialogPromise.resolve({reason, data: this.data});
+                } else {
+                    this._dialogPromise.reject({reason});
+                }
+
+                this._dialogPromise = undefined;
+            }
+        };
+    })();
+</script>
