@@ -7,7 +7,11 @@
      * Clones the first layer specified object.
      */
     self.clone = function (obj) {
-        return Object.assign({}, obj);
+        if (Array.isArray(obj)) {
+            return [...obj];
+        } else {
+            return Object.assign({}, obj);
+        }
     };
 
     /**
