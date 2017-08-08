@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/utils/async.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -123,8 +124,12 @@
                 }
 
                 _onFormDataEntriesChanged() {
-                    this.value = this._stringifyFormDataEntries(this.formDataEntries);
-                    this._ensureEmptyFormDataEntry();
+                    // Async ensures, this event is triggered after item.name and item.value
+                    // properties have been updated.
+                    Polymer.Async.microTask.run(() => {
+                        this.value = this._stringifyFormDataEntries(this.formDataEntries);
+                        this._ensureEmptyFormDataEntry();
+                    });
                 }
 
                 _onFormDataEntryFileSelected(e) {
