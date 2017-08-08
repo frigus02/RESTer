@@ -1,0 +1,104 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="rester-dialog-controller-mixin.html">
+
+<dom-module id="rester-authorization-provider-oauth2-generate-token-resource-owner-dialog">
+    <template>
+        <style>
+            paper-dialog {
+                max-width: 600px;
+            }
+
+            form {
+                /*
+                * The paper-input-error inside of the paper-input is positioned
+                * absolute underneath the input and has 20px height. Without the
+                * padding the dialog would start scrolling.
+                */
+                padding-bottom: 20px;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop>
+            <paper-dialog-scrollable>
+                <iron-a11y-keys
+                        target="[[form]]"
+                        keys="enter"
+                        on-keys-pressed="_save"
+                        stop-keyboard-event-propagation></iron-a11y-keys>
+                <iron-form id="dialogForm">
+                    <form>
+                        <paper-input
+                                label="User name"
+                                value="{{data.username}}"
+                                required
+                                error-message="This is required!"
+                                autofocus></paper-input>
+                        <paper-input
+                                label="Password"
+                                value="{{data.password}}"
+                                type="password"
+                                required
+                                error-message="This is required!"></paper-input>
+                    </form>
+                </iron-form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss>
+                    Cancel
+                </paper-button>
+                <paper-button on-tap="_save">
+                    Save
+                </paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+
+            class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
+                static get is() {
+                    return 'rester-authorization-provider-oauth2-generate-token-resource-owner-dialog';
+                }
+
+                static get properties() {
+                    return {
+                        data: Object,
+                        form: Object
+                    };
+                }
+
+                static get resterDialogId() {
+                    return 'authProviderOAuth2GenerateTokenResourceOwner';
+                }
+
+                ready() {
+                    super.ready();
+                    this.form = this.$.dialogForm;
+                }
+
+                _save() {
+                    if (this.$.dialogForm.validate()) {
+                        this._closeDialogWithAction();
+                    }
+                }
+            }
+
+            customElements.define(RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog.is, RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog);
+        })();
+    </script>
+</dom-module>
