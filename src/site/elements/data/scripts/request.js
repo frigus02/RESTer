@@ -40,7 +40,7 @@
                     indexesToRemove.push(i);
                 } else if (lowerCaseName === headerCommand) {
                     indexesToRemove.push(i);
-                } else if (removeDefaultHeaders && defaultHeaders.includes(lowerCaseName)) {
+                } else if (removeDefaultHeaders && defaultHeaders.includes(lowerCaseName) && !(lowerCaseName === 'content-type' && header.value.startsWith('multipart/form-data'))) {
                     indexesToRemove.push(i);
                 }
             }
