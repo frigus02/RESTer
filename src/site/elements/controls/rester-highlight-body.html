@@ -6,8 +6,6 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
-<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 
 <link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../data/rester-data-settings-mixin.html">
@@ -38,10 +36,6 @@
             .menu-item-divider {
                 border-top: 1px solid var(--divider-color);
                 margin: 4px 0;
-            }
-
-            #chooseLanguageDialog paper-radio-button {
-                display: block;
             }
         </style>
 
@@ -79,22 +73,6 @@
         <template is="dom-if" if="[[renderPreview]]">
             <rester-dom-purify-frame html="[[body]]"></rester-dom-purify-frame>
         </template>
-
-        <paper-dialog id="chooseLanguageDialog"
-                entry-animation="scale-up-animation"
-                exit-animation="fade-out-animation"
-                with-backdrop
-                restore-focus-on-close>
-            <paper-dialog-scrollable>
-                <paper-radio-group selected="{{language}}" on-paper-radio-group-changed="_closeChangeLanguageDialog">
-                    <template is="dom-repeat" items="[[supportedLanguages]]">
-                        <paper-radio-button name="[[item]]">
-                            <div>[[item]]</div>
-                        </paper-radio-button>
-                    </template>
-                </paper-radio-group>
-            </paper-dialog-scrollable>
-        </paper-dialog>
     </template>
 
     <script>
@@ -154,16 +132,6 @@
                         renderPreview: {
                             type: Boolean,
                             computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
-                        },
-                        supportedLanguages: {
-                            type: Array,
-                            readOnly: true,
-                            value: [
-                                'Plain',
-                                'HTML',
-                                'JSON',
-                                'XML'
-                            ]
                         }
                     };
                 }
@@ -245,14 +213,14 @@
                 }
 
                 _autoSelectLanguage(contentType) {
-                    let newLanguage = this.supportedLanguages[0];
+                    let newLanguage = 'Plain';
                     if (contentType) {
                         if (contentType.toLowerCase().includes('json')) {
-                            newLanguage = this.supportedLanguages[2];
+                            newLanguage = 'JSON';
                         } else if (contentType.toLowerCase().includes('html')) {
-                            newLanguage = this.supportedLanguages[1];
+                            newLanguage = 'HTML';
                         } else if (contentType.toLowerCase().includes('xml')) {
-                            newLanguage = this.supportedLanguages[3];
+                            newLanguage = 'XML';
                         }
                     }
 
@@ -281,11 +249,11 @@
 
                 _changeLanguage() {
                     this.$.options.close();
-                    this.$.chooseLanguageDialog.open();
-                }
-
-                _closeChangeLanguageDialog() {
-                    this.$.chooseLanguageDialog.close();
+                    RESTer.dialogs.highlightLanguageSelect.show(this.language).then(result => {
+                        if (result.reason.confirmed) {
+                            this.language = result.data;
+                        }
+                    });
                 }
             }
 
