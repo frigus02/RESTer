@@ -84,9 +84,8 @@
             }
 
             rester-lint-messages {
-                position: absolute;
+                position: fixed;
                 bottom: 0;
-                left: 0;
                 right: 0;
                 z-index: 10;
             }
@@ -586,13 +585,15 @@
                 }
 
                 _lintCheckFilesWithoutMultipart() {
-                    if (this.requestContentType === undefined) {
+                    if (this.request === undefined) {
                         return false;
                     }
 
                     const contentType = this.requestContentType || '';
+                    const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+
                     return contentType.toLowerCase() !== 'multipart/form-data' &&
-                        Object.keys(this.$.bodyInput.files || {}).length > 0;
+                        requiredFiles && requiredFiles.length > 0;
                 }
 
                 _lintFixFilesWithoutMultipart() {
@@ -617,7 +618,7 @@
                 }
 
                 _lintCheckSuggestedContentType() {
-                    if (this.request === undefined || !this.request.body || this.requestContentType === undefined) {
+                    if (this.request === undefined || !this.request.body) {
                         return false;
                     }
 
@@ -625,7 +626,8 @@
                     const suggested = this.$.bodyInput.getSuggestedContentType();
 
                     if (suggested && suggested !== contentType.toLowerCase() &&
-                        !this._lintCheckFilesWithoutMultipart()) {
+                        !this._lintCheckFilesWithoutMultipart() &&
+                        !this._lintCheckEmptyFiles()) {
                         return {
                             contentType: suggested
                         };
