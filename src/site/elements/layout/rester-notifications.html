@@ -7,7 +7,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
-<link rel="import" href="rester-notification-slow-performance.html">
+<link rel="import" href="../data/rester-data.html">
 
 <dom-module id="rester-notifications">
     <template>
@@ -34,10 +34,6 @@
             }
         </style>
 
-        <div id="notifications">
-            <rester-notification-slow-performance></rester-notification-slow-performance>
-        </div>
-
         <paper-menu-button
                 id="options"
                 dynamic-align
@@ -48,7 +44,7 @@
                     id="menu-button"
                     icon="[[icon]]"></paper-icon-button>
             <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
-                <template is="dom-repeat" items="[[visibleNotifications]]">
+                <template is="dom-repeat" items="[[notifications]]">
                     <paper-item role="menuitem" on-tap="_openNotification">
                         <paper-item-body two-line>
                             <div>[[item.title]]</div>
@@ -66,7 +62,7 @@
 
         <paper-badge
                 for="menu-button"
-                label="[[visibleNotifications.length]]"
+                label="[[notifications.length]]"
                 hidden$="[[isEmpty]]"></paper-badge>
     </template>
 
@@ -85,13 +81,9 @@
                             type: Array,
                             readOnly: true
                         },
-                        visibleNotifications: {
-                            type: Array,
-                            readOnly: true
-                        },
                         isEmpty: {
                             type: Boolean,
-                            computed: '_computeIsEmpty(visibleNotifications.length)'
+                            computed: '_computeIsEmpty(notifications.length)'
                         },
                         icon: {
                             type: String,
@@ -100,32 +92,40 @@
                     };
                 }
 
-                ready() {
-                    super.ready();
-                    this._setNotifications(Array.from(this.$.notifications.children));
-                    this._setVisibleNotifications(this.notifications.filter(n => n.visible));
-
-                    this.notifications.forEach(notification => {
-                        notification.addEventListener('visible-changed', this._update.bind(this));
-                    });
+                constructor() {
+                    super();
+                    this._onNotificationAdded = this._onNotificationAdded.bind(this);
+                    this._onNotificationRemoved = this._onNotificationRemoved.bind(this);
                 }
 
-                _computeIsEmpty(visibleNotificationsCount) {
-                    return visibleNotificationsCount === 0;
+                connectedCallback() {
+                    super.connectedCallback();
+                    this._setNotifications([...RESTer.notifications.notifications]);
+                    RESTer.notifications.addEventListener('notificationAdded', this._onNotificationAdded);
+                    RESTer.notifications.addEventListener('notificationRemoved', this._onNotificationRemoved);
+                }
+
+                disconnectedCallback() {
+                    super.disconnectedCallback();
+                    RESTer.notifications.removeEventListener('notificationAdded', this._onNotificationAdded);
+                    RESTer.notifications.removeEventListener('notificationRemoved', this._onNotificationRemoved);
+                }
+
+                _onNotificationAdded(notification) {
+                    this.push('notifications', notification);
+                }
+
+                _onNotificationRemoved(notification) {
+                    const index = this.notifications.indexOf(notification);
+                    this.splice('notifications', index, 1);
+                }
+
+                _computeIsEmpty(notificationsCount) {
+                    return notificationsCount === 0;
                 }
 
                 _computeIcon(isEmpty) {
                     return isEmpty ? 'social:notifications-none' : 'social:notifications';
-                }
-
-                _update(e) {
-                    const notification = e.target;
-                    const index = this.visibleNotifications.indexOf(notification);
-                    if (notification.visible && index === -1) {
-                        this.push('visibleNotifications', notification);
-                    } else if (!notification.visible && index > -1) {
-                        this.splice('visibleNotifications', index, 1);
-                    }
                 }
 
                 _openNotification(e) {

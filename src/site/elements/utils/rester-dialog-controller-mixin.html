@@ -6,12 +6,10 @@
 
         /**
          * Provide a `show` method, which accepts data for the dialog and returns
-         * a promise. The promise is resolved/rejected, when the dialog is closed.
-         * If the dialog is closed the the `confirmed` property of the reason is
-         * true, the promise is resolved; otherwise it's rejected.
+         * a promise. The promise is resolved, when the dialog is closed.
          *
-         * The element needs to provide a dialog with the id `dialog` and a form
-         * inside with the id `dialogForm`.
+         * The element needs to provide a dialog with the id `dialog` and can provide
+         * a form inside with the id `dialogForm`.
          *
          * The element also needs to define static getter called `resterDialogId`.
          * The dialog registers itself with this id on the global RESTer.dialogs
@@ -48,11 +46,12 @@
 
                 this._dialogPromise = {};
                 this.data = undefined;
-                this.$.dialogForm.reset();
+                if (this.$.dialogForm) {
+                    this.$.dialogForm.reset();
+                }
 
-                return new Promise((resolve, reject) => {
+                return new Promise(resolve => {
                     this._dialogPromise.resolve = resolve;
-                    this._dialogPromise.reject = reject;
 
                     setTimeout(() => {
                         this.data = data;
@@ -74,8 +73,6 @@
                 const reason = e.detail;
                 if (reason.confirmed) {
                     this._dialogPromise.resolve({reason, data: this.data});
-                } else {
-                    this._dialogPromise.reject({reason});
                 }
 
                 this._dialogPromise = undefined;

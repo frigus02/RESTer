@@ -130,8 +130,7 @@
                 _showEditDialog() {
                     RESTer.dialogs.editEnvironment
                         .show(this._environmentInDialog)
-                        .then(result => this._onEditDialogClosed(result))
-                        .catch(result => this._onEditDialogClosed(result));
+                        .then(result => this._onEditDialogClosed(result));
                 }
 
                 _onEditDialogClosed(result) {

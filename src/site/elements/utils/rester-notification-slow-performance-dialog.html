@@ -9,9 +9,10 @@
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 
-<link rel="import" href="../utils/rester-error-mixin.html">
+<link rel="import" href="rester-dialog-controller-mixin.html">
+<link rel="import" href="rester-error-mixin.html">
 
-<dom-module id="rester-notification-slow-performance">
+<dom-module id="rester-notification-slow-performance-dialog">
     <template>
         <style>
             paper-dialog {
@@ -35,8 +36,9 @@
                 entry-animation="scale-up-animation"
                 exit-animation="fade-out-animation"
                 with-backdrop
-                restore-focus-on-close>
-            <h2>[[title]]</h2>
+                restore-focus-on-close
+                on-iron-overlay-opened="_onOpened">
+            <h2>RESTer is running slow</h2>
             <paper-dialog-scrollable>
                 <p>
                     RESTer is currently running slow. This happens when the history
@@ -78,29 +80,13 @@
         (function () {
             'use strict';
 
-            class RESTerNotificationSlowPerformance extends RESTer.ErrorMixin(Polymer.Element) {
+            class RESTerNotificationSlowPerformanceDialog extends RESTer.DialogControllerMixin(RESTer.ErrorMixin(Polymer.Element)) {
                 static get is() {
-                    return 'rester-notification-slow-performance';
+                    return 'rester-notification-slow-performance-dialog';
                 }
 
                 static get properties() {
                     return {
-                        title: {
-                            type: String,
-                            readOnly: true,
-                            value: 'RESTer is running slow'
-                        },
-                        description: {
-                            type: String,
-                            readOnly: true,
-                            value: ''
-                        },
-                        visible: {
-                            type: Boolean,
-                            notify: true,
-                            readOnly: true,
-                            value: false
-                        },
                         largeHistoryEntries: {
                             type: Array,
                             readOnly: true
@@ -119,33 +105,21 @@
                     };
                 }
 
+                static get resterDialogId() {
+                    return 'notificationSlowPerformance';
+                }
+
                 static get SIZE_1MB() {
                     return 1 * 1024 * 1024;
                 }
 
-                constructor() {
-                    super();
-                    this._onDataSlowPerformance = this._onDataSlowPerformance.bind(this);
-                }
-
-                connectedCallback() {
-                    super.connectedCallback();
-                    RESTer.rester.addEventListener('dataSlowPerformance', this._onDataSlowPerformance);
-                }
-
-                disconnectedCallback() {
-                    super.disconnectedCallback();
-                    RESTer.rester.removeEventListener('dataSlowPerformance', this._onDataSlowPerformance);
-                }
-
-                open() {
-                    this.$.dialog.open();
+                _onOpened() {
                     RESTer.rester.getHistoryEntries(null, ['id', 'size']).then(entries => {
                         this._setHistoryEntries(entries);
                         this._setLargeHistoryEntries(entries.filter(this._isEntryLarge));
                         this.deleteLargeHistoryEntries = true;
 
-                        const targetSize = RESTerNotificationSlowPerformance.SIZE_1MB * 10;
+                        const targetSize = RESTerNotificationSlowPerformanceDialog.SIZE_1MB * 10;
                         const size = this._getSizeOfEntries(entries);
                         const sizeOfLargeEntries = this._getSizeOfEntries(this.largeHistoryEntries);
 
@@ -162,12 +136,6 @@
 
                         this.historyEntriesCountToDelete = deleteCount;
                     });
-                }
-
-                _onDataSlowPerformance(details) {
-                    const seconds = (details.duration / 1000).toFixed(1);
-                    this._setDescription(`The last operation took ${seconds}s to complete. Clean up some old history to speed it up.`);
-                    this._setVisible(true);
                 }
 
                 _deleteOldHistory() {
@@ -190,8 +158,7 @@
                     RESTer.rester.deleteHistoryEntries(idsToDelete)
                         .then(() => {
                             this._setIsDeletingEntries(false);
-                            this._setVisible(false);
-                            this.$.dialog.close();
+                            this._closeDialogWithAction();
                         })
                         .catch(error => {
                             this._setIsDeletingEntries(false);
@@ -204,11 +171,11 @@
                 }
 
                 _isEntryLarge(entry) {
-                    return entry.size > RESTerNotificationSlowPerformance.SIZE_1MB;
+                    return entry.size > RESTerNotificationSlowPerformanceDialog.SIZE_1MB;
                 }
             }
 
-            customElements.define(RESTerNotificationSlowPerformance.is, RESTerNotificationSlowPerformance);
+            customElements.define(RESTerNotificationSlowPerformanceDialog.is, RESTerNotificationSlowPerformanceDialog);
         })();
     </script>
 </dom-module>
