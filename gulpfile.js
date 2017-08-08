@@ -16,6 +16,7 @@ const createFirefoxAddon = require('./tools/tasks/create-firefox-addon');
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
 const lintFirefoxAddon = require('./tools/tasks/lint-firefox-addon');
+const wctPrepare = require('./tools/tasks/wct-prepare');
 const packageJson = require('./package.json');
 
 
@@ -243,6 +244,8 @@ function packageFirefox() {
 }
 
 
+const testPrepare = gulp.series(wctPrepare);
+
 const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
 const buildDev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy);
 
@@ -251,6 +254,7 @@ const lint = gulp.series(buildDev, lintJavaScript, lintWebComponents, lintAddon)
 const buildPackage = gulp.series(build, cleanPackage, packageChrome, packageFirefox);
 
 gulp.task('default', dev);
+gulp.task('test:prepare', testPrepare);
 gulp.task('dev', dev);
 gulp.task('build', build);
 gulp.task('lint', lint);

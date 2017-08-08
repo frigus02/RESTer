@@ -9,7 +9,7 @@
   "repository": "frigus02/RESTer",
   "scripts": {
     "postinstall": "bower install",
-    "test": "wct",
+    "test": "gulp test:prepare && wct",
     "start": "gulp dev",
     "build": "gulp build",
     "lint": "gulp lint",
@@ -36,7 +36,7 @@
     "web-component-tester": "^6.0.0"
   },
   "engines": {
-    "node": ">=6.0.0",
+    "node": ">=8.0.0",
     "npm": ">=5.0.0"
   },
   "private": true

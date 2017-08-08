@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 'use strict';
 
 const fs = require('fs');
@@ -122,8 +124,6 @@ function getIgnoreList() {
 }
 
 function reportResult(result) {
-    /* eslint-disable no-console */
-
     const messages = [...result.errors, ...result.warnings, ...result.notices].sort((a, b) => {
         const file = a.file.localeCompare(b.file);
         if (file !== 0) {

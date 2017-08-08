@@ -1,6 +1,8 @@
 'use strict';
 
 const fs = require('fs');
+const { promisify } = require('util');
+const rename = promisify(fs.rename);
 const path = require('path');
 
 const jpmUtils = require('jpm/lib/utils');
@@ -33,19 +35,7 @@ function createFirefoxAddon(options) {
 
         return jpmXpi(manifest, jpmOptions);
     }).then(xpiPath => {
-        return renameFile(xpiPath, options.destFile);
-    });
-}
-
-function renameFile(from, to) {
-    return new Promise((resolve, reject) => {
-        fs.rename(from, to, err => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve();
-            }
-        });
+        return rename(xpiPath, options.destFile);
     });
 }
 

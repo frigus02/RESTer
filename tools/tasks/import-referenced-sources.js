@@ -1,24 +1,14 @@
 'use strict';
 
 const fs = require('fs');
+const { promisify } = require('util');
+const readFile = promisify(fs.readFile);
 const path = require('path');
 
 const gutil = require('gulp-util');
 const parse5 = require('parse5');
 const through = require('through2');
 
-
-function readFileAsBuffer(path) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path, (err, contents) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(contents);
-            }
-        });
-    });
-}
 
 module.exports = function () {
     const added = {};
@@ -53,7 +43,7 @@ module.exports = function () {
                 added[absolutePath] = true;
             }
 
-            return readFileAsBuffer(absolutePath).then(contents => {
+            return readFile(absolutePath).then(contents => {
                 const newFile = new gutil.File({
                     cwd: file.cwd,
                     base: file.base,

@@ -22,7 +22,7 @@ The add-on supports the following goodies:
 
 The project requires:
 
-*   `node` in a version >= 6.
+*   `node` in a version >= 8.
 
 Install all other dependencies with the command:
 

@@ -1,7 +1,8 @@
 .build/
 .package/
 .vscode/
-src/site/bower_components/
+bower_components/
 node_modules/
+src/site/bower_components/
 *.sublime-workspace
 *.sublime-project

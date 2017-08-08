@@ -21,8 +21,6 @@
             let app;
 
             setup(function () {
-                replace('rester-splash').with('fake-rester-splash');
-
                 stub('rester-quick-open-dialog', {
                     show: sinon.spy()
                 });
@@ -60,7 +58,7 @@
             });
 
             test('hotkey mod+m navigates to new request page', function () {
-                const callback = app[app.resterHotkeys['mod+m'].callback];
+                const callback = app[app.constructor.resterHotkeys['mod+m'].callback];
 
                 window.location = '#/test';
 
@@ -69,7 +67,7 @@
             });
 
             test('hotkey mod+o, mod+p shows quick open dialog', function () {
-                const callback = app[app.resterHotkeys['mod+o, mod+p'].callback];
+                const callback = app[app.constructor.resterHotkeys['mod+o, mod+p'].callback];
                 const quickOpenDialog = Polymer.dom(app.root).querySelector('rester-quick-open-dialog');
 
                 callback.call(app);
@@ -83,7 +81,7 @@
                     { id: 5 }
                 ]));
 
-                const callback = app[app.resterHotkeys['mod+e'].callback];
+                const callback = app[app.constructor.resterHotkeys['mod+e'].callback];
 
                 return Promise.resolve()
                     .then(() => callback.call(app))
