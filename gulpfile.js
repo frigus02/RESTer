@@ -11,11 +11,14 @@ const polylint = require('gulp-polylint');
 const rename = require('gulp-rename');
 const vulcanize = require('gulp-vulcanize');
 const zip = require('gulp-zip');
+const lead = require('lead');
 
 const createFirefoxAddon = require('./tools/tasks/create-firefox-addon');
+const collectFileNames = require('./tools/tasks/collect-file-names');
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
 const lintFirefoxAddon = require('./tools/tasks/lint-firefox-addon');
+const updateLibraryLinksInFile = require('./tools/tasks/update-library-links');
 const wctPrepare = require('./tools/tasks/wct-prepare');
 const packageJson = require('./package.json');
 
@@ -244,7 +247,25 @@ function packageFirefox() {
 }
 
 
-const testPrepare = gulp.series(wctPrepare);
+// Utils
+
+function updateLibraryLinks() {
+    return new Promise((resolve, reject) => {
+        const fileNames = collectFileNames();
+        const stream = gulp.src(basePaths.src + 'site/elements/rester-app.html', {base: '.'})
+            .pipe(importReferencedSources())
+            .pipe(fileNames)
+            .on('finish', () => {
+                resolve(fileNames.get());
+            })
+            .on('error', reject);
+
+        lead(stream);
+    }).then(extractedFileNames => {
+        return updateLibraryLinksInFile(extractedFileNames.concat(...pathsToCopy));
+    });
+}
+
 
 const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
 const buildDev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy);
@@ -254,8 +275,9 @@ const lint = gulp.series(buildDev, lintJavaScript, lintWebComponents, lintAddon)
 const buildPackage = gulp.series(build, cleanPackage, packageChrome, packageFirefox);
 
 gulp.task('default', dev);
-gulp.task('test:prepare', testPrepare);
 gulp.task('dev', dev);
 gulp.task('build', build);
 gulp.task('lint', lint);
 gulp.task('package', buildPackage);
+gulp.task('util:preparewct', wctPrepare);
+gulp.task('util:updatelibrarylinks', updateLibraryLinks);

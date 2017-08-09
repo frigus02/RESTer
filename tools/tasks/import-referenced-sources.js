@@ -25,12 +25,14 @@ module.exports = function () {
         const fragment = parse5.parseFragment(file.contents.toString());
 
         const importUrls = fragment.childNodes
-            .filter(node => node.nodeName === 'link' &&
+            .filter(node =>
+                node.nodeName === 'link' &&
                 node.attrs.some(attr => attr.name === 'rel' && attr.value === 'import'))
             .map(node => node.attrs.find(attr => attr.name === 'href').value);
 
         const scriptUrls = fragment.childNodes
-            .filter(node => node.nodeName === 'script' &&
+            .filter(node =>
+                node.nodeName === 'script' &&
                 node.attrs.some(attr => attr.name === 'src'))
             .map(node => node.attrs.find(attr => attr.name === 'src').value);
 
