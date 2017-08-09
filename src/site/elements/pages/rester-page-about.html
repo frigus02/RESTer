@@ -109,12 +109,6 @@
                     };
                 }
 
-                static get otherComponents() {
-                    return [
-                        {name: 'vkbeautify', version: '0.99.00.beta'}
-                    ];
-                }
-
                 ready() {
                     super.ready();
                     this._setPageTitle('About');
@@ -135,9 +129,7 @@
                                 };
                             });
 
-                            const allComponents = bowerComponents.concat(RESTerPageAbout.otherComponents);
-
-                            this._setLibraries(RESTer.util.sort(allComponents, x => x.name.toLowerCase()));
+                            this._setLibraries(RESTer.util.sort(bowerComponents, x => x.name.toLowerCase()));
                         });
 
                     const manifest = chrome.runtime.getManifest();
