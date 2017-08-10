@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- Upgraded Polymer to version 2. There shouldn't be any bigger visible changes by this. However it ensures the project stays up-to-date.
+
+### Fixed
+- The `Content-Type` header was not set in the request for `multipart/form-data` requests, if the option *Strip default headers* was enabled.
 
 ## [2.5.1] - 2017-07-03
 ### Fixed

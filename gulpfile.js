@@ -84,7 +84,7 @@ const additionalManifestEntries = {
         /*applications: {
             gecko: {
                 id: 'rester@kuehle.me',
-                strict_min_version: '51.0.0'
+                strict_min_version: '55.0.0'
             }
         },*/
         icons: {
@@ -96,6 +96,7 @@ const additionalManifestEntries = {
         }
     },
     chrome: {
+        minimum_chrome_version: '60',
         icons: {
             48: 'images/icon48.png',
             128: 'images/icon128.png'

@@ -3,6 +3,8 @@
     "name": "RESTer",
     "version": "2.5.1",
     "description": "A REST client for almost any web service.",
+    "author": "Jan Kühle",
+    "homepage_url": "https://github.com/frigus02/RESTer",
     "icons": {
         "48": "images/icon-dev48.png",
         "96": "images/icon-dev96.png"
