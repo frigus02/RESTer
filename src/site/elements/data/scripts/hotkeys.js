@@ -75,7 +75,7 @@
                 handleEvent = pressedKeys.some(key => safeKeysForFormControls.indexOf(key) > -1);
             }
 
-            if (handleEvent) {
+            if (handleEvent && !event.defaultPrevented) {
                 event.preventDefault();
                 hotkey.callback();
             }
