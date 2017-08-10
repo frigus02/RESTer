@@ -47,6 +47,6 @@
     "webcomponentsjs": "1.0.7"
   },
   "devDependencies": {
-    "web-component-tester": "6.0.0"
+    "web-component-tester": "6.0.1"
   }
 }

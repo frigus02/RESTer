@@ -19,15 +19,19 @@ manifest.json MANIFEST_ICON_NOT_FOUND
 # HTML is sanitized with DOMPurify, so it's save to use with innerHTML.
 site/elements/controls/rester-dom-purify-frame.js UNSAFE_VAR_ASSIGNMENT
 
-# This is part of ACE.js and should be save.
+# These are part of other bower components and should be fine.
 site/bower_components/ace-builds/src-min-noconflict/ace.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js UNSAFE_VAR_ASSIGNMENT
-
-# These are part of other bower components and should be fine.
 site/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.js UNSAFE_VAR_ASSIGNMENT
-site/bower_components/polymer/polymer-mini.js UNSAFE_VAR_ASSIGNMENT
-site/bower_components/web-animations-js/web-animations-next-lite.min.js DANGEROUS_EVAL
-site/bower_components/webcomponentsjs/webcomponents-lite.min.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/polymer/lib/mixins/element-mixin.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/webcomponentsjs/webcomponents-hi-ce.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/webcomponentsjs/webcomponents-hi-sd-ce.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/webcomponentsjs/webcomponents-hi.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/webcomponentsjs/webcomponents-lite.js DANGEROUS_EVAL
+site/bower_components/webcomponentsjs/webcomponents-lite.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/webcomponentsjs/webcomponents-loader.js NO_DOCUMENT_WRITE
+site/bower_components/webcomponentsjs/webcomponents-loader.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/webcomponentsjs/webcomponents-sd-ce.js UNSAFE_VAR_ASSIGNMENT
 
 # Known libraries
-site\bower_components\dompurify\src\purify.js KNOWN_LIBRARY
+site/bower_components/dompurify/src/purify.js KNOWN_LIBRARY

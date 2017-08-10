@@ -10,6 +10,6 @@
         "vkbeautify": false
     },
     "rules": {
-        "new-cap": [2, {"capIsNewExceptions": ["Polymer"]}]
+        "new-cap": [2, {"capIsNewExceptionPattern": "Mixin$"}]
     }
 }
