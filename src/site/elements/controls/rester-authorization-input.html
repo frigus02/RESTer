@@ -32,7 +32,7 @@
                 <paper-icon-item role="menuitemradio" class="button">
                     <iron-icon slot="item-icon" icon="check" hidden$="[[!item.isUsed]]"></iron-icon>
                     <paper-item-body three-line on-tap="_useToken">
-                        <div>[[item.title]]</div>
+                        <div>[[item.token.title]]</div>
                         <div secondary>
                             [[item.provider.title]]<span hidden$="[[!item.configurationId]]">: [[item.configuration.title]]</span>
                         </div>
@@ -52,7 +52,7 @@
                 <paper-item class="button">
                     <paper-item-body two-line on-tap="_generateTokenFromConfig">
                         <div>[[item.provider.title]]</div>
-                        <div secondary>[[item.title]]</div>
+                        <div secondary>[[item.configuration.title]]</div>
                     </paper-item-body>
                     <paper-icon-button
                             icon="visibility-off"
@@ -63,14 +63,14 @@
                             icon="image:edit"
                             aria-label="Edit configuration"
                             on-tap="_editConfiguration"
-                            hidden$="[[!item.id]]"></paper-icon-button>
+                            hidden$="[[!item.configuration.id]]"></paper-icon-button>
                 </paper-item>
             </template>
         </div>
 
-        <div hidden$="[[!providersRequireConfiguration.length]]">
+        <div hidden$="[[!providers.length]]">
             <h3>Create new configuration</h3>
-            <template is="dom-repeat" items="[[providersRequireConfiguration]]">
+            <template is="dom-repeat" items="[[providers]]">
                 <paper-item class="button" on-tap="_createConfiguration">
                     <paper-item-body>
                         <div>[[item.title]]</div>
@@ -114,11 +114,6 @@
                             type: Array,
                             readOnly: true,
                             value: []
-                        },
-                        providersRequireConfiguration: {
-                            type: Array,
-                            readOnly: true,
-                            value: []
                         }
                     };
                 }
@@ -126,41 +121,44 @@
                 ready() {
                     super.ready();
 
-                    this._setProviders([
+                    const allProviders = [
                         this.$.providerCustom,
                         this.$.providerBasic,
                         this.$.providerOAuth2
-                    ]);
-                    this._setProvidersRequireConfiguration([]);
-                    this._setConfigurations([]);
+                    ];
+
                     this._setTokens([]);
+                    this._setConfigurations([]);
+                    this._setProviders([]);
 
                     const configPromises = [];
 
-                    this.providers.forEach(provider => {
+                    allProviders.forEach(provider => {
                         if (provider.needsConfiguration) {
-                            this.push('providersRequireConfiguration', provider);
+                            this.push('providers', provider);
 
-                            configPromises.push(RESTer.rester.getAuthorizationProviderConfigurations(provider.providerId).then(configs => {
-                                configs.forEach(config => {
-                                    config.provider = provider;
-                                    this.push('configurations', config);
+                            configPromises.push(RESTer.rester.getAuthorizationProviderConfigurations(provider.providerId).then(configurations => {
+                                configurations.forEach(configuration => {
+                                    this.push('configurations', { provider, configuration });
                                 });
                             }));
                         } else {
                             this.push('configurations', {
-                                providerId: provider.providerId,
-                                provider: provider,
-                                title: ''
+                                provider,
+                                configuration: {
+                                    providerId: provider.providerId,
+                                    title: ''
+                                }
                             });
                         }
                     });
 
                     Promise.all(configPromises).then(() => {
                         RESTer.rester.getAuthorizationTokens().then(tokens => {
-                            tokens.forEach(token => this._prepareTokenForRender(token));
-
-                            this._setTokens(tokens);
+                            this._setTokens(tokens.map(token =>
+                                this._prepareTokenForRender(
+                                    token,
+                                    allProviders.find(p => p.providerId === token.providerId))));
                             this._updateTokenIsUsedFlag();
                         });
                     });
@@ -175,23 +173,22 @@
                 }
 
                 _generateTokenFromConfigIncognito(e) {
-                    const config = RESTer.util.clone(e.model.item);
-                    config.incognito = true;
-
-                    this._generateToken(config);
+                    this._generateToken(e.model.item, true);
                 }
 
-                _generateToken(config) {
+                _generateToken(config, incognito) {
                     const provider = config.provider;
+                    const configuration = RESTer.util.clone(config.configuration);
+                    configuration.incognito = !!incognito;
 
-                    provider.generateToken(config)
+                    provider.generateToken(configuration)
                         .then(token => {
                             return RESTer.rester.addAuthorizationToken(token).then(id => {
                                 token.id = id;
-                                this._prepareTokenForRender(token);
+                                token = this._prepareTokenForRender(token, provider);
                                 this.push('tokens', token);
 
-                                this.authorization = `${token.scheme} ${token.token}`;
+                                this.authorization = `${token.token.scheme} ${token.token.token}`;
                             });
                         })
                         .catch(error => {
@@ -207,7 +204,7 @@
                     if (token.isUsed) {
                         this.authorization = null;
                     } else {
-                        this.authorization = `${token.scheme} ${token.token}`;
+                        this.authorization = `${token.token.scheme} ${token.token.token}`;
                     }
                 }
 
@@ -218,7 +215,7 @@
                         this.authorization = null;
                     }
 
-                    RESTer.rester.deleteAuthorizationToken(token.id).then(() => {
+                    RESTer.rester.deleteAuthorizationToken(token.token.id).then(() => {
                         const index = this.tokens.indexOf(token);
                         if (index > -1) {
                             this.splice('tokens', index, 1);
@@ -229,28 +226,25 @@
                 _editConfiguration(e) {
                     const config = e.model.item;
                     const provider = config.provider;
+                    const configuration = RESTer.util.clone(config.configuration);
 
-                    provider.editConfiguration(config).then(newConfig => {
+                    provider.editConfiguration(configuration).then(newConfig => {
                         if (newConfig === 'delete') {
-                            RESTer.rester.deleteAuthorizationProviderConfiguration(config.id).then(() => {
-                                const index = this.configurations.findIndex(c => c.id === config.id);
+                            RESTer.rester.deleteAuthorizationProviderConfiguration(configuration.id).then(() => {
+                                const index = this.configurations.indexOf(config);
                                 if (index > 0) {
                                     this.splice('configurations', index, 1);
                                 }
                             });
                         } else {
                             RESTer.rester.putAuthorizationProviderConfiguration(newConfig).then(() => {
-                                newConfig.provider = provider;
+                                config.configuration = newConfig;
 
-                                const index = this.configurations.findIndex(c => c.id === config.id);
-                                if (index > 0) {
-                                    this.splice('configurations', index, 1, newConfig);
-                                } else {
-                                    this.push('configurations', newConfig);
-                                }
+                                const index = this.configurations.indexOf(config);
+                                this.notifyPath(['configurations', index, 'configuration']);
                             });
                         }
-                    });
+                    }, () => { /* User pressed cancel */ });
                 }
 
                 _createConfiguration(e) {
@@ -259,29 +253,34 @@
                     provider.createConfiguration().then(config => {
                         RESTer.rester.putAuthorizationProviderConfiguration(config).then(id => {
                             config.id = id;
-                            config.provider = provider;
-                            this.push('configurations', config);
+                            this.push('configurations', {
+                                provider,
+                                configuration: config
+                            });
                         });
-                    });
+                    }, () => { /* User pressed cancel */ });
                 }
 
-                _prepareTokenForRender(token) {
-                    token.expirationDateFormatted = RESTer.format.expirationDate(token.expirationDate);
-                    token.provider = this.providers.find(p => p.providerId === token.providerId);
-                    token.configuration = this.configurations.find(c => c.id === token.configurationId);
-                    return token;
+                _prepareTokenForRender(token, provider) {
+                    return {
+                        token,
+                        configuration: this.configurations.find(c => c.configuration.id === token.configurationId).configuration,
+                        provider,
+                        expirationDateFormatted: RESTer.format.expirationDate(token.expirationDate),
+                        isUsed: false
+                    };
                 }
 
                 _updateTokenIsUsedFlag() {
                     this.tokens.forEach((token, i) => {
-                        this.set(['tokens', i, 'isUsed'], this.authorization === `${token.scheme} ${token.token}`);
+                        this.set(['tokens', i, 'isUsed'], this.authorization === `${token.token.scheme} ${token.token.token}`);
                     });
                 }
 
                 _compareConfigurations(a, b) {
                     const providerCompare = a.provider.title.localeCompare(b.provider.title);
                     if (providerCompare === 0) {
-                        return a.title.localeCompare(b.title);
+                        return a.configuration.title.localeCompare(b.configuration.title);
                     } else {
                         return providerCompare;
                     }
@@ -289,7 +288,7 @@
 
                 _configurationSupportsIncognito(config) {
                     // Only OAuth 2 supports incognito.
-                    return config.providerId === 3;
+                    return config.configuration.providerId === 3;
                 }
             }
 

@@ -70,11 +70,12 @@
             }
 
             _onDialogClosed(e) {
-                const reason = e.detail;
-                if (reason.confirmed) {
-                    this._dialogPromise.resolve({reason, data: this.data});
+                if (e.target !== this.$.dialog) {
+                    return;
                 }
 
+                const reason = e.detail;
+                this._dialogPromise.resolve({reason, data: this.data});
                 this._dialogPromise = undefined;
             }
         };
