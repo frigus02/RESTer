@@ -13,19 +13,22 @@ const writeFile = promisify(fs.writeFile);
  *
  * @return {Promise}
  */
-function prepareForWct() {
-    return createBowerComponentsSymlink().then(patchWctLocalSeleniumConfig);
+async function prepareForWct() {
+    await createBowerComponentsSymlink();
+    await patchWctLocalSeleniumConfig();
 }
 
-function createBowerComponentsSymlink() {
-    return symlink('src/site/bower_components', 'bower_components', 'junction').catch(err => {
+async function createBowerComponentsSymlink() {
+    try {
+        await symlink('src/site/bower_components', 'bower_components', 'junction');
+    } catch (err) {
         if (err.code !== 'EEXIST') {
             throw err;
         }
-    });
+    }
 }
 
-function patchWctLocalSeleniumConfig() {
+async function patchWctLocalSeleniumConfig() {
     const configPath = 'node_modules/wct-local/package.json';
     const goodConfig = {
         version: '3.4.0',
@@ -37,14 +40,12 @@ function patchWctLocalSeleniumConfig() {
         }
     };
 
-    return readFile(configPath, 'utf-8').then(content => {
-        const config = JSON.parse(content);
-        config['selenium-overrides'] = goodConfig;
+    const content = await readFile(configPath, 'utf-8');
+    const config = JSON.parse(content);
+    config['selenium-overrides'] = goodConfig;
 
-        const newContent = JSON.stringify(config, null, 2);
-
-        return writeFile(configPath, newContent);
-    });
+    const newContent = JSON.stringify(config, null, 2);
+    await writeFile(configPath, newContent);
 }
 
 module.exports = prepareForWct;

@@ -21,7 +21,9 @@ const ignoreFileName = '.addonslinterignore';
  *     - `addonDir` Directory of the addon code (e.g. '.package/firefox-1.17.0/').
  * @return {Promise}
  */
-function lintFirefoxAddon(options) {
+async function lintFirefoxAddon(options) {
+    const ignoreList = await getIgnoreList();
+
     const linter = addonsLinter.createInstance({
         config: {
             // This mimics the first command line argument from yargs,
@@ -39,48 +41,44 @@ function lintFirefoxAddon(options) {
         runAsBinary: false
     });
 
-    return linter.run()
-        .then(() => {
-            return getIgnoreList();
-        })
-        .then(ignoreList => {
-            const result = linter.output;
-            const lists = ['notices', 'warnings', 'errors'];
+    await linter.run();
 
-            result.count = 0;
-            for (let list of lists) {
-                result[list] = result[list].filter(message => {
-                    const file = path.resolve(message.file);
+    const result = linter.output;
+    const lists = ['notices', 'warnings', 'errors'];
 
-                    const ignoreEntry = ignoreList.find(ignore =>
-                        ignore.file === file &&
-                        ignore.code === message.code);
-                    if (ignoreEntry) {
-                        ignoreEntry.used = true;
-                        return false;
-                    } else {
-                        return true;
-                    }
-                });
+    result.count = 0;
+    for (let list of lists) {
+        result[list] = result[list].filter(message => {
+            const file = path.resolve(message.file);
 
-                result.summary[list] = result[list].length;
-                result.count += result[list].length;
-            }
-
-            reportResult(result);
-
-            const unusedIgnoreEntries = ignoreList.filter(ignore => !ignore.used);
-            if (unusedIgnoreEntries.length > 0) {
-                console.log(`Unused entries in ${ignoreFileName}:`);
-                for (const ignoreEntry of unusedIgnoreEntries) {
-                    console.log(` ${ignoreEntry.file} ${ignoreEntry.code}`);
-                }
-            }
-
-            if (result.count > 0) {
-                throw new Error(`Lint discovered ${result.count} errors.`);
+            const ignoreEntry = ignoreList.find(ignore =>
+                ignore.file === file &&
+                ignore.code === message.code);
+            if (ignoreEntry) {
+                ignoreEntry.used = true;
+                return false;
+            } else {
+                return true;
             }
         });
+
+        result.summary[list] = result[list].length;
+        result.count += result[list].length;
+    }
+
+    reportResult(result);
+
+    const unusedIgnoreEntries = ignoreList.filter(ignore => !ignore.used);
+    if (unusedIgnoreEntries.length > 0) {
+        console.log(`Unused entries in ${ignoreFileName}:`);
+        for (const ignoreEntry of unusedIgnoreEntries) {
+            console.log(` ${ignoreEntry.file} ${ignoreEntry.code}`);
+        }
+    }
+
+    if (result.count > 0) {
+        throw new Error(`Lint discovered ${result.count} errors.`);
+    }
 }
 
 function getIgnoreList() {
@@ -184,8 +182,6 @@ function reportResult(result) {
             console.log(' ' + logSymbols.info, ' ' + result.summary.notices + ' ' + plur('notice', result.summary.notices));
         }
     }
-
-    /* eslint-enable no-console */
 }
 
 module.exports = lintFirefoxAddon;

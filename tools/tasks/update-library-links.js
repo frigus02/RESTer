@@ -14,10 +14,10 @@ const writeFile = promisify(fs.writeFile);
  *     Paths should be relative to the project root.
  * @return {Promise}
  */
-function updateLibraryLinks(usedBowerFiles) {
+async function updateLibraryLinks(usedBowerFiles) {
     const text = generateUsedLibraryText(usedBowerFiles);
 
-    return updateTextInFile(text);
+    await updateTextInFile(text);
 }
 
 function generateUsedLibraryText(usedBowerFiles) {
@@ -51,13 +51,11 @@ function generateUsedLibraryText(usedBowerFiles) {
     return text;
 }
 
-function updateTextInFile(text) {
+async function updateTextInFile(text) {
     const filePath = 'docs/library-links.md';
-    return readFile(filePath, 'utf-8').then(content => {
-        const newContent = content.replace(/```[\S\s]*```/, '```\n' + text + '\n```');
-
-        return writeFile(filePath, newContent);
-    });
+    const content = await readFile(filePath, 'utf-8');
+    const newContent = content.replace(/```[\S\s]*```/, '```\n' + text + '\n```');
+    await writeFile(filePath, newContent);
 }
 
 module.exports = updateLibraryLinks;

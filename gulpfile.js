@@ -115,8 +115,8 @@ const additionalManifestEntries = {
 
 // Build
 
-function cleanBuild() {
-    return del(basePaths.build);
+async function cleanBuild() {
+    await del(basePaths.build);
 }
 
 function copy() {
@@ -195,8 +195,8 @@ async function lintAddon() {
 
 // Package
 
-function cleanPackage() {
-    return del(basePaths.package);
+async function cleanPackage() {
+    await del(basePaths.package);
 }
 
 function packageChrome() {

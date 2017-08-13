@@ -18,25 +18,23 @@ const jpmXpi = require('jpm/lib/xpi');
  *     - `validateVersion` Validate version in addon manifest against this version.
  * @return {Promise}
  */
-function createFirefoxAddon(options) {
+async function createFirefoxAddon(options) {
     const jpmOptions = {
         addonDir: path.resolve(options.addonDir),
         destDir: path.dirname(path.resolve(options.destFile))
     };
 
-    return jpmUtils.getManifest(jpmOptions).then(manifest => {
-        if (Object.keys(manifest).length === 0) {
-            throw new Error('Manifest not found.');
-        }
+    const manifest = await jpmUtils.getManifest(jpmOptions);
+    if (Object.keys(manifest).length === 0) {
+        throw new Error('Manifest not found.');
+    }
 
-        if (options.validateVersion && manifest.version !== options.validateVersion) {
-            throw new Error(`Version in addon manifest (${manifest.version}) does not match validated version (${options.validateVersion}).`);
-        }
+    if (options.validateVersion && manifest.version !== options.validateVersion) {
+        throw new Error(`Version in addon manifest (${manifest.version}) does not match validated version (${options.validateVersion}).`);
+    }
 
-        return jpmXpi(manifest, jpmOptions);
-    }).then(xpiPath => {
-        return rename(xpiPath, options.destFile);
-    });
+    const xpiPath = await jpmXpi(manifest, jpmOptions);
+    await rename(xpiPath, options.destFile);
 }
 
 module.exports = createFirefoxAddon;
