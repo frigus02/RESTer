@@ -40,6 +40,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.VariablesMixin
+             * @polymerElement
+             */
             class RESTerVariablesInput extends RESTer.VariablesMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-variables-input';

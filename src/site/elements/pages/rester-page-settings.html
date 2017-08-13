@@ -5,6 +5,8 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
 <link rel="import" href="../data/rester-data-settings-mixin.html">
@@ -93,6 +95,11 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.PageMixin
+             * @mixes RESTer.SettingsMixin
+             * @polymerElement
+             */
             class RESTerPageSettings extends RESTer.PageMixin(RESTer.SettingsMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-page-settings';

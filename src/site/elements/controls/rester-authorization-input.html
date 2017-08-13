@@ -88,6 +88,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.ErrorMixin
+             * @polymerElement
+             */
             class RESTerAuthorizationInput extends RESTer.ErrorMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-authorization-input';

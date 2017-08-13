@@ -80,6 +80,11 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.DialogControllerMixin
+             * @mixes RESTer.ErrorMixin
+             * @polymerElement
+             */
             class RESTerNotificationSlowPerformanceDialog extends RESTer.DialogControllerMixin(RESTer.ErrorMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-notification-slow-performance-dialog';

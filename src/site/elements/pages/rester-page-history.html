@@ -91,6 +91,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.PageMixin
+             * @polymerElement
+             */
             class RESTerPageHistory extends RESTer.PageMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-page-history';

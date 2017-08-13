@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -230,6 +231,14 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.LintMixin
+             * @mixes RESTer.ErrorMixin
+             * @mixes RESTer.PageMixin
+             * @mixes RESTer.SettingsMixin
+             * @mixes RESTer.HotkeysMixin
+             * @polymerElement
+             */
             class RESTerPageRequest extends RESTer.LintMixin(RESTer.ErrorMixin(RESTer.PageMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))))) {
                 static get is() {
                     return 'rester-page-request';

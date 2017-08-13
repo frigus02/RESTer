@@ -56,6 +56,9 @@
         (function () {
             'use strict';
 
+            /**
+             * @polymerElement
+             */
             class RESTerRequestTitleInput extends Polymer.Element {
                 static get is() {
                     return 'rester-request-title-input';
@@ -72,6 +75,11 @@
                             type: String,
                             notify: true,
                             observer: '_onRequestTitleChanged'
+                        },
+                        name: String,
+                        required: {
+                            type: Boolean,
+                            value: false
                         },
                         value: {
                             type: String,

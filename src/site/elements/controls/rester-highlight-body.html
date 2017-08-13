@@ -91,6 +91,11 @@
                 XML: 'xml'
             };
 
+            /**
+             * @mixes RESTer.ErrorMixin
+             * @mixes RESTer.SettingsMixin
+             * @polymerElement
+             */
             class RESTerHighlightBody extends RESTer.ErrorMixin(RESTer.SettingsMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-highlight-body';

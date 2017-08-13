@@ -54,6 +54,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.ThemeMixin
+             * @polymerElement
+             */
             class RESTerHighlightHeaders extends RESTer.ThemeMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-highlight-headers';

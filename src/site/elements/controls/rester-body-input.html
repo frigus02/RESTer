@@ -67,18 +67,14 @@
         <template is="dom-if" if="[[selectedInputOption.isInputTypeAce]]" restamp>
             <rester-ace-input
                     mode="[[selectedInputOption.aceMode]]"
-                    value="{{value}}"
-                    name="[[name]]"
-                    required$="[[required]]">
+                    value="{{value}}">
             </rester-ace-input>
         </template>
 
         <template is="dom-if" if="[[selectedInputOption.isInputTypeForm]]" restamp>
             <rester-form-data-input
                     value="{{value}}"
-                    files="{{files}}"
-                    name="[[name]]"
-                    required$="[[required]]">
+                    files="{{files}}">
             </rester-form-data-input>
         </template>
     </template>
@@ -87,6 +83,9 @@
         (function () {
             'use strict';
 
+            /**
+             * @polymerElement
+             */
             class RESTerBodyInput extends Polymer.Element {
                 static get is() {
                     return 'rester-body-input';
@@ -94,15 +93,10 @@
 
                 static get properties() {
                     return {
-                        name: String,
                         value: {
                             type: String,
                             notify: true,
                             value: ''
-                        },
-                        required: {
-                            type: Boolean,
-                            value: false
                         },
                         files: {
                             type: Object

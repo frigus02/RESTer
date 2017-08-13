@@ -152,6 +152,12 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.ThemeMixin
+             * @mixes RESTer.SettingsMixin
+             * @mixes RESTer.HotkeysMixin
+             * @polymerElement
+             */
             class RESTerApp extends RESTer.ThemeMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))) {
                 static get is() {
                     return 'rester-app';

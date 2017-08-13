@@ -22,6 +22,9 @@
         (function () {
             'use strict';
 
+            /**
+             * @polymerMixin
+             */
             RESTer.AceShadowDomMixin = (function () {
                 const aceShadowRoots = [];
                 const styles = getStyles();
@@ -120,6 +123,11 @@
                 };
             })();
 
+            /**
+             * @mixes RESTer.ThemeMixin
+             * @mixes RESTer.AceShadowDomMixin
+             * @polymerElement
+             */
             class RESTerAceInput extends RESTer.ThemeMixin(RESTer.AceShadowDomMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-ace-input';

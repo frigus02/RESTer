@@ -170,6 +170,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.DialogControllerMixin
+             * @polymerElement
+             */
             class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-authorization-provider-oauth2-configuration-dialog';

@@ -84,6 +84,11 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.PageMixin
+             * @mixes RESTer.SettingsMixin
+             * @polymerElement
+             */
             class RESTerPageEnvironments extends RESTer.PageMixin(RESTer.SettingsMixin(Polymer.Element)) {
                 static get is() {
                     return 'rester-page-environments';

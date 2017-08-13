@@ -7,7 +7,8 @@ const filter = require('gulp-filter');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const mergeStream = require('merge-stream');
-const polylint = require('gulp-polylint');
+const polymerAnalyzer = require('polymer-analyzer');
+const polymerLinter = require('polymer-linter');
 const rename = require('gulp-rename');
 const vulcanize = require('gulp-vulcanize');
 const zip = require('gulp-zip');
@@ -172,15 +173,21 @@ function lintJavaScript() {
         .pipe(eslint.failAfterError());
 }
 
-function lintWebComponents() {
-    return gulp.src(basePaths.src + 'site/elements/rester-app.html')
-        .pipe(polylint())
-        .pipe(polylint.reporter(polylint.reporter.stylishlike))
-        .pipe(polylint.reporter.fail({buffer: true, ignoreWarnings: false}));
+async function lintWebComponents() {
+    const rules = polymerLinter.registry.getRules(['polymer-2']);
+    const analyzer = new polymerAnalyzer.Analyzer({
+        urlLoader: new polymerAnalyzer.FSUrlLoader(basePaths.src + 'site/')
+    });
+
+    const linter = new polymerLinter.Linter(rules, analyzer);
+    const warnings = await linter.lintPackage();
+
+    const printer = new polymerAnalyzer.WarningPrinter(process.stdout, { verbosity: 'full', color: true });
+    await printer.printWarnings(warnings);
 }
 
-function lintAddon() {
-    return lintFirefoxAddon({
+async function lintAddon() {
+    await lintFirefoxAddon({
         addonDir: basePaths.build
     });
 }

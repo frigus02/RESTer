@@ -52,6 +52,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.DialogControllerMixin
+             * @polymerElement
+             */
             class RESTerHighlightLanguageSelectDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-highlight-language-select-dialog';

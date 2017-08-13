@@ -70,6 +70,10 @@
         (function () {
             'use strict';
 
+            /**
+             * @mixes RESTer.DialogControllerMixin
+             * @polymerElement
+             */
             class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
                 static get is() {
                     return 'rester-authorization-provider-basic-generate-token-dialog';
