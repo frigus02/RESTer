@@ -1,23 +1,28 @@
 'use strict';
 
+const babili = require("gulp-babili");
 const crisper = require('gulp-crisper');
+const cssSlam = require('css-slam').gulp;
 const del = require('del');
 const eslint = require('gulp-eslint');
 const filter = require('gulp-filter');
 const gulp = require('gulp');
+const gulpif = require('gulp-if');
 const gutil = require('gulp-util');
+const htmlMinifier = require('gulp-html-minifier');
 const mergeStream = require('merge-stream');
 const polymerAnalyzer = require('polymer-analyzer');
+const polymerBuild = require('polymer-build');
 const polymerLinter = require('polymer-linter');
 const rename = require('gulp-rename');
-const vulcanize = require('gulp-vulcanize');
 const zip = require('gulp-zip');
 
 const createFirefoxAddon = require('./tools/tasks/create-firefox-addon');
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
+const generateLibraryLinks = require('./tools/tasks/generate-library-links');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
 const lintFirefoxAddon = require('./tools/tasks/lint-firefox-addon');
-const generateLibraryLinks = require('./tools/tasks/generate-library-links');
+const streamToPromise = require('./tools/tasks/stream-to-promise');
 const wctPrepare = require('./tools/tasks/wct-prepare');
 const packageJson = require('./package.json');
 
@@ -140,12 +145,31 @@ function crispAppIntoMultipleFiles() {
 }
 
 function crispAppIntoSingleFile() {
-    return gulp.src(basePaths.src + 'site/elements/rester-app.html', {base: basePaths.src})
-        .pipe(vulcanize({
-            inlineScripts: true,
-            stripComments: true
-        }))
+    const project = new polymerBuild.PolymerProject({
+        root: basePaths.src + 'site/',
+        entrypoint: 'index.html',
+        shell: 'elements/rester-app.html'
+    });
+
+    const htmlSplitter = new polymerBuild.HtmlSplitter();
+    return mergeStream(project.sources(), project.dependencies())
+        .pipe(htmlSplitter.split())
+        .pipe(gulpif(/\.js$/, babili({
+            mangle: {
+                keepClassName: true
+            }
+        })))
+        .pipe(gulpif(/\.html$/, cssSlam()))
+        .pipe(gulpif(/\.html$/, htmlMinifier({
+            collapseWhitespace: true,
+            removeComments: true
+        })))
+        .pipe(htmlSplitter.rejoin())
+        .pipe(project.bundler())
         .pipe(crisper())
+        .pipe(rename(path => {
+            path.dirname = path.dirname.substr('src/'.length);
+        }))
         .pipe(gulp.dest(basePaths.build));
 }
 
@@ -155,9 +179,10 @@ function watch() {
     }
 
     gulp.watch(pathsToCopy, copy).on('change', logFileChangeEvent);
-    gulp.watch('src/site/elements/**/*.{html,js}').on('change', path => {
+    gulp.watch('src/site/elements/**/*.{html,js}').on('change', async path => {
         logFileChangeEvent(path);
-        crispElementIntoMultipleFiles(path);
+        await streamToPromise(crispElementIntoMultipleFiles(path));
+        gutil.log(' -- crisping done');
     });
 }
 
@@ -213,7 +238,7 @@ function packageChrome() {
         .pipe(gulp.dest(basePaths.package));
 }
 
-function packageFirefox() {
+async function packageFirefox() {
     const webExtensionPaths = [
         // All build files
         basePaths.build + '**',
@@ -223,33 +248,25 @@ function packageFirefox() {
         basePaths.build + 'images/icon{48,96}.png',
         basePaths.build + 'images/icon.svg'
     ];
+    const addonOptions = {
+        addonDir: basePaths.package + `firefox-${packageJson.version}`,
+        destFile: basePaths.package + `firefox-${packageJson.version}.xpi`,
+        validateVersion: packageJson.version
+    };
+    const addonPath = 'tools/firefox-addon/';
 
-    const webExtension = gulp.src(webExtensionPaths, {base: basePaths.build})
+    const addonStream = gulp.src(addonPath + '**', {base: addonPath});
+    const webExtensionStream = gulp.src(webExtensionPaths, {base: basePaths.build})
         .pipe(enhanceManifestJson(additionalManifestEntries.firefox, packageJson.version))
         .pipe(rename(path => {
             path.dirname = 'webextension/' + path.dirname;
         }));
 
-    const addonPath = 'tools/firefox-addon/';
+    const stream = mergeStream(addonStream, webExtensionStream)
+        .pipe(gulp.dest(addonOptions.addonDir));
+    await streamToPromise(stream);
 
-    const addon = gulp.src(addonPath + '**', {base: addonPath});
-
-    return new Promise((resolve, reject) => {
-        const addonOptions = {
-            addonDir: basePaths.package + `firefox-${packageJson.version}`,
-            destFile: basePaths.package + `firefox-${packageJson.version}.xpi`,
-            validateVersion: packageJson.version
-        };
-
-        const stream = mergeStream(addon, webExtension)
-            .pipe(gulp.dest(addonOptions.addonDir));
-
-        stream.on('finish', () => {
-            createFirefoxAddon(addonOptions).then(resolve, reject);
-        });
-
-        stream.on('error', reject);
-    });
+    await createFirefoxAddon(addonOptions);
 }
 
 
