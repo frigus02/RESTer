@@ -17,7 +17,6 @@ const polymerLinter = require('polymer-linter');
 const rename = require('gulp-rename');
 const zip = require('gulp-zip');
 
-const createFirefoxAddon = require('./tools/tasks/create-firefox-addon');
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const generateLibraryLinks = require('./tools/tasks/generate-library-links');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
@@ -83,14 +82,12 @@ const pathsToCopy = [
 ];
 const additionalManifestEntries = {
     firefox: {
-        // As long as the WebExtension is shipped embedded in an Add-on SDK extension,
-        // the applications key is not needed.
-        /*applications: {
+        applications: {
             gecko: {
                 id: 'rester@kuehle.me',
                 strict_min_version: '55.0.0'
             }
-        },*/
+        },
         icons: {
             48: 'images/icon48.png',
             96: 'images/icon96.png'
@@ -238,8 +235,8 @@ function packageChrome() {
         .pipe(gulp.dest(basePaths.package));
 }
 
-async function packageFirefox() {
-    const webExtensionPaths = [
+function packageFirefox() {
+    const paths = [
         // All build files
         basePaths.build + '**',
 
@@ -248,25 +245,11 @@ async function packageFirefox() {
         basePaths.build + 'images/icon{48,96}.png',
         basePaths.build + 'images/icon.svg'
     ];
-    const addonOptions = {
-        addonDir: basePaths.package + `firefox-${packageJson.version}`,
-        destFile: basePaths.package + `firefox-${packageJson.version}.xpi`,
-        validateVersion: packageJson.version
-    };
-    const addonPath = 'tools/firefox-addon/';
 
-    const addonStream = gulp.src(addonPath + '**', {base: addonPath});
-    const webExtensionStream = gulp.src(webExtensionPaths, {base: basePaths.build})
+    return gulp.src(paths, {base: basePaths.build})
         .pipe(enhanceManifestJson(additionalManifestEntries.firefox, packageJson.version))
-        .pipe(rename(path => {
-            path.dirname = 'webextension/' + path.dirname;
-        }));
-
-    const stream = mergeStream(addonStream, webExtensionStream)
-        .pipe(gulp.dest(addonOptions.addonDir));
-    await streamToPromise(stream);
-
-    await createFirefoxAddon(addonOptions);
+        .pipe(zip(`firefox-${packageJson.version}.zip`))
+        .pipe(gulp.dest(basePaths.package));
 }
 
 

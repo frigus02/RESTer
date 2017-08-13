@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Changed
 - Upgraded Polymer to version 2. There shouldn't be any bigger visible changes by this. However it ensures the project stays up-to-date.
+- Convert Firefox extension to a full WebExtension. This makes it compatible with Firefix >= 57.
+- **Breaking**: RESTer is only able to keep your data when you upgrade from a version >= 2.0.0. When you currently have a version lower than this, please first upgrade to 2.0.0 and open the addon once. Then proceed with an upgrade to 3.0.0.
 
 ### Fixed
 - The `Content-Type` header was not set in the request for `multipart/form-data` requests, if the option *Strip default headers* was enabled.
