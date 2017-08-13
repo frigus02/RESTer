@@ -1,24 +1,9 @@
 'use strict';
 
-const fs = require('fs');
-const { promisify } = require('util');
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
+const path = require('path');
 
+const through = require('through2');
 
-/**
- * Updates used libraries in the docs/library-links.md file.
- *
- * @param {string[]} usedBowerFiles - Array of files from the
- *     bower_components folder, which are used in the project.
- *     Paths should be relative to the project root.
- * @return {Promise}
- */
-async function updateLibraryLinks(usedBowerFiles) {
-    const text = generateUsedLibraryText(usedBowerFiles);
-
-    await updateTextInFile(text);
-}
 
 function generateUsedLibraryText(usedBowerFiles) {
     const bowerLibraries = usedBowerFiles
@@ -51,11 +36,37 @@ function generateUsedLibraryText(usedBowerFiles) {
     return text;
 }
 
-async function updateTextInFile(text) {
-    const filePath = 'docs/library-links.md';
-    const content = await readFile(filePath, 'utf-8');
-    const newContent = content.replace(/```[\S\s]*```/, '```\n' + text + '\n```');
-    await writeFile(filePath, newContent);
-}
 
-module.exports = updateLibraryLinks;
+/**
+ * Collects all file names and generates links to all used libraries
+ * (bower components).
+ *
+ * @param {string} fileName - Name of the generated file.
+ * @param {object} options
+ * @param {string[]} options.additionalFiles - More file names to use
+ *      in the generated library links.
+ * @param {string} options.header - Content at start of generated file.
+ * @param {string} options.footer - Content at end of generated file.
+ */
+module.exports = function (fileName, options) {
+    const names = [...options.additionalFiles];
+    let latestFile;
+
+    function collectFileNames(file, enc, cb) {
+        names.push(file.relative.replace(/\\/g, '/'));
+        latestFile = file;
+        cb();
+    }
+
+    function generateLibraryLinks(cb) {
+        const text = generateUsedLibraryText(names);
+
+        const file = latestFile.clone({contents: false});
+        file.path = path.join(latestFile.base, fileName);
+        file.contents = Buffer.from(options.header + text + options.footer);
+        this.push(file);
+        cb();
+    }
+
+    return through.obj(collectFileNames, generateLibraryLinks);
+};
