@@ -58,7 +58,7 @@
                 </template>
             </template>
             <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'two-line-score')]]" restamp>
-                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score" notify-dom-change on-dom-change="_onDomForItemListChanged">
+                <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score" notify-dom-change on-dom-change="_onDomForListChanged">
                     <paper-icon-item
                             hidden$="[[!_isItemVisible(item, inputValue)]]"
                             class="button"
@@ -127,25 +127,25 @@
                     super();
                     this._input = undefined;
                     this._inputFocused = false;
+
+                    this._onInputValueChanged = this._onInputValueChanged.bind(this);
+                    this._onInputClick = this._onInputClick.bind(this);
+                    this._onInputKeyDown = this._onInputKeyDown.bind(this);
+                    this._onInputFocus = this._onInputFocus.bind(this);
+                    this._onInputBlur = this._onInputBlur.bind(this);
                 }
 
                 ready() {
                     super.ready();
-
                     this._ensureAttribute('tabindex', -1);
-
-                    this._onInputValueChanged = this._onInputValueChanged.bind(this);
-                    this._onInputKeyDown = this._onInputKeyDown.bind(this);
-                    this._onInputFocus = this._onInputFocus.bind(this);
-                    this._onInputBlur = this._onInputBlur.bind(this);
                 }
 
                 connectedCallback() {
                     super.connectedCallback();
                     this._input = this.getRootNode().querySelector(`#${this.for}`);
 
-                    this._setInputValue(this._input.value);
                     this._input.addEventListener('input', this._onInputValueChanged);
+                    this._input.addEventListener('click', this._onInputClick);
                     this._input.addEventListener('keydown', this._onInputKeyDown);
                     this._input.addEventListener('focus', this._onInputFocus);
                     this._input.addEventListener('blur', this._onInputBlur);
@@ -154,6 +154,7 @@
                 disconnectedCallback() {
                     super.disconnectedCallback();
                     this._input.removeEventListener('input', this._onInputValueChanged);
+                    this._input.removeEventListener('click', this._onInputClick);
                     this._input.removeEventListener('keydown', this._onInputKeyDown);
                     this._input.removeEventListener('focus', this._onInputFocus);
                     this._input.removeEventListener('blur', this._onInputBlur);
@@ -228,14 +229,16 @@
                 }
 
                 _onInputValueChanged() {
-                    this._setInputValue(this._input.value);
+                    if (!this._ensureDropdownVisible()) {
+                        this._setInputValue(this._input.value);
+                    }
 
                     if (this.itemTemplate === 'simple') {
-                        this._onDomForItemListChanged();
+                        this._onDomForListChanged();
                     }
                 }
 
-                _onDomForItemListChanged() {
+                _onDomForListChanged() {
                     if (this.selectedIndex === -1) {
                         this._moveSelectedIndexToNextItem();
                     } else {
@@ -246,17 +249,28 @@
                     }
                 }
 
+                _onInputClick() {
+                    this._ensureDropdownVisible();
+                    this._setInputValue('');
+                }
+
                 _onInputKeyDown(e) {
                     switch (e.key) {
                         case 'ArrowDown':
                             e.stopPropagation();
                             e.preventDefault();
-                            this._moveSelectedIndexToNextItem();
+                            if (!this._ensureDropdownVisible()) {
+                                this._moveSelectedIndexToNextItem();
+                            }
+
                             break;
                         case 'ArrowUp':
                             e.stopPropagation();
                             e.preventDefault();
-                            this._moveSelectedIndexToPreviousItem();
+                            if (!this._ensureDropdownVisible()) {
+                                this._moveSelectedIndexToPreviousItem();
+                            }
+
                             break;
                         case 'Tab':
                             if (this.dropdownVisible && !e.shiftKey) {
@@ -284,16 +298,13 @@
                             e.preventDefault();
                             this._setDropdownVisible(false);
                             break;
+
                     }
                 }
 
                 _onInputFocus() {
                     this._inputFocused = true;
-                    if (!this.dropdownVisible) {
-                        this._setSelectedIndex(-1);
-                        this._moveSelectedIndexToNextItem();
-                        this._setDropdownVisible(true);
-                    }
+                    this._ensureDropdownVisible(true);
                 }
 
                 _onInputBlur() {
@@ -309,9 +320,23 @@
                     }, 1);
                 }
 
+                _ensureDropdownVisible(resetSelectedIndex) {
+                    if (!this.dropdownVisible) {
+                        this._setInputValue(this._input.value);
+                        if (resetSelectedIndex) {
+                            this._setSelectedIndex(-1);
+                            this._moveSelectedIndexToNextItem();
+                        }
+
+                        this._setDropdownVisible(true);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
                 _moveSelectedIndexToNextItem() {
                     if (this.items.length === 0) {
-                        this._setSelectedIndex(-1);
                         return;
                     }
 
@@ -324,14 +349,13 @@
                     if (this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this.inputValue)) {
                         this._setSelectedIndex(nextIndex);
                         this._updateDrodownScroll(false);
-                    } else {
+                    } else if (!this._isItemVisible(this._getItemByRenderedIndex(this.selectedIndex), this.inputValue)) {
                         this._moveSelectedIndexToPreviousItem();
                     }
                 }
 
                 _moveSelectedIndexToPreviousItem() {
                     if (this.items.length === 0) {
-                        this._setSelectedIndex(-1);
                         return;
                     }
 
