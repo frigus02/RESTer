@@ -39,11 +39,13 @@
         <div hidden$="[[!expanded]]" class="flex">
             <paper-input
                     id="inputOriginAndPath"
-                    value="{{originAndPath}}"
+                    value="[[originAndPath]]"
+                    on-value-changed="_onOriginAndPathChanged"
                     label="[[label]]">
             </paper-input>
             <rester-form-data-input
-                    value="{{query}}"
+                    value="[[query]]"
+                    on-value-changed="_onQueryChanged"
                     no-encode
                     text-only></rester-form-data-input>
         </div>
@@ -81,12 +83,10 @@
                             value: false
                         },
                         originAndPath: {
-                            type: String,
-                            observer: '_onOriginAndPathOrQueryChanged'
+                            type: String
                         },
                         query: {
-                            type: String,
-                            observer: '_onOriginAndPathOrQueryChanged'
+                            type: String
                         },
                         expanded: {
                             type: Boolean,
@@ -118,7 +118,17 @@
                     this.query = parts[1] || '';
                 }
 
-                _onOriginAndPathOrQueryChanged() {
+                _onOriginAndPathChanged(event) {
+                    this.originAndPath = event.detail.value;
+                    this._updateValueFromOriginAndPathAndQuery();
+                }
+
+                _onQueryChanged(event) {
+                    this.query = event.detail.value;
+                    this._updateValueFromOriginAndPathAndQuery();
+                }
+
+                _updateValueFromOriginAndPathAndQuery() {
                     let url = this.originAndPath;
                     if (this.query) {
                         url += '?' + this.query;
