@@ -64,6 +64,54 @@
             types: ['xmlhttprequest'],
             tabId: currentTabId
         }, ['blocking', 'requestHeaders']);
+
+        function onHeadersReceived(details) {
+            if (details.tabId !== currentTabId) {
+                return;
+            }
+
+            const newHeaders = [
+                {
+                    name: 'timing-allow-origin',
+                    value: '*'
+                },
+                {
+                    name: 'access-control-expose-headers',
+                    value: details.responseHeaders.map(h => h.name).join(', ')
+                }
+            ];
+            const indexesToRemove = [];
+            for (let i = 0; i < details.responseHeaders.length; i++) {
+                const header = details.responseHeaders[i];
+                const lowerCaseName = header.name.toLowerCase();
+                if (lowerCaseName === 'timing-allow-origin' || lowerCaseName === 'access-control-expose-headers') {
+                    newHeaders.push({
+                        name: headerPrefix + header.name,
+                        value: header.value
+                    });
+                    indexesToRemove.push(i);
+                }
+            }
+
+            indexesToRemove.reverse();
+            for (let index of indexesToRemove) {
+                details.responseHeaders.splice(index, 1);
+            }
+
+            for (let header of newHeaders) {
+                details.responseHeaders.push(header);
+            }
+
+            return {
+                responseHeaders: details.responseHeaders
+            };
+        }
+
+        chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {
+            urls: ['<all_urls>'],
+            types: ['xmlhttprequest'],
+            tabId: currentTabId
+        }, ['blocking', 'responseHeaders']);
     }
 
     function generateFormData(body, tempVariables) {
@@ -106,80 +154,80 @@
      * was successfully saved and returns the request response.
      */
     self.send = function (request) {
-        return new Promise(function (resolve, reject) {
-            try {
-                const xhr = new XMLHttpRequest({
-                    mozAnon: true,
-                    mozSystem: true
-                });
-                let timeStart;
+        // Special handling for multipart requests.
+        const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
+        const contentType = request.headers[contentTypeIndex];
+        let requestHeaders = request.headers;
+        let requestBody = request.body;
+        if (contentType && contentType.value === 'multipart/form-data') {
+            requestHeaders = request.headers.filter(h => h !== contentType);
+            requestBody = generateFormData(request.body, request.tempVariables);
+        }
 
-                xhr.onabort = function () {
-                    reject('Request cancelled.');
-                };
+        // Create fetch request options.
+        const headers = new Headers();
+        if (request.stripDefaultHeaders) {
+            headers.append(headerCommand, 'stripdefaultheaders');
+        }
 
-                xhr.onerror = function () {
-                    reject('Could not connect to server.');
-                };
+        for (const header of requestHeaders) {
+            if (header && header.name && header.value) {
+                headers.append(headerPrefix + header.name, header.value);
+            }
+        }
 
-                xhr.ontimeout = function () {
-                    reject('Requested timed out.');
-                };
+        const init = {
+            method: request.method,
+            headers,
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store',
+            redirect: 'manual',
+            referrer: 'no-referrer'
+        };
 
-                xhr.onloadstart = function () {
-                    timeStart = new Date();
-                };
+        if (request.method.toLowerCase() !== 'head' && request.method.toLowerCase() !== 'get') {
+            init.body = requestBody;
+        }
 
-                xhr.onload = function () {
-                    const timeEnd = new Date();
-                    const headers = xhr.getAllResponseHeaders()
-                        .split('\n')
-                        .filter(rawHeader => rawHeader.indexOf(':') > 0)
-                        .map(rawHeader => {
-                            let name = rawHeader.substring(0, rawHeader.indexOf(':')),
-                                value = xhr.getResponseHeader(name);
-                            return {
-                                name,
-                                value
-                            };
-                        });
+        // Send request.
+        const response = {
+            timeStart: new Date()
+        };
+        return fetch(request.url, init)
+            .then(fetchResponse => {
+                response.status = fetchResponse.status;
+                response.statusText = fetchResponse.statusText;
+                response.headers = [];
 
-                    resolve({
-                        status: xhr.status,
-                        statusText: xhr.statusText,
-                        headers: headers,
-                        body: xhr.responseText,
-                        timeStart: timeStart,
-                        timeEnd: timeEnd
-                    });
-                };
+                for (const pair of fetchResponse.headers) {
+                    if (pair[0] !== 'timing-allow-origin' && pair[0] !== 'access-control-expose-headers') {
+                        let name = pair[0],
+                            value = pair[1];
 
-                xhr.open(request.method, request.url, true);
+                        if (name.startsWith(headerPrefix)) {
+                            name = name.substr(headerPrefix.length);
+                        }
 
-                // Special handling for multipart requests.
-                const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
-                const contentType = request.headers[contentTypeIndex];
-                let requestHeaders = request.headers;
-                let requestBody = request.body;
-                if (contentType && contentType.value === 'multipart/form-data') {
-                    requestHeaders = request.headers.filter(h => h !== contentType);
-                    requestBody = generateFormData(request.body, request.tempVariables);
-                }
-
-                if (request.stripDefaultHeaders) {
-                    xhr.setRequestHeader(headerCommand, 'stripdefaultheaders');
-                }
-
-                for (let header of requestHeaders) {
-                    if (header && header.name && header.value) {
-                        xhr.setRequestHeader(headerPrefix + header.name, header.value);
+                        response.headers.push({ name, value });
                     }
                 }
 
-                xhr.send(requestBody);
-            } catch (e) {
-                reject('Could not set up XHR: ' + e.message);
-            }
-        });
+                return fetchResponse.text();
+            })
+            .then(fetchBody => {
+                response.timeEnd = new Date();
+                response.body = fetchBody;
+
+                const matchingTimings = performance.getEntries({
+                    name: request.url,
+                    entryType: 'resource'
+                });
+                if (matchingTimings.length > 0) {
+                    response.timing = matchingTimings[matchingTimings.length - 1].toJSON();
+                }
+
+                return response;
+            });
     };
 })();

@@ -14,8 +14,10 @@
      * @property {Number} id - The id of the history entry.
      * @property {Date} time - The time at which the request has started.
      * @property {Date} timeEnd - The time at which the request has finished.
+     * @property {Object} timing - The PerformanceResourceTiming for the request.
      * @property {Request} request - The executed request.
      * @property {Response} response - The response.
+     * @property {Number} size - Size of the full history object in bytes.
      */
     rester.data.history.HistoryEntry = HistoryEntry;
     function HistoryEntry(dbObject) {

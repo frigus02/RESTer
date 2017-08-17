@@ -5,6 +5,9 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/device-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
@@ -212,7 +215,12 @@
                     <h2 class="layout horizontal center">
                         Response
                         <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
-                        <rester-badge class="pull-right">in [[historyEntryElapsedMillis]] ms</rester-badge>
+                        <paper-button class="pull-right" on-tap="_showHistoryEntrySizeDetails" hidden$="[[!historyEntry.timing]]">
+                            <iron-icon icon="device:storage"></iron-icon> [[historyEntrySize]]
+                        </paper-button>
+                        <paper-button class="pull-right" on-tap="_showHistoryEntryTimeDetails">
+                            <iron-icon icon="image:timer"></iron-icon> [[historyEntryTime]]
+                        </paper-button>
                     </h2>
                     <rester-highlight-headers
                             headers="[[response.headers]]"></rester-highlight-headers>
@@ -307,9 +315,13 @@
                             type: Object,
                             readOnly: true
                         },
-                        historyEntryElapsedMillis: {
+                        historyEntrySize: {
                             type: Number,
-                            computed: '_computeHistoryEntryElapsedMillis(historyEntry.time, historyEntry.timeEnd)'
+                            computed: '_computeHistoryEntrySize(historyEntry.timing)'
+                        },
+                        historyEntryTime: {
+                            type: Number,
+                            computed: '_computeHistoryEntryTime(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
                         }
                     };
                 }
@@ -440,8 +452,19 @@
                     }
                 }
 
-                _computeHistoryEntryElapsedMillis(time, timeEnd) {
-                    return new Date(timeEnd) - new Date(time);
+                _computeHistoryEntryTime(time, timeEnd, timing) {
+                    const millis = timing
+                        ? Math.round(timing.duration)
+                        : new Date(timeEnd) - new Date(time);
+
+                    return `${Math.round(millis)} ms`;
+                }
+
+                _computeHistoryEntrySize(timing) {
+                    if (timing) {
+                        const kb = timing.decodedBodySize / 1024;
+                        return `${kb.toFixed(2)} KB`;
+                    }
                 }
 
                 _updatePageTitle(request, historyEntry) {
@@ -564,6 +587,7 @@
                             return RESTer.rester.addHistoryEntry({
                                 time: new Date(plainResponse.timeStart),
                                 timeEnd: new Date(plainResponse.timeEnd),
+                                timing: plainResponse.timing,
                                 request: requestClone,
                                 response: response
                             });
@@ -576,6 +600,35 @@
                             this._setRequestIsSending(false);
                             this.showError(error);
                         });
+                }
+
+                _showHistoryEntrySizeDetails() {
+                    const timing = this.historyEntry.timing;
+                    let text = [];
+
+                    text.push(`Transfer: ${timing.transferSize} B`);
+                    text.push(`Encoded Body: ${timing.encodedBodySize} B`);
+                    text.push(`Decoded Body: ${timing.decodedBodySize} B`);
+
+                    this.showError(text.join('\n'));
+                }
+
+                _showHistoryEntryTimeDetails() {
+                    const timing = this.historyEntry.timing;
+                    if (!timing) {
+                        this.showError('No data available.');
+                        return;
+                    }
+
+                    let text = [];
+
+                    text.push(`App Cache: ${(timing.domainLookupStart - timing.fetchStart).toFixed(2)} ms`);
+                    text.push(`DNS: ${(timing.domainLookupEnd - timing.domainLookupStart).toFixed(2)} ms`);
+                    text.push(`TCP: ${(timing.connectEnd - timing.connectStart).toFixed(2)} ms`);
+                    text.push(`Request: ${(timing.responseStart - timing.requestStart).toFixed(2)} ms`);
+                    text.push(`Response: ${(timing.responseEnd - timing.responseStart).toFixed(2)} ms`);
+
+                    this.showError(text.join('\n'));
                 }
 
                 _lintCheckEmptyVariables() {
