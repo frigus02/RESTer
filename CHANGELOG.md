@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Added "Full Size" option to request body. When enabled, the editor will be as high as its content. This should make it easier to keep an overview over large request bodies.
+
 ### Changed
 - Upgraded Polymer to version 2. There shouldn't be any bigger visible changes by this. However it ensures the project stays up-to-date.
 - Improved autocomplete dropdowns. They are now shown when you click in the input field, press arrow up/down key or just type, even when you previously closed the dropdown with escape. I hope this will feel good.

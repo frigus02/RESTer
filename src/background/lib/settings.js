@@ -10,6 +10,7 @@
         stripDefaultHeaders: false,
         enableRequestLintInspections: true,
         pinSidenav: false,
+        requestBodyFullSize: false,
         responseBodyWrap: true,
         responseBodyPrettyPrint: true,
         responseBodyFullSize: false,

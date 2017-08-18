@@ -9,6 +9,7 @@
         'stripDefaultHeaders',
         'enableRequestLintInspections',
         'pinSidenav',
+        'requestBodyFullSize',
         'responseBodyWrap',
         'responseBodyPrettyPrint',
         'responseBodyFullSize',
