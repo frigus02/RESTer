@@ -19,6 +19,10 @@
             .value {
                 text-align: right;
             }
+
+            tfoot .value {
+                font-weight: bold;
+            }
         </style>
 
         <paper-dialog id="dialog"
@@ -31,31 +35,31 @@
                 <table hidden$="[[!dataAvailable]]">
                     <tbody>
                         <tr>
-                            <td class="label">Queueing + Stalled</td>
+                            <td class="label">Queue request</td>
                             <td class="value">[[_formatDuration(data.fetchStart, data.domainLookupStart)]]</td>
                         </tr>
                         <tr>
-                            <td class="label">DNS Lookup</td>
+                            <td class="label">Lookup DNS</td>
                             <td class="value">[[_formatDuration(data.domainLookupStart, data.domainLookupEnd)]]</td>
                         </tr>
                         <!-- Missing: domainLookupEnd to connectStart -->
                         <tr>
-                            <td class="label">Initial connection</td>
+                            <td class="label">Connect</td>
                             <td class="value">[[_formatDuration(data.connectStart, data.connectEnd)]]</td>
                         </tr>
                         <!-- Missing: connectEnd to requestStart -->
                         <tr>
-                            <td class="label">Request sent + Waiting (TTFB)</td>
+                            <td class="label">Sent request + wait (TTFB)</td>
                             <td class="value">[[_formatDuration(data.requestStart, data.responseStart)]]</td>
                         </tr>
                         <tr>
-                            <td class="label">Content Download</td>
+                            <td class="label">Download response</td>
                             <td class="value">[[_formatDuration(data.responseStart, data.responseEnd)]]</td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td class="label">Total</td>
+                            <td class="label"></td>
                             <td class="value">[[_formatDuration(data.fetchStart, data.responseEnd)]]</td>
                         </tr>
                     </tfoot>
