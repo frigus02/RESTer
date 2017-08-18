@@ -109,13 +109,6 @@ https://github.com/PolymerElements/iron-form/blob/undefined/iron-form.html
 iron-icon v2.0.1
 https://github.com/PolymerElements/iron-icon/blob/v2.0.1/iron-icon.html
 
-iron-icons v2.0.1
-https://github.com/PolymerElements/iron-icons/blob/v2.0.1/device-icons.html
-https://github.com/PolymerElements/iron-icons/blob/v2.0.1/editor-icons.html
-https://github.com/PolymerElements/iron-icons/blob/v2.0.1/image-icons.html
-https://github.com/PolymerElements/iron-icons/blob/v2.0.1/iron-icons.html
-https://github.com/PolymerElements/iron-icons/blob/v2.0.1/social-icons.html
-
 iron-iconset-svg v2.0.1
 https://github.com/PolymerElements/iron-iconset-svg/blob/v2.0.1/iron-iconset-svg.html
 
@@ -315,11 +308,11 @@ https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/unresolved.html
 https://github.com/Polymer/polymer/blob/v2.0.2/polymer-element.html
 https://github.com/Polymer/polymer/blob/v2.0.2/polymer.html
 
-shadycss v1.0.4
-https://github.com/webcomponents/shadycss/blob/v1.0.4/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.0.4/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.0.4/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.0.4/custom-style-interface.min.js
+shadycss v1.0.5
+https://github.com/webcomponents/shadycss/blob/v1.0.5/apply-shim.html
+https://github.com/webcomponents/shadycss/blob/v1.0.5/apply-shim.min.js
+https://github.com/webcomponents/shadycss/blob/v1.0.5/custom-style-interface.html
+https://github.com/webcomponents/shadycss/blob/v1.0.5/custom-style-interface.min.js
 
 string_score v0.1.22
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.min.js

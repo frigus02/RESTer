@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
@@ -8,6 +7,7 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
 <link rel="import" href="../data/rester-data.html">
+<link rel="import" href="../styles/rester-icons.html">
 
 <dom-module id="rester-notifications">
     <template>
@@ -128,7 +128,7 @@
                 }
 
                 _computeIcon(isEmpty) {
-                    return isEmpty ? 'social:notifications-none' : 'social:notifications';
+                    return isEmpty ? 'notifications-none' : 'notifications';
                 }
 
                 _openNotification(e) {

@@ -1,13 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
-<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <link rel="import" href="../data/rester-data.html">
+<link rel="import" href="../styles/rester-icons.html">
 <link rel="import" href="../styles/rester-paper-item-button.html">
 <link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="rester-authorization-provider-basic.html">
@@ -60,7 +59,7 @@
                             on-tap="_generateTokenFromConfigIncognito"
                             hidden$="[[!_configurationSupportsIncognito(item)]]"></paper-icon-button>
                     <paper-icon-button
-                            icon="image:edit"
+                            icon="edit"
                             aria-label="Edit configuration"
                             on-tap="_editConfiguration"
                             hidden$="[[!item.configuration.id]]"></paper-icon-button>
