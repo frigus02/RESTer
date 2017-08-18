@@ -85,7 +85,7 @@ const additionalManifestEntries = {
         applications: {
             gecko: {
                 id: 'rester@kuehle.me',
-                strict_min_version: '55.0.0'
+                strict_min_version: '55.0'
             }
         },
         icons: {
