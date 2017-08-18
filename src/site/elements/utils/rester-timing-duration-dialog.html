@@ -1,0 +1,110 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../data/rester-data.html">
+<link rel="import" href="rester-dialog-controller-mixin.html">
+
+<dom-module id="rester-timing-duration-dialog">
+    <template>
+        <style>
+            dom-repeat {
+                display: none;
+            }
+
+            .value {
+                text-align: right;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close>
+            <paper-dialog-scrollable>
+                <div hidden$="[[dataAvailable]]">No data available.</div>
+                <table hidden$="[[!dataAvailable]]">
+                    <tbody>
+                        <tr>
+                            <td class="label">Queueing + Stalled</td>
+                            <td class="value">[[_formatDuration(data.fetchStart, data.domainLookupStart)]]</td>
+                        </tr>
+                        <tr>
+                            <td class="label">DNS Lookup</td>
+                            <td class="value">[[_formatDuration(data.domainLookupStart, data.domainLookupEnd)]]</td>
+                        </tr>
+                        <!-- Missing: domainLookupEnd to connectStart -->
+                        <tr>
+                            <td class="label">Initial connection</td>
+                            <td class="value">[[_formatDuration(data.connectStart, data.connectEnd)]]</td>
+                        </tr>
+                        <!-- Missing: connectEnd to requestStart -->
+                        <tr>
+                            <td class="label">Request sent + Waiting (TTFB)</td>
+                            <td class="value">[[_formatDuration(data.requestStart, data.responseStart)]]</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Content Download</td>
+                            <td class="value">[[_formatDuration(data.responseStart, data.responseEnd)]]</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="label">Total</td>
+                            <td class="value">[[_formatDuration(data.fetchStart, data.responseEnd)]]</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss autofocus>OK</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /**
+             * @mixes RESTer.DialogControllerMixin
+             * @polymerElement
+             */
+            class RESTerTimingDurationDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
+                static get is() {
+                    return 'rester-timing-duration-dialog';
+                }
+
+                static get properties() {
+                    return {
+                        data: String,
+                        dataAvailable: {
+                            type: Boolean,
+                            value: false,
+                            computed: '_computeDataAvailable(data)'
+                        }
+                    };
+                }
+
+                static get resterDialogId() {
+                    return 'timingDuration';
+                }
+
+                _computeDataAvailable(data) {
+                    return !!data;
+                }
+
+                _formatDuration(start, end) {
+                    return RESTer.format.duration(end - start, 2);
+                }
+            }
+
+            customElements.define(RESTerTimingDurationDialog.is, RESTerTimingDurationDialog);
+        })();
+    </script>
+</dom-module>

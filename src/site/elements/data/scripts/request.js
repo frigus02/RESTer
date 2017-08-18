@@ -182,8 +182,7 @@
             mode: 'cors',
             credentials: 'omit',
             cache: 'no-store',
-            redirect: 'manual',
-            referrer: 'no-referrer'
+            redirect: 'manual'
         };
 
         if (request.method.toLowerCase() !== 'head' && request.method.toLowerCase() !== 'get') {

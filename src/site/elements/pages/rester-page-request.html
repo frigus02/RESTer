@@ -81,8 +81,16 @@
                 margin-left: 32px;
             }
 
-            .pull-right {
+            .network-info-button-container {
                 margin-left: auto;
+            }
+
+            .network-info-button {
+                text-transform: none;
+            }
+
+            .network-info-button iron-icon {
+                margin-right: 4px;
             }
 
             rester-lint-messages {
@@ -131,102 +139,106 @@
             </app-header>
             <div role="main">
                 <!-- Request -->
-                <iron-form id="requestForm" on-keydown="_onFormKeyDown">
-                    <form class="layout horizontal">
-                        <iron-media-query
-                                query="(min-width: 1279px)"
-                                query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
+                <section>
+                    <iron-form id="requestForm" on-keydown="_onFormKeyDown">
+                        <form class="layout horizontal">
+                            <iron-media-query
+                                    query="(min-width: 1279px)"
+                                    query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
 
-                        <div class="flex-3">
-                            <div class="layout horizontal baseline justified">
-                                <rester-autocomplete-input
-                                        class="method-input"
-                                        label="Method"
-                                        value="{{request.method}}"
-                                        items="[[requestMethods]]"
-                                        required></rester-autocomplete-input>
-                                <rester-url-input
-                                        class="url-input flex"
-                                        label="URL"
-                                        value="{{request.url}}"
-                                        required></rester-url-input>
-                                <paper-button
-                                        class="send-button"
-                                        raised
-                                        type="submit"
-                                        on-tap="_sendRequest"
-                                        disabled$="[[requestIsSending]]">
-                                    <span hidden$="[[requestIsSending]]">Send</span>
-                                    <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
-                                </paper-button>
-                            </div>
+                            <div class="flex-3">
+                                <div class="layout horizontal baseline justified">
+                                    <rester-autocomplete-input
+                                            class="method-input"
+                                            label="Method"
+                                            value="{{request.method}}"
+                                            items="[[requestMethods]]"
+                                            required></rester-autocomplete-input>
+                                    <rester-url-input
+                                            class="url-input flex"
+                                            label="URL"
+                                            value="{{request.url}}"
+                                            required></rester-url-input>
+                                    <paper-button
+                                            class="send-button"
+                                            raised
+                                            type="submit"
+                                            on-tap="_sendRequest"
+                                            disabled$="[[requestIsSending]]">
+                                        <span hidden$="[[requestIsSending]]">Send</span>
+                                        <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
+                                    </paper-button>
+                                </div>
 
-                            <div class="input-tabs layout horizontal">
-                                <paper-tabs selected="{{requestSelectedTab}}">
-                                    <paper-tab id="requestTab0">Headers</paper-tab>
-                                    <paper-tab id="requestTab1">Body</paper-tab>
-                                    <paper-tab id="requestTab2">Authorization</paper-tab>
-                                    <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
-                                        <paper-tab id="requestTab3">Variables</paper-tab>
-                                    </template>
-                                </paper-tabs>
-                            </div>
-                            <iron-pages selected="[[requestSelectedTab]]">
-                                <div role="tabpanel" aria-labelledby="requestTab0">
-                                    <rester-header-input value="{{request.headers}}"></rester-header-input>
+                                <div class="input-tabs layout horizontal">
+                                    <paper-tabs selected="{{requestSelectedTab}}">
+                                        <paper-tab id="requestTab0">Headers</paper-tab>
+                                        <paper-tab id="requestTab1">Body</paper-tab>
+                                        <paper-tab id="requestTab2">Authorization</paper-tab>
+                                        <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
+                                            <paper-tab id="requestTab3">Variables</paper-tab>
+                                        </template>
+                                    </paper-tabs>
                                 </div>
-                                <div role="tabpanel" aria-labelledby="requestTab1">
-                                    <rester-body-input
-                                            id="bodyInput"
-                                            value="{{request.body}}"
-                                            content-type="[[requestContentType]]"></rester-body-input>
-                                </div>
-                                <div role="tabpanel" aria-labelledby="requestTab2">
-                                    <rester-authorization-input
-                                            authorization="[[requestAuthorization]]"
-                                            on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
-                                </div>
-                                <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
-                                    <div role="tabpanel" aria-labelledby="requestTab3">
-                                        <rester-variables-input
-                                            value="{{requestVariableValues}}"
-                                            source-obj="[[request]]">
-                                        </rester-variables-input>
+                                <iron-pages selected="[[requestSelectedTab]]">
+                                    <div role="tabpanel" aria-labelledby="requestTab0">
+                                        <rester-header-input value="{{request.headers}}"></rester-header-input>
                                     </div>
-                                </template>
-                            </iron-pages>
-                        </div>
-
-                        <template is="dom-if" if="[[requestShowVariablesOnSide]]">
-                            <div class="flex-1 input-side">
-                                <rester-variables-input
-                                    value="{{requestVariableValues}}"
-                                    source-obj="[[request]]">
-                                </rester-variables-input>
+                                    <div role="tabpanel" aria-labelledby="requestTab1">
+                                        <rester-body-input
+                                                id="bodyInput"
+                                                value="{{request.body}}"
+                                                content-type="[[requestContentType]]"></rester-body-input>
+                                    </div>
+                                    <div role="tabpanel" aria-labelledby="requestTab2">
+                                        <rester-authorization-input
+                                                authorization="[[requestAuthorization]]"
+                                                on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
+                                    </div>
+                                    <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
+                                        <div role="tabpanel" aria-labelledby="requestTab3">
+                                            <rester-variables-input
+                                                value="{{requestVariableValues}}"
+                                                source-obj="[[request]]">
+                                            </rester-variables-input>
+                                        </div>
+                                    </template>
+                                </iron-pages>
                             </div>
-                        </template>
-                    </form>
-                </iron-form>
+
+                            <template is="dom-if" if="[[requestShowVariablesOnSide]]">
+                                <div class="flex-1 input-side">
+                                    <rester-variables-input
+                                        value="{{requestVariableValues}}"
+                                        source-obj="[[request]]">
+                                    </rester-variables-input>
+                                </div>
+                            </template>
+                        </form>
+                    </iron-form>
+                </section>
 
                 <!-- Response -->
-                <div hidden$="[[!response]]">
-                    <h2 class="layout horizontal center">
-                        Response
+                <section hidden$="[[!response]]">
+                    <header class="layout horizontal center">
+                        <h2>Response</h2>
                         <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
-                        <paper-button class="pull-right" on-tap="_showHistoryEntrySizeDetails" hidden$="[[!historyEntry.timing]]">
-                            <iron-icon icon="storage"></iron-icon> [[historyEntrySize]]
-                        </paper-button>
-                        <paper-button class="pull-right" on-tap="_showHistoryEntryTimeDetails">
-                            <iron-icon icon="timer"></iron-icon> [[historyEntryTime]]
-                        </paper-button>
-                    </h2>
+                        <div class="network-info-button-container">
+                            <paper-button class="network-info-button" on-tap="_showHistoryEntrySizeDetails" hidden$="[[!historyEntry.timing]]">
+                                <iron-icon icon="storage"></iron-icon> [[historyEntrySize]]
+                            </paper-button>
+                            <paper-button class="network-info-button" on-tap="_showHistoryEntryDurationDetails">
+                                <iron-icon icon="timer"></iron-icon> [[historyEntryDuration]]
+                            </paper-button>
+                        </div>
+                    </header>
                     <rester-highlight-headers
                             headers="[[response.headers]]"></rester-highlight-headers>
                     <rester-highlight-body
                             body="[[response.body]]"
                             content-type="[[responseContentType]]"
                             hidden$="[[!response.body]]"></rester-highlight-body>
-                </div>
+                </section>
             </div>
         </app-header-layout>
 
@@ -317,9 +329,9 @@
                             type: Number,
                             computed: '_computeHistoryEntrySize(historyEntry.timing)'
                         },
-                        historyEntryTime: {
+                        historyEntryDuration: {
                             type: Number,
-                            computed: '_computeHistoryEntryTime(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
+                            computed: '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
                         }
                     };
                 }
@@ -450,18 +462,17 @@
                     }
                 }
 
-                _computeHistoryEntryTime(time, timeEnd, timing) {
+                _computeHistoryEntryDuration(time, timeEnd, timing) {
                     const millis = timing
-                        ? Math.round(timing.duration)
+                        ? timing.duration
                         : new Date(timeEnd) - new Date(time);
 
-                    return `${Math.round(millis)} ms`;
+                    return RESTer.format.duration(millis, 0);
                 }
 
                 _computeHistoryEntrySize(timing) {
                     if (timing) {
-                        const kb = timing.decodedBodySize / 1024;
-                        return `${kb.toFixed(2)} KB`;
+                        return RESTer.format.size(timing.transferSize);
                     }
                 }
 
@@ -602,31 +613,12 @@
 
                 _showHistoryEntrySizeDetails() {
                     const timing = this.historyEntry.timing;
-                    let text = [];
-
-                    text.push(`Transfer: ${timing.transferSize} B`);
-                    text.push(`Encoded Body: ${timing.encodedBodySize} B`);
-                    text.push(`Decoded Body: ${timing.decodedBodySize} B`);
-
-                    this.showError(text.join('\n'));
+                    RESTer.dialogs.timingSize.show(timing);
                 }
 
-                _showHistoryEntryTimeDetails() {
+                _showHistoryEntryDurationDetails() {
                     const timing = this.historyEntry.timing;
-                    if (!timing) {
-                        this.showError('No data available.');
-                        return;
-                    }
-
-                    let text = [];
-
-                    text.push(`App Cache: ${(timing.domainLookupStart - timing.fetchStart).toFixed(2)} ms`);
-                    text.push(`DNS: ${(timing.domainLookupEnd - timing.domainLookupStart).toFixed(2)} ms`);
-                    text.push(`TCP: ${(timing.connectEnd - timing.connectStart).toFixed(2)} ms`);
-                    text.push(`Request: ${(timing.responseStart - timing.requestStart).toFixed(2)} ms`);
-                    text.push(`Response: ${(timing.responseEnd - timing.responseStart).toFixed(2)} ms`);
-
-                    this.showError(text.join('\n'));
+                    RESTer.dialogs.timingDuration.show(timing);
                 }
 
                 _lintCheckEmptyVariables() {
