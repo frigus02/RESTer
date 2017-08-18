@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [3.0.0] - 2017-08-18
 ### Added
 - Added "Full Size" option to request body. When enabled, the editor will be as high as its content. This should make it easier to keep an overview over large request bodies.
 
@@ -281,7 +283,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/2.5.1...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/frigus02/RESTer/compare/2.5.1...3.0.0
 [2.5.1]: https://github.com/frigus02/RESTer/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/frigus02/RESTer/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/frigus02/RESTer/compare/2.3.0...2.4.0
