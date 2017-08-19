@@ -16,6 +16,22 @@
                 display: none;
             }
 
+            .timeline {
+                width: 200px;
+            }
+
+            .timeline-bar {
+                background-color: var(--primary-color);
+                height: 0.7em;
+                min-width: 1px;
+            }
+
+            @media (max-width: 600px) {
+                .timeline {
+                    display: none;
+                }
+            }
+
             .value {
                 text-align: right;
             }
@@ -34,33 +50,21 @@
                 <div hidden$="[[dataAvailable]]">No data available.</div>
                 <table hidden$="[[!dataAvailable]]">
                     <tbody>
-                        <tr>
-                            <td class="label">Queue request</td>
-                            <td class="value">[[_formatDuration(data.fetchStart, data.domainLookupStart)]]</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Lookup DNS</td>
-                            <td class="value">[[_formatDuration(data.domainLookupStart, data.domainLookupEnd)]]</td>
-                        </tr>
-                        <!-- Missing: domainLookupEnd to connectStart -->
-                        <tr>
-                            <td class="label">Connect</td>
-                            <td class="value">[[_formatDuration(data.connectStart, data.connectEnd)]]</td>
-                        </tr>
-                        <!-- Missing: connectEnd to requestStart -->
-                        <tr>
-                            <td class="label">Sent request + wait (TTFB)</td>
-                            <td class="value">[[_formatDuration(data.requestStart, data.responseStart)]]</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Download response</td>
-                            <td class="value">[[_formatDuration(data.responseStart, data.responseEnd)]]</td>
-                        </tr>
+                        <template is="dom-repeat" items="[[timeline]]">
+                            <tr>
+                                <td class="label">[[item.label]]</td>
+                                <td class="timeline">
+                                    <div class="timeline-bar" style$="width: [[_calcPercentage(data.duration, item.duration)]]%; margin-left: [[_calcPercentage(data.duration, item.startAt)]]%;"></div>
+                                </td>
+                                <td class="value">[[_formatDuration(item.duration)]]</td>
+                            </tr>
+                        </template>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td class="label"></td>
-                            <td class="value">[[_formatDuration(data.fetchStart, data.responseEnd)]]</td>
+                            <td class="timeline"></td>
+                            <td class="value">[[_formatDuration(data.duration)]]</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -91,6 +95,11 @@
                             type: Boolean,
                             value: false,
                             computed: '_computeDataAvailable(data)'
+                        },
+                        timeline: {
+                            type: Array,
+                            value: [],
+                            computed: '_computeTimeline(data)'
                         }
                     };
                 }
@@ -103,8 +112,62 @@
                     return !!data;
                 }
 
-                _formatDuration(start, end) {
-                    return RESTer.format.duration(end - start, 2);
+                _computeTimeline(data) {
+                    if (!data) {
+                        return [];
+                    }
+
+                    const queueRequest = {
+                        label: 'Queue request',
+                        startAt: 0,
+                        duration: data.domainLookupStart - data.fetchStart
+                    };
+
+                    const lookupDns = {
+                        label: 'Lookup DNS',
+                        startAt: data.domainLookupStart - data.fetchStart,
+                        duration: data.domainLookupEnd - data.domainLookupStart
+                    };
+
+                    // Missing: domainLookupEnd to connectStart
+
+                    const connect = {
+                        label: 'Connect',
+                        startAt: data.connectStart - data.fetchStart,
+                        duration: data.connectEnd - data.connectStart
+                    };
+
+                    // Missing: connectEnd to requestStart
+
+                    const sendRequest = {
+                        label: 'Send request + wait (TTFB)',
+                        startAt: data.requestStart - data.fetchStart,
+                        duration: data.responseStart - data.requestStart
+                    };
+
+                    const downloadResponse = {
+                        label: 'Download response',
+                        startAt: data.responseStart - data.fetchStart,
+                        duration: data.responseEnd - data.responseStart
+                    };
+
+                    return [
+                        queueRequest,
+                        lookupDns,
+                        connect,
+                        sendRequest,
+                        downloadResponse
+                    ];
+                }
+
+                _calcPercentage(full, fraction) {
+                    return fraction / full * 100;
+                }
+
+                _formatDuration(duration) {
+                    if (duration !== undefined) {
+                        return RESTer.format.duration(duration, 2);
+                    }
                 }
             }
 
