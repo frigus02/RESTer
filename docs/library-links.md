@@ -30,13 +30,13 @@ https://github.com/PolymerElements/app-layout/blob/v2.0.1/app-scroll-effects/app
 https://github.com/PolymerElements/app-layout/blob/v2.0.1/app-toolbar/app-toolbar.html
 https://github.com/PolymerElements/app-layout/blob/v2.0.1/helpers/helpers.html
 
-app-route v2.0.1
-https://github.com/PolymerElements/app-route/blob/v2.0.1/app-location.html
-https://github.com/PolymerElements/app-route/blob/v2.0.1/app-route-converter-behavior.html
-https://github.com/PolymerElements/app-route/blob/v2.0.1/app-route.html
+app-route v2.0.2
+https://github.com/PolymerElements/app-route/blob/v2.0.2/app-location.html
+https://github.com/PolymerElements/app-route/blob/v2.0.2/app-route-converter-behavior.html
+https://github.com/PolymerElements/app-route/blob/v2.0.2/app-route.html
 
-dompurify 0.9.0
-https://github.com/cure53/DOMPurify/blob/0.9.0/src/purify.js
+dompurify 1.0.0
+https://github.com/cure53/DOMPurify/blob/1.0.0/dist/purify.js
 
 font-roboto v1.0.1
 https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Black.ttf
@@ -266,8 +266,8 @@ https://github.com/PolymerElements/paper-tabs/blob/v2.0.0/paper-tabs.html
 paper-toggle-button v2.0.0
 https://github.com/PolymerElements/paper-toggle-button/blob/v2.0.0/paper-toggle-button.html
 
-paper-tooltip v2.0.0
-https://github.com/PolymerElements/paper-tooltip/blob/v2.0.0/paper-tooltip.html
+paper-tooltip v2.0.1
+https://github.com/PolymerElements/paper-tooltip/blob/v2.0.1/paper-tooltip.html
 
 polymer v2.0.2
 https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/array-selector.html
@@ -323,11 +323,11 @@ https://github.com/frigus02/vkBeautify/blob/v1.0.0/vkbeautify.js
 web-animations-js 2.3.1
 https://github.com/web-animations/web-animations-js/blob/2.3.1/web-animations-next-lite.min.js
 
-webcomponentsjs v1.0.7
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.7/webcomponents-hi-ce.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.7/webcomponents-hi-sd-ce.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.7/webcomponents-hi.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.7/webcomponents-lite.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.7/webcomponents-loader.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.7/webcomponents-sd-ce.js
+webcomponentsjs v1.0.8
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-hi-ce.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-hi-sd-ce.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-hi.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-lite.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-loader.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-sd-ce.js
 ```

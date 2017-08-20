@@ -6,6 +6,10 @@
             onBeforeSendHeaders: {
                 addListener() {
                 }
+            },
+            onHeadersReceived: {
+                addListener() {
+                }
             }
         },
         runtime: {

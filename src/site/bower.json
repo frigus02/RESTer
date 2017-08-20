@@ -4,8 +4,8 @@
   "dependencies": {
     "ace-builds": "1.2.8",
     "app-layout": "PolymerElements/app-layout#2.0.1",
-    "app-route": "PolymerElements/app-route#2.0.1",
-    "DOMPurify": "dompurify#0.9.0",
+    "app-route": "PolymerElements/app-route#2.0.2",
+    "DOMPurify": "dompurify#1.0.0",
     "font-roboto": "PolymerElements/font-roboto-local#1.0.1",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#2.0.0",
     "iron-collapse": "PolymerElements/iron-collapse#2.0.0",
@@ -40,11 +40,11 @@
     "paper-subheader": "2.0.2",
     "paper-tabs": "PolymerElements/paper-tabs#2.0.0",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#2.0.0",
-    "paper-tooltip": "PolymerElements/paper-tooltip#2.0.0",
+    "paper-tooltip": "PolymerElements/paper-tooltip#2.0.1",
     "polymer": "Polymer/polymer#2.0.2",
     "string_score": "joshaven/string_score#0.1.22",
     "vkBeautify": "frigus02/vkBeautify#1.0.0",
-    "webcomponentsjs": "1.0.7"
+    "webcomponentsjs": "1.0.8"
   },
   "devDependencies": {
     "web-component-tester": "6.0.1"
