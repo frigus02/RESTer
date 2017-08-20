@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Detailed request timings (queueing, DNS lookup, connecting, send request and downloading response).
 
 ## [3.0.0] - 2017-08-18
 ### Added
