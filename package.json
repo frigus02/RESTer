@@ -17,14 +17,14 @@
     "updatelibrarylinks": "gulp util:updatelibrarylinks"
   },
   "devDependencies": {
-    "addons-linter": "^0.22.7",
+    "addons-linter": "^0.22.8",
     "babel-eslint": "^7.2.3",
     "bower": "^1.8.0",
     "chalk": "^2.1.0",
     "css-slam": "^1.2.1",
     "del": "^3.0.0",
     "eslint-config-crockford": "^1.0.0",
-    "eslint-plugin-html": "^3.1.1",
+    "eslint-plugin-html": "^3.2.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babili": "^0.1.4",
     "gulp-crisper": "^1.1.0",
