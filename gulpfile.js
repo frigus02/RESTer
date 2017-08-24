@@ -1,6 +1,6 @@
 'use strict';
 
-const babili = require("gulp-babili");
+const babelMinify = require("gulp-babel-minify");
 const crisper = require('gulp-crisper');
 const cssSlam = require('css-slam').gulp;
 const del = require('del');
@@ -151,7 +151,7 @@ function crispAppIntoSingleFile() {
     const htmlSplitter = new polymerBuild.HtmlSplitter();
     return mergeStream(project.sources(), project.dependencies())
         .pipe(htmlSplitter.split())
-        .pipe(gulpif(/\.js$/, babili({
+        .pipe(gulpif(/\.js$/, babelMinify({
             mangle: {
                 keepClassName: true
             }

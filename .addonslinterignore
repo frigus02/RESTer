@@ -13,7 +13,6 @@ background/lib/data/utils/data-store.js STORAGE_LOCAL
 
 # Ignore unsupported "unlimitedStorage" permissions for now. It is needed in
 # Chrome.
-manifest.json MANIFEST_PERMISSIONS
 manifest.json MANIFEST_ICON_NOT_FOUND
 
 # HTML is sanitized with DOMPurify, so it's save to use with innerHTML.

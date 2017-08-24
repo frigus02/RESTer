@@ -35,8 +35,8 @@ https://github.com/PolymerElements/app-route/blob/v2.0.2/app-location.html
 https://github.com/PolymerElements/app-route/blob/v2.0.2/app-route-converter-behavior.html
 https://github.com/PolymerElements/app-route/blob/v2.0.2/app-route.html
 
-dompurify 1.0.0
-https://github.com/cure53/DOMPurify/blob/1.0.0/dist/purify.js
+dompurify 0.9.0
+https://github.com/cure53/DOMPurify/blob/0.9.0/src/purify.js
 
 font-roboto v1.0.1
 https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Black.ttf
