@@ -22,7 +22,6 @@ const generateLibraryLinks = require('./tools/tasks/generate-library-links');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
 const lintFirefoxAddon = require('./tools/tasks/lint-firefox-addon');
 const streamToPromise = require('./tools/tasks/stream-to-promise');
-const wctPrepare = require('./tools/tasks/wct-prepare');
 const packageJson = require('./package.json');
 
 
@@ -285,5 +284,4 @@ gulp.task('dev', dev);
 gulp.task('build', build);
 gulp.task('lint', lint);
 gulp.task('package', buildPackage);
-gulp.task('util:preparewct', wctPrepare);
-gulp.task('util:updatelibrarylinks', updateLibraryLinks);
+gulp.task('updatelibrarylinks', updateLibraryLinks);

@@ -1,4 +1,13 @@
+/* eslint-disable no-console */
+
 'use strict';
+
+/**
+ * 1. Creates a symlink from <project_root>/src/site/bower_components
+ *    to <project_root>/bower_components, because WCT requires this.
+ * 2. Patches the WCT local selenium config to use newer selenium
+ *    drivers. The old ones don't work with newer versions of Firefox.
+ */
 
 const fs = require('fs');
 const { promisify } = require('util');
@@ -6,17 +15,6 @@ const readFile = promisify(fs.readFile);
 const symlink = promisify(fs.symlink);
 const writeFile = promisify(fs.writeFile);
 
-
-/**
- * Creates a symlink from <project_root>/src/site/bower_components
- * to <project_root>/bower_components, because WCT requires this.
- *
- * @return {Promise}
- */
-async function prepareForWct() {
-    await createBowerComponentsSymlink();
-    await patchWctLocalSeleniumConfig();
-}
 
 async function createBowerComponentsSymlink() {
     try {
@@ -48,4 +46,12 @@ async function patchWctLocalSeleniumConfig() {
     await writeFile(configPath, newContent);
 }
 
-module.exports = prepareForWct;
+async function main() {
+    console.log('Creating symlink bower_components -> src/site/bower_components...');
+    await createBowerComponentsSymlink();
+
+    console.log('Patching WCT selenium config...');
+    await patchWctLocalSeleniumConfig();
+}
+
+main().catch(err => console.error(err.stack));

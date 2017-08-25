@@ -9,12 +9,14 @@
   "repository": "frigus02/RESTer",
   "scripts": {
     "postinstall": "bower install",
-    "test": "gulp util:preparewct && wct",
+    "pretest": "node tools/scripts/pre-test.js",
+    "test": "wct",
+    "posttest": "node tools/scripts/post-test.js",
     "start": "gulp dev",
     "build": "gulp build",
     "lint": "gulp lint",
     "package": "gulp package",
-    "updatelibrarylinks": "gulp util:updatelibrarylinks"
+    "updatelibrarylinks": "gulp updatelibrarylinks"
   },
   "devDependencies": {
     "addons-linter": "^0.24.0",
