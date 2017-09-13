@@ -19,8 +19,11 @@ manifest.json MANIFEST_ICON_NOT_FOUND
 site/elements/controls/rester-dom-purify-frame.js UNSAFE_VAR_ASSIGNMENT
 
 # These are part of other bower components and should be fine.
+site/bower_components/ace-builds/src-min-noconflict/ace.js MOZILLA_COND_OF_USE
 site/bower_components/ace-builds/src-min-noconflict/ace.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js UNSAFE_VAR_ASSIGNMENT
+site/bower_components/ace-builds/src-min-noconflict/mode-html.js MOZILLA_COND_OF_USE
+site/bower_components/ace-builds/src-min-noconflict/worker-html.js MOZILLA_COND_OF_USE
 site/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/polymer/lib/mixins/element-mixin.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/webcomponentsjs/webcomponents-hi-ce.js UNSAFE_VAR_ASSIGNMENT

@@ -22,11 +22,12 @@ The add-on supports the following goodies:
 
 The project requires:
 
-*   `node` in a version >= 8.
+*   `node` >= 8
+*   `yarn` >= 1
 
 Install all other dependencies with the command:
 
-    npm install
+    yarn install
 
 ### Test
 
@@ -34,7 +35,7 @@ WebExtensions enfore a content security policy (CSP) for all sites in the add-on
 
 To make the browser load the add-on, you should run:
 
-    npm start
+    yarn start
 
 This will generate a working add-on in the folder *.build*, where all JavaScript code is extracted into separate script files. It will also watch files for changes and update the folder accordingly.
 
@@ -47,7 +48,7 @@ To load the add-on in the browser:
 
 To create packages for AMO and the Chrome Web Store run:
 
-    npm run package
+    yarn run package
 
 Afterwards you will find the generated files in the folder *.package*.
 
