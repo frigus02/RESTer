@@ -29,11 +29,10 @@ site/bower_components/polymer/lib/mixins/element-mixin.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/webcomponentsjs/webcomponents-hi-ce.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/webcomponentsjs/webcomponents-hi-sd-ce.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/webcomponentsjs/webcomponents-hi.js UNSAFE_VAR_ASSIGNMENT
-site/bower_components/webcomponentsjs/webcomponents-lite.js DANGEROUS_EVAL
 site/bower_components/webcomponentsjs/webcomponents-lite.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/webcomponentsjs/webcomponents-loader.js NO_DOCUMENT_WRITE
 site/bower_components/webcomponentsjs/webcomponents-loader.js UNSAFE_VAR_ASSIGNMENT
 site/bower_components/webcomponentsjs/webcomponents-sd-ce.js UNSAFE_VAR_ASSIGNMENT
 
 # Known libraries
-site/bower_components/DOMPurify/src/purify.js KNOWN_LIBRARY
+site/bower_components/DOMPurify/dist/purify.min.js KNOWN_LIBRARY

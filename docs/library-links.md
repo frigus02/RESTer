@@ -7,6 +7,9 @@ Update this file with all changes to used third party libraries (add/remove depe
     npm run updatelibrarylinks
 
 ```
+DOMPurify 1.0.2
+https://github.com/cure53/DOMPurify/blob/1.0.2/dist/purify.min.js
+
 ace-builds v1.2.8
 https://github.com/ajaxorg/ace-builds/blob/v1.2.8/src-min-noconflict/ace.js
 https://github.com/ajaxorg/ace-builds/blob/v1.2.8/src-min-noconflict/ext-searchbox.js
@@ -34,9 +37,6 @@ app-route v2.0.2
 https://github.com/PolymerElements/app-route/blob/v2.0.2/app-location.html
 https://github.com/PolymerElements/app-route/blob/v2.0.2/app-route-converter-behavior.html
 https://github.com/PolymerElements/app-route/blob/v2.0.2/app-route.html
-
-dompurify 0.9.0
-https://github.com/cure53/DOMPurify/blob/0.9.0/src/purify.js
 
 font-roboto v1.0.1
 https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Black.ttf
@@ -109,11 +109,11 @@ https://github.com/PolymerElements/iron-form/blob/undefined/iron-form.html
 iron-icon v2.0.1
 https://github.com/PolymerElements/iron-icon/blob/v2.0.1/iron-icon.html
 
-iron-iconset-svg v2.0.1
-https://github.com/PolymerElements/iron-iconset-svg/blob/v2.0.1/iron-iconset-svg.html
+iron-iconset-svg v2.1.0
+https://github.com/PolymerElements/iron-iconset-svg/blob/v2.1.0/iron-iconset-svg.html
 
-iron-input v2.0.0
-https://github.com/PolymerElements/iron-input/blob/v2.0.0/iron-input.html
+iron-input v2.0.1
+https://github.com/PolymerElements/iron-input/blob/v2.0.1/iron-input.html
 
 iron-location v2.0.1
 https://github.com/PolymerElements/iron-location/blob/v2.0.1/iron-location.html
@@ -201,17 +201,17 @@ https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.0/paper-dropdow
 paper-fab v2.0.0
 https://github.com/PolymerElements/paper-fab/blob/v2.0.0/paper-fab.html
 
-paper-icon-button v2.0.0
-https://github.com/PolymerElements/paper-icon-button/blob/v2.0.0/paper-icon-button.html
+paper-icon-button v2.0.1
+https://github.com/PolymerElements/paper-icon-button/blob/v2.0.1/paper-icon-button.html
 
-paper-input v2.0.1
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-input-addon-behavior.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-input-behavior.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-input-char-counter.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-input-container.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-input-error.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-input.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.1/paper-textarea.html
+paper-input v2.0.2
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-input-addon-behavior.html
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-input-behavior.html
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-input-char-counter.html
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-input-container.html
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-input-error.html
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-input.html
+https://github.com/PolymerElements/paper-input/blob/v2.0.2/paper-textarea.html
 
 paper-item v2.0.0
 https://github.com/PolymerElements/paper-item/blob/v2.0.0/paper-icon-item.html
@@ -269,65 +269,65 @@ https://github.com/PolymerElements/paper-toggle-button/blob/v2.0.0/paper-toggle-
 paper-tooltip v2.0.1
 https://github.com/PolymerElements/paper-tooltip/blob/v2.0.1/paper-tooltip.html
 
-polymer v2.0.2
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/array-selector.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/custom-style.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/dom-bind.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/dom-if.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/dom-module.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/elements/dom-repeat.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/legacy/class.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/legacy/legacy-element-mixin.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/legacy/mutable-data-behavior.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/legacy/polymer-fn.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/legacy/polymer.dom.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/legacy/templatizer-behavior.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/mixins/element-mixin.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/mixins/gesture-event-listeners.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/mixins/mutable-data.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/mixins/property-accessors.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/mixins/property-effects.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/mixins/template-stamp.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/array-splice.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/async.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/boot.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/case-map.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/debounce.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/flattened-nodes-observer.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/flush.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/gestures.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/import-href.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/mixin.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/path.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/render-status.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/resolve-url.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/settings.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/style-gather.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/templatize.html
-https://github.com/Polymer/polymer/blob/v2.0.2/lib/utils/unresolved.html
-https://github.com/Polymer/polymer/blob/v2.0.2/polymer-element.html
-https://github.com/Polymer/polymer/blob/v2.0.2/polymer.html
+polymer v2.1.0
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/elements/array-selector.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/elements/custom-style.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/elements/dom-bind.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/elements/dom-if.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/elements/dom-module.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/elements/dom-repeat.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/legacy/class.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/legacy/legacy-element-mixin.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/legacy/mutable-data-behavior.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/legacy/polymer-fn.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/legacy/polymer.dom.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/legacy/templatizer-behavior.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/mixins/element-mixin.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/mixins/gesture-event-listeners.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/mixins/mutable-data.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/mixins/property-accessors.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/mixins/property-effects.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/mixins/template-stamp.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/array-splice.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/async.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/boot.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/case-map.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/debounce.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/flattened-nodes-observer.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/flush.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/gestures.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/import-href.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/mixin.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/path.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/render-status.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/resolve-url.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/settings.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/style-gather.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/templatize.html
+https://github.com/Polymer/polymer/blob/v2.1.0/lib/utils/unresolved.html
+https://github.com/Polymer/polymer/blob/v2.1.0/polymer-element.html
+https://github.com/Polymer/polymer/blob/v2.1.0/polymer.html
 
-shadycss v1.0.5
-https://github.com/webcomponents/shadycss/blob/v1.0.5/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.0.5/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.0.5/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.0.5/custom-style-interface.min.js
+shadycss v1.0.6
+https://github.com/webcomponents/shadycss/blob/v1.0.6/apply-shim.html
+https://github.com/webcomponents/shadycss/blob/v1.0.6/apply-shim.min.js
+https://github.com/webcomponents/shadycss/blob/v1.0.6/custom-style-interface.html
+https://github.com/webcomponents/shadycss/blob/v1.0.6/custom-style-interface.min.js
 
 string_score v0.1.22
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.min.js
 
-vkbeautify v1.0.0
+vkBeautify v1.0.0
 https://github.com/frigus02/vkBeautify/blob/v1.0.0/vkbeautify.js
 
 web-animations-js 2.3.1
 https://github.com/web-animations/web-animations-js/blob/2.3.1/web-animations-next-lite.min.js
 
-webcomponentsjs v1.0.8
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-hi-ce.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-hi-sd-ce.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-hi.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-lite.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-loader.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.8/webcomponents-sd-ce.js
+webcomponentsjs v1.0.13
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-hi-ce.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-hi-sd-ce.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-hi.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-lite.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-loader.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-sd-ce.js
 ```

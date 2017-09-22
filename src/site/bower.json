@@ -5,15 +5,15 @@
     "ace-builds": "1.2.8",
     "app-layout": "PolymerElements/app-layout#2.0.1",
     "app-route": "PolymerElements/app-route#2.0.2",
-    "DOMPurify": "dompurify#0.9.0",
+    "DOMPurify": "dompurify#1.0.2",
     "font-roboto": "PolymerElements/font-roboto-local#1.0.1",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#2.0.0",
     "iron-collapse": "PolymerElements/iron-collapse#2.0.0",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#2.0.0",
     "iron-form": "PolymerElements/iron-form#2.0-preview",
     "iron-icon": "PolymerElements/iron-icon#2.0.1",
-    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#2.0.1",
-    "iron-input": "PolymerElements/iron-input#2.0.0",
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#2.1.0",
+    "iron-input": "PolymerElements/iron-input#2.0.1",
     "iron-media-query": "PolymerElements/iron-media-query#2.0.0",
     "iron-pages": "PolymerElements/iron-pages#2.0.0",
     "iron-selector": "PolymerElements/iron-selector#2.0.0",
@@ -26,8 +26,8 @@
     "paper-dialog": "PolymerElements/paper-dialog#2.0.0",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#2.0.0",
     "paper-fab": "PolymerElements/paper-fab#2.0.0",
-    "paper-icon-button": "PolymerElements/paper-icon-button#2.0.0",
-    "paper-input": "PolymerElements/paper-input#2.0.1",
+    "paper-icon-button": "PolymerElements/paper-icon-button#2.0.1",
+    "paper-input": "PolymerElements/paper-input#2.0.2",
     "paper-item": "PolymerElements/paper-item#2.0.0",
     "paper-listbox": "PolymerElements/paper-listbox#2.0.0",
     "paper-menu-button": "PolymerElements/paper-menu-button#2.0.0",
@@ -41,12 +41,12 @@
     "paper-tabs": "PolymerElements/paper-tabs#2.0.0",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#2.0.0",
     "paper-tooltip": "PolymerElements/paper-tooltip#2.0.1",
-    "polymer": "Polymer/polymer#2.0.2",
+    "polymer": "Polymer/polymer#2.1.0",
     "string_score": "joshaven/string_score#0.1.22",
     "vkBeautify": "frigus02/vkBeautify#1.0.0",
-    "webcomponentsjs": "1.0.8"
+    "webcomponentsjs": "1.0.13"
   },
   "devDependencies": {
-    "web-component-tester": "6.1.2"
+    "web-component-tester": "6.2.0"
   }
 }
