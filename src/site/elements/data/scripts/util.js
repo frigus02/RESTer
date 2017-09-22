@@ -42,13 +42,20 @@
      * Debounces the specified function.
      */
     self.debounce = function (func, delay, ...args) {
+        self.cancelDebounce(func);
+
+        const timeout = setTimeout(func, delay, ...args);
+        debounceFunctionTimeouts.set(func, timeout);
+    };
+
+    /**
+     * Cancels a function call, which was scheduled using debounce.
+     */
+    self.cancelDebounce = function (func) {
         const oldTimeout = debounceFunctionTimeouts.get(func);
         if (oldTimeout) {
             clearTimeout(oldTimeout);
         }
-
-        const timeout = setTimeout(func, delay, ...args);
-        debounceFunctionTimeouts.set(func, timeout);
     };
 
     /**

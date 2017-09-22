@@ -194,6 +194,7 @@
                     }
 
                     if (!body || !prettyPrintMode) {
+                        RESTer.util.cancelDebounce(this._startFormatBodyWorker);
                         return;
                     }
 
