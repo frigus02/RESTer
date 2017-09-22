@@ -162,7 +162,12 @@ function crispAppIntoSingleFile() {
         })))
         .pipe(htmlSplitter.rejoin())
         .pipe(project.bundler())
-        .pipe(crisper())
+        .pipe(crisper({
+            // Firefox on linux needs a path starting with '/'; otherwise
+            // it rejects loading the script from within a polyfilled HTML
+            // import.
+            jsFileName: '/site/elements/rester-app.js'
+        }))
         .pipe(rename(path => {
             path.dirname = path.dirname.substr('src/'.length);
         }))
