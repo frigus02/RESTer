@@ -65,7 +65,7 @@ const pathsToCopy = [
     'src/site/bower_components/font-roboto/fonts/robotomono/RobotoMono-Regular.ttf',
     'src/site/bower_components/font-roboto/fonts/robotomono/RobotoMono-Thin.ttf',
     'src/site/bower_components/font-roboto/fonts/robotomono/RobotoMono-ThinItalic.ttf',
-    'src/site/bower_components/vkbeautify/vkbeautify.js',
+    'src/site/bower_components/vkBeautify/vkbeautify.js',
     'src/site/bower_components/webcomponentsjs/webcomponents-hi-ce.js',
     'src/site/bower_components/webcomponentsjs/webcomponents-hi-sd-ce.js',
     'src/site/bower_components/webcomponentsjs/webcomponents-hi.js',
