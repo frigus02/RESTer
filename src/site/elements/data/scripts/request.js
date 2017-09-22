@@ -208,6 +208,12 @@
                             name = name.substr(headerPrefix.length);
                         }
 
+                        // Capitalize the first letter of each "-" separated word
+                        // in the header name to make it easier to read.
+                        name = name.split('-')
+                            .map(part => part.charAt(0).toUpperCase() + part.substr(1))
+                            .join('-');
+
                         response.headers.push({ name, value });
                     }
                 }
