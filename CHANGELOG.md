@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Detailed request timings (queueing, DNS lookup, connecting, send request and downloading response).
 
+### Fixed
+- RESTer didn't load on Ubuntu (and in Firefox 55 on Windows). This should be fixed now.
+
 ## [3.0.0] - 2017-08-18
 ### Added
 - Added "Full Size" option to request body. When enabled, the editor will be as high as its content. This should make it easier to keep an overview over large request bodies.
