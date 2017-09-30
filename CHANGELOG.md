@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- When a request took longer than 1 second to complete, RESTer showed a wrong duration (1s was shown as 100s).
 
 ## [3.1.0] - 2017-09-23
 ### Added

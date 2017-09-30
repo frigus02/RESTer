@@ -39,7 +39,7 @@
 
     self.duration = function (millis, digits) {
         if (millis >= 1000) {
-            return `${(millis / 10).toFixed(2)} s`;
+            return `${(millis / 1000).toFixed(2)} s`;
         } else {
             return `${millis.toFixed(digits)} ms`;
         }
