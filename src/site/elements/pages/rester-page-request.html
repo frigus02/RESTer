@@ -57,19 +57,20 @@
             }
 
             .method-input,
-            .url-input {
+            .url-input,
+            .is-sending-spinner {
                 margin-right: 16px;
             }
 
+            .is-sending-spinner,
             .send-button {
-                top: 22px;
-                background-color: var(--accent-color);
-                color: var(--light-theme-text-color);
+                align-self: center;
+                top: 6px;
             }
 
-            .send-button paper-spinner {
-                width: 20px;
-                height: 20px;
+            .send-button:not([disabled]) {
+                background-color: var(--accent-color);
+                color: var(--light-theme-text-color);
             }
 
             .input-tabs {
@@ -159,15 +160,23 @@
                                             label="URL"
                                             value="{{request.url}}"
                                             required></rester-url-input>
+                                    <paper-spinner
+                                            class="is-sending-spinner"
+                                            active
+                                            hidden$="[[!requestIsSending]]"></paper-spinner>
                                     <paper-button
                                             class="send-button"
                                             raised
                                             type="submit"
                                             on-tap="_sendRequest"
-                                            disabled$="[[requestIsSending]]">
-                                        <span hidden$="[[requestIsSending]]">Send</span>
-                                        <paper-spinner active hidden$="[[!requestIsSending]]"></paper-spinner>
-                                    </paper-button>
+                                            disabled$="[[requestIsSending]]"
+                                            hidden$="[[requestIsSendingAndAbortable]]">Send</paper-button>
+                                    <paper-button
+                                            class="send-button"
+                                            raised
+                                            type="submit"
+                                            on-tap="_abortRequest"
+                                            hidden$="[[!requestIsSendingAndAbortable]]">Abort</paper-button>
                                 </div>
 
                                 <div class="input-tabs layout horizontal">
@@ -291,6 +300,10 @@
                             readOnly: true,
                             value: false
                         },
+                        requestIsSendingAndAbortable: {
+                            type: Boolean,
+                            computed: '_computeRequestIsSendingAndAbortable(requestIsSending)'
+                        },
                         requestShowVariablesOnSide: {
                             type: Boolean,
                             computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
@@ -385,6 +398,11 @@
                     ];
                 }
 
+                constructor() {
+                    super();
+                    this._requestAbortController = null;
+                }
+
                 _onRouteChanged() {
                     if (this.routeActive && this.historyRouteActive) {
                         RESTer.rester.getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
@@ -438,6 +456,10 @@
 
                 _computeRequestShowVariablesOnSide(setting, isWideEnough) {
                     return setting && isWideEnough;
+                }
+
+                _computeRequestIsSendingAndAbortable(isSending) {
+                    return isSending && this._requestAbortController;
                 }
 
                 _computeHeader(headers, headerName) {
@@ -580,6 +602,11 @@
                         values: RESTer.encode.mapFilesToVariableValues(this.$.bodyInput.files || {})
                     };
 
+                    if (window.AbortController) {
+                        this._requestAbortController = new AbortController();
+                        compiledRequest.signal = this._requestAbortController.signal;
+                    }
+
                     this._setRequestIsSending(true);
                     return RESTer.request.send(compiledRequest)
                         .then(plainResponse => {
@@ -607,8 +634,16 @@
                         })
                         .catch(error => {
                             this._setRequestIsSending(false);
-                            this.showError(error);
+                            if (error.name !== 'AbortError') {
+                                this.showError(error);
+                            }
                         });
+                }
+
+                _abortRequest() {
+                    if (this._requestAbortController) {
+                        this._requestAbortController.abort();
+                    }
                 }
 
                 _showHistoryEntrySizeDetails() {

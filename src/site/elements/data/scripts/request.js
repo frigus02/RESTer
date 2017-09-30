@@ -150,6 +150,12 @@
      * @param {Array} request.headers - The headers. Each header is an object with
      * the properties `name` and `value`.
      * @param {String} request.body - The body.
+     * @param {Object} request.tempVariables - Additional variables, which might
+     * be compiled into the request. This is currently used to append files to
+     * formdata requests.
+     * @param {AbortSignal} request.signal - An optional abort signal. When triggered,
+     * the request and response is aborted and the promise returned by this function
+     * is rejected with a DOMException named 'AbortError'.
      * @returns {Promise.<Object>} A promise which gets resolved, when the request
      * was successfully saved and returns the request response.
      */
@@ -182,7 +188,8 @@
             mode: 'cors',
             credentials: 'omit',
             cache: 'no-store',
-            redirect: 'manual'
+            redirect: 'manual',
+            signal: request.signal
         };
 
         if (request.method.toLowerCase() !== 'head' && request.method.toLowerCase() !== 'get') {
