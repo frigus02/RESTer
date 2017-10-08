@@ -18,8 +18,6 @@
     self.send = function (request) {
         return new Promise(function (resolve, reject) {
             let thisWindowId,
-                thisTabId,
-                thisTabIdPromise,
                 requestFinished = false;
 
             chrome.windows.create({
@@ -27,25 +25,12 @@
                 incognito: request.incognito
             }, window => {
                 thisWindowId = window.id;
-                if (window.tabs) {
-                    thisTabId = window.tabs[0].id;
-                } else {
-                    // Firefox supports the window.tabs property only from
-                    // version 52 onwards. Once this is min version for RESTer,
-                    // this special code can be removed.
-                    thisTabId = -1;
-                    thisTabIdPromise = new Promise(resolve => {
-                        chrome.tabs.query({windowId: thisWindowId}, tabs => {
-                            thisTabId = tabs[0].id;
-                            resolve();
-                        });
-                    });
-                }
 
                 chrome.windows.onRemoved.addListener(onWindowRemoved);
                 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {
                     urls: [request.targetUrl + '*'],
-                    types: ['main_frame']
+                    types: ['main_frame'],
+                    tabId: window.tabs[0].id
                 }, ['blocking']);
             });
 
@@ -60,11 +45,7 @@
                 }
             }
 
-            function checkOnBeforeRequestDetails(details) {
-                if (details.tabId !== thisTabId) {
-                    return;
-                }
-
+            function onBeforeRequest(details) {
                 requestFinished = true;
                 chrome.windows.remove(thisWindowId, () => {
                     resolve({
@@ -75,17 +56,6 @@
                 return {
                     cancel: true
                 };
-            }
-
-            function onBeforeRequest(details) {
-                if (thisTabId === -1) {
-                    thisTabIdPromise.then(() => {
-                        checkOnBeforeRequestDetails(details);
-                    });
-                    return;
-                } else {
-                    return checkOnBeforeRequestDetails(details);
-                }
             }
         });
     };

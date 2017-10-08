@@ -22,10 +22,6 @@
 
     function setupHeaderInterceptor(currentTabId) {
         function onBeforeSendHeaders(details) {
-            if (details.tabId !== currentTabId) {
-                return;
-            }
-
             const newHeaders = [];
             const indexesToRemove = [];
             const removeDefaultHeaders = details.requestHeaders.some(h => h.name.toLowerCase() === headerCommand && h.value === 'stripdefaultheaders');
@@ -66,10 +62,6 @@
         }, ['blocking', 'requestHeaders']);
 
         function onHeadersReceived(details) {
-            if (details.tabId !== currentTabId) {
-                return;
-            }
-
             const newHeaders = [
                 {
                     name: 'timing-allow-origin',
