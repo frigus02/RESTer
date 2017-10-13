@@ -31,7 +31,6 @@
             "background/lib/data/requests.js",
             "background/lib/data/responses.js",
             "background/lib/data/history.js",
-            "background/lib/data/utils/import.js",
             "background/lib/settings.js",
             "background/index.js"
         ]

@@ -136,10 +136,6 @@
         return sendApiRequest('data.environments.delete', id);
     };
 
-    self.importData = function (data) {
-        return sendApiRequest('data.import', data);
-    };
-
 
     /*
     * Settings

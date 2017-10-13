@@ -69,34 +69,4 @@
         });
     });
 
-
-    // Migration from legacy addon
-    chrome.runtime.getBrowserInfo(browserInfo => {
-        if (browserInfo.name === 'Firefox') {
-            migrateFromLegacyAddon();
-        }
-    });
-
-    function migrateFromLegacyAddon() {
-        const port = chrome.runtime.connect({name: 'migration-from-legacy-addon'});
-        port.onMessage.addListener(message => {
-            const imports = [];
-            if (Object.keys(message.settings).length > 0) {
-                imports.push(api.settings.set(message.settings));
-            }
-
-            if (Object.keys(message.data).length > 0) {
-                imports.push(api.data.utils.import(message.data));
-            }
-
-            if (imports.length === 0) {
-                port.disconnect();
-            } else {
-                Promise.all(imports).then(() => {
-                    port.postMessage('delete');
-                    port.disconnect();
-                });
-            }
-        });
-    }
 })();
