@@ -137,6 +137,10 @@ export function deleteEnvironment(id) {
     return sendApiRequest('data.environments.delete', id);
 }
 
+export function exportData(options) {
+    return sendApiRequest('exportImport.export', options);
+}
+
 
 /*
 * Settings

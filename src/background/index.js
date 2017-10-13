@@ -4,6 +4,7 @@ import * as authorizationTokens from './data/authorization-tokens.js';
 import * as environments from './data/environments.js';
 import * as history from './data/history.js';
 import * as requests from './data/requests.js';
+import * as exportImport from './exportImport/index.js';
 import * as settings from './settings/index.js';
 import { select } from './utils/fields.js';
 
@@ -40,6 +41,9 @@ const resterApi = {
             queryCollections: requests.queryRequestCollections,
             delete: requests.deleteRequest
         }
+    },
+    exportImport: {
+        export: exportImport.exportData
     },
     settings: {
         get: settings.get,
