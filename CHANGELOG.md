@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.2.0] - 2017-10-24
 ### Added
 - Allow to abort/cancel requests. *(This only works for browsers, which support the abortable fetch.)*
 
@@ -298,7 +300,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.1.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.2.0...HEAD
+[3.2.0]: https://github.com/frigus02/RESTer/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/frigus02/RESTer/compare/3.0.0...3.1.0
 [3.0.0]: https://github.com/frigus02/RESTer/compare/2.5.1...3.0.0
 [2.5.1]: https://github.com/frigus02/RESTer/compare/2.5.0...2.5.1
