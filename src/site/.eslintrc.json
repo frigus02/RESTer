@@ -1,6 +1,7 @@
 {
     "globals": {
         "_": false,
+        "AbortController": false,
         "ace": false,
         "chrome": false,
         "DOMPurify": false,
