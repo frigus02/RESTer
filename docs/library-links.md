@@ -324,11 +324,11 @@ https://github.com/frigus02/vkBeautify/blob/v1.0.0/vkbeautify.js
 web-animations-js 2.3.1
 https://github.com/web-animations/web-animations-js/blob/2.3.1/web-animations-next-lite.min.js
 
-webcomponentsjs v1.0.17
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.17/webcomponents-hi-ce.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.17/webcomponents-hi-sd-ce.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.17/webcomponents-hi.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.17/webcomponents-lite.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.17/webcomponents-loader.js
-https://github.com/Polymer/webcomponentsjs/blob/v1.0.17/webcomponents-sd-ce.js
+webcomponentsjs v1.0.13
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-hi-ce.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-hi-sd-ce.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-hi.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-lite.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-loader.js
+https://github.com/Polymer/webcomponentsjs/blob/v1.0.13/webcomponents-sd-ce.js
 ```

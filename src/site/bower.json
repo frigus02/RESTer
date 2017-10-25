@@ -44,7 +44,7 @@
     "polymer": "Polymer/polymer#2.2.0",
     "string_score": "joshaven/string_score#0.1.22",
     "vkBeautify": "frigus02/vkBeautify#1.0.0",
-    "webcomponentsjs": "1.0.17"
+    "webcomponentsjs": "1.0.13"
   },
   "devDependencies": {
     "web-component-tester": "6.3.0"
