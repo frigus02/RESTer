@@ -13,12 +13,15 @@
         suite('RESTer.format', function () {
             'use strict';
 
+            const referenceDate = new Date('October 23, 2015 11:25');
+
             test('time returns the formatted time of the specified date', function () {
-                expect(RESTer.format.time(new Date('October 23, 2015 11:25'))).to.equal('11:25:00');
+                expect(RESTer.format.time(referenceDate)).to.equal('11:25:00');
             });
 
             test('dateTime returns the formatted date and time of the specified date', function () {
-                expect(RESTer.format.dateTime(new Date('October 23, 2015 11:25'))).to.equal('23.10.2015, 11:25:00');
+                const format = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: '2-digit', day: '2-digit', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'});
+                expect(RESTer.format.dateTime(referenceDate)).to.equal(format.format(referenceDate));
             });
 
             test('expirationDate returns "Never expires" when given null', function () {
@@ -33,6 +36,31 @@
                 const input = Date.now() + 1000;
 
                 expect(RESTer.format.expirationDate(input)).to.equal(`Expires ${RESTer.format.dateTime(input)}`);
+            });
+
+            test('size returns MB', function () {
+                expect(RESTer.format.size(2.236 * 1024 * 1024)).to.equal('2.24 MB');
+                expect(RESTer.format.size(1 * 1024 * 1024)).to.equal('1.00 MB');
+            });
+
+            test('size returns KB', function () {
+                expect(RESTer.format.size(1023.99 * 1024)).to.equal('1023.99 KB');
+                expect(RESTer.format.size(1 * 1024)).to.equal('1.00 KB');
+            });
+
+            test('size returns B', function () {
+                expect(RESTer.format.size(1023.99)).to.equal('1023.99 B');
+                expect(RESTer.format.size(123.6)).to.equal('123.6 B');
+            });
+
+            test('duration returns seconds', function () {
+                expect(RESTer.format.duration(2345)).to.equal('2.35 s');
+                expect(RESTer.format.duration(1000)).to.equal('1.00 s');
+            });
+
+            test('duration returns millis', function () {
+                expect(RESTer.format.duration(999)).to.equal('999 ms');
+                expect(RESTer.format.duration(123)).to.equal('123 ms');
             });
         });
     </script>

@@ -5,6 +5,21 @@
                 "chrome",
                 "firefox"
             ]
+        },
+        "sauce": {
+            "disabled": true,
+            "browsers": [
+                {
+                    "browserName": "chrome",
+                    "platform": "Windows 10",
+                    "version": "60"
+                },
+                {
+                    "browserName": "firefox",
+                    "platform": "Windows 10",
+                    "version": "55.0"
+                }
+            ]
         }
     }
 }
