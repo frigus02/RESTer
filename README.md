@@ -1,5 +1,7 @@
 # RESTer
 
+[![Build Status](https://travis-ci.org/frigus02/RESTer.svg?branch=master)](https://travis-ci.org/frigus02/RESTer)
+
 A REST client for almost any web service.
 
 Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Google Chrome](https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
