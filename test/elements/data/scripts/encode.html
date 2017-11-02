@@ -19,7 +19,7 @@
                 numbers: ['12', '24']
             };
 
-            const queryString = '%24filter=Name%20eq%20\'John\'&%24select=Age%2CMailAddress&numbers=12&numbers=24';
+            const queryString = '%24filter=Name+eq+%27John%27&%24select=Age%2CMailAddress&numbers=12&numbers=24';
 
             // encodeQueryString
 
@@ -35,22 +35,18 @@
 
             // generateUri
 
-            suite('with stubbed encodeQueryString', function () {
-                const stubbedQueryString = 'a=b';
+            test('generateUri appends encoded params to base url', function () {
+                const baseUrl = 'https://example.com/test';
+                const simpleParams = { name: 'John' };
 
-                setup(function () {
-                    sinon.stub(RESTer.encode, 'encodeQueryString').returns(stubbedQueryString);
-                });
+                expect(RESTer.encode.generateUri(baseUrl, simpleParams)).to.equal(`${baseUrl}?name=John`);
+            });
 
-                teardown(function () {
-                    RESTer.encode.encodeQueryString.restore();
-                });
+            test('generateUri appends encoded params to existing params on base url', function () {
+                const baseUrl = 'https://example.com/test?age=34';
+                const simpleParams = { name: 'John' };
 
-                test('generateUri appends encoded params to base url', function () {
-                    const baseUrl = 'https://example.com';
-
-                    expect(RESTer.encode.generateUri(baseUrl, params)).to.equal(`${baseUrl}?${stubbedQueryString}`);
-                });
+                expect(RESTer.encode.generateUri(baseUrl, simpleParams)).to.equal(`${baseUrl}&name=John`);
             });
 
             // encodeFormValue

@@ -3,38 +3,33 @@
 
     const self = RESTer.register('encode');
 
-    self.encodeQueryString = function (params) {
-        const parts = [];
-        for (let key in params) {
+    function appendSearchParams(searchParams, params) {
+        for (const key in params) {
             if (params.hasOwnProperty(key)) {
-                const encodedKey = encodeURIComponent(key);
                 const values = Array.isArray(params[key]) ? params[key] : [params[key]];
-
-                for (let value of values) {
-                    const encodedValue = encodeURIComponent(value);
-                    parts.push(`${encodedKey}=${encodedValue}`);
+                for (const value of values) {
+                    searchParams.append(key, value);
                 }
             }
         }
+    }
 
-        return parts.join('&');
+    self.encodeQueryString = function (params) {
+        const searchParams = new URLSearchParams();
+        appendSearchParams(searchParams, params);
+
+        return searchParams.toString();
     };
 
     self.decodeQueryString = function (str) {
         const params = {};
-        const parts = str.split('&');
-
-        for (let part of parts) {
-            const keyValue = part.split('=');
-            const key = decodeURIComponent(keyValue[0]);
-            const value = decodeURIComponent(keyValue[1]);
-
-            if (!params[key]) {
-                params[key] = value;
-            } else if (Array.isArray(params[key])) {
-                params[key].push(value);
+        const searchParams = new URLSearchParams(str);
+        for (const key of searchParams.keys()) {
+            const values = searchParams.getAll(key);
+            if (values.length === 1) {
+                params[key] = values[0];
             } else {
-                params[key] = [params[key], value];
+                params[key] = values;
             }
         }
 
@@ -42,7 +37,10 @@
     };
 
     self.generateUri = function (base, params) {
-        return base + '?' + self.encodeQueryString(params);
+        const url = new URL(base);
+        appendSearchParams(url.searchParams, params);
+
+        return url.toString();
     };
 
     self.encodeFormValue = function (value) {
