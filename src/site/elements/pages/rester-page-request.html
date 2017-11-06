@@ -591,6 +591,8 @@
                         return;
                     }
 
+                    this._handleDefaultProtocol();
+
                     const usedVariableValues = {};
                     const compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
 
@@ -638,6 +640,16 @@
                                 this.showError(error);
                             }
                         });
+                }
+
+                _handleDefaultProtocol() {
+                    const protocols = ["http://", "https://"];
+                    for(let proto of protocols) {
+                        if(this.request.url.startsWith(proto)) {
+                            return;
+                        }
+                    }
+                    this.request.url = "http://" + this.request.url;
                 }
 
                 _abortRequest() {
