@@ -643,7 +643,7 @@
                 }
 
                 _handleDefaultProtocol() {
-                    if(new RegExp('^http(s)?\:\/\/.*', "i").test(this.request.url)) {
+                    if (new RegExp('^http(s)?://.*', "i").test(this.request.url)) {
                         return;
                     }
                     this.request.url = "http://" + this.request.url;
