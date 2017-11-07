@@ -643,11 +643,8 @@
                 }
 
                 _handleDefaultProtocol() {
-                    const protocols = ["http://", "https://"];
-                    for(let proto of protocols) {
-                        if(this.request.url.startsWith(proto)) {
-                            return;
-                        }
+                    if(new RegExp('^http(s)?\:\/\/.*', "i").test(this.request.url)) {
+                        return;
                     }
                     this.request.url = "http://" + this.request.url;
                 }
