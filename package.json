@@ -19,8 +19,8 @@
     "updatelibrarylinks": "gulp updatelibrarylinks"
   },
   "devDependencies": {
-    "addons-linter": "0.27.1",
-    "babel-eslint": "8.0.1",
+    "addons-linter": "0.28.1",
+    "babel-eslint": "8.0.2",
     "bower": "1.8.2",
     "chalk": "2.3.0",
     "css-slam": "2.0.2",
@@ -38,13 +38,13 @@
     "gulp-util": "3.0.8",
     "gulp-zip": "4.0.0",
     "log-symbols": "2.1.0",
-    "parse5": "3.0.2",
+    "parse5": "3.0.3",
     "plur": "2.1.2",
-    "polymer-analyzer": "2.3.0",
+    "polymer-analyzer": "2.6.0",
     "polymer-build": "2.1.1",
     "polymer-linter": "2.1.0",
     "through2": "2.0.3",
-    "web-component-tester": "6.3.0"
+    "web-component-tester": "6.4.0"
   },
   "engines": {
     "node": ">=8.0.0",
