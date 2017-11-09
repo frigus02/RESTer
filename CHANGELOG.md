@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.3.0] - 2017-11-09
 ### Added
 - When you send a request to an URL without entering any protocol (e.g. `example.com`), RESTer will default to using `http://` instead of nothing.
 
@@ -309,7 +311,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.2.1...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.3.0...HEAD
+[3.3.0]: https://github.com/frigus02/RESTer/compare/3.2.1...3.3.0
 [3.2.1]: https://github.com/frigus02/RESTer/compare/3.2.0...3.2.1
 [3.2.0]: https://github.com/frigus02/RESTer/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/frigus02/RESTer/compare/3.0.0...3.1.0
