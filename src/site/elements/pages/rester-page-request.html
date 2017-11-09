@@ -591,6 +591,8 @@
                         return;
                     }
 
+                    this._handleDefaultProtocol();
+
                     const usedVariableValues = {};
                     const compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
 
@@ -638,6 +640,13 @@
                                 this.showError(error);
                             }
                         });
+                }
+
+                _handleDefaultProtocol() {
+                    if (new RegExp('^[A-Za-z][A-Za-z0-9+-.]*://*', "i").test(this.request.url)) {
+                        return;
+                    }
+                    this.request.url = "http://" + this.request.url;
                 }
 
                 _abortRequest() {
