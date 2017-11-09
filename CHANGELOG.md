@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- When you send a request to an URL without entering any protocol (e.g. `example.com`), RESTer will default to using `http://` instead of nothing.
+
 ### Fixed
 - When your OAuth 2 authorization endpoint URL contained a query string, the OAuth flow would not work at all.
 
