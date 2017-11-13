@@ -28,6 +28,10 @@
             paper-toggle-button {
                 margin: 16px 0;
             }
+
+            dd {
+                margin-bottom: 12px;
+            }
         </style>
 
         <app-header-layout>
@@ -51,6 +55,35 @@
                 </div>
 
                 <div class="setting">
+                    <paper-dropdown-menu label="Request Mode">
+                        <paper-listbox
+                                slot="dropdown-content"
+                                selected="{{requestMode}}"
+                                attr-for-selected="value">
+                            <paper-item value="browser">Browser Requests</paper-item>
+                            <paper-item value="clean">Clean Requests</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <div class="hint">
+                        <dl>
+                            <dt>Browser Requests</dt>
+                            <dd>
+                                Send requests just as the browser would normally do. This will
+                                include all default headers like <code>User-Agent</code> and also
+                                <code>Cookie</code>. You can still override these defaults by
+                                explicitly specifying the header.
+                            </dd>
+                            <dt>Clean Requests</dt>
+                            <dd>
+                                Send requests exactly as you define them in RESTer. This will
+                                not send any of the default headers except for the ones required
+                                by the browser like <code>Host</code> or <code>Connection</code>.
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="setting">
                     <paper-toggle-button checked="{{settings.enableRequestLintInspections}}">
                         Inspections for requests
                     </paper-toggle-button>
@@ -62,18 +95,6 @@
                             <li>Using files in a form body without <code>multipart/form-data</code> content type.</li>
                             <li>Using an empty file input in a form body.</li>
                         </ul>
-                    </div>
-                </div>
-
-                <div class="setting">
-                    <paper-toggle-button checked="{{settings.stripDefaultHeaders}}">
-                        Strip default headers
-                    </paper-toggle-button>
-                    <div class="hint">
-                        RESTer uses the browser to send requests, which will add a couple of default
-                        headers to requests like <code>Accept</code>, <code>Accept-Charset</code>
-                        or <code>User-Agent</code>. When you enable this option, RESTer will strip
-                        these headers unless they are explicitly provided in a request.
                     </div>
                 </div>
 
@@ -105,9 +126,32 @@
                     return 'rester-page-settings';
                 }
 
+                static get properties() {
+                    return {
+                        requestMode: {
+                            type: String,
+                            observer: '_onRequestModeChanged'
+                        }
+                    };
+                }
+
+                static get observers() {
+                    return [
+                        '_onSettingsStripDefaultHeadersChanged(settings.stripDefaultHeaders)'
+                    ];
+                }
+
                 ready() {
                     super.ready();
                     this._setPageTitle('Settings');
+                }
+
+                _onRequestModeChanged() {
+                    this.settings.stripDefaultHeaders = this.requestMode === 'clean';
+                }
+
+                _onSettingsStripDefaultHeadersChanged(stripDefaultHeaders) {
+                    this.requestMode = stripDefaultHeaders ? 'clean' : 'browser';
                 }
             }
 
