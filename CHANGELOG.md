@@ -315,7 +315,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.3.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.3.1...HEAD
+[3.3.1]: https://github.com/frigus02/RESTer/compare/3.3.0...3.3.1
 [3.3.0]: https://github.com/frigus02/RESTer/compare/3.2.1...3.3.0
 [3.2.1]: https://github.com/frigus02/RESTer/compare/3.2.0...3.2.1
 [3.2.0]: https://github.com/frigus02/RESTer/compare/3.1.0...3.2.0
