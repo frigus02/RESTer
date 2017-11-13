@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.3.1] - 2017-11-13
+### Fixed
+- The new default protocol feature prefixed the URL with `http://` even if the URL started with an environment variable containing a protocol. It's fixed now.
+
 ## [3.3.0] - 2017-11-09
 ### Added
 - When you send a request to an URL without entering any protocol (e.g. `example.com`), RESTer will default to using `http://` instead of nothing.

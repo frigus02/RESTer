@@ -591,10 +591,13 @@
                         return;
                     }
 
-                    this._handleDefaultProtocol();
-
                     const usedVariableValues = {};
                     const compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
+
+                    // Prefix with http://, if the compiled URL does not contain any protocol.
+                    if (!/^[A-Za-z][A-Za-z0-9+-.]*:\/\/*/i.test(compiledRequest.url)) {
+                        compiledRequest.url = 'http://' + compiledRequest.url;
+                    }
 
                     if (this.settings.stripDefaultHeaders) {
                         compiledRequest.stripDefaultHeaders = true;
@@ -640,13 +643,6 @@
                                 this.showError(error);
                             }
                         });
-                }
-
-                _handleDefaultProtocol() {
-                    if (new RegExp('^[A-Za-z][A-Za-z0-9+-.]*://*', "i").test(this.request.url)) {
-                        return;
-                    }
-                    this.request.url = "http://" + this.request.url;
                 }
 
                 _abortRequest() {
