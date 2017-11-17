@@ -5,16 +5,11 @@
 
     const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
     const headerCommand = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8`;
-    const defaultHeaders = [
-        'accept',
-        'accept-charset',
-        'accept-language',
-        'content-type',
-        'cookie',
-        'if-none-match',
-        'origin',
-        'user-agent'
-    ];
+    const requiredDefaultHeaders = {
+        'host': /.*/i,
+        'content-length': /.*/i,
+        'content-type': /^multipart\/form-data.*/i
+    };
 
     chrome.tabs.getCurrent(tab => {
         setupHeaderInterceptor(tab.id);
@@ -33,7 +28,7 @@
                     indexesToRemove.push(i);
                 } else if (lowerCaseName === headerCommand) {
                     indexesToRemove.push(i);
-                } else if (removeDefaultHeaders && defaultHeaders.includes(lowerCaseName) && !(lowerCaseName === 'content-type' && header.value.startsWith('multipart/form-data'))) {
+                } else if (removeDefaultHeaders && !(requiredDefaultHeaders[lowerCaseName] && requiredDefaultHeaders[lowerCaseName].test(header.value))) {
                     indexesToRemove.push(i);
                 }
             }
@@ -150,7 +145,7 @@
      * @returns {Promise.<Object>} A promise which gets resolved, when the request
      * was successfully saved and returns the request response.
      */
-    self.send = function (request) {
+    self.send = async function (request) {
         // Special handling for multipart requests.
         const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
         const contentType = request.headers[contentTypeIndex];
@@ -177,9 +172,9 @@
             method: request.method,
             headers,
             mode: 'cors',
-            credentials: 'omit',
+            credentials: request.stripDefaultHeaders ? 'omit' : 'include',
             cache: 'no-store',
-            redirect: 'manual',
+            redirect: 'follow',
             signal: request.signal
         };
 
@@ -191,33 +186,30 @@
         const response = {
             timeStart: new Date()
         };
-        return fetch(request.url, init)
-            .then(fetchResponse => {
-                response.status = fetchResponse.status;
-                response.statusText = fetchResponse.statusText;
-                response.headers = [];
 
-                for (const pair of fetchResponse.headers) {
-                    if (pair[0].startsWith(headerPrefix)) {
-                        response.headers.push(JSON.parse(pair[1]));
-                    }
-                }
+        const fetchResponse = await fetch(request.url, init);
+        response.status = fetchResponse.status;
+        response.statusText = fetchResponse.statusText;
+        response.headers = [];
 
-                return fetchResponse.text();
-            })
-            .then(fetchBody => {
-                response.timeEnd = new Date();
-                response.body = fetchBody;
+        for (const pair of fetchResponse.headers) {
+            if (pair[0].startsWith(headerPrefix)) {
+                response.headers.push(JSON.parse(pair[1]));
+            }
+        }
 
-                const matchingTimings = performance.getEntries({
-                    name: request.url,
-                    entryType: 'resource'
-                });
-                if (matchingTimings.length > 0) {
-                    response.timing = matchingTimings[matchingTimings.length - 1].toJSON();
-                }
+        const fetchBody = await fetchResponse.text();
+        response.timeEnd = new Date();
+        response.body = fetchBody;
 
-                return response;
-            });
+        const matchingTimings = performance.getEntries({
+            name: request.url,
+            entryType: 'resource'
+        });
+        if (matchingTimings.length > 0) {
+            response.timing = matchingTimings[matchingTimings.length - 1].toJSON();
+        }
+
+        return response;
     };
 })();
