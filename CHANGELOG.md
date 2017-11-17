@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Upper and lower case in header names is now preserved when sending the request. Previously case in all header names was ignored and they were send to the server all lower case.
 
 ## [3.3.1] - 2017-11-13
 ### Fixed

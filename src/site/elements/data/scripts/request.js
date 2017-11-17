@@ -29,10 +29,7 @@
                 const header = details.requestHeaders[i];
                 const lowerCaseName = header.name.toLowerCase();
                 if (lowerCaseName.startsWith(headerPrefix)) {
-                    newHeaders.push({
-                        name: header.name.substr(headerPrefix.length),
-                        value: header.value
-                    });
+                    newHeaders.push(JSON.parse(header.value));
                     indexesToRemove.push(i);
                 } else if (lowerCaseName === headerCommand) {
                     indexesToRemove.push(i);
@@ -76,11 +73,13 @@
             for (let i = 0; i < details.responseHeaders.length; i++) {
                 const header = details.responseHeaders[i];
                 const lowerCaseName = header.name.toLowerCase();
+
+                newHeaders.push({
+                    name: headerPrefix + header.name,
+                    value: JSON.stringify(header)
+                });
+
                 if (lowerCaseName === 'timing-allow-origin' || lowerCaseName === 'access-control-expose-headers') {
-                    newHeaders.push({
-                        name: headerPrefix + header.name,
-                        value: header.value
-                    });
                     indexesToRemove.push(i);
                 }
             }
@@ -170,7 +169,7 @@
 
         for (const header of requestHeaders) {
             if (header && header.name && header.value) {
-                headers.append(headerPrefix + header.name, header.value);
+                headers.append(headerPrefix + header.name, JSON.stringify(header));
             }
         }
 
@@ -199,21 +198,8 @@
                 response.headers = [];
 
                 for (const pair of fetchResponse.headers) {
-                    if (pair[0] !== 'timing-allow-origin' && pair[0] !== 'access-control-expose-headers') {
-                        let name = pair[0],
-                            value = pair[1];
-
-                        if (name.startsWith(headerPrefix)) {
-                            name = name.substr(headerPrefix.length);
-                        }
-
-                        // Capitalize the first letter of each "-" separated word
-                        // in the header name to make it easier to read.
-                        name = name.split('-')
-                            .map(part => part.charAt(0).toUpperCase() + part.substr(1))
-                            .join('-');
-
-                        response.headers.push({ name, value });
+                    if (pair[0].startsWith(headerPrefix)) {
+                        response.headers.push(JSON.parse(pair[1]));
                     }
                 }
 
