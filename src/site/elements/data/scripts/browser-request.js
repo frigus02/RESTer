@@ -3,6 +3,18 @@
 
     const self = RESTer.register('browserRequest');
 
+    function ensureIncognitoAccess() {
+        return new Promise((resolve, reject) => {
+            chrome.extension.isAllowedIncognitoAccess(isAllowed => {
+                if (isAllowed) {
+                    resolve();
+                } else {
+                    reject('RESTer doesn\'t have access to incognito windows. Please allow access on the browser extension page and try again.');
+                }
+            });
+        });
+    }
+
     function getCookieStoreId(tab) {
         return new Promise((resolve, reject) => {
             if (tab.cookieStoreId) {
@@ -20,21 +32,7 @@
         });
     }
 
-    /**
-     * Executes the specified browser request.
-     * @param {Object} request - The request object.
-     * @param {String} request.url - The url to load in a new tab.
-     * @param {String} request.targetUrl - When this matches the URL in the
-     *     tab, the request is finished the currently executed request is
-     *     returned.
-     * @param {Boolean} request.incognito - Open url in incognito tab.
-     * @param {Boolean} request.extractCookies - Extract cookies after targetUrl
-     *     was reached. If set, the result onject will contain a cookies array.
-     * @returns {Promise.<Object>} A promise which gets resolved, when the
-     *     request was successfully saved and returns the request, which
-     *     matches the targetUrl.
-     */
-    self.send = function (request) {
+    function sendRequest(request) {
         return new Promise(function (resolve, reject) {
             let thisWindowId,
                 thisTab,
@@ -103,5 +101,27 @@
                 });
             }
         });
+    }
+
+    /**
+     * Executes the specified browser request.
+     * @param {Object} request - The request object.
+     * @param {String} request.url - The url to load in a new tab.
+     * @param {String} request.targetUrl - When this matches the URL in the
+     *     tab, the request is finished the currently executed request is
+     *     returned.
+     * @param {Boolean} request.incognito - Open url in incognito tab.
+     * @param {Boolean} request.extractCookies - Extract cookies after targetUrl
+     *     was reached. If set, the result onject will contain a cookies array.
+     * @returns {Promise.<Object>} A promise which gets resolved, when the
+     *     request was successfully saved and returns the request, which
+     *     matches the targetUrl.
+     */
+    self.send = async function (request) {
+        if (request.incognito) {
+            await ensureIncognitoAccess();
+        }
+
+        return await sendRequest(request);
     };
 })();
