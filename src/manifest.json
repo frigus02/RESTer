@@ -16,6 +16,9 @@
         "webRequestBlocking",
         "<all_urls>"
     ],
+    "optional_permissions": [
+        "cookies"
+    ],
     "background": {
         "scripts": [
             "background/lib/utils/event-listeners.js",

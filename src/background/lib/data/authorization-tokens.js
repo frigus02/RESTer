@@ -18,6 +18,8 @@
      * @property {String} token - The actual access token.
      * @property {Date} expirationDate - An optional expiration date. The token
      * will automatically be removed from database, when it is expired.
+     * @property {Number} configurationId - If the token was created from a
+     * authorization provider configuration, the property will be its id.
      * @property {Number} providerId - The id of the token provider, which
      * generated this token.
      */

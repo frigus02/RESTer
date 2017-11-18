@@ -320,7 +320,7 @@
                         },
                         requestAuthorization: {
                             type: String,
-                            computed: '_computeHeader(request.headers.*, \'Authorization\')'
+                            computed: '_computeRequestAuthorization(request.headers.*)'
                         },
                         response: {
                             type: Object,
@@ -462,6 +462,26 @@
                     return isSending && this._requestAbortController;
                 }
 
+                _computeRequestAuthorization(headers) {
+                    const authorization = this._computeHeader(headers, 'Authorization');
+                    if (authorization) {
+                        return {
+                            scheme: authorization.substr(0, authorization.indexOf(' ')),
+                            token: authorization.substr(authorization.indexOf(' ') + 1)
+                        };
+                    }
+
+                    const cookie = this._computeHeader(headers, 'Cookie');
+                    if (cookie) {
+                        return {
+                            scheme: 'Cookie',
+                            token: cookie
+                        };
+                    }
+
+                    return null;
+                }
+
                 _computeHeader(headers, headerName) {
                     if (!headers || !headers.base) {
                         return;
@@ -528,7 +548,17 @@
                 }
 
                 _onRequestAuthorizationChanged(e) {
-                    this._setRequestHeader('Authorization', e.detail.value);
+                    const auth = e.detail.value;
+                    if (!auth) {
+                        this._setRequestHeader('Authorization', null);
+                        this._setRequestHeader('Cookie', null);
+                    } else if (auth.scheme === 'Cookie') {
+                        this._setRequestHeader('Authorization', null);
+                        this._setRequestHeader('Cookie', auth.token);
+                    } else {
+                        this._setRequestHeader('Authorization', `${auth.scheme} ${auth.token}`);
+                        this._setRequestHeader('Cookie', null);
+                    }
                 }
 
                 _setRequestHeader(headerName, value) {

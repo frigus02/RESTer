@@ -10,6 +10,7 @@
 <link rel="import" href="../styles/rester-paper-item-button.html">
 <link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="rester-authorization-provider-basic.html">
+<link rel="import" href="rester-authorization-provider-cookie.html">
 <link rel="import" href="rester-authorization-provider-custom.html">
 <link rel="import" href="rester-authorization-provider-oauth2.html">
 
@@ -53,7 +54,7 @@
                             icon="visibility-off"
                             aria-label="Generate token incognito"
                             on-tap="_generateTokenFromConfigIncognito"
-                            hidden$="[[!_configurationSupportsIncognito(item)]]"></paper-icon-button>
+                            hidden$="[[!item.provider.supportsIncognito]]"></paper-icon-button>
                     <paper-icon-button
                             icon="edit"
                             aria-label="Edit configuration"
@@ -75,6 +76,7 @@
         </div>
 
         <rester-authorization-provider-custom id="providerCustom"></rester-authorization-provider-custom>
+        <rester-authorization-provider-cookie id="providerCookie"></rester-authorization-provider-cookie>
         <rester-authorization-provider-basic id="providerBasic"></rester-authorization-provider-basic>
         <rester-authorization-provider-oauth2 id="providerOAuth2"></rester-authorization-provider-oauth2>
     </template>
@@ -95,7 +97,7 @@
                 static get properties() {
                     return {
                         authorization: {
-                            type: String,
+                            type: Object,
                             notify: true,
                             observer: '_onAuthorizationChanged'
                         },
@@ -122,6 +124,7 @@
 
                     const allProviders = [
                         this.$.providerCustom,
+                        this.$.providerCookie,
                         this.$.providerBasic,
                         this.$.providerOAuth2
                     ];
@@ -154,10 +157,7 @@
 
                     Promise.all(configPromises).then(() => {
                         RESTer.rester.getAuthorizationTokens().then(tokens => {
-                            this._setTokens(tokens.map(token =>
-                                this._prepareTokenForRender(
-                                    token,
-                                    allProviders.find(p => p.providerId === token.providerId))));
+                            this._setTokens(tokens.map(token => this._prepareTokenForRender(token)));
                             this._updateTokenIsUsedFlag();
                         });
                     });
@@ -175,26 +175,26 @@
                     this._generateToken(e.model.item, true);
                 }
 
-                _generateToken(config, incognito) {
+                async _generateToken(config, incognito) {
                     const provider = config.provider;
                     const configuration = RESTer.util.clone(config.configuration);
                     configuration.incognito = !!incognito;
 
-                    provider.generateToken(configuration)
-                        .then(token => {
-                            return RESTer.rester.addAuthorizationToken(token).then(id => {
-                                token.id = id;
-                                token = this._prepareTokenForRender(token, provider);
-                                this.push('tokens', token);
-
-                                this.authorization = `${token.token.scheme} ${token.token.token}`;
-                            });
-                        })
-                        .catch(error => {
-                            if (error) {
-                                this.showError(error);
-                            }
-                        });
+                    try {
+                        const token = await provider.generateToken(configuration);
+                        const id = await RESTer.rester.addAuthorizationToken(token);
+                        token.id = id;
+                        const renderToken = this._prepareTokenForRender(token);
+                        this.push('tokens', renderToken);
+                        this.authorization = {
+                            scheme: token.scheme,
+                            token: token.token
+                        };
+                    } catch (error) {
+                        if (error) {
+                            this.showError(error);
+                        }
+                    }
                 }
 
                 _useToken(e) {
@@ -203,68 +203,74 @@
                     if (token.isUsed) {
                         this.authorization = null;
                     } else {
-                        this.authorization = `${token.token.scheme} ${token.token.token}`;
+                        this.authorization = {
+                            scheme: token.token.scheme,
+                            token: token.token.token
+                        };
                     }
                 }
 
-                _deleteToken(e) {
+                async _deleteToken(e) {
                     const token = e.model.item;
 
                     if (token.isUsed) {
                         this.authorization = null;
                     }
 
-                    RESTer.rester.deleteAuthorizationToken(token.token.id).then(() => {
-                        const index = this.tokens.indexOf(token);
-                        if (index > -1) {
-                            this.splice('tokens', index, 1);
-                        }
-                    });
+                    await RESTer.rester.deleteAuthorizationToken(token.token.id);
+                    const index = this.tokens.indexOf(token);
+                    if (index > -1) {
+                        this.splice('tokens', index, 1);
+                    }
                 }
 
-                _editConfiguration(e) {
+                async _editConfiguration(e) {
                     const config = e.model.item;
                     const provider = config.provider;
                     const configuration = RESTer.util.clone(config.configuration);
 
-                    provider.editConfiguration(configuration).then(newConfig => {
+                    try {
+                        const newConfig = await provider.editConfiguration(configuration);
                         if (newConfig === 'delete') {
-                            RESTer.rester.deleteAuthorizationProviderConfiguration(configuration.id).then(() => {
-                                const index = this.configurations.indexOf(config);
-                                if (index > 0) {
-                                    this.splice('configurations', index, 1);
-                                }
-                            });
+                            await RESTer.rester.deleteAuthorizationProviderConfiguration(configuration.id);
+                            const index = this.configurations.indexOf(config);
+                            if (index > 0) {
+                                this.splice('configurations', index, 1);
+                            }
                         } else {
-                            RESTer.rester.putAuthorizationProviderConfiguration(newConfig).then(() => {
-                                config.configuration = newConfig;
+                            await RESTer.rester.putAuthorizationProviderConfiguration(newConfig);
+                            config.configuration = newConfig;
 
-                                const index = this.configurations.indexOf(config);
-                                this.notifyPath(['configurations', index, 'configuration']);
-                            });
+                            const index = this.configurations.indexOf(config);
+                            this.notifyPath(['configurations', index, 'configuration']);
                         }
-                    }, () => { /* User pressed cancel */ });
+                    } catch (e) {
+                        // User pressed cancel
+                    }
                 }
 
-                _createConfiguration(e) {
+                async _createConfiguration(e) {
                     const provider = e.model.item;
 
-                    provider.createConfiguration().then(config => {
-                        RESTer.rester.putAuthorizationProviderConfiguration(config).then(id => {
-                            config.id = id;
-                            this.push('configurations', {
-                                provider,
-                                configuration: config
-                            });
+                    try {
+                        const config = await provider.createConfiguration();
+                        const id = await RESTer.rester.putAuthorizationProviderConfiguration(config);
+                        config.id = id;
+                        this.push('configurations', {
+                            provider,
+                            configuration: config
                         });
-                    }, () => { /* User pressed cancel */ });
+                    } catch (e) {
+                        // User pressed cancel
+                    }
                 }
 
-                _prepareTokenForRender(token, provider) {
+                _prepareTokenForRender(token) {
+                    const config = this.configurations.find(c => c.configuration.id === token.configurationId);
                     return {
                         token,
-                        configuration: this.configurations.find(c => c.configuration.id === token.configurationId).configuration,
-                        provider,
+                        configuration: config.configuration,
+                        provider: config.provider,
                         expirationDateFormatted: RESTer.format.expirationDate(token.expirationDate),
                         isUsed: false
                     };
@@ -272,7 +278,10 @@
 
                 _updateTokenIsUsedFlag() {
                     this.tokens.forEach((token, i) => {
-                        this.set(['tokens', i, 'isUsed'], this.authorization === `${token.token.scheme} ${token.token.token}`);
+                        this.set(['tokens', i, 'isUsed'],
+                            this.authorization &&
+                            this.authorization.scheme === token.token.scheme &&
+                            this.authorization.token === token.token.token);
                     });
                 }
 
@@ -283,11 +292,6 @@
                     } else {
                         return providerCompare;
                     }
-                }
-
-                _configurationSupportsIncognito(config) {
-                    // Only OAuth 2 supports incognito.
-                    return config.configuration.providerId === 3;
                 }
             }
 
