@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- New "Cookie" authorization: It allows you to easily generate and store cookies for your sites and use for as authentication during the requests.
+
 ### Changed
 - Upper and lower case in header names is now preserved when sending the request. Previously case in all header names was ignored and they were send to the server all lower case.
+- Changed setting "Strip default headers" to "Request Mode". When it's set to "Browser Request" (default), RESTer will not send cookies, too. Previously cookies were always omitted.
 
 ## [3.3.1] - 2017-11-13
 ### Fixed
