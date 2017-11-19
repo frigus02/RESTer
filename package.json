@@ -8,15 +8,14 @@
   "author": "Jan Kühle <jkuehle90@gmail.com> (https://kuehle.me)",
   "repository": "frigus02/RESTer",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower install && gulp updatelibrarylinks",
     "pretest": "node tools/scripts/pre-test.js",
     "test": "wct",
     "posttest": "node tools/scripts/post-test.js",
     "start": "gulp dev",
     "build": "gulp build",
     "lint": "gulp lint",
-    "package": "gulp package",
-    "updatelibrarylinks": "gulp updatelibrarylinks"
+    "package": "gulp package"
   },
   "devDependencies": {
     "addons-linter": "0.27.1",

@@ -72,9 +72,9 @@ https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/v2.0.1/iron-a11y
 iron-a11y-keys v2.0.0
 https://github.com/PolymerElements/iron-a11y-keys/blob/v2.0.0/iron-a11y-keys.html
 
-iron-ajax v2.0.5
-https://github.com/PolymerElements/iron-ajax/blob/v2.0.5/iron-ajax.html
-https://github.com/PolymerElements/iron-ajax/blob/v2.0.5/iron-request.html
+iron-ajax v2.0.6
+https://github.com/PolymerElements/iron-ajax/blob/v2.0.6/iron-ajax.html
+https://github.com/PolymerElements/iron-ajax/blob/v2.0.6/iron-request.html
 
 iron-autogrow-textarea v2.1.0
 https://github.com/PolymerElements/iron-autogrow-textarea/blob/v2.1.0/iron-autogrow-textarea.html
@@ -148,11 +148,11 @@ https://github.com/PolymerElements/iron-resizable-behavior/blob/v2.0.1/iron-resi
 iron-scroll-target-behavior v2.0.0
 https://github.com/PolymerElements/iron-scroll-target-behavior/blob/v2.0.0/iron-scroll-target-behavior.html
 
-iron-selector v2.0.0
-https://github.com/PolymerElements/iron-selector/blob/v2.0.0/iron-multi-selectable.html
-https://github.com/PolymerElements/iron-selector/blob/v2.0.0/iron-selectable.html
-https://github.com/PolymerElements/iron-selector/blob/v2.0.0/iron-selection.html
-https://github.com/PolymerElements/iron-selector/blob/v2.0.0/iron-selector.html
+iron-selector v2.0.1
+https://github.com/PolymerElements/iron-selector/blob/v2.0.1/iron-multi-selectable.html
+https://github.com/PolymerElements/iron-selector/blob/v2.0.1/iron-selectable.html
+https://github.com/PolymerElements/iron-selector/blob/v2.0.1/iron-selection.html
+https://github.com/PolymerElements/iron-selector/blob/v2.0.1/iron-selector.html
 
 iron-validatable-behavior v2.0.0
 https://github.com/PolymerElements/iron-validatable-behavior/blob/v2.0.0/iron-validatable-behavior.html
@@ -240,8 +240,8 @@ https://github.com/PolymerElements/paper-radio-group/blob/v2.0.0/paper-radio-gro
 paper-ripple v2.0.1
 https://github.com/PolymerElements/paper-ripple/blob/v2.0.1/paper-ripple.html
 
-paper-slider v2.0.3
-https://github.com/PolymerElements/paper-slider/blob/v2.0.3/paper-slider.html
+paper-slider v2.0.4
+https://github.com/PolymerElements/paper-slider/blob/v2.0.4/paper-slider.html
 
 paper-spinner v2.0.0
 https://github.com/PolymerElements/paper-spinner/blob/v2.0.0/paper-spinner-behavior.html
@@ -310,11 +310,11 @@ https://github.com/Polymer/polymer/blob/v2.2.0/lib/utils/unresolved.html
 https://github.com/Polymer/polymer/blob/v2.2.0/polymer-element.html
 https://github.com/Polymer/polymer/blob/v2.2.0/polymer.html
 
-shadycss v1.0.6
-https://github.com/webcomponents/shadycss/blob/v1.0.6/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.0.6/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.0.6/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.0.6/custom-style-interface.min.js
+shadycss v1.1.0
+https://github.com/webcomponents/shadycss/blob/v1.1.0/apply-shim.html
+https://github.com/webcomponents/shadycss/blob/v1.1.0/apply-shim.min.js
+https://github.com/webcomponents/shadycss/blob/v1.1.0/custom-style-interface.html
+https://github.com/webcomponents/shadycss/blob/v1.1.0/custom-style-interface.min.js
 
 string_score v0.1.22
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.min.js
