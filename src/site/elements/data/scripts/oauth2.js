@@ -253,22 +253,8 @@
         });
     }
 
-    function prepareConfig(config) {
-        if (config.enableVariables) {
-            config = RESTer.variables.replace(config);
-
-            const envId = RESTer.rester.settings.activeEnvironment;
-            return RESTer.rester.getEnvironment(envId, ['name']).then(env => {
-                config.env = env;
-                return config;
-            });
-        } else {
-            return Promise.resolve(config);
-        }
-    }
-
     self.generateToken = function (config, credentials) {
-        return prepareConfig(config).then(config => {
+        return RESTer.util.prepareConfigWithEnvVariables(config).then(config => {
             if (config.flow === 'code') {
                 return executeCodeFlow(config);
             } else if (config.flow === 'implicit') {

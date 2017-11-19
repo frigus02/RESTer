@@ -106,6 +106,8 @@
                 async generateToken(config) {
                     await ensureCookiesPermission();
 
+                    config = await RESTer.util.prepareConfigWithEnvVariables(config);
+
                     const response = await RESTer.browserRequest.send({
                         url: config.startUrl,
                         targetUrl: config.endUrl,
@@ -124,6 +126,10 @@
                         configurationId: config.id,
                         providerId: 3
                     };
+
+                    if (config.enableVariables) {
+                        token.title += ` (Environment: ${config.env.name})`;
+                    }
 
                     return token;
                 }

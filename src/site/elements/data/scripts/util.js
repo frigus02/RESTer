@@ -163,4 +163,24 @@
 
         return groups;
     };
+
+    /**
+     * Prepares an authorization provider config by replacing placeholders
+     * with environment variables and adding the environment to the
+     * `env` property of the config.
+     *
+     * This will happen, only if `enableVariables` in the config is set to
+     * true.
+     */
+    self.prepareConfigWithEnvVariables = async function (config) {
+        if (config.enableVariables) {
+            config = RESTer.variables.replace(config);
+
+            const envId = RESTer.rester.settings.activeEnvironment;
+            const env = await RESTer.rester.getEnvironment(envId, ['name']);
+            config.env = env;
+        }
+
+        return config;
+    };
 })();
