@@ -92,7 +92,28 @@ const additionalManifestEntries = {
             96: 'images/icon96.png'
         },
         browser_action: {
-            default_icon: 'images/icon.svg'
+            default_icon: {
+                16: 'images/icon16.png',
+                24: 'images/icon24.png',
+                32: 'images/icon32.png'
+            },
+            theme_icons: [
+                {
+                    dark: 'images/icon16.png',
+                    light: 'images/icon-light16.png',
+                    size: 16
+                },
+                {
+                    dark: 'images/icon24.png',
+                    light: 'images/icon-light24.png',
+                    size: 24
+                },
+                {
+                    dark: 'images/icon32.png',
+                    light: 'images/icon-light32.png',
+                    size: 32
+                }
+            ]
         }
     },
     chrome: {
@@ -246,8 +267,8 @@ function packageFirefox() {
 
         // But only the used images
         '!' + basePaths.build + 'images/**',
-        basePaths.build + 'images/icon{48,96}.png',
-        basePaths.build + 'images/icon.svg'
+        basePaths.build + 'images/icon{16,24,32,48,96}.png',
+        basePaths.build + 'images/icon-light{16,24,32,48,96}.png'
     ];
 
     return gulp.src(paths, {base: basePaths.build})

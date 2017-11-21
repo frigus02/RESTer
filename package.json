@@ -43,7 +43,8 @@
     "polymer-build": "2.1.1",
     "polymer-linter": "2.1.0",
     "through2": "2.0.3",
-    "web-component-tester": "6.4.0"
+    "web-component-tester": "6.4.0",
+    "xml2js": "^0.4.19"
   },
   "engines": {
     "node": ">=8.0.0",

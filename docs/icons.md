@@ -2,6 +2,8 @@
 
 ## Firefox
 
+### Sizes
+
 As the [documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/icons) states, Firefox recommends at least an icon in 48x48. For higher resoltion displays, you should provide double-sized versions of all your icons though. So we use these sizes:
 
 *   48x48
@@ -16,13 +18,41 @@ This results in:
 }
 ```
 
-For the browser action, Firefox allows to use an SVG icon ([documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/browser_action#Choosing_icon_sizes)). This is easily the best option, so we use it. This results in:
+For the browser action, Firefox allows to use an SVG icon ([documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/browser_action#Choosing_icon_sizes)). This would be the best option. However Firefox also supports `theme_icons`, which let you specify light icons for dark themes. Here you can only specify fixed sized PNGs. Theme matching icons are more important to me, so we opt for PNGs and make use of the `theme_icons`:
 
 ```json
 "browser_action": {
-    "default_icon": "images/icon.svg"
+    "default_icon": {
+        "16": "images/icon16.png",
+        "24": "images/icon24.png",
+        "32": "images/icon32.png"
+    },
+    "theme_icons": [
+        {
+            "dark": "images/icon16.png",
+            "light": "images/icon-light16.png",
+            "size": 16
+        },
+        {
+            "dark": "images/icon24.png",
+            "light": "images/icon-light24.png",
+            "size": 24
+        },
+        {
+            "dark": "images/icon32.png",
+            "light": "images/icon-light32.png",
+            "size": 32
+        }
+    ]
 }
 ```
+
+### Color
+
+Firefox defines icon colors in the [Photon Design System](http://design.firefox.com/photon/visuals/color.html#icons-and-other-elements). You should use:
+
+*   Grey 90 (#0c0c0d) fill with 80% opacity on light background for primary icons.
+*   Grey 10 (#f9f9fa) fill with 80% opacity on dark background for primary icons.
 
 ## Chrome
 

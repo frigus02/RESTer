@@ -43,6 +43,23 @@
             "16": "images/icon-dev16.png",
             "24": "images/icon-dev24.png",
             "32": "images/icon-dev32.png"
-        }
+        },
+        "theme_icons": [
+            {
+                "dark": "images/icon-dev16.png",
+                "light": "images/icon-light-dev16.png",
+                "size": 16
+            },
+            {
+                "dark": "images/icon-dev24.png",
+                "light": "images/icon-light-dev24.png",
+                "size": 24
+            },
+            {
+                "dark": "images/icon-dev32.png",
+                "light": "images/icon-light-dev32.png",
+                "size": 32
+            }
+        ]
     }
 }
