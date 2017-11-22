@@ -24,101 +24,135 @@
                 ]
             };
 
-            test('providedValues contains aggregated values from all providers', function () {
-                expect({}).to.deep.equal(RESTer.variables.providedValues);
+            suite('providedValues', function () {
+                test('contains aggregated values from all providers', function () {
+                    expect({}).to.deep.equal(RESTer.variables.providedValues);
 
-                RESTer.variables.providers.env.values = {
-                    host: 'example.com',
-                    port: 443
-                };
-                RESTer.variables.providers.env.fireEvent('valuesChanged', RESTer.variables.providers.env.values);
+                    RESTer.variables.providers.env.values = {
+                        host: 'example.com',
+                        port: 443
+                    };
+                    RESTer.variables.providers.env.fireEvent('valuesChanged', RESTer.variables.providers.env.values);
 
-                expect(Object.keys(RESTer.variables.providedValues).length).to.equal(2);
-                expect(RESTer.variables.providedValues['$env.host']).to.equal('example.com');
-                expect(RESTer.variables.providedValues['$env.port']).to.equal(443);
-            });
-
-            test('extract aggregates placeholders from given object', function () {
-                const variables = RESTer.variables.extract(fakeObject);
-
-                expect(variables.length).to.equal(3);
-                expect(variables).to.deep.equal([
-                    '$env.host',
-                    'id',
-                    'token'
-                ]);
-            });
-
-            test('replace replaces all variables with their values', function () {
-                RESTer.variables.providedValues = {
-                    '$env.host': 'example.com'
-                };
-
-                const values = {
-                    id: 12
-                };
-                const usedValues = {};
-                const newObject = RESTer.variables.replace(fakeObject, values, usedValues);
-
-                expect(newObject).to.deep.equal({
-                    title: 'Post by ID',
-                    url: 'https://example.com/api/posts/12',
-                    headers: [
-                        {
-                            name: 'Authorization',
-                            value: 'Bearer {token}'
-                        }
-                    ]
-                });
-                expect(usedValues).to.deep.equal({
-                    '$env.host': 'example.com',
-                    'id': 12
+                    expect(Object.keys(RESTer.variables.providedValues).length).to.equal(2);
+                    expect(RESTer.variables.providedValues['$env.host']).to.equal('example.com');
+                    expect(RESTer.variables.providedValues['$env.port']).to.equal(443);
                 });
             });
 
-            test('replace prefers provided values over local values', function () {
-                RESTer.variables.providedValues = {
-                    '$env.host': 'example.com'
-                };
+            suite('extract', function () {
+                test('aggregates placeholders from given object', function () {
+                    const variables = RESTer.variables.extract(fakeObject);
 
-                const values = {
-                    '$env.host': 'mycoolsite.com',
-                    id: 12
-                };
-                const newObject = RESTer.variables.replace(fakeObject, values);
-
-                expect(newObject).to.deep.equal({
-                    title: 'Post by ID',
-                    url: 'https://example.com/api/posts/12',
-                    headers: [
-                        {
-                            name: 'Authorization',
-                            value: 'Bearer {token}'
-                        }
-                    ]
+                    expect(variables.length).to.equal(3);
+                    expect(variables).to.deep.equal([
+                        '$env.host',
+                        'id',
+                        'token'
+                    ]);
                 });
             });
 
-            test('replaceWithoutProvidedValues does not use provided values', function () {
-                RESTer.variables.providedValues = {
-                    '$env.host': 'example.com'
-                };
+            suite('replace', function () {
+                test('replaces all variables with their values', function () {
+                    RESTer.variables.providedValues = {
+                        '$env.host': 'example.com'
+                    };
 
-                const values = {
-                    '$env.host': 'mycoolsite.com',
-                    id: 12
-                };
-                const newObject = RESTer.variables.replaceWithoutProvidedValues(fakeObject, values);
+                    const values = {
+                        id: 12
+                    };
+                    const usedValues = {};
+                    const newObject = RESTer.variables.replace(fakeObject, values, usedValues);
 
-                expect(newObject).to.deep.equal({
-                    title: 'Post by ID',
-                    url: 'https://mycoolsite.com/api/posts/12',
-                    headers: [
-                        {
-                            name: 'Authorization',
-                            value: 'Bearer {token}'
-                        }
-                    ]
+                    expect(newObject).to.deep.equal({
+                        title: 'Post by ID',
+                        url: 'https://example.com/api/posts/12',
+                        headers: [
+                            {
+                                name: 'Authorization',
+                                value: 'Bearer {token}'
+                            }
+                        ]
+                    });
+                    expect(usedValues).to.deep.equal({
+                        '$env.host': 'example.com',
+                        'id': 12
+                    });
+                });
+
+                test('prefers provided values over local values', function () {
+                    RESTer.variables.providedValues = {
+                        '$env.host': 'example.com'
+                    };
+
+                    const values = {
+                        '$env.host': 'mycoolsite.com',
+                        id: 12
+                    };
+                    const newObject = RESTer.variables.replace(fakeObject, values);
+
+                    expect(newObject).to.deep.equal({
+                        title: 'Post by ID',
+                        url: 'https://example.com/api/posts/12',
+                        headers: [
+                            {
+                                name: 'Authorization',
+                                value: 'Bearer {token}'
+                            }
+                        ]
+                    });
+                });
+
+                test('leaves variables without or with empty value untouched', function () {
+                    RESTer.variables.providedValues = {
+                        '$env.host': 'example.com'
+                    };
+
+                    const values = {
+                        id: ''
+                    };
+                    const usedValues = {};
+                    const newObject = RESTer.variables.replace(fakeObject, values, usedValues);
+
+                    expect(newObject).to.deep.equal({
+                        title: 'Post by ID',
+                        url: 'https://example.com/api/posts/{id}',
+                        headers: [
+                            {
+                                name: 'Authorization',
+                                value: 'Bearer {token}'
+                            }
+                        ]
+                    });
+                    expect(usedValues).to.deep.equal({
+                        '$env.host': 'example.com'
+                    });
+                });
+            });
+
+            suite('replaceWithoutProvidedValues', function () {
+                test('does not use provided values', function () {
+                    RESTer.variables.providedValues = {
+                        '$env.host': 'example.com'
+                    };
+
+                    const values = {
+                        '$env.host': 'mycoolsite.com',
+                        id: 12
+                    };
+                    const newObject = RESTer.variables.replaceWithoutProvidedValues(fakeObject, values);
+
+                    expect(newObject).to.deep.equal({
+                        title: 'Post by ID',
+                        url: 'https://mycoolsite.com/api/posts/12',
+                        headers: [
+                            {
+                                name: 'Authorization',
+                                value: 'Bearer {token}'
+                            }
+                        ]
+                    });
                 });
             });
         });

@@ -59,7 +59,7 @@
                 let varName = match.substr(1, match.length - 2),
                     value = allValues[varName];
 
-                if (typeof value !== 'undefined') {
+                if (value) {
                     usedValues[varName] = value;
                     return value;
                 } else {
