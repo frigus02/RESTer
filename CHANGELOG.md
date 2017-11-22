@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.5.0] - 2017-11-22
+### Added
+- Light toolbar icon for dark Firefox theme.
+
 ### Fixed
 - Variables without value no longer remove the placeholder from the request.
 
@@ -325,7 +330,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.4.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.5.0...HEAD
+[3.5.0]: https://github.com/frigus02/RESTer/compare/3.4.0...3.5.0
 [3.4.0]: https://github.com/frigus02/RESTer/compare/3.3.1...3.4.0
 [3.3.1]: https://github.com/frigus02/RESTer/compare/3.3.0...3.3.1
 [3.3.0]: https://github.com/frigus02/RESTer/compare/3.2.1...3.3.0
