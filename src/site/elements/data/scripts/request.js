@@ -4,12 +4,18 @@
     const self = RESTer.register('request');
 
     const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
-    const headerCommand = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8`;
+    const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
     const requiredDefaultHeaders = {
         'host': /.*/i,
         'content-length': /.*/i,
         'content-type': /^multipart\/form-data.*/i
     };
+
+    // Maps from browser requestId to RESTer requestId.
+    const requestIds = new Map();
+
+    // Maps from RESTer requestId to original response headers.
+    const originalResponseHeaders = new Map();
 
     chrome.tabs.getCurrent(tab => {
         setupHeaderInterceptor(tab.id);
@@ -17,21 +23,31 @@
 
     function setupHeaderInterceptor(currentTabId) {
         function onBeforeSendHeaders(details) {
+            const commands = details.requestHeaders
+                .filter(h => h.name.toLowerCase().startsWith(headerCommandPrefix))
+                .map(h => ({
+                    name: h.name.substr(headerCommandPrefix.length),
+                    value: h.value
+                }));
+            const removeDefaultHeaders = commands.some(c => c.name === 'stripdefaultheaders');
+            const resterRequestId = commands.find(c => c.name === 'requestid').value;
+
             const newHeaders = [];
             const indexesToRemove = [];
-            const removeDefaultHeaders = details.requestHeaders.some(h => h.name.toLowerCase() === headerCommand && h.value === 'stripdefaultheaders');
             for (let i = 0; i < details.requestHeaders.length; i++) {
                 const header = details.requestHeaders[i];
                 const lowerCaseName = header.name.toLowerCase();
                 if (lowerCaseName.startsWith(headerPrefix)) {
                     newHeaders.push(JSON.parse(header.value));
                     indexesToRemove.push(i);
-                } else if (lowerCaseName === headerCommand) {
+                } else if (lowerCaseName.startsWith(headerCommandPrefix)) {
                     indexesToRemove.push(i);
                 } else if (removeDefaultHeaders && !(requiredDefaultHeaders[lowerCaseName] && requiredDefaultHeaders[lowerCaseName].test(header.value))) {
                     indexesToRemove.push(i);
                 }
             }
+
+            requestIds.set(details.requestId, resterRequestId);
 
             indexesToRemove.reverse();
             for (let index of indexesToRemove) {
@@ -54,6 +70,7 @@
         }, ['blocking', 'requestHeaders']);
 
         function onHeadersReceived(details) {
+            const originalHeaders = [];
             const newHeaders = [
                 {
                     name: 'timing-allow-origin',
@@ -69,15 +86,16 @@
                 const header = details.responseHeaders[i];
                 const lowerCaseName = header.name.toLowerCase();
 
-                newHeaders.push({
-                    name: headerPrefix + header.name,
-                    value: JSON.stringify(header)
-                });
+                originalHeaders.push(header);
 
                 if (lowerCaseName === 'timing-allow-origin' || lowerCaseName === 'access-control-expose-headers') {
                     indexesToRemove.push(i);
                 }
             }
+
+            const resterRequestId = requestIds.get(details.requestId);
+            requestIds.delete(details.requestId);
+            originalResponseHeaders.set(resterRequestId, originalHeaders);
 
             indexesToRemove.reverse();
             for (let index of indexesToRemove) {
@@ -146,6 +164,8 @@
      * was successfully saved and returns the request response.
      */
     self.send = async function (request) {
+        const requestId = String(Math.random());
+
         // Special handling for multipart requests.
         const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
         const contentType = request.headers[contentTypeIndex];
@@ -158,8 +178,9 @@
 
         // Create fetch request options.
         const headers = new Headers();
+        headers.append(headerCommandPrefix + 'requestid', requestId);
         if (request.stripDefaultHeaders) {
-            headers.append(headerCommand, 'stripdefaultheaders');
+            headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
         }
 
         for (const header of requestHeaders) {
@@ -190,13 +211,8 @@
         const fetchResponse = await fetch(request.url, init);
         response.status = fetchResponse.status;
         response.statusText = fetchResponse.statusText;
-        response.headers = [];
-
-        for (const pair of fetchResponse.headers) {
-            if (pair[0].startsWith(headerPrefix)) {
-                response.headers.push(JSON.parse(pair[1]));
-            }
-        }
+        response.headers = [...originalResponseHeaders.get(requestId)];
+        originalResponseHeaders.delete(requestId);
 
         const fetchBody = await fetchResponse.text();
         response.timeEnd = new Date();
