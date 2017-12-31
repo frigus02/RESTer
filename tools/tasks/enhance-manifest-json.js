@@ -1,6 +1,6 @@
 'use strict';
 
-const gutil = require('gulp-util');
+const PluginError = require('plugin-error');
 const through = require('through2');
 
 
@@ -11,7 +11,7 @@ module.exports = function (additionalKeys, validateVersion) {
         }
 
         if (file.isStream()) {
-            return Promise.reject(new gutil.PluginError('enhance-manifest-json', 'Streaming not supported'));
+            return Promise.reject(new PluginError('enhance-manifest-json', 'Streaming not supported'));
         }
 
         if (file.relative !== 'manifest.json') {
@@ -25,7 +25,7 @@ module.exports = function (additionalKeys, validateVersion) {
 
         // Validate version
         if (validateVersion && manifest.version !== validateVersion) {
-            return Promise.reject(new gutil.PluginError('enhance-manifest-json', `Version in manifest (${manifest.version}) does not match validated version (${validateVersion}).`));
+            return Promise.reject(new PluginError('enhance-manifest-json', `Version in manifest (${manifest.version}) does not match validated version (${validateVersion}).`));
         }
 
         file.contents = new Buffer(JSON.stringify(manifest, null, 4));

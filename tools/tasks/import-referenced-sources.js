@@ -5,7 +5,8 @@ const { promisify } = require('util');
 const readFile = promisify(fs.readFile);
 const path = require('path');
 
-const gutil = require('gulp-util');
+const PluginError = require('plugin-error');
+const File = require('vinyl');
 const parse5 = require('parse5');
 const through = require('through2');
 
@@ -19,7 +20,7 @@ module.exports = function () {
         }
 
         if (file.isStream()) {
-            return Promise.reject(new gutil.PluginError('import-referenced-sources', 'Streaming not supported'));
+            return Promise.reject(new PluginError('import-referenced-sources', 'Streaming not supported'));
         }
 
         const fragment = parse5.parseFragment(file.contents.toString());
@@ -46,7 +47,7 @@ module.exports = function () {
             }
 
             return readFile(absolutePath).then(contents => {
-                const newFile = new gutil.File({
+                const newFile = new File({
                     cwd: file.cwd,
                     base: file.base,
                     path: absolutePath,

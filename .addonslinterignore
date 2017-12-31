@@ -35,4 +35,4 @@ site/bower_components/webcomponentsjs/webcomponents-loader.js UNSAFE_VAR_ASSIGNM
 site/bower_components/webcomponentsjs/webcomponents-sd-ce.js UNSAFE_VAR_ASSIGNMENT
 
 # Known libraries
-site/bower_components/DOMPurify/dist/purify.min.js KNOWN_LIBRARY
+site/bower_components/DOMPurify/dist/purify.min.js UNSAFE_VAR_ASSIGNMENT

@@ -8,7 +8,6 @@ const eslint = require('gulp-eslint');
 const filter = require('gulp-filter');
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const gutil = require('gulp-util');
 const htmlMinifier = require('gulp-html-minifier');
 const mergeStream = require('merge-stream');
 const polymerAnalyzer = require('polymer-analyzer');
@@ -196,15 +195,17 @@ function crispAppIntoSingleFile() {
 }
 
 function watch() {
+    /* eslint-disable no-console */
+
     function logFileChangeEvent(path) {
-        gutil.log('Detected file change:', path);
+        console.log('Detected file change:', path);
     }
 
     gulp.watch(pathsToCopy, copy).on('change', logFileChangeEvent);
     gulp.watch('src/site/elements/**/*.{html,js}').on('change', async path => {
         logFileChangeEvent(path);
         await streamToPromise(crispElementIntoMultipleFiles(path));
-        gutil.log(' -- crisping done');
+        console.log(' -- crisping done');
     });
 }
 
