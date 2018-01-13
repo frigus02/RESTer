@@ -18,7 +18,7 @@
     "package": "gulp package"
   },
   "devDependencies": {
-    "addons-linter": "0.31.0",
+    "addons-linter": "0.32.0",
     "babel-eslint": "8.1.2",
     "bower": "1.8.2",
     "chalk": "2.3.0",

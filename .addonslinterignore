@@ -11,11 +11,6 @@
 background/lib/settings.js STORAGE_LOCAL
 background/lib/data/utils/data-store.js STORAGE_LOCAL
 
-# These tests don't work on windows currently
-# https://github.com/mozilla/addons-linter/issues/1431
-manifest.json MANIFEST_ICON_NOT_FOUND
-manifest.json MANIFEST_BACKGROUND_FILE_NOT_FOUND
-
 # HTML is sanitized with DOMPurify, so it's save to use with innerHTML.
 site/elements/controls/rester-dom-purify-frame.js UNSAFE_VAR_ASSIGNMENT
 
