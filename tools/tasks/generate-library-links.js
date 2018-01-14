@@ -23,11 +23,14 @@ function generateUsedLibraryText(usedBowerFiles) {
         .map(lib => {
             const files = bowerLibraries[lib];
             const bowerJson = require(`../../src/site/bower_components/${lib}/.bower.json`);
+            const version = bowerJson._resolution.type === 'version'
+                ? bowerJson._resolution.tag
+                : bowerJson._resolution.commit;
 
             return {
                 name: lib,
-                version: bowerJson._resolution.tag,
-                files: files.map(file => `${bowerJson._source.replace(/\.git$/, '')}/blob/${bowerJson._resolution.tag}/${file}`)
+                version: version,
+                files: files.map(file => `${bowerJson._source.replace(/\.git$/, '')}/blob/${version}/${file}`)
             };
         })
         .map(lib => `${lib.name} ${lib.version}\n${lib.files.join('\n')}`)
