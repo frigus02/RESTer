@@ -1,12 +1,13 @@
 'use strict';
 
-const path = require('path');
+const fs = require('fs');
+const { promisify } = require('util');
 
-const through = require('through2');
+const writeFile = promisify(fs.writeFile);
 
 
-function generateUsedLibraryText(usedBowerFiles) {
-    const bowerLibraries = usedBowerFiles
+function generateUsedLibraryText(usedFiles) {
+    const bowerLibraries = usedFiles
         .sort()
         .filter((path, index, self) => self.indexOf(path) === index)
         .filter(path => path.startsWith('src/site/bower_components/'))
@@ -39,37 +40,42 @@ function generateUsedLibraryText(usedBowerFiles) {
     return text;
 }
 
+function log() {
+    console.log('[GenerateLibraryLinksPlugin]', ...arguments);
+}
 
 /**
  * Collects all file names and generates links to all used libraries
  * (bower components).
  *
- * @param {string} fileName - Name of the generated file.
  * @param {object} options
+ * @param {string} options.filename - Name of the generated file.
  * @param {string[]} options.additionalFiles - More file names to use
  *      in the generated library links.
  * @param {string} options.header - Content at start of generated file.
  * @param {string} options.footer - Content at end of generated file.
  */
-module.exports = function (fileName, options) {
-    const names = [...options.additionalFiles];
-    let latestFile;
-
-    function collectFileNames(file, enc, cb) {
-        names.push(file.relative.replace(/\\/g, '/'));
-        latestFile = file;
-        cb();
+class GenerateLibraryLinksPlugin {
+    constructor(options) {
+        this.options = options;
     }
 
-    function generateLibraryLinks(cb) {
-        const text = generateUsedLibraryText(names);
+    apply(compiler) {
+        const options = this.options;
+        compiler.plugin('emit', function (compilation, callback) {
+            const usedFiles = [...options.additionalFiles];
+            compilation.modules.forEach(function (module) {
+                usedFiles.push(...module.fileDependencies
+                    .map(filename => filename.replace(/\\/g, '/'))
+                    .map(filename => filename.substr(filename.indexOf('/src/') + 1)));
+            });
 
-        const file = latestFile.clone({contents: false});
-        file.path = path.join(latestFile.base, fileName);
-        file.contents = Buffer.from(options.header + text + options.footer);
-        this.push(file);
-        cb();
+            const text = generateUsedLibraryText(usedFiles);
+            const fileContent = options.header + text + options.footer;
+
+            writeFile(options.filename, fileContent, 'utf8').then(() => callback());
+        });
     }
+}
 
-    return through.obj(collectFileNames, generateLibraryLinks);
-};
+module.exports = GenerateLibraryLinksPlugin;

@@ -9,7 +9,6 @@ const readline = require('readline');
 const addonsLinter = require('addons-linter');
 const chalk = require('chalk');
 const logSymbols = require('log-symbols');
-const plur = require('plur');
 
 const ignoreFileName = '.addonslinterignore';
 
@@ -171,15 +170,15 @@ function reportResult(result) {
         console.log();
 
         if (result.summary.errors > 0) {
-            console.log(' ' + logSymbols.error, ' ' + result.summary.errors + ' ' + plur('error', result.summary.errors));
+            console.log(' ' + logSymbols.error, ' ' + result.summary.errors + ' error(s)');
         }
 
         if (result.summary.warnings > 0) {
-            console.log(' ' + logSymbols.warning, ' ' + result.summary.warnings + ' ' + plur('warning', result.summary.warnings));
+            console.log(' ' + logSymbols.warning, ' ' + result.summary.warnings + ' warning(s)');
         }
 
         if (result.summary.notices > 0) {
-            console.log(' ' + logSymbols.info, ' ' + result.summary.notices + ' ' + plur('notice', result.summary.notices));
+            console.log(' ' + logSymbols.info, ' ' + result.summary.notices + ' notice(s)');
         }
     }
 }
