@@ -1,15 +1,7 @@
 'use strict';
 
-const babelMinify = require("gulp-babel-minify");
-const crisper = require('gulp-crisper');
-const cssSlam = require('css-slam').gulp;
 const del = require('del');
 const gulp = require('gulp');
-const gulpif = require('gulp-if');
-const htmlMinifier = require('gulp-html-minifier');
-const mergeStream = require('merge-stream');
-const polymerBuild = require('polymer-build');
-const rename = require('gulp-rename');
 const zip = require('gulp-zip');
 
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
@@ -125,52 +117,6 @@ const additionalManifestEntries = {
 };
 
 
-// Build
-
-async function cleanBuild() {
-    await del(basePaths.build);
-}
-
-function copy() {
-    return gulp.src(pathsToCopy, {base: basePaths.src})
-        .pipe(gulp.dest(basePaths.build));
-}
-
-function crispAppIntoSingleFile() {
-    const project = new polymerBuild.PolymerProject({
-        root: basePaths.src + 'site/',
-        entrypoint: 'index.html',
-        shell: 'elements/rester-app.html'
-    });
-
-    const htmlSplitter = new polymerBuild.HtmlSplitter();
-    return mergeStream(project.sources(), project.dependencies())
-        .pipe(htmlSplitter.split())
-        .pipe(gulpif(/\.js$/, babelMinify({
-            mangle: {
-                keepClassName: true
-            }
-        })))
-        .pipe(gulpif(/\.html$/, cssSlam()))
-        .pipe(gulpif(/\.html$/, htmlMinifier({
-            collapseWhitespace: true,
-            removeComments: true
-        })))
-        .pipe(htmlSplitter.rejoin())
-        .pipe(project.bundler())
-        .pipe(crisper({
-            // Firefox on linux needs a path starting with '/'; otherwise
-            // it rejects loading the script from within a polyfilled HTML
-            // import.
-            jsFileName: '/site/elements/rester-app.js'
-        }))
-        .pipe(rename(path => {
-            path.dirname = path.dirname.substr('src/'.length);
-        }))
-        .pipe(gulp.dest(basePaths.build));
-}
-
-
 // Package
 
 async function cleanPackage() {
@@ -231,10 +177,7 @@ function updateLibraryLinks() {
 }
 
 
-const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
-
 const buildPackage = gulp.series(build, cleanPackage, packageChrome, packageFirefox);
 
-gulp.task('build', build);
 gulp.task('package', buildPackage);
 gulp.task('updatelibrarylinks', updateLibraryLinks);

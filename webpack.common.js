@@ -70,6 +70,5 @@ module.exports = {
                 from: 'bower.json'
             }
         ])
-    ],
-    devtool: 'source-map'
+    ]
 };
