@@ -1,13 +1,9 @@
 'use strict';
 
-const del = require('del');
 const gulp = require('gulp');
-const zip = require('gulp-zip');
 
-const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const generateLibraryLinks = require('./tools/tasks/generate-library-links');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
-const packageJson = require('./package.json');
 
 
 const basePaths = {
@@ -63,98 +59,6 @@ const pathsToCopy = [
     'src/site/index.html',
     'src/manifest.json'
 ];
-const additionalManifestEntries = {
-    firefox: {
-        applications: {
-            gecko: {
-                id: 'rester@kuehle.me',
-                strict_min_version: '55.0'
-            }
-        },
-        icons: {
-            48: 'images/icon48.png',
-            96: 'images/icon96.png'
-        },
-        browser_action: {
-            default_icon: {
-                16: 'images/icon16.png',
-                24: 'images/icon24.png',
-                32: 'images/icon32.png'
-            },
-            theme_icons: [
-                {
-                    dark: 'images/icon16.png',
-                    light: 'images/icon-light16.png',
-                    size: 16
-                },
-                {
-                    dark: 'images/icon24.png',
-                    light: 'images/icon-light24.png',
-                    size: 24
-                },
-                {
-                    dark: 'images/icon32.png',
-                    light: 'images/icon-light32.png',
-                    size: 32
-                }
-            ]
-        }
-    },
-    chrome: {
-        minimum_chrome_version: '60',
-        icons: {
-            48: 'images/icon48.png',
-            128: 'images/icon128.png'
-        },
-        browser_action: {
-            default_icon: {
-                16: 'images/icon16.png',
-                24: 'images/icon24.png',
-                32: 'images/icon32.png'
-            }
-        }
-    }
-};
-
-
-// Package
-
-async function cleanPackage() {
-    await del(basePaths.package);
-}
-
-function packageChrome() {
-    const paths = [
-        // All build files
-        basePaths.build + '**',
-
-        // But only the used images
-        '!' + basePaths.build + 'images/**',
-        basePaths.build + 'images/icon{16,24,32,48,128}.png'
-    ];
-
-    return gulp.src(paths, {base: basePaths.build})
-        .pipe(enhanceManifestJson(additionalManifestEntries.chrome, packageJson.version))
-        .pipe(zip(`chrome-${packageJson.version}.zip`))
-        .pipe(gulp.dest(basePaths.package));
-}
-
-function packageFirefox() {
-    const paths = [
-        // All build files
-        basePaths.build + '**',
-
-        // But only the used images
-        '!' + basePaths.build + 'images/**',
-        basePaths.build + 'images/icon{16,24,32,48,96}.png',
-        basePaths.build + 'images/icon-light{16,24,32,48,96}.png'
-    ];
-
-    return gulp.src(paths, {base: basePaths.build})
-        .pipe(enhanceManifestJson(additionalManifestEntries.firefox, packageJson.version))
-        .pipe(zip(`firefox-${packageJson.version}.zip`))
-        .pipe(gulp.dest(basePaths.package));
-}
 
 
 // Utils
@@ -177,7 +81,4 @@ function updateLibraryLinks() {
 }
 
 
-const buildPackage = gulp.series(build, cleanPackage, packageChrome, packageFirefox);
-
-gulp.task('package', buildPackage);
 gulp.task('updatelibrarylinks', updateLibraryLinks);
