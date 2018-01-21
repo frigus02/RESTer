@@ -184,4 +184,10 @@ function reportResult(result) {
     }
 }
 
-module.exports = lintFirefoxAddon;
+async function main() {
+    await lintFirefoxAddon({
+        addonDir: path.resolve(process.argv[2])
+    });
+}
+
+main().catch(err => console.error(err.stack));

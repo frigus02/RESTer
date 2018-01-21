@@ -4,23 +4,17 @@ const babelMinify = require("gulp-babel-minify");
 const crisper = require('gulp-crisper');
 const cssSlam = require('css-slam').gulp;
 const del = require('del');
-const eslint = require('gulp-eslint');
-const filter = require('gulp-filter');
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const htmlMinifier = require('gulp-html-minifier');
 const mergeStream = require('merge-stream');
-const polymerAnalyzer = require('polymer-analyzer');
 const polymerBuild = require('polymer-build');
-const polymerLinter = require('polymer-linter');
 const rename = require('gulp-rename');
 const zip = require('gulp-zip');
 
 const enhanceManifestJson = require('./tools/tasks/enhance-manifest-json');
 const generateLibraryLinks = require('./tools/tasks/generate-library-links');
 const importReferencedSources = require('./tools/tasks/import-referenced-sources');
-const lintFirefoxAddon = require('./tools/tasks/lint-firefox-addon');
-const streamToPromise = require('./tools/tasks/stream-to-promise');
 const packageJson = require('./package.json');
 
 
@@ -142,23 +136,6 @@ function copy() {
         .pipe(gulp.dest(basePaths.build));
 }
 
-function crispElementIntoMultipleFiles(filePath) {
-    const htmlFilter = filter('**/*.html', {restore: true});
-
-    return gulp.src(filePath, {base: basePaths.src})
-        .pipe(importReferencedSources())
-        .pipe(htmlFilter)
-        .pipe(crisper({
-            scriptInHead: false
-        }))
-        .pipe(htmlFilter.restore)
-        .pipe(gulp.dest(basePaths.build));
-}
-
-function crispAppIntoMultipleFiles() {
-    return crispElementIntoMultipleFiles(basePaths.src + 'site/elements/rester-app.html');
-}
-
 function crispAppIntoSingleFile() {
     const project = new polymerBuild.PolymerProject({
         root: basePaths.src + 'site/',
@@ -191,50 +168,6 @@ function crispAppIntoSingleFile() {
             path.dirname = path.dirname.substr('src/'.length);
         }))
         .pipe(gulp.dest(basePaths.build));
-}
-
-function watch() {
-    /* eslint-disable no-console */
-
-    function logFileChangeEvent(path) {
-        console.log('Detected file change:', path);
-    }
-
-    gulp.watch(pathsToCopy, copy).on('change', logFileChangeEvent);
-    gulp.watch('src/site/elements/**/*.{html,js}').on('change', async path => {
-        logFileChangeEvent(path);
-        await streamToPromise(crispElementIntoMultipleFiles(path));
-        console.log(' -- crisping done');
-    });
-}
-
-
-// Lint
-
-function lintJavaScript() {
-    return gulp.src(basePaths.src + '**/*.{js,html}')
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-}
-
-async function lintWebComponents() {
-    const rules = polymerLinter.registry.getRules(['polymer-2']);
-    const analyzer = new polymerAnalyzer.Analyzer({
-        urlLoader: new polymerAnalyzer.FSUrlLoader(basePaths.src + 'site/')
-    });
-
-    const linter = new polymerLinter.Linter(rules, analyzer);
-    const warnings = await linter.lintPackage();
-
-    const printer = new polymerAnalyzer.WarningPrinter(process.stdout, { verbosity: 'full', color: true });
-    await printer.printWarnings(warnings);
-}
-
-async function lintAddon() {
-    await lintFirefoxAddon({
-        addonDir: basePaths.build
-    });
 }
 
 
@@ -299,15 +232,9 @@ function updateLibraryLinks() {
 
 
 const build = gulp.series(cleanBuild, crispAppIntoSingleFile, copy);
-const buildDev = gulp.series(cleanBuild, crispAppIntoMultipleFiles, copy);
 
-const dev = gulp.series(buildDev, watch);
-const lint = gulp.series(buildDev, lintJavaScript, lintWebComponents, lintAddon);
 const buildPackage = gulp.series(build, cleanPackage, packageChrome, packageFirefox);
 
-gulp.task('default', dev);
-gulp.task('dev', dev);
 gulp.task('build', build);
-gulp.task('lint', lint);
 gulp.task('package', buildPackage);
 gulp.task('updatelibrarylinks', updateLibraryLinks);

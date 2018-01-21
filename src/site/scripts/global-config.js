@@ -7,9 +7,11 @@
     });
 
     document.addEventListener('WebComponentsReady', function () {
-        const scripts = document.querySelectorAll('[data-src]');
-        for (const script of scripts) {
-            script.src = script.dataset.src;
+        const definitions = document.querySelectorAll('[data-script-src]');
+        for (const definition of definitions) {
+            const script = document.createElement('script');
+            script.src = definition.dataset['script-src'];
+            definition.parentNode.insertBefore(script, definition);
         }
     }, { once: true });
 })();

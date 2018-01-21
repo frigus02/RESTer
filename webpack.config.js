@@ -8,7 +8,7 @@ module.exports = {
     context: path.join(__dirname, 'src/site'),
     entry: './index.js',
     output: {
-        filename: 'scripts/bundle-[hash].js',
+        filename: 'scripts/bundle.js',
         path: path.resolve(__dirname, '.build/site')
     },
     resolve: {

@@ -1,1 +1,3 @@
-import './elements/rester-app.html';
+/* eslint-disable */
+
+require('./elements/rester-app.html');
