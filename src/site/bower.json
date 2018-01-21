@@ -7,7 +7,6 @@
     "app-route": "PolymerElements/app-route#2.0.3",
     "DOMPurify": "dompurify#1.0.3",
     "font-roboto": "PolymerElements/font-roboto-local#1.0.1",
-    "html-imports": "webcomponents/html-imports#1.0.0",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#2.0.0",
     "iron-collapse": "PolymerElements/iron-collapse#2.0.0",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#2.0.1",
@@ -49,5 +48,8 @@
   },
   "devDependencies": {
     "web-component-tester": "6.4.1"
+  },
+  "resolutions": {
+    "webcomponentsjs": "b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d"
   }
 }

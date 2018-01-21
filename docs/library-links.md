@@ -63,9 +63,6 @@ https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomon
 https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-ThinItalic.ttf
 https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/roboto.html
 
-html-imports v1.0.0
-https://github.com/webcomponents/html-imports/blob/v1.0.0/html-imports.min.js
-
 iron-a11y-announcer v2.0.0
 https://github.com/PolymerElements/iron-a11y-announcer/blob/v2.0.0/iron-a11y-announcer.html
 
@@ -79,8 +76,8 @@ iron-ajax v2.0.8
 https://github.com/PolymerElements/iron-ajax/blob/v2.0.8/iron-ajax.html
 https://github.com/PolymerElements/iron-ajax/blob/v2.0.8/iron-request.html
 
-iron-autogrow-textarea v2.1.0
-https://github.com/PolymerElements/iron-autogrow-textarea/blob/v2.1.0/iron-autogrow-textarea.html
+iron-autogrow-textarea v2.1.1
+https://github.com/PolymerElements/iron-autogrow-textarea/blob/v2.1.1/iron-autogrow-textarea.html
 
 iron-behaviors v2.0.0
 https://github.com/PolymerElements/iron-behaviors/blob/v2.0.0/iron-button-state.html
