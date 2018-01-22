@@ -45,59 +45,55 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        /**
+         * @polymerElement
+         */
+        class RESTerLintMessages extends Polymer.Element {
+            static get is() {
+                return 'rester-lint-messages';
+            }
 
-            /**
-             * @polymerElement
-             */
-            class RESTerLintMessages extends Polymer.Element {
-                static get is() {
-                    return 'rester-lint-messages';
-                }
-
-                static get properties() {
-                    return {
-                        messages: {
-                            type: Array,
-                            readOnly: true,
-                            value: []
-                        }
-                    };
-                }
-
-                putMessage(id, message) {
-                    const index = this.messages.findIndex(m => m.id === id);
-
-                    message.id = id;
-                    if (index === -1) {
-                        this.push('messages', message);
-                    } else {
-                        this.splice('messages', index, 1, message);
+            static get properties() {
+                return {
+                    messages: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
                     }
-                }
+                };
+            }
 
-                removeMessage(id) {
-                    const index = this.messages.findIndex(m => m.id === id);
-                    if (index > -1) {
-                        this.splice('messages', index, 1);
-                    }
-                }
+            putMessage(id, message) {
+                const index = this.messages.findIndex(m => m.id === id);
 
-                _filterDismissedMessage(message) {
-                    return !message.dismissed;
-                }
-
-                _fixMessage(e) {
-                    e.model.item.fix();
-                }
-
-                _dismissMessage(e) {
-                    this.set(['messages', e.model.index, 'dismissed'], true);
+                message.id = id;
+                if (index === -1) {
+                    this.push('messages', message);
+                } else {
+                    this.splice('messages', index, 1, message);
                 }
             }
 
-            customElements.define(RESTerLintMessages.is, RESTerLintMessages);
-        })();
+            removeMessage(id) {
+                const index = this.messages.findIndex(m => m.id === id);
+                if (index > -1) {
+                    this.splice('messages', index, 1);
+                }
+            }
+
+            _filterDismissedMessage(message) {
+                return !message.dismissed;
+            }
+
+            _fixMessage(e) {
+                e.model.item.fix();
+            }
+
+            _dismissMessage(e) {
+                this.set(['messages', e.model.index, 'dismissed'], true);
+            }
+        }
+
+        customElements.define(RESTerLintMessages.is, RESTerLintMessages);
     </script>
 </dom-module>

@@ -1,67 +1,63 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="../data/rester-data.html">
-
 <dom-module id="rester-authorization-provider-custom">
     <script>
-        (function () {
-            'use strict';
+        import dialogs from '../data/scripts/dialogs.js';
 
-            /**
-             * @polymerElement
-             */
-            class RESTerAuthorizationProviderCustom extends Polymer.Element {
-                static get is() {
-                    return 'rester-authorization-provider-custom';
-                }
-
-                static get properties() {
-                    return {
-                        providerId: {
-                            type: Number,
-                            readOnly: true,
-                            value: 1
-                        },
-                        title: {
-                            type: String,
-                            readOnly: true,
-                            value: 'Custom'
-                        },
-                        needsConfiguration: {
-                            type: Boolean,
-                            readOnly: true,
-                            value: false
-                        },
-                        supportsIncognito: {
-                            type: Boolean,
-                            readOnly: true,
-                            value: false
-                        }
-                    };
-                }
-
-                generateToken() {
-                    const data = {
-                        scheme: '',
-                        token: ''
-                    };
-
-                    return RESTer.dialogs.authProviderCustomGenerateToken.show(data).then(result => {
-                        if (result.reason.confirmed) {
-                            const token = {};
-                            token.providerId = this.providerId;
-                            token.title = `${data.scheme} ${data.token}`;
-                            token.scheme = data.scheme;
-                            token.token = data.token;
-                            return token;
-                        } else {
-                            return Promise.reject();
-                        }
-                    });
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerAuthorizationProviderCustom extends Polymer.Element {
+            static get is() {
+                return 'rester-authorization-provider-custom';
             }
 
-            customElements.define(RESTerAuthorizationProviderCustom.is, RESTerAuthorizationProviderCustom);
-        })();
+            static get properties() {
+                return {
+                    providerId: {
+                        type: Number,
+                        readOnly: true,
+                        value: 1
+                    },
+                    title: {
+                        type: String,
+                        readOnly: true,
+                        value: 'Custom'
+                    },
+                    needsConfiguration: {
+                        type: Boolean,
+                        readOnly: true,
+                        value: false
+                    },
+                    supportsIncognito: {
+                        type: Boolean,
+                        readOnly: true,
+                        value: false
+                    }
+                };
+            }
+
+            generateToken() {
+                const data = {
+                    scheme: '',
+                    token: ''
+                };
+
+                return dialogs.authProviderCustomGenerateToken.show(data).then(result => {
+                    if (result.reason.confirmed) {
+                        const token = {};
+                        token.providerId = this.providerId;
+                        token.title = `${data.scheme} ${data.token}`;
+                        token.scheme = data.scheme;
+                        token.token = data.token;
+                        return token;
+                    } else {
+                        return Promise.reject();
+                    }
+                });
+            }
+        }
+
+        customElements.define(RESTerAuthorizationProviderCustom.is, RESTerAuthorizationProviderCustom);
     </script>
 </dom-module>

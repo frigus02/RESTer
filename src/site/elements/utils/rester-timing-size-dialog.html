@@ -6,9 +6,6 @@
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="../data/rester-data.html">
-<link rel="import" href="rester-dialog-controller-mixin.html">
-
 <dom-module id="rester-timing-size-dialog">
     <template>
         <style>
@@ -49,34 +46,33 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { size as formatSize } from '../data/scripts/format.js';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerTimingSizeDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-timing-size-dialog';
-                }
-
-                static get properties() {
-                    return {
-                        data: String
-                    };
-                }
-
-                static get resterDialogId() {
-                    return 'timingSize';
-                }
-
-                _formatSize(size) {
-                    return RESTer.format.size(size);
-                }
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @polymerElement
+         */
+        class RESTerTimingSizeDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-timing-size-dialog';
             }
 
-            customElements.define(RESTerTimingSizeDialog.is, RESTerTimingSizeDialog);
-        })();
+            static get properties() {
+                return {
+                    data: String
+                };
+            }
+
+            static get resterDialogId() {
+                return 'timingSize';
+            }
+
+            _formatSize(size) {
+                return formatSize(size);
+            }
+        }
+
+        customElements.define(RESTerTimingSizeDialog.is, RESTerTimingSizeDialog);
     </script>
 </dom-module>

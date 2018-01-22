@@ -12,10 +12,6 @@
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 
 <link rel="import" href="controls/rester-edit-environment-dialog.html">
-<link rel="import" href="data/rester-data-hotkeys-mixin.html">
-<link rel="import" href="data/rester-data-settings-mixin.html">
-<link rel="import" href="data/rester-data-theme-mixin.html">
-<link rel="import" href="data/rester-data.html">
 <link rel="import" href="layout/rester-drawer-footer-links.html">
 <link rel="import" href="layout/rester-navigation-list.html">
 <link rel="import" href="layout/rester-notifications.html">
@@ -155,151 +151,152 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { getEnvironments } from './data/scripts/rester.js';
+        import RESTerThemeMixin from './data/rester-data-theme-mixin.js';
+        import RESTerHotkeysMixin from './data/rester-data-hotkeys-mixin.js';
+        import RESTerSettingsMixin from './data/rester-data-settings-mixin.js';
 
-            Polymer.setPassiveTouchGestures(true);
+        Polymer.setPassiveTouchGestures(true);
 
-            /**
-             * @mixes RESTer.ThemeMixin
-             * @mixes RESTer.SettingsMixin
-             * @mixes RESTer.HotkeysMixin
-             * @polymerElement
-             */
-            class RESTerApp extends RESTer.ThemeMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))) {
-                static get is() {
-                    return 'rester-app';
-                }
+        /**
+         * @mixes RESTerThemeMixin
+         * @mixes RESTerSettingsMixin
+         * @mixes RESTerHotkeysMixin
+         * @polymerElement
+         */
+        class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(Polymer.Element))) {
+            static get is() {
+                return 'rester-app';
+            }
 
-                static get properties() {
-                    return {
-                        route: Object,
-                        routeData: Object,
-                        routeTail: Object,
-                        page: String,
-                        pageTitle: {
-                            type: String,
-                            observer: '_onPageTitleChanged'
-                        },
-                        responsiveWidth: {
-                            type: String,
-                            computed: '_computeResponsiveWidth(settings.pinSidenav)'
-                        },
-                        responsiveWidthMin: {
-                            type: String,
-                            value: '600px'
-                        },
-                        responsiveWidthMax: {
-                            type: String,
-                            value: '1279px'
-                        },
-                        showDrawerLockMediaQuery: {
-                            type: String,
-                            computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
-                        }
-                    };
-                }
-
-                static get observers() {
-                    return [
-                        '_routePageChanged(routeData.page)'
-                    ];
-                }
-
-                static get resterHotkeys() {
-                    return {
-                        'mod+m': {
-                            description: 'New request.',
-                            callback: '_newRequest'
-                        },
-                        'mod+o, mod+p': {
-                            description: 'Open request.',
-                            callback: '_showQuickOpenDialog'
-                        },
-                        'mod+e': {
-                            description: 'Cycle through environments.',
-                            callback: '_activateNextEnvironment'
-                        },
-                        'mod+shift+e': {
-                            description: 'Open environment selection dialog.',
-                            callback: '_showEnvironmentSelectDialog'
-                        }
-                    };
-                }
-
-                _routePageChanged(page) {
-                    this.page = page || 'request';
-                }
-
-                _onPageTitleChanged() {
-                    document.title = `RESTer - ${this.pageTitle}`;
-                }
-
-                _computeResponsiveWidth(pinSidenav) {
-                    return pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
-                }
-
-                _computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax) {
-                    return `(min-width: ${responsiveWidthMin}) and (max-width: ${responsiveWidthMax})`;
-                }
-
-                _getDrawerToggleIcon() {
-                    return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
-                }
-
-                _toggleDrawerLockOpen() {
-                    this.set('settings.pinSidenav', !this.settings.pinSidenav);
-                }
-
-                _onDrawerToggleTapped() {
-                    this.$.drawer.toggle();
-                }
-
-                _onNavigationItemActivated() {
-                    if (this.drawerIsNarrow) {
-                        this.$.drawer.close();
+            static get properties() {
+                return {
+                    route: Object,
+                    routeData: Object,
+                    routeTail: Object,
+                    page: String,
+                    pageTitle: {
+                        type: String,
+                        observer: '_onPageTitleChanged'
+                    },
+                    responsiveWidth: {
+                        type: String,
+                        computed: '_computeResponsiveWidth(settings.pinSidenav)'
+                    },
+                    responsiveWidthMin: {
+                        type: String,
+                        value: '600px'
+                    },
+                    responsiveWidthMax: {
+                        type: String,
+                        value: '1279px'
+                    },
+                    showDrawerLockMediaQuery: {
+                        type: String,
+                        computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
                     }
-                }
+                };
+            }
 
-                _onThemeChanged(theme) {
-                    // index.html will pick up the theme from localStorage
-                    // to show the splash screen in the correct colors.
-                    window.localStorage.theme = theme;
-                }
+            static get observers() {
+                return [
+                    '_routePageChanged(routeData.page)'
+                ];
+            }
 
-                _showShortcuts(e) {
-                    e.preventDefault();
-                    this.$.cheatSheet.show();
-                }
+            static get resterHotkeys() {
+                return {
+                    'mod+m': {
+                        description: 'New request.',
+                        callback: '_newRequest'
+                    },
+                    'mod+o, mod+p': {
+                        description: 'Open request.',
+                        callback: '_showQuickOpenDialog'
+                    },
+                    'mod+e': {
+                        description: 'Cycle through environments.',
+                        callback: '_activateNextEnvironment'
+                    },
+                    'mod+shift+e': {
+                        description: 'Open environment selection dialog.',
+                        callback: '_showEnvironmentSelectDialog'
+                    }
+                };
+            }
 
-                _newRequest() {
-                    window.location = '#/';
-                }
+            _routePageChanged(page) {
+                this.page = page || 'request';
+            }
 
-                _showQuickOpenDialog() {
-                    this.$.quickOpenDialog.show();
-                }
+            _onPageTitleChanged() {
+                document.title = `RESTer - ${this.pageTitle}`;
+            }
 
-                _activateNextEnvironment() {
-                    RESTer.rester.getEnvironments().then(envs => {
-                        if (envs.length === 0) {
-                            return;
-                        }
+            _computeResponsiveWidth(pinSidenav) {
+                return pinSidenav ? this.responsiveWidthMin : this.responsiveWidthMax;
+            }
 
-                        const index = envs.findIndex(env => env.id === this.settings.activeEnvironment);
-                        const newIndex = (index + 1) % envs.length;
-                        const newEnv = envs[newIndex];
+            _computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax) {
+                return `(min-width: ${responsiveWidthMin}) and (max-width: ${responsiveWidthMax})`;
+            }
 
-                        this.settings.activeEnvironment = newEnv.id;
-                    });
-                }
+            _getDrawerToggleIcon() {
+                return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
+            }
 
-                _showEnvironmentSelectDialog() {
-                    this.$.environmentSelectDialog.show();
+            _toggleDrawerLockOpen() {
+                this.set('settings.pinSidenav', !this.settings.pinSidenav);
+            }
+
+            _onDrawerToggleTapped() {
+                this.$.drawer.toggle();
+            }
+
+            _onNavigationItemActivated() {
+                if (this.drawerIsNarrow) {
+                    this.$.drawer.close();
                 }
             }
 
-            customElements.define(RESTerApp.is, RESTerApp);
-        })();
+            _onThemeChanged(theme) {
+                // index.html will pick up the theme from localStorage
+                // to show the splash screen in the correct colors.
+                window.localStorage.theme = theme;
+            }
+
+            _showShortcuts(e) {
+                e.preventDefault();
+                this.$.cheatSheet.show();
+            }
+
+            _newRequest() {
+                window.location = '#/';
+            }
+
+            _showQuickOpenDialog() {
+                this.$.quickOpenDialog.show();
+            }
+
+            _activateNextEnvironment() {
+                getEnvironments().then(envs => {
+                    if (envs.length === 0) {
+                        return;
+                    }
+
+                    const index = envs.findIndex(env => env.id === this.settings.activeEnvironment);
+                    const newIndex = (index + 1) % envs.length;
+                    const newEnv = envs[newIndex];
+
+                    this.settings.activeEnvironment = newEnv.id;
+                });
+            }
+
+            _showEnvironmentSelectDialog() {
+                this.$.environmentSelectDialog.show();
+            }
+        }
+
+        customElements.define(RESTerApp.is, RESTerApp);
     </script>
 </dom-module>

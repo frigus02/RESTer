@@ -6,7 +6,6 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
-<link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../styles/rester-icons.html">
 
 <dom-module id="rester-notifications">
@@ -67,79 +66,77 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { e as notificationEvents, notifications } from '../data/scripts/notifications.js';
 
-            /**
-             * @polymerElement
-             */
-            class RESTerNotifications extends Polymer.Element {
-                static get is() {
-                    return 'rester-notifications';
-                }
-
-                static get properties() {
-                    return {
-                        notifications: {
-                            type: Array,
-                            readOnly: true
-                        },
-                        isEmpty: {
-                            type: Boolean,
-                            computed: '_computeIsEmpty(notifications.length)'
-                        },
-                        icon: {
-                            type: String,
-                            computed: '_computeIcon(isEmpty)'
-                        }
-                    };
-                }
-
-                constructor() {
-                    super();
-                    this._onNotificationAdded = this._onNotificationAdded.bind(this);
-                    this._onNotificationRemoved = this._onNotificationRemoved.bind(this);
-                }
-
-                connectedCallback() {
-                    super.connectedCallback();
-                    this._setNotifications([...RESTer.notifications.notifications]);
-                    RESTer.notifications.addEventListener('notificationAdded', this._onNotificationAdded);
-                    RESTer.notifications.addEventListener('notificationRemoved', this._onNotificationRemoved);
-                }
-
-                disconnectedCallback() {
-                    super.disconnectedCallback();
-                    RESTer.notifications.removeEventListener('notificationAdded', this._onNotificationAdded);
-                    RESTer.notifications.removeEventListener('notificationRemoved', this._onNotificationRemoved);
-                }
-
-                _onNotificationAdded(notification) {
-                    this.push('notifications', notification);
-                }
-
-                _onNotificationRemoved(notification) {
-                    const index = this.notifications.indexOf(notification);
-                    this.splice('notifications', index, 1);
-                }
-
-                _computeIsEmpty(notificationsCount) {
-                    return notificationsCount === 0;
-                }
-
-                _computeIcon(isEmpty) {
-                    return isEmpty ? 'notifications-none' : 'notifications';
-                }
-
-                _openNotification(e) {
-                    this.$.options.close();
-
-                    const notification = e.model.item;
-                    notification.open();
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerNotifications extends Polymer.Element {
+            static get is() {
+                return 'rester-notifications';
             }
 
-            customElements.define(RESTerNotifications.is, RESTerNotifications);
-        })();
+            static get properties() {
+                return {
+                    notifications: {
+                        type: Array,
+                        readOnly: true
+                    },
+                    isEmpty: {
+                        type: Boolean,
+                        computed: '_computeIsEmpty(notifications.length)'
+                    },
+                    icon: {
+                        type: String,
+                        computed: '_computeIcon(isEmpty)'
+                    }
+                };
+            }
+
+            constructor() {
+                super();
+                this._onNotificationAdded = this._onNotificationAdded.bind(this);
+                this._onNotificationRemoved = this._onNotificationRemoved.bind(this);
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this._setNotifications([...notifications]);
+                notificationEvents.addEventListener('notificationAdded', this._onNotificationAdded);
+                notificationEvents.addEventListener('notificationRemoved', this._onNotificationRemoved);
+            }
+
+            disconnectedCallback() {
+                super.disconnectedCallback();
+                notificationEvents.removeEventListener('notificationAdded', this._onNotificationAdded);
+                notificationEvents.removeEventListener('notificationRemoved', this._onNotificationRemoved);
+            }
+
+            _onNotificationAdded(notification) {
+                this.push('notifications', notification);
+            }
+
+            _onNotificationRemoved(notification) {
+                const index = this.notifications.indexOf(notification);
+                this.splice('notifications', index, 1);
+            }
+
+            _computeIsEmpty(notificationsCount) {
+                return notificationsCount === 0;
+            }
+
+            _computeIcon(isEmpty) {
+                return isEmpty ? 'notifications-none' : 'notifications';
+            }
+
+            _openNotification(e) {
+                this.$.options.close();
+
+                const notification = e.model.item;
+                notification.open();
+            }
+        }
+
+        customElements.define(RESTerNotifications.is, RESTerNotifications);
     </script>
 </dom-module>

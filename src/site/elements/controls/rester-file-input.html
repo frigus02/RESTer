@@ -20,52 +20,48 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        /**
+         * @polymerElement
+         */
+        class RESTerFileInput extends Polymer.Element {
+            static get is() {
+                return 'rester-file-input';
+            }
 
-            /**
-             * @polymerElement
-             */
-            class RESTerFileInput extends Polymer.Element {
-                static get is() {
-                    return 'rester-file-input';
-                }
-
-                static get properties() {
-                    return {
-                        name: String,
-                        value: {
-                            type: String,
-                            notify: true,
-                            observer: '_onValueChanged'
-                        },
-                        required: {
-                            type: Boolean,
-                            value: false
-                        },
-                        files: {
-                            type: Array,
-                            notify: true,
-                            readOnly: true
-                        }
-                    };
-                }
-
-                _onValueChanged() {
-                    if (!this.value) {
-                        this.$.input.value = null;
+            static get properties() {
+                return {
+                    name: String,
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    required: {
+                        type: Boolean,
+                        value: false
+                    },
+                    files: {
+                        type: Array,
+                        notify: true,
+                        readOnly: true
                     }
-                }
+                };
+            }
 
-                _onInputChange() {
-                    this._setFiles(Array.from(this.$.input.files));
-
-                    const file = this.files[0];
-                    this.value = file ? file.name : '';
+            _onValueChanged() {
+                if (!this.value) {
+                    this.$.input.value = null;
                 }
             }
 
-            customElements.define(RESTerFileInput.is, RESTerFileInput);
-        })();
+            _onInputChange() {
+                this._setFiles(Array.from(this.$.input.files));
+
+                const file = this.files[0];
+                this.value = file ? file.name : '';
+            }
+        }
+
+        customElements.define(RESTerFileInput.is, RESTerFileInput);
     </script>
 </dom-module>

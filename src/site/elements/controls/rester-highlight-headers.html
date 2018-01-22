@@ -1,7 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="../data/rester-data-theme-mixin.html">
-
 <dom-module id="rester-highlight-headers">
     <template>
         <style>
@@ -51,29 +49,27 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerThemeMixin from '../data/rester-data-theme-mixin.js';
 
-            /**
-             * @mixes RESTer.ThemeMixin
-             * @polymerElement
-             */
-            class RESTerHighlightHeaders extends RESTer.ThemeMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-highlight-headers';
-                }
-
-                static get properties() {
-                    return {
-                        headers: {
-                            type: Array,
-                            value: []
-                        }
-                    };
-                }
+        /**
+         * @mixes RESTerThemeMixin
+         * @polymerElement
+         */
+        class RESTerHighlightHeaders extends RESTerThemeMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-highlight-headers';
             }
 
-            customElements.define(RESTerHighlightHeaders.is, RESTerHighlightHeaders);
-        })();
+            static get properties() {
+                return {
+                    headers: {
+                        type: Array,
+                        value: []
+                    }
+                };
+            }
+        }
+
+        customElements.define(RESTerHighlightHeaders.is, RESTerHighlightHeaders);
     </script>
 </dom-module>

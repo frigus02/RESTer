@@ -9,9 +9,6 @@
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 
-<link rel="import" href="rester-dialog-controller-mixin.html">
-<link rel="import" href="rester-error-mixin.html">
-
 <dom-module id="rester-notification-slow-performance-dialog">
     <template>
         <style>
@@ -77,110 +74,110 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { getHistoryEntries, deleteHistoryEntries } from '../data/scripts/rester.js';
+        import RESTerErrorMixin from './rester-error-mixin.js';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @mixes RESTer.ErrorMixin
-             * @polymerElement
-             */
-            class RESTerNotificationSlowPerformanceDialog extends RESTer.DialogControllerMixin(RESTer.ErrorMixin(Polymer.Element)) {
-                static get is() {
-                    return 'rester-notification-slow-performance-dialog';
-                }
-
-                static get properties() {
-                    return {
-                        largeHistoryEntries: {
-                            type: Array,
-                            readOnly: true
-                        },
-                        deleteLargeHistoryEntries: Boolean,
-                        historyEntries: {
-                            type: Number,
-                            readOnly: true
-                        },
-                        historyEntriesCountToDelete: Number,
-                        isDeletingEntries: {
-                            type: Boolean,
-                            readOnly: true,
-                            value: false
-                        }
-                    };
-                }
-
-                static get resterDialogId() {
-                    return 'notificationSlowPerformance';
-                }
-
-                static get SIZE_1MB() {
-                    return 1 * 1024 * 1024;
-                }
-
-                _onOpened() {
-                    RESTer.rester.getHistoryEntries(null, ['id', 'size']).then(entries => {
-                        this._setHistoryEntries(entries);
-                        this._setLargeHistoryEntries(entries.filter(this._isEntryLarge));
-                        this.deleteLargeHistoryEntries = true;
-
-                        const targetSize = RESTerNotificationSlowPerformanceDialog.SIZE_1MB * 10;
-                        const size = this._getSizeOfEntries(entries);
-                        const sizeOfLargeEntries = this._getSizeOfEntries(this.largeHistoryEntries);
-
-                        let sizeAfterDeletion = size - sizeOfLargeEntries;
-                        let deleteCount = 0;
-                        while (sizeAfterDeletion > targetSize) {
-                            deleteCount++;
-
-                            const entry = entries[entries.length - deleteCount];
-                            if (!this._isEntryLarge(entry)) {
-                                sizeAfterDeletion -= entry.size;
-                            }
-                        }
-
-                        this.historyEntriesCountToDelete = deleteCount;
-                    });
-                }
-
-                _deleteOldHistory() {
-                    this._setIsDeletingEntries(true);
-
-                    const idsToDelete = [];
-                    if (this.deleteLargeHistoryEntries) {
-                        idsToDelete.push(...this.largeHistoryEntries.map(e => e.id));
-                    }
-
-                    const fromIndex = this.historyEntries.length - 1;
-                    const toIndex = Math.max(0, this.historyEntries.length - this.historyEntriesCountToDelete);
-                    for (let i = fromIndex; i >= toIndex; i--) {
-                        const id = this.historyEntries[i].id;
-                        if (!idsToDelete.includes(id)) {
-                            idsToDelete.push(id);
-                        }
-                    }
-
-                    RESTer.rester.deleteHistoryEntries(idsToDelete)
-                        .then(() => {
-                            this._setIsDeletingEntries(false);
-                            this._closeDialogWithAction();
-                        })
-                        .catch(error => {
-                            this._setIsDeletingEntries(false);
-                            this.showError(error);
-                        });
-                }
-
-                _getSizeOfEntries(entries) {
-                    return entries.map(e => e.size).reduce((a, b) => a + b, 0);
-                }
-
-                _isEntryLarge(entry) {
-                    return entry.size > RESTerNotificationSlowPerformanceDialog.SIZE_1MB;
-                }
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @mixes RESTerErrorMixin
+         * @polymerElement
+         */
+        class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(Polymer.Element)) {
+            static get is() {
+                return 'rester-notification-slow-performance-dialog';
             }
 
-            customElements.define(RESTerNotificationSlowPerformanceDialog.is, RESTerNotificationSlowPerformanceDialog);
-        })();
+            static get properties() {
+                return {
+                    largeHistoryEntries: {
+                        type: Array,
+                        readOnly: true
+                    },
+                    deleteLargeHistoryEntries: Boolean,
+                    historyEntries: {
+                        type: Number,
+                        readOnly: true
+                    },
+                    historyEntriesCountToDelete: Number,
+                    isDeletingEntries: {
+                        type: Boolean,
+                        readOnly: true,
+                        value: false
+                    }
+                };
+            }
+
+            static get resterDialogId() {
+                return 'notificationSlowPerformance';
+            }
+
+            static get SIZE_1MB() {
+                return 1 * 1024 * 1024;
+            }
+
+            _onOpened() {
+                getHistoryEntries(null, ['id', 'size']).then(entries => {
+                    this._setHistoryEntries(entries);
+                    this._setLargeHistoryEntries(entries.filter(this._isEntryLarge));
+                    this.deleteLargeHistoryEntries = true;
+
+                    const targetSize = RESTerNotificationSlowPerformanceDialog.SIZE_1MB * 10;
+                    const size = this._getSizeOfEntries(entries);
+                    const sizeOfLargeEntries = this._getSizeOfEntries(this.largeHistoryEntries);
+
+                    let sizeAfterDeletion = size - sizeOfLargeEntries;
+                    let deleteCount = 0;
+                    while (sizeAfterDeletion > targetSize) {
+                        deleteCount++;
+
+                        const entry = entries[entries.length - deleteCount];
+                        if (!this._isEntryLarge(entry)) {
+                            sizeAfterDeletion -= entry.size;
+                        }
+                    }
+
+                    this.historyEntriesCountToDelete = deleteCount;
+                });
+            }
+
+            _deleteOldHistory() {
+                this._setIsDeletingEntries(true);
+
+                const idsToDelete = [];
+                if (this.deleteLargeHistoryEntries) {
+                    idsToDelete.push(...this.largeHistoryEntries.map(e => e.id));
+                }
+
+                const fromIndex = this.historyEntries.length - 1;
+                const toIndex = Math.max(0, this.historyEntries.length - this.historyEntriesCountToDelete);
+                for (let i = fromIndex; i >= toIndex; i--) {
+                    const id = this.historyEntries[i].id;
+                    if (!idsToDelete.includes(id)) {
+                        idsToDelete.push(id);
+                    }
+                }
+
+                deleteHistoryEntries(idsToDelete)
+                    .then(() => {
+                        this._setIsDeletingEntries(false);
+                        this._closeDialogWithAction();
+                    })
+                    .catch(error => {
+                        this._setIsDeletingEntries(false);
+                        this.showError(error);
+                    });
+            }
+
+            _getSizeOfEntries(entries) {
+                return entries.map(e => e.size).reduce((a, b) => a + b, 0);
+            }
+
+            _isEntryLarge(entry) {
+                return entry.size > RESTerNotificationSlowPerformanceDialog.SIZE_1MB;
+            }
+        }
+
+        customElements.define(RESTerNotificationSlowPerformanceDialog.is, RESTerNotificationSlowPerformanceDialog);
     </script>
 </dom-module>

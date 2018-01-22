@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<script src="../../bower_components/DOMPurify/dist/purify.min.js"></script>
 
 <dom-module id="rester-dom-purify-frame">
     <template>
@@ -20,57 +19,55 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import DOMPurify from '../../bower_components/DOMPurify/dist/purify.min.js';
 
-            /**
-             * @polymerElement
-             */
-            class RESTerDOMPurifyIFrame extends Polymer.Element {
-                static get is() {
-                    return 'rester-dom-purify-frame';
-                }
-
-                static get properties() {
-                    return {
-                        html: {
-                            type: String,
-                            observer: '_onHtmlChanged'
-                        }
-                    };
-                }
-
-                constructor() {
-                    super();
-                    this._frameLoaded = false;
-                }
-
-                _onFrameLoaded() {
-                    this._frameLoaded = true;
-                }
-
-                _onHtmlChanged() {
-                    if (!this._frameLoaded) {
-                        setTimeout(() => this._onHtmlChanged(), 100);
-                        return;
-                    }
-
-                    const doc = this.$.frame.contentWindow.document;
-                    while (doc.body.children.length > 0) {
-                        doc.body.children[0].remove();
-                    }
-
-                    const divEl = doc.body.appendChild(doc.createElement('div'));
-                    divEl.innerHTML = DOMPurify.sanitize(this.html);
-
-                    this.$.frame.contentWindow.setTimeout(() => {
-                        const htmlEl = doc.querySelector('html');
-                        this.$.frame.style.height = `${htmlEl.offsetHeight}px`;
-                    });
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerDOMPurifyIFrame extends Polymer.Element {
+            static get is() {
+                return 'rester-dom-purify-frame';
             }
 
-            customElements.define(RESTerDOMPurifyIFrame.is, RESTerDOMPurifyIFrame);
-        })();
+            static get properties() {
+                return {
+                    html: {
+                        type: String,
+                        observer: '_onHtmlChanged'
+                    }
+                };
+            }
+
+            constructor() {
+                super();
+                this._frameLoaded = false;
+            }
+
+            _onFrameLoaded() {
+                this._frameLoaded = true;
+            }
+
+            _onHtmlChanged() {
+                if (!this._frameLoaded) {
+                    setTimeout(() => this._onHtmlChanged(), 100);
+                    return;
+                }
+
+                const doc = this.$.frame.contentWindow.document;
+                while (doc.body.children.length > 0) {
+                    doc.body.children[0].remove();
+                }
+
+                const divEl = doc.body.appendChild(doc.createElement('div'));
+                divEl.innerHTML = DOMPurify.sanitize(this.html);
+
+                this.$.frame.contentWindow.setTimeout(() => {
+                    const htmlEl = doc.querySelector('html');
+                    this.$.frame.style.height = `${htmlEl.offsetHeight}px`;
+                });
+            }
+        }
+
+        customElements.define(RESTerDOMPurifyIFrame.is, RESTerDOMPurifyIFrame);
     </script>
 </dom-module>

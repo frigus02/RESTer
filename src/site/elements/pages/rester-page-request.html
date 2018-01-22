@@ -24,15 +24,10 @@
 <link rel="import" href="../controls/rester-request-title-input.html">
 <link rel="import" href="../controls/rester-url-input.html">
 <link rel="import" href="../controls/rester-variables-input.html">
-<link rel="import" href="../data/rester-data-hotkeys-mixin.html">
-<link rel="import" href="../data/rester-data-settings-mixin.html">
-<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-icons.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 <link rel="import" href="../utils/rester-badge.html">
-<link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="../utils/rester-lint-messages.html">
-<link rel="import" href="../utils/rester-lint-mixin.html">
 
 <dom-module id="rester-page-request">
     <template>
@@ -254,515 +249,533 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import dialogs from '../data/scripts/dialogs.js';
+        import { mapFilesToVariableValues } from '../data/scripts/encode.js';
+        import { duration, size, dateTime } from '../data/scripts/format.js';
+        import { send } from '../data/scripts/request.js';
+        import {
+            addHistoryEntry,
+            deleteRequest,
+            getHistoryEntry,
+            getRequest,
+            putRequest
+        } from '../data/scripts/rester.js';
+        import { cloneDeep } from '../data/scripts/util.js';
+        import {
+            replace as replaceVariables,
+            extract as extractVariables
+        } from '../data/scripts/variables.js';
+        import RESTerErrorMixin from '../utils/rester-error-mixin.js';
+        import RESTerLintMixin from '../utils/rester-lint-mixin.js';
+        import RESTerPageMixin from '../layout/rester-page-mixin.js';
+        import RESTerHotkeysMixin from '../data/rester-data-hotkeys-mixin.js';
+        import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
-            /**
-             * @mixes RESTer.LintMixin
-             * @mixes RESTer.ErrorMixin
-             * @mixes RESTer.PageMixin
-             * @mixes RESTer.SettingsMixin
-             * @mixes RESTer.HotkeysMixin
-             * @polymerElement
-             */
-            class RESTerPageRequest extends RESTer.LintMixin(RESTer.ErrorMixin(RESTer.PageMixin(RESTer.SettingsMixin(RESTer.HotkeysMixin(Polymer.Element))))) {
-                static get is() {
-                    return 'rester-page-request';
-                }
+        /**
+         * @mixes RESTerLintMixin
+         * @mixes RESTerErrorMixin
+         * @mixes RESTerPageMixin
+         * @mixes RESTerSettingsMixin
+         * @mixes RESTerHotkeysMixin
+         * @polymerElement
+         */
+        class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin(RESTerSettingsMixin(RESTerHotkeysMixin(Polymer.Element))))) {
+            static get is() {
+                return 'rester-page-request';
+            }
 
-                static get properties() {
-                    return {
-                        route: {
-                            type: Object,
-                            observer: '_onRouteChanged'
-                        },
-                        routeActive: Boolean,
-                        routeData: Object,
-                        historyRoute: Object,
-                        historyRouteActive: Boolean,
-                        historyRouteData: Object,
-                        isWideEnoughToShowVariablesOnSide: Boolean,
-                        request: {
-                            type: Object,
-                            readOnly: true
-                        },
-                        requestVariableValues: {
-                            type: Object
-                        },
-                        requestMethods: {
-                            type: Array,
-                            readOnly: true,
-                            value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
-                        },
-                        requestIsSending: {
-                            type: Boolean,
-                            readOnly: true,
-                            value: false
-                        },
-                        requestIsSendingAndAbortable: {
-                            type: Boolean,
-                            computed: '_computeRequestIsSendingAndAbortable(requestIsSending)'
-                        },
-                        requestShowVariablesOnSide: {
-                            type: Boolean,
-                            computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
-                            reflectToAttribute: true
-                        },
-                        requestSelectedTab: {
-                            type: Number,
-                            value: 0,
-                            observer: '_onRequestSelectedTabChanged'
-                        },
-                        requestContentType: {
-                            type: String,
-                            computed: '_computeHeader(request.headers.*, \'Content-Type\')'
-                        },
-                        requestAuthorization: {
-                            type: String,
-                            computed: '_computeRequestAuthorization(request.headers.*)'
-                        },
-                        response: {
-                            type: Object,
-                            readOnly: true
-                        },
-                        responseBadgeType: {
-                            type: String,
-                            computed: '_computeResponseBadgeType(response.status)'
-                        },
-                        responseContentType: {
-                            type: String,
-                            computed: '_computeHeader(response.headers.*, \'Content-Type\')'
-                        },
-                        historyEntry: {
-                            type: Object,
-                            readOnly: true
-                        },
-                        historyEntrySize: {
-                            type: Number,
-                            computed: '_computeHistoryEntrySize(historyEntry.timing)'
-                        },
-                        historyEntryDuration: {
-                            type: Number,
-                            computed: '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
-                        }
-                    };
-                }
+            static get properties() {
+                return {
+                    route: {
+                        type: Object,
+                        observer: '_onRouteChanged'
+                    },
+                    routeActive: Boolean,
+                    routeData: Object,
+                    historyRoute: Object,
+                    historyRouteActive: Boolean,
+                    historyRouteData: Object,
+                    isWideEnoughToShowVariablesOnSide: Boolean,
+                    request: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    requestVariableValues: {
+                        type: Object
+                    },
+                    requestMethods: {
+                        type: Array,
+                        readOnly: true,
+                        value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+                    },
+                    requestIsSending: {
+                        type: Boolean,
+                        readOnly: true,
+                        value: false
+                    },
+                    requestIsSendingAndAbortable: {
+                        type: Boolean,
+                        computed: '_computeRequestIsSendingAndAbortable(requestIsSending)'
+                    },
+                    requestShowVariablesOnSide: {
+                        type: Boolean,
+                        computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
+                        reflectToAttribute: true
+                    },
+                    requestSelectedTab: {
+                        type: Number,
+                        value: 0,
+                        observer: '_onRequestSelectedTabChanged'
+                    },
+                    requestContentType: {
+                        type: String,
+                        computed: '_computeHeader(request.headers.*, \'Content-Type\')'
+                    },
+                    requestAuthorization: {
+                        type: String,
+                        computed: '_computeRequestAuthorization(request.headers.*)'
+                    },
+                    response: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    responseBadgeType: {
+                        type: String,
+                        computed: '_computeResponseBadgeType(response.status)'
+                    },
+                    responseContentType: {
+                        type: String,
+                        computed: '_computeHeader(response.headers.*, \'Content-Type\')'
+                    },
+                    historyEntry: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    historyEntrySize: {
+                        type: Number,
+                        computed: '_computeHistoryEntrySize(historyEntry.timing)'
+                    },
+                    historyEntryDuration: {
+                        type: Number,
+                        computed: '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
+                    }
+                };
+            }
 
-                static get observers() {
-                    return [
-                        '_updatePageTitle(request, historyEntry)',
-                        '_runLintInspections(request.*, requestVariableValues.*)'
-                    ];
-                }
+            static get observers() {
+                return [
+                    '_updatePageTitle(request, historyEntry)',
+                    '_runLintInspections(request.*, requestVariableValues.*)'
+                ];
+            }
 
-                static get resterHotkeys() {
-                    return {
-                        'mod+s': {
-                            description: 'Save the current request.',
-                            callback: '_saveRequest'
-                        },
-                        'mod+enter': {
-                            description: 'Send the current request.',
-                            callback: '_sendRequest'
-                        }
-                    };
-                }
+            static get resterHotkeys() {
+                return {
+                    'mod+s': {
+                        description: 'Save the current request.',
+                        callback: '_saveRequest'
+                    },
+                    'mod+enter': {
+                        description: 'Send the current request.',
+                        callback: '_sendRequest'
+                    }
+                };
+            }
 
-                static get resterLintInspections() {
-                    return [
-                        {
-                            message: 'Some variables have an empty value.',
-                            check: '_lintCheckEmptyVariables',
-                            fixLabel: 'View variables',
-                            fix: '_lintFixEmptyVariables'
-                        },
-                        {
-                            message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
-                            check: '_lintCheckFilesWithoutMultipart',
-                            fixLabel: 'Change content type',
-                            fix: '_lintFixFilesWithoutMultipart'
-                        },
-                        {
-                            message: 'There are empty file inputs.',
-                            check: '_lintCheckEmptyFiles',
-                            fixLabel: 'View body',
-                            fix: '_lintFixEmptyFiles'
-                        },
-                        {
-                            message: 'Suggested content type based on body is {contentType}.',
-                            check: '_lintCheckSuggestedContentType',
-                            fixLabel: 'Set content type',
-                            fix: '_lintFixSuggestedContentType'
-                        }
-                    ];
-                }
+            static get resterLintInspections() {
+                return [
+                    {
+                        message: 'Some variables have an empty value.',
+                        check: '_lintCheckEmptyVariables',
+                        fixLabel: 'View variables',
+                        fix: '_lintFixEmptyVariables'
+                    },
+                    {
+                        message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
+                        check: '_lintCheckFilesWithoutMultipart',
+                        fixLabel: 'Change content type',
+                        fix: '_lintFixFilesWithoutMultipart'
+                    },
+                    {
+                        message: 'There are empty file inputs.',
+                        check: '_lintCheckEmptyFiles',
+                        fixLabel: 'View body',
+                        fix: '_lintFixEmptyFiles'
+                    },
+                    {
+                        message: 'Suggested content type based on body is {contentType}.',
+                        check: '_lintCheckSuggestedContentType',
+                        fixLabel: 'Set content type',
+                        fix: '_lintFixSuggestedContentType'
+                    }
+                ];
+            }
 
-                constructor() {
-                    super();
-                    this._requestAbortController = null;
-                }
+            constructor() {
+                super();
+                this._requestAbortController = null;
+            }
 
-                _onRouteChanged() {
-                    if (this.routeActive && this.historyRouteActive) {
-                        RESTer.rester.getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
-                            if (historyEntry.request.id !== +this.routeData.requestId &&
-                                !(historyEntry.request.id === undefined && this.routeData.requestId === '')) {
-                                this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
-                                window.location = '#/';
+            _onRouteChanged() {
+                if (this.routeActive && this.historyRouteActive) {
+                    getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
+                        if (historyEntry.request.id !== +this.routeData.requestId &&
+                            !(historyEntry.request.id === undefined && this.routeData.requestId === '')) {
+                            this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
+                            window.location = '#/';
+                        } else {
+                            if (historyEntry.request.variables && historyEntry.request.variables.values) {
+                                this.requestVariableValues = historyEntry.request.variables.values;
+                                delete historyEntry.request.variables.values;
                             } else {
-                                if (historyEntry.request.variables && historyEntry.request.variables.values) {
-                                    this.requestVariableValues = historyEntry.request.variables.values;
-                                    delete historyEntry.request.variables.values;
-                                } else {
-                                    this.requestVariableValues = {};
-                                }
+                                this.requestVariableValues = {};
+                            }
 
-                                this._setHistoryEntry(historyEntry);
-                                this._setRequest(historyEntry.request);
-                                this._setResponse(historyEntry.response);
-                            }
-                        });
-                    } else if (this.routeActive) {
-                        RESTer.rester.getRequest(+this.routeData.requestId).then(request => {
-                            this._setHistoryEntry(null);
-                            this._setRequest(request);
-                            this.requestVariableValues = {};
-                            this._setResponse(null);
-                        });
-                    } else {
+                            this._setHistoryEntry(historyEntry);
+                            this._setRequest(historyEntry.request);
+                            this._setResponse(historyEntry.response);
+                        }
+                    });
+                } else if (this.routeActive) {
+                    getRequest(+this.routeData.requestId).then(request => {
                         this._setHistoryEntry(null);
-                        this._setRequest({
-                            collection: '',
-                            title: '',
-                            method: '',
-                            url: '',
-                            headers: [],
-                            body: '',
-                            variables: {
-                                enabled: false
-                            }
-                        });
+                        this._setRequest(request);
                         this.requestVariableValues = {};
                         this._setResponse(null);
-                    }
-                }
-
-                _onRequestSelectedTabChanged() {
-                    if (this.requestSelectedTab === 1) {
-                        this.$.bodyInput.notifyVisibilityChanged();
-                    }
-                }
-
-                _computeRequestShowVariablesOnSide(setting, isWideEnough) {
-                    return setting && isWideEnough;
-                }
-
-                _computeRequestIsSendingAndAbortable(isSending) {
-                    return isSending && this._requestAbortController;
-                }
-
-                _computeRequestAuthorization(headers) {
-                    const authorization = this._computeHeader(headers, 'Authorization');
-                    if (authorization) {
-                        return {
-                            scheme: authorization.substr(0, authorization.indexOf(' ')),
-                            token: authorization.substr(authorization.indexOf(' ') + 1)
-                        };
-                    }
-
-                    const cookie = this._computeHeader(headers, 'Cookie');
-                    if (cookie) {
-                        return {
-                            scheme: 'Cookie',
-                            token: cookie
-                        };
-                    }
-
-                    return null;
-                }
-
-                _computeHeader(headers, headerName) {
-                    if (!headers || !headers.base) {
-                        return;
-                    }
-
-                    let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
-
-                    return header && header.value;
-                }
-
-                _computeResponseBadgeType(status) {
-                    if (status >= 100 && status < 200) {
-                        return 'info';
-                    } else if (status >= 200 && status < 300) {
-                        return 'success';
-                    } else if (status >= 300 && status < 400) {
-                        return 'info';
-                    } else if (status >= 400) {
-                        return 'warn';
-                    }
-                }
-
-                _computeHistoryEntryDuration(time, timeEnd, timing) {
-                    const millis = timing
-                        ? timing.duration
-                        : new Date(timeEnd) - new Date(time);
-
-                    return RESTer.format.duration(millis, 0);
-                }
-
-                _computeHistoryEntrySize(timing) {
-                    if (timing) {
-                        return RESTer.format.size(timing.transferSize);
-                    }
-                }
-
-                _updatePageTitle(request, historyEntry) {
-                    if (!request) {
-                        return;
-                    }
-
-                    const collection = request.collection || '<no collection>';
-                    const title = request.title || '<no title>';
-                    const time = historyEntry && historyEntry.time ? RESTer.format.dateTime(historyEntry.time) : '';
-
-                    let pageTitle = `${collection} / ${title}`;
-                    if (time) {
-                        pageTitle += ` (${time})`;
-                    }
-
-                    this._setPageTitle(pageTitle);
-                }
-
-                _onFormKeyDown(e) {
-                    // Do not intercept Enter presses inside of a textarea. In this case you
-                    // could no longer enter newlines, which is not what we want.
-                    const nodeName = e.composedPath
-                        ? e.composedPath()[0].nodeName.toUpperCase()
-                        : e.target.nodeName.toUpperCase();
-                    if (!e.defaultPrevented && nodeName !== 'TEXTAREA' && e.key === 'Enter') {
-                        e.preventDefault();
-                        this._sendRequest();
-                    }
-                }
-
-                _onRequestAuthorizationChanged(e) {
-                    const auth = e.detail.value;
-                    if (!auth) {
-                        this._setRequestHeader('Authorization', null);
-                        this._setRequestHeader('Cookie', null);
-                    } else if (auth.scheme === 'Cookie') {
-                        this._setRequestHeader('Authorization', null);
-                        this._setRequestHeader('Cookie', auth.token);
-                    } else {
-                        this._setRequestHeader('Authorization', `${auth.scheme} ${auth.token}`);
-                        this._setRequestHeader('Cookie', null);
-                    }
-                }
-
-                _setRequestHeader(headerName, value) {
-                    const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
-                    if (index > -1) {
-                        this.request.headers.splice(index, 1);
-                    }
-
-                    if (value || value === '') {
-                        const newHeader = {
-                            name: headerName,
-                            value: value
-                        };
-
-                        this.request.headers.push(newHeader);
-                    }
-
-                    this.set('request.headers', [...this.request.headers]);
-                }
-
-                _saveRequest() {
-                    this.$.saveOptions.close();
-
-                    if (!this.request.title || !this.request.collection) {
-                        this.showError('Please enter a Collection and Title for your request in blue bar at the top.', 'Missing Title');
-                        return;
-                    }
-
-                    RESTer.rester.putRequest(this.request).then(id => {
-                        this.request.id = id;
-
-                        window.location = `#/request/${id}`;
                     });
-                }
-
-                _saveRequestAsNew() {
-                    this.$.saveOptions.close();
-                    delete this.request.id;
-                    this._saveRequest();
-                }
-
-                _deleteRequest() {
-                    this.$.deleteOptions.close();
-
-                    const resterApp = document.querySelector('rester-app');
-                    const resterNavigationList = Polymer.dom(resterApp.root).querySelector('rester-navigation-list');
-                    const resterNavigation = Polymer.dom(resterNavigationList.root).querySelector('rester-data-navigation');
-                    const nextId = resterNavigation.getNextRequestId(this.request.id);
-                    RESTer.rester.deleteRequest(this.request.id).then(() => {
-                        if (typeof nextId !== 'undefined') {
-                            window.location = `#/request/${nextId}`;
-                        } else {
-                            window.location = `#/`;
+                } else {
+                    this._setHistoryEntry(null);
+                    this._setRequest({
+                        collection: '',
+                        title: '',
+                        method: '',
+                        url: '',
+                        headers: [],
+                        body: '',
+                        variables: {
+                            enabled: false
                         }
                     });
-                }
-
-                _sendRequest() {
-                    if (!this.$.requestForm.validate()) {
-                        return;
-                    }
-
-                    const usedVariableValues = {};
-                    const compiledRequest = RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-
-                    // Prefix with http://, if the compiled URL does not contain any protocol.
-                    if (!/^[A-Za-z][A-Za-z0-9+-.]*:\/\/*/i.test(compiledRequest.url)) {
-                        compiledRequest.url = 'http://' + compiledRequest.url;
-                    }
-
-                    if (this.settings.stripDefaultHeaders) {
-                        compiledRequest.stripDefaultHeaders = true;
-                    }
-
-                    compiledRequest.tempVariables = {
-                        values: RESTer.encode.mapFilesToVariableValues(this.$.bodyInput.files || {})
-                    };
-
-                    if (window.AbortController) {
-                        this._requestAbortController = new AbortController();
-                        compiledRequest.signal = this._requestAbortController.signal;
-                    }
-
-                    this._setRequestIsSending(true);
-                    return RESTer.request.send(compiledRequest)
-                        .then(plainResponse => {
-                            const requestClone = RESTer.util.cloneDeep(this.request);
-                            requestClone.variables.values = usedVariableValues;
-
-                            const response = {
-                                status: plainResponse.status,
-                                statusText: plainResponse.statusText,
-                                headers: plainResponse.headers,
-                                body: plainResponse.body
-                            };
-
-                            return RESTer.rester.addHistoryEntry({
-                                time: new Date(plainResponse.timeStart),
-                                timeEnd: new Date(plainResponse.timeEnd),
-                                timing: plainResponse.timing,
-                                request: requestClone,
-                                response: response
-                            });
-                        })
-                        .then(historyId => {
-                            this._setRequestIsSending(false);
-                            window.location = `#/request/${this.request.id || ''}/history/${historyId}`;
-                        })
-                        .catch(error => {
-                            this._setRequestIsSending(false);
-                            if (error.name !== 'AbortError') {
-                                this.showError(error);
-                            }
-                        });
-                }
-
-                _abortRequest() {
-                    if (this._requestAbortController) {
-                        this._requestAbortController.abort();
-                    }
-                }
-
-                _showHistoryEntrySizeDetails() {
-                    const timing = this.historyEntry.timing;
-                    RESTer.dialogs.timingSize.show(timing);
-                }
-
-                _showHistoryEntryDurationDetails() {
-                    const timing = this.historyEntry.timing;
-                    RESTer.dialogs.timingDuration.show(timing);
-                }
-
-                _lintCheckEmptyVariables() {
-                    if (this.request === undefined || this.requestVariableValues === undefined) {
-                        return false;
-                    }
-
-                    const variables = RESTer.variables.extract(this.request);
-                    const usedVariableValues = {};
-                    RESTer.variables.replace(this.request, this.requestVariableValues, usedVariableValues);
-                    return variables.some(name => !usedVariableValues[name]);
-                }
-
-                _lintFixEmptyVariables() {
-                    this.requestSelectedTab = 3;
-                }
-
-                _lintCheckFilesWithoutMultipart() {
-                    if (this.request === undefined) {
-                        return false;
-                    }
-
-                    const contentType = this.requestContentType || '';
-                    const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
-
-                    return contentType.toLowerCase() !== 'multipart/form-data' &&
-                        requiredFiles && requiredFiles.length > 0;
-                }
-
-                _lintFixFilesWithoutMultipart() {
-                    this._setRequestHeader('Content-Type', 'multipart/form-data');
-                }
-
-                _lintCheckEmptyFiles() {
-                    if (this.request === undefined) {
-                        return false;
-                    }
-
-                    const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
-                    const selectedFiles = this.$.bodyInput.files;
-
-                    return requiredFiles && requiredFiles
-                        .map(file => file.substring(7, file.length - 1))
-                        .some(file => !selectedFiles[file]);
-                }
-
-                _lintFixEmptyFiles() {
-                    this.requestSelectedTab = 1;
-                }
-
-                _lintCheckSuggestedContentType() {
-                    if (this.request === undefined || !this.request.body) {
-                        return false;
-                    }
-
-                    const contentType = this.requestContentType || '';
-                    const suggested = this.$.bodyInput.getSuggestedContentType();
-
-                    if (suggested && suggested !== contentType.toLowerCase() &&
-                        !this._lintCheckFilesWithoutMultipart() &&
-                        !this._lintCheckEmptyFiles()) {
-                        return {
-                            contentType: suggested
-                        };
-                    }
-                }
-
-                _lintFixSuggestedContentType() {
-                    const suggested = this.$.bodyInput.getSuggestedContentType();
-
-                    this._setRequestHeader('Content-Type', suggested);
+                    this.requestVariableValues = {};
+                    this._setResponse(null);
                 }
             }
 
-            customElements.define(RESTerPageRequest.is, RESTerPageRequest);
-        })();
+            _onRequestSelectedTabChanged() {
+                if (this.requestSelectedTab === 1) {
+                    this.$.bodyInput.notifyVisibilityChanged();
+                }
+            }
+
+            _computeRequestShowVariablesOnSide(setting, isWideEnough) {
+                return setting && isWideEnough;
+            }
+
+            _computeRequestIsSendingAndAbortable(isSending) {
+                return isSending && this._requestAbortController;
+            }
+
+            _computeRequestAuthorization(headers) {
+                const authorization = this._computeHeader(headers, 'Authorization');
+                if (authorization) {
+                    return {
+                        scheme: authorization.substr(0, authorization.indexOf(' ')),
+                        token: authorization.substr(authorization.indexOf(' ') + 1)
+                    };
+                }
+
+                const cookie = this._computeHeader(headers, 'Cookie');
+                if (cookie) {
+                    return {
+                        scheme: 'Cookie',
+                        token: cookie
+                    };
+                }
+
+                return null;
+            }
+
+            _computeHeader(headers, headerName) {
+                if (!headers || !headers.base) {
+                    return;
+                }
+
+                let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
+
+                return header && header.value;
+            }
+
+            _computeResponseBadgeType(status) {
+                if (status >= 100 && status < 200) {
+                    return 'info';
+                } else if (status >= 200 && status < 300) {
+                    return 'success';
+                } else if (status >= 300 && status < 400) {
+                    return 'info';
+                } else if (status >= 400) {
+                    return 'warn';
+                }
+            }
+
+            _computeHistoryEntryDuration(time, timeEnd, timing) {
+                const millis = timing
+                    ? timing.duration
+                    : new Date(timeEnd) - new Date(time);
+
+                return duration(millis, 0);
+            }
+
+            _computeHistoryEntrySize(timing) {
+                if (timing) {
+                    return size(timing.transferSize);
+                }
+            }
+
+            _updatePageTitle(request, historyEntry) {
+                if (!request) {
+                    return;
+                }
+
+                const collection = request.collection || '<no collection>';
+                const title = request.title || '<no title>';
+                const time = historyEntry && historyEntry.time ? dateTime(historyEntry.time) : '';
+
+                let pageTitle = `${collection} / ${title}`;
+                if (time) {
+                    pageTitle += ` (${time})`;
+                }
+
+                this._setPageTitle(pageTitle);
+            }
+
+            _onFormKeyDown(e) {
+                // Do not intercept Enter presses inside of a textarea. In this case you
+                // could no longer enter newlines, which is not what we want.
+                const nodeName = e.composedPath
+                    ? e.composedPath()[0].nodeName.toUpperCase()
+                    : e.target.nodeName.toUpperCase();
+                if (!e.defaultPrevented && nodeName !== 'TEXTAREA' && e.key === 'Enter') {
+                    e.preventDefault();
+                    this._sendRequest();
+                }
+            }
+
+            _onRequestAuthorizationChanged(e) {
+                const auth = e.detail.value;
+                if (!auth) {
+                    this._setRequestHeader('Authorization', null);
+                    this._setRequestHeader('Cookie', null);
+                } else if (auth.scheme === 'Cookie') {
+                    this._setRequestHeader('Authorization', null);
+                    this._setRequestHeader('Cookie', auth.token);
+                } else {
+                    this._setRequestHeader('Authorization', `${auth.scheme} ${auth.token}`);
+                    this._setRequestHeader('Cookie', null);
+                }
+            }
+
+            _setRequestHeader(headerName, value) {
+                const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
+                if (index > -1) {
+                    this.request.headers.splice(index, 1);
+                }
+
+                if (value || value === '') {
+                    const newHeader = {
+                        name: headerName,
+                        value: value
+                    };
+
+                    this.request.headers.push(newHeader);
+                }
+
+                this.set('request.headers', [...this.request.headers]);
+            }
+
+            _saveRequest() {
+                this.$.saveOptions.close();
+
+                if (!this.request.title || !this.request.collection) {
+                    this.showError('Please enter a Collection and Title for your request in blue bar at the top.', 'Missing Title');
+                    return;
+                }
+
+                putRequest(this.request).then(id => {
+                    this.request.id = id;
+
+                    window.location = `#/request/${id}`;
+                });
+            }
+
+            _saveRequestAsNew() {
+                this.$.saveOptions.close();
+                delete this.request.id;
+                this._saveRequest();
+            }
+
+            _deleteRequest() {
+                this.$.deleteOptions.close();
+
+                const resterApp = document.querySelector('rester-app');
+                const resterNavigationList = Polymer.dom(resterApp.root).querySelector('rester-navigation-list');
+                const resterNavigation = Polymer.dom(resterNavigationList.root).querySelector('rester-data-navigation');
+                const nextId = resterNavigation.getNextRequestId(this.request.id);
+                deleteRequest(this.request.id).then(() => {
+                    if (typeof nextId !== 'undefined') {
+                        window.location = `#/request/${nextId}`;
+                    } else {
+                        window.location = `#/`;
+                    }
+                });
+            }
+
+            _sendRequest() {
+                if (!this.$.requestForm.validate()) {
+                    return;
+                }
+
+                const usedVariableValues = {};
+                const compiledRequest = replaceVariables(this.request, this.requestVariableValues, usedVariableValues);
+
+                // Prefix with http://, if the compiled URL does not contain any protocol.
+                if (!/^[A-Za-z][A-Za-z0-9+-.]*:\/\/*/i.test(compiledRequest.url)) {
+                    compiledRequest.url = 'http://' + compiledRequest.url;
+                }
+
+                if (this.settings.stripDefaultHeaders) {
+                    compiledRequest.stripDefaultHeaders = true;
+                }
+
+                compiledRequest.tempVariables = {
+                    values: mapFilesToVariableValues(this.$.bodyInput.files || {})
+                };
+
+                if (window.AbortController) {
+                    this._requestAbortController = new AbortController();
+                    compiledRequest.signal = this._requestAbortController.signal;
+                }
+
+                this._setRequestIsSending(true);
+                return send(compiledRequest)
+                    .then(plainResponse => {
+                        const requestClone = cloneDeep(this.request);
+                        requestClone.variables.values = usedVariableValues;
+
+                        const response = {
+                            status: plainResponse.status,
+                            statusText: plainResponse.statusText,
+                            headers: plainResponse.headers,
+                            body: plainResponse.body
+                        };
+
+                        return addHistoryEntry({
+                            time: new Date(plainResponse.timeStart),
+                            timeEnd: new Date(plainResponse.timeEnd),
+                            timing: plainResponse.timing,
+                            request: requestClone,
+                            response: response
+                        });
+                    })
+                    .then(historyId => {
+                        this._setRequestIsSending(false);
+                        window.location = `#/request/${this.request.id || ''}/history/${historyId}`;
+                    })
+                    .catch(error => {
+                        this._setRequestIsSending(false);
+                        if (error.name !== 'AbortError') {
+                            this.showError(error);
+                        }
+                    });
+            }
+
+            _abortRequest() {
+                if (this._requestAbortController) {
+                    this._requestAbortController.abort();
+                }
+            }
+
+            _showHistoryEntrySizeDetails() {
+                const timing = this.historyEntry.timing;
+                dialogs.timingSize.show(timing);
+            }
+
+            _showHistoryEntryDurationDetails() {
+                const timing = this.historyEntry.timing;
+                dialogs.timingDuration.show(timing);
+            }
+
+            _lintCheckEmptyVariables() {
+                if (this.request === undefined || this.requestVariableValues === undefined) {
+                    return false;
+                }
+
+                const variables = extractVariables(this.request);
+                const usedVariableValues = {};
+                replaceVariables(this.request, this.requestVariableValues, usedVariableValues);
+                return variables.some(name => !usedVariableValues[name]);
+            }
+
+            _lintFixEmptyVariables() {
+                this.requestSelectedTab = 3;
+            }
+
+            _lintCheckFilesWithoutMultipart() {
+                if (this.request === undefined) {
+                    return false;
+                }
+
+                const contentType = this.requestContentType || '';
+                const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+
+                return contentType.toLowerCase() !== 'multipart/form-data' &&
+                    requiredFiles && requiredFiles.length > 0;
+            }
+
+            _lintFixFilesWithoutMultipart() {
+                this._setRequestHeader('Content-Type', 'multipart/form-data');
+            }
+
+            _lintCheckEmptyFiles() {
+                if (this.request === undefined) {
+                    return false;
+                }
+
+                const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+                const selectedFiles = this.$.bodyInput.files;
+
+                return requiredFiles && requiredFiles
+                    .map(file => file.substring(7, file.length - 1))
+                    .some(file => !selectedFiles[file]);
+            }
+
+            _lintFixEmptyFiles() {
+                this.requestSelectedTab = 1;
+            }
+
+            _lintCheckSuggestedContentType() {
+                if (this.request === undefined || !this.request.body) {
+                    return false;
+                }
+
+                const contentType = this.requestContentType || '';
+                const suggested = this.$.bodyInput.getSuggestedContentType();
+
+                if (suggested && suggested !== contentType.toLowerCase() &&
+                    !this._lintCheckFilesWithoutMultipart() &&
+                    !this._lintCheckEmptyFiles()) {
+                    return {
+                        contentType: suggested
+                    };
+                }
+            }
+
+            _lintFixSuggestedContentType() {
+                const suggested = this.$.bodyInput.getSuggestedContentType();
+
+                this._setRequestHeader('Content-Type', suggested);
+            }
+        }
+
+        customElements.define(RESTerPageRequest.is, RESTerPageRequest);
     </script>
 </dom-module>

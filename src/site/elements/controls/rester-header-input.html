@@ -44,131 +44,127 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        const COMMON_MIME_TYPES = [
+            'application/json',
+            'application/x-www-form-urlencoded',
+            'application/xhtml+xml',
+            'application/xml',
+            'text/html',
+            'text/plain',
+            'text/xml'
+        ];
 
-            const COMMON_MIME_TYPES = [
-                'application/json',
-                'application/x-www-form-urlencoded',
-                'application/xhtml+xml',
-                'application/xml',
-                'text/html',
-                'text/plain',
-                'text/xml'
-            ];
+        const REQUEST_HEADERS = [
+            'Accept',
+            'Accept-Charset',
+            'Accept-Encoding',
+            'Accept-Language',
+            'Authorization',
+            'Cache-Control',
+            'Connection',
+            'Content-Type',
+            'Cookie',
+            'Date',
+            'Expect',
+            'From',
+            'Host',
+            'If-Match',
+            'If-Modified-Since',
+            'If-None-Match',
+            'If-Range',
+            'If-Unmodified-Since',
+            'Max-Forwards',
+            'Pragma',
+            'Proxy-Authorization',
+            'Range',
+            'Referer',
+            'TE',
+            'Trailer',
+            'Transfer-Encoding',
+            'Upgrade',
+            'User-Agent',
+            'Via',
+            'Warning'
+        ];
 
-            const REQUEST_HEADERS = [
-                'Accept',
-                'Accept-Charset',
-                'Accept-Encoding',
-                'Accept-Language',
-                'Authorization',
-                'Cache-Control',
-                'Connection',
-                'Content-Type',
-                'Cookie',
-                'Date',
-                'Expect',
-                'From',
-                'Host',
-                'If-Match',
-                'If-Modified-Since',
-                'If-None-Match',
-                'If-Range',
-                'If-Unmodified-Since',
-                'Max-Forwards',
-                'Pragma',
-                'Proxy-Authorization',
-                'Range',
-                'Referer',
-                'TE',
-                'Trailer',
-                'Transfer-Encoding',
-                'Upgrade',
-                'User-Agent',
-                'Via',
-                'Warning'
-            ];
+        const REQUEST_HEADER_VALUES = {
+            'Accept': COMMON_MIME_TYPES,
+            'Accept-Charset': ['utf-8', 'iso-8859-1'],
+            'Accept-Encoding': ['gzip', 'deflate'],
+            'Authorization': ['Basic ', 'Bearer ', 'Digest '],
+            'Cache-Control': ['no-cache'],
+            'Connection': ['close', 'keep-alive'],
+            'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data']
+        };
 
-            const REQUEST_HEADER_VALUES = {
-                'Accept': COMMON_MIME_TYPES,
-                'Accept-Charset': ['utf-8', 'iso-8859-1'],
-                'Accept-Encoding': ['gzip', 'deflate'],
-                'Authorization': ['Basic ', 'Bearer ', 'Digest '],
-                'Cache-Control': ['no-cache'],
-                'Connection': ['close', 'keep-alive'],
-                'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data']
-            };
+        /**
+         * @polymerElement
+         */
+        class RESTerHeaderInput extends Polymer.Element {
+            static get is() {
+                return 'rester-header-input';
+            }
 
-            /**
-             * @polymerElement
-             */
-            class RESTerHeaderInput extends Polymer.Element {
-                static get is() {
-                    return 'rester-header-input';
-                }
-
-                static get properties() {
-                    return {
-                        value: {
-                            type: Array,
-                            notify: true,
-                            observer: '_onValueChanged'
-                        },
-                        headers: {
-                            type: Array,
-                            readOnly: true,
-                            value: []
-                        },
-                        requestHeaders: {
-                            type: Array,
-                            readOnly: true,
-                            value: REQUEST_HEADERS
-                        },
-                        requestHeaderValues: {
-                            type: Object,
-                            readOnly: true,
-                            value: REQUEST_HEADER_VALUES
-                        }
-                    };
-                }
-
-                ready() {
-                    super.ready();
-                    this._ensureEmptyHeader();
-                }
-
-                _onValueChanged() {
-                    this._setHeaders([...this.value]);
-                    this._ensureEmptyHeader();
-                }
-
-                _onHeadersChanged() {
-                    // Async ensures, this event is triggered after item.name and item.value
-                    // properties have been updated.
-                    Polymer.Async.microTask.run(() => {
-                        this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
-                        this._ensureEmptyHeader();
-                    });
-                }
-
-                _ensureEmptyHeader() {
-                    if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
-                        this.push('headers', {name: '', value: ''});
+            static get properties() {
+                return {
+                    value: {
+                        type: Array,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    headers: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
+                    },
+                    requestHeaders: {
+                        type: Array,
+                        readOnly: true,
+                        value: REQUEST_HEADERS
+                    },
+                    requestHeaderValues: {
+                        type: Object,
+                        readOnly: true,
+                        value: REQUEST_HEADER_VALUES
                     }
-                }
+                };
+            }
 
-                _removeHeader(e) {
-                    this.splice('headers', e.model.index, 1);
-                    this._onHeadersChanged();
-                }
+            ready() {
+                super.ready();
+                this._ensureEmptyHeader();
+            }
 
-                _getRequestHeaderValues(headerName) {
-                    return this.requestHeaderValues[headerName] || [];
+            _onValueChanged() {
+                this._setHeaders([...this.value]);
+                this._ensureEmptyHeader();
+            }
+
+            _onHeadersChanged() {
+                // Async ensures, this event is triggered after item.name and item.value
+                // properties have been updated.
+                Polymer.Async.microTask.run(() => {
+                    this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
+                    this._ensureEmptyHeader();
+                });
+            }
+
+            _ensureEmptyHeader() {
+                if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
+                    this.push('headers', {name: '', value: ''});
                 }
             }
 
-            customElements.define(RESTerHeaderInput.is, RESTerHeaderInput);
-        })();
+            _removeHeader(e) {
+                this.splice('headers', e.model.index, 1);
+                this._onHeadersChanged();
+            }
+
+            _getRequestHeaderValues(headerName) {
+                return this.requestHeaderValues[headerName] || [];
+            }
+        }
+
+        customElements.define(RESTerHeaderInput.is, RESTerHeaderInput);
     </script>
 </dom-module>

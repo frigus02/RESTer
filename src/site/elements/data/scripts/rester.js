@@ -1,167 +1,166 @@
-(function () {
-    'use strict';
+import createEventTarget from './_create-event-target.js';
 
-    const self = RESTer.register('rester', ['eventListeners']);
-    const port = chrome.runtime.connect({name: 'api'});
-    const requests = {};
-    const settingsKeys = [
-        'activeEnvironment',
-        'stripDefaultHeaders',
-        'enableRequestLintInspections',
-        'pinSidenav',
-        'requestBodyFullSize',
-        'responseBodyWrap',
-        'responseBodyPrettyPrint',
-        'responseBodyFullSize',
-        'responseBodyPreview',
-        'showVariablesOnSide',
-        'theme'
-    ];
-    const cachedSettings = {};
+export const e = createEventTarget();
 
-    port.onMessage.addListener(message => {
-        if (message.action === 'apiresponse') {
-            if (message.error) {
-                requests[message.id].reject(message.error && JSON.parse(message.error));
-            } else {
-                requests[message.id].resolve(message.result && JSON.parse(message.result));
-            }
+const port = chrome.runtime.connect({name: 'api'});
+const requests = {};
+const settingsKeys = [
+    'activeEnvironment',
+    'stripDefaultHeaders',
+    'enableRequestLintInspections',
+    'pinSidenav',
+    'requestBodyFullSize',
+    'responseBodyWrap',
+    'responseBodyPrettyPrint',
+    'responseBodyFullSize',
+    'responseBodyPreview',
+    'showVariablesOnSide',
+    'theme'
+];
+const cachedSettings = {};
 
-            requests[message.id] = undefined;
-        } else if (message.action.startsWith('event.')) {
-            const eventName = message.action.split('.')[1];
-            const args = message.args && JSON.parse(message.args);
-
-            if (eventName === 'settingsChange' && cachedSettings) {
-                Object.assign(cachedSettings, args);
-            }
-
-            self.fireEvent(eventName, args);
+port.onMessage.addListener(message => {
+    if (message.action === 'apiresponse') {
+        if (message.error) {
+            requests[message.id].reject(message.error && JSON.parse(message.error));
+        } else {
+            requests[message.id].resolve(message.result && JSON.parse(message.result));
         }
-    });
 
-    function sendApiRequest(action, args, fields) {
-        return new Promise((resolve, reject) => {
-            const id = Math.random();
+        requests[message.id] = undefined;
+    } else if (message.action.startsWith('event.')) {
+        const eventName = message.action.split('.')[1];
+        const args = message.args && JSON.parse(message.args);
 
-            requests[id] = {resolve, reject};
+        if (eventName === 'settingsChange' && cachedSettings) {
+            Object.assign(cachedSettings, args);
+        }
 
-            port.postMessage({
-                id,
-                action: 'api.' + action,
-                args: JSON.stringify(args),
-                fields
-            });
-        });
+        e.fireEvent(eventName, args);
     }
+});
 
+function sendApiRequest(action, args, fields) {
+    return new Promise((resolve, reject) => {
+        const id = Math.random();
 
-    /*
-    * Data
-    */
+        requests[id] = {resolve, reject};
 
-    self.putRequest = function (request) {
-        return sendApiRequest('data.requests.put', request);
-    };
-
-    self.getRequest = function (id, fields) {
-        return sendApiRequest('data.requests.get', id, fields);
-    };
-
-    self.getRequests = function (fields) {
-        return sendApiRequest('data.requests.query', null, fields);
-    };
-
-    self.getRequestCollections = function () {
-        return sendApiRequest('data.requests.queryCollections');
-    };
-
-    self.deleteRequest = function (id) {
-        return sendApiRequest('data.requests.delete', id);
-    };
-
-    self.addHistoryEntry = function (entry) {
-        return sendApiRequest('data.history.add', entry);
-    };
-
-    self.getHistoryEntry = function (id, fields) {
-        return sendApiRequest('data.history.get', id, fields);
-    };
-
-    self.getHistoryEntries = function (top, fields) {
-        return sendApiRequest('data.history.query', top, fields);
-    };
-
-    self.deleteHistoryEntries = function (ids) {
-        return sendApiRequest('data.history.delete', ids);
-    };
-
-    self.putAuthorizationProviderConfiguration = function (config) {
-        return sendApiRequest('data.authorizationProviderConfigurations.put', config);
-    };
-
-    self.getAuthorizationProviderConfigurations = function (providerId, fields) {
-        return sendApiRequest('data.authorizationProviderConfigurations.query', providerId, fields);
-    };
-
-    self.deleteAuthorizationProviderConfiguration = function (id) {
-        return sendApiRequest('data.authorizationProviderConfigurations.delete', id);
-    };
-
-    self.addAuthorizationToken = function (token) {
-        return sendApiRequest('data.authorizationTokens.add', token);
-    };
-
-    self.getAuthorizationTokens = function (fields) {
-        return sendApiRequest('data.authorizationTokens.query', null, fields);
-    };
-
-    self.deleteAuthorizationToken = function (id) {
-        return sendApiRequest('data.authorizationTokens.delete', id);
-    };
-
-    self.putEnvironment = function (environment) {
-        return sendApiRequest('data.environments.put', environment);
-    };
-
-    self.getEnvironment = function (id, fields) {
-        return sendApiRequest('data.environments.get', id, fields);
-    };
-
-    self.getEnvironments = function (fields) {
-        return sendApiRequest('data.environments.query', null, fields);
-    };
-
-    self.deleteEnvironment = function (id) {
-        return sendApiRequest('data.environments.delete', id);
-    };
-
-
-    /*
-    * Settings
-    */
-
-    self.settings = {};
-
-    settingsKeys.forEach(key => {
-        Object.defineProperty(self.settings, key, {
-            get: function () {
-                return cachedSettings[key];
-            },
-            set: function (newValue) {
-                cachedSettings[key] = newValue;
-                sendApiRequest('settings.set', {
-                    [key]: newValue
-                });
-            },
-            enumerable: true
+        port.postMessage({
+            id,
+            action: 'api.' + action,
+            args: JSON.stringify(args),
+            fields
         });
     });
+}
 
-    self.settingsLoaded = new Promise(resolve => {
-        sendApiRequest('settings.get').then(settings => {
-            Object.assign(cachedSettings, settings);
-            resolve();
-        });
+
+/*
+* Data
+*/
+
+export function putRequest(request) {
+    return sendApiRequest('data.requests.put', request);
+}
+
+export function getRequest(id, fields) {
+    return sendApiRequest('data.requests.get', id, fields);
+}
+
+export function getRequests(fields) {
+    return sendApiRequest('data.requests.query', null, fields);
+}
+
+export function getRequestCollections() {
+    return sendApiRequest('data.requests.queryCollections');
+}
+
+export function deleteRequest(id) {
+    return sendApiRequest('data.requests.delete', id);
+}
+
+export function addHistoryEntry(entry) {
+    return sendApiRequest('data.history.add', entry);
+}
+
+export function getHistoryEntry(id, fields) {
+    return sendApiRequest('data.history.get', id, fields);
+}
+
+export function getHistoryEntries(top, fields) {
+    return sendApiRequest('data.history.query', top, fields);
+}
+
+export function deleteHistoryEntries(ids) {
+    return sendApiRequest('data.history.delete', ids);
+}
+
+export function putAuthorizationProviderConfiguration(config) {
+    return sendApiRequest('data.authorizationProviderConfigurations.put', config);
+}
+
+export function getAuthorizationProviderConfigurations(providerId, fields) {
+    return sendApiRequest('data.authorizationProviderConfigurations.query', providerId, fields);
+}
+
+export function deleteAuthorizationProviderConfiguration(id) {
+    return sendApiRequest('data.authorizationProviderConfigurations.delete', id);
+}
+
+export function addAuthorizationToken(token) {
+    return sendApiRequest('data.authorizationTokens.add', token);
+}
+
+export function getAuthorizationTokens(fields) {
+    return sendApiRequest('data.authorizationTokens.query', null, fields);
+}
+
+export function deleteAuthorizationToken(id) {
+    return sendApiRequest('data.authorizationTokens.delete', id);
+}
+
+export function putEnvironment(environment) {
+    return sendApiRequest('data.environments.put', environment);
+}
+
+export function getEnvironment(id, fields) {
+    return sendApiRequest('data.environments.get', id, fields);
+}
+
+export function getEnvironments(fields) {
+    return sendApiRequest('data.environments.query', null, fields);
+}
+
+export function deleteEnvironment(id) {
+    return sendApiRequest('data.environments.delete', id);
+}
+
+
+/*
+* Settings
+*/
+
+export const settings = {};
+
+settingsKeys.forEach(key => {
+    Object.defineProperty(settings, key, {
+        get: function () {
+            return cachedSettings[key];
+        },
+        set: function (newValue) {
+            cachedSettings[key] = newValue;
+            sendApiRequest('settings.set', {
+                [key]: newValue
+            });
+        },
+        enumerable: true
     });
-})();
+});
+
+export const settingsLoaded = new Promise(resolve => {
+    sendApiRequest('settings.get').then(settings => {
+        Object.assign(cachedSettings, settings);
+        resolve();
+    });
+});

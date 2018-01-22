@@ -6,9 +6,6 @@
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="../data/rester-data.html">
-<link rel="import" href="rester-dialog-controller-mixin.html">
-
 <dom-module id="rester-timing-duration-dialog">
     <template>
         <style>
@@ -76,102 +73,101 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { duration as formatDuration } from '../data/scripts/format.js';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerTimingDurationDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-timing-duration-dialog';
-                }
-
-                static get properties() {
-                    return {
-                        data: String,
-                        dataAvailable: {
-                            type: Boolean,
-                            value: false,
-                            computed: '_computeDataAvailable(data)'
-                        },
-                        timeline: {
-                            type: Array,
-                            value: [],
-                            computed: '_computeTimeline(data)'
-                        }
-                    };
-                }
-
-                static get resterDialogId() {
-                    return 'timingDuration';
-                }
-
-                _computeDataAvailable(data) {
-                    return !!data;
-                }
-
-                _computeTimeline(data) {
-                    if (!data) {
-                        return [];
-                    }
-
-                    const queueRequest = {
-                        label: 'Queue request',
-                        startAt: 0,
-                        duration: data.domainLookupStart - data.fetchStart
-                    };
-
-                    const lookupDns = {
-                        label: 'Lookup DNS',
-                        startAt: data.domainLookupStart - data.fetchStart,
-                        duration: data.domainLookupEnd - data.domainLookupStart
-                    };
-
-                    // Missing: domainLookupEnd to connectStart
-
-                    const connect = {
-                        label: 'Connect',
-                        startAt: data.connectStart - data.fetchStart,
-                        duration: data.connectEnd - data.connectStart
-                    };
-
-                    // Missing: connectEnd to requestStart
-
-                    const sendRequest = {
-                        label: 'Send request + wait (TTFB)',
-                        startAt: data.requestStart - data.fetchStart,
-                        duration: data.responseStart - data.requestStart
-                    };
-
-                    const downloadResponse = {
-                        label: 'Download response',
-                        startAt: data.responseStart - data.fetchStart,
-                        duration: data.responseEnd - data.responseStart
-                    };
-
-                    return [
-                        queueRequest,
-                        lookupDns,
-                        connect,
-                        sendRequest,
-                        downloadResponse
-                    ];
-                }
-
-                _calcPercentage(full, fraction) {
-                    return fraction / full * 100;
-                }
-
-                _formatDuration(duration) {
-                    if (duration !== undefined) {
-                        return RESTer.format.duration(duration, 2);
-                    }
-                }
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @polymerElement
+         */
+        class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-timing-duration-dialog';
             }
 
-            customElements.define(RESTerTimingDurationDialog.is, RESTerTimingDurationDialog);
-        })();
+            static get properties() {
+                return {
+                    data: String,
+                    dataAvailable: {
+                        type: Boolean,
+                        value: false,
+                        computed: '_computeDataAvailable(data)'
+                    },
+                    timeline: {
+                        type: Array,
+                        value: [],
+                        computed: '_computeTimeline(data)'
+                    }
+                };
+            }
+
+            static get resterDialogId() {
+                return 'timingDuration';
+            }
+
+            _computeDataAvailable(data) {
+                return !!data;
+            }
+
+            _computeTimeline(data) {
+                if (!data) {
+                    return [];
+                }
+
+                const queueRequest = {
+                    label: 'Queue request',
+                    startAt: 0,
+                    duration: data.domainLookupStart - data.fetchStart
+                };
+
+                const lookupDns = {
+                    label: 'Lookup DNS',
+                    startAt: data.domainLookupStart - data.fetchStart,
+                    duration: data.domainLookupEnd - data.domainLookupStart
+                };
+
+                // Missing: domainLookupEnd to connectStart
+
+                const connect = {
+                    label: 'Connect',
+                    startAt: data.connectStart - data.fetchStart,
+                    duration: data.connectEnd - data.connectStart
+                };
+
+                // Missing: connectEnd to requestStart
+
+                const sendRequest = {
+                    label: 'Send request + wait (TTFB)',
+                    startAt: data.requestStart - data.fetchStart,
+                    duration: data.responseStart - data.requestStart
+                };
+
+                const downloadResponse = {
+                    label: 'Download response',
+                    startAt: data.responseStart - data.fetchStart,
+                    duration: data.responseEnd - data.responseStart
+                };
+
+                return [
+                    queueRequest,
+                    lookupDns,
+                    connect,
+                    sendRequest,
+                    downloadResponse
+                ];
+            }
+
+            _calcPercentage(full, fraction) {
+                return fraction / full * 100;
+            }
+
+            _formatDuration(duration) {
+                if (duration !== undefined) {
+                    return formatDuration(duration, 2);
+                }
+            }
+        }
+
+        customElements.define(RESTerTimingDurationDialog.is, RESTerTimingDurationDialog);
     </script>
 </dom-module>

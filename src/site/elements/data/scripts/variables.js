@@ -1,86 +1,86 @@
-(function () {
-    'use strict';
+import createEventTarget from './_create-event-target.js';
+import { clone } from './util.js';
+import providerEnv from './variables-provider-env.js';
 
-    const self = RESTer.register('variables', ['eventListeners']);
-    const RE_VARS = /\{(\S+?)\}/gi;
+export const e = createEventTarget();
+export const providedValues = {};
 
-    self.providedValues = {};
+const RE_VARS = /\{(\S+?)\}/gi;
+const providers = [providerEnv];
 
-    collectProvidedValues();
-    initVarProviderChangeListeners();
+collectProvidedValues();
+initVarProviderChangeListeners();
 
-    function collectProvidedValues() {
-        self.providedValues = {};
-        for (let name in self.providers) {
-            if (self.providers.hasOwnProperty(name)) {
-                const provider = self.providers[name];
-                for (let key in provider.values) {
-                    if (provider.values.hasOwnProperty(key)) {
-                        self.providedValues[`$${name}.${key}`] = provider.values[key];
-                    }
-                }
-            }
+function collectProvidedValues() {
+    for (const prop in providedValues) {
+        if (providedValues.hasOwnProperty(prop)) {
+            delete providedValues[prop];
         }
-
-        self.fireEvent('providedValuesChanged', self.providedValues);
     }
 
-    function initVarProviderChangeListeners() {
-        for (let name in self.providers) {
-            if (self.providers.hasOwnProperty(name)) {
-                const provider = self.providers[name];
-                provider.addEventListener('valuesChanged', collectProvidedValues);
+    for (const provider of providers) {
+        for (const key in provider.values) {
+            if (provider.values.hasOwnProperty(key)) {
+                providedValues[`$${provider.name}.${key}`] = provider.values[key];
             }
         }
     }
 
-    self.extract = function (obj) {
-        const vars = new Set();
+    e.fireEvent('providedValuesChanged', providedValues);
+}
 
-        if (typeof obj === 'string') {
-            const matches = obj.match(RE_VARS);
-            if (matches) {
-                matches
-                    .map(m => m.substr(1, m.length - 2))
-                    .forEach(v => vars.add(v));
-            }
-        } else if (typeof obj === 'object' && obj !== null) {
-            Object.keys(obj).forEach(key => {
-                self.extract(obj[key]).forEach(v => vars.add(v));
-            });
+function initVarProviderChangeListeners() {
+    for (const provider of providers) {
+        provider.e.addEventListener('valuesChanged', collectProvidedValues);
+    }
+}
+
+export function extract(obj) {
+    const vars = new Set();
+
+    if (typeof obj === 'string') {
+        const matches = obj.match(RE_VARS);
+        if (matches) {
+            matches
+                .map(m => m.substr(1, m.length - 2))
+                .forEach(v => vars.add(v));
         }
-
-        return Array.from(vars);
-    };
-
-    function replaceInternal(obj, allValues, usedValues) {
-        if (typeof obj === 'string') {
-            obj = obj.replace(RE_VARS, match => {
-                let varName = match.substr(1, match.length - 2),
-                    value = allValues[varName];
-
-                if (value) {
-                    usedValues[varName] = value;
-                    return value;
-                } else {
-                    return `{${varName}}`;
-                }
-            });
-        } else if (typeof obj === 'object' && obj !== null) {
-            obj = RESTer.util.clone(obj);
-            Object.keys(obj).forEach(key => {
-                obj[key] = replaceInternal(obj[key], allValues, usedValues);
-            });
-        }
-
-        return obj;
+    } else if (typeof obj === 'object' && obj !== null) {
+        Object.keys(obj).forEach(key => {
+            extract(obj[key]).forEach(v => vars.add(v));
+        });
     }
 
-    self.replace = function (obj, values = {}, usedValues = {}) {
-        return replaceInternal(obj, Object.assign({}, values, self.providedValues), usedValues);
-    };
+    return Array.from(vars);
+}
 
-    self.replaceWithoutProvidedValues = function (obj, values = {}, usedValues = {}) {
-        return replaceInternal(obj, Object.assign({}, values), usedValues);
-    };
-})();
+function replaceInternal(obj, allValues, usedValues) {
+    if (typeof obj === 'string') {
+        obj = obj.replace(RE_VARS, match => {
+            let varName = match.substr(1, match.length - 2),
+                value = allValues[varName];
+
+            if (value) {
+                usedValues[varName] = value;
+                return value;
+            } else {
+                return `{${varName}}`;
+            }
+        });
+    } else if (typeof obj === 'object' && obj !== null) {
+        obj = clone(obj);
+        Object.keys(obj).forEach(key => {
+            obj[key] = replaceInternal(obj[key], allValues, usedValues);
+        });
+    }
+
+    return obj;
+}
+
+export function replace(obj, values = {}, usedValues = {}) {
+    return replaceInternal(obj, Object.assign({}, values, providedValues), usedValues);
+}
+
+export function replaceWithoutProvidedValues(obj, values = {}, usedValues = {}) {
+    return replaceInternal(obj, Object.assign({}, values), usedValues);
+}

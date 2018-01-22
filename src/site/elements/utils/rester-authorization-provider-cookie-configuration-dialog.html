@@ -11,7 +11,6 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 <link rel="import" href="../styles/rester-hint.html">
-<link rel="import" href="rester-dialog-controller-mixin.html">
 
 <dom-module id="rester-authorization-provider-cookie-configuration-dialog">
     <template>
@@ -97,46 +96,44 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerAuthorizationProviderCookieConfigurationDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-authorization-provider-cookie-configuration-dialog';
-                }
+        /**
+        * @mixes RESTerDialogControllerMixin
+        * @polymerElement
+        */
+        class RESTerAuthorizationProviderCookieConfigurationDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-authorization-provider-cookie-configuration-dialog';
+            }
 
-                static get properties() {
-                    return {
-                        data: Object,
-                        form: Object
-                    };
-                }
+            static get properties() {
+                return {
+                    data: Object,
+                    form: Object
+                };
+            }
 
-                static get resterDialogId() {
-                    return 'authProviderCookieConfiguration';
-                }
+            static get resterDialogId() {
+                return 'authProviderCookieConfiguration';
+            }
 
-                ready() {
-                    super.ready();
-                    this.form = this.$.dialogForm;
-                }
+            ready() {
+                super.ready();
+                this.form = this.$.dialogForm;
+            }
 
-                _save() {
-                    if (this.$.dialogForm.validate()) {
-                        this._closeDialogWithAction('save');
-                    }
-                }
-
-                _delete() {
-                    this._closeDialogWithAction('delete');
+            _save() {
+                if (this.$.dialogForm.validate()) {
+                    this._closeDialogWithAction('save');
                 }
             }
 
-            customElements.define(RESTerAuthorizationProviderCookieConfigurationDialog.is, RESTerAuthorizationProviderCookieConfigurationDialog);
-        })();
+            _delete() {
+                this._closeDialogWithAction('delete');
+            }
+        }
+
+        customElements.define(RESTerAuthorizationProviderCookieConfigurationDialog.is, RESTerAuthorizationProviderCookieConfigurationDialog);
     </script>
 </dom-module>

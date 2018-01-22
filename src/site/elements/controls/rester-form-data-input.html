@@ -78,177 +78,175 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { encodeFormValue } from '../data/scripts/encode.js';
 
-            /**
-             * @polymerElement
-             */
-            class RESTerFormDataInput extends Polymer.Element {
-                static get is() {
-                    return 'rester-form-data-input';
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerFormDataInput extends Polymer.Element {
+            static get is() {
+                return 'rester-form-data-input';
+            }
 
-                static get properties() {
-                    return {
-                        value: {
-                            type: String,
-                            notify: true,
-                            observer: '_onValueChanged'
-                        },
-                        files: {
-                            type: Object,
-                            notify: true,
-                            readOnly: true,
-                            value: {}
-                        },
-                        noEncode: {
-                            type: Boolean,
-                            value: false
-                        },
-                        textOnly: {
-                            type: Boolean,
-                            value: false
-                        },
-                        formDataEntries: {
-                            type: Array,
-                            readOnly: true
-                        }
-                    };
-                }
+            static get properties() {
+                return {
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    files: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true,
+                        value: {}
+                    },
+                    noEncode: {
+                        type: Boolean,
+                        value: false
+                    },
+                    textOnly: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formDataEntries: {
+                        type: Array,
+                        readOnly: true
+                    }
+                };
+            }
 
-                constructor() {
-                    super();
-                    this._ignoreFormDataEntryChangedEvents = false;
-                }
+            constructor() {
+                super();
+                this._ignoreFormDataEntryChangedEvents = false;
+            }
 
-                _onValueChanged() {
-                    this._setFormDataEntries(this._parseFormDataEntries(this.value));
-                    this._cleanUpUnusedFiles();
+            _onValueChanged() {
+                this._setFormDataEntries(this._parseFormDataEntries(this.value));
+                this._cleanUpUnusedFiles();
+                this._ensureEmptyFormDataEntry();
+            }
+
+            _onFormDataEntriesChanged() {
+                // Async ensures, this event is triggered after item.name and item.value
+                // properties have been updated.
+                Polymer.Async.microTask.run(() => {
+                    this.value = this._stringifyFormDataEntries(this.formDataEntries);
                     this._ensureEmptyFormDataEntry();
+                });
+            }
+
+            _onFormDataEntryFileSelected(e) {
+                const file = e.target.files[0];
+                const index = this.$.repeat.indexForElement(e.target);
+                const oldValue = this.get(['formDataEntries', index, 'value']);
+
+                if (oldValue) {
+                    delete this.files[oldValue];
+                    this.notifyPath(['files', oldValue]);
                 }
 
-                _onFormDataEntriesChanged() {
-                    // Async ensures, this event is triggered after item.name and item.value
-                    // properties have been updated.
-                    Polymer.Async.microTask.run(() => {
-                        this.value = this._stringifyFormDataEntries(this.formDataEntries);
-                        this._ensureEmptyFormDataEntry();
-                    });
-                }
-
-                _onFormDataEntryFileSelected(e) {
-                    const file = e.target.files[0];
-                    const index = this.$.repeat.indexForElement(e.target);
-                    const oldValue = this.get(['formDataEntries', index, 'value']);
-
-                    if (oldValue) {
-                        delete this.files[oldValue];
-                        this.notifyPath(['files', oldValue]);
-                    }
-
-                    if (file) {
-                        let name = file.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                        if (this._isFileNameInUse(name, index)) {
-                            let suffix;
-                            for (suffix = 1; this._isFileNameInUse(name + suffix, index); suffix++) {
-                                // empty
-                            }
-
-                            name += suffix;
+                if (file) {
+                    let name = file.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    if (this._isFileNameInUse(name, index)) {
+                        let suffix;
+                        for (suffix = 1; this._isFileNameInUse(name + suffix, index); suffix++) {
+                            // empty
                         }
 
-                        this.set(['files', name], file);
-                        this.set(['formDataEntries', index, 'value'], name);
-                    } else {
-                        this.set(['formDataEntries', index, 'value'], '');
+                        name += suffix;
                     }
 
-                    this._onFormDataEntriesChanged();
+                    this.set(['files', name], file);
+                    this.set(['formDataEntries', index, 'value'], name);
+                } else {
+                    this.set(['formDataEntries', index, 'value'], '');
                 }
 
-                _ensureEmptyFormDataEntry() {
-                    if (!this.formDataEntries.some(e => e.name.trim() === '' && e.value.trim() === '')) {
-                        this.push('formDataEntries', {name: '', value: '', type: 'text'});
-                    }
-                }
+                this._onFormDataEntriesChanged();
+            }
 
-                _removeFormDataEntry(e) {
-                    this.splice('formDataEntries', e.model.index, 1);
-                    this._onFormDataEntriesChanged();
-                }
-
-                _isFormDataType(selectedType, comparedType) {
-                    return selectedType === comparedType;
-                }
-
-                _stringifyFormDataEntries(entries) {
-                    const encode = (!this.noEncode || this._isEncodeNeeded(entries))
-                        ? RESTer.encode.encodeFormValue
-                        : str => str;
-
-                    return entries
-                        .filter(entry => entry.name.trim())
-                        .map(entry => {
-                            let str = encode(entry.name);
-                            if (entry.type === 'file') {
-                                str += '=' + `[$file.${entry.value}]`;
-                            } else if (entry.value) {
-                                str += '=' + encode(entry.value);
-                            }
-
-                            return str;
-                        })
-                        .join('&');
-                }
-
-                _parseFormDataEntries(str) {
-                    return (str || '')
-                        .split('&')
-                        .map(row => {
-                            const keyValue = row.split('=');
-                            const name = decodeURIComponent(keyValue[0]);
-                            const value = decodeURIComponent(keyValue[1] || '');
-                            const fileMatch = /^\[\$file\.([^}]*)\]$/gi.exec(value);
-
-                            if (fileMatch && !this.textOnly) {
-                                let fileName = fileMatch[1];
-                                if (!this.files[fileName]) {
-                                    fileName = null;
-                                }
-
-                                return {name, value: fileName, type: 'file'};
-                            } else {
-                                return {name, value, type: 'text'};
-                            }
-                        })
-                        .filter(row => row.name.trim());
-                }
-
-                _cleanUpUnusedFiles() {
-                    for (let key in this.files) {
-                        if (this.files.hasOwnProperty(key) && !this._isFileNameInUse(key)) {
-                            delete this.files[key];
-                            this.notifyPath(['files', key]);
-                        }
-                    }
-                }
-
-                _isEncodeNeeded(entries) {
-                    return entries.some(entry =>
-                        entry.name.includes('&') ||
-                        entry.name.includes('=') ||
-                        entry.value.includes('&') ||
-                        entry.value.includes('='));
-                }
-
-                _isFileNameInUse(name, ignoreIndex) {
-                    return this.formDataEntries.some((e, i) =>
-                        i !== ignoreIndex && e.type === 'file' && e.value === name);
+            _ensureEmptyFormDataEntry() {
+                if (!this.formDataEntries.some(e => e.name.trim() === '' && e.value.trim() === '')) {
+                    this.push('formDataEntries', {name: '', value: '', type: 'text'});
                 }
             }
 
-            customElements.define(RESTerFormDataInput.is, RESTerFormDataInput);
-        })();
+            _removeFormDataEntry(e) {
+                this.splice('formDataEntries', e.model.index, 1);
+                this._onFormDataEntriesChanged();
+            }
+
+            _isFormDataType(selectedType, comparedType) {
+                return selectedType === comparedType;
+            }
+
+            _stringifyFormDataEntries(entries) {
+                const encode = (!this.noEncode || this._isEncodeNeeded(entries))
+                    ? encodeFormValue
+                    : str => str;
+
+                return entries
+                    .filter(entry => entry.name.trim())
+                    .map(entry => {
+                        let str = encode(entry.name);
+                        if (entry.type === 'file') {
+                            str += '=' + `[$file.${entry.value}]`;
+                        } else if (entry.value) {
+                            str += '=' + encode(entry.value);
+                        }
+
+                        return str;
+                    })
+                    .join('&');
+            }
+
+            _parseFormDataEntries(str) {
+                return (str || '')
+                    .split('&')
+                    .map(row => {
+                        const keyValue = row.split('=');
+                        const name = decodeURIComponent(keyValue[0]);
+                        const value = decodeURIComponent(keyValue[1] || '');
+                        const fileMatch = /^\[\$file\.([^}]*)\]$/gi.exec(value);
+
+                        if (fileMatch && !this.textOnly) {
+                            let fileName = fileMatch[1];
+                            if (!this.files[fileName]) {
+                                fileName = null;
+                            }
+
+                            return {name, value: fileName, type: 'file'};
+                        } else {
+                            return {name, value, type: 'text'};
+                        }
+                    })
+                    .filter(row => row.name.trim());
+            }
+
+            _cleanUpUnusedFiles() {
+                for (let key in this.files) {
+                    if (this.files.hasOwnProperty(key) && !this._isFileNameInUse(key)) {
+                        delete this.files[key];
+                        this.notifyPath(['files', key]);
+                    }
+                }
+            }
+
+            _isEncodeNeeded(entries) {
+                return entries.some(entry =>
+                    entry.name.includes('&') ||
+                    entry.name.includes('=') ||
+                    entry.value.includes('&') ||
+                    entry.value.includes('='));
+            }
+
+            _isFileNameInUse(name, ignoreIndex) {
+                return this.formDataEntries.some((e, i) =>
+                    i !== ignoreIndex && e.type === 'file' && e.value === name);
+            }
+        }
+
+        customElements.define(RESTerFormDataInput.is, RESTerFormDataInput);
     </script>
 </dom-module>

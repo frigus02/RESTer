@@ -128,98 +128,94 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        /**
+         * @polymerElement
+         */
+        class RESTerNavigationListItem extends Polymer.Element {
+            static get is() {
+                return 'rester-navigation-list-item';
+            }
 
-            /**
-             * @polymerElement
-             */
-            class RESTerNavigationListItem extends Polymer.Element {
-                static get is() {
-                    return 'rester-navigation-list-item';
-                }
-
-                static get properties() {
-                    return {
-                        item: Object,
-                        indentLevel: {
-                            type: Number,
-                            value: 0
-                        },
-                        route: {
-                            type: Object,
-                            observer: '_onRouteChanged'
-                        },
-                        active: {
-                            type: Boolean,
-                            computed: '_computeActive(route)',
-                            reflectToAttribute: true
-                        }
-                    };
-                }
-
-                _getIndentionInPixel() {
-                    return this.indentLevel * 24;
-                }
-
-                _getIndentLevelForSubitems() {
-                    return this.indentLevel + 1;
-                }
-
-                _toggleGroup() {
-                    this.set('item.isExpanded', !this.item.isExpanded);
-                }
-
-                _getExpandedClass() {
-                    return this.item.isExpanded ? 'expanded' : '';
-                }
-
-                _onSubitemActivated() {
-                    this.set('item.isExpanded', true);
-                }
-
-                _onRouteChanged() {
-                    this.set('item.isExpanded', false);
-                    setTimeout(() => {
-                        if (this.active) {
-                            this.dispatchEvent(new CustomEvent('item-activated', {
-                                bubbles: true,
-                                composed: true
-                            }));
-                        }
-                    });
-                }
-
-                _computeActive() {
-                    const url = this.item && this.item.action && this.item.action.url;
-                    if (!url) {
-                        return false;
+            static get properties() {
+                return {
+                    item: Object,
+                    indentLevel: {
+                        type: Number,
+                        value: 0
+                    },
+                    route: {
+                        type: Object,
+                        observer: '_onRouteChanged'
+                    },
+                    active: {
+                        type: Boolean,
+                        computed: '_computeActive(route)',
+                        reflectToAttribute: true
                     }
+                };
+            }
 
-                    const activePath = this.route.path.split('/');
-                    const path = url.substr(1).split('/');
+            _getIndentionInPixel() {
+                return this.indentLevel * 24;
+            }
 
-                    return path.every((part, i) => part === activePath[i]);
-                }
+            _getIndentLevelForSubitems() {
+                return this.indentLevel + 1;
+            }
 
-                _invokeAction() {
-                    const action = this.item.action;
-                    if (action.url) {
-                        window.location = action.url;
-                    } else if (action.handler) {
-                        action.handler();
+            _toggleGroup() {
+                this.set('item.isExpanded', !this.item.isExpanded);
+            }
+
+            _getExpandedClass() {
+                return this.item.isExpanded ? 'expanded' : '';
+            }
+
+            _onSubitemActivated() {
+                this.set('item.isExpanded', true);
+            }
+
+            _onRouteChanged() {
+                this.set('item.isExpanded', false);
+                setTimeout(() => {
+                    if (this.active) {
+                        this.dispatchEvent(new CustomEvent('item-activated', {
+                            bubbles: true,
+                            composed: true
+                        }));
                     }
+                });
+            }
+
+            _computeActive() {
+                const url = this.item && this.item.action && this.item.action.url;
+                if (!url) {
+                    return false;
                 }
 
-                _invokeSecondaryAction(e) {
-                    e.stopPropagation();
+                const activePath = this.route.path.split('/');
+                const path = url.substr(1).split('/');
 
-                    const action = this.item.secondaryAction;
+                return path.every((part, i) => part === activePath[i]);
+            }
+
+            _invokeAction() {
+                const action = this.item.action;
+                if (action.url) {
+                    window.location = action.url;
+                } else if (action.handler) {
                     action.handler();
                 }
             }
 
-            customElements.define(RESTerNavigationListItem.is, RESTerNavigationListItem);
-        })();
+            _invokeSecondaryAction(e) {
+                e.stopPropagation();
+
+                const action = this.item.secondaryAction;
+                action.handler();
+            }
+        }
+
+        customElements.define(RESTerNavigationListItem.is, RESTerNavigationListItem);
     </script>
 </dom-module>

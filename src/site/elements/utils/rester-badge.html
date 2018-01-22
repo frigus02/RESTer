@@ -28,28 +28,24 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
-
-            /**
-             * @polymerElement
-             */
-            class RESTerBadge extends Polymer.Element {
-                static get is() {
-                    return 'rester-badge';
-                }
-
-                static get properties() {
-                    return {
-                        type: {
-                            type: String,
-                            reflectToAttribute: true
-                        }
-                    };
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerBadge extends Polymer.Element {
+            static get is() {
+                return 'rester-badge';
             }
 
-            customElements.define(RESTerBadge.is, RESTerBadge);
-        })();
+            static get properties() {
+                return {
+                    type: {
+                        type: String,
+                        reflectToAttribute: true
+                    }
+                };
+            }
+        }
+
+        customElements.define(RESTerBadge.is, RESTerBadge);
     </script>
 </dom-module>

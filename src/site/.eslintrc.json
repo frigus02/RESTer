@@ -1,14 +1,9 @@
 {
     "globals": {
-        "_": false,
         "AbortController": false,
         "ace": false,
         "chrome": false,
-        "DOMPurify": false,
-        "Mousetrap": false,
-        "Polymer": false,
-        "RESTer": false,
-        "vkbeautify": false
+        "Polymer": false
     },
     "rules": {
         "new-cap": [2, {"capIsNewExceptionPattern": "Mixin$"}]

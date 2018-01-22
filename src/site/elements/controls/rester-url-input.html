@@ -59,91 +59,87 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
-
-            /**
-             * @polymerElement
-             */
-            class RESTerUrlInput extends Polymer.Element {
-                static get is() {
-                    return 'rester-url-input';
-                }
-
-                static get properties() {
-                    return {
-                        label: String,
-                        name: String,
-                        value: {
-                            type: String,
-                            notify: true,
-                            observer: '_onValueChanged'
-                        },
-                        required: {
-                            type: Boolean,
-                            value: false
-                        },
-                        originAndPath: {
-                            type: String
-                        },
-                        query: {
-                            type: String
-                        },
-                        expanded: {
-                            type: Boolean,
-                            value: false,
-                            reflectToAttribute: true
-                        },
-                        invalid: {
-                            type: Boolean,
-                            value: false,
-                            notify: true
-                        }
-                    };
-                }
-
-                _toggleExpanded() {
-                    this.expanded = !this.expanded;
-                    setTimeout(() => {
-                        if (this.expanded) {
-                            this.$.inputAbsolute.focus();
-                        } else {
-                            this.$.inputOriginAndPath.focus();
-                        }
-                    });
-                }
-
-                _onValueChanged() {
-                    const parts = this.value.split('?');
-                    this.originAndPath = parts[0];
-                    this.query = parts[1] || '';
-                }
-
-                _onOriginAndPathChanged(event) {
-                    this.originAndPath = event.detail.value;
-                    this._updateValueFromOriginAndPathAndQuery();
-                }
-
-                _onQueryChanged(event) {
-                    this.query = event.detail.value;
-                    this._updateValueFromOriginAndPathAndQuery();
-                }
-
-                _updateValueFromOriginAndPathAndQuery() {
-                    let url = this.originAndPath;
-                    if (this.query) {
-                        url += '?' + this.query;
-                    }
-
-                    this.value = url;
-                }
-
-                validate() {
-                    return this.$.inputAbsolute.validate();
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerUrlInput extends Polymer.Element {
+            static get is() {
+                return 'rester-url-input';
             }
 
-            customElements.define(RESTerUrlInput.is, RESTerUrlInput);
-        })();
+            static get properties() {
+                return {
+                    label: String,
+                    name: String,
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: '_onValueChanged'
+                    },
+                    required: {
+                        type: Boolean,
+                        value: false
+                    },
+                    originAndPath: {
+                        type: String
+                    },
+                    query: {
+                        type: String
+                    },
+                    expanded: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true
+                    },
+                    invalid: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    }
+                };
+            }
+
+            _toggleExpanded() {
+                this.expanded = !this.expanded;
+                setTimeout(() => {
+                    if (this.expanded) {
+                        this.$.inputAbsolute.focus();
+                    } else {
+                        this.$.inputOriginAndPath.focus();
+                    }
+                });
+            }
+
+            _onValueChanged() {
+                const parts = this.value.split('?');
+                this.originAndPath = parts[0];
+                this.query = parts[1] || '';
+            }
+
+            _onOriginAndPathChanged(event) {
+                this.originAndPath = event.detail.value;
+                this._updateValueFromOriginAndPathAndQuery();
+            }
+
+            _onQueryChanged(event) {
+                this.query = event.detail.value;
+                this._updateValueFromOriginAndPathAndQuery();
+            }
+
+            _updateValueFromOriginAndPathAndQuery() {
+                let url = this.originAndPath;
+                if (this.query) {
+                    url += '?' + this.query;
+                }
+
+                this.value = url;
+            }
+
+            validate() {
+                return this.$.inputAbsolute.validate();
+            }
+        }
+
+        customElements.define(RESTerUrlInput.is, RESTerUrlInput);
     </script>
 </dom-module>

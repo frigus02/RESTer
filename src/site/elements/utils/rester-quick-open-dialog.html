@@ -74,56 +74,54 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { getRequests } from '../data/scripts/rester.js';
 
-            /**
-             * @polymerElement
-             */
-            class RESTerQuickOpenDialog extends Polymer.Element {
-                static get is() {
-                    return 'rester-quick-open-dialog';
-                }
-
-                static get properties() {
-                    return {
-                        searchText: String,
-                        items: {
-                            type: Array,
-                            readOnly: true
-                        }
-                    };
-                }
-
-                static get requestFields() {
-                    return ['id', 'collection', 'title', 'method', 'url'];
-                }
-
-                show() {
-                    this.searchText = '';
-                    RESTer.rester.getRequests(RESTerQuickOpenDialog.requestFields).then(requests => {
-                        this._setItems(requests.map(r => ({
-                            title: `${r.collection} / ${r.title}`,
-                            description: `${r.method} ${r.url}`,
-                            score: 0,
-                            data: r
-                        })));
-                    });
-
-                    this.$.dialog.open();
-                }
-
-                _onItemSelected(e) {
-                    this.$.dialog.close();
-
-                    const item = e.detail;
-                    if (item) {
-                        window.location = `#/request/${item.data.id}`;
-                    }
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerQuickOpenDialog extends Polymer.Element {
+            static get is() {
+                return 'rester-quick-open-dialog';
             }
 
-            customElements.define(RESTerQuickOpenDialog.is, RESTerQuickOpenDialog);
-        })();
+            static get properties() {
+                return {
+                    searchText: String,
+                    items: {
+                        type: Array,
+                        readOnly: true
+                    }
+                };
+            }
+
+            static get requestFields() {
+                return ['id', 'collection', 'title', 'method', 'url'];
+            }
+
+            show() {
+                this.searchText = '';
+                getRequests(RESTerQuickOpenDialog.requestFields).then(requests => {
+                    this._setItems(requests.map(r => ({
+                        title: `${r.collection} / ${r.title}`,
+                        description: `${r.method} ${r.url}`,
+                        score: 0,
+                        data: r
+                    })));
+                });
+
+                this.$.dialog.open();
+            }
+
+            _onItemSelected(e) {
+                this.$.dialog.close();
+
+                const item = e.detail;
+                if (item) {
+                    window.location = `#/request/${item.data.id}`;
+                }
+            }
+        }
+
+        customElements.define(RESTerQuickOpenDialog.is, RESTerQuickOpenDialog);
     </script>
 </dom-module>

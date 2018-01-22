@@ -1,5 +1,3 @@
-(function () {
-    'use strict';
+const dialogs = {};
 
-    RESTer.register('dialogs');
-})();
+export default dialogs;

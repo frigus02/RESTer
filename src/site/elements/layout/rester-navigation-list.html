@@ -19,26 +19,22 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
-
-            /**
-             * @polymerElement
-             */
-            class RESTerNavigationList extends Polymer.Element {
-                static get is() {
-                    return 'rester-navigation-list';
-                }
-
-                static get properties() {
-                    return {
-                        route: Object,
-                        items: Array
-                    };
-                }
+        /**
+         * @polymerElement
+         */
+        class RESTerNavigationList extends Polymer.Element {
+            static get is() {
+                return 'rester-navigation-list';
             }
 
-            customElements.define(RESTerNavigationList.is, RESTerNavigationList);
-        })();
+            static get properties() {
+                return {
+                    route: Object,
+                    items: Array
+                };
+            }
+        }
+
+        customElements.define(RESTerNavigationList.is, RESTerNavigationList);
     </script>
 </dom-module>

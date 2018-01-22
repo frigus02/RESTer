@@ -9,8 +9,6 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
-<link rel="import" href="rester-dialog-controller-mixin.html">
-
 <dom-module id="rester-authorization-provider-oauth2-generate-token-resource-owner-dialog">
     <template>
         <style>
@@ -67,42 +65,40 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-authorization-provider-oauth2-generate-token-resource-owner-dialog';
-                }
-
-                static get properties() {
-                    return {
-                        data: Object,
-                        form: Object
-                    };
-                }
-
-                static get resterDialogId() {
-                    return 'authProviderOAuth2GenerateTokenResourceOwner';
-                }
-
-                ready() {
-                    super.ready();
-                    this.form = this.$.dialogForm;
-                }
-
-                _save() {
-                    if (this.$.dialogForm.validate()) {
-                        this._closeDialogWithAction();
-                    }
-                }
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @polymerElement
+         */
+        class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-authorization-provider-oauth2-generate-token-resource-owner-dialog';
             }
 
-            customElements.define(RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog.is, RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog);
-        })();
+            static get properties() {
+                return {
+                    data: Object,
+                    form: Object
+                };
+            }
+
+            static get resterDialogId() {
+                return 'authProviderOAuth2GenerateTokenResourceOwner';
+            }
+
+            ready() {
+                super.ready();
+                this.form = this.$.dialogForm;
+            }
+
+            _save() {
+                if (this.$.dialogForm.validate()) {
+                    this._closeDialogWithAction();
+                }
+            }
+        }
+
+        customElements.define(RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog.is, RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog);
     </script>
 </dom-module>

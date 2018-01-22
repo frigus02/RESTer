@@ -8,8 +8,6 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
-<link rel="import" href="../data/rester-data-settings-mixin.html">
-<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-hint.html">
 <link rel="import" href="../styles/rester-icons.html">
 <link rel="import" href="../styles/rester-page-styles.html">
@@ -113,49 +111,48 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerPageMixin from '../layout/rester-page-mixin.js';
+        import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
-            /**
-             * @mixes RESTer.PageMixin
-             * @mixes RESTer.SettingsMixin
-             * @polymerElement
-             */
-            class RESTerPageSettings extends RESTer.PageMixin(RESTer.SettingsMixin(Polymer.Element)) {
-                static get is() {
-                    return 'rester-page-settings';
-                }
-
-                static get properties() {
-                    return {
-                        requestMode: {
-                            type: String,
-                            observer: '_onRequestModeChanged'
-                        }
-                    };
-                }
-
-                static get observers() {
-                    return [
-                        '_onSettingsStripDefaultHeadersChanged(settings.stripDefaultHeaders)'
-                    ];
-                }
-
-                ready() {
-                    super.ready();
-                    this._setPageTitle('Settings');
-                }
-
-                _onRequestModeChanged() {
-                    this.settings.stripDefaultHeaders = this.requestMode === 'clean';
-                }
-
-                _onSettingsStripDefaultHeadersChanged(stripDefaultHeaders) {
-                    this.requestMode = stripDefaultHeaders ? 'clean' : 'browser';
-                }
+        /**
+         * @mixes RESTerPageMixin
+         * @mixes RESTerSettingsMixin
+         * @polymerElement
+         */
+        class RESTerPageSettings extends RESTerPageMixin(RESTerSettingsMixin(Polymer.Element)) {
+            static get is() {
+                return 'rester-page-settings';
             }
 
-            customElements.define(RESTerPageSettings.is, RESTerPageSettings);
-        })();
+            static get properties() {
+                return {
+                    requestMode: {
+                        type: String,
+                        observer: '_onRequestModeChanged'
+                    }
+                };
+            }
+
+            static get observers() {
+                return [
+                    '_onSettingsStripDefaultHeadersChanged(settings.stripDefaultHeaders)'
+                ];
+            }
+
+            ready() {
+                super.ready();
+                this._setPageTitle('Settings');
+            }
+
+            _onRequestModeChanged() {
+                this.settings.stripDefaultHeaders = this.requestMode === 'clean';
+            }
+
+            _onSettingsStripDefaultHeadersChanged(stripDefaultHeaders) {
+                this.requestMode = stripDefaultHeaders ? 'clean' : 'browser';
+            }
+        }
+
+        customElements.define(RESTerPageSettings.is, RESTerPageSettings);
     </script>
 </dom-module>

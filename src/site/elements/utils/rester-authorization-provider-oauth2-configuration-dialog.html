@@ -13,9 +13,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
-<link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../styles/rester-hint.html">
-<link rel="import" href="rester-dialog-controller-mixin.html">
 
 <dom-module id="rester-authorization-provider-oauth2-configuration-dialog">
     <template>
@@ -167,86 +165,84 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-authorization-provider-oauth2-configuration-dialog';
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @polymerElement
+         */
+        class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-authorization-provider-oauth2-configuration-dialog';
+            }
+
+            static get properties() {
+                return {
+                    data: Object,
+                    form: Object
+                };
+            }
+
+            static get observers() {
+                return [
+                    '_notifyConfigurationDialogResize(data.flow)'
+                ];
+            }
+
+            static get resterDialogId() {
+                return 'authProviderOAuth2Configuration';
+            }
+
+            static get _configProperties() {
+                return {
+                    code: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'redirectUri', 'scope'],
+                    implicit: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'clientId', 'redirectUri', 'scope'],
+                    client_credentials: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope'],
+                    resource_owner: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope']
+                };
+            }
+
+            ready() {
+                super.ready();
+                this.form = this.$.dialogForm;
+            }
+
+            _notifyConfigurationDialogResize() {
+                this.$.dialog.invalidateTabbables();
+                this.$.dialog.notifyResize();
+            }
+
+            _isFieldVisible(field, selectedFlow, additionalField) {
+                const flowMatches = selectedFlow && RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[selectedFlow].includes(field);
+                if (!flowMatches) {
+                    return false;
                 }
 
-                static get properties() {
-                    return {
-                        data: Object,
-                        form: Object
-                    };
+                // The client secret is not needed, when no authentication is performed.
+                if (field === 'clientSecret' && (!additionalField || additionalField === 'none')) {
+                    return false;
                 }
 
-                static get observers() {
-                    return [
-                        '_notifyConfigurationDialogResize(data.flow)'
-                    ];
-                }
+                return true;
+            }
 
-                static get resterDialogId() {
-                    return 'authProviderOAuth2Configuration';
-                }
-
-                static get _configProperties() {
-                    return {
-                        code: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'redirectUri', 'scope'],
-                        implicit: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'clientId', 'redirectUri', 'scope'],
-                        client_credentials: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope'],
-                        resource_owner: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope']
-                    };
-                }
-
-                ready() {
-                    super.ready();
-                    this.form = this.$.dialogForm;
-                }
-
-                _notifyConfigurationDialogResize() {
-                    this.$.dialog.invalidateTabbables();
-                    this.$.dialog.notifyResize();
-                }
-
-                _isFieldVisible(field, selectedFlow, additionalField) {
-                    const flowMatches = selectedFlow && RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[selectedFlow].includes(field);
-                    if (!flowMatches) {
-                        return false;
+            _save() {
+                if (this.$.dialogForm.validate()) {
+                    const flowProps = RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[this.data.flow];
+                    const notNeededProps = Object.keys(this.data).filter(key => !flowProps.includes(key));
+                    for (const key of notNeededProps) {
+                        delete this.data[key];
                     }
 
-                    // The client secret is not needed, when no authentication is performed.
-                    if (field === 'clientSecret' && (!additionalField || additionalField === 'none')) {
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                _save() {
-                    if (this.$.dialogForm.validate()) {
-                        const flowProps = RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[this.data.flow];
-                        const notNeededProps = Object.keys(this.data).filter(key => !flowProps.includes(key));
-                        for (const key of notNeededProps) {
-                            delete this.data[key];
-                        }
-
-                        this._closeDialogWithAction('save');
-                    }
-                }
-
-                _delete() {
-                    this._closeDialogWithAction('delete');
+                    this._closeDialogWithAction('save');
                 }
             }
 
-            customElements.define(RESTerAuthorizationProviderOAuth2ConfigurationDialog.is, RESTerAuthorizationProviderOAuth2ConfigurationDialog);
-        })();
+            _delete() {
+                this._closeDialogWithAction('delete');
+            }
+        }
+
+        customElements.define(RESTerAuthorizationProviderOAuth2ConfigurationDialog.is, RESTerAuthorizationProviderOAuth2ConfigurationDialog);
     </script>
 </dom-module>

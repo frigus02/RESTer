@@ -6,8 +6,6 @@
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 
-<link rel="import" href="../data/rester-data.html">
-<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-icons.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
@@ -87,60 +85,59 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { sort } from '../data/scripts/util.js';
+        import RESTerPageMixin from '../layout/rester-page-mixin.js';
 
-            /**
-             * @mixes RESTer.PageMixin
-             * @polymerElement
-             */
-            class RESTerPageAbout extends RESTer.PageMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-page-about';
-                }
-
-                static get properties() {
-                    return {
-                        version: {
-                            type: String,
-                            readOnly: true
-                        },
-                        libraries: {
-                            type: Array,
-                            readOnly: true
-                        }
-                    };
-                }
-
-                ready() {
-                    super.ready();
-                    this._setPageTitle('About');
-
-                    fetch('bower.json')
-                        .then(response => response.json())
-                        .then(bower => {
-                            const bowerComponents = Object.keys(bower.dependencies).map(name => {
-                                let version = bower.dependencies[name];
-
-                                if (version.includes('#')) {
-                                    [name, version] = version.split('#');
-                                }
-
-                                return {
-                                    name,
-                                    version
-                                };
-                            });
-
-                            this._setLibraries(RESTer.util.sort(bowerComponents, x => x.name.toLowerCase()));
-                        });
-
-                    const manifest = chrome.runtime.getManifest();
-                    this._setVersion(manifest.version);
-                }
+        /**
+         * @mixes RESTerPageMixin
+         * @polymerElement
+         */
+        class RESTerPageAbout extends RESTerPageMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-page-about';
             }
 
-            customElements.define(RESTerPageAbout.is, RESTerPageAbout);
-        })();
+            static get properties() {
+                return {
+                    version: {
+                        type: String,
+                        readOnly: true
+                    },
+                    libraries: {
+                        type: Array,
+                        readOnly: true
+                    }
+                };
+            }
+
+            ready() {
+                super.ready();
+                this._setPageTitle('About');
+
+                fetch('bower.json')
+                    .then(response => response.json())
+                    .then(bower => {
+                        const bowerComponents = Object.keys(bower.dependencies).map(name => {
+                            let version = bower.dependencies[name];
+
+                            if (version.includes('#')) {
+                                [name, version] = version.split('#');
+                            }
+
+                            return {
+                                name,
+                                version
+                            };
+                        });
+
+                        this._setLibraries(sort(bowerComponents, x => x.name.toLowerCase()));
+                    });
+
+                const manifest = chrome.runtime.getManifest();
+                this._setVersion(manifest.version);
+            }
+        }
+
+        customElements.define(RESTerPageAbout.is, RESTerPageAbout);
     </script>
 </dom-module>

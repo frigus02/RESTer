@@ -5,10 +5,8 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
-<link rel="import" href="../data/rester-data.html">
 <link rel="import" href="../styles/rester-icons.html">
 <link rel="import" href="../styles/rester-paper-item-button.html">
-<link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="rester-authorization-provider-basic.html">
 <link rel="import" href="rester-authorization-provider-cookie.html">
 <link rel="import" href="rester-authorization-provider-custom.html">
@@ -82,220 +80,228 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { expirationDate } from '../data/scripts/format.js';
+        import {
+            addAuthorizationToken,
+            deleteAuthorizationProviderConfiguration,
+            deleteAuthorizationToken,
+            getAuthorizationProviderConfigurations,
+            getAuthorizationTokens,
+            putAuthorizationProviderConfiguration
+        } from '../data/scripts/rester.js';
+        import { clone } from '../data/scripts/util.js';
+        import RESTerErrorMixin from '../utils/rester-error-mixin.js';
 
-            /**
-             * @mixes RESTer.ErrorMixin
-             * @polymerElement
-             */
-            class RESTerAuthorizationInput extends RESTer.ErrorMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-authorization-input';
-                }
+        /**
+         * @mixes RESTerErrorMixin
+         * @polymerElement
+         */
+        class RESTerAuthorizationInput extends RESTerErrorMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-authorization-input';
+            }
 
-                static get properties() {
-                    return {
-                        authorization: {
-                            type: Object,
-                            notify: true,
-                            observer: '_onAuthorizationChanged'
-                        },
-                        tokens: {
-                            type: Array,
-                            readOnly: true,
-                            value: []
-                        },
-                        configurations: {
-                            type: Array,
-                            readOnly: true,
-                            value: []
-                        },
-                        providers: {
-                            type: Array,
-                            readOnly: true,
-                            value: []
-                        }
-                    };
-                }
+            static get properties() {
+                return {
+                    authorization: {
+                        type: Object,
+                        notify: true,
+                        observer: '_onAuthorizationChanged'
+                    },
+                    tokens: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
+                    },
+                    configurations: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
+                    },
+                    providers: {
+                        type: Array,
+                        readOnly: true,
+                        value: []
+                    }
+                };
+            }
 
-                ready() {
-                    super.ready();
+            ready() {
+                super.ready();
 
-                    const allProviders = [
-                        this.$.providerCustom,
-                        this.$.providerCookie,
-                        this.$.providerBasic,
-                        this.$.providerOAuth2
-                    ];
+                const allProviders = [
+                    this.$.providerCustom,
+                    this.$.providerCookie,
+                    this.$.providerBasic,
+                    this.$.providerOAuth2
+                ];
 
-                    this._setTokens([]);
-                    this._setConfigurations([]);
-                    this._setProviders([]);
+                this._setTokens([]);
+                this._setConfigurations([]);
+                this._setProviders([]);
 
-                    const configPromises = [];
+                const configPromises = [];
 
-                    allProviders.forEach(provider => {
-                        if (provider.needsConfiguration) {
-                            this.push('providers', provider);
+                allProviders.forEach(provider => {
+                    if (provider.needsConfiguration) {
+                        this.push('providers', provider);
 
-                            configPromises.push(RESTer.rester.getAuthorizationProviderConfigurations(provider.providerId).then(configurations => {
-                                configurations.forEach(configuration => {
-                                    this.push('configurations', { provider, configuration });
-                                });
-                            }));
-                        } else {
-                            this.push('configurations', {
-                                provider,
-                                configuration: {
-                                    providerId: provider.providerId,
-                                    title: ''
-                                }
+                        configPromises.push(getAuthorizationProviderConfigurations(provider.providerId).then(configurations => {
+                            configurations.forEach(configuration => {
+                                this.push('configurations', { provider, configuration });
                             });
-                        }
-                    });
-
-                    Promise.all(configPromises).then(() => {
-                        RESTer.rester.getAuthorizationTokens().then(tokens => {
-                            this._setTokens(tokens.map(token => this._prepareTokenForRender(token)));
-                            this._updateTokenIsUsedFlag();
-                        });
-                    });
-                }
-
-                _onAuthorizationChanged() {
-                    this._updateTokenIsUsedFlag();
-                }
-
-                _generateTokenFromConfig(e) {
-                    this._generateToken(e.model.item);
-                }
-
-                _generateTokenFromConfigIncognito(e) {
-                    this._generateToken(e.model.item, true);
-                }
-
-                async _generateToken(config, incognito) {
-                    const provider = config.provider;
-                    const configuration = RESTer.util.clone(config.configuration);
-                    configuration.incognito = !!incognito;
-
-                    try {
-                        const token = await provider.generateToken(configuration);
-                        const id = await RESTer.rester.addAuthorizationToken(token);
-                        token.id = id;
-                        const renderToken = this._prepareTokenForRender(token);
-                        this.push('tokens', renderToken);
-                        this.authorization = {
-                            scheme: token.scheme,
-                            token: token.token
-                        };
-                    } catch (error) {
-                        if (error) {
-                            this.showError(error);
-                        }
-                    }
-                }
-
-                _useToken(e) {
-                    const token = e.model.item;
-
-                    if (token.isUsed) {
-                        this.authorization = null;
+                        }));
                     } else {
-                        this.authorization = {
-                            scheme: token.token.scheme,
-                            token: token.token.token
-                        };
-                    }
-                }
-
-                async _deleteToken(e) {
-                    const token = e.model.item;
-
-                    if (token.isUsed) {
-                        this.authorization = null;
-                    }
-
-                    await RESTer.rester.deleteAuthorizationToken(token.token.id);
-                    const index = this.tokens.indexOf(token);
-                    if (index > -1) {
-                        this.splice('tokens', index, 1);
-                    }
-                }
-
-                async _editConfiguration(e) {
-                    const config = e.model.item;
-                    const provider = config.provider;
-                    const configuration = RESTer.util.clone(config.configuration);
-
-                    try {
-                        const newConfig = await provider.editConfiguration(configuration);
-                        if (newConfig === 'delete') {
-                            await RESTer.rester.deleteAuthorizationProviderConfiguration(configuration.id);
-                            const index = this.configurations.indexOf(config);
-                            if (index > 0) {
-                                this.splice('configurations', index, 1);
-                            }
-                        } else {
-                            await RESTer.rester.putAuthorizationProviderConfiguration(newConfig);
-                            config.configuration = newConfig;
-
-                            const index = this.configurations.indexOf(config);
-                            this.notifyPath(['configurations', index, 'configuration']);
-                        }
-                    } catch (e) {
-                        // User pressed cancel
-                    }
-                }
-
-                async _createConfiguration(e) {
-                    const provider = e.model.item;
-
-                    try {
-                        const config = await provider.createConfiguration();
-                        const id = await RESTer.rester.putAuthorizationProviderConfiguration(config);
-                        config.id = id;
                         this.push('configurations', {
                             provider,
-                            configuration: config
+                            configuration: {
+                                providerId: provider.providerId,
+                                title: ''
+                            }
                         });
-                    } catch (e) {
-                        // User pressed cancel
                     }
-                }
+                });
 
-                _prepareTokenForRender(token) {
-                    const config = this.configurations.find(c => c.configuration.id === token.configurationId);
-                    return {
-                        token,
-                        configuration: config.configuration,
-                        provider: config.provider,
-                        expirationDateFormatted: RESTer.format.expirationDate(token.expirationDate),
-                        isUsed: false
-                    };
-                }
-
-                _updateTokenIsUsedFlag() {
-                    this.tokens.forEach((token, i) => {
-                        this.set(['tokens', i, 'isUsed'],
-                            this.authorization &&
-                            this.authorization.scheme === token.token.scheme &&
-                            this.authorization.token === token.token.token);
+                Promise.all(configPromises).then(() => {
+                    getAuthorizationTokens().then(tokens => {
+                        this._setTokens(tokens.map(token => this._prepareTokenForRender(token)));
+                        this._updateTokenIsUsedFlag();
                     });
-                }
+                });
+            }
 
-                _compareConfigurations(a, b) {
-                    const providerCompare = a.provider.title.localeCompare(b.provider.title);
-                    if (providerCompare === 0) {
-                        return a.configuration.title.localeCompare(b.configuration.title);
-                    } else {
-                        return providerCompare;
+            _onAuthorizationChanged() {
+                this._updateTokenIsUsedFlag();
+            }
+
+            _generateTokenFromConfig(e) {
+                this._generateToken(e.model.item);
+            }
+
+            _generateTokenFromConfigIncognito(e) {
+                this._generateToken(e.model.item, true);
+            }
+
+            async _generateToken(config, incognito) {
+                const provider = config.provider;
+                const configuration = clone(config.configuration);
+                configuration.incognito = !!incognito;
+
+                try {
+                    const token = await provider.generateToken(configuration);
+                    const id = await addAuthorizationToken(token);
+                    token.id = id;
+                    const renderToken = this._prepareTokenForRender(token);
+                    this.push('tokens', renderToken);
+                    this.authorization = {
+                        scheme: token.scheme,
+                        token: token.token
+                    };
+                } catch (error) {
+                    if (error) {
+                        this.showError(error);
                     }
                 }
             }
 
-            customElements.define(RESTerAuthorizationInput.is, RESTerAuthorizationInput);
-        })();
+            _useToken(e) {
+                const token = e.model.item;
+
+                if (token.isUsed) {
+                    this.authorization = null;
+                } else {
+                    this.authorization = {
+                        scheme: token.token.scheme,
+                        token: token.token.token
+                    };
+                }
+            }
+
+            async _deleteToken(e) {
+                const token = e.model.item;
+
+                if (token.isUsed) {
+                    this.authorization = null;
+                }
+
+                await deleteAuthorizationToken(token.token.id);
+                const index = this.tokens.indexOf(token);
+                if (index > -1) {
+                    this.splice('tokens', index, 1);
+                }
+            }
+
+            async _editConfiguration(e) {
+                const config = e.model.item;
+                const provider = config.provider;
+                const configuration = clone(config.configuration);
+
+                try {
+                    const newConfig = await provider.editConfiguration(configuration);
+                    if (newConfig === 'delete') {
+                        await deleteAuthorizationProviderConfiguration(configuration.id);
+                        const index = this.configurations.indexOf(config);
+                        if (index > 0) {
+                            this.splice('configurations', index, 1);
+                        }
+                    } else {
+                        await putAuthorizationProviderConfiguration(newConfig);
+                        config.configuration = newConfig;
+
+                        const index = this.configurations.indexOf(config);
+                        this.notifyPath(['configurations', index, 'configuration']);
+                    }
+                } catch (e) {
+                    // User pressed cancel
+                }
+            }
+
+            async _createConfiguration(e) {
+                const provider = e.model.item;
+
+                try {
+                    const config = await provider.createConfiguration();
+                    const id = await putAuthorizationProviderConfiguration(config);
+                    config.id = id;
+                    this.push('configurations', {
+                        provider,
+                        configuration: config
+                    });
+                } catch (e) {
+                    // User pressed cancel
+                }
+            }
+
+            _prepareTokenForRender(token) {
+                const config = this.configurations.find(c => c.configuration.id === token.configurationId);
+                return {
+                    token,
+                    configuration: config.configuration,
+                    provider: config.provider,
+                    expirationDateFormatted: expirationDate(token.expirationDate),
+                    isUsed: false
+                };
+            }
+
+            _updateTokenIsUsedFlag() {
+                this.tokens.forEach((token, i) => {
+                    this.set(['tokens', i, 'isUsed'],
+                        this.authorization &&
+                        this.authorization.scheme === token.token.scheme &&
+                        this.authorization.token === token.token.token);
+                });
+            }
+
+            _compareConfigurations(a, b) {
+                const providerCompare = a.provider.title.localeCompare(b.provider.title);
+                if (providerCompare === 0) {
+                    return a.configuration.title.localeCompare(b.configuration.title);
+                } else {
+                    return providerCompare;
+                }
+            }
+        }
+
+        customElements.define(RESTerAuthorizationInput.is, RESTerAuthorizationInput);
     </script>
 </dom-module>

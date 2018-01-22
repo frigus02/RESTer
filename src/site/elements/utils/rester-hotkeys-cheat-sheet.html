@@ -6,8 +6,6 @@
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="../data/rester-data-hotkeys-mixin.html">
-
 <dom-module id="rester-hotkeys-cheat-sheet">
     <template>
         <style>
@@ -73,44 +71,43 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import { getAll } from '../data/scripts/hotkeys.js';
+        import RESTerHotkeysMixin from '../data/rester-data-hotkeys-mixin.js';
 
-            /**
-             * @mixes RESTer.HotkeysMixin
-             * @polymerElement
-             */
-            class RESTerHotkeysCheatSheet extends RESTer.HotkeysMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-hotkeys-cheat-sheet';
-                }
-
-                static get properties() {
-                    return {
-                        hotkeys: {
-                            type: Array,
-                            readOnly: true
-                        }
-                    };
-                }
-
-                static get resterHotkeys() {
-                    return {
-                        '?': {
-                            description: 'Shows this cheat sheet.',
-                            callback: 'show'
-                        }
-                    };
-                }
-
-                show() {
-                    this._setHotkeys([...RESTer.hotkeys.getAll()]);
-
-                    this.$.dialog.open();
-                }
+        /**
+         * @mixes RESTerHotkeysMixin
+         * @polymerElement
+         */
+        class RESTerHotkeysCheatSheet extends RESTerHotkeysMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-hotkeys-cheat-sheet';
             }
 
-            customElements.define(RESTerHotkeysCheatSheet.is, RESTerHotkeysCheatSheet);
-        })();
+            static get properties() {
+                return {
+                    hotkeys: {
+                        type: Array,
+                        readOnly: true
+                    }
+                };
+            }
+
+            static get resterHotkeys() {
+                return {
+                    '?': {
+                        description: 'Shows this cheat sheet.',
+                        callback: 'show'
+                    }
+                };
+            }
+
+            show() {
+                this._setHotkeys([...getAll()]);
+
+                this.$.dialog.open();
+            }
+        }
+
+        customElements.define(RESTerHotkeysCheatSheet.is, RESTerHotkeysCheatSheet);
     </script>
 </dom-module>

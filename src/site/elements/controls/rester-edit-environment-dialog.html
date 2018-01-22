@@ -12,7 +12,6 @@
 <link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 
 <link rel="import" href="../styles/rester-icons.html">
-<link rel="import" href="../utils/rester-dialog-controller-mixin.html">
 
 <dom-module id="rester-edit-environment-dialog">
     <template>
@@ -88,79 +87,77 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerEditEnvironmentDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-edit-environment-dialog';
-                }
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @polymerElement
+         */
+        class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-edit-environment-dialog';
+            }
 
-                static get properties() {
-                    return {
-                        data: {
-                            type: Object,
-                            observer: '_onDataChanged'
-                        },
-                        valueItems: {
-                            type: Array,
-                            readOnly: true
-                        }
-                    };
-                }
-
-                static get resterDialogId() {
-                    return 'editEnvironment';
-                }
-
-                _onDataChanged(newData) {
-                    if (newData === undefined) {
-                        this._setValueItems([]);
-                    } else {
-                        this._setValueItems(Object.keys(newData.values).map(key => ({
-                            key,
-                            value: newData.values[key]
-                        })));
-                        this._ensureEmptyValueItem();
+            static get properties() {
+                return {
+                    data: {
+                        type: Object,
+                        observer: '_onDataChanged'
+                    },
+                    valueItems: {
+                        type: Array,
+                        readOnly: true
                     }
-                }
+                };
+            }
 
-                _ensureEmptyValueItem() {
-                    if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
-                        this.push('valueItems', {key: '', value: ''});
-                    }
+            static get resterDialogId() {
+                return 'editEnvironment';
+            }
 
-                    this.$.dialog.notifyResize();
-                }
-
-                _removeValueItem(e) {
-                    this.splice('valueItems', e.model.index, 1);
+            _onDataChanged(newData) {
+                if (newData === undefined) {
+                    this._setValueItems([]);
+                } else {
+                    this._setValueItems(Object.keys(newData.values).map(key => ({
+                        key,
+                        value: newData.values[key]
+                    })));
                     this._ensureEmptyValueItem();
-                }
-
-                _delete() {
-                    this._closeDialogWithAction('delete');
-                }
-
-                _save() {
-                    if (this.$.dialogForm.validate()) {
-                        this.data.values = {};
-                        this.valueItems.forEach(value => {
-                            if (value.key.trim() !== '') {
-                                this.data.values[value.key.trim()] = value.value;
-                            }
-                        });
-
-                        this._closeDialogWithAction('save');
-                    }
                 }
             }
 
-            customElements.define(RESTerEditEnvironmentDialog.is, RESTerEditEnvironmentDialog);
-        })();
+            _ensureEmptyValueItem() {
+                if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
+                    this.push('valueItems', {key: '', value: ''});
+                }
+
+                this.$.dialog.notifyResize();
+            }
+
+            _removeValueItem(e) {
+                this.splice('valueItems', e.model.index, 1);
+                this._ensureEmptyValueItem();
+            }
+
+            _delete() {
+                this._closeDialogWithAction('delete');
+            }
+
+            _save() {
+                if (this.$.dialogForm.validate()) {
+                    this.data.values = {};
+                    this.valueItems.forEach(value => {
+                        if (value.key.trim() !== '') {
+                            this.data.values[value.key.trim()] = value.value;
+                        }
+                    });
+
+                    this._closeDialogWithAction('save');
+                }
+            }
+        }
+
+        customElements.define(RESTerEditEnvironmentDialog.is, RESTerEditEnvironmentDialog);
     </script>
 </dom-module>

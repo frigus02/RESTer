@@ -1,24 +1,32 @@
-(function () {
-    'use strict';
+import createEventTarget from './_create-event-target.js';
+import {
+    e as resterEvents,
+    getEnvironment,
+    settings,
+    settingsLoaded
+} from './rester.js';
 
-    const self = RESTer.register('variables.providers.env', ['eventListeners']);
+const provider = {
+    name: 'env',
+    e: createEventTarget(),
+    values: {}
+};
 
-    self.values = {};
-
-    function updateValues() {
-        let envId = RESTer.rester.settings.activeEnvironment;
-        if (envId) {
-            RESTer.rester.getEnvironment(envId).then(env => {
-                self.values = env ? env.values : {};
-                self.fireEvent('valuesChanged', self.values);
-            });
-        } else {
-            self.values = {};
-            self.fireEvent('valuesChanged', self.values);
-        }
+function updateValues() {
+    let envId = settings.activeEnvironment;
+    if (envId) {
+        getEnvironment(envId).then(env => {
+            provider.values = env ? env.values : {};
+            provider.e.fireEvent('valuesChanged', provider.values);
+        });
+    } else {
+        provider.values = {};
+        provider.e.fireEvent('valuesChanged', provider.values);
     }
+}
 
-    RESTer.rester.settingsLoaded.then(updateValues);
-    RESTer.rester.addEventListener('dataChange', updateValues);
-    RESTer.rester.addEventListener('settingsChange', updateValues);
-})();
+settingsLoaded.then(updateValues);
+resterEvents.addEventListener('dataChange', updateValues);
+resterEvents.addEventListener('settingsChange', updateValues);
+
+export default provider;

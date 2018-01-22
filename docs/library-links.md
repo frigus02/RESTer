@@ -158,7 +158,7 @@ iron-validatable-behavior v2.0.0
 https://github.com/PolymerElements/iron-validatable-behavior/blob/v2.0.0/iron-validatable-behavior.html
 
 mousetrap 1.6.1
-https://github.com/ccampbell/mousetrap/blob/1.6.1/mousetrap.min.js
+https://github.com/ccampbell/mousetrap/blob/1.6.1/mousetrap.js
 
 neon-animation v2.0.2
 https://github.com/PolymerElements/neon-animation/blob/v2.0.2/animations/fade-in-animation.html
@@ -317,10 +317,10 @@ https://github.com/webcomponents/shadycss/blob/v1.1.0/custom-style-interface.htm
 https://github.com/webcomponents/shadycss/blob/v1.1.0/custom-style-interface.min.js
 
 string_score v0.1.22
-https://github.com/joshaven/string_score/blob/v0.1.22/string_score.min.js
+https://github.com/joshaven/string_score/blob/v0.1.22/string_score.js
 
-vkBeautify v1.0.0
-https://github.com/frigus02/vkBeautify/blob/v1.0.0/vkbeautify.js
+vkBeautify v1.0.1
+https://github.com/frigus02/vkBeautify/blob/v1.0.1/vkbeautify.js
 
 web-animations-js 2.3.1
 https://github.com/web-animations/web-animations-js/blob/2.3.1/web-animations-next-lite.min.js

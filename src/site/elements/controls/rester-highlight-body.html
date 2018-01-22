@@ -6,10 +6,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
-<link rel="import" href="../data/rester-data.html">
-<link rel="import" href="../data/rester-data-settings-mixin.html">
 <link rel="import" href="../styles/rester-icons.html">
-<link rel="import" href="../utils/rester-error-mixin.html">
 <link rel="import" href="rester-ace-input.html">
 <link rel="import" href="rester-dom-purify-frame.html">
 
@@ -76,194 +73,196 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import dialogs from '../data/scripts/dialogs.js';
+        import { debounce, cancelDebounce } from '../data/scripts/util.js';
+        import { formatCode } from '../data/scripts/worker.js';
+        import RESTerErrorMixin from '../utils/rester-error-mixin.js';
+        import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
-            const aceModes = {
-                Plain: 'ace/mode/text',
-                HTML: 'ace/mode/html',
-                JSON: 'ace/mode/json',
-                XML: 'ace/mode/xml'
-            };
+        const aceModes = {
+            Plain: 'ace/mode/text',
+            HTML: 'ace/mode/html',
+            JSON: 'ace/mode/json',
+            XML: 'ace/mode/xml'
+        };
 
-            const prettyPrintModes = {
-                JSON: 'json',
-                XML: 'xml'
-            };
+        const prettyPrintModes = {
+            JSON: 'json',
+            XML: 'xml'
+        };
 
-            /**
-             * @mixes RESTer.ErrorMixin
-             * @mixes RESTer.SettingsMixin
-             * @polymerElement
-             */
-            class RESTerHighlightBody extends RESTer.ErrorMixin(RESTer.SettingsMixin(Polymer.Element)) {
-                static get is() {
-                    return 'rester-highlight-body';
-                }
+        /**
+         * @mixes RESTerErrorMixin
+         * @mixes RESTerSettingsMixin
+         * @polymerElement
+         */
+        class RESTerHighlightBody extends RESTerErrorMixin(RESTerSettingsMixin(Polymer.Element)) {
+            static get is() {
+                return 'rester-highlight-body';
+            }
 
-                static get properties() {
-                    return {
-                        body: String,
-                        bodyFormatted: {
-                            type: String,
-                            readOnly: true
-                        },
-                        renderedBody: {
-                            type: String,
-                            computed: '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
-                        },
-                        contentType: String,
-                        language: String,
-                        aceMode: {
-                            type: String,
-                            computed: '_computeAceMode(language)'
-                        },
-                        aceMaxLines: {
-                            type: Number,
-                            computed: '_computeAceMaxLines(settings.responseBodyFullSize)'
-                        },
-                        prettyPrintMode: {
-                            type: String,
-                            computed: '_computePrettyPrintMode(language)'
-                        },
-                        isPrettyPrintSupported: {
-                            type: Boolean,
-                            computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
-                        },
-                        isPreviewSupported: {
-                            type: Boolean,
-                            computed: '_computeIsPreviewSupported(language)'
-                        },
-                        renderPreview: {
-                            type: Boolean,
-                            computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
-                        }
-                    };
-                }
-
-                static get observers() {
-                    return [
-                        '_formatBody(body, prettyPrintMode)',
-                        '_autoSelectLanguage(contentType)'
-                    ];
-                }
-
-                constructor() {
-                    super();
-                    this._formatBodyWorker = undefined;
-                    this._startFormatBodyWorker = this._startFormatBodyWorker.bind(this);
-                }
-
-                _computeRenderedBody(body, bodyFormatted, prettyPrint) {
-                    if (prettyPrint && bodyFormatted) {
-                        return bodyFormatted;
-                    } else {
-                        return body;
+            static get properties() {
+                return {
+                    body: String,
+                    bodyFormatted: {
+                        type: String,
+                        readOnly: true
+                    },
+                    renderedBody: {
+                        type: String,
+                        computed: '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
+                    },
+                    contentType: String,
+                    language: String,
+                    aceMode: {
+                        type: String,
+                        computed: '_computeAceMode(language)'
+                    },
+                    aceMaxLines: {
+                        type: Number,
+                        computed: '_computeAceMaxLines(settings.responseBodyFullSize)'
+                    },
+                    prettyPrintMode: {
+                        type: String,
+                        computed: '_computePrettyPrintMode(language)'
+                    },
+                    isPrettyPrintSupported: {
+                        type: Boolean,
+                        computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
+                    },
+                    isPreviewSupported: {
+                        type: Boolean,
+                        computed: '_computeIsPreviewSupported(language)'
+                    },
+                    renderPreview: {
+                        type: Boolean,
+                        computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
                     }
-                }
+                };
+            }
 
-                _computeAceMode(language) {
-                    return aceModes[language] || null;
-                }
+            static get observers() {
+                return [
+                    '_formatBody(body, prettyPrintMode)',
+                    '_autoSelectLanguage(contentType)'
+                ];
+            }
 
-                _computeAceMaxLines(fullSize) {
-                    return fullSize ? Infinity : 25;
-                }
+            constructor() {
+                super();
+                this._formatBodyWorker = undefined;
+                this._startFormatBodyWorker = this._startFormatBodyWorker.bind(this);
+            }
 
-                _computePrettyPrintMode(language) {
-                    return prettyPrintModes[language] || null;
-                }
-
-                _computeIsPrettyPrintSupported(prettyPrintMode) {
-                    return !!prettyPrintMode;
-                }
-
-                _computeIsPreviewSupported(language) {
-                    return language === 'HTML';
-                }
-
-                _computeRenderPreview(preview, isPreviewSupported) {
-                    return preview && isPreviewSupported;
-                }
-
-                _formatBody(body, prettyPrintMode) {
-                    this._setBodyFormatted('');
-                    if (this._formatBodyWorker) {
-                        this._formatBodyWorker.cancel();
-                        this._formatBodyWorker = undefined;
-                    }
-
-                    if (!body || !prettyPrintMode) {
-                        RESTer.util.cancelDebounce(this._startFormatBodyWorker);
-                        return;
-                    }
-
-                    RESTer.util.debounce(this._startFormatBodyWorker, 100, body, prettyPrintMode);
-                }
-
-                _startFormatBodyWorker(body, prettyPrintMode) {
-                    this._formatBodyWorker = RESTer.worker.FormatCode.run({
-                        code: body,
-                        language: prettyPrintMode
-                    });
-
-                    this._formatBodyWorker.then(result => {
-                        this._formatBodyWorker = undefined;
-                        this._setBodyFormatted(result);
-                    });
-
-                    this._formatBodyWorker.catch(error => {
-                        this._formatBodyWorker = undefined;
-                        this.showError(error);
-                    });
-                }
-
-                _autoSelectLanguage(contentType) {
-                    let newLanguage = 'Plain';
-                    if (contentType) {
-                        if (contentType.toLowerCase().includes('json')) {
-                            newLanguage = 'JSON';
-                        } else if (contentType.toLowerCase().includes('html')) {
-                            newLanguage = 'HTML';
-                        } else if (contentType.toLowerCase().includes('xml')) {
-                            newLanguage = 'XML';
-                        }
-                    }
-
-                    this.language = newLanguage;
-                }
-
-                _toggleWrap() {
-                    this.$.options.close();
-                    this.settings.responseBodyWrap = !this.settings.responseBodyWrap;
-                }
-
-                _togglePrettyPrint() {
-                    this.$.options.close();
-                    this.settings.responseBodyPrettyPrint = !this.settings.responseBodyPrettyPrint;
-                }
-
-                _toggleFullSize() {
-                    this.$.options.close();
-                    this.settings.responseBodyFullSize = !this.settings.responseBodyFullSize;
-                }
-
-                _togglePreview() {
-                    this.$.options.close();
-                    this.settings.responseBodyPreview = !this.settings.responseBodyPreview;
-                }
-
-                _changeLanguage() {
-                    this.$.options.close();
-                    RESTer.dialogs.highlightLanguageSelect.show(this.language).then(result => {
-                        if (result.reason.confirmed) {
-                            this.language = result.data;
-                        }
-                    });
+            _computeRenderedBody(body, bodyFormatted, prettyPrint) {
+                if (prettyPrint && bodyFormatted) {
+                    return bodyFormatted;
+                } else {
+                    return body;
                 }
             }
 
-            customElements.define(RESTerHighlightBody.is, RESTerHighlightBody);
-        })();
+            _computeAceMode(language) {
+                return aceModes[language] || null;
+            }
+
+            _computeAceMaxLines(fullSize) {
+                return fullSize ? Infinity : 25;
+            }
+
+            _computePrettyPrintMode(language) {
+                return prettyPrintModes[language] || null;
+            }
+
+            _computeIsPrettyPrintSupported(prettyPrintMode) {
+                return !!prettyPrintMode;
+            }
+
+            _computeIsPreviewSupported(language) {
+                return language === 'HTML';
+            }
+
+            _computeRenderPreview(preview, isPreviewSupported) {
+                return preview && isPreviewSupported;
+            }
+
+            _formatBody(body, prettyPrintMode) {
+                this._setBodyFormatted('');
+                if (this._formatBodyWorker) {
+                    this._formatBodyWorker.cancel();
+                    this._formatBodyWorker = undefined;
+                }
+
+                if (!body || !prettyPrintMode) {
+                    cancelDebounce(this._startFormatBodyWorker);
+                    return;
+                }
+
+                debounce(this._startFormatBodyWorker, 100, body, prettyPrintMode);
+            }
+
+            _startFormatBodyWorker(body, prettyPrintMode) {
+                this._formatBodyWorker = formatCode.run({
+                    code: body,
+                    language: prettyPrintMode
+                });
+
+                this._formatBodyWorker.then(result => {
+                    this._formatBodyWorker = undefined;
+                    this._setBodyFormatted(result);
+                });
+
+                this._formatBodyWorker.catch(error => {
+                    this._formatBodyWorker = undefined;
+                    this.showError(error);
+                });
+            }
+
+            _autoSelectLanguage(contentType) {
+                let newLanguage = 'Plain';
+                if (contentType) {
+                    if (contentType.toLowerCase().includes('json')) {
+                        newLanguage = 'JSON';
+                    } else if (contentType.toLowerCase().includes('html')) {
+                        newLanguage = 'HTML';
+                    } else if (contentType.toLowerCase().includes('xml')) {
+                        newLanguage = 'XML';
+                    }
+                }
+
+                this.language = newLanguage;
+            }
+
+            _toggleWrap() {
+                this.$.options.close();
+                this.settings.responseBodyWrap = !this.settings.responseBodyWrap;
+            }
+
+            _togglePrettyPrint() {
+                this.$.options.close();
+                this.settings.responseBodyPrettyPrint = !this.settings.responseBodyPrettyPrint;
+            }
+
+            _toggleFullSize() {
+                this.$.options.close();
+                this.settings.responseBodyFullSize = !this.settings.responseBodyFullSize;
+            }
+
+            _togglePreview() {
+                this.$.options.close();
+                this.settings.responseBodyPreview = !this.settings.responseBodyPreview;
+            }
+
+            _changeLanguage() {
+                this.$.options.close();
+                dialogs.highlightLanguageSelect.show(this.language).then(result => {
+                    if (result.reason.confirmed) {
+                        this.language = result.data;
+                    }
+                });
+            }
+        }
+
+        customElements.define(RESTerHighlightBody.is, RESTerHighlightBody);
     </script>
 </dom-module>

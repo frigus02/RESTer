@@ -9,8 +9,6 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
-<link rel="import" href="rester-dialog-controller-mixin.html">
-
 <dom-module id="rester-authorization-provider-custom-generate-token-dialog">
     <template>
         <style>
@@ -66,42 +64,40 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
-            /**
-             * @mixes RESTer.DialogControllerMixin
-             * @polymerElement
-             */
-            class RESTerAuthorizationProviderCustomGenerateTokenDialog extends RESTer.DialogControllerMixin(Polymer.Element) {
-                static get is() {
-                    return 'rester-authorization-provider-custom-generate-token-dialog';
-                }
-
-                static get properties() {
-                    return {
-                        data: Object,
-                        form: Object
-                    };
-                }
-
-                static get resterDialogId() {
-                    return 'authProviderCustomGenerateToken';
-                }
-
-                ready() {
-                    super.ready();
-                    this.form = this.$.dialogForm;
-                }
-
-                _save() {
-                    if (this.$.dialogForm.validate()) {
-                        this._closeDialogWithAction();
-                    }
-                }
+        /**
+         * @mixes RESTerDialogControllerMixin
+         * @polymerElement
+         */
+        class RESTerAuthorizationProviderCustomGenerateTokenDialog extends RESTerDialogControllerMixin(Polymer.Element) {
+            static get is() {
+                return 'rester-authorization-provider-custom-generate-token-dialog';
             }
 
-            customElements.define(RESTerAuthorizationProviderCustomGenerateTokenDialog.is, RESTerAuthorizationProviderCustomGenerateTokenDialog);
-        })();
+            static get properties() {
+                return {
+                    data: Object,
+                    form: Object
+                };
+            }
+
+            static get resterDialogId() {
+                return 'authProviderCustomGenerateToken';
+            }
+
+            ready() {
+                super.ready();
+                this.form = this.$.dialogForm;
+            }
+
+            _save() {
+                if (this.$.dialogForm.validate()) {
+                    this._closeDialogWithAction();
+                }
+            }
+        }
+
+        customElements.define(RESTerAuthorizationProviderCustomGenerateTokenDialog.is, RESTerAuthorizationProviderCustomGenerateTokenDialog);
     </script>
 </dom-module>

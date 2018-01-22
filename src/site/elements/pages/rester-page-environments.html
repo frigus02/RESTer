@@ -7,9 +7,6 @@
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 
-<link rel="import" href="../data/rester-data-settings-mixin.html">
-<link rel="import" href="../data/rester-data.html">
-<link rel="import" href="../layout/rester-page-mixin.html">
 <link rel="import" href="../styles/rester-icons.html">
 <link rel="import" href="../styles/rester-page-styles.html">
 
@@ -80,94 +77,101 @@
     </template>
 
     <script>
-        (function () {
-            'use strict';
+        import dialogs from '../data/scripts/dialogs.js';
+        import { truncate } from '../data/scripts/encode.js';
+        import {
+            getEnvironments,
+            putEnvironment,
+            deleteEnvironment
+        } from '../data/scripts/rester.js';
+        import { cloneDeep } from '../data/scripts/util.js';
+        import RESTerPageMixin from '../layout/rester-page-mixin.js';
+        import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
-            /**
-             * @mixes RESTer.PageMixin
-             * @mixes RESTer.SettingsMixin
-             * @polymerElement
-             */
-            class RESTerPageEnvironments extends RESTer.PageMixin(RESTer.SettingsMixin(Polymer.Element)) {
-                static get is() {
-                    return 'rester-page-environments';
-                }
+        /**
+         * @mixes RESTerPageMixin
+         * @mixes RESTerSettingsMixin
+         * @polymerElement
+         */
+        class RESTerPageEnvironments extends RESTerPageMixin(RESTerSettingsMixin(Polymer.Element)) {
+            static get is() {
+                return 'rester-page-environments';
+            }
 
-                static get properties() {
-                    return {
-                        environments: {
-                            type: Array,
-                            readOnly: true
-                        }
-                    };
-                }
-
-                constructor() {
-                    super();
-                    this._environmentInDialog = undefined;
-                    this._environmentInDialogIndex = -1;
-                }
-
-                ready() {
-                    super.ready();
-                    this._setPageTitle('Environments');
-                    RESTer.rester.getEnvironments().then(envs => {
-                        this._setEnvironments(envs);
-                    });
-                }
-
-                _addEnvironment() {
-                    this._environmentInDialog = {
-                        name: '',
-                        values: {}
-                    };
-                    this._environmentInDialogIndex = -1;
-                    this._showEditDialog();
-                }
-
-                _editEnvironment(e) {
-                    this._environmentInDialog = RESTer.util.cloneDeep(e.model.env);
-                    this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
-                    this._showEditDialog();
-                }
-
-                _showEditDialog() {
-                    RESTer.dialogs.editEnvironment
-                        .show(this._environmentInDialog)
-                        .then(result => this._onEditDialogClosed(result));
-                }
-
-                _onEditDialogClosed(result) {
-                    if (result.reason.confirmed && result.reason.action === 'save') {
-                        RESTer.rester.putEnvironment(this._environmentInDialog).then(id => {
-                            this._environmentInDialog.id = id;
-
-                            if (this._environmentInDialogIndex > -1) {
-                                this.splice('environments', this._environmentInDialogIndex, 1, this._environmentInDialog);
-                            } else {
-                                this.push('environments', this._environmentInDialog);
-                            }
-                        });
-                    } else if (result.reason.confirmed && result.reason.action === 'delete') {
-                        RESTer.rester.deleteEnvironment(this._environmentInDialog.id).then(() => {
-                            this.splice('environments', this._environmentInDialogIndex, 1);
-                        });
+            static get properties() {
+                return {
+                    environments: {
+                        type: Array,
+                        readOnly: true
                     }
-                }
+                };
+            }
 
-                _compareEnvironments(a, b) {
-                    return a.name.localeCompare(b.name);
-                }
+            constructor() {
+                super();
+                this._environmentInDialog = undefined;
+                this._environmentInDialogIndex = -1;
+            }
 
-                _computeValueItems(env) {
-                    return Object.keys(env.values).map(key => ({
-                        key,
-                        value: RESTer.encode.truncate(env.values[key], 120)
-                    }));
+            ready() {
+                super.ready();
+                this._setPageTitle('Environments');
+                getEnvironments().then(envs => {
+                    this._setEnvironments(envs);
+                });
+            }
+
+            _addEnvironment() {
+                this._environmentInDialog = {
+                    name: '',
+                    values: {}
+                };
+                this._environmentInDialogIndex = -1;
+                this._showEditDialog();
+            }
+
+            _editEnvironment(e) {
+                this._environmentInDialog = cloneDeep(e.model.env);
+                this._environmentInDialogIndex = this.environments.indexOf(e.model.env);
+                this._showEditDialog();
+            }
+
+            _showEditDialog() {
+                dialogs.editEnvironment
+                    .show(this._environmentInDialog)
+                    .then(result => this._onEditDialogClosed(result));
+            }
+
+            _onEditDialogClosed(result) {
+                if (result.reason.confirmed && result.reason.action === 'save') {
+                    putEnvironment(this._environmentInDialog).then(id => {
+                        this._environmentInDialog.id = id;
+
+                        if (this._environmentInDialogIndex > -1) {
+                            this.splice('environments', this._environmentInDialogIndex, 1, this._environmentInDialog);
+                        } else {
+                            this.push('environments', this._environmentInDialog);
+                        }
+                    });
+                } else if (result.reason.confirmed && result.reason.action === 'delete') {
+                    deleteEnvironment(this._environmentInDialog.id).then(() => {
+                        this.splice('environments', this._environmentInDialogIndex, 1);
+                    });
                 }
             }
 
-            customElements.define(RESTerPageEnvironments.is, RESTerPageEnvironments);
-        })();
+            _compareEnvironments(a, b) {
+                return a.name.localeCompare(b.name);
+            }
+
+            _computeValueItems(env) {
+                return Object.keys(env.values).map(key => ({
+                    key,
+                    value: truncate(env.values[key], 120)
+                }));
+            }
+        }
+
+        customElements.define(RESTerPageEnvironments.is, RESTerPageEnvironments);
     </script>
 </dom-module>

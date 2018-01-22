@@ -10,7 +10,7 @@
         const definitions = document.querySelectorAll('[data-script-src]');
         for (const definition of definitions) {
             const script = document.createElement('script');
-            script.src = definition.dataset['script-src'];
+            script.src = definition.dataset.scriptSrc;
             definition.parentNode.insertBefore(script, definition);
         }
     }, { once: true });
