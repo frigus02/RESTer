@@ -20,7 +20,8 @@
         import RESTerThemeMixin from '../data/rester-data-theme-mixin.js';
 
         /**
-         * @polymerMixin
+         * @polymer
+         * @mixinFunction
          */
         const RESTerAceShadowDomMixin = (function () {
             const aceShadowRoots = [];
@@ -121,9 +122,10 @@
         })();
 
         /**
-         * @mixes RESTerThemeMixin
-         * @mixes RESTerAceShadowDomMixin
-         * @polymerElement
+         * @appliesMixin RESTerThemeMixin
+         * @appliesMixin RESTerAceShadowDomMixin
+         * @polymer
+         * @customElement
          */
         class RESTerAceInput extends RESTerThemeMixin(RESTerAceShadowDomMixin(Polymer.Element)) {
             static get is() {

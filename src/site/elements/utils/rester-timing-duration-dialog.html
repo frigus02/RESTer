@@ -77,8 +77,9 @@
         import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
         /**
-         * @mixes RESTerDialogControllerMixin
-         * @polymerElement
+         * @polymer
+         * @customElement
+         * @appliesMixin RESTerDialogControllerMixin
          */
         class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(Polymer.Element) {
             static get is() {

@@ -272,12 +272,13 @@
         import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
         /**
-         * @mixes RESTerLintMixin
-         * @mixes RESTerErrorMixin
-         * @mixes RESTerPageMixin
-         * @mixes RESTerSettingsMixin
-         * @mixes RESTerHotkeysMixin
-         * @polymerElement
+         * @appliesMixin RESTerLintMixin
+         * @appliesMixin RESTerErrorMixin
+         * @appliesMixin RESTerPageMixin
+         * @appliesMixin RESTerSettingsMixin
+         * @appliesMixin RESTerHotkeysMixin
+         * @polymer
+         * @customElement
          */
         class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin(RESTerSettingsMixin(RESTerHotkeysMixin(Polymer.Element))))) {
             static get is() {

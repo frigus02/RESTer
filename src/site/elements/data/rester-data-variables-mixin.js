@@ -1,7 +1,8 @@
 import { providedValues, e as variablesEvents } from '../data/scripts/variables.js';
 
 /**
- * @polymerMixin
+ * @polymer
+ * @mixinFunction
  *
  * Makes RESTer provided variable values available in property `providedVariableValues`.
  */

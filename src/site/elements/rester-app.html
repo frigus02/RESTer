@@ -159,10 +159,11 @@
         Polymer.setPassiveTouchGestures(true);
 
         /**
-         * @mixes RESTerThemeMixin
-         * @mixes RESTerSettingsMixin
-         * @mixes RESTerHotkeysMixin
-         * @polymerElement
+         * @appliesMixin RESTerThemeMixin
+         * @appliesMixin RESTerSettingsMixin
+         * @appliesMixin RESTerHotkeysMixin
+         * @polymer
+         * @customElement
          */
         class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(Polymer.Element))) {
             static get is() {

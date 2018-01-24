@@ -93,8 +93,9 @@
         import RESTerErrorMixin from '../utils/rester-error-mixin.js';
 
         /**
-         * @mixes RESTerErrorMixin
-         * @polymerElement
+         * @appliesMixin RESTerErrorMixin
+         * @polymer
+         * @customElement
          */
         class RESTerAuthorizationInput extends RESTerErrorMixin(Polymer.Element) {
             static get is() {

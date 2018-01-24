@@ -44,8 +44,9 @@
         import RESTerVariablesMixin from '../data/rester-data-variables-mixin.js';
 
         /**
-         * @mixes RESTerVariablesMixin
-         * @polymerElement
+         * @appliesMixin RESTerVariablesMixin
+         * @polymer
+         * @customElement
          */
         class RESTerVariablesInput extends RESTerVariablesMixin(Polymer.Element) {
             static get is() {

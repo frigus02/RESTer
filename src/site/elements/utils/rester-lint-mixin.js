@@ -3,7 +3,8 @@ import { debounce } from '../data/scripts/util.js';
 import { replace as replaceVariables } from '../data/scripts/variables.js';
 
 /**
- * @polymerMixin
+ * @polymer
+ * @mixinFunction
  *
  * Allows to register lint inspections, which can be used to inspect
  * the current properties and show warnings, when they don't comply

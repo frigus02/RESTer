@@ -1,5 +1,6 @@
 /**
- * @polymerMixin
+ * @polymer
+ * @mixinFunction
  */
 const RESTerPageMixin = superclass => class extends superclass {
     static get properties() {

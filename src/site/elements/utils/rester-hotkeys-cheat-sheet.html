@@ -75,8 +75,9 @@
         import RESTerHotkeysMixin from '../data/rester-data-hotkeys-mixin.js';
 
         /**
-         * @mixes RESTerHotkeysMixin
-         * @polymerElement
+         * @appliesMixin RESTerHotkeysMixin
+         * @polymer
+         * @customElement
          */
         class RESTerHotkeysCheatSheet extends RESTerHotkeysMixin(Polymer.Element) {
             static get is() {

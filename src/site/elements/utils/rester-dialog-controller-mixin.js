@@ -1,8 +1,6 @@
 import dialogs from '../data/scripts/dialogs.js';
 
 /**
- * @polymerMixin
- *
  * Provide a `show` method, which accepts data for the dialog and returns
  * a promise. The promise is resolved, when the dialog is closed.
  *
@@ -12,8 +10,11 @@ import dialogs from '../data/scripts/dialogs.js';
  * The element also needs to define static getter called `resterDialogId`.
  * The dialog registers itself with this id on the RESTer dialogs
  * object.
+ *
+ * @polymer
+ * @mixinFunction
  */
-const DialogControllerMixin = superclass => class extends superclass {
+const RESTerDialogControllerMixin = superclass => class extends superclass {
     static get properties() {
         return {
             data: Object
@@ -78,4 +79,4 @@ const DialogControllerMixin = superclass => class extends superclass {
     }
 };
 
-export default DialogControllerMixin;
+export default RESTerDialogControllerMixin;

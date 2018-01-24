@@ -89,9 +89,10 @@
         import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
         /**
-         * @mixes RESTerPageMixin
-         * @mixes RESTerSettingsMixin
-         * @polymerElement
+         * @appliesMixin RESTerPageMixin
+         * @appliesMixin RESTerSettingsMixin
+         * @polymer
+         * @customElement
          */
         class RESTerPageEnvironments extends RESTerPageMixin(RESTerSettingsMixin(Polymer.Element)) {
             static get is() {

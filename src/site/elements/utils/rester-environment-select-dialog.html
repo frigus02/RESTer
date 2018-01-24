@@ -51,8 +51,9 @@
         import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
         /**
-         * @mixes RESTerSettingsMixin
-         * @polymerElement
+         * @appliesMixin RESTerSettingsMixin
+         * @polymer
+         * @customElement
          */
         class RESTerEnvironmentSelectDialog extends RESTerSettingsMixin(Polymer.Element) {
             static get is() {

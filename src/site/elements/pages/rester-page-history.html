@@ -92,8 +92,9 @@
         import RESTerPageMixin from '../layout/rester-page-mixin.js';
 
         /**
-         * @mixes RESTerPageMixin
-         * @polymerElement
+         * @appliesMixin RESTerPageMixin
+         * @polymer
+         * @customElement
          */
         class RESTerPageHistory extends RESTerPageMixin(Polymer.Element) {
             static get is() {

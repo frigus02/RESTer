@@ -168,8 +168,9 @@
         import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
         /**
-         * @mixes RESTerDialogControllerMixin
-         * @polymerElement
+         * @appliesMixin RESTerDialogControllerMixin
+         * @polymer
+         * @customElement
          */
         class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(Polymer.Element) {
             static get is() {

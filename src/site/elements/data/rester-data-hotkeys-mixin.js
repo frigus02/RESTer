@@ -1,7 +1,8 @@
 import { add, remove, Hotkey } from '../data/scripts/hotkeys.js';
 
 /**
- * @polymerMixin
+ * @polymer
+ * @mixinFunction
  *
  * Registers hotkeys in attached and unregisters them in detached
  * lifecycle callbacks.

@@ -5,7 +5,8 @@ import {
 } from '../data/scripts/rester.js';
 
 /**
- * @polymerMixin
+ * @polymer
+ * @mixinFunction
  *
  * Makes RESTer settings available in property `settings`.
  */

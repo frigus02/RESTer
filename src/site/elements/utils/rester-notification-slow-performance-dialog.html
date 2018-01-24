@@ -79,9 +79,10 @@
         import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
         /**
-         * @mixes RESTerDialogControllerMixin
-         * @mixes RESTerErrorMixin
-         * @polymerElement
+         * @appliesMixin RESTerDialogControllerMixin
+         * @appliesMixin RESTerErrorMixin
+         * @polymer
+         * @customElement
          */
         class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(Polymer.Element)) {
             static get is() {

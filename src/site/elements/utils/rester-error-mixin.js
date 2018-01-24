@@ -1,5 +1,6 @@
 /**
- * @polymerMixin
+ * @polymer
+ * @mixinFunction
  *
  * Adds a function showError to the element, which can be used to display
  * an error in the default error dialog. Use it like follows:

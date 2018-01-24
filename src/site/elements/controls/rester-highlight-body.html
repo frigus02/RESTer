@@ -92,9 +92,10 @@
         };
 
         /**
-         * @mixes RESTerErrorMixin
-         * @mixes RESTerSettingsMixin
-         * @polymerElement
+         * @appliesMixin RESTerErrorMixin
+         * @appliesMixin RESTerSettingsMixin
+         * @polymer
+         * @customElement
          */
         class RESTerHighlightBody extends RESTerErrorMixin(RESTerSettingsMixin(Polymer.Element)) {
             static get is() {

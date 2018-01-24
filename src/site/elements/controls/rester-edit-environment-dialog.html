@@ -90,8 +90,9 @@
         import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin.js';
 
         /**
-         * @mixes RESTerDialogControllerMixin
-         * @polymerElement
+         * @appliesMixin RESTerDialogControllerMixin
+         * @polymer
+         * @customElement
          */
         class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(Polymer.Element) {
             static get is() {
