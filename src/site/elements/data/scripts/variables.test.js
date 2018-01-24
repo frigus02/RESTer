@@ -24,7 +24,9 @@ const fakeObject = {
 
 function setProviderEnvValues(values) {
     mockProviderEnv.values = values;
-    mockProviderEnv.e.fireEvent('valuesChanged', mockProviderEnv.values);
+    mockProviderEnv.e.dispatchEvent(new CustomEvent('valuesChanged', {
+        detail: mockProviderEnv.values
+    }));
 }
 
 describe('providedValues', function () {

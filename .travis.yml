@@ -8,8 +8,9 @@ addons:
 language: node_js
 node_js: node
 script:
+- yarn build
 - yarn lint
-- yarn test -- --plugin sauce --skip-plugin local
+- yarn test
 cache:
   yarn: true
   directories:

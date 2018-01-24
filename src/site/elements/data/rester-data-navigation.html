@@ -2,7 +2,7 @@
 
 <dom-module id="rester-data-navigation">
     <script>
-        import { time } from '../data/scripts/format.js';
+        import { time as formatTime } from '../data/scripts/format.js';
         import {
             e as resterEvents,
             getEnvironment,
@@ -215,7 +215,7 @@
 
                 return {
                     isItem: true,
-                    title: `${time(historyEntry.time)} ${requestTitle}`,
+                    title: `${formatTime(historyEntry.time)} ${requestTitle}`,
                     subtitle: `${compiledRequest.method} ${compiledRequest.url}`,
                     action: {
                         url: `#/request/${historyEntry.request.id || ''}/history/${historyEntry.id}`
