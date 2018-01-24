@@ -47,9 +47,9 @@ const RESTerThemeMixin = superclass => class extends superclass {
         }
     }
 
-    _onThemeSettingsChanged(changedSettings) {
-        if (changedSettings.theme) {
-            this._setThemeAndCallChangedListener(changedSettings.theme);
+    _onThemeSettingsChanged(e) {
+        if (e.detail.theme) {
+            this._setThemeAndCallChangedListener(e.detail.theme);
         }
     }
 };

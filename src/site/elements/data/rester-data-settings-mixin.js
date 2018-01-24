@@ -43,9 +43,9 @@ const RESTerSettingsMixin = superclass => class extends superclass {
         resterEvents.removeEventListener('settingsChange', this._onSettingsChanged);
     }
 
-    _onSettingsChanged(changedSettings) {
-        for (let key in changedSettings) {
-            if (changedSettings.hasOwnProperty(key)) {
+    _onSettingsChanged(e) {
+        for (let key in e.detail) {
+            if (e.detail.hasOwnProperty(key)) {
                 this.notifyPath(`settings.${key}`);
             }
         }

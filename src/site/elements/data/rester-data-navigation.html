@@ -250,8 +250,8 @@
                 return false;
             }
 
-            _updateNavigationBasedOnDataChanges(changes) {
-                changes.forEach(change => {
+            _updateNavigationBasedOnDataChanges(e) {
+                e.detail.forEach(change => {
                     if (change.itemType === 'Request') {
                         if (change.action === 'put' || change.action === 'delete') {
                             this._removeRequestNavigationItem(change.item.id);

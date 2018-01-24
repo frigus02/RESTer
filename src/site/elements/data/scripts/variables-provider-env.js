@@ -1,4 +1,4 @@
-import createEventTarget from './_create-event-target.js';
+import CustomEventTarget from './custom-event-target.js';
 import {
     e as resterEvents,
     getEnvironment,
@@ -8,7 +8,7 @@ import {
 
 const provider = {
     name: 'env',
-    e: createEventTarget(),
+    e: new CustomEventTarget(),
     values: {}
 };
 
@@ -17,11 +17,15 @@ function updateValues() {
     if (envId) {
         getEnvironment(envId).then(env => {
             provider.values = env ? env.values : {};
-            provider.e.fireEvent('valuesChanged', provider.values);
+            provider.e.dispatchEvent(new CustomEvent('valuesChanged', {
+                detail: provider.values
+            }));
         });
     } else {
         provider.values = {};
-        provider.e.fireEvent('valuesChanged', provider.values);
+        provider.e.dispatchEvent(new CustomEvent('valuesChanged', {
+            detail: provider.values
+        }));
     }
 }
 

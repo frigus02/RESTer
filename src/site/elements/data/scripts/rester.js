@@ -1,6 +1,6 @@
-import createEventTarget from './_create-event-target.js';
+import CustomEventTarget from './custom-event-target.js';
 
-export const e = createEventTarget();
+export const e = new CustomEventTarget();
 
 const port = chrome.runtime.connect({name: 'api'});
 const requests = {};
@@ -36,7 +36,9 @@ port.onMessage.addListener(message => {
             Object.assign(cachedSettings, args);
         }
 
-        e.fireEvent(eventName, args);
+        e.dispatchEvent(new CustomEvent(eventName, {
+            detail: args
+        }));
     }
 });
 

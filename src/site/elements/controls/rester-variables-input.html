@@ -170,8 +170,8 @@
                 this.set(['lastUsedVariables', variable.name], newValue);
             }
 
-            _onDataChanges(changes) {
-                for (let change of changes) {
+            _onDataChanges(e) {
+                for (let change of e.detail) {
                     if (change.itemType === 'HistoryEntry' && change.action === 'add') {
                         this._addHistoryEntryToVariableHistory(change.item);
                     }

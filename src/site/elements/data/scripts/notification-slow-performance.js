@@ -15,8 +15,8 @@ const notification = {
     }
 };
 
-resterEvents.addEventListener('dataSlowPerformance', details => {
-    const seconds = (details.duration / 1000).toFixed(1);
+resterEvents.addEventListener('dataSlowPerformance', e => {
+    const seconds = (e.detail.duration / 1000).toFixed(1);
     notification.description = `The last operation took ${seconds}s to complete. Clean up some old history to speed it up.`;
 
     show(notification);

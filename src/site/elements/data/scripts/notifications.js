@@ -1,6 +1,6 @@
-import createEventTarget from './_create-event-target.js';
+import CustomEventTarget from './custom-event-target.js';
 
-export const e = createEventTarget();
+export const e = new CustomEventTarget();
 
 export const notifications = [];
 
@@ -8,7 +8,9 @@ export function show(notification) {
     if (!notifications.some(n => n.id === notification.id)) {
         notifications.push(notification);
 
-        e.fireEvent('notificationAdded', notification);
+        e.dispatchEvent(new CustomEvent('notificationAdded', {
+            detail: notification
+        }));
     }
 }
 
@@ -17,6 +19,8 @@ export function hide(notification) {
     if (index > -1) {
         notifications.splice(index, 1);
 
-        e.fireEvent('notificationRemoved', notification);
+        e.dispatchEvent(new CustomEvent('notificationRemoved', {
+            detail: notification
+        }));
     }
 }

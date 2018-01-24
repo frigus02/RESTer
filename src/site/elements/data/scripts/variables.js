@@ -1,8 +1,8 @@
-import createEventTarget from './_create-event-target.js';
+import CustomEventTarget from './custom-event-target.js';
 import { clone } from './util.js';
 import providerEnv from './variables-provider-env.js';
 
-export const e = createEventTarget();
+export const e = new CustomEventTarget();
 export const providedValues = {};
 
 const RE_VARS = /\{(\S+?)\}/gi;
@@ -26,7 +26,9 @@ function collectProvidedValues() {
         }
     }
 
-    e.fireEvent('providedValuesChanged', providedValues);
+    e.dispatchEvent(new CustomEvent('providedValuesChanged', {
+        detail: providedValues
+    }));
 }
 
 function initVarProviderChangeListeners() {

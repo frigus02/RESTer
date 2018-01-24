@@ -1,8 +1,8 @@
-import createEventTarget from '../_create-event-target.js';
+import CustomEventTarget from '../custom-event-target.js';
 
 const provider = {
     name: 'env',
-    e: createEventTarget(),
+    e: new CustomEventTarget(),
     values: {}
 };
 

@@ -113,12 +113,12 @@
                 notificationEvents.removeEventListener('notificationRemoved', this._onNotificationRemoved);
             }
 
-            _onNotificationAdded(notification) {
-                this.push('notifications', notification);
+            _onNotificationAdded(e) {
+                this.push('notifications', e.detail);
             }
 
-            _onNotificationRemoved(notification) {
-                const index = this.notifications.indexOf(notification);
+            _onNotificationRemoved(e) {
+                const index = this.notifications.indexOf(e.detail);
                 this.splice('notifications', index, 1);
             }
 
