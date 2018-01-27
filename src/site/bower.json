@@ -46,9 +46,6 @@
     "vkBeautify": "frigus02/vkBeautify#1.0.1",
     "webcomponentsjs": "webcomponents/webcomponentsjs#b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d"
   },
-  "devDependencies": {
-    "web-component-tester": "6.4.1"
-  },
   "resolutions": {
     "webcomponentsjs": "b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d"
   }

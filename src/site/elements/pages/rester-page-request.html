@@ -252,6 +252,7 @@
         import dialogs from '../data/scripts/dialogs.js';
         import { mapFilesToVariableValues } from '../data/scripts/encode.js';
         import { duration, size, dateTime } from '../data/scripts/format.js';
+        import { getSingle } from '../data/scripts/navigation.js';
         import { send } from '../data/scripts/request.js';
         import {
             addHistoryEntry,
@@ -617,10 +618,7 @@
             _deleteRequest() {
                 this.$.deleteOptions.close();
 
-                const resterApp = document.querySelector('rester-app');
-                const resterNavigationList = Polymer.dom(resterApp.root).querySelector('rester-navigation-list');
-                const resterNavigation = Polymer.dom(resterNavigationList.root).querySelector('rester-data-navigation');
-                const nextId = resterNavigation.getNextRequestId(this.request.id);
+                const nextId = getSingle().getNextRequestId(this.request.id);
                 deleteRequest(this.request.id).then(() => {
                     if (typeof nextId !== 'undefined') {
                         window.location = `#/request/${nextId}`;

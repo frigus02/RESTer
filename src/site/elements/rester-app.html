@@ -132,7 +132,6 @@
         <rester-error></rester-error>
         <rester-hotkeys-cheat-sheet id="cheatSheet"></rester-hotkeys-cheat-sheet>
         <rester-quick-open-dialog id="quickOpenDialog"></rester-quick-open-dialog>
-        <rester-environment-select-dialog id="environmentSelectDialog"></rester-environment-select-dialog>
 
         <!--
             All dialogs need to be outside of the app-drawe-layout.
@@ -144,6 +143,7 @@
         <rester-authorization-provider-oauth2-configuration-dialog></rester-authorization-provider-oauth2-configuration-dialog>
         <rester-authorization-provider-oauth2-generate-token-resource-owner-dialog></rester-authorization-provider-oauth2-generate-token-resource-owner-dialog>
         <rester-edit-environment-dialog></rester-edit-environment-dialog>
+        <rester-environment-select-dialog></rester-environment-select-dialog>
         <rester-highlight-language-select-dialog></rester-highlight-language-select-dialog>
         <rester-notification-slow-performance-dialog></rester-notification-slow-performance-dialog>
         <rester-timing-duration-dialog></rester-timing-duration-dialog>
@@ -151,6 +151,7 @@
     </template>
 
     <script>
+        import dialogs from './data/scripts/dialogs.js';
         import { getEnvironments } from './data/scripts/rester.js';
         import RESTerThemeMixin from './data/rester-data-theme-mixin.js';
         import RESTerHotkeysMixin from './data/rester-data-hotkeys-mixin.js';
@@ -294,7 +295,7 @@
             }
 
             _showEnvironmentSelectDialog() {
-                this.$.environmentSelectDialog.show();
+                dialogs.environmentSelect.show();
             }
         }
 

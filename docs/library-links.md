@@ -126,8 +126,8 @@ iron-menu-behavior v2.0.1
 https://github.com/PolymerElements/iron-menu-behavior/blob/v2.0.1/iron-menu-behavior.html
 https://github.com/PolymerElements/iron-menu-behavior/blob/v2.0.1/iron-menubar-behavior.html
 
-iron-meta v2.0.4
-https://github.com/PolymerElements/iron-meta/blob/v2.0.4/iron-meta.html
+iron-meta v2.0.5
+https://github.com/PolymerElements/iron-meta/blob/v2.0.5/iron-meta.html
 
 iron-overlay-behavior v2.3.1
 https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.1/iron-focusables-helper.html
@@ -310,11 +310,11 @@ https://github.com/Polymer/polymer/blob/v2.3.1/lib/utils/unresolved.html
 https://github.com/Polymer/polymer/blob/v2.3.1/polymer-element.html
 https://github.com/Polymer/polymer/blob/v2.3.1/polymer.html
 
-shadycss v1.1.0
-https://github.com/webcomponents/shadycss/blob/v1.1.0/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.1.0/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.1.0/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.1.0/custom-style-interface.min.js
+shadycss v1.1.1
+https://github.com/webcomponents/shadycss/blob/v1.1.1/apply-shim.html
+https://github.com/webcomponents/shadycss/blob/v1.1.1/apply-shim.min.js
+https://github.com/webcomponents/shadycss/blob/v1.1.1/custom-style-interface.html
+https://github.com/webcomponents/shadycss/blob/v1.1.1/custom-style-interface.min.js
 
 string_score v0.1.22
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.js

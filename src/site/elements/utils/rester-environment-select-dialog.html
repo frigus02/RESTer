@@ -48,14 +48,16 @@
 
     <script>
         import { getEnvironments } from '../data/scripts/rester.js';
+        import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
         import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
         /**
+         * @appliesMixin RESTerDialogControllerMixin
          * @appliesMixin RESTerSettingsMixin
          * @polymer
          * @customElement
          */
-        class RESTerEnvironmentSelectDialog extends RESTerSettingsMixin(Polymer.Element) {
+        class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(RESTerSettingsMixin(Polymer.Element)) {
             static get is() {
                 return 'rester-environment-select-dialog';
             }
@@ -69,11 +71,14 @@
                 };
             }
 
-            show() {
-                getEnvironments().then(envs => {
-                    this._setEnvironments(envs);
-                    this.$.dialog.open();
-                });
+            static get resterDialogId() {
+                return 'environmentSelect';
+            }
+
+            async show() {
+                const envs = await getEnvironments();
+                this._setEnvironments(envs);
+                return super.show();
             }
 
             _compareEnvironments(a, b) {
@@ -81,7 +86,7 @@
             }
 
             _close() {
-                this.$.dialog.close();
+                this._closeDialogWithAction();
             }
         }
 

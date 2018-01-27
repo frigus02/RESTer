@@ -48,7 +48,6 @@
     "polymer-webpack-loader": "^2.0.1",
     "rimraf": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.1.6",
-    "web-component-tester": "6.4.1",
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1",
     "xml2js": "^0.4.19"

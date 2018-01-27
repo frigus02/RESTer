@@ -28,7 +28,7 @@ const RESTerSettingsMixin = superclass => class extends superclass {
     ready() {
         this._setSettings(settings);
         settingsLoaded.then(() => {
-            this._onSettingsChanged(settings);
+            this._onSettingsChanged({ detail: settings });
         });
         super.ready();
     }
@@ -46,7 +46,7 @@ const RESTerSettingsMixin = superclass => class extends superclass {
     _onSettingsChanged(e) {
         for (let key in e.detail) {
             if (e.detail.hasOwnProperty(key)) {
-                this.notifyPath(`settings.${key}`);
+                this.notifyPath(['settings', key]);
             }
         }
     }
