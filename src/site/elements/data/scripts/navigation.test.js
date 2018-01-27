@@ -205,10 +205,9 @@ describe('with resolved empty data', function () {
         expect(nav.items).toMatchSnapshot('5. Deleted 1 request');
 
         // Should handle name changes of the active environment
-        const changedEnvironment = {
-            ...fakeEnvironments[0],
+        const changedEnvironment = Object.assign({}, fakeEnvironments[0], {
             name: 'prod'
-        };
+        });
         changeListener(new CustomEvent('dataChange', {
             detail: [
                 { action: 'put', item: changedEnvironment, itemType: 'Environment' }
