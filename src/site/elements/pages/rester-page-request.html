@@ -47,6 +47,10 @@
                 max-width: 1200px;
             }
 
+            :host([page-full-width]) [role="main"] {
+                max-width: none;
+            }
+
             [hidden] {
                 display: none !important;
             }
@@ -297,6 +301,11 @@
                     historyRoute: Object,
                     historyRouteActive: Boolean,
                     historyRouteData: Object,
+                    pageFullWidth: {
+                        type: Boolean,
+                        computed: '_computePageFullWidth(settings.requestPageFullWidth)',
+                        reflectToAttribute: true
+                    },
                     isWideEnoughToShowVariablesOnSide: Boolean,
                     request: {
                         type: Object,
@@ -461,6 +470,10 @@
                     this.requestVariableValues = {};
                     this._setResponse(null);
                 }
+            }
+
+            _computePageFullWidth(requestPageFullWidth) {
+                return requestPageFullWidth;
             }
 
             _onRequestSelectedTabChanged() {

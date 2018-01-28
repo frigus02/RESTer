@@ -16,6 +16,7 @@
         responseBodyFullSize: false,
         responseBodyPreview: false,
         showVariablesOnSide: false,
+        requestPageFullWidth: false,
         theme: 'dark'
     };
 

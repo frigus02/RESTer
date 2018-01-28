@@ -15,6 +15,7 @@ const settingsKeys = [
     'responseBodyFullSize',
     'responseBodyPreview',
     'showVariablesOnSide',
+    'requestPageFullWidth',
     'theme'
 ];
 const cachedSettings = {};
