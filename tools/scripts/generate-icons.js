@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
 
-const del = require('del');
+const rimraf = promisify(require('rimraf'));
 const xml2js = require('xml2js');
 
 const readFile = promisify(fs.readFile);
@@ -39,7 +39,7 @@ async function main() {
     const iconXml = await parseString(iconBuffer);
 
     // Create clean working folder
-    await del(rootDir + '/.icons');
+    await rimraf(rootDir + '/.icons');
     await mkdir(rootDir + '/.icons');
 
     // Create different icon versions
@@ -82,7 +82,7 @@ async function main() {
     }
 
     // Clean up
-    await del(rootDir + '/.icons');
+    await rimraf(rootDir + '/.icons');
 }
 
 main().catch(err => console.error(err.stack));

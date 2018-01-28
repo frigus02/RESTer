@@ -32,8 +32,9 @@ const RESTerVariablesMixin = superclass => class extends superclass {
         variablesEvents.removeEventListener('providedValuesChanged', this._onProvidedValuesChanged);
     }
 
-    _onProvidedValuesChanged(newProvidedValues) {
-        this._setProvidedVariableValues(newProvidedValues);
+    _onProvidedValuesChanged(e) {
+        this._setProvidedVariableValues({});
+        this._setProvidedVariableValues(e.detail);
     }
 };
 
