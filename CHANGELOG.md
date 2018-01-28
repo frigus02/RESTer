@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Changed build tools from gulp to webpack using [polymer-webpack-loader](https://github.com/webpack-contrib/polymer-webpack-loader). This made it possible to get rid of HTML imports entirely, which were always a bit flakey when used in extensions on Linux.
 
 ## [3.5.1] - 2017-11-28
 ### Fixed

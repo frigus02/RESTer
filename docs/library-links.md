@@ -86,8 +86,8 @@ https://github.com/PolymerElements/iron-behaviors/blob/v2.0.0/iron-control-state
 iron-checked-element-behavior v2.0.0
 https://github.com/PolymerElements/iron-checked-element-behavior/blob/v2.0.0/iron-checked-element-behavior.html
 
-iron-collapse v2.0.0
-https://github.com/PolymerElements/iron-collapse/blob/v2.0.0/iron-collapse.html
+iron-collapse v2.1.0
+https://github.com/PolymerElements/iron-collapse/blob/v2.1.0/iron-collapse.html
 
 iron-dropdown v2.1.0
 https://github.com/PolymerElements/iron-dropdown/blob/v2.1.0/iron-dropdown-scroll-manager.html
@@ -103,8 +103,8 @@ https://github.com/PolymerElements/iron-flex-layout/blob/v2.0.1/iron-flex-layout
 iron-form-element-behavior v2.0.0
 https://github.com/PolymerElements/iron-form-element-behavior/blob/v2.0.0/iron-form-element-behavior.html
 
-iron-form 4859ecc2963f540cfe41e8d0ceb85e47b6befc34
-https://github.com/PolymerElements/iron-form/blob/4859ecc2963f540cfe41e8d0ceb85e47b6befc34/iron-form.html
+iron-form v2.1.2
+https://github.com/PolymerElements/iron-form/blob/v2.1.2/iron-form.html
 
 iron-icon v2.0.1
 https://github.com/PolymerElements/iron-icon/blob/v2.0.1/iron-icon.html
@@ -160,14 +160,14 @@ https://github.com/PolymerElements/iron-validatable-behavior/blob/v2.0.0/iron-va
 mousetrap 1.6.1
 https://github.com/ccampbell/mousetrap/blob/1.6.1/mousetrap.js
 
-neon-animation v2.0.2
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/animations/fade-in-animation.html
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/animations/fade-out-animation.html
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/animations/scale-up-animation.html
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/neon-animatable-behavior.html
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/neon-animation-behavior.html
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/neon-animation-runner-behavior.html
-https://github.com/PolymerElements/neon-animation/blob/v2.0.2/web-animations.html
+neon-animation v2.1.0
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/animations/fade-in-animation.html
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/animations/fade-out-animation.html
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/animations/scale-up-animation.html
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/neon-animatable-behavior.html
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/neon-animation-behavior.html
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/neon-animation-runner-behavior.html
+https://github.com/PolymerElements/neon-animation/blob/v2.1.0/web-animations.html
 
 paper-badge v2.0.0
 https://github.com/PolymerElements/paper-badge/blob/v2.0.0/paper-badge.html
@@ -181,8 +181,8 @@ https://github.com/PolymerElements/paper-behaviors/blob/v2.0.1/paper-ripple-beha
 paper-button v2.0.0
 https://github.com/PolymerElements/paper-button/blob/v2.0.0/paper-button.html
 
-paper-checkbox v2.0.1
-https://github.com/PolymerElements/paper-checkbox/blob/v2.0.1/paper-checkbox.html
+paper-checkbox v2.0.2
+https://github.com/PolymerElements/paper-checkbox/blob/v2.0.2/paper-checkbox.html
 
 paper-dialog-behavior v2.0.1
 https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.0.1/paper-dialog-behavior.html
@@ -194,10 +194,10 @@ https://github.com/PolymerElements/paper-dialog-scrollable/blob/v2.1.0/paper-dia
 paper-dialog v2.0.1
 https://github.com/PolymerElements/paper-dialog/blob/v2.0.1/paper-dialog.html
 
-paper-dropdown-menu v2.0.1
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.1/paper-dropdown-menu-icons.html
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.1/paper-dropdown-menu-shared-styles.html
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.1/paper-dropdown-menu.html
+paper-dropdown-menu v2.0.2
+https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.2/paper-dropdown-menu-icons.html
+https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.2/paper-dropdown-menu-shared-styles.html
+https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.0.2/paper-dropdown-menu.html
 
 paper-fab v2.0.0
 https://github.com/PolymerElements/paper-fab/blob/v2.0.0/paper-fab.html
@@ -205,14 +205,14 @@ https://github.com/PolymerElements/paper-fab/blob/v2.0.0/paper-fab.html
 paper-icon-button v2.0.1
 https://github.com/PolymerElements/paper-icon-button/blob/v2.0.1/paper-icon-button.html
 
-paper-input v2.0.5
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-input-addon-behavior.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-input-behavior.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-input-char-counter.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-input-container.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-input-error.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-input.html
-https://github.com/PolymerElements/paper-input/blob/v2.0.5/paper-textarea.html
+paper-input v2.1.0
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-input-addon-behavior.html
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-input-behavior.html
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-input-char-counter.html
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-input-container.html
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-input-error.html
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-input.html
+https://github.com/PolymerElements/paper-input/blob/v2.1.0/paper-textarea.html
 
 paper-item v2.0.0
 https://github.com/PolymerElements/paper-item/blob/v2.0.0/paper-icon-item.html
