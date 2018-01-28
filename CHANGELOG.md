@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Changed build tools from gulp to webpack using [polymer-webpack-loader](https://github.com/webpack-contrib/polymer-webpack-loader). This made it possible to get rid of HTML imports entirely, which were always a bit flakey when used in extensions on Linux.
 
+### Fixed
+- After saving a request the current response will now stay visible. Note: currently this only works if the request was saved at least once before.
+
 ## [3.5.1] - 2017-11-28
 ### Fixed
 - Long query parameters in the request broke the page layout.

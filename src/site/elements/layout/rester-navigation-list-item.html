@@ -139,7 +139,10 @@
 
             static get properties() {
                 return {
-                    item: Object,
+                    item: {
+                        type: Object,
+                        observer: '_notifyIfActive'
+                    },
                     indentLevel: {
                         type: Number,
                         value: 0
@@ -151,6 +154,7 @@
                     active: {
                         type: Boolean,
                         computed: '_computeActive(route)',
+                        observer: '_notifyIfActive',
                         reflectToAttribute: true
                     }
                 };
@@ -178,14 +182,6 @@
 
             _onRouteChanged() {
                 this.set('item.isExpanded', false);
-                setTimeout(() => {
-                    if (this.active) {
-                        this.dispatchEvent(new CustomEvent('item-activated', {
-                            bubbles: true,
-                            composed: true
-                        }));
-                    }
-                });
             }
 
             _computeActive() {
@@ -198,6 +194,17 @@
                 const path = url.substr(1).split('/');
 
                 return path.every((part, i) => part === activePath[i]);
+            }
+
+            _notifyIfActive() {
+                setTimeout(() => {
+                    if (this.active) {
+                        this.dispatchEvent(new CustomEvent('item-activated', {
+                            bubbles: true,
+                            composed: true
+                        }));
+                    }
+                });
             }
 
             _invokeAction() {
