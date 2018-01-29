@@ -1,9 +1,0 @@
-{
-    "globals": {
-        "base64js": false,
-        "chrome": false,
-        "rester": false,
-        "indexedDB": false,
-        "IDBKeyRange": false
-    }
-}

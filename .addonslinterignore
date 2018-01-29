@@ -8,8 +8,7 @@
 #   Please see: https://mzl.la/2hizK4a for more.
 # But we don't want to specify an addon id, since the WebExtension is embedded
 # inside of an Add-on SDK extension. We can probably safely ignore this warning.
-background/lib/settings.js STORAGE_LOCAL
-background/lib/data/utils/data-store.js STORAGE_LOCAL
+background/bundle.js STORAGE_LOCAL
 
 # These are part of other bower components and should be fine.
 site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js UNSAFE_VAR_ASSIGNMENT

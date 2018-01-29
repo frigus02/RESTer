@@ -1,4 +1,4 @@
-import CustomEventTarget from './custom-event-target.js';
+import CustomEventTarget from '../../../../shared/custom-event-target.js';
 
 export const e = new CustomEventTarget();
 
@@ -31,15 +31,13 @@ port.onMessage.addListener(message => {
         requests[message.id] = undefined;
     } else if (message.action.startsWith('event.')) {
         const eventName = message.action.split('.')[1];
-        const args = message.args && JSON.parse(message.args);
+        const detail = message.detail && JSON.parse(message.detail);
 
         if (eventName === 'settingsChange' && cachedSettings) {
-            Object.assign(cachedSettings, args);
+            Object.assign(cachedSettings, detail);
         }
 
-        e.dispatchEvent(new CustomEvent(eventName, {
-            detail: args
-        }));
+        e.dispatchEvent(new CustomEvent(eventName, { detail }));
     }
 });
 

@@ -1,8 +1,6 @@
 {
     "globals": {
-        "AbortController": false,
         "ace": false,
-        "chrome": false,
         "Polymer": false
     },
     "rules": {

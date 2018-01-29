@@ -6,11 +6,17 @@ const webpack = require('webpack');
 
 const common = require('./webpack.common.js');
 
-module.exports = merge(common, {
+module.exports = common.map(config => merge(config, {
     plugins: [
-        new UglifyJsPlugin(),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                mangle: {
+                    reserved: ['resterApi']
+                }
+            }
+        }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         })
     ]
-});
+}));

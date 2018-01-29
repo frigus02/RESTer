@@ -21,21 +21,7 @@
     ],
     "background": {
         "scripts": [
-            "background/lib/utils/event-listeners.js",
-            "background/lib/utils/fields.js",
-            "background/lib/utils/polyfills.js",
-            "background/lib/data.js",
-            "background/lib/data/utils/data-store.js",
-            "background/lib/data/utils/db.js",
-            "background/lib/data/utils/migrations.js",
-            "background/lib/data/authorization-provider-configurations.js",
-            "background/lib/data/authorization-tokens.js",
-            "background/lib/data/environments.js",
-            "background/lib/data/requests.js",
-            "background/lib/data/responses.js",
-            "background/lib/data/history.js",
-            "background/lib/settings.js",
-            "background/index.js"
+            "background/bundle.js"
         ]
     },
     "browser_action": {

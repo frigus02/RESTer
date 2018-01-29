@@ -13,7 +13,7 @@
     "clean:build": "rimraf .build",
     "clean:package": "rimraf .package",
     "build": "yarn run clean:build && yarn run build:files && yarn run build:site",
-    "build:files": "cpx \"src/{{background,images}/**,manifest.json}\" .build/",
+    "build:files": "cpx \"src/{images/**,manifest.json}\" .build/",
     "build:site": "webpack --config webpack.prod.js",
     "lint": "yarn run lint:javascript && yarn run lint:polymer && yarn run lint:firefox",
     "lint:javascript": "eslint --ext .js,.html src/",
@@ -47,7 +47,7 @@
     "polymer-cli": "^1.5.7",
     "polymer-webpack-loader": "^2.0.1",
     "rimraf": "^2.6.2",
-    "uglifyjs-webpack-plugin": "^1.1.6",
+    "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1",
     "xml2js": "^0.4.19"

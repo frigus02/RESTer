@@ -1,4 +1,4 @@
-import CustomEventTarget from './custom-event-target.js';
+import CustomEventTarget from '../../../../shared/custom-event-target.js';
 import {
     e as resterEvents,
     getEnvironment,

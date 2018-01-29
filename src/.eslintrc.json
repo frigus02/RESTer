@@ -1,6 +1,15 @@
 {
+    "parserOptions": {
+        "sourceType": "module"
+    },
     "env": {
         "browser": true,
         "node": false
+    },
+    "globals": {
+        "AbortController": false,
+        "chrome": false,
+        "IDBKeyRange": false,
+        "indexedDB": false
     }
 }

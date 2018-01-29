@@ -1,6 +1,6 @@
 /* eslint-env node, jest */
 
-import CustomEventTarget from '../custom-event-target.js';
+import CustomEventTarget from '../../../../../shared/custom-event-target.js';
 
 const provider = {
     name: 'env',
