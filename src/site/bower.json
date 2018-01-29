@@ -41,7 +41,7 @@
     "paper-tabs": "PolymerElements/paper-tabs#2.0.0",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#2.0.0",
     "paper-tooltip": "PolymerElements/paper-tooltip#2.0.1",
-    "polymer": "Polymer/polymer#2.3.1",
+    "polymer": "Polymer/polymer#2.4.0",
     "string_score": "joshaven/string_score#0.1.22",
     "vkBeautify": "frigus02/vkBeautify#1.0.1",
     "webcomponentsjs": "webcomponents/webcomponentsjs#b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d"
