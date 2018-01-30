@@ -1,10 +1,7 @@
 dist: trusty
 sudo: false
 addons:
-  sauce_connect:
-    username: frigus02
-  jwt:
-    secure: FEfZS9y39+5pFkSEuFo/w+0YnSpKbqj+XkjgDW1jRwywP6aEzmCYyovRupUWeEfO5xBKPGBtO2LyrwdskKmRGmgoyTS8jBRha/G0msMaZByqKCUoIxo8Woz0nAR9mFdOvLQMI/yO7c9Ek7T0O0pRXJIBjGltU1Waixt1659e5Ro9Z6QL5JYiwhH+YfnRl4qZHcmsxEXuMzH/CvqE+N/thcnX0v3lLRW0VV4jfjnC1wC9brPioLUaDkJ5Kr4RC3zCl+K1v0fz/yq28e6zsIVbxTijugrYwJuHd3EeZOZEjuCKSxdSVnK1mIt84RhCE7XwBq0fkUMU8qdTpJ+AeyzVvaiRb2CEDLJ73Y2NSZAr+XvYIAHbnSj3EOKEQEkP3Ahonh8GH9nisxvnuHJgF8u1Jom9bTvfG+gRxo+bOMPqAftKsXeAxA6DZmBV4HK8L9sR15btmDGeXAufs0EySowY/b84G3JO1Z++u4GAQFz1SCFVzf5ZPxTrMBWQUa/BR/jL9d8CCaRbv+ZXitTFjXLLS/AD/wYrH46/3gki/BVqoP3NcpoWw1XrdvShKCVCADI5ZNHOjoAPN4jw/SEzB1/J+MCsNc2CLO3+LqR2uFhYXTBdhKpKp2sbQqUtURto6ogFPg9j7bYaQimwfpSFm107zkawaYsSWQ9zQwivaP2WvDk=
+  firefox: "latest-dev"
 language: node_js
 node_js: node
 script:

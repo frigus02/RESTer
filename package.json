@@ -15,14 +15,14 @@
     "build": "yarn run clean:build && yarn run build:files && yarn run build:site",
     "build:files": "cpx \"src/{images/**,manifest.json}\" .build/",
     "build:site": "webpack --config webpack.prod.js",
-    "lint": "yarn run lint:javascript && yarn run lint:polymer && yarn run lint:firefox",
+    "lint": "yarn run lint:javascript && yarn run lint:firefox",
     "lint:javascript": "eslint --ext .js,.html src/",
     "lint:polymer": "polymer lint --root src/site/ --rules polymer-2",
     "lint:firefox": "node tools/scripts/lint-firefox-addon.js .build/",
     "test": "jest",
     "package": "yarn run clean:package && yarn run package:chrome && yarn run package:firefox",
-    "package:chrome": "node tools/scripts/package-addon.js chrome .build/ .package/",
-    "package:firefox": "node tools/scripts/package-addon.js firefox .build/ .package/"
+    "package:chrome": "node tools/scripts/package-addon.js chrome",
+    "package:firefox": "node tools/scripts/package-addon.js firefox"
   },
   "devDependencies": {
     "addons-linter": "0.33.0",
@@ -40,6 +40,7 @@
     "eslint-config-crockford": "2.0.0",
     "eslint-plugin-html": "4.0.2",
     "file-loader": "^1.1.6",
+    "geckodriver": "^1.10.0",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.1.4",
     "log-symbols": "2.2.0",
@@ -47,6 +48,7 @@
     "polymer-cli": "^1.5.7",
     "polymer-webpack-loader": "^2.0.1",
     "rimraf": "^2.6.2",
+    "selenium-webdriver": "^4.0.0-alpha.1",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1",
