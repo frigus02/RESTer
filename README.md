@@ -4,7 +4,7 @@
 
 A REST client for almost any web service.
 
-Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Google Chrome](https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
+Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Chrome](https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
 
 You can...
 
@@ -50,7 +50,10 @@ To load the add-on in the browser:
 
 To create packages for AMO and the Chrome Web Store run:
 
-    yarn run package
+    yarn build
+    yarn lint
+    yarn test
+    yarn package
 
 Afterwards you will find the generated files in the folder *.package*.
 
