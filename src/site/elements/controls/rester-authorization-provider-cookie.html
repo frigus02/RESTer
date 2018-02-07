@@ -4,7 +4,8 @@
     <script>
         import * as browserRequest from '../data/scripts/browser-request.js';
         import dialogs from '../data/scripts/dialogs.js';
-        import { clone, prepareConfigWithEnvVariables } from '../data/scripts/util.js';
+        import { prepareConfigWithEnvVariables } from '../data/scripts/util.js';
+        import { clone } from '../../../shared/util.js';
 
         async function ensureCookiesPermission() {
             const requiredPermissions = {

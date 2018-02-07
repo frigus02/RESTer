@@ -1,5 +1,6 @@
 import { queryHistoryEntries } from '../../data/history.js';
 import { queryRequests } from '../../data/requests.js';
+import { sortedIndexOf } from '../../../shared/util.js';
 
 /**
  * Exports data in the Postman Collection v2.1.0 format.
@@ -14,18 +15,16 @@ import { queryRequests } from '../../data/requests.js';
  */
 export default async function (options) {
     const requests = await queryRequests();
-
-    if (options.includeHistory) {
-        const history = await queryHistoryEntries();
-        addHistoryEntriesToRequests(requests, history);
-    }
+    const history = options.includeHistory
+        ? await queryHistoryEntries()
+        : [];
 
     return {
         info: {
             name: 'RESTer',
             schema: 'https://schema.getpostman.com/json/collection/v2.1.0/'
         },
-        item: createItems(requests)
+        item: createItems(requests, history)
     };
 }
 
@@ -37,13 +36,13 @@ class Folder {
 }
 
 class Item {
-    constructor(resterRequest) {
+    constructor(resterRequest, resterHistoryEntries) {
         this.id = String(resterRequest.id);
         this.name = resterRequest.title;
         this.request = new Request(resterRequest);
 
-        if (resterRequest.history) {
-            this.response = resterRequest.history.map(entry => new Response(entry));
+        if (resterHistoryEntries.length > 0) {
+            this.response = resterHistoryEntries.map(entry => new Response(entry));
         }
     }
 }
@@ -70,7 +69,7 @@ class Response {
     constructor(resterHistoryEntry) {
         this.id = String(resterHistoryEntry.id);
 
-        // The `name` property is not documented in the schame,
+        // The `name` property is not documented in the schema,
         // but seems to by required by Postman. If it's not present,
         // you cannot select the response.
         this.name = `${resterHistoryEntry.time} ${resterHistoryEntry.request.title}`;
@@ -92,42 +91,14 @@ class Response {
     }
 }
 
-function addHistoryEntriesToRequests(requests, history) {
-    for (const request of requests) {
-        request.history = history.filter(entry => entry.request.id === request.id);
-    }
+function sortedIndexOfFolders(folders, newFolder) {
+    return sortedIndexOf(
+        folders,
+        newFolder,
+        folder => [folder.name, folder.constructor.name]);
 }
 
-function findSortedIndexByNameAndType(arr, value) {
-    if (arr.length === 0) {
-        return 0;
-    }
-
-    let low = 0,
-        high = arr.length - 1;
-    while (low <= high) {
-        const mid = Math.floor((low + high) / 2);
-        const comparedValue = arr[mid].name.localeCompare(value.name);
-        if (comparedValue < 0) {
-            low = mid + 1;
-        } else if (comparedValue > 0) {
-            high = mid - 1;
-        } else {
-            const comparedType = arr[mid].constructor.name.localeCompare(value.constructor.name);
-            if (comparedType < 0) {
-                low = mid + 1;
-            } else if (comparedType > 0) {
-                high = mid - 1;
-            } else {
-                return mid;
-            }
-        }
-    }
-
-    return low;
-}
-
-function createItems(requests) {
+function createItems(requests, historyEntries) {
     const rootFolder = new Folder();
 
     function ensureFolder(path) {
@@ -135,7 +106,7 @@ function createItems(requests) {
         const segments = path.split(/\s*\/\s*/i);
         for (const segment of segments) {
             const segmentFolder = new Folder(segment);
-            const index = findSortedIndexByNameAndType(currentFolder.item, segmentFolder);
+            const index = sortedIndexOfFolders(currentFolder.item, segmentFolder);
             let folder = currentFolder.item[index];
             if (!folder || folder.name !== segment) {
                 folder = segmentFolder;
@@ -149,10 +120,11 @@ function createItems(requests) {
     }
 
     for (const request of requests) {
+        const requestHistory = historyEntries.filter(entry => entry.request.id === request.id);
         const folder = ensureFolder(request.collection);
-        const item = new Item(request);
+        const item = new Item(request, requestHistory);
 
-        const index = findSortedIndexByNameAndType(folder.item, item);
+        const index = sortedIndexOfFolders(folder.item, item);
         folder.item.splice(index, 0, item);
     }
 

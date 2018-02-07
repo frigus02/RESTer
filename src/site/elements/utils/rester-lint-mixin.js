@@ -1,5 +1,5 @@
 import { settings } from '../data/scripts/rester.js';
-import { debounce } from '../data/scripts/util.js';
+import { debounce } from '../../../shared/util.js';
 import { replace as replaceVariables } from '../data/scripts/variables.js';
 
 /**

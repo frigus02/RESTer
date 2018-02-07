@@ -15,7 +15,7 @@ import {
     settings,
     settingsLoaded
 } from './rester.js';
-import { clone, group, sort, sortedIndexOf } from './util.js';
+import { clone, group, sort, sortedIndexOf } from '../../../../shared/util.js';
 import { replaceWithoutProvidedValues } from './variables.js';
 
 const requestFields = ['id', 'collection', 'title'];

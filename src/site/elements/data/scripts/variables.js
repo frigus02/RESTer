@@ -1,5 +1,5 @@
 import CustomEventTarget from '../../../../shared/custom-event-target.js';
-import { clone } from './util.js';
+import { clone } from '../../../../shared/util.js';
 import providerEnv from './variables-provider-env.js';
 
 export const e = new CustomEventTarget();

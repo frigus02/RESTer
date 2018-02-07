@@ -3,12 +3,10 @@
 import {
     clone,
     cloneDeep,
+    randInt,
     sample,
-    randInt
+    sortedIndexOf
 } from './util.js';
-
-jest.mock('./rester.js');
-jest.mock('./variables.js');
 
 describe('clone', function () {
     test('returns a shallow clone of an array', function () {
@@ -46,18 +44,53 @@ describe('cloneDeep', function () {
     });
 });
 
+describe('randInt', function () {
+    test('returns a random number within the specified range', function () {
+        const result = randInt(42, 84);
+        expect(result).toBeGreaterThanOrEqual(42);
+        expect(result).toBeLessThanOrEqual(84);
+    });
+});
+
 describe('sample', function () {
-    test('to return a random element from the specified array', function () {
+    test('returns a random element from the specified array', function () {
         const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         const result = sample(data);
         expect(data).toContain(result);
     });
 });
 
-describe('randInt', function () {
-    test('to return a random number within the specified range', function () {
-        const result = randInt(42, 84);
-        expect(result).toBeGreaterThanOrEqual(42);
-        expect(result).toBeLessThanOrEqual(84);
+describe('sortedIndexOf', function () {
+    test('finds number element at start', function () {
+        expect(sortedIndexOf([2, 3, 4], 1)).toBe(0);
+    });
+
+    test('finds number in the middle', function () {
+        expect(sortedIndexOf([1, 3, 4], 2)).toBe(1);
+    });
+
+    test('finds number in the middle (number already exists)', function () {
+        expect(sortedIndexOf([1, 2, 3, 4], 2)).toBe(1);
+    });
+
+    test('finds string in the middle', function () {
+        expect(sortedIndexOf(['apple', 'grape', 'orange'], 'melon')).toBe(2);
+    });
+
+    test('finds object in the middle', function () {
+        expect(sortedIndexOf([
+            { name: 'apple' },
+            { name: 'grape' },
+            { name: 'orange' }
+        ], { name: 'melon' }, x => x.name)).toBe(2);
+    });
+
+    test('finds array in the middle', function () {
+        expect(sortedIndexOf([
+            ['comments', 'folder'],
+            ['posts', 'folder'],
+            ['posts', 'item']
+        ], ['comments,a', 'item'])).toBe(1);
     });
 });
+
