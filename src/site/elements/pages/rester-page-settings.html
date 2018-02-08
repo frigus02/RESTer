@@ -34,7 +34,7 @@
 
             paper-button {
                 background-color: var(--primary-color);
-                margin: 0 0 16px 0;
+                margin: 0 16px 16px 0;
             }
         </style>
 
@@ -123,11 +123,9 @@
                     <paper-button on-tap="_exportData">
                         Export requests
                     </paper-button>
-                    <div class="hint">
-                        Export requests in the Postman Collection Format v2.1.0. The export can include
-                        requests and the history. It does not include authorization configs or
-                        environments.
-                    </div>
+                    <paper-button on-tap="_importData">
+                        Import requests
+                    </paper-button>
                 </div>
             </div>
         </app-header-layout>
@@ -179,6 +177,10 @@
 
             _exportData() {
                 dialogs.export.show();
+            }
+
+            _importData() {
+                dialogs.import.show();
             }
         }
 

@@ -141,6 +141,10 @@ export function exportData(options) {
     return sendApiRequest('exportImport.export', options);
 }
 
+export function importData(options) {
+    return sendApiRequest('exportImport.import', options);
+}
+
 
 /*
 * Settings

@@ -43,7 +43,8 @@ const resterApi = {
         }
     },
     exportImport: {
-        export: exportImport.exportData
+        export: exportImport.exportData,
+        import: exportImport.importData
     },
     settings: {
         get: settings.get,

@@ -1,4 +1,4 @@
-import postman from './postman';
+import * as postman from './postman.js';
 
 export {
     postman

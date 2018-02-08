@@ -3,14 +3,13 @@
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
-<dom-module id="rester-export-dialog">
+<link rel="import" href="../controls/rester-file-input.html">
+
+<dom-module id="rester-import-dialog">
     <template>
         <style>
             paper-dialog {
@@ -39,26 +38,23 @@
                 restore-focus-on-close>
             <paper-dialog-scrollable>
                 <p>
-                    The export can include requests and the history. Authorization configs,
+                    Supported formats are the Postman Collection Format v2.0.0 and v2.1.0.
+                </p>
+                <p>
+                    You can only import requests. History entries, authorization configs,
                     tokens or environments are not supported.
                 </p>
-                <paper-dropdown-menu label="Format">
-                    <paper-listbox
-                            slot="dropdown-content"
-                            selected="{{format}}"
-                            attr-for-selected="value">
-                        <paper-item value="postman">Postman Collection Format v2.1.0</paper-item>
-                    </paper-listbox>
-                </paper-dropdown-menu>
-                <paper-checkbox checked="{{includeHistory}}">
-                    Include history
-                </paper-checkbox>
+                <rester-file-input
+                        files="{{files}}"></rester-file-input>
+                <paper-input
+                        label="Collection Prefix"
+                        value="{{collectionPrefix}}"></paper-input>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Cancel</paper-button>
-                <paper-button disabled$="[[isPreparingExport]]" on-tap="_export">
-                    <span hidden$="[[isPreparingExport]]">Export</span>
-                    <span hidden$="[[!isPreparingExport]]">
+                <paper-button disabled$="[[!_canImport(isImporting, files.length)]]" on-tap="_import">
+                    <span hidden$="[[isImporting]]">Import</span>
+                    <span hidden$="[[!isImporting]]">
                         <paper-spinner active></paper-spinner>
                     </span>
                 </paper-button>
@@ -69,7 +65,7 @@
     <script>
         import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
         import RESTerErrorMixin from './rester-error-mixin.js';
-        import { exportData } from '../data/scripts/rester.js';
+        import { importData } from '../data/scripts/rester.js';
 
         /**
          * @appliesMixin RESTerDialogControllerMixin
@@ -77,22 +73,19 @@
          * @polymer
          * @customElement
          */
-        class RESTerExportDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(Polymer.Element)) {
+        class RESTerImportDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(Polymer.Element)) {
             static get is() {
-                return 'rester-export-dialog';
+                return 'rester-import-dialog';
             }
 
             static get properties() {
                 return {
-                    format: {
+                    files: Array,
+                    collectionPrefix: {
                         type: String,
-                        value: 'postman'
+                        value: ''
                     },
-                    includeHistory: {
-                        type: Boolean,
-                        value: true
-                    },
-                    isPreparingExport: {
+                    isImporting: {
                         type: Boolean,
                         value: false,
                         readOnly: true
@@ -101,25 +94,38 @@
             }
 
             static get resterDialogId() {
-                return 'export';
+                return 'import';
             }
 
-            async _export() {
-                this._setIsPreparingExport(true);
+            _canImport(isImporting, filesLength) {
+                return !isImporting && filesLength === 1;
+            }
+
+            async _import() {
+                this._setIsImporting(true);
                 try {
-                    await exportData({
-                        format: this.format,
-                        includeHistory: this.includeHistory
+                    await importData({
+                        data: await this._loadFile(),
+                        collectionPrefix: this.collectionPrefix
                     });
                     this._closeDialogWithAction();
                 } catch (e) {
                     this.showError(e);
                 }
 
-                this._setIsPreparingExport(false);
+                this._setIsImporting(false);
+            }
+
+            _loadFile() {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.addEventListener('load', () => resolve(reader.result));
+                    reader.addEventListener('error', () => reject(reader.error));
+                    reader.readAsText(this.files[0]);
+                });
             }
         }
 
-        customElements.define(RESTerExportDialog.is, RESTerExportDialog);
+        customElements.define(RESTerImportDialog.is, RESTerImportDialog);
     </script>
 </dom-module>
