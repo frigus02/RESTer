@@ -27,7 +27,7 @@ export class Request {
             url: null,
             headers: [],
             body: null,
-            variables: {enabled: false}
+            variables: {}
         };
     }
 
