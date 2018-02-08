@@ -16,17 +16,19 @@ import db from './utils/db.js';
  * generated this token.
  */
 export class AuthorizationToken {
+    static get defaultProperties() {
+        return {
+            title: '',
+            scheme: '',
+            token: '',
+            expirationDate: null,
+            configurationId: 0,
+            providerId: 0
+        };
+    }
+
     constructor(dbObject) {
-        if (dbObject) {
-            Object.assign(this, dbObject);
-        } else {
-            this.title = '';
-            this.scheme = '';
-            this.token = '';
-            this.expirationDate = null;
-            this.configurationId = 0;
-            this.providerId = 0;
-        }
+        Object.assign(this, AuthorizationToken.defaultProperties, dbObject);
     }
 }
 

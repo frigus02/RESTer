@@ -10,16 +10,17 @@ import { migrateHeadersObjectToArray } from './utils/migrations.js';
  * @property {String} body - The response body as string.
  */
 export class Response {
-    constructor(dbObject) {
-        if (dbObject) {
-            Object.assign(this, dbObject);
+    static get defaultProperties() {
+        return {
+            status: 0,
+            statusText: null,
+            headers: [],
+            body: null
+        };
+    }
 
-            this.headers = migrateHeadersObjectToArray(this.headers);
-        } else {
-            this.status = 0;
-            this.statusText = null;
-            this.headers = [];
-            this.body = null;
-        }
+    constructor(dbObject) {
+        Object.assign(this, Response.defaultProperties, dbObject);
+        this.headers = migrateHeadersObjectToArray(this.headers);
     }
 }

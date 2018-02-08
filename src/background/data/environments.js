@@ -10,13 +10,15 @@ import db from './utils/db.js';
  * as variables in requests.
  */
 export class Environment {
+    static get defaultProperties() {
+        return {
+            name: '',
+            values: {}
+        };
+    }
+
     constructor(dbObject) {
-        if (dbObject) {
-            Object.assign(this, dbObject);
-        } else {
-            this.name = '';
-            this.values = {};
-        }
+        Object.assign(this, Environment.defaultProperties, dbObject);
     }
 }
 

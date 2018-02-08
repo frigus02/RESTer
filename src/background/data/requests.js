@@ -19,27 +19,29 @@ import db from './utils/db.js';
  * history of completed requests.
  */
 export class Request {
+    static get defaultProperties() {
+        return {
+            collection: null,
+            title: null,
+            method: null,
+            url: null,
+            headers: [],
+            body: null,
+            variables: {enabled: false}
+        };
+    }
+
     constructor(dbObject) {
-        if (dbObject) {
-            Object.assign(this, dbObject);
+        Object.assign(this, Request.defaultProperties, dbObject);
 
-            // Normalize slashes in collection, so there is exactly one space
-            // before and after the slash.
-            if (this.collection) {
-                this.collection = this.collection.split(/\s*\/\s*/g).join(' / ');
-            }
-
-            this.headers = migrateHeadersObjectToArray(this.headers);
-            this.variables = migrateVariablesObject(this.variables);
-        } else {
-            this.collection = null;
-            this.title = null;
-            this.method = null;
-            this.url = null;
-            this.headers = [];
-            this.body = null;
-            this.variables = {enabled: false};
+        // Normalize slashes in collection, so there is exactly one space
+        // before and after the slash.
+        if (this.collection) {
+            this.collection = this.collection.split(/\s*\/\s*/g).join(' / ');
         }
+
+        this.headers = migrateHeadersObjectToArray(this.headers);
+        this.variables = migrateVariablesObject(this.variables);
     }
 }
 

@@ -9,13 +9,15 @@ import db from './utils/db.js';
  * configuration belongs to.
  */
 export class AuthorizationProviderConfiguration {
+    static get defaultProperties() {
+        return {
+            title: '',
+            providerId: 0
+        };
+    }
+
     constructor(dbObject) {
-        if (dbObject) {
-            Object.assign(this, dbObject);
-        } else {
-            this.title = '';
-            this.providerId = 0;
-        }
+        Object.assign(this, AuthorizationProviderConfiguration.defaultProperties, dbObject);
     }
 }
 

@@ -14,19 +14,26 @@ import { Response } from './responses.js';
  * @property {Number} size - Size of the full history object in bytes.
  */
 export class HistoryEntry {
-    constructor(dbObject) {
-        if (dbObject) {
-            Object.assign(this, dbObject);
+    static get defaultProperties() {
+        return {
+            time: 0,
+            timeEnd: 0,
+            request: null,
+            response: null
+        };
+    }
 
-            this.request = new Request(dbObject.request);
-            this.response = new Response(dbObject.response);
-            this.size = JSON.stringify(this).length;
-        } else {
-            this.time = 0;
-            this.timeEnd = 0;
-            this.request = null;
-            this.response = null;
+    constructor(dbObject) {
+        Object.assign(this, HistoryEntry.defaultProperties, dbObject);
+        if (this.request) {
+            this.request = new Request(this.request);
         }
+
+        if (this.response) {
+            this.response = new Response(this.response);
+        }
+
+        this.size = JSON.stringify(this).length;
     }
 }
 
