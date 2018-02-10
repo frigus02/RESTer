@@ -1,22 +1,49 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 
 <dom-module id="rester-file-input">
     <template>
         <style>
             :host {
-                display: inline;
+                display: block;
             }
 
             input {
-                width: 100%;
+                display: none;
+            }
+
+            .browse-button {
+                background-color: var(--primary-color);
+                margin: 4px 8px 4px 0;
+                padding: 4px 16px;
+            }
+
+            .placeholder {
+                color: var(--secondary-text-color);
             }
         </style>
 
-        <input id="input"
-                type="file"
-                name$="[[name]]"
-                required$="[[required]]"
-                on-change="_onInputChange">
+        <paper-input-container
+                no-label-float$="[[!label]]"
+                always-float-label>
+            <paper-button
+                    raised
+                    class="browse-button"
+                    slot="prefix">
+                Browse...
+            </paper-button>
+            <label hidden$="[[!label]]" aria-hidden="true" slot="label">[[label]]</label>
+            <div slot="input">
+                <input id="input"
+                        type="file"
+                        name$="[[name]]"
+                        required$="[[required]]"
+                        on-change="_onInputChange">
+                <span hidden$="[[!value]]">[[value]]</span>
+                <span hidden$="[[value]]" class="placeholder">No file selected.</span>
+            </div>
+        </paper-input-container>
     </template>
 
     <script>
@@ -32,34 +59,59 @@
             static get properties() {
                 return {
                     name: String,
-                    value: {
+                    label: {
                         type: String,
-                        notify: true,
-                        observer: '_onValueChanged'
+                        value: null
                     },
                     required: {
                         type: Boolean,
                         value: false
                     },
-                    files: {
-                        type: Array,
+                    file: {
+                        type: Object,
                         notify: true,
                         readOnly: true
-                    }
+                    },
+                    value: {
+                        type: String,
+                        computed: '_computeValue(file, overrideValue)'
+                    },
+                    overrideValue: String
                 };
             }
 
-            _onValueChanged() {
-                if (!this.value) {
-                    this.$.input.value = null;
+            constructor() {
+                super();
+                this._onClick = this._onClick.bind(this);
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                Polymer.Gestures.addListener(this, 'tap', this._onClick);
+            }
+
+            disconnectedCallback() {
+                super.disconnectedCallback();
+                Polymer.Gestures.removeListener(this, 'tap', this._onClick);
+            }
+
+            _onClick() {
+                this.$.input.click();
+            }
+
+            _computeValue(file, overrideValue) {
+                if (overrideValue) {
+                    return overrideValue;
+                } else if (file) {
+                    return file.name;
+                } else {
+                    return false;
                 }
             }
 
             _onInputChange() {
-                this._setFiles(Array.from(this.$.input.files));
-
-                const file = this.files[0];
-                this.value = file ? file.name : '';
+                this._setFile(this.$.input.files[0]);
+                this.value = this.file ? this.file.name : '';
             }
         }
 

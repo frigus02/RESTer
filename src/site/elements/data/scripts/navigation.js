@@ -199,6 +199,12 @@ export default class Navigation extends CustomEventTarget {
 
         this.items.push(
             createEnvironmentNavItem(activeEnvironment),
+            new Item({
+                title: 'Organize',
+                action: {
+                    url: '#/organize'
+                }
+            }),
             new Divider(),
             new Subheader({
                 title: 'History',
@@ -209,7 +215,7 @@ export default class Navigation extends CustomEventTarget {
             })
         );
 
-        this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
+        this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
         const historyNavItems = historyEntries.map(entry => createHistoryNavItem(entry));
         this._historyNavItemsCount = historyNavItems.length;
 
@@ -252,7 +258,7 @@ export default class Navigation extends CustomEventTarget {
                     if (path.length === 0) {
                         this._requestNavItemsCount--;
                         this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
-                        this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
+                        this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
                     }
                 }
 
@@ -301,7 +307,7 @@ export default class Navigation extends CustomEventTarget {
                 }
 
                 this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
-                this._historyNavItemsOffset = this._environmentNavItemIndex + 3;
+                this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
             } else if (change.itemType === 'HistoryEntry') {
                 if (change.action === 'add') {
                     const newHistoryItem = createHistoryNavItem(change.item);

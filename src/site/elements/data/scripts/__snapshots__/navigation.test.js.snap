@@ -94,6 +94,16 @@ Array [
     "subtitle": "dev",
     "title": "Environment",
   },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
+  },
   Divider {
     "isDivider": true,
   },
@@ -192,6 +202,16 @@ Array [
     "subtitle": "dev",
     "title": "Environment",
   },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
+  },
   Divider {
     "isDivider": true,
   },
@@ -287,6 +307,16 @@ Array [
     },
     "subtitle": "dev",
     "title": "Environment",
+  },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
   },
   Divider {
     "isDivider": true,
@@ -386,6 +416,16 @@ Array [
     "subtitle": "dev",
     "title": "Environment",
   },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
+  },
   Divider {
     "isDivider": true,
   },
@@ -483,6 +523,16 @@ Array [
     },
     "subtitle": "dev",
     "title": "Environment",
+  },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
   },
   Divider {
     "isDivider": true,
@@ -612,6 +662,16 @@ Array [
     "subtitle": "dev",
     "title": "Environment",
   },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
+  },
   Divider {
     "isDivider": true,
   },
@@ -728,6 +788,16 @@ Array [
     "subtitle": "dev",
     "title": "Environment",
   },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
+  },
   Divider {
     "isDivider": true,
   },
@@ -843,6 +913,16 @@ Array [
     },
     "subtitle": "prod",
     "title": "Environment",
+  },
+  Item {
+    "action": Object {
+      "url": "#/organize",
+    },
+    "data": undefined,
+    "isItem": true,
+    "secondaryAction": undefined,
+    "subtitle": undefined,
+    "title": "Organize",
   },
   Divider {
     "isDivider": true,

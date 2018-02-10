@@ -19,7 +19,8 @@
             }
 
             .form-data-entry-line paper-input,
-            .form-data-entry-line paper-textarea {
+            .form-data-entry-line paper-textarea,
+            .form-data-entry-line rester-file-input {
                 margin-right: 16px;
                 overflow: hidden;
                 width: 0;
@@ -27,7 +28,6 @@
 
             .form-data-entry-line rester-file-input {
                 align-self: flex-end;
-                padding: 10px 0;
             }
 
             .form-data-entry-line paper-dropdown-menu {
@@ -56,8 +56,8 @@
                 <template is="dom-if" if="[[_isFormDataType(item.type, 'file')]]">
                     <rester-file-input
                             class="flex-2"
-                            value="[[item.value]]"
-                            on-files-changed="_onFormDataEntryFileSelected"></rester-file-input>
+                            override-value="[[item.value]]"
+                            on-file-changed="_onFormDataEntryFileSelected"></rester-file-input>
                 </template>
                 <template is="dom-if" if="[[!textOnly]]">
                     <paper-dropdown-menu label="Type">
@@ -138,7 +138,7 @@
             }
 
             _onFormDataEntryFileSelected(e) {
-                const file = e.target.files[0];
+                const file = e.target.file;
                 const index = this.$.repeat.indexForElement(e.target);
                 const oldValue = this.get(['formDataEntries', index, 'value']);
 

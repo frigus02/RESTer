@@ -38,21 +38,22 @@
                 restore-focus-on-close>
             <paper-dialog-scrollable>
                 <p>
-                    Supported formats are the Postman Collection Format v2.0.0 and v2.1.0.
-                </p>
-                <p>
                     You can only import requests. History entries, authorization configs,
                     tokens or environments are not supported.
                 </p>
+                <p>
+                    Supported formats are the Postman Collection Format v2.0.0 and v2.1.0.
+                </p>
                 <rester-file-input
-                        files="{{files}}"></rester-file-input>
+                        label="Import file"
+                        file="{{file}}"></rester-file-input>
                 <paper-input
                         label="Collection Prefix"
                         value="{{collectionPrefix}}"></paper-input>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Cancel</paper-button>
-                <paper-button disabled$="[[!_canImport(isImporting, files.length)]]" on-tap="_import">
+                <paper-button disabled$="[[!_canImport(isImporting, file)]]" on-tap="_import">
                     <span hidden$="[[isImporting]]">Import</span>
                     <span hidden$="[[!isImporting]]">
                         <paper-spinner active></paper-spinner>
@@ -80,7 +81,7 @@
 
             static get properties() {
                 return {
-                    files: Array,
+                    file: Object,
                     collectionPrefix: {
                         type: String,
                         value: ''
@@ -97,8 +98,8 @@
                 return 'import';
             }
 
-            _canImport(isImporting, filesLength) {
-                return !isImporting && filesLength === 1;
+            _canImport(isImporting, file) {
+                return !isImporting && file;
             }
 
             async _import() {
@@ -121,7 +122,7 @@
                     const reader = new FileReader();
                     reader.addEventListener('load', () => resolve(reader.result));
                     reader.addEventListener('error', () => reject(reader.error));
-                    reader.readAsText(this.files[0]);
+                    reader.readAsText(this.file);
                 });
             }
         }

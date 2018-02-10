@@ -223,7 +223,7 @@ describe('with resolved empty data', function () {
         const settingsChangeListener = mockRester.e.addEventListener.mock.calls[1][1];
 
         // Check preconditions.
-        expect(nav.items.length).toEqual(6);
+        expect(nav.items.length).toEqual(7);
         const envItem1 = nav.items.find(item => item.title === 'Environment');
         expect(envItem1.subtitle).toBe('dev');
 

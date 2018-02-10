@@ -2,7 +2,6 @@
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -118,15 +117,6 @@
                         Expand request page to full width
                     </paper-toggle-button>
                 </div>
-
-                <div class="setting">
-                    <paper-button on-tap="_exportData">
-                        Export requests
-                    </paper-button>
-                    <paper-button on-tap="_importData">
-                        Import requests
-                    </paper-button>
-                </div>
             </div>
         </app-header-layout>
     </template>
@@ -134,7 +124,6 @@
     <script>
         import RESTerPageMixin from '../layout/rester-page-mixin.js';
         import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
-        import dialogs from '../data/scripts/dialogs.js';
 
         /**
          * @appliesMixin RESTerPageMixin
@@ -173,14 +162,6 @@
 
             _onSettingsStripDefaultHeadersChanged(stripDefaultHeaders) {
                 this.requestMode = stripDefaultHeaders ? 'clean' : 'browser';
-            }
-
-            _exportData() {
-                dialogs.export.show();
-            }
-
-            _importData() {
-                dialogs.import.show();
             }
         }
 
