@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.7.0] - 2018-02-10
 ### Added
 - Added import and export in the Postman Collection Format. This is still basic, as it only supports requests (no environments or authentication configs).
 
@@ -350,7 +352,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.6.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.7.0...HEAD
+[3.7.0]: https://github.com/frigus02/RESTer/compare/3.6.0...3.7.0
 [3.6.0]: https://github.com/frigus02/RESTer/compare/3.5.1...3.6.0
 [3.5.1]: https://github.com/frigus02/RESTer/compare/3.5.0...3.5.1
 [3.5.0]: https://github.com/frigus02/RESTer/compare/3.4.0...3.5.0
