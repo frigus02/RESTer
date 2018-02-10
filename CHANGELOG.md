@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Added import and export in the Postman Collection Format. This is still basic, as it only supports requests (no environments or authentication configs).
+
 ### Fixed
-- Fix deletion of requests, which was broken since the last update.
+- Fixed deletion of requests, which was broken since the last update.
 
 ## [3.6.0] - 2018-01-28
 ### Added
