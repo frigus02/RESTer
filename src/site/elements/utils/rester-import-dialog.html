@@ -8,10 +8,11 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 <link rel="import" href="../controls/rester-file-input.html">
+<link rel="import" href="../styles/rester-hint.html">
 
 <dom-module id="rester-import-dialog">
     <template>
-        <style>
+        <style include="rester-hint">
             paper-dialog {
                 max-width: 600px;
             }
@@ -50,6 +51,7 @@
                 <paper-input
                         label="Collection Prefix"
                         value="{{collectionPrefix}}"></paper-input>
+                <div class="hint">All requests in the import will be prefixed with this collection. You can use a nested collection (e.g. "My Imports / Version X") or leave it empty to import requestes at the top level.</div>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Cancel</paper-button>
