@@ -616,8 +616,6 @@
                 }
 
                 putRequest(this.request).then(id => {
-                    this.request.id = id;
-
                     if (this.historyEntry && this.historyEntry.request.id === id) {
                         window.location = `#/request/${id}/history/${this.historyEntry.id}`;
                     } else {
