@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.7.2] - 2018-02-14
 ### Fixed
 - Fixed updating of navigation after saving/deleting a request.
 
@@ -358,7 +360,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.7.1...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.7.2...HEAD
+[3.7.1]: https://github.com/frigus02/RESTer/compare/3.7.1...3.7.2
 [3.7.1]: https://github.com/frigus02/RESTer/compare/3.7.0...3.7.1
 [3.7.0]: https://github.com/frigus02/RESTer/compare/3.6.0...3.7.0
 [3.6.0]: https://github.com/frigus02/RESTer/compare/3.5.1...3.6.0
