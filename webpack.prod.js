@@ -11,6 +11,7 @@ module.exports = common.map(config => merge(config, {
         new UglifyJsPlugin({
             uglifyOptions: {
                 mangle: {
+                    keep_classnames: true,
                     reserved: ['resterApi']
                 }
             }
