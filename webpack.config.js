@@ -2,6 +2,7 @@
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
 const GenerateLibraryLinksPlugin = require('./tools/plugins/generate-library-links');
@@ -14,6 +15,18 @@ module.exports = [
         output: {
             filename: 'bundle.js',
             path: path.resolve(__dirname, '.build/background')
+        },
+        optimization: {
+            minimizer: [new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                uglifyOptions: {
+                    mangle: {
+                        keep_classnames: true,
+                        reserved: ['resterApi']
+                    }
+                }
+            })]
         }
     },
     {

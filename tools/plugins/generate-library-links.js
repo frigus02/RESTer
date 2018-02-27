@@ -40,10 +40,6 @@ function generateUsedLibraryText(usedFiles) {
     return text;
 }
 
-function log() {
-    console.log('[GenerateLibraryLinksPlugin]', ...arguments);
-}
-
 /**
  * Collects all file names and generates links to all used libraries
  * (bower components).
@@ -62,18 +58,18 @@ class GenerateLibraryLinksPlugin {
 
     apply(compiler) {
         const options = this.options;
-        compiler.plugin('emit', function (compilation, callback) {
-            const usedFiles = [...options.additionalFiles];
-            compilation.modules.forEach(function (module) {
-                usedFiles.push(...module.fileDependencies
+        compiler.hooks.emit.tapPromise('GenerateLibraryLinksPlugin', async compilation => {
+            const usedFiles = [
+                ...options.additionalFiles,
+                ...Array.from(compilation.fileDependencies)
                     .map(filename => filename.replace(/\\/g, '/'))
-                    .map(filename => filename.substr(filename.indexOf('/src/') + 1)));
-            });
+                    .map(filename => filename.substr(filename.indexOf('/src/') + 1))
+            ];
 
             const text = generateUsedLibraryText(usedFiles);
             const fileContent = options.header + text + options.footer;
 
-            writeFile(options.filename, fileContent, 'utf8').then(() => callback());
+            await writeFile(options.filename, fileContent, 'utf8');
         });
     }
 }
