@@ -44,11 +44,15 @@ test('title', async function () {
     expect(title).toBe('RESTer');
 });
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('with browser requests', function () {
     beforeAll(async function () {
         await goTo('settings');
         await SettingsElements.requestMode.click();
+        await delay(1000);
         await SettingsElements.requestModeBrowserRequestsItem.click();
+        await delay(1000);
     });
 
     registerRequestTests();
@@ -58,7 +62,9 @@ describe('with clean requests', function () {
     beforeAll(async function () {
         await goTo('settings');
         await SettingsElements.requestMode.click();
+        await delay(1000);
         await SettingsElements.requestModeCleanRequestsItem.click();
+        await delay(1000);
     });
 
     registerRequestTests();

@@ -42,11 +42,14 @@ async function createWebDriver() {
 
     const options = new firefox.Options()
         .setBinary(firefox.Channel.AURORA)
-        .headless()
         .setPreference('extensions.webextensions.uuids', '{"rester@kuehle.me":"595108c3-fc1a-46bc-a6f6-918a6b1898aa"}')
         .setPreference('xpinstall.signatures.required', false)
         .setPreference('intl.accept_languages', 'en')
         .addExtensions(path.resolve(rootDir, '.package/firefox-selenium.xpi'));
+
+    if (!process.env.WITH_HEAD) {
+        options.headless();
+    }
 
     const driver = await new Builder()
         .forBrowser('firefox')
