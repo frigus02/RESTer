@@ -53,8 +53,19 @@ const resterApi = {
 };
 
 chrome.browserAction.onClicked.addListener(() => {
-    chrome.tabs.create({
-        url: chrome.extension.getURL('site/index.html')
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        const resterUrl = chrome.extension.getURL('site/index.html');
+        const blankUrls = ['about:blank', 'about:newtab'];
+        if (blankUrls.includes(tabs[0].url)) {
+            chrome.tabs.update({
+                loadReplace: true,
+                url: resterUrl
+            });
+        } else {
+            chrome.tabs.create({
+                url: resterUrl
+            });
+        }
     });
 });
 
@@ -64,22 +75,22 @@ chrome.runtime.onConnect.addListener(port => {
     }
 
     function onDataChange(event) {
-        port.postMessage({action: 'event.dataChange', detail: JSON.stringify(event.detail)});
+        port.postMessage({ action: 'event.dataChange', detail: JSON.stringify(event.detail) });
     }
 
     function onDataSlowPerformance(event) {
-        port.postMessage({action: 'event.dataSlowPerformance', detail: JSON.stringify(event.detail)});
+        port.postMessage({ action: 'event.dataSlowPerformance', detail: JSON.stringify(event.detail) });
     }
 
     function onSettingsChange(event) {
-        port.postMessage({action: 'event.settingsChange', detail: JSON.stringify(event.detail)});
+        port.postMessage({ action: 'event.settingsChange', detail: JSON.stringify(event.detail) });
     }
 
     db.addEventListener('change', onDataChange);
     db.addEventListener('slowPerformance', onDataSlowPerformance);
     settings.e.addEventListener('change', onSettingsChange);
 
-    port.onMessage.addListener(({id, action, args, fields}) => {
+    port.onMessage.addListener(({ id, action, args, fields }) => {
         if (!action.startsWith('api.')) {
             return;
         }
@@ -96,14 +107,14 @@ chrome.runtime.onConnect.addListener(port => {
                     result = select(result, fields);
                 }
 
-                port.postMessage({id, action: 'apiresponse', result: JSON.stringify(result)});
+                port.postMessage({ id, action: 'apiresponse', result: JSON.stringify(result) });
             })
             .catch(error => {
                 if (error.message) {
                     error = error.message;
                 }
 
-                port.postMessage({id, action: 'apiresponse', error: JSON.stringify(error)});
+                port.postMessage({ id, action: 'apiresponse', error: JSON.stringify(error) });
             });
     });
 

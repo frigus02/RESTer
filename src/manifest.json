@@ -10,6 +10,7 @@
         "96": "images/icon-dev96.png"
     },
     "permissions": [
+        "activeTab",
         "downloads",
         "storage",
         "unlimitedStorage",
