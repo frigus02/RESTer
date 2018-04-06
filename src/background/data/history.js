@@ -14,6 +14,10 @@ import { Response } from './responses.js';
  * @property {Number} size - Size of the full history object in bytes.
  */
 export class HistoryEntry {
+    static get type() {
+        return 'HistoryEntry';
+    }
+
     static get defaultProperties() {
         return {
             time: 0,

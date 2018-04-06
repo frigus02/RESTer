@@ -9,6 +9,10 @@ import db from './utils/db.js';
  * configuration belongs to.
  */
 export class AuthorizationProviderConfiguration {
+    static get type() {
+        return 'AuthorizationProviderConfiguration';
+    }
+
     static get defaultProperties() {
         return {
             title: '',

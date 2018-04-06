@@ -157,7 +157,7 @@ class DataStore extends CustomEventTarget {
                             changes.push({
                                 action,
                                 item: entity,
-                                itemType: entity.constructor.name
+                                itemType: entity.constructor.type
                             });
 
                             result.push(entity.id);

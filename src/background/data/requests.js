@@ -19,6 +19,10 @@ import db from './utils/db.js';
  * history of completed requests.
  */
 export class Request {
+    static get type() {
+        return 'Request';
+    }
+
     static get defaultProperties() {
         return {
             collection: null,

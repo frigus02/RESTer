@@ -16,6 +16,10 @@ import db from './utils/db.js';
  * generated this token.
  */
 export class AuthorizationToken {
+    static get type() {
+        return 'AuthorizationToken';
+    }
+
     static get defaultProperties() {
         return {
             title: '',

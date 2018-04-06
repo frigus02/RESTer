@@ -63,6 +63,10 @@ export function parse(data, options) {
 }
 
 class PostmanFolder {
+    static get sortOrder() {
+        return 1;
+    }
+
     constructor(name) {
         this.name = name;
         this.item = [];
@@ -74,6 +78,10 @@ class PostmanFolder {
 }
 
 class PostmanItem {
+    static get sortOrder() {
+        return 2;
+    }
+
     static fromResterRequest(resterRequest, resterHistoryEntries) {
         const item = new PostmanItem();
         item.id = formatId(resterRequest.id);
@@ -221,7 +229,7 @@ function sortedIndexOfFolders(folders, newFolder) {
     return sortedIndexOf(
         folders,
         newFolder,
-        folder => [folder.name, folder.constructor.name]);
+        folder => [folder.name, folder.constructor.sortOrder]);
 }
 
 function createPostmanCollectionItems({ requests, historyEntries }) {

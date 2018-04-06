@@ -8,47 +8,47 @@ import * as exportImport from './exportImport/index.js';
 import * as settings from './settings/index.js';
 import { select } from './utils/fields.js';
 
-// WARNING: The variable name "resterApi" is configured as reserved for UglifyJS.
-// Do not change this name here without changing it in the webpack config.
+// WARNING: All properties must be in quotes. Otherwise UglifyJS would ufligy
+// them and they wouldn't be reachable by name.
 const resterApi = {
-    data: {
-        authorizationProviderConfigurations: {
-            put: authorizationProviderConfigurations.putAuthorizationProviderConfiguration,
-            query: authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
-            delete: authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration
+    'data': {
+        'authorizationProviderConfigurations': {
+            'put': authorizationProviderConfigurations.putAuthorizationProviderConfiguration,
+            'query': authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
+            'delete': authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration
         },
-        authorizationTokens: {
-            add: authorizationTokens.addAuthorizationToken,
-            query: authorizationTokens.queryAuthorizationTokens,
-            delete: authorizationTokens.deleteAuthorizationToken
+        'authorizationTokens': {
+            'add': authorizationTokens.addAuthorizationToken,
+            'query': authorizationTokens.queryAuthorizationTokens,
+            'delete': authorizationTokens.deleteAuthorizationToken
         },
-        environments: {
-            put: environments.putEnvironment,
-            get: environments.getEnvironment,
-            query: environments.queryEnvironments,
-            delete: environments.deleteEnvironment
+        'environments': {
+            'put': environments.putEnvironment,
+            'get': environments.getEnvironment,
+            'query': environments.queryEnvironments,
+            'delete': environments.deleteEnvironment
         },
-        history: {
-            add: history.addHistoryEntry,
-            get: history.getHistoryEntry,
-            query: history.queryHistoryEntries,
-            delete: history.deleteHistoryEntries
+        'history': {
+            'add': history.addHistoryEntry,
+            'get': history.getHistoryEntry,
+            'query': history.queryHistoryEntries,
+            'delete': history.deleteHistoryEntries
         },
-        requests: {
-            put: requests.putRequest,
-            get: requests.getRequest,
-            query: requests.queryRequests,
-            queryCollections: requests.queryRequestCollections,
-            delete: requests.deleteRequest
+        'requests': {
+            'put': requests.putRequest,
+            'get': requests.getRequest,
+            'query': requests.queryRequests,
+            'queryCollections': requests.queryRequestCollections,
+            'delete': requests.deleteRequest
         }
     },
-    exportImport: {
-        export: exportImport.exportData,
-        import: exportImport.importData
+    'exportImport': {
+        'export': exportImport.exportData,
+        'import': exportImport.importData
     },
-    settings: {
-        get: settings.get,
-        set: settings.set
+    'settings': {
+        'get': settings.get,
+        'set': settings.set
     }
 };
 

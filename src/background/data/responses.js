@@ -10,6 +10,10 @@ import { migrateHeadersObjectToArray } from './utils/migrations.js';
  * @property {String} body - The response body as string.
  */
 export class Response {
+    static get type() {
+        return 'Response';
+    }
+
     static get defaultProperties() {
         return {
             status: 0,

@@ -10,6 +10,10 @@ import db from './utils/db.js';
  * as variables in requests.
  */
 export class Environment {
+    static get type() {
+        return 'Environment';
+    }
+
     static get defaultProperties() {
         return {
             name: '',
