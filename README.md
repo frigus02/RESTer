@@ -18,6 +18,8 @@ The add-on supports the following goodies:
 *   Use placeholders in saved requests.
 *   Use shortcuts for the frequently used actions (try pressing "?" to see the available shortcuts for the current context).
 
+It requires a few permissions to do this. [Which permissions and why?](./docs/permissions.md)
+
 ## Develop
 
 ### Dependencies
