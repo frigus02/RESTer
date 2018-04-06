@@ -57,10 +57,18 @@ chrome.browserAction.onClicked.addListener(() => {
         const resterUrl = chrome.extension.getURL('site/index.html');
         const blankUrls = ['about:blank', 'about:newtab'];
         if (blankUrls.includes(tabs[0].url)) {
-            chrome.tabs.update({
-                loadReplace: true,
-                url: resterUrl
-            });
+            try {
+                chrome.tabs.update({
+                    loadReplace: true,
+                    url: resterUrl
+                });
+            } catch (e) {
+                // Chrome does not support loadReplace and throws an exception,
+                // it is specified. Try again without loadReplace.
+                chrome.tabs.update({
+                    url: resterUrl
+                });
+            }
         } else {
             chrome.tabs.create({
                 url: resterUrl
