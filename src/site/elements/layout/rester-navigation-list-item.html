@@ -117,7 +117,7 @@
                             indent-level="[[_getIndentLevelForSubitems()]]"
                             route="[[route]]"
                             on-item-activated="_onSubitemActivated"
-                            subitem></rester-navigation-list-item>
+                        subitem></rester-navigation-list-item>
                 </template>
             </iron-collapse>
         </template>
@@ -128,6 +128,8 @@
     </template>
 
     <script>
+        import { debounce } from '../../../shared/util.js';
+
         /**
          * @polymer
          * @customElement
@@ -154,10 +156,15 @@
                     active: {
                         type: Boolean,
                         computed: '_computeActive(route)',
-                        observer: '_notifyIfActive',
+                        observer: '_onActiveChanged',
                         reflectToAttribute: true
                     }
                 };
+            }
+
+            constructor() {
+                super();
+                this._notifyIfActive = this._notifyIfActive.bind(this);
             }
 
             _getIndentionInPixel() {
@@ -182,18 +189,23 @@
 
             _onRouteChanged() {
                 this.set('item.isExpanded', false);
+                debounce(this._notifyIfActive, 0);
             }
 
-            _computeActive() {
+            _computeActive(route) {
                 const url = this.item && this.item.action && this.item.action.url;
                 if (!url) {
                     return false;
                 }
 
-                const activePath = this.route.path.split('/');
+                const activePath = route.path.split('/');
                 const path = url.substr(1).split('/');
 
                 return path.every((part, i) => part === activePath[i]);
+            }
+
+            _onActiveChanged() {
+                debounce(this._notifyIfActive, 0);
             }
 
             _notifyIfActive() {

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - In browser request mode, when you manually specify a `Cookie` header and the browser has cookies stored for the domain, the `Cookie` header ended up corrupted. RESTer now correctly merges the cookies into one header.
+- After making a request all navigation items collapsed. This was not intentional. Now the active items stays expanded.
 
 ## [3.7.2] - 2018-02-14
 ### Fixed
