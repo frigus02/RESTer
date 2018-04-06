@@ -13,6 +13,8 @@ const timeout = 3000;
 const baseUrl = 'moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa/site/index.html';
 jest.setTimeout(timeout * 100);
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 let driver;
 let server;
 let MainElements;
@@ -44,8 +46,6 @@ test('title', async function () {
     expect(title).toBe('RESTer');
 });
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 describe('with browser requests', function () {
     beforeAll(async function () {
         await goTo('settings');
@@ -75,6 +75,31 @@ function registerRequestTests() {
         await goTo('request');
         await RequestElements.method.sendKeys('GET', Key.TAB, `${server.url}/echo`);
         await RequestElements.headerName(1).sendKeys('User-Agent', Key.TAB, 'RESTer');
+        await RequestElements.send.click();
+        await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
+
+        const responseCode = await RequestElements.responseCode.getText();
+        const responseBody = await driver.executeScript(e => e.value, RequestElements.responseBody);
+        expect(responseCode).toBe('200 OK');
+        expect(responseBody).toMatchSnapshot();
+    });
+
+    test('GET http://127.0.0.1:7373/echo with cookie', async function () {
+        // Set cookies for http://127.0.0.1:7373
+        await driver.executeScript(`window.open('http://127.0.0.1:7373/')`);
+        await delay(1000);
+        const windows = await driver.getAllWindowHandles();
+        await driver.switchTo().window(windows[1]);
+        await driver.manage().addCookie({ name: 'number1', value: '10' });
+        await driver.manage().addCookie({ name: 'number2', value: '20' });
+        await driver.close();
+        await driver.switchTo().window(windows[0]);
+
+        // Perform request
+        await goTo('request');
+        await RequestElements.method.sendKeys('GET', Key.TAB, `${server.url}/echo`);
+        await RequestElements.headerName(1).sendKeys('User-Agent', Key.TAB, 'RESTer');
+        await RequestElements.headerName(2).sendKeys('Cookie', Key.TAB, 'number2=200;number3=300');
         await RequestElements.send.click();
         await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
 

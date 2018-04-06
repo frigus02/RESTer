@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Open RESTer in current tab, when tab is on new tab page. This makes it easier to open RESTer in container tabs.
 
+### Fixed
+- In browser request mode, when you manually specify a `Cookie` header and the browser has cookies stored for the domain, the `Cookie` header ended up corrupted. RESTer now correctly merges the cookies into one header.
+
 ## [3.7.2] - 2018-02-14
 ### Fixed
 - Fixed updating of navigation after saving/deleting a request.

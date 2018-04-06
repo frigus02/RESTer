@@ -27,7 +27,23 @@ function readBody(req) {
 }
 
 async function middleware(req, res) {
-    if (req.url === '/echo') {
+    if (req.url === '/') {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html');
+
+        res.end(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <title>RESTer Test Server</title>
+            </head>
+            <body>
+                <h1>RESTer Test Server</h1>
+            </body>
+            </html>
+        `);
+    } else if (req.url === '/echo') {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('TeSt-WeIrD-case', 'OoookAayyy');

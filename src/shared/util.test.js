@@ -5,7 +5,10 @@ import {
     cloneDeep,
     randInt,
     sample,
-    sortedIndexOf
+    sortedIndexOf,
+    parseCookies,
+    stringifyCookies,
+    mergeCookies
 } from './util.js';
 
 describe('clone', function () {
@@ -94,3 +97,28 @@ describe('sortedIndexOf', function () {
     });
 });
 
+describe('parseCookies', function () {
+    test('parses cookie string', function () {
+        expect(parseCookies('foo=bar;a=b; complex=1=2=3 ; foo=baz')).toEqual({
+            foo: 'baz',
+            a: 'b',
+            complex: '1=2=3'
+        });
+    });
+});
+
+describe('stringifyCookies', function () {
+    test('makes cookie string from object', function () {
+        expect(stringifyCookies({
+            foo: 'baz',
+            a: 'b',
+            complex: '1=2=3'
+        })).toBe('foo=baz; a=b; complex=1=2=3');
+    });
+});
+
+describe('mergeCookies', function () {
+    test('marges cookie strings', function () {
+        expect(mergeCookies('foo=bar; a=b', 'complex=1=2=3;foo=baz;')).toBe('foo=baz; a=b; complex=1=2=3');
+    });
+});

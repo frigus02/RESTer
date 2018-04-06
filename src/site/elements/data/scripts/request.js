@@ -1,4 +1,5 @@
 import { decodeQueryString } from './encode.js';
+import { mergeCookies } from '../../../../shared/util.js';
 
 
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
@@ -27,9 +28,13 @@ function setupHeaderInterceptor(currentTabId) {
                 name: h.name.substr(headerCommandPrefix.length),
                 value: h.value
             }));
-        const removeDefaultHeaders = commands.some(c => c.name === 'stripdefaultheaders');
-        const resterRequestId = commands.find(c => c.name === 'requestid').value;
 
+        // Request ID
+        const resterRequestId = commands.find(c => c.name === 'requestid').value;
+        requestIds.set(details.requestId, resterRequestId);
+
+        // Headers
+        const removeDefaultHeaders = commands.some(c => c.name === 'stripdefaultheaders');
         const newHeaders = [];
         const indexesToRemove = [];
         for (let i = 0; i < details.requestHeaders.length; i++) {
@@ -45,14 +50,24 @@ function setupHeaderInterceptor(currentTabId) {
             }
         }
 
-        requestIds.set(details.requestId, resterRequestId);
+        if (!removeDefaultHeaders) {
+            const cookieHeaderIndex = details.requestHeaders.findIndex(h => h.name.toLowerCase() === 'cookie');
+            const customCookieHeaderIndex = newHeaders.findIndex(h => h.name.toLowerCase() === 'cookie');
+            if (cookieHeaderIndex > -1 && customCookieHeaderIndex > -1) {
+                const cookieHeader = details.requestHeaders[cookieHeaderIndex];
+                const customCookieHeader = newHeaders[customCookieHeaderIndex];
 
-        indexesToRemove.reverse();
-        for (let index of indexesToRemove) {
+                indexesToRemove.push(cookieHeaderIndex);
+                customCookieHeader.value = mergeCookies(cookieHeader.value, customCookieHeader.value);
+            }
+        }
+
+        indexesToRemove.sort().reverse();
+        for (const index of indexesToRemove) {
             details.requestHeaders.splice(index, 1);
         }
 
-        for (let header of newHeaders) {
+        for (const header of newHeaders) {
             details.requestHeaders.push(header);
         }
 

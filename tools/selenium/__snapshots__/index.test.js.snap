@@ -13,10 +13,34 @@ Pragma: no-cache
 Cache-Control: no-cache"
 `;
 
+exports[`with browser requests GET http://127.0.0.1:7373/echo with cookie 1`] = `
+"GET /echo HTTP/1.1
+Host: 127.0.0.1:7373
+User-Agent: RESTer
+Accept: */*
+Accept-Language: en
+Accept-Encoding: gzip, deflate
+origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
+Cookie: number1=10; number2=200; number3=300
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache"
+`;
+
 exports[`with clean requests GET http://127.0.0.1:7373/echo 1`] = `
 "GET /echo HTTP/1.1
 Host: 127.0.0.1:7373
 User-Agent: RESTer
+Pragma: no-cache
+Cache-Control: no-cache"
+`;
+
+exports[`with clean requests GET http://127.0.0.1:7373/echo with cookie 1`] = `
+"GET /echo HTTP/1.1
+Host: 127.0.0.1:7373
+User-Agent: RESTer
+Connection: keep-alive
+Cookie: number2=200;number3=300
 Pragma: no-cache
 Cache-Control: no-cache"
 `;

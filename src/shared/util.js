@@ -168,3 +168,47 @@ export function group(arr, iteree) {
 
     return groups;
 }
+
+/**
+ * Takes a cookie string in the format a `Cookie` header would contain
+ * and returns an object where the keys are the cookie names.
+ * When a cookie exists in more than once in the string, the result will
+ * only contain the value from the last occurance.
+ * @param {string} cookieString
+ */
+export function parseCookies(cookieString) {
+    const cookies = cookieString.split(/\s*;\s*/);
+    return cookies.reduce((obj, cookie) => {
+        const name = cookie.substr(0, cookie.indexOf('='));
+        const value = cookie.substr(name.length + 1);
+        if (name) {
+            obj[name] = value;
+        }
+
+        return obj;
+    }, {});
+}
+
+/**
+ * Takes a cookie object as returned by `parseCookies` and returns a cookie
+ * string in the format a `Cookie` header would contain.
+ * @param {object} cookies
+ */
+export function stringifyCookies(cookies) {
+    return Object.keys(cookies)
+        .map(name => `${name}=${cookies[name]}`)
+        .join('; ');
+}
+
+/**
+ * Takes cookie strings in the format a `Cookie` header would contain
+ * and returns a cookie string in the same format with cookies from all
+ * strings.
+ * When a cookie exists in more than one string, the result will only
+ * contain the value from the last string.
+ * @param {string} ...cookieStrings
+ */
+export function mergeCookies(...cookieStrings) {
+    const cookies = parseCookies(cookieStrings.join(';'));
+    return stringifyCookies(cookies);
+}
