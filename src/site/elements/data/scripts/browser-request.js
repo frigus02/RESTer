@@ -27,6 +27,28 @@ function getCookieStoreId(tab) {
     });
 }
 
+function getMatchPatterns(url) {
+    const patterns = [url + '*'];
+
+    // Firefox has a bug, which causes it to match urls with ports as if they
+    // had no port at all: https://bugzilla.mozilla.org/show_bug.cgi?id=1362809
+    // Workaround:
+    // - This detects a port in the url and adds another match pattern without
+    //   the port.
+    // - The onBeforeRequest listener checks manually the current url to make
+    //   sure it only accepts urls with the correct port.
+    try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.port) {
+            parsedUrl.port = '';
+            patterns.push(parsedUrl.toString() + '*');
+        }
+    } catch (e) {
+    }
+
+    return patterns;
+}
+
 function sendRequest(request) {
     return new Promise(function (resolve, reject) {
         let thisWindowId,
@@ -42,7 +64,7 @@ function sendRequest(request) {
 
             chrome.windows.onRemoved.addListener(onWindowRemoved);
             chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {
-                urls: [request.targetUrl + '*'],
+                urls: getMatchPatterns(request.targetUrl),
                 types: ['main_frame'],
                 tabId: thisTab.id
             }, ['blocking']);
@@ -60,6 +82,10 @@ function sendRequest(request) {
         }
 
         function onBeforeRequest(details) {
+            if (!details.url.startsWith(request.targetUrl)) {
+                return {};
+            }
+
             if (request.extractCookies) {
                 getCookieStoreId(thisTab).then(storeId => {
                     chrome.cookies.getAll({
