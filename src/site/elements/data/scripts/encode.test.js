@@ -47,9 +47,9 @@ describe('generateUri', function () {
 
 describe('encodeFormValue', function () {
     test('encodes the given string but leaves curly braces in for variable detection', function () {
-        const value = '{foo}&bar{&baz}';
+        const value = '{foo}&bar{&baz}and{$env.test}';
 
-        expect(encodeFormValue(value)).toEqual('{foo}%26bar{%26baz}');
+        expect(encodeFormValue(value)).toEqual('{foo}%26bar{%26baz}and{$env.test}');
     });
 });
 

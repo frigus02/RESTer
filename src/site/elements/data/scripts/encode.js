@@ -41,8 +41,8 @@ export function generateUri(base, params) {
 export function encodeFormValue(value) {
     const encoded = encodeURIComponent(value);
 
-    // The characters { and } are required for variables to work correctly.
-    return encoded.replace(/%(?:7B|7D)/g, unescape);
+    // The characters {, } and $ are required for variables to work correctly.
+    return encoded.replace(/%(?:7B|7D|24)/g, unescape);
 }
 
 export function mapFilesToVariableValues(files) {
