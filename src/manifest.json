@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "RESTer",
-    "version": "3.8.0",
+    "version": "3.8.1",
     "description": "A REST client for almost any web service.",
     "author": "Jan Kühle",
     "homepage_url": "https://github.com/frigus02/RESTer",

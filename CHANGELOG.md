@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.8.1] - 2018-04-25
 ### Fixed
 - Fixed environment variables in form body.
+- Fixed handling of OAuth2 redirect uris with ports.
 
 ## [3.8.0] - 2018-04-06
 ### Added
@@ -370,7 +373,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.8.0...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.8.1...HEAD
+[3.8.1]: https://github.com/frigus02/RESTer/compare/3.8.0...3.8.1
 [3.8.0]: https://github.com/frigus02/RESTer/compare/3.7.2...3.8.0
 [3.7.1]: https://github.com/frigus02/RESTer/compare/3.7.1...3.7.2
 [3.7.1]: https://github.com/frigus02/RESTer/compare/3.7.0...3.7.1
