@@ -3,7 +3,7 @@ sudo: false
 addons:
   firefox: "latest-dev"
 language: node_js
-node_js: node
+node_js: "9"
 script:
 - yarn build
 - yarn lint
