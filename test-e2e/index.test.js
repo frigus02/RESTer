@@ -4,10 +4,10 @@
 
 const { Key, until } = require('selenium-webdriver');
 
-const createDriver = require('../lib/create-web-driver');
-const Server = require('../lib/server');
-const { MainSelectors, RequestSelectors, SettingsSelectors, wrapped } = require('../lib/page-elements');
-const pageNavigation = require('../lib/page-navigation');
+const createDriver = require('../tools/lib/create-web-driver');
+const Server = require('../tools/lib/server');
+const { MainSelectors, RequestSelectors, SettingsSelectors, wrapped } = require('../tools/lib/page-elements');
+const pageNavigation = require('../tools/lib/page-navigation');
 
 const timeout = 3000;
 const baseUrl = 'moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa/site/index.html';

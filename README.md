@@ -55,6 +55,7 @@ To create packages for AMO and the Chrome Web Store run:
     yarn build
     yarn lint
     yarn test
+    yarn test:e2e
     yarn package
 
 Afterwards you will find the generated files in the folder *.package*.

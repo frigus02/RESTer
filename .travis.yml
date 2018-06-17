@@ -8,6 +8,7 @@ script:
 - yarn build
 - yarn lint
 - yarn test
+- yarn test:e2e
 cache:
   yarn: true
   directories:

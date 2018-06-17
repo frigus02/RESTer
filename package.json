@@ -18,7 +18,8 @@
     "lint": "yarn run lint:javascript && yarn run lint:firefox",
     "lint:javascript": "eslint --ext .js,.html src/",
     "lint:firefox": "node tools/scripts/lint-firefox-addon.js .build/",
-    "test": "jest",
+    "test": "jest \"src/.+\\.test\\.js$\"",
+    "test:e2e": "jest \"test-e2e/.+\\.test\\.js$\"",
     "package": "yarn run clean:package && yarn run package:chrome && yarn run package:firefox",
     "package:chrome": "node tools/scripts/package-addon.js chrome",
     "package:firefox": "node tools/scripts/package-addon.js firefox"
