@@ -7,8 +7,8 @@ Update this file with all changes to used third party libraries (add/remove depe
     yarn build
 
 ```
-DOMPurify 1.0.3
-https://github.com/cure53/DOMPurify/blob/1.0.3/dist/purify.min.js
+DOMPurify 1.0.5
+https://github.com/cure53/DOMPurify/blob/1.0.5/dist/purify.min.js
 
 ace-builds v1.3.3
 https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/ace.js
@@ -23,20 +23,20 @@ https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/worker-html
 https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/worker-json.js
 https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/worker-xml.js
 
-app-layout v2.1.0
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-drawer-layout/app-drawer-layout.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-drawer/app-drawer.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-header-layout/app-header-layout.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-header/app-header.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-layout-behavior/app-layout-behavior.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-scroll-effects/app-scroll-effects-behavior.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/app-toolbar/app-toolbar.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.0/helpers/helpers.html
+app-layout v2.1.1
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-drawer-layout/app-drawer-layout.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-drawer/app-drawer.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-header-layout/app-header-layout.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-header/app-header.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-layout-behavior/app-layout-behavior.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-scroll-effects/app-scroll-effects-behavior.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-toolbar/app-toolbar.html
+https://github.com/PolymerElements/app-layout/blob/v2.1.1/helpers/helpers.html
 
-app-route v2.1.0
-https://github.com/PolymerElements/app-route/blob/v2.1.0/app-location.html
-https://github.com/PolymerElements/app-route/blob/v2.1.0/app-route-converter-behavior.html
-https://github.com/PolymerElements/app-route/blob/v2.1.0/app-route.html
+app-route v2.1.1
+https://github.com/PolymerElements/app-route/blob/v2.1.1/app-location.html
+https://github.com/PolymerElements/app-route/blob/v2.1.1/app-route-converter-behavior.html
+https://github.com/PolymerElements/app-route/blob/v2.1.1/app-route.html
 
 font-roboto v1.0.1
 https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Black.ttf
@@ -66,11 +66,11 @@ https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/roboto.html
 iron-a11y-announcer v2.1.0
 https://github.com/PolymerElements/iron-a11y-announcer/blob/v2.1.0/iron-a11y-announcer.html
 
-iron-a11y-keys-behavior v2.1.0
-https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/v2.1.0/iron-a11y-keys-behavior.html
+iron-a11y-keys-behavior v2.1.1
+https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/v2.1.1/iron-a11y-keys-behavior.html
 
-iron-a11y-keys v2.1.1
-https://github.com/PolymerElements/iron-a11y-keys/blob/v2.1.1/iron-a11y-keys.html
+iron-a11y-keys v2.1.2
+https://github.com/PolymerElements/iron-a11y-keys/blob/v2.1.2/iron-a11y-keys.html
 
 iron-ajax v2.1.3
 https://github.com/PolymerElements/iron-ajax/blob/v2.1.3/iron-ajax.html
@@ -86,15 +86,15 @@ https://github.com/PolymerElements/iron-behaviors/blob/v2.1.1/iron-control-state
 iron-checked-element-behavior v2.1.1
 https://github.com/PolymerElements/iron-checked-element-behavior/blob/v2.1.1/iron-checked-element-behavior.html
 
-iron-collapse v2.2.0
-https://github.com/PolymerElements/iron-collapse/blob/v2.2.0/iron-collapse.html
+iron-collapse v2.2.1
+https://github.com/PolymerElements/iron-collapse/blob/v2.2.1/iron-collapse.html
 
 iron-dropdown v2.2.0
 https://github.com/PolymerElements/iron-dropdown/blob/v2.2.0/iron-dropdown-scroll-manager.html
 https://github.com/PolymerElements/iron-dropdown/blob/v2.2.0/iron-dropdown.html
 
-iron-fit-behavior v2.1.1
-https://github.com/PolymerElements/iron-fit-behavior/blob/v2.1.1/iron-fit-behavior.html
+iron-fit-behavior v2.2.1
+https://github.com/PolymerElements/iron-fit-behavior/blob/v2.2.1/iron-fit-behavior.html
 
 iron-flex-layout v2.0.3
 https://github.com/PolymerElements/iron-flex-layout/blob/v2.0.3/iron-flex-layout-classes.html
@@ -112,12 +112,12 @@ https://github.com/PolymerElements/iron-icon/blob/v2.1.0/iron-icon.html
 iron-iconset-svg v2.2.1
 https://github.com/PolymerElements/iron-iconset-svg/blob/v2.2.1/iron-iconset-svg.html
 
-iron-input v2.1.2
-https://github.com/PolymerElements/iron-input/blob/v2.1.2/iron-input.html
+iron-input v2.1.3
+https://github.com/PolymerElements/iron-input/blob/v2.1.3/iron-input.html
 
-iron-location v2.2.0
-https://github.com/PolymerElements/iron-location/blob/v2.2.0/iron-location.html
-https://github.com/PolymerElements/iron-location/blob/v2.2.0/iron-query-params.html
+iron-location v2.2.1
+https://github.com/PolymerElements/iron-location/blob/v2.2.1/iron-location.html
+https://github.com/PolymerElements/iron-location/blob/v2.2.1/iron-query-params.html
 
 iron-media-query v2.1.0
 https://github.com/PolymerElements/iron-media-query/blob/v2.1.0/iron-media-query.html
@@ -129,12 +129,12 @@ https://github.com/PolymerElements/iron-menu-behavior/blob/v2.1.1/iron-menubar-b
 iron-meta v2.1.1
 https://github.com/PolymerElements/iron-meta/blob/v2.1.1/iron-meta.html
 
-iron-overlay-behavior v2.3.3
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.3/iron-focusables-helper.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.3/iron-overlay-backdrop.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.3/iron-overlay-behavior.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.3/iron-overlay-manager.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.3/iron-scroll-manager.html
+iron-overlay-behavior v2.3.4
+https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-focusables-helper.html
+https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-overlay-backdrop.html
+https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-overlay-behavior.html
+https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-overlay-manager.html
+https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-scroll-manager.html
 
 iron-pages v2.1.1
 https://github.com/PolymerElements/iron-pages/blob/v2.1.1/iron-pages.html
@@ -157,8 +157,8 @@ https://github.com/PolymerElements/iron-selector/blob/v2.1.0/iron-selector.html
 iron-validatable-behavior v2.1.0
 https://github.com/PolymerElements/iron-validatable-behavior/blob/v2.1.0/iron-validatable-behavior.html
 
-mousetrap 1.6.1
-https://github.com/ccampbell/mousetrap/blob/1.6.1/mousetrap.js
+mousetrap 1.6.2
+https://github.com/ccampbell/mousetrap/blob/1.6.2/mousetrap.js
 
 neon-animation v2.2.1
 https://github.com/PolymerElements/neon-animation/blob/v2.2.1/animations/fade-in-animation.html
@@ -172,24 +172,24 @@ https://github.com/PolymerElements/neon-animation/blob/v2.2.1/web-animations.htm
 paper-badge v2.1.0
 https://github.com/PolymerElements/paper-badge/blob/v2.1.0/paper-badge.html
 
-paper-behaviors v2.1.0
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.0/paper-button-behavior.html
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.0/paper-checked-element-behavior.html
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.0/paper-inky-focus-behavior.html
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.0/paper-ripple-behavior.html
+paper-behaviors v2.1.1
+https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-button-behavior.html
+https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-checked-element-behavior.html
+https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-inky-focus-behavior.html
+https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-ripple-behavior.html
 
-paper-button v2.1.0
-https://github.com/PolymerElements/paper-button/blob/v2.1.0/paper-button.html
+paper-button v2.1.1
+https://github.com/PolymerElements/paper-button/blob/v2.1.1/paper-button.html
 
 paper-checkbox v2.0.4
 https://github.com/PolymerElements/paper-checkbox/blob/v2.0.4/paper-checkbox.html
 
-paper-dialog-behavior v2.2.1
-https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.2.1/paper-dialog-behavior.html
-https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.2.1/paper-dialog-shared-styles.html
+paper-dialog-behavior v2.2.2
+https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.2.2/paper-dialog-behavior.html
+https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.2.2/paper-dialog-shared-styles.html
 
-paper-dialog-scrollable v2.2.0
-https://github.com/PolymerElements/paper-dialog-scrollable/blob/v2.2.0/paper-dialog-scrollable.html
+paper-dialog-scrollable v2.2.1
+https://github.com/PolymerElements/paper-dialog-scrollable/blob/v2.2.1/paper-dialog-scrollable.html
 
 paper-dialog v2.1.1
 https://github.com/PolymerElements/paper-dialog/blob/v2.1.1/paper-dialog.html
@@ -224,9 +224,9 @@ https://github.com/PolymerElements/paper-item/blob/v2.1.1/paper-item.html
 paper-listbox v2.1.1
 https://github.com/PolymerElements/paper-listbox/blob/v2.1.1/paper-listbox.html
 
-paper-menu-button v2.1.0
-https://github.com/PolymerElements/paper-menu-button/blob/v2.1.0/paper-menu-button-animations.html
-https://github.com/PolymerElements/paper-menu-button/blob/v2.1.0/paper-menu-button.html
+paper-menu-button v2.1.1
+https://github.com/PolymerElements/paper-menu-button/blob/v2.1.1/paper-menu-button-animations.html
+https://github.com/PolymerElements/paper-menu-button/blob/v2.1.1/paper-menu-button.html
 
 paper-progress v2.1.1
 https://github.com/PolymerElements/paper-progress/blob/v2.1.1/paper-progress.html
@@ -237,8 +237,8 @@ https://github.com/PolymerElements/paper-radio-button/blob/v2.1.0/paper-radio-bu
 paper-radio-group v2.2.0
 https://github.com/PolymerElements/paper-radio-group/blob/v2.2.0/paper-radio-group.html
 
-paper-ripple v2.1.0
-https://github.com/PolymerElements/paper-ripple/blob/v2.1.0/paper-ripple.html
+paper-ripple v2.1.1
+https://github.com/PolymerElements/paper-ripple/blob/v2.1.1/paper-ripple.html
 
 paper-slider v2.0.6
 https://github.com/PolymerElements/paper-slider/blob/v2.0.6/paper-slider.html
@@ -313,11 +313,11 @@ https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/unresolved.html
 https://github.com/Polymer/polymer/blob/v2.6.0/polymer-element.html
 https://github.com/Polymer/polymer/blob/v2.6.0/polymer.html
 
-shadycss v1.1.3
-https://github.com/webcomponents/shadycss/blob/v1.1.3/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.1.3/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.1.3/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.1.3/custom-style-interface.min.js
+shadycss v1.3.1
+https://github.com/webcomponents/shadycss/blob/v1.3.1/apply-shim.html
+https://github.com/webcomponents/shadycss/blob/v1.3.1/apply-shim.min.js
+https://github.com/webcomponents/shadycss/blob/v1.3.1/custom-style-interface.html
+https://github.com/webcomponents/shadycss/blob/v1.3.1/custom-style-interface.min.js
 
 string_score v0.1.22
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.js
