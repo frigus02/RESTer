@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fixed detection of redirect URI in OAuth 2 flow, when specified redirect URI has an empty path.
 
 ## [3.8.1] - 2018-04-25
 ### Fixed
