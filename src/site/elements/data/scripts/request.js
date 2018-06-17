@@ -51,6 +51,7 @@ function setupHeaderInterceptor(currentTabId) {
         }
 
         if (!removeDefaultHeaders) {
+            // Merge browser and manual cookie headers
             const cookieHeaderIndex = details.requestHeaders.findIndex(h => h.name.toLowerCase() === 'cookie');
             const customCookieHeaderIndex = newHeaders.findIndex(h => h.name.toLowerCase() === 'cookie');
             if (cookieHeaderIndex > -1 && customCookieHeaderIndex > -1) {
@@ -59,6 +60,14 @@ function setupHeaderInterceptor(currentTabId) {
 
                 indexesToRemove.push(cookieHeaderIndex);
                 customCookieHeader.value = mergeCookies(cookieHeader.value, customCookieHeader.value);
+            }
+
+            // Remove overridden browser headers
+            for (let i = 0; i < details.requestHeaders.length; i++) {
+                const isOverridden = newHeaders.some(header => header.name.toLowerCase() === details.requestHeaders[i].name.toLowerCase());
+                if (isOverridden && !indexesToRemove.includes(i)) {
+                    indexesToRemove.push(i);
+                }
             }
         }
 

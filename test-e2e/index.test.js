@@ -75,6 +75,7 @@ function registerRequestTests() {
         await goTo('request');
         await RequestElements.method.sendKeys('GET', Key.TAB, `${server.url}/echo`);
         await RequestElements.headerName(1).sendKeys('User-Agent', Key.TAB, 'RESTer');
+        await RequestElements.headerName(2).sendKeys('Accept', Key.TAB, 'text/plain');
         await RequestElements.send.click();
         await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
 

@@ -9,7 +9,7 @@ const firefox = require('selenium-webdriver/firefox');
 
 const createPackage = require('./create-package');
 
-const fsAccess = promisify(fs.access);
+const fsUnlink = promisify(fs.unlink);
 const rootDir = path.resolve(__dirname, '../../');
 
 
@@ -21,24 +21,28 @@ function ensureGeckoDriverInPath() {
     }
 }
 
-async function ensurePresenceOfResterExtensionXpi() {
+async function createResterExtensionXpi() {
     const srcDir = path.resolve(rootDir, '.build');
     const xpiPath = path.resolve(rootDir, '.package/firefox-selenium.xpi');
 
     try {
-        await fsAccess(xpiPath);
+        await fsUnlink(xpiPath);
     } catch (e) {
-        await createPackage({
-            browser: 'firefox',
-            srcDir,
-            destFile: xpiPath
-        });
+        if (e.code !== 'ENOENT') {
+            throw e;
+        }
     }
+
+    await createPackage({
+        browser: 'firefox',
+        srcDir,
+        destFile: xpiPath
+    });
 }
 
 async function createWebDriver() {
     ensureGeckoDriverInPath();
-    await ensurePresenceOfResterExtensionXpi();
+    await createResterExtensionXpi();
 
     const options = new firefox.Options()
         .setBinary(firefox.Channel.AURORA)

@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Fixed
-- Fixed detection of redirect URI in OAuth 2 flow, when specified redirect URI has an empty path.
+- Fixed detection of redirect URI in OAuth 2 flow, when specified redirect URI has an empty path. ([#63](https://github.com/frigus02/RESTer/issues/63))
+- In browser request mode, custom headers were appended to default headers. This resulted in unexpected behaviour for example in the `Accept` header ([#62](https://github.com/frigus02/RESTer/issues/62)). RESTer now correctly overrides headers: if you manually specify a header, it will no longer send the default one.
 
 ## [3.8.1] - 2018-04-25
 ### Fixed
