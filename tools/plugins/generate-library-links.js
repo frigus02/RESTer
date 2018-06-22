@@ -7,31 +7,30 @@ const writeFile = promisify(fs.writeFile);
 
 
 function generateUsedLibraryText(usedFiles) {
-    const bowerLibraries = usedFiles
+    const libraries = usedFiles
         .sort()
         .filter((path, index, self) => self.indexOf(path) === index)
-        .filter(path => path.startsWith('src/site/bower_components/'))
-        .map(path => path.substr('src/site/bower_components/'.length))
+        .filter(path => path.includes('/nodes_modules/'))
+        .map(path => path.indexOf('/nodes_modules/') + '/nodes_modules/'.length)
         .reduce((libs, path) => {
-            const lib = path.substr(0, path.indexOf('/'));
+            const lib = path.startsWith('@')
+                ? path.substr(0, path.indexOf('/', path.indexOf('/') + 1))
+                : path.substr(0, path.indexOf('/'));
             const file = path.substr(path.indexOf('/') + 1);
             libs[lib] = libs[lib] || [];
             libs[lib].push(file);
             return libs;
         }, {});
 
-    const text = Object.keys(bowerLibraries)
+    const text = Object.keys(libraries)
         .map(lib => {
-            const files = bowerLibraries[lib];
-            const bowerJson = require(`../../src/site/bower_components/${lib}/.bower.json`);
-            const version = bowerJson._resolution.type === 'version'
-                ? bowerJson._resolution.tag
-                : bowerJson._resolution.commit;
+            const files = libraries[lib];
+            const packageJson = require(`../../node_modules/${lib}/package.json`);
 
             return {
                 name: lib,
-                version: version,
-                files: files.map(file => `${bowerJson._source.replace(/\.git$/, '')}/blob/${version}/${file}`)
+                version: packageJson.version,
+                files: files.map(file => `https://unpkg.com/${packageJson.name}@${packageJson.version}/${file}`)
             };
         })
         .map(lib => `${lib.name} ${lib.version}\n${lib.files.join('\n')}`)
