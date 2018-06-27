@@ -1,6 +1,5 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "../../../../node_modules/@polymer/iron-form/iron-form.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
@@ -22,16 +21,25 @@ import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin
 class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="iron-flex iron-flex-alignment iron-flex-factors">
+            <style>
                 paper-dialog {
                     max-width: 600px;
                 }
 
+                .value-line {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                }
+
                 .value-line paper-input {
+                    flex: 1;
+                    flex-basis: 0.000000001px;
                     margin-right: 16px;
                 }
 
                 .value-line paper-textarea {
+                    flex: 2;
                     overflow: hidden;
                 }
 
@@ -60,14 +68,12 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(PolymerEle
                                     error-message="This is required!"
                                     autofocus></paper-input>
                             <template is="dom-repeat" items="[[valueItems]]">
-                                <div class="layout horizontal start value-line">
+                                <div class="value-line">
                                     <paper-input
-                                            class="flex-1"
                                             label="Key"
                                             value="{{item.key}}"
                                             on-value-changed="_ensureEmptyValueItem"></paper-input>
                                     <paper-textarea
-                                            class="flex-2"
                                             label="Value"
                                             value="{{item.value}}"
                                             on-value-changed="_ensureEmptyValueItem"></paper-textarea>

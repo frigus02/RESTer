@@ -188,7 +188,7 @@
   dependencies:
     "@polymer/polymer" "^3.0.0"
 
-"@polymer/iron-flex-layout@3.0.0-pre.19", "@polymer/iron-flex-layout@^3.0.0-pre.19":
+"@polymer/iron-flex-layout@^3.0.0-pre.19":
   version "3.0.0-pre.19"
   resolved "https://registry.yarnpkg.com/@polymer/iron-flex-layout/-/iron-flex-layout-3.0.0-pre.19.tgz#35f633ab4d4e14e44650722729128e4f5968c1e9"
   dependencies:

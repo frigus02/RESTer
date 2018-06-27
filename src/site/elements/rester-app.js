@@ -8,7 +8,6 @@ import "../../../node_modules/@polymer/app-layout/app-header/app-header.js";
 import "../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
 import "../../../node_modules/@polymer/app-route/app-location.js";
 import "../../../node_modules/@polymer/app-route/app-route.js";
-import "../../../node_modules/@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "../../../node_modules/@polymer/iron-media-query/iron-media-query.js";
 import "../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
 import "../../../node_modules/@polymer/paper-styles/paper-styles.js";
@@ -51,7 +50,7 @@ setPassiveTouchGestures(true);
 class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement))) {
     static get template() {
         return html`
-            <style include="iron-flex iron-flex-alignment iron-positioning">
+            <style>
                 :host {
                     --primary-text-color: var(--dark-theme-text-color);
                     --primary-background-color: var(--dark-theme-background-color);
@@ -95,6 +94,17 @@ class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(
                     padding-right: 8px;
                 }
 
+                .navigation {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+
                 rester-pages {
                     min-height: 100vh;
                 }
@@ -126,7 +136,7 @@ class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(
                                 <rester-notifications></rester-notifications>
                             </app-toolbar>
                         </app-header>
-                        <div class="fit layout vertical justified">
+                        <div class="navigation">
                             <rester-navigation-list
                                     route="[[route]]"
                                     on-item-activated="_onNavigationItemActivated"></rester-navigation-list>

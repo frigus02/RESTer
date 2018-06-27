@@ -4,7 +4,6 @@ import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-heade
 import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
 import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
 import "../../../../node_modules/@polymer/app-route/app-route.js";
-import "../../../../node_modules/@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "../../../../node_modules/@polymer/iron-form/iron-form.js";
 import "../../../../node_modules/@polymer/iron-icon/iron-icon.js";
 import "../../../../node_modules/@polymer/iron-media-query/iron-media-query.js";
@@ -65,7 +64,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
         return html`
             ${resterPageStyle}
 
-            <style include="iron-flex iron-flex-alignment iron-flex-factors">
+            <style>
                 :host {
                     display: block;
 
@@ -89,10 +88,34 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                     display: none !important;
                 }
 
+                .title-input {
+                    flex: 1;
+                }
+
+                .request-form {
+                    display: flex;
+                    flex-direction: row;
+                }
+
+                .form-area-main {
+                    flex: 3;
+                }
+
+                .form-area-url {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: baseline;
+                    justify-content: space-between;
+                }
+
                 .method-input,
                 .url-input,
                 .is-sending-spinner {
                     margin-right: 16px;
+                }
+
+                .url-input {
+                    flex: 1;
                 }
 
                 .is-sending-spinner,
@@ -105,13 +128,23 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                     color: var(--light-theme-text-color);
                 }
 
-                .input-tabs {
+                .form-area-tabs {
+                    display: flex;
+                    flex-direction: row;
                     margin-top: 8px;
                 }
 
-                .input-side {
+                .form-area-side {
+                    flex: 1;
+                    flex-basis: 0.000000001px;
                     margin-top: 8px;
                     margin-left: 32px;
+                }
+
+                .response-header {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
                 }
 
                 .network-info-button-container {
@@ -154,7 +187,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                         <rester-request-title-input
                                 request-collection="{{request.collection}}"
                                 request-title="{{request.title}}"
-                                class="flex"></rester-request-title-input>
+                                class="title-input"></rester-request-title-input>
                         <paper-menu-button id="saveOptions" horizontal-align="right" restore-focus-on-close>
                             <paper-icon-button slot="dropdown-trigger" icon="save"></paper-icon-button>
                             <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
@@ -174,13 +207,13 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                     <!-- Request -->
                     <section>
                         <iron-form id="requestForm" on-keydown="_onFormKeyDown">
-                            <form class="layout horizontal">
+                            <form class="request-form">
                                 <iron-media-query
                                         query="(min-width: 1279px)"
                                         query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
 
-                                <div class="flex-3">
-                                    <div class="layout horizontal baseline justified">
+                                <div class="form-area-main">
+                                    <div class="form-area-url">
                                         <rester-autocomplete-input
                                                 class="method-input"
                                                 label="Method"
@@ -188,7 +221,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                                                 items="[[requestMethods]]"
                                                 required></rester-autocomplete-input>
                                         <rester-url-input
-                                                class="url-input flex"
+                                                class="url-input"
                                                 label="URL"
                                                 value="{{request.url}}"
                                                 required></rester-url-input>
@@ -211,7 +244,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                                                 hidden$="[[!requestIsSendingAndAbortable]]">Abort</paper-button>
                                     </div>
 
-                                    <div class="input-tabs layout horizontal">
+                                    <div class="form-area-tabs">
                                         <paper-tabs selected="{{requestSelectedTab}}">
                                             <paper-tab id="requestTab0">Headers</paper-tab>
                                             <paper-tab id="requestTab1">Body</paper-tab>
@@ -248,7 +281,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                                 </div>
 
                                 <template is="dom-if" if="[[requestShowVariablesOnSide]]">
-                                    <div class="flex-1 input-side">
+                                    <div class="form-area-side">
                                         <rester-variables-input
                                             value="{{requestVariableValues}}"
                                             source-obj="[[request]]">
@@ -261,7 +294,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
 
                     <!-- Response -->
                     <section hidden$="[[!response]]">
-                        <header class="layout horizontal center">
+                        <header class="response-header">
                             <h2>Response</h2>
                             <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
                             <div class="network-info-button-container">

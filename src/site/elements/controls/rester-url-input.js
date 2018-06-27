@@ -1,6 +1,5 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
 import "../../../../node_modules/@polymer/paper-input/paper-input.js";
 import "../styles/rester-icons.js";
@@ -13,12 +12,16 @@ import "./rester-form-data-input.js";
 class RESTerUrlInput extends PolymerElement {
     static get template() {
         return html`
-            <style include="iron-flex">
+            <style>
                 :host {
                     display: flex;
                     flex-direction: row;
                     align-items: flex-start;
                     justify-content: space-between;
+                }
+
+                .flex {
+                    flex: 1;
                 }
 
                 .expand-button {

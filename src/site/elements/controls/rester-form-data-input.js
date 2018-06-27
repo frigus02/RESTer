@@ -1,7 +1,6 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import { microTask } from "../../../../node_modules/@polymer/polymer/lib/utils/async.js";
-import "../../../../node_modules/@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
 import "../../../../node_modules/@polymer/paper-input/paper-input.js";
@@ -19,9 +18,20 @@ import { encodeFormValue } from '../data/scripts/encode.js';
 class RESTerFormDataInput extends PolymerElement {
     static get template() {
         return html`
-            <style include="iron-flex iron-flex-alignment iron-flex-factors">
+            <style>
                 :host {
                     display: block;
+                }
+
+                .form-data-entry-line {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                }
+
+                .form-data-entry-line paper-input {
+                    flex: 1;
+                    flex-basis: 0.000000001px;
                 }
 
                 .form-data-entry-line paper-input,
@@ -32,7 +42,12 @@ class RESTerFormDataInput extends PolymerElement {
                     width: 0;
                 }
 
+                .form-data-entry-line paper-textarea {
+                    flex: 2;
+                }
+
                 .form-data-entry-line rester-file-input {
+                    flex: 2;
                     align-self: flex-end;
                 }
 
@@ -46,13 +61,13 @@ class RESTerFormDataInput extends PolymerElement {
             </style>
 
             <template id="repeat" is="dom-repeat" items="[[formDataEntries]]">
-                <div class="layout horizontal start form-data-entry-line">
-                    <paper-input class="flex-1" label="Name" value="{{item.name}}" on-value-changed="_onFormDataEntriesChanged"></paper-input>
+                <div class="form-data-entry-line">
+                    <paper-input label="Name" value="{{item.name}}" on-value-changed="_onFormDataEntriesChanged"></paper-input>
                     <template is="dom-if" if="[[_isFormDataType(item.type, 'text')]]">
-                        <paper-textarea class="flex-2" label="Value" value="{{item.value}}" on-value-changed="_onFormDataEntriesChanged"></paper-textarea>
+                        <paper-textarea label="Value" value="{{item.value}}" on-value-changed="_onFormDataEntriesChanged"></paper-textarea>
                     </template>
                     <template is="dom-if" if="[[_isFormDataType(item.type, 'file')]]">
-                        <rester-file-input class="flex-2" override-value="[[item.value]]" on-file-changed="_onFormDataEntryFileSelected"></rester-file-input>
+                        <rester-file-input override-value="[[item.value]]" on-file-changed="_onFormDataEntryFileSelected"></rester-file-input>
                     </template>
                     <template is="dom-if" if="[[!textOnly]]">
                         <paper-dropdown-menu label="Type">

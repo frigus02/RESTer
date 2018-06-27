@@ -1,7 +1,6 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import { microTask } from "../../../../node_modules/@polymer/polymer/lib/utils/async.js";
-import "../../../../node_modules/@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
 import "../styles/rester-icons.js";
 import "./rester-autocomplete-input.js";
@@ -66,13 +65,25 @@ const REQUEST_HEADER_VALUES = {
 class RESTerHeaderInput extends PolymerElement {
     static get template() {
         return html`
-            <style include="iron-flex iron-flex-alignment iron-flex-factors">
+            <style>
                 :host {
                     display: block;
                 }
 
-                .header-line rester-autocomplete-input:first-child {
+                .header-line {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                }
+
+                .name {
+                    flex: 1;
+                    flex-basis: 0.000000001px;
                     margin-right: 16px;
+                }
+
+                .value {
+                    flex: 2;
                 }
 
                 .header-line paper-icon-button {
@@ -81,15 +92,15 @@ class RESTerHeaderInput extends PolymerElement {
             </style>
 
             <template is="dom-repeat" items="[[headers]]">
-                <div class="layout horizontal start header-line">
+                <div class="header-line">
                     <rester-autocomplete-input
-                            class="flex-1"
+                            class="name"
                             label="Name"
                             value="{{item.name}}"
                             on-value-changed="_onHeadersChanged"
                             items="[[requestHeaders]]"></rester-autocomplete-input>
                     <rester-autocomplete-input
-                            class="flex-2"
+                            class="value"
                             label="Value"
                             value="{{item.value}}"
                             on-value-changed="_onHeadersChanged"

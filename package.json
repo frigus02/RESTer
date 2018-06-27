@@ -29,7 +29,6 @@
     "@polymer/font-roboto-local": "3.0.0-pre.19",
     "@polymer/iron-a11y-keys": "3.0.0-pre.19",
     "@polymer/iron-collapse": "3.0.0-pre.19",
-    "@polymer/iron-flex-layout": "3.0.0-pre.19",
     "@polymer/iron-form": "3.0.0-pre.19",
     "@polymer/iron-icon": "3.0.0-pre.19",
     "@polymer/iron-iconset-svg": "3.0.0-pre.19",
