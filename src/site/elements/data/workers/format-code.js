@@ -1,6 +1,6 @@
 'use strict';
 
-importScripts('../../../bower_components/vkBeautify/vkbeautify.js');
+importScripts('../../../node_modules/vkBeautify/vkbeautify.js');
 
 
 self.onmessage = function (event) {

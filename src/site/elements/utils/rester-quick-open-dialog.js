@@ -3,8 +3,8 @@ import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-t
 import "../../../../node_modules/@polymer/iron-input/iron-input.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/web-animations.js";
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
+import "../../../../node_modules/web-animations-js/web-animations.min.js";
 import "../controls/rester-autocomplete.js";
 import { getRequests } from '../data/scripts/rester.js';
 

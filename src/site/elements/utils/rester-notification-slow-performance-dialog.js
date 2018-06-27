@@ -2,13 +2,13 @@ import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polyme
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/web-animations.js";
 import "../../../../node_modules/@polymer/paper-button/paper-button.js";
 import "../../../../node_modules/@polymer/paper-checkbox/paper-checkbox.js";
 import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-slider/paper-slider.js";
 import "../../../../node_modules/@polymer/paper-spinner/paper-spinner.js";
+import "../../../../node_modules/web-animations-js/web-animations.min.js";
 import { getHistoryEntries, deleteHistoryEntries } from '../data/scripts/rester.js';
 import RESTerErrorMixin from './rester-error-mixin.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';

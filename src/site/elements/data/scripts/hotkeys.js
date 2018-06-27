@@ -1,4 +1,4 @@
-import Mousetrap from '../../../bower_components/mousetrap/mousetrap.js';
+import Mousetrap from '../../../../../node_modules/mousetrap/mousetrap.js';
 
 // Monkeypatch Mousetrap's stopCallback() function, so it doesn't return true
 // when the element is an INPUT, SELECT, or TEXTAREA.

@@ -1,9 +1,7 @@
 .build/
 .package/
 .vscode/
-bower_components/
 node_modules/
-src/site/bower_components/
 *.sublime-workspace
 *.sublime-project
 yarn-error.log

@@ -87,7 +87,6 @@
     "jest": "23.1.0",
     "log-symbols": "2.2.0",
     "mkdirp": "0.5.1",
-    "polymer-webpack-loader": "2.0.2",
     "rimraf": "2.6.2",
     "selenium-webdriver": "4.0.0-alpha.1",
     "webpack": "4.12.0",

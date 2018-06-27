@@ -7,8 +7,8 @@ import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import "../../../../node_modules/@polymer/paper-ripple/paper-ripple.js";
 import "../../../../node_modules/@polymer/paper-styles/paper-styles.js";
-import "../../../../node_modules/@polymer/paper-subheader/paper-subheader.js";
 import "../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js";
+import "../controls/rester-subheader.js";
 import "../styles/rester-icons.js";
 import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
 import { debounce } from '../../../shared/util.js';
@@ -81,7 +81,7 @@ class RESTerNavigationListItem extends PolymerElement {
             </style>
 
             <template is="dom-if" if="[[item.isSubheader]]">
-                <paper-subheader>
+                <rester-subheader>
                     <div class="subheader-title">[[item.title]]</div>
                     <template is="dom-if" if="[[item.action]]">
                         <paper-icon-button
@@ -89,7 +89,7 @@ class RESTerNavigationListItem extends PolymerElement {
                                 icon="[[item.action.icon]]"
                                 on-tap="_invokeAction"></paper-icon-button>
                     </template>
-                </paper-subheader>
+                </rester-subheader>
             </template>
 
             <template is="dom-if" if="[[item.isItem]]">

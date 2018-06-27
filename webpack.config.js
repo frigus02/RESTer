@@ -24,18 +24,8 @@ module.exports = [
             filename: 'scripts/bundle.js',
             path: path.resolve(__dirname, '.build/site')
         },
-        resolve: {
-            modules: [
-                path.resolve(__dirname, 'src/site/bower_components'),
-                path.resolve(__dirname, 'node_modules')
-            ]
-        },
         module: {
             rules: [
-                {
-                    test: /\.html$/,
-                    use: 'polymer-webpack-loader'
-                },
                 {
                     test: /\.ttf$/,
                     use: {
@@ -54,14 +44,17 @@ module.exports = [
             }),
             new CopyWebpackPlugin([
                 {
-                    from: 'bower_components/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js'
+                    from: '../../node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js'
                 },
                 {
-                    from: 'bower_components/vkBeautify/vkbeautify.js',
-                    to: 'bower_components/vkBeautify/vkbeautify.js'
+                    from: '../../node_modules/vkBeautify/vkbeautify.js',
+                    to: 'node_modules/vkBeautify/vkbeautify.js'
                 },
                 {
-                    from: 'bower_components/webcomponentsjs/webcomponents-*.js'
+                    from: '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js'
+                },
+                {
+                    from: '../../node_modules/@webcomponents/webcomponentsjs/bundles/*.js'
                 },
                 {
                     from: 'elements/data/workers/format-code.js',
@@ -72,30 +65,27 @@ module.exports = [
                 },
                 {
                     from: 'scripts/*'
-                },
-                {
-                    from: 'bower.json'
                 }
             ]),
             new GenerateLibraryLinksPlugin({
                 filename: path.resolve(__dirname, 'docs/library-links.md'),
                 additionalFiles: [
-                    'src/site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-html.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-json.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-text.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-xml.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/theme-chrome.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/theme-twilight.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/worker-html.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/worker-json.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/worker-xml.js',
-                    'src/site/bower_components/vkBeautify/vkbeautify.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-ce.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-lite.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-loader.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-sd-ce.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-sd.js'
+                    'node_modules/ace-builds/src-min-noconflict/ext-searchbox.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-html.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-json.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-text.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-xml.js',
+                    'node_modules/ace-builds/src-min-noconflict/theme-chrome.js',
+                    'node_modules/ace-builds/src-min-noconflict/theme-twilight.js',
+                    'node_modules/ace-builds/src-min-noconflict/worker-html.js',
+                    'node_modules/ace-builds/src-min-noconflict/worker-json.js',
+                    'node_modules/ace-builds/src-min-noconflict/worker-xml.js',
+                    'node_modules/vkBeautify/vkbeautify.js',
+                    'node_modules/webcomponentsjs/webcomponents-ce.js',
+                    'node_modules/webcomponentsjs/webcomponents-lite.js',
+                    'node_modules/webcomponentsjs/webcomponents-loader.js',
+                    'node_modules/webcomponentsjs/webcomponents-sd-ce.js',
+                    'node_modules/webcomponentsjs/webcomponents-sd.js'
                 ],
                 header: [
                     '# Libary links',

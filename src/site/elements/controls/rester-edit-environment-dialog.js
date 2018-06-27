@@ -3,13 +3,13 @@ import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-t
 import "../../../../node_modules/@polymer/iron-form/iron-form.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/web-animations.js";
 import "../../../../node_modules/@polymer/paper-button/paper-button.js";
 import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
 import "../../../../node_modules/@polymer/paper-input/paper-input.js";
 import "../../../../node_modules/@polymer/paper-input/paper-textarea.js";
+import "../../../../node_modules/web-animations-js/web-animations.min.js";
 import "../styles/rester-icons.js";
 import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin.js';
 

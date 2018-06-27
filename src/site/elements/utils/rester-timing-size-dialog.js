@@ -2,10 +2,10 @@ import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polyme
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
 import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/web-animations.js";
 import "../../../../node_modules/@polymer/paper-button/paper-button.js";
 import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
+import "../../../../node_modules/web-animations-js/web-animations.min.js";
 import { size as formatSize } from '../data/scripts/format.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 

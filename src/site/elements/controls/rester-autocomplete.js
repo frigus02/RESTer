@@ -1,9 +1,9 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/iron-selector/iron-selector.js";
-import "../../../../node_modules/paper-item/paper-icon-item.js";
-import "../../../../node_modules/paper-item/paper-item-body.js";
-import "../../../../node_modules/paper-item/paper-item.js";
+import "../../../../node_modules/@polymer/iron-selector/iron-selector.js";
+import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
+import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
+import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import '../../../../node_modules/string_score/string_score.js';
 import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
 

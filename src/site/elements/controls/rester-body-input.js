@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/iron-icon/iron-icon.js";
-import "../../../../node_modules/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/paper-item/paper-icon-item.js";
-import "../../../../node_modules/paper-item/paper-item.js";
-import "../../../../node_modules/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/paper-menu-button/paper-menu-button.js";
+import "../../../../node_modules/@polymer/iron-icon/iron-icon.js";
+import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
+import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
+import "../../../../node_modules/@polymer/paper-item/paper-item.js";
+import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
+import "../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
 import vkbeautify from '../../../../node_modules/vkBeautify/vkbeautify.js';
 import "../styles/rester-icons.js";
 import "./rester-ace-input.js";
