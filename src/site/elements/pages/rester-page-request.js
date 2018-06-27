@@ -25,7 +25,7 @@ import "../controls/rester-request-title-input.js";
 import "../controls/rester-url-input.js";
 import "../controls/rester-variables-input.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-page-styles.js";
+import resterPageStyle from "../styles/rester-page.js";
 import "../utils/rester-badge.js";
 import "../utils/rester-lint-messages.js";
 import dialogs from '../data/scripts/dialogs.js';
@@ -63,7 +63,9 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin(RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement))))) {
     static get template() {
         return html`
-            <style include="rester-page-styles iron-flex iron-flex-alignment iron-flex-factors">
+            ${resterPageStyle}
+
+            <style include="iron-flex iron-flex-alignment iron-flex-factors">
                 :host {
                     display: block;
 

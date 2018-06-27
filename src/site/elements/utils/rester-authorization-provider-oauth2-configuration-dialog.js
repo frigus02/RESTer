@@ -13,7 +13,7 @@ import "../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-men
 import "../../../../node_modules/@polymer/paper-input/paper-input.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../styles/rester-hint.js";
+import resterHintStyle from "../styles/rester-hint.js";
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
 /**
@@ -24,7 +24,9 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="rester-hint">
+            ${resterHintStyle}
+
+            <style>
                 paper-dialog {
                     max-width: 600px;
                 }

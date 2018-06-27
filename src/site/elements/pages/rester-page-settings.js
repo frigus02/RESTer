@@ -8,9 +8,9 @@ import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js
 import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
 import "../../../../node_modules/@polymer/paper-toggle-button/paper-toggle-button.js";
-import "../styles/rester-hint.js";
+import resterHintStyle from "../styles/rester-hint.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-page-styles.js";
+import resterPageStyle from "../styles/rester-page.js";
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
@@ -23,7 +23,10 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 class RESTerPageSettings extends RESTerPageMixin(RESTerSettingsMixin(PolymerElement)) {
     static get template() {
         return html`
-            <style include="rester-page-styles rester-hint">
+            ${resterHintStyle}
+            ${resterPageStyle}
+
+            <style>
                 :host {
                     display: block;
                 }

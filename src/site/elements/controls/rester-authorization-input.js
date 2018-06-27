@@ -6,7 +6,7 @@ import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-paper-item-button.js";
+import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
 import "./rester-authorization-provider-basic.js";
 import "./rester-authorization-provider-cookie.js";
 import "./rester-authorization-provider-custom.js";
@@ -31,7 +31,9 @@ import RESTerErrorMixin from '../utils/rester-error-mixin.js';
 class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="rester-paper-item-button">
+            ${resterPaperItemButtonStyle}
+
+            <style>
                 :host {
                     display: block;
                 }

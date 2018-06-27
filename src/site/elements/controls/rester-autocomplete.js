@@ -5,7 +5,7 @@ import "../../../../node_modules/paper-item/paper-icon-item.js";
 import "../../../../node_modules/paper-item/paper-item-body.js";
 import "../../../../node_modules/paper-item/paper-item.js";
 import '../../../../node_modules/string_score/string_score.js';
-import "../styles/rester-paper-item-button.js";
+import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
 
 /**
  * @polymer
@@ -14,7 +14,9 @@ import "../styles/rester-paper-item-button.js";
 class RESTerAutocomplete extends PolymerElement {
     static get template() {
         return html`
-            <style include="rester-paper-item-button">
+            ${resterPaperItemButtonStyle}
+
+            <style>
                 :host {
                     --paper-item-body-two-line-min-height: 48px;
                     --paper-item-body-secondary: {

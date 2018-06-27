@@ -5,7 +5,7 @@ import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
 import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
 import "../../../../node_modules/@polymer/paper-button/paper-button.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-page-styles.js";
+import resterPageStyle from "../styles/rester-page.js";
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 import dialogs from '../data/scripts/dialogs.js';
 
@@ -17,7 +17,9 @@ import dialogs from '../data/scripts/dialogs.js';
 class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="rester-page-styles">
+            ${resterPageStyle}
+
+            <style>
                 :host {
                     display: block;
                 }

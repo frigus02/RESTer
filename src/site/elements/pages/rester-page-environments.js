@@ -8,7 +8,7 @@ import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js
 import "../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js";
 import "../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-page-styles.js";
+import resterPageStyle from "../styles/rester-page.js";
 import dialogs from '../data/scripts/dialogs.js';
 import { truncate } from '../data/scripts/encode.js';
 import {
@@ -29,7 +29,9 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 class RESTerPageEnvironments extends RESTerPageMixin(RESTerSettingsMixin(PolymerElement)) {
     static get template() {
         return html`
-            <style include="rester-page-styles">
+            ${resterPageStyle}
+
+            <style>
                 :host {
                     display: block;
                 }

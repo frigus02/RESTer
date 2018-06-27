@@ -11,8 +11,8 @@ import "../../../../node_modules/@polymer/paper-ripple/paper-ripple.js";
 import "../../../../node_modules/@polymer/paper-spinner/paper-spinner.js";
 import "../../../../node_modules/@polymer/paper-styles/paper-styles.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-page-styles.js";
-import "../styles/rester-paper-item-button.js";
+import resterPageStyle from "../styles/rester-page.js";
+import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
 import { dateTime } from '../data/scripts/format.js';
 import { getHistoryEntries, deleteHistoryEntries } from '../data/scripts/rester.js';
 import { replaceWithoutProvidedValues } from '../data/scripts/variables.js';
@@ -26,7 +26,10 @@ import RESTerPageMixin from '../layout/rester-page-mixin.js';
 class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="rester-page-styles rester-paper-item-button">
+            ${resterPageStyle}
+            ${resterPaperItemButtonStyle}
+
+            <style>
                 :host {
                     display: block;
                 }

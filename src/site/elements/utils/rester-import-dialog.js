@@ -8,7 +8,7 @@ import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-s
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-input/paper-input.js";
 import "../controls/rester-file-input.js";
-import "../styles/rester-hint.js";
+import resterHintStyle from "../styles/rester-hint.js";
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 import RESTerErrorMixin from './rester-error-mixin.js';
 import { importData } from '../data/scripts/rester.js';
@@ -22,7 +22,9 @@ import { importData } from '../data/scripts/rester.js';
 class RESTerImportDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(PolymerElement)) {
     static get template() {
         return html`
-            <style include="rester-hint">
+            ${resterHintStyle}
+
+            <style>
                 paper-dialog {
                     max-width: 600px;
                 }

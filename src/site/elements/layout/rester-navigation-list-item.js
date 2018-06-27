@@ -10,7 +10,7 @@ import "../../../../node_modules/@polymer/paper-styles/paper-styles.js";
 import "../../../../node_modules/@polymer/paper-subheader/paper-subheader.js";
 import "../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-paper-item-button.js";
+import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
 import { debounce } from '../../../shared/util.js';
 
 /**
@@ -20,7 +20,9 @@ import { debounce } from '../../../shared/util.js';
 class RESTerNavigationListItem extends PolymerElement {
     static get template() {
         return html`
-            <style include="rester-paper-item-button">
+            ${resterPaperItemButtonStyle}
+
+            <style>
                 :host {
                     display: block;
 

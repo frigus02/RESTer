@@ -10,6 +10,7 @@ import {
 import { debounce } from '../../../shared/util.js';
 import { extract } from '../data/scripts/variables.js';
 import RESTerVariablesMixin from '../data/rester-data-variables-mixin.js';
+import resterHintStyle from '../styles/rester-hint.js';
 
 /**
  * @appliesMixin RESTerVariablesMixin
@@ -19,7 +20,9 @@ import RESTerVariablesMixin from '../data/rester-data-variables-mixin.js';
 class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="rester-hint">
+            ${resterHintStyle}
+
+            <style>
                 :host {
                     display: block;
                 }

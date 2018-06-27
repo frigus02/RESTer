@@ -2,8 +2,8 @@ import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polyme
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import "../../../../node_modules/@polymer/iron-input/iron-input.js";
 import "../../../../node_modules/@polymer/paper-input/paper-input-container.js";
-import "../styles/rester-paper-input-styles.js";
 import "./rester-autocomplete.js";
+import resterPaperInputStyle from "../styles/rester-paper-input.js";
 import { getRequestCollections } from '../data/scripts/rester.js';
 
 /**
@@ -13,7 +13,9 @@ import { getRequestCollections } from '../data/scripts/rester.js';
 class RESTerRequestTitleInput extends PolymerElement {
     static get template() {
         return html`
-            <style include="rester-paper-input-styles">
+            ${resterPaperInputStyle}
+
+            <style>
                 :host {
                     display: block;
 

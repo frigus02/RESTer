@@ -7,7 +7,7 @@ import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js
 import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
 import "../styles/rester-icons.js";
-import "../styles/rester-page-styles.js";
+import resterPageStyle from "../styles/rester-page.js";
 import { sort } from '../../../shared/util.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 
@@ -19,7 +19,9 @@ import RESTerPageMixin from '../layout/rester-page-mixin.js';
 class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
     static get template() {
         return html`
-            <style include="rester-page-styles">
+            ${resterPageStyle}
+
+            <style>
                 :host {
                     display: block;
 
