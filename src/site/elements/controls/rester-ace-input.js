@@ -48,7 +48,7 @@ const RESTerAceShadowDomMixin = (function () {
                         }
                     }
                 } else {
-                    sheets = Polymer.dom(doc).querySelectorAll('style');
+                    sheets = doc.querySelectorAll('style');
                     while (index < sheets.length) {
                         if (sheets[index++].id === id) {
                             return true;
@@ -85,7 +85,7 @@ const RESTerAceShadowDomMixin = (function () {
         ready() {
             super.ready();
 
-            this._dom = Polymer.dom(this.root);
+            this._dom = this.shadowRoot;
 
             styles.forEach(style => {
                 this._dom.appendChild(style.cloneNode(true));

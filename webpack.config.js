@@ -44,17 +44,20 @@ module.exports = [
             }),
             new CopyWebpackPlugin([
                 {
-                    from: '../../node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js'
+                    from: '../../node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
+                    to: 'a/b/'
                 },
                 {
-                    from: '../../node_modules/vkBeautify/vkbeautify.js',
-                    to: 'node_modules/vkBeautify/vkbeautify.js'
+                    from: '../../node_modules/vkBeautify/*.js',
+                    to: 'a/b/'
                 },
                 {
-                    from: '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js'
+                    from: '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
+                    to: 'a/b/'
                 },
                 {
-                    from: '../../node_modules/@webcomponents/webcomponentsjs/bundles/*.js'
+                    from: '../../node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
+                    to: 'a/b/'
                 },
                 {
                     from: 'elements/data/workers/format-code.js',
