@@ -69,16 +69,21 @@ function createRequestNavItem(request) {
 }
 
 function createHistoryNavItem(historyEntry) {
+    const compiledRequest = replaceWithoutProvidedValues(historyEntry.request, historyEntry.request.variables.values);
+
     let requestTitle = '';
+    let requestURI = compiledRequest.url;
     if (historyEntry.request.id) {
         requestTitle = `${historyEntry.request.collection} / ${historyEntry.request.title}`;
-    }
-
-    const compiledRequest = replaceWithoutProvidedValues(historyEntry.request, historyEntry.request.variables.values);
+    } else {
+        let index = compiledRequest.url.indexOf("/", 8);
+        requestTitle = compiledRequest.url.substr(0, index);
+        requestURI = compiledRequest.url.substr(index);
+	}
 
     return new Item({
         title: `${formatTime(historyEntry.time)} ${requestTitle}`,
-        subtitle: `${compiledRequest.method} ${compiledRequest.url}`,
+        subtitle: `${compiledRequest.method} ${requestURI}`,
         action: {
             url: `#/request/${historyEntry.request.id || ''}/history/${historyEntry.id}`
         }
