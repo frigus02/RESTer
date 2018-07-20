@@ -152,6 +152,7 @@ export default class Navigation extends CustomEventTarget {
         this._environmentNavItemIndex = 0;
         this._historyNavItemsOffset = 0;
         this._historyNavItemsCount = 0;
+        this._historyNavItemsCountMax = 200;
         this._updateNavigationBasedOnDataChanges = this._updateNavigationBasedOnDataChanges.bind(this);
         this._updateNavigationBasedOnSettingsChanges = this._updateNavigationBasedOnSettingsChanges.bind(this);
 
@@ -163,7 +164,7 @@ export default class Navigation extends CustomEventTarget {
     async _create() {
         const [requests, historyEntries, activeEnvironment] = await Promise.all([
             getRequests(requestFields),
-            getHistoryEntries(5, historyFields),
+            getHistoryEntries(this._historyNavItemsCountMax, historyFields),
             settingsLoaded.then(() => getActiveEnvironment())
         ]);
 
@@ -314,8 +315,8 @@ export default class Navigation extends CustomEventTarget {
 
                     this._splice([], this._historyNavItemsOffset, 0, newHistoryItem);
                     this._historyNavItemsCount++;
-                    if (this._historyNavItemsCount > 5) {
-                        this._splice([], this._historyNavItemsOffset + 5, 1);
+                    if (this._historyNavItemsCount > this._historyNavItemsCountMax) {
+                        this._splice([], this._historyNavItemsOffset + this._historyNavItemsCountMax, 1);
                         this._historyNavItemsCount--;
                     }
                 }
