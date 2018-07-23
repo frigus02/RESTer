@@ -8,7 +8,7 @@ jest.mock('./rester.js');
 jest.mock('./variables.js');
 
 const requestFields = ['id', 'collection', 'title'];
-const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'];
+const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status'];
 const environmentFields = ['id', 'name'];
 
 const fakeRequests = [
