@@ -14,13 +14,15 @@ export class Group {
 
 
 export class Item {
-    constructor({ title, subtitle, action, secondaryAction, data }) {
+    constructor({ title, requestURI, action, secondaryAction, data, method, status }) {
         this.isItem = true;
         this.title = title;
-        this.subtitle = subtitle;
+        this.requestURI = requestURI;
         this.action = action;
         this.secondaryAction = secondaryAction;
         this.data = data;
+        this.method = method;
+        this.status = status;
     }
 }
 

@@ -71,6 +71,36 @@
                 transform: rotate(-180deg);
             }
 
+			.method {
+				text-align: center;
+				width: 50px;
+			}
+			.method-DEL {
+				background-color: red;
+			}
+			.method-GET {
+				background-color: #2392f7;
+			}
+			.method-POST {
+				background-color: #13c20f;
+				color: black;
+			}
+			.method-PUT, .method-PATCH {
+				background-color: #ff9000;
+				color: black;
+			}
+			.method-HEAD, .method-OPT {
+				background-color: #ccc;
+				color: black;
+			}
+
+			.status-200, .status-204 {
+				color: #0c0;
+			}
+			.status-405, .status-422, .status-500 {
+				color: red;
+			}
+
 			.subtitle {
 				white-space: nowrap;
 			}
@@ -89,11 +119,12 @@
         </template>
 
         <template is="dom-if" if="[[item.isItem]]">
-            <paper-item on-tap="_invokeAction" class="button">
+            <paper-icon-item on-tap="_invokeAction" class="button">
+				<div class$="method method-[[item.method]]" slot="item-icon">[[item.method]]</div>
                 <paper-ripple></paper-ripple>
                 <paper-item-body two-line style$="padding-left: [[_getIndentionInPixel()]]px;">
-                    <div>[[item.title]]</div>
-                    <div class="subtitle" secondary>[[item.subtitle]]</div>
+                    <div><font class$="status-[[item.status]]">[[item.status]]</font> [[item.title]]</div>
+                    <div class="subtitle" secondary>[[item.requestURI]]</div>
                 </paper-item-body>
                 <template is="dom-if" if="[[item.secondaryAction]]">
                     <paper-icon-button
@@ -101,7 +132,7 @@
                             icon="[[item.secondaryAction.icon]]"
                             on-tap="_invokeSecondaryAction"></paper-icon-button>
                 </template>
-            </paper-item>
+            </paper-icon-item>
         </template>
 
         <template is="dom-if" if="[[item.isGroup]]">

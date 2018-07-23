@@ -19,7 +19,7 @@ import { clone, group, sort, sortedIndexOf } from '../../../../shared/util.js';
 import { replaceWithoutProvidedValues } from './variables.js';
 
 const requestFields = ['id', 'collection', 'title'];
-const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'];
+const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status'];
 const environmentFields = ['id', 'name'];
 
 function createListOfRequestNavItems(rawRequests) {
@@ -81,9 +81,14 @@ function createHistoryNavItem(historyEntry) {
         requestURI = compiledRequest.url.substr(index);
 	}
 
+	let requestMethod = compiledRequest.method;
+	requestMethod = "DELETE" == requestMethod ? "DEL" : requestMethod;
+	requestMethod = "OPTIONS" == requestMethod ? "OPT" : requestMethod;
     return new Item({
-        title: `${formatTime(historyEntry.time)} ${requestTitle}`,
-        subtitle: `${compiledRequest.method} ${requestURI}`,
+        method: `${requestMethod}`,
+        status: `${historyEntry.response.status}`,
+        title: `${requestTitle}`,
+        requestURI: `${requestURI}`,
         action: {
             url: `#/request/${historyEntry.request.id || ''}/history/${historyEntry.id}`
         }
