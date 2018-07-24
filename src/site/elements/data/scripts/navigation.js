@@ -1,6 +1,6 @@
 import CustomEventTarget from '../../../../shared/custom-event-target.js';
 import dialogs from './dialogs.js';
-import { time as formatTime } from './format.js';
+// import { time as formatTime } from './format.js';
 import {
     Divider,
     Group,
@@ -79,11 +79,11 @@ function createHistoryNavItem(historyEntry) {
         let index = compiledRequest.url.indexOf("/", 8);
         requestTitle = compiledRequest.url.substr(0, index);
         requestURI = compiledRequest.url.substr(index);
-	}
+    }
 
-	let requestMethod = compiledRequest.method;
-	requestMethod = "DELETE" == requestMethod ? "DEL" : requestMethod;
-	requestMethod = "OPTIONS" == requestMethod ? "OPT" : requestMethod;
+    let requestMethod = compiledRequest.method;
+    requestMethod = "DELETE" === requestMethod ? "DEL" : requestMethod;
+    requestMethod = "OPTIONS" === requestMethod ? "OPT" : requestMethod;
     return new Item({
         method: `${requestMethod}`,
         status: `${historyEntry.response.status}`,
