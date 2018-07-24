@@ -170,7 +170,7 @@ Array [
     "data": undefined,
     "isItem": true,
     "method": "GET",
-    "subtitle": "https://api.googleapis.com/profile",
+    "requestURI": "https://api.googleapis.com/profile",
     "secondaryAction": undefined,
     "status": "200",
     "title": "Google / Get Profile",
@@ -692,7 +692,6 @@ Array [
         "method": undefined,
         "requestURI": undefined,
         "secondaryAction": undefined,
-        "subtitle": undefined,
         "status": undefined,
         "title": "Create Post",
       },
@@ -707,7 +706,6 @@ Array [
         "method": undefined,
         "requestURI": undefined,
         "secondaryAction": undefined,
-        "subtitle": undefined,
         "status": undefined,
         "title": "Get Posts",
       },
@@ -772,7 +770,7 @@ Array [
     "method": "GET",
     "requestURI": "m",
     "secondaryAction": undefined,
-    "status": "502",
+    "status": "200",
     "title": "",
   },
   Item {
@@ -834,7 +832,7 @@ Array [
     "secondaryAction": undefined,
     "status": "200",
     "title": "JSONPlaceholder / Get Post",
-   },
+  },
 ]
 `;
 
@@ -862,7 +860,6 @@ Array [
         "method": undefined,
         "requestURI": undefined,
         "secondaryAction": undefined,
-        "subtitle": undefined,
         "status": undefined,
         "title": "Create Post",
       },
@@ -927,7 +924,7 @@ Array [
     "method": "GET",
     "requestURI": "m",
     "secondaryAction": undefined,
-    "status": "502",
+    "status": "200",
     "title": "",
   },
   Item {
@@ -977,6 +974,18 @@ Array [
     "secondaryAction": undefined,
     "status": "200",
     "title": "Google / Get Profile",
+  },
+  Item {
+    "action": Object {
+      "url": "#/request/7/history/41",
+    },
+    "data": undefined,
+    "isItem": true,
+    "method": "GET",
+    "requestURI": "http://jsonplaceholder.com/posts/123",
+    "secondaryAction": undefined,
+    "status": "200",
+    "title": "JSONPlaceholder / Get Post",
   },
 ]
 `;
@@ -1069,7 +1078,7 @@ Array [
     "method": "GET",
     "requestURI": "m",
     "secondaryAction": undefined,
-    "status": "502",
+    "status": "200",
     "title": "",
   },
   Item {
@@ -1119,6 +1128,18 @@ Array [
     "secondaryAction": undefined,
     "status": "200",
     "title": "Google / Get Profile",
+  },
+  Item {
+    "action": Object {
+      "url": "#/request/7/history/41",
+    },
+    "data": undefined,
+    "isItem": true,
+    "method": "GET",
+    "requestURI": "http://jsonplaceholder.com/posts/123",
+    "secondaryAction": undefined,
+    "status": "200",
+    "title": "JSONPlaceholder / Get Post",
   },
 ]
 `;
