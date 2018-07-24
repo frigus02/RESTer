@@ -19,12 +19,12 @@ const fakeRequests = [
 ];
 const fakeRequest3Compiled = { id: 7, collection: 'JSONPlaceholder', title: 'Get Post', method: 'GET', url: 'http://jsonplaceholder.com/posts/123', variables: { values: { id: '123' } } };
 const fakeHistoryEntries = [
-    { id: 46, time: new Date('February 21, 2016 12:50'), request: { method: 'GET', url: 'http://google.com', variables: {} } },
-    { id: 45, time: new Date('February 21, 2016 12:43'), request: fakeRequests[0] },
-    { id: 44, time: new Date('February 21, 2016 12:40'), request: fakeRequests[1] },
-    { id: 43, time: new Date('February 21, 2016 12:39'), request: fakeRequests[0] },
-    { id: 42, time: new Date('February 18, 2016 15:03'), request: fakeRequests[2] },
-    { id: 41, time: new Date('February 18, 2016 15:01'), request: fakeRequests[3] }
+    { id: 46, time: new Date('February 21, 2016 12:50'), request: { method: 'GET', url: 'http://google.com', variables: {} }, response: { status: 502 } },
+    { id: 45, time: new Date('February 21, 2016 12:43'), request: fakeRequests[0], response: { status: 200 } },
+    { id: 44, time: new Date('February 21, 2016 12:40'), request: fakeRequests[1], response: { status: 200 } },
+    { id: 43, time: new Date('February 21, 2016 12:39'), request: fakeRequests[0], response: { status: 200 } },
+    { id: 42, time: new Date('February 18, 2016 15:03'), request: fakeRequests[2], response: { status: 200 } },
+    { id: 41, time: new Date('February 18, 2016 15:01'), request: fakeRequests[3], response: { status: 200 } }
 ];
 const fakeEnvironments = [
     { id: 1, name: 'dev', values: {} },
