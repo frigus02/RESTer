@@ -24,6 +24,11 @@ module.exports = [
             filename: 'scripts/bundle.js',
             path: path.resolve(__dirname, '.build/site')
         },
+        resolve: {
+            alias: {
+                '@polymer/font-roboto/roboto.js': '@polymer/font-roboto-local/roboto.js'
+            }
+        },
         module: {
             rules: [
                 {
@@ -44,20 +49,24 @@ module.exports = [
             }),
             new CopyWebpackPlugin([
                 {
-                    from: '../../node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
-                    to: 'a/b/'
+                    from: 'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
+                    context: '../../'
                 },
                 {
-                    from: '../../node_modules/frigus02-vkbeautify/*.js',
-                    to: 'a/b/'
+                    from: 'node_modules/frigus02-vkbeautify/*.js',
+                    context: '../../'
                 },
                 {
-                    from: '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
-                    to: 'a/b/'
+                    from: 'fonts/**/*.ttf',
+                    context: '../../node_modules/@polymer/font-roboto-local/'
                 },
                 {
-                    from: '../../node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
-                    to: 'a/b/'
+                    from: 'node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
+                    context: '../../'
+                },
+                {
+                    from: 'node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
+                    context: '../../'
                 },
                 {
                     from: 'elements/data/workers/format-code.js',

@@ -22,8 +22,8 @@ https://unpkg.com/@polymer/app-route@3.0.0-pre.21/app-location.js
 https://unpkg.com/@polymer/app-route@3.0.0-pre.21/app-route-converter-behavior.js
 https://unpkg.com/@polymer/app-route@3.0.0-pre.21/app-route.js
 
-@polymer/font-roboto 3.0.0-pre.21
-https://unpkg.com/@polymer/font-roboto@3.0.0-pre.21/roboto.js
+@polymer/font-roboto-local 3.0.0-pre.21
+https://unpkg.com/@polymer/font-roboto-local@3.0.0-pre.21/roboto.js
 
 @polymer/iron-a11y-announcer 3.0.0-pre.21
 https://unpkg.com/@polymer/iron-a11y-announcer@3.0.0-pre.21/iron-a11y-announcer.js
