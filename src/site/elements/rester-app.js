@@ -28,7 +28,7 @@ import "./utils/rester-export-dialog.js";
 import "./utils/rester-highlight-language-select-dialog.js";
 import "./utils/rester-hotkeys-cheat-sheet.js";
 import "./utils/rester-import-dialog.js";
-import "./utils/rester-notification-slow-performance-dialog.js";
+import "./utils/rester-cleanup-history-dialog.js";
 import "./utils/rester-quick-open-dialog.js";
 import "./utils/rester-timing-duration-dialog.js";
 import "./utils/rester-timing-size-dialog.js";
@@ -175,7 +175,7 @@ class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(
             <rester-export-dialog></rester-export-dialog>
             <rester-highlight-language-select-dialog></rester-highlight-language-select-dialog>
             <rester-import-dialog></rester-import-dialog>
-            <rester-notification-slow-performance-dialog></rester-notification-slow-performance-dialog>
+            <rester-cleanup-history-dialog></rester-cleanup-history-dialog>
             <rester-timing-duration-dialog></rester-timing-duration-dialog>
             <rester-timing-size-dialog></rester-timing-size-dialog>
         `;

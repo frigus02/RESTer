@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.9.0] - 2018-07-25
+### Added
+- Add history clean up dialog to Organize page.
+
+### Changed
+- Allow basic authentication with an empty password ([#65](https://github.com/frigus02/RESTer/issues/65)).
+
+### Fixed
+- Correctly detect content type when it contains a charset ([#66](https://github.com/frigus02/RESTer/issues/66)).
+
 ## [3.8.2] - 2018-06-17
 ### Fixed
 - Fixed detection of redirect URI in OAuth 2 flow, when specified redirect URI has an empty path. ([#63](https://github.com/frigus02/RESTer/issues/63))
@@ -378,7 +388,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.8.2...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.9.0...HEAD
+[3.9.0]: https://github.com/frigus02/RESTer/compare/3.8.2...3.9.0
 [3.8.2]: https://github.com/frigus02/RESTer/compare/3.8.1...3.8.2
 [3.8.1]: https://github.com/frigus02/RESTer/compare/3.8.0...3.8.1
 [3.8.0]: https://github.com/frigus02/RESTer/compare/3.7.2...3.8.0

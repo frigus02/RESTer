@@ -19,7 +19,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(PolymerElement)) {
+class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(PolymerElement)) {
     static get template() {
         return html`
             <style>
@@ -27,7 +27,7 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
                     max-width: 600px;
                 }
 
-                .counter-action {
+                .action {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
@@ -46,24 +46,22 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
                     with-backdrop
                     restore-focus-on-close
                     on-iron-overlay-opened="_onOpened">
-                <h2>RESTer is running slow</h2>
+                <h2>Clean up history</h2>
                 <paper-dialog-scrollable>
                     <p>
-                        RESTer is currently running slow. This happens when the history
-                        contains large amounts of data (&gt; ~50 MB). You can speed it
-                        up by removing some of your old history data.
-                    </p>
-                    <p>
-                        Below you see the recommended amount of entries to delete:
+                        Deleting old history entries can make RESTer faster and free up some
+                        disk space.
                     </p>
 
-                    <div class="counter-action">
-                        <paper-checkbox checked="{{deleteLargeHistoryEntries}}">
-                            Delete large entries ([[largeHistoryEntries.length]] entries over 1MB)
-                        </paper-checkbox>
-                    </div>
+                    <template is="dom-if" if="[[largeHistoryEntries.length]]">
+                        <div class="action">
+                            <paper-checkbox checked="{{deleteLargeHistoryEntries}}">
+                                Delete large entries ([[largeHistoryEntries.length]] entries over 1MB)
+                            </paper-checkbox>
+                        </div>
+                    </template>
 
-                    <div class="counter-action">
+                    <div class="action">
                         <span>Delete oldest entries:</span>
                         <paper-slider
                                 value="{{historyEntriesCountToDelete}}"
@@ -75,7 +73,7 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
                 <div class="buttons">
                     <paper-button dialog-dismiss>Cancel</paper-button>
                     <paper-button disabled$="[[isDeletingEntries]]" on-tap="_deleteOldHistory">
-                        <span hidden$="[[isDeletingEntries]]">Delete old entries</span>
+                        <span hidden$="[[isDeletingEntries]]">Delete entries</span>
                         <span hidden$="[[!isDeletingEntries]]">
                             <paper-spinner active></paper-spinner>
                         </span>
@@ -86,7 +84,7 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
     }
 
     static get is() {
-        return 'rester-notification-slow-performance-dialog';
+        return 'rester-cleanup-history-dialog';
     }
 
     static get properties() {
@@ -110,7 +108,7 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
     }
 
     static get resterDialogId() {
-        return 'notificationSlowPerformance';
+        return 'historyCleanup';
     }
 
     static get SIZE_1MB() {
@@ -123,7 +121,7 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
             this._setLargeHistoryEntries(entries.filter(this._isEntryLarge));
             this.deleteLargeHistoryEntries = true;
 
-            const targetSize = RESTerNotificationSlowPerformanceDialog.SIZE_1MB * 10;
+            const targetSize = RESTerHistoryCleanupDialog.SIZE_1MB * 10;
             const size = this._getSizeOfEntries(entries);
             const sizeOfLargeEntries = this._getSizeOfEntries(this.largeHistoryEntries);
 
@@ -175,8 +173,8 @@ class RESTerNotificationSlowPerformanceDialog extends RESTerDialogControllerMixi
     }
 
     _isEntryLarge(entry) {
-        return entry.size > RESTerNotificationSlowPerformanceDialog.SIZE_1MB;
+        return entry.size > RESTerHistoryCleanupDialog.SIZE_1MB;
     }
 }
 
-customElements.define(RESTerNotificationSlowPerformanceDialog.is, RESTerNotificationSlowPerformanceDialog);
+customElements.define(RESTerHistoryCleanupDialog.is, RESTerHistoryCleanupDialog);

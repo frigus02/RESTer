@@ -7,7 +7,7 @@ const notification = {
     title: 'RESTer is running slow',
     description: '',
     open() {
-        dialogs.notificationSlowPerformance.show().then(result => {
+        dialogs.historyCleanup.show().then(result => {
             if (result.reason.confirmed) {
                 hide(notification);
             }

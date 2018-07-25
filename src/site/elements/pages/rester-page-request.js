@@ -39,7 +39,7 @@ import {
     getRequest,
     putRequest
 } from '../data/scripts/rester.js';
-import { cloneDeep } from '../../../shared/util.js';
+import { cloneDeep, parseMediaType } from '../../../shared/util.js';
 import {
     replace as replaceVariables,
     extract as extractVariables
@@ -805,7 +805,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             return false;
         }
 
-        const contentType = this.requestContentType || '';
+        const contentType = parseMediaType(this.requestContentType || '').type;
         const suggested = this.$.bodyInput.getSuggestedContentType();
 
         if (suggested && suggested !== contentType.toLowerCase() &&

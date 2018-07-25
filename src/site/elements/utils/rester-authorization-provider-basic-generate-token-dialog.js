@@ -55,9 +55,7 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
                             <paper-input
                                     label="Password"
                                     value="{{data.password}}"
-                                    type="password"
-                                    required
-                                    error-message="This is required!"></paper-input>
+                                    type="password"></paper-input>
                         </form>
                     </iron-form>
                 </paper-dialog-scrollable>

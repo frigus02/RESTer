@@ -38,11 +38,21 @@ class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
                     </app-toolbar>
                 </app-header>
                 <div role="main">
+                    <h2>Export / Import</h2>
                     <paper-button raised on-tap="_exportData">
                         Export requests
                     </paper-button>
                     <paper-button raised on-tap="_importData">
                         Import requests
+                    </paper-button>
+                    <h2>Clean up</h2>
+                    <p>
+                        RESTer does not automatically delete any of your history. It can be
+                        a good idea to clean it up every once in a while when you notice that
+                        RESTer gets slower.
+                    </p>
+                    <paper-button raised on-tap="_cleanupHistory">
+                        Clean up history
                     </paper-button>
                 </div>
             </app-header-layout>
@@ -64,6 +74,10 @@ class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
 
     _importData() {
         dialogs.import.show();
+    }
+
+    _cleanupHistory() {
+        dialogs.historyCleanup.show();
     }
 }
 

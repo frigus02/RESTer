@@ -57,6 +57,20 @@ async function middleware(req, res) {
         }
 
         res.end(lines.join('\r\n'));
+    } else if (req.url === '/large') {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+
+        const entries = [];
+        for (let i = 0; i < 10000; i++) {
+            entries.push({
+                title: `Item ${String(i).padStart(5, '0')}`,
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                image: `https://cataas.com/cat/says/${i}`
+            });
+        }
+
+        res.end(JSON.stringify(entries));
     } else {
         res.statusCode = 404;
         res.end('Not Found\n');
