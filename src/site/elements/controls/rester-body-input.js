@@ -6,7 +6,7 @@ import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
 import "../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
-import vkbeautify from '../../../../node_modules/vkBeautify/vkbeautify.js';
+import vkbeautify from '../../../../node_modules/frigus02-vkbeautify/vkbeautify.js';
 import "../styles/rester-icons.js";
 import "./rester-ace-input.js";
 import "./rester-form-data-input.js";

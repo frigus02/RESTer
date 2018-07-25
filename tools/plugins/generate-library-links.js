@@ -10,19 +10,20 @@ function generateUsedLibraryText(usedFiles) {
     const libraries = usedFiles
         .sort()
         .filter((path, index, self) => self.indexOf(path) === index)
-        .filter(path => path.includes('/nodes_modules/'))
-        .map(path => path.indexOf('/nodes_modules/') + '/nodes_modules/'.length)
+        .filter(path => path.startsWith('node_modules/'))
+        .map(path => path.substr('node_modules/'.length))
         .reduce((libs, path) => {
             const lib = path.startsWith('@')
                 ? path.substr(0, path.indexOf('/', path.indexOf('/') + 1))
                 : path.substr(0, path.indexOf('/'));
-            const file = path.substr(path.indexOf('/') + 1);
+            const file = path.substr(lib.length + 1);
             libs[lib] = libs[lib] || [];
             libs[lib].push(file);
             return libs;
         }, {});
 
     const text = Object.keys(libraries)
+        .sort()
         .map(lib => {
             const files = libraries[lib];
             const packageJson = require(`../../node_modules/${lib}/package.json`);
@@ -61,8 +62,8 @@ class GenerateLibraryLinksPlugin {
             const usedFiles = [
                 ...options.additionalFiles,
                 ...Array.from(compilation.fileDependencies)
+                    .map(filename => filename.substr(process.cwd().length + 1))
                     .map(filename => filename.replace(/\\/g, '/'))
-                    .map(filename => filename.substr(filename.indexOf('/src/') + 1))
             ];
 
             const text = generateUsedLibraryText(usedFiles);

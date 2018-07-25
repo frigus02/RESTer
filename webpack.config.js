@@ -48,7 +48,7 @@ module.exports = [
                     to: 'a/b/'
                 },
                 {
-                    from: '../../node_modules/vkBeautify/*.js',
+                    from: '../../node_modules/frigus02-vkbeautify/*.js',
                     to: 'a/b/'
                 },
                 {
@@ -83,12 +83,13 @@ module.exports = [
                     'node_modules/ace-builds/src-min-noconflict/worker-html.js',
                     'node_modules/ace-builds/src-min-noconflict/worker-json.js',
                     'node_modules/ace-builds/src-min-noconflict/worker-xml.js',
-                    'node_modules/vkBeautify/vkbeautify.js',
-                    'node_modules/webcomponentsjs/webcomponents-ce.js',
-                    'node_modules/webcomponentsjs/webcomponents-lite.js',
-                    'node_modules/webcomponentsjs/webcomponents-loader.js',
-                    'node_modules/webcomponentsjs/webcomponents-sd-ce.js',
-                    'node_modules/webcomponentsjs/webcomponents-sd.js'
+                    'node_modules/frigus02-vkbeautify/vkbeautify.js',
+                    'node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js',
+                    'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js'
                 ],
                 header: [
                     '# Libary links',

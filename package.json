@@ -64,7 +64,7 @@
     "dompurify": "1.0.5",
     "mousetrap": "1.6.2",
     "string_score": "0.1.22",
-    "vkBeautify": "frigus02/vkBeautify",
+    "frigus02-vkbeautify": "1.0.1",
     "web-animations-js": "2.3.1"
   },
   "devDependencies": {

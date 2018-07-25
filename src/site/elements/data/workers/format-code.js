@@ -1,6 +1,6 @@
 'use strict';
 
-importScripts('../../../node_modules/vkBeautify/vkbeautify.js');
+importScripts('../../../node_modules/frigus02-vkbeautify/vkbeautify.js');
 
 
 self.onmessage = function (event) {
