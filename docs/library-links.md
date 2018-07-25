@@ -89,9 +89,9 @@ https://github.com/PolymerElements/iron-checked-element-behavior/blob/v2.1.1/iro
 iron-collapse v2.2.1
 https://github.com/PolymerElements/iron-collapse/blob/v2.2.1/iron-collapse.html
 
-iron-dropdown v2.2.0
-https://github.com/PolymerElements/iron-dropdown/blob/v2.2.0/iron-dropdown-scroll-manager.html
-https://github.com/PolymerElements/iron-dropdown/blob/v2.2.0/iron-dropdown.html
+iron-dropdown v2.2.1
+https://github.com/PolymerElements/iron-dropdown/blob/v2.2.1/iron-dropdown-scroll-manager.html
+https://github.com/PolymerElements/iron-dropdown/blob/v2.2.1/iron-dropdown.html
 
 iron-fit-behavior v2.2.1
 https://github.com/PolymerElements/iron-fit-behavior/blob/v2.2.1/iron-fit-behavior.html
@@ -100,8 +100,8 @@ iron-flex-layout v2.0.3
 https://github.com/PolymerElements/iron-flex-layout/blob/v2.0.3/iron-flex-layout-classes.html
 https://github.com/PolymerElements/iron-flex-layout/blob/v2.0.3/iron-flex-layout.html
 
-iron-form-element-behavior v2.1.2
-https://github.com/PolymerElements/iron-form-element-behavior/blob/v2.1.2/iron-form-element-behavior.html
+iron-form-element-behavior v2.1.3
+https://github.com/PolymerElements/iron-form-element-behavior/blob/v2.1.3/iron-form-element-behavior.html
 
 iron-form v2.3.0
 https://github.com/PolymerElements/iron-form/blob/v2.3.0/iron-form.html
@@ -115,9 +115,9 @@ https://github.com/PolymerElements/iron-iconset-svg/blob/v2.2.1/iron-iconset-svg
 iron-input v2.1.3
 https://github.com/PolymerElements/iron-input/blob/v2.1.3/iron-input.html
 
-iron-location v2.2.1
-https://github.com/PolymerElements/iron-location/blob/v2.2.1/iron-location.html
-https://github.com/PolymerElements/iron-location/blob/v2.2.1/iron-query-params.html
+iron-location v2.2.2
+https://github.com/PolymerElements/iron-location/blob/v2.2.2/iron-location.html
+https://github.com/PolymerElements/iron-location/blob/v2.2.2/iron-query-params.html
 
 iron-media-query v2.1.0
 https://github.com/PolymerElements/iron-media-query/blob/v2.1.0/iron-media-query.html
@@ -142,8 +142,8 @@ https://github.com/PolymerElements/iron-pages/blob/v2.1.1/iron-pages.html
 iron-range-behavior v2.1.1
 https://github.com/PolymerElements/iron-range-behavior/blob/v2.1.1/iron-range-behavior.html
 
-iron-resizable-behavior v2.1.0
-https://github.com/PolymerElements/iron-resizable-behavior/blob/v2.1.0/iron-resizable-behavior.html
+iron-resizable-behavior v2.1.1
+https://github.com/PolymerElements/iron-resizable-behavior/blob/v2.1.1/iron-resizable-behavior.html
 
 iron-scroll-target-behavior v2.1.1
 https://github.com/PolymerElements/iron-scroll-target-behavior/blob/v2.1.1/iron-scroll-target-behavior.html
@@ -313,11 +313,11 @@ https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/unresolved.html
 https://github.com/Polymer/polymer/blob/v2.6.0/polymer-element.html
 https://github.com/Polymer/polymer/blob/v2.6.0/polymer.html
 
-shadycss v1.3.1
-https://github.com/webcomponents/shadycss/blob/v1.3.1/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.3.1/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.3.1/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.3.1/custom-style-interface.min.js
+shadycss v1.3.5
+https://github.com/webcomponents/shadycss/blob/v1.3.5/apply-shim.html
+https://github.com/webcomponents/shadycss/blob/v1.3.5/apply-shim.min.js
+https://github.com/webcomponents/shadycss/blob/v1.3.5/custom-style-interface.html
+https://github.com/webcomponents/shadycss/blob/v1.3.5/custom-style-interface.min.js
 
 string_score v0.1.22
 https://github.com/joshaven/string_score/blob/v0.1.22/string_score.js
