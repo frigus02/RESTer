@@ -9,7 +9,7 @@ import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "../../../../node_modules/@polymer/paper-item/paper-item.js";
 import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/web-animations-js/web-animations.min.js";
+import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 import RESTerErrorMixin from './rester-error-mixin.js';
 import { exportData } from '../data/scripts/rester.js';

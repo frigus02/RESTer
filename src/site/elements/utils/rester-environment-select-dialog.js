@@ -6,7 +6,7 @@ import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-s
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js";
 import "../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js";
-import "../../../../node_modules/web-animations-js/web-animations.min.js";
+import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
 import { getEnvironments } from '../data/scripts/rester.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';

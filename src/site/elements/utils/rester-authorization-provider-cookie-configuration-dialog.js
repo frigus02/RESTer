@@ -9,7 +9,7 @@ import "../../../../node_modules/@polymer/paper-checkbox/paper-checkbox.js";
 import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-input/paper-input.js";
-import "../../../../node_modules/web-animations-js/web-animations.min.js";
+import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
 import resterHintStyle from "../styles/rester-hint.js";
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 

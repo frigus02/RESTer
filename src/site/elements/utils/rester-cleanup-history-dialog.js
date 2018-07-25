@@ -8,7 +8,7 @@ import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-s
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../../../node_modules/@polymer/paper-slider/paper-slider.js";
 import "../../../../node_modules/@polymer/paper-spinner/paper-spinner.js";
-import "../../../../node_modules/web-animations-js/web-animations.min.js";
+import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
 import { getHistoryEntries, deleteHistoryEntries } from '../data/scripts/rester.js';
 import RESTerErrorMixin from './rester-error-mixin.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';

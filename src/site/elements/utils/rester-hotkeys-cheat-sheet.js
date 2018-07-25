@@ -5,7 +5,7 @@ import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-ani
 import "../../../../node_modules/@polymer/paper-button/paper-button.js";
 import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
 import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/web-animations-js/web-animations.min.js";
+import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
 import { getAll } from '../data/scripts/hotkeys.js';
 import RESTerHotkeysMixin from '../data/rester-data-hotkeys-mixin.js';
 
