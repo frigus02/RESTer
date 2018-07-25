@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.9.0] - 2018-07-25
 ### Added
 - Add history clean up dialog to Organize page.
 
@@ -386,7 +388,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/frigus02/RESTer/compare/3.8.2...HEAD
+[Unreleased]: https://github.com/frigus02/RESTer/compare/3.9.0...HEAD
+[3.9.0]: https://github.com/frigus02/RESTer/compare/3.8.2...3.9.0
 [3.8.2]: https://github.com/frigus02/RESTer/compare/3.8.1...3.8.2
 [3.8.1]: https://github.com/frigus02/RESTer/compare/3.8.0...3.8.1
 [3.8.0]: https://github.com/frigus02/RESTer/compare/3.7.2...3.8.0
