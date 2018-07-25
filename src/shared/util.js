@@ -212,3 +212,14 @@ export function mergeCookies(...cookieStrings) {
     const cookies = parseCookies(cookieStrings.join(';'));
     return stringifyCookies(cookies);
 }
+
+/**
+ * Parses the specified media type and returns an object with the type only.
+ * Parameter parsing might be added later when needed.
+ * See: https://tools.ietf.org/html/rfc7231#section-3.1.1.1
+ * @param {string} mediaType
+ */
+export function parseMediaType(mediaType) {
+    const type = mediaType.substr(0, `${mediaType};`.indexOf(';')).trim();
+    return { type };
+}

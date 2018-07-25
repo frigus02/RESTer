@@ -265,7 +265,7 @@
             getRequest,
             putRequest
         } from '../data/scripts/rester.js';
-        import { cloneDeep } from '../../../shared/util.js';
+        import { cloneDeep, parseMediaType } from '../../../shared/util.js';
         import {
             replace as replaceVariables,
             extract as extractVariables
@@ -771,7 +771,7 @@
                     return false;
                 }
 
-                const contentType = this.requestContentType || '';
+                const contentType = parseMediaType(this.requestContentType || '').type;
                 const suggested = this.$.bodyInput.getSuggestedContentType();
 
                 if (suggested && suggested !== contentType.toLowerCase() &&

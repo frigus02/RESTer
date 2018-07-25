@@ -8,7 +8,8 @@ import {
     sortedIndexOf,
     parseCookies,
     stringifyCookies,
-    mergeCookies
+    mergeCookies,
+    parseMediaType
 } from './util.js';
 
 describe('clone', function () {
@@ -118,7 +119,29 @@ describe('stringifyCookies', function () {
 });
 
 describe('mergeCookies', function () {
-    test('marges cookie strings', function () {
+    test('merges cookie strings', function () {
         expect(mergeCookies('foo=bar; a=b', 'complex=1=2=3;foo=baz;')).toBe('foo=baz; a=b; complex=1=2=3');
+    });
+});
+
+describe('parseMediaType', function () {
+    test('no params', function () {
+        expect(parseMediaType('application/json')).toEqual({ type: 'application/json' });
+    });
+
+    test('one param', function () {
+        expect(parseMediaType('application/json;charset=utf-8')).toEqual({ type: 'application/json' });
+    });
+
+    test('multiple params', function () {
+        expect(parseMediaType('application/json;charset=utf-8;boundary=123')).toEqual({ type: 'application/json' });
+    });
+
+    test('spaces around semicolon', function () {
+        expect(parseMediaType('application/json ; charset=utf-8')).toEqual({ type: 'application/json' });
+    });
+
+    test('empty string', function () {
+        expect(parseMediaType('')).toEqual({ type: '' });
     });
 });
