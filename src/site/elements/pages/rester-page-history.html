@@ -38,6 +38,39 @@
                 background: var(--primary-color);
                 color: var(--light-theme-text-color);
             }
+
+			.method {
+				text-align: center;
+				width: 90px;
+			}
+			.method-DEL, .method-DELETE {
+				background-color: red;
+			}
+			.method-GET {
+				background-color: #2392f7;
+			}
+			.method-POST {
+				background-color: #13c20f;
+				color: black;
+			}
+			.method-PUT, .method-PATCH {
+				background-color: #ff9000;
+				color: black;
+			}
+			.method-HEAD, .method-OPT, .method-OPTIONS {
+				background-color: #ccc;
+				color: black;
+			}
+
+			.status-200, .status-204 {
+				color: #0c0;
+			}
+			.status-400, .status-401, .status-403, .status-404, .status-405, .status-413, .status-414, .status-415 {
+				color: red;
+			}
+			.status-422, .status-500, .status-501, .status-502, .status-504 {
+				color: red;
+			}
         </style>
 
         <app-header-layout>
@@ -60,8 +93,10 @@
                                 <div secondary>[[item.request.collection]] / [[item.request.title]]</div>
                             </template>
                             <div secondary>
-                                [[item.request.methodCompiled]] [[item.request.urlCompiled]]<br>
-                                [[item.response.status]] [[item.response.statusText]]
+                                <font class$="method method-[[item.request.methodCompiled]]" slot="item-icon">[[item.request.methodCompiled]]</font>
+                                [[item.request.urlCompiled]]<br>
+                                <font class$="status-[[item.response.status]]">[[item.response.status]]</font>
+                                [[item.response.statusText]]
                             </div>
                         </paper-item-body>
                         <paper-icon-button
