@@ -32,12 +32,18 @@ module.exports = [
         module: {
             rules: [
                 {
+                    test: /@polymer[/\\]font-roboto-local[/\\]roboto\.js$/,
+                    loader: 'string-replace-loader',
+                    options: {
+                        search: 'import.meta.url',
+                        replace: 'location.href'
+                    }
+                },
+                {
                     test: /\.ttf$/,
-                    use: {
-                        loader: 'file-loader',
-                        options: {
-                            outputPath: 'assets/'
-                        }
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/'
                     }
                 }
             ]
