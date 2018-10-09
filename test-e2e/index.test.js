@@ -35,8 +35,13 @@ beforeAll(async function () {
 });
 
 afterAll(async function () {
-    await server.stop();
-    await driver.quit();
+    if (server) {
+        await server.stop();
+    }
+
+    if (driver) {
+        await driver.quit();
+    }
 });
 
 test('title', async function () {
@@ -50,9 +55,9 @@ describe('with browser requests', function () {
     beforeAll(async function () {
         await goTo('settings');
         await SettingsElements.requestMode.click();
-        await delay(1000);
+        await delay(500);
         await SettingsElements.requestModeBrowserRequestsItem.click();
-        await delay(1000);
+        await delay(500);
     });
 
     registerRequestTests();
@@ -62,9 +67,9 @@ describe('with clean requests', function () {
     beforeAll(async function () {
         await goTo('settings');
         await SettingsElements.requestMode.click();
-        await delay(1000);
+        await delay(500);
         await SettingsElements.requestModeCleanRequestsItem.click();
-        await delay(1000);
+        await delay(500);
     });
 
     registerRequestTests();
@@ -73,9 +78,9 @@ describe('with clean requests', function () {
 function registerRequestTests() {
     test('GET http://127.0.0.1:7373/echo', async function () {
         await goTo('request');
-        await RequestElements.method.sendKeys('GET', Key.TAB, `${server.url}/echo`);
-        await RequestElements.headerName(1).sendKeys('User-Agent', Key.TAB, 'RESTer');
-        await RequestElements.headerName(2).sendKeys('Accept', Key.TAB, 'text/plain');
+        await driver.actions().click(RequestElements.method).sendKeys('GET', Key.TAB, `${server.url}/echo`).perform();
+        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('User-Agent', Key.TAB, 'RESTer').perform();
+        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('Accept', Key.TAB, 'text/plain').perform();
         await RequestElements.send.click();
         await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
 
@@ -98,9 +103,9 @@ function registerRequestTests() {
 
         // Perform request
         await goTo('request');
-        await RequestElements.method.sendKeys('GET', Key.TAB, `${server.url}/echo`);
-        await RequestElements.headerName(1).sendKeys('User-Agent', Key.TAB, 'RESTer');
-        await RequestElements.headerName(2).sendKeys('Cookie', Key.TAB, 'number2=200;number3=300');
+        await driver.actions().click(RequestElements.method).sendKeys('GET', Key.TAB, `${server.url}/echo`).perform();
+        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('User-Agent', Key.TAB, 'RESTer').perform();
+        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('Cookie', Key.TAB, 'number2=200;number3=300').perform();
         await RequestElements.send.click();
         await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
 
