@@ -24,7 +24,7 @@ const RESTerPageMixin = superclass => class extends superclass {
 
     ready() {
         super.ready();
-        this._drawerToggle = this.root.querySelector('[paper-drawer-toggle]');
+        this._drawerToggle = this.shadowRoot.querySelector('[paper-drawer-toggle]');
     }
 
     connectedCallback() {

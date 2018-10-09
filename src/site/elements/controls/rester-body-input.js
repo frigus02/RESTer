@@ -169,7 +169,7 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
 
     notifyVisibilityChanged() {
         if (this.selectedInputOption.isInputTypeAce) {
-            this.root.querySelector('rester-ace-input').notifyVisibilityChanged();
+            this.shadowRoot.querySelector('rester-ace-input').notifyVisibilityChanged();
         }
     }
 
