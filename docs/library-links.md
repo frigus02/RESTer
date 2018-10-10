@@ -265,20 +265,20 @@ https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/unresolved.js
 https://unpkg.com/@polymer/polymer@3.0.5/polymer-element.js
 https://unpkg.com/@polymer/polymer@3.0.5/polymer-legacy.js
 
-@webcomponents/shadycss 1.3.1
-https://unpkg.com/@webcomponents/shadycss@1.3.1/entrypoints/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/entrypoints/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/apply-shim-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/common-regex.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/common-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/css-parse.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/document-wait.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/style-settings.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/style-util.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/template-map.js
-https://unpkg.com/@webcomponents/shadycss@1.3.1/src/unscoped-style-handler.js
+@webcomponents/shadycss 1.5.2
+https://unpkg.com/@webcomponents/shadycss@1.5.2/entrypoints/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/entrypoints/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/apply-shim-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/common-regex.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/common-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/css-parse.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/document-wait.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/style-settings.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/style-util.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/template-map.js
+https://unpkg.com/@webcomponents/shadycss@1.5.2/src/unscoped-style-handler.js
 
 @webcomponents/webcomponentsjs 2.1.3
 https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/bundles/webcomponents-ce.js
@@ -307,8 +307,8 @@ https://unpkg.com/dompurify@1.0.8/dist/purify.es.js
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 
-lodash 4.17.5
-https://unpkg.com/lodash@4.17.5/lodash.js
+lodash 4.17.11
+https://unpkg.com/lodash@4.17.11/lodash.js
 
 mousetrap 1.6.2
 https://unpkg.com/mousetrap@1.6.2/mousetrap.js
