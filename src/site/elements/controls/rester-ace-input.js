@@ -9,96 +9,58 @@ import RESTerThemeMixin from '../data/rester-data-theme-mixin.js';
  */
 const RESTerAceShadowDomMixin = (function () {
     const aceShadowRoots = [];
-    const styles = getStyles();
+    const styles = getInitialStyles();
 
     createDomHook();
 
     function createDomHook() {
         const domHook = ace.require('ace/lib/dom');
-        const dom = {
-            getDocumentHead: domHook.getDocumentHead,
-            importCssString: domHook.importCssString,
-            hasCssString: domHook.hasCssString
-        };
-
-        const docHook = {
-            createElement: document.createElement.bind(document),
-            createTextNode: document.createTextNode.bind(document),
-            cssHead: null // change by importCssString
-        };
-
-        domHook.getDocumentHead = function (doc) {
-            if (doc === docHook) {
-                return docHook.cssHead;
-            }
-
-            return dom.getDocumentHead.apply(doc, arguments);
-        };
-
-        domHook.hasCssString = function (id, doc) {
-            if (doc === docHook) {
-                let index = 0,
-                    sheets;
-                doc = docHook.cssHead || document;
-                if (doc.createStyleSheet && doc.styleSheets) {
-                    sheets = doc.styleSheets;
-                    while (index < sheets.length) {
-                        if (sheets[index++].owningElement.id === id) {
-                            return true;
-                        }
-                    }
-                } else {
-                    sheets = doc.querySelectorAll('style');
-                    while (index < sheets.length) {
-                        if (sheets[index++].id === id) {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
-
-            return dom.hasCssString(id, doc);
-        };
-
+        const defaultImportCssString = domHook.importCssString;
         domHook.importCssString = function (cssText, id) {
-            let result;
-            aceShadowRoots.forEach(cssHead => {
-                docHook.cssHead = cssHead;
-                result = dom.importCssString.call(this, cssText, id, docHook);
+            const result = defaultImportCssString.call(this, cssText, id);
+
+            if (styles.hasOwnProperty(id)) {
+                return result;
+            }
+
+            const style = document.getElementById(id);
+            styles[id] = style;
+
+            aceShadowRoots.forEach(root => {
+                root.appendChild(style.cloneNode(true));
             });
 
             return result;
         };
     }
 
-    function getStyles() {
-        const style1 = document.getElementById('ace_editor.css') || document.getElementById('ace_editor') || document.querySelector('[id="ace_editor.css"]');
+    function getInitialStyles() {
+        const style1 = document.getElementById('ace_editor.css');
         const style2 = document.getElementById('ace-tm');
-        const style3 = style2.nextSibling;
+        const style3 = style2.nextSibling === style1 ? style2.previousSibling : style2.nextSibling;
 
-        return [style1, style2, style3];
+        return {
+            'ace_editor.css': style1,
+            'ace-tm': style2,
+            '': style3
+        };
     }
 
     return superclass => class AceShadowDomMixin extends superclass {
         ready() {
             super.ready();
-
-            this._dom = this.shadowRoot;
-
-            styles.forEach(style => {
-                this._dom.appendChild(style.cloneNode(true));
+            Object.keys(styles).forEach(id => {
+                this.shadowRoot.appendChild(styles[id].cloneNode(true));
             });
         }
 
         connectedCallback() {
             super.connectedCallback();
-            aceShadowRoots.push(this._dom);
+            aceShadowRoots.push(this.shadowRoot);
         }
 
         disconnectedCallback() {
-            const index = aceShadowRoots.indexOf(this._dom);
+            const index = aceShadowRoots.indexOf(this.shadowRoot);
             aceShadowRoots.splice(index, 1);
             super.disconnectedCallback();
         }

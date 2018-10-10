@@ -6,7 +6,6 @@
         "worker": true
     },
     "globals": {
-        "hljs": false,
         "vkbeautify": false
     },
     "rules": {
