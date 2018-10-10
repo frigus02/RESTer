@@ -71,7 +71,7 @@ function setupHeaderInterceptor(currentTabId) {
             }
         }
 
-        indexesToRemove.sort().reverse();
+        indexesToRemove.sort((a, b) => b - a);
         for (const index of indexesToRemove) {
             details.requestHeaders.splice(index, 1);
         }

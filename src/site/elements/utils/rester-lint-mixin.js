@@ -39,7 +39,7 @@ const RESTerLintMixin = superclass => class extends superclass {
     disconnectedCallback() {
         super.disconnectedCallback();
         const inspections = this.constructor.resterLintInspections || [];
-        const messages = this.root.querySelector('rester-lint-messages');
+        const messages = this.shadowRoot.querySelector('rester-lint-messages');
 
         if (!messages) {
             return;
@@ -60,7 +60,7 @@ const RESTerLintMixin = superclass => class extends superclass {
 
     _runLintInspectionsImmediately() {
         const inspections = this.constructor.resterLintInspections || [];
-        const messages = this.root.querySelector('rester-lint-messages');
+        const messages = this.shadowRoot.querySelector('rester-lint-messages');
 
         if (!messages) {
             return;

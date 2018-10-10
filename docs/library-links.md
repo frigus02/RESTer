@@ -7,331 +7,320 @@ Update this file with all changes to used third party libraries (add/remove depe
     yarn build
 
 ```
-DOMPurify 1.0.5
-https://github.com/cure53/DOMPurify/blob/1.0.5/dist/purify.min.js
+@polymer/app-layout 3.0.1
+https://unpkg.com/@polymer/app-layout@3.0.1/app-drawer-layout/app-drawer-layout.js
+https://unpkg.com/@polymer/app-layout@3.0.1/app-drawer/app-drawer.js
+https://unpkg.com/@polymer/app-layout@3.0.1/app-header-layout/app-header-layout.js
+https://unpkg.com/@polymer/app-layout@3.0.1/app-header/app-header.js
+https://unpkg.com/@polymer/app-layout@3.0.1/app-layout-behavior/app-layout-behavior.js
+https://unpkg.com/@polymer/app-layout@3.0.1/app-scroll-effects/app-scroll-effects-behavior.js
+https://unpkg.com/@polymer/app-layout@3.0.1/app-toolbar/app-toolbar.js
+https://unpkg.com/@polymer/app-layout@3.0.1/helpers/helpers.js
 
-ace-builds v1.3.3
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/ace.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/ext-searchbox.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/mode-html.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/mode-json.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/mode-text.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/mode-xml.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/theme-chrome.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/theme-twilight.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/worker-html.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/worker-json.js
-https://github.com/ajaxorg/ace-builds/blob/v1.3.3/src-min-noconflict/worker-xml.js
+@polymer/app-route 3.0.2
+https://unpkg.com/@polymer/app-route@3.0.2/app-location.js
+https://unpkg.com/@polymer/app-route@3.0.2/app-route-converter-behavior.js
+https://unpkg.com/@polymer/app-route@3.0.2/app-route.js
 
-app-layout v2.1.1
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-drawer-layout/app-drawer-layout.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-drawer/app-drawer.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-header-layout/app-header-layout.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-header/app-header.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-layout-behavior/app-layout-behavior.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-scroll-effects/app-scroll-effects-behavior.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/app-toolbar/app-toolbar.html
-https://github.com/PolymerElements/app-layout/blob/v2.1.1/helpers/helpers.html
+@polymer/font-roboto-local 3.0.2
+https://unpkg.com/@polymer/font-roboto-local@3.0.2/roboto.js
 
-app-route v2.1.1
-https://github.com/PolymerElements/app-route/blob/v2.1.1/app-location.html
-https://github.com/PolymerElements/app-route/blob/v2.1.1/app-route-converter-behavior.html
-https://github.com/PolymerElements/app-route/blob/v2.1.1/app-route.html
+@polymer/iron-a11y-announcer 3.0.1
+https://unpkg.com/@polymer/iron-a11y-announcer@3.0.1/iron-a11y-announcer.js
 
-font-roboto v1.0.1
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Black.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-BlackItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Bold.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-BoldItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Italic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Light.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-LightItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Medium.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-MediumItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Regular.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-Thin.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/roboto/Roboto-ThinItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-Bold.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-BoldItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-Italic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-Light.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-LightItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-Medium.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-MediumItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-Regular.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-Thin.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/fonts/robotomono/RobotoMono-ThinItalic.ttf
-https://github.com/PolymerElements/font-roboto-local/blob/v1.0.1/roboto.html
+@polymer/iron-a11y-keys 3.0.1
+https://unpkg.com/@polymer/iron-a11y-keys@3.0.1/iron-a11y-keys.js
 
-iron-a11y-announcer v2.1.0
-https://github.com/PolymerElements/iron-a11y-announcer/blob/v2.1.0/iron-a11y-announcer.html
+@polymer/iron-a11y-keys-behavior 3.0.1
+https://unpkg.com/@polymer/iron-a11y-keys-behavior@3.0.1/iron-a11y-keys-behavior.js
 
-iron-a11y-keys-behavior v2.1.1
-https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/v2.1.1/iron-a11y-keys-behavior.html
+@polymer/iron-ajax 3.0.1
+https://unpkg.com/@polymer/iron-ajax@3.0.1/iron-ajax.js
+https://unpkg.com/@polymer/iron-ajax@3.0.1/iron-request.js
 
-iron-a11y-keys v2.1.2
-https://github.com/PolymerElements/iron-a11y-keys/blob/v2.1.2/iron-a11y-keys.html
+@polymer/iron-autogrow-textarea 3.0.1
+https://unpkg.com/@polymer/iron-autogrow-textarea@3.0.1/iron-autogrow-textarea.js
 
-iron-ajax v2.1.3
-https://github.com/PolymerElements/iron-ajax/blob/v2.1.3/iron-ajax.html
-https://github.com/PolymerElements/iron-ajax/blob/v2.1.3/iron-request.html
+@polymer/iron-behaviors 3.0.1
+https://unpkg.com/@polymer/iron-behaviors@3.0.1/iron-button-state.js
+https://unpkg.com/@polymer/iron-behaviors@3.0.1/iron-control-state.js
 
-iron-autogrow-textarea v2.2.0
-https://github.com/PolymerElements/iron-autogrow-textarea/blob/v2.2.0/iron-autogrow-textarea.html
+@polymer/iron-checked-element-behavior 3.0.1
+https://unpkg.com/@polymer/iron-checked-element-behavior@3.0.1/iron-checked-element-behavior.js
 
-iron-behaviors v2.1.1
-https://github.com/PolymerElements/iron-behaviors/blob/v2.1.1/iron-button-state.html
-https://github.com/PolymerElements/iron-behaviors/blob/v2.1.1/iron-control-state.html
+@polymer/iron-collapse 3.0.1
+https://unpkg.com/@polymer/iron-collapse@3.0.1/iron-collapse.js
 
-iron-checked-element-behavior v2.1.1
-https://github.com/PolymerElements/iron-checked-element-behavior/blob/v2.1.1/iron-checked-element-behavior.html
+@polymer/iron-dropdown 3.0.1
+https://unpkg.com/@polymer/iron-dropdown@3.0.1/iron-dropdown.js
 
-iron-collapse v2.2.1
-https://github.com/PolymerElements/iron-collapse/blob/v2.2.1/iron-collapse.html
+@polymer/iron-fit-behavior 3.0.1
+https://unpkg.com/@polymer/iron-fit-behavior@3.0.1/iron-fit-behavior.js
 
-iron-dropdown v2.2.1
-https://github.com/PolymerElements/iron-dropdown/blob/v2.2.1/iron-dropdown-scroll-manager.html
-https://github.com/PolymerElements/iron-dropdown/blob/v2.2.1/iron-dropdown.html
+@polymer/iron-flex-layout 3.0.1
+https://unpkg.com/@polymer/iron-flex-layout@3.0.1/iron-flex-layout.js
 
-iron-fit-behavior v2.2.1
-https://github.com/PolymerElements/iron-fit-behavior/blob/v2.2.1/iron-fit-behavior.html
+@polymer/iron-form 3.0.1
+https://unpkg.com/@polymer/iron-form@3.0.1/iron-form.js
 
-iron-flex-layout v2.0.3
-https://github.com/PolymerElements/iron-flex-layout/blob/v2.0.3/iron-flex-layout-classes.html
-https://github.com/PolymerElements/iron-flex-layout/blob/v2.0.3/iron-flex-layout.html
+@polymer/iron-form-element-behavior 3.0.1
+https://unpkg.com/@polymer/iron-form-element-behavior@3.0.1/iron-form-element-behavior.js
 
-iron-form-element-behavior v2.1.3
-https://github.com/PolymerElements/iron-form-element-behavior/blob/v2.1.3/iron-form-element-behavior.html
+@polymer/iron-icon 3.0.1
+https://unpkg.com/@polymer/iron-icon@3.0.1/iron-icon.js
 
-iron-form v2.3.0
-https://github.com/PolymerElements/iron-form/blob/v2.3.0/iron-form.html
+@polymer/iron-iconset-svg 3.0.1
+https://unpkg.com/@polymer/iron-iconset-svg@3.0.1/iron-iconset-svg.js
 
-iron-icon v2.1.0
-https://github.com/PolymerElements/iron-icon/blob/v2.1.0/iron-icon.html
+@polymer/iron-input 3.0.1
+https://unpkg.com/@polymer/iron-input@3.0.1/iron-input.js
 
-iron-iconset-svg v2.2.1
-https://github.com/PolymerElements/iron-iconset-svg/blob/v2.2.1/iron-iconset-svg.html
+@polymer/iron-location 3.0.1
+https://unpkg.com/@polymer/iron-location@3.0.1/iron-location.js
+https://unpkg.com/@polymer/iron-location@3.0.1/iron-query-params.js
 
-iron-input v2.1.3
-https://github.com/PolymerElements/iron-input/blob/v2.1.3/iron-input.html
+@polymer/iron-media-query 3.0.1
+https://unpkg.com/@polymer/iron-media-query@3.0.1/iron-media-query.js
 
-iron-location v2.2.2
-https://github.com/PolymerElements/iron-location/blob/v2.2.2/iron-location.html
-https://github.com/PolymerElements/iron-location/blob/v2.2.2/iron-query-params.html
+@polymer/iron-menu-behavior 3.0.1
+https://unpkg.com/@polymer/iron-menu-behavior@3.0.1/iron-menu-behavior.js
+https://unpkg.com/@polymer/iron-menu-behavior@3.0.1/iron-menubar-behavior.js
 
-iron-media-query v2.1.0
-https://github.com/PolymerElements/iron-media-query/blob/v2.1.0/iron-media-query.html
+@polymer/iron-meta 3.0.1
+https://unpkg.com/@polymer/iron-meta@3.0.1/iron-meta.js
 
-iron-menu-behavior v2.1.1
-https://github.com/PolymerElements/iron-menu-behavior/blob/v2.1.1/iron-menu-behavior.html
-https://github.com/PolymerElements/iron-menu-behavior/blob/v2.1.1/iron-menubar-behavior.html
+@polymer/iron-overlay-behavior 3.0.2
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-focusables-helper.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-overlay-backdrop.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-overlay-behavior.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-overlay-manager.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-scroll-manager.js
 
-iron-meta v2.1.1
-https://github.com/PolymerElements/iron-meta/blob/v2.1.1/iron-meta.html
+@polymer/iron-pages 3.0.1
+https://unpkg.com/@polymer/iron-pages@3.0.1/iron-pages.js
 
-iron-overlay-behavior v2.3.4
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-focusables-helper.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-overlay-backdrop.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-overlay-behavior.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-overlay-manager.html
-https://github.com/PolymerElements/iron-overlay-behavior/blob/v2.3.4/iron-scroll-manager.html
+@polymer/iron-range-behavior 3.0.1
+https://unpkg.com/@polymer/iron-range-behavior@3.0.1/iron-range-behavior.js
 
-iron-pages v2.1.1
-https://github.com/PolymerElements/iron-pages/blob/v2.1.1/iron-pages.html
+@polymer/iron-resizable-behavior 3.0.1
+https://unpkg.com/@polymer/iron-resizable-behavior@3.0.1/iron-resizable-behavior.js
 
-iron-range-behavior v2.1.1
-https://github.com/PolymerElements/iron-range-behavior/blob/v2.1.1/iron-range-behavior.html
+@polymer/iron-scroll-target-behavior 3.0.1
+https://unpkg.com/@polymer/iron-scroll-target-behavior@3.0.1/iron-scroll-target-behavior.js
 
-iron-resizable-behavior v2.1.1
-https://github.com/PolymerElements/iron-resizable-behavior/blob/v2.1.1/iron-resizable-behavior.html
+@polymer/iron-selector 3.0.1
+https://unpkg.com/@polymer/iron-selector@3.0.1/iron-multi-selectable.js
+https://unpkg.com/@polymer/iron-selector@3.0.1/iron-selectable.js
+https://unpkg.com/@polymer/iron-selector@3.0.1/iron-selection.js
+https://unpkg.com/@polymer/iron-selector@3.0.1/iron-selector.js
 
-iron-scroll-target-behavior v2.1.1
-https://github.com/PolymerElements/iron-scroll-target-behavior/blob/v2.1.1/iron-scroll-target-behavior.html
+@polymer/iron-validatable-behavior 3.0.1
+https://unpkg.com/@polymer/iron-validatable-behavior@3.0.1/iron-validatable-behavior.js
 
-iron-selector v2.1.0
-https://github.com/PolymerElements/iron-selector/blob/v2.1.0/iron-multi-selectable.html
-https://github.com/PolymerElements/iron-selector/blob/v2.1.0/iron-selectable.html
-https://github.com/PolymerElements/iron-selector/blob/v2.1.0/iron-selection.html
-https://github.com/PolymerElements/iron-selector/blob/v2.1.0/iron-selector.html
+@polymer/neon-animation 3.0.1
+https://unpkg.com/@polymer/neon-animation@3.0.1/animations/fade-in-animation.js
+https://unpkg.com/@polymer/neon-animation@3.0.1/animations/fade-out-animation.js
+https://unpkg.com/@polymer/neon-animation@3.0.1/animations/scale-up-animation.js
+https://unpkg.com/@polymer/neon-animation@3.0.1/neon-animatable-behavior.js
+https://unpkg.com/@polymer/neon-animation@3.0.1/neon-animation-behavior.js
+https://unpkg.com/@polymer/neon-animation@3.0.1/neon-animation-runner-behavior.js
 
-iron-validatable-behavior v2.1.0
-https://github.com/PolymerElements/iron-validatable-behavior/blob/v2.1.0/iron-validatable-behavior.html
+@polymer/paper-badge 3.0.1
+https://unpkg.com/@polymer/paper-badge@3.0.1/paper-badge.js
+
+@polymer/paper-behaviors 3.0.1
+https://unpkg.com/@polymer/paper-behaviors@3.0.1/paper-button-behavior.js
+https://unpkg.com/@polymer/paper-behaviors@3.0.1/paper-checked-element-behavior.js
+https://unpkg.com/@polymer/paper-behaviors@3.0.1/paper-inky-focus-behavior.js
+https://unpkg.com/@polymer/paper-behaviors@3.0.1/paper-ripple-behavior.js
+
+@polymer/paper-button 3.0.1
+https://unpkg.com/@polymer/paper-button@3.0.1/paper-button.js
+
+@polymer/paper-checkbox 3.1.0
+https://unpkg.com/@polymer/paper-checkbox@3.1.0/paper-checkbox.js
+
+@polymer/paper-dialog 3.0.1
+https://unpkg.com/@polymer/paper-dialog@3.0.1/paper-dialog.js
+
+@polymer/paper-dialog-behavior 3.0.1
+https://unpkg.com/@polymer/paper-dialog-behavior@3.0.1/paper-dialog-behavior.js
+https://unpkg.com/@polymer/paper-dialog-behavior@3.0.1/paper-dialog-shared-styles.js
+
+@polymer/paper-dialog-scrollable 3.0.1
+https://unpkg.com/@polymer/paper-dialog-scrollable@3.0.1/paper-dialog-scrollable.js
+
+@polymer/paper-dropdown-menu 3.0.1
+https://unpkg.com/@polymer/paper-dropdown-menu@3.0.1/paper-dropdown-menu-icons.js
+https://unpkg.com/@polymer/paper-dropdown-menu@3.0.1/paper-dropdown-menu-shared-styles.js
+https://unpkg.com/@polymer/paper-dropdown-menu@3.0.1/paper-dropdown-menu.js
+
+@polymer/paper-fab 3.0.1
+https://unpkg.com/@polymer/paper-fab@3.0.1/paper-fab.js
+
+@polymer/paper-icon-button 3.0.1
+https://unpkg.com/@polymer/paper-icon-button@3.0.1/paper-icon-button.js
+
+@polymer/paper-input 3.0.1
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-input-addon-behavior.js
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-input-behavior.js
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-input-char-counter.js
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-input-container.js
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-input-error.js
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-input.js
+https://unpkg.com/@polymer/paper-input@3.0.1/paper-textarea.js
+
+@polymer/paper-item 3.0.1
+https://unpkg.com/@polymer/paper-item@3.0.1/paper-icon-item.js
+https://unpkg.com/@polymer/paper-item@3.0.1/paper-item-behavior.js
+https://unpkg.com/@polymer/paper-item@3.0.1/paper-item-body.js
+https://unpkg.com/@polymer/paper-item@3.0.1/paper-item-shared-styles.js
+https://unpkg.com/@polymer/paper-item@3.0.1/paper-item.js
+
+@polymer/paper-listbox 3.0.1
+https://unpkg.com/@polymer/paper-listbox@3.0.1/paper-listbox.js
+
+@polymer/paper-menu-button 3.0.1
+https://unpkg.com/@polymer/paper-menu-button@3.0.1/paper-menu-button-animations.js
+https://unpkg.com/@polymer/paper-menu-button@3.0.1/paper-menu-button.js
+
+@polymer/paper-progress 3.0.1
+https://unpkg.com/@polymer/paper-progress@3.0.1/paper-progress.js
+
+@polymer/paper-radio-button 3.0.1
+https://unpkg.com/@polymer/paper-radio-button@3.0.1/paper-radio-button.js
+
+@polymer/paper-radio-group 3.0.1
+https://unpkg.com/@polymer/paper-radio-group@3.0.1/paper-radio-group.js
+
+@polymer/paper-ripple 3.0.1
+https://unpkg.com/@polymer/paper-ripple@3.0.1/paper-ripple.js
+
+@polymer/paper-slider 3.0.1
+https://unpkg.com/@polymer/paper-slider@3.0.1/paper-slider.js
+
+@polymer/paper-spinner 3.0.1
+https://unpkg.com/@polymer/paper-spinner@3.0.1/paper-spinner-behavior.js
+https://unpkg.com/@polymer/paper-spinner@3.0.1/paper-spinner-styles.js
+https://unpkg.com/@polymer/paper-spinner@3.0.1/paper-spinner.js
+
+@polymer/paper-styles 3.0.1
+https://unpkg.com/@polymer/paper-styles@3.0.1/color.js
+https://unpkg.com/@polymer/paper-styles@3.0.1/default-theme.js
+https://unpkg.com/@polymer/paper-styles@3.0.1/element-styles/paper-material-styles.js
+https://unpkg.com/@polymer/paper-styles@3.0.1/paper-styles.js
+https://unpkg.com/@polymer/paper-styles@3.0.1/shadow.js
+https://unpkg.com/@polymer/paper-styles@3.0.1/typography.js
+
+@polymer/paper-tabs 3.0.1
+https://unpkg.com/@polymer/paper-tabs@3.0.1/paper-tab.js
+https://unpkg.com/@polymer/paper-tabs@3.0.1/paper-tabs-icons.js
+https://unpkg.com/@polymer/paper-tabs@3.0.1/paper-tabs.js
+
+@polymer/paper-toggle-button 3.0.1
+https://unpkg.com/@polymer/paper-toggle-button@3.0.1/paper-toggle-button.js
+
+@polymer/paper-tooltip 3.0.1
+https://unpkg.com/@polymer/paper-tooltip@3.0.1/paper-tooltip.js
+
+@polymer/polymer 3.0.5
+https://unpkg.com/@polymer/polymer@3.0.5/lib/elements/array-selector.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/elements/custom-style.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/elements/dom-bind.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/elements/dom-if.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/elements/dom-module.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/elements/dom-repeat.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/legacy/class.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/legacy/legacy-element-mixin.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/legacy/mutable-data-behavior.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/legacy/polymer-fn.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/legacy/polymer.dom.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/legacy/templatizer-behavior.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/dir-mixin.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/element-mixin.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/gesture-event-listeners.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/mutable-data.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/properties-changed.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/properties-mixin.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/property-accessors.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/property-effects.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/mixins/template-stamp.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/array-splice.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/async.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/boot.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/case-map.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/debounce.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/flattened-nodes-observer.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/flush.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/gestures.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/html-tag.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/mixin.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/path.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/render-status.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/resolve-url.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/settings.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/style-gather.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/templatize.js
+https://unpkg.com/@polymer/polymer@3.0.5/lib/utils/unresolved.js
+https://unpkg.com/@polymer/polymer@3.0.5/polymer-element.js
+https://unpkg.com/@polymer/polymer@3.0.5/polymer-legacy.js
+
+@webcomponents/shadycss 1.3.1
+https://unpkg.com/@webcomponents/shadycss@1.3.1/entrypoints/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/entrypoints/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/apply-shim-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/common-regex.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/common-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/css-parse.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/document-wait.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/style-settings.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/style-util.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/template-map.js
+https://unpkg.com/@webcomponents/shadycss@1.3.1/src/unscoped-style-handler.js
+
+@webcomponents/webcomponentsjs 2.1.3
+https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/bundles/webcomponents-ce.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/bundles/webcomponents-sd-ce-pf.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/bundles/webcomponents-sd-ce.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/bundles/webcomponents-sd.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-loader.js
+
+ace-builds 1.3.3
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/worker-xml.js
+
+dompurify 1.0.5
+https://unpkg.com/dompurify@1.0.5/dist/purify.es.js
+
+frigus02-vkbeautify 1.0.1
+https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
+
+lodash 4.17.5
+https://unpkg.com/lodash@4.17.5/lodash.js
 
 mousetrap 1.6.2
-https://github.com/ccampbell/mousetrap/blob/1.6.2/mousetrap.js
+https://unpkg.com/mousetrap@1.6.2/mousetrap.js
 
-neon-animation v2.2.1
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/animations/fade-in-animation.html
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/animations/fade-out-animation.html
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/animations/scale-up-animation.html
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/neon-animatable-behavior.html
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/neon-animation-behavior.html
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/neon-animation-runner-behavior.html
-https://github.com/PolymerElements/neon-animation/blob/v2.2.1/web-animations.html
-
-paper-badge v2.1.0
-https://github.com/PolymerElements/paper-badge/blob/v2.1.0/paper-badge.html
-
-paper-behaviors v2.1.1
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-button-behavior.html
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-checked-element-behavior.html
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-inky-focus-behavior.html
-https://github.com/PolymerElements/paper-behaviors/blob/v2.1.1/paper-ripple-behavior.html
-
-paper-button v2.1.1
-https://github.com/PolymerElements/paper-button/blob/v2.1.1/paper-button.html
-
-paper-checkbox v2.0.4
-https://github.com/PolymerElements/paper-checkbox/blob/v2.0.4/paper-checkbox.html
-
-paper-dialog-behavior v2.2.2
-https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.2.2/paper-dialog-behavior.html
-https://github.com/PolymerElements/paper-dialog-behavior/blob/v2.2.2/paper-dialog-shared-styles.html
-
-paper-dialog-scrollable v2.2.1
-https://github.com/PolymerElements/paper-dialog-scrollable/blob/v2.2.1/paper-dialog-scrollable.html
-
-paper-dialog v2.1.1
-https://github.com/PolymerElements/paper-dialog/blob/v2.1.1/paper-dialog.html
-
-paper-dropdown-menu v2.1.0
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.1.0/paper-dropdown-menu-icons.html
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.1.0/paper-dropdown-menu-shared-styles.html
-https://github.com/PolymerElements/paper-dropdown-menu/blob/v2.1.0/paper-dropdown-menu.html
-
-paper-fab v2.1.0
-https://github.com/PolymerElements/paper-fab/blob/v2.1.0/paper-fab.html
-
-paper-icon-button v2.2.0
-https://github.com/PolymerElements/paper-icon-button/blob/v2.2.0/paper-icon-button.html
-
-paper-input v2.2.2
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-input-addon-behavior.html
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-input-behavior.html
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-input-char-counter.html
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-input-container.html
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-input-error.html
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-input.html
-https://github.com/PolymerElements/paper-input/blob/v2.2.2/paper-textarea.html
-
-paper-item v2.1.1
-https://github.com/PolymerElements/paper-item/blob/v2.1.1/paper-icon-item.html
-https://github.com/PolymerElements/paper-item/blob/v2.1.1/paper-item-behavior.html
-https://github.com/PolymerElements/paper-item/blob/v2.1.1/paper-item-body.html
-https://github.com/PolymerElements/paper-item/blob/v2.1.1/paper-item-shared-styles.html
-https://github.com/PolymerElements/paper-item/blob/v2.1.1/paper-item.html
-
-paper-listbox v2.1.1
-https://github.com/PolymerElements/paper-listbox/blob/v2.1.1/paper-listbox.html
-
-paper-menu-button v2.1.1
-https://github.com/PolymerElements/paper-menu-button/blob/v2.1.1/paper-menu-button-animations.html
-https://github.com/PolymerElements/paper-menu-button/blob/v2.1.1/paper-menu-button.html
-
-paper-progress v2.1.1
-https://github.com/PolymerElements/paper-progress/blob/v2.1.1/paper-progress.html
-
-paper-radio-button v2.1.0
-https://github.com/PolymerElements/paper-radio-button/blob/v2.1.0/paper-radio-button.html
-
-paper-radio-group v2.2.0
-https://github.com/PolymerElements/paper-radio-group/blob/v2.2.0/paper-radio-group.html
-
-paper-ripple v2.1.1
-https://github.com/PolymerElements/paper-ripple/blob/v2.1.1/paper-ripple.html
-
-paper-slider v2.0.6
-https://github.com/PolymerElements/paper-slider/blob/v2.0.6/paper-slider.html
-
-paper-spinner v2.1.0
-https://github.com/PolymerElements/paper-spinner/blob/v2.1.0/paper-spinner-behavior.html
-https://github.com/PolymerElements/paper-spinner/blob/v2.1.0/paper-spinner-styles.html
-https://github.com/PolymerElements/paper-spinner/blob/v2.1.0/paper-spinner.html
-
-paper-styles v2.1.0
-https://github.com/PolymerElements/paper-styles/blob/v2.1.0/color.html
-https://github.com/PolymerElements/paper-styles/blob/v2.1.0/default-theme.html
-https://github.com/PolymerElements/paper-styles/blob/v2.1.0/element-styles/paper-material-styles.html
-https://github.com/PolymerElements/paper-styles/blob/v2.1.0/paper-styles.html
-https://github.com/PolymerElements/paper-styles/blob/v2.1.0/shadow.html
-https://github.com/PolymerElements/paper-styles/blob/v2.1.0/typography.html
-
-paper-subheader 2.0.2
-https://github.com/Collaborne/paper-subheader/blob/2.0.2/paper-subheader.html
-
-paper-tabs v2.1.1
-https://github.com/PolymerElements/paper-tabs/blob/v2.1.1/paper-tab.html
-https://github.com/PolymerElements/paper-tabs/blob/v2.1.1/paper-tabs-icons.html
-https://github.com/PolymerElements/paper-tabs/blob/v2.1.1/paper-tabs.html
-
-paper-toggle-button v2.1.1
-https://github.com/PolymerElements/paper-toggle-button/blob/v2.1.1/paper-toggle-button.html
-
-paper-tooltip v2.1.1
-https://github.com/PolymerElements/paper-tooltip/blob/v2.1.1/paper-tooltip.html
-
-polymer v2.6.0
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/elements/array-selector.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/elements/custom-style.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/elements/dom-bind.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/elements/dom-if.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/elements/dom-module.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/elements/dom-repeat.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/legacy/class.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/legacy/legacy-element-mixin.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/legacy/mutable-data-behavior.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/legacy/polymer-fn.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/legacy/polymer.dom.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/legacy/templatizer-behavior.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/dir-mixin.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/element-mixin.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/gesture-event-listeners.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/mutable-data.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/properties-changed.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/properties-mixin.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/property-accessors.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/property-effects.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/mixins/template-stamp.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/array-splice.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/async.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/boot.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/case-map.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/debounce.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/flattened-nodes-observer.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/flush.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/gestures.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/html-tag.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/import-href.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/mixin.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/path.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/render-status.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/resolve-url.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/settings.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/style-gather.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/templatize.html
-https://github.com/Polymer/polymer/blob/v2.6.0/lib/utils/unresolved.html
-https://github.com/Polymer/polymer/blob/v2.6.0/polymer-element.html
-https://github.com/Polymer/polymer/blob/v2.6.0/polymer.html
-
-shadycss v1.3.5
-https://github.com/webcomponents/shadycss/blob/v1.3.5/apply-shim.html
-https://github.com/webcomponents/shadycss/blob/v1.3.5/apply-shim.min.js
-https://github.com/webcomponents/shadycss/blob/v1.3.5/custom-style-interface.html
-https://github.com/webcomponents/shadycss/blob/v1.3.5/custom-style-interface.min.js
-
-string_score v0.1.22
-https://github.com/joshaven/string_score/blob/v0.1.22/string_score.js
-
-vkBeautify v1.0.1
-https://github.com/frigus02/vkBeautify/blob/v1.0.1/vkbeautify.js
+string_score 0.1.22
+https://unpkg.com/string_score@0.1.22/string_score.js
 
 web-animations-js 2.3.1
-https://github.com/web-animations/web-animations-js/blob/2.3.1/web-animations-next-lite.min.js
+https://unpkg.com/web-animations-js@2.3.1/web-animations-next-lite.min.js
 
-webcomponentsjs b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d
-https://github.com/webcomponents/webcomponentsjs/blob/b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d/webcomponents-ce.js
-https://github.com/webcomponents/webcomponentsjs/blob/b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d/webcomponents-lite.js
-https://github.com/webcomponents/webcomponentsjs/blob/b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d/webcomponents-loader.js
-https://github.com/webcomponents/webcomponentsjs/blob/b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d/webcomponents-sd-ce.js
-https://github.com/webcomponents/webcomponentsjs/blob/b5af6a76a5b7dd4a7183f0fd2b646f76e6a2a02d/webcomponents-sd.js
+webpack 4.12.0
+https://unpkg.com/webpack@4.12.0/buildin/amd-define.js
+https://unpkg.com/webpack@4.12.0/buildin/global.js
+https://unpkg.com/webpack@4.12.0/buildin/module.js
 ```

@@ -25,24 +25,25 @@ module.exports = [
             path: path.resolve(__dirname, '.build/site')
         },
         resolve: {
-            modules: [
-                path.resolve(__dirname, 'src/site/bower_components'),
-                path.resolve(__dirname, 'node_modules')
-            ]
+            alias: {
+                '@polymer/font-roboto/roboto.js': '@polymer/font-roboto-local/roboto.js'
+            }
         },
         module: {
             rules: [
                 {
-                    test: /\.html$/,
-                    use: 'polymer-webpack-loader'
+                    test: /@polymer[/\\]font-roboto-local[/\\]roboto\.js$/,
+                    loader: 'string-replace-loader',
+                    options: {
+                        search: 'import.meta.url',
+                        replace: 'location.href'
+                    }
                 },
                 {
                     test: /\.ttf$/,
-                    use: {
-                        loader: 'file-loader',
-                        options: {
-                            outputPath: 'assets/'
-                        }
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/'
                     }
                 }
             ]
@@ -54,14 +55,24 @@ module.exports = [
             }),
             new CopyWebpackPlugin([
                 {
-                    from: 'bower_components/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js'
+                    from: 'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
+                    context: '../../'
                 },
                 {
-                    from: 'bower_components/vkBeautify/vkbeautify.js',
-                    to: 'bower_components/vkBeautify/vkbeautify.js'
+                    from: 'node_modules/frigus02-vkbeautify/*.js',
+                    context: '../../'
                 },
                 {
-                    from: 'bower_components/webcomponentsjs/webcomponents-*.js'
+                    from: 'fonts/**/*.ttf',
+                    context: '../../node_modules/@polymer/font-roboto-local/'
+                },
+                {
+                    from: 'node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
+                    context: '../../'
+                },
+                {
+                    from: 'node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
+                    context: '../../'
                 },
                 {
                     from: 'elements/data/workers/format-code.js',
@@ -72,30 +83,28 @@ module.exports = [
                 },
                 {
                     from: 'scripts/*'
-                },
-                {
-                    from: 'bower.json'
                 }
             ]),
             new GenerateLibraryLinksPlugin({
                 filename: path.resolve(__dirname, 'docs/library-links.md'),
                 additionalFiles: [
-                    'src/site/bower_components/ace-builds/src-min-noconflict/ext-searchbox.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-html.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-json.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-text.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/mode-xml.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/theme-chrome.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/theme-twilight.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/worker-html.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/worker-json.js',
-                    'src/site/bower_components/ace-builds/src-min-noconflict/worker-xml.js',
-                    'src/site/bower_components/vkBeautify/vkbeautify.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-ce.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-lite.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-loader.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-sd-ce.js',
-                    'src/site/bower_components/webcomponentsjs/webcomponents-sd.js'
+                    'node_modules/ace-builds/src-min-noconflict/ext-searchbox.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-html.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-json.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-text.js',
+                    'node_modules/ace-builds/src-min-noconflict/mode-xml.js',
+                    'node_modules/ace-builds/src-min-noconflict/theme-chrome.js',
+                    'node_modules/ace-builds/src-min-noconflict/theme-twilight.js',
+                    'node_modules/ace-builds/src-min-noconflict/worker-html.js',
+                    'node_modules/ace-builds/src-min-noconflict/worker-json.js',
+                    'node_modules/ace-builds/src-min-noconflict/worker-xml.js',
+                    'node_modules/frigus02-vkbeautify/vkbeautify.js',
+                    'node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js',
+                    'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js',
+                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js'
                 ],
                 header: [
                     '# Libary links',
