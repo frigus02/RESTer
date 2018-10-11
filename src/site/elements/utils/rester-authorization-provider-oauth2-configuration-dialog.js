@@ -142,9 +142,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
                             <paper-input
                                     label="Client Secret"
                                     value="{{data.clientSecret}}"
-                                    hidden$="[[!_isFieldVisible('clientSecret', data.flow, data.accessTokenRequestAuthentication)]]"
-                                    required$="[[_isFieldVisible('clientSecret', data.flow, data.accessTokenRequestAuthentication)]]"
-                                    error-message="This is required!"></paper-input>
+                                    hidden$="[[!_isFieldVisible('clientSecret', data.flow, data.accessTokenRequestAuthentication)]]"></paper-input>
                             <paper-input
                                     label="Redirect URI"
                                     value="{{data.redirectUri}}"

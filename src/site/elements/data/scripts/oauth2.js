@@ -107,7 +107,7 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
 
     if (config.accessTokenRequestAuthentication === 'basic') {
         const userName = encodeURI(config.clientId);
-        const password = encodeURI(config.clientSecret);
+        const password = encodeURI(config.clientSecret || '');
         const token = window.btoa(`${userName}:${password}`);
 
         accessTokenRequest.headers.push({
@@ -116,7 +116,7 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
         });
     } else if (config.accessTokenRequestAuthentication === 'body') {
         accessTokenRequestParams.client_id = config.clientId;
-        accessTokenRequestParams.client_secret = config.clientSecret;
+        accessTokenRequestParams.client_secret = config.clientSecret || '';
     } else {
         accessTokenRequestParams.client_id = config.clientId;
     }
