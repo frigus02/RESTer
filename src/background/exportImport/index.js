@@ -31,7 +31,6 @@ export async function exportData(options) {
 
     chrome.downloads.download({
         filename: file.name,
-        saveAs: true,
         url: url
     });
 }
