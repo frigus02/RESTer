@@ -71,6 +71,26 @@ async function middleware(req, res) {
         }
 
         res.end(JSON.stringify(entries));
+    } else if (req.url === '/basic-auth') {
+        const auth = req.headers.authorization || '';
+        const [scheme, token] = auth.split(/\s+/);
+        if (scheme && token && scheme.toLowerCase() === 'basic') {
+            const decoded = Buffer.from(token, 'base64').toString();
+            const [user, pass] = decoded.split(':');
+            if (user === 'foo' && pass === 'bar') {
+                res.statusCode = 200;
+                res.end('Success 👌');
+                return;
+            }
+        }
+
+        res.statusCode = 401;
+        res.setHeader('WWW-Authenticate', 'Basic realm="RESTer Test Server"');
+        res.end();
+    } else if (req.url === '/basic-auth?logout') {
+        res.statusCode = 401;
+        res.setHeader('WWW-Authenticate', 'Basic realm="RESTer Test Server"');
+        res.end();
     } else {
         res.statusCode = 404;
         res.end('Not Found\n');

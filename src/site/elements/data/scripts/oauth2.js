@@ -101,7 +101,8 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
         headers: [
             { name: 'Accept', value: 'application/json' },
             { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
-        ]
+        ],
+        stripDefaultHeaders: true
     };
 
     if (config.accessTokenRequestAuthentication === 'basic') {
