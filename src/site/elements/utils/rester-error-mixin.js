@@ -11,14 +11,17 @@
  *     this.showError(e);
  * }
  */
-const RESTerErrorMixin = superclass => class extends superclass {
-    showError(error, title) {
-        const resterApp = document.querySelector('rester-app');
-        const resterError = resterApp.shadowRoot.querySelector('rester-error');
-        if (resterError) {
-            resterError.show(error, title);
+const RESTerErrorMixin = superclass =>
+    class extends superclass {
+        showError(error, title) {
+            const resterApp = document.querySelector('rester-app');
+            const resterError = resterApp.shadowRoot.querySelector(
+                'rester-error'
+            );
+            if (resterError) {
+                resterError.show(error, title);
+            }
         }
-    }
-};
+    };
 
 export default RESTerErrorMixin;

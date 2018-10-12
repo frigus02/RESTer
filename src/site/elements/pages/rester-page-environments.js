@@ -1,14 +1,14 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../../node_modules/@polymer/paper-fab/paper-fab.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js";
-import "../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js";
-import "../styles/rester-icons.js";
-import resterPageStyle from "../styles/rester-page.js";
+import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../../node_modules/@polymer/paper-fab/paper-fab.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js';
+import '../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js';
+import '../styles/rester-icons.js';
+import resterPageStyle from '../styles/rester-page.js';
 import dialogs from '../data/scripts/dialogs.js';
 import { truncate } from '../data/scripts/encode.js';
 import {
@@ -26,7 +26,9 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerPageEnvironments extends RESTerPageMixin(RESTerSettingsMixin(PolymerElement)) {
+class RESTerPageEnvironments extends RESTerPageMixin(
+    RESTerSettingsMixin(PolymerElement)
+) {
     static get template() {
         return html`
             ${resterPageStyle}
@@ -150,12 +152,20 @@ class RESTerPageEnvironments extends RESTerPageMixin(RESTerSettingsMixin(Polymer
                 this._environmentInDialog.id = id;
 
                 if (this._environmentInDialogIndex > -1) {
-                    this.splice('environments', this._environmentInDialogIndex, 1, this._environmentInDialog);
+                    this.splice(
+                        'environments',
+                        this._environmentInDialogIndex,
+                        1,
+                        this._environmentInDialog
+                    );
                 } else {
                     this.push('environments', this._environmentInDialog);
                 }
             });
-        } else if (result.reason.confirmed && result.reason.action === 'delete') {
+        } else if (
+            result.reason.confirmed &&
+            result.reason.action === 'delete'
+        ) {
             deleteEnvironment(this._environmentInDialog.id).then(() => {
                 this.splice('environments', this._environmentInDialogIndex, 1);
             });

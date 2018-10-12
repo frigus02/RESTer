@@ -1,9 +1,9 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input.js";
-import "../styles/rester-icons.js";
-import "./rester-form-data-input.js";
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input.js';
+import '../styles/rester-icons.js';
+import './rester-form-data-input.js';
 
 /**
  * @polymer

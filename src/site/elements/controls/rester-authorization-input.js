@@ -1,16 +1,16 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-icon/iron-icon.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../styles/rester-icons.js";
-import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
-import "./rester-authorization-provider-basic.js";
-import "./rester-authorization-provider-cookie.js";
-import "./rester-authorization-provider-custom.js";
-import "./rester-authorization-provider-oauth2.js";
+import '../../../../node_modules/@polymer/iron-icon/iron-icon.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../styles/rester-icons.js';
+import resterPaperItemButtonStyle from '../styles/rester-paper-item-button.js';
+import './rester-authorization-provider-basic.js';
+import './rester-authorization-provider-cookie.js';
+import './rester-authorization-provider-custom.js';
+import './rester-authorization-provider-oauth2.js';
 import { expirationDate } from '../data/scripts/format.js';
 import {
     addAuthorizationToken,
@@ -148,11 +148,18 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
             if (provider.needsConfiguration) {
                 this.push('providers', provider);
 
-                configPromises.push(getAuthorizationProviderConfigurations(provider.providerId).then(configurations => {
-                    configurations.forEach(configuration => {
-                        this.push('configurations', { provider, configuration });
-                    });
-                }));
+                configPromises.push(
+                    getAuthorizationProviderConfigurations(
+                        provider.providerId
+                    ).then(configurations => {
+                        configurations.forEach(configuration => {
+                            this.push('configurations', {
+                                provider,
+                                configuration
+                            });
+                        });
+                    })
+                );
             } else {
                 this.push('configurations', {
                     provider,
@@ -166,7 +173,9 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
 
         Promise.all(configPromises).then(() => {
             getAuthorizationTokens().then(tokens => {
-                this._setTokens(tokens.map(token => this._prepareTokenForRender(token)));
+                this._setTokens(
+                    tokens.map(token => this._prepareTokenForRender(token))
+                );
                 this._updateTokenIsUsedFlag();
             });
         });
@@ -241,7 +250,9 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
         try {
             const newConfig = await provider.editConfiguration(configuration);
             if (newConfig === 'delete') {
-                await deleteAuthorizationProviderConfiguration(configuration.id);
+                await deleteAuthorizationProviderConfiguration(
+                    configuration.id
+                );
                 const index = this.configurations.indexOf(config);
                 if (index > 0) {
                     this.splice('configurations', index, 1);
@@ -275,7 +286,9 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
     }
 
     _prepareTokenForRender(token) {
-        const config = this.configurations.find(c => c.configuration.id === token.configurationId);
+        const config = this.configurations.find(
+            c => c.configuration.id === token.configurationId
+        );
         return {
             token,
             configuration: config.configuration,
@@ -287,15 +300,19 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
 
     _updateTokenIsUsedFlag() {
         this.tokens.forEach((token, i) => {
-            this.set(['tokens', i, 'isUsed'],
+            this.set(
+                ['tokens', i, 'isUsed'],
                 this.authorization &&
-                this.authorization.scheme === token.token.scheme &&
-                this.authorization.token === token.token.token);
+                    this.authorization.scheme === token.token.scheme &&
+                    this.authorization.token === token.token.token
+            );
         });
     }
 
     _compareConfigurations(a, b) {
-        const providerCompare = a.provider.title.localeCompare(b.provider.title);
+        const providerCompare = a.provider.title.localeCompare(
+            b.provider.title
+        );
         if (providerCompare === 0) {
             return a.configuration.title.localeCompare(b.configuration.title);
         } else {

@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-selector/iron-selector.js";
-import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
+import '../../../../node_modules/@polymer/iron-selector/iron-selector.js';
+import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
 import '../../../../node_modules/string_score/string_score.js';
-import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
+import resterPaperItemButtonStyle from '../styles/rester-paper-item-button.js';
 
 /**
  * @polymer
@@ -164,9 +164,11 @@ class RESTerAutocomplete extends PolymerElement {
     _computeItemTemplate() {
         const item = this.items && this.items[0];
         if (item) {
-            if (item.hasOwnProperty('title') &&
+            if (
+                item.hasOwnProperty('title') &&
                 item.hasOwnProperty('description') &&
-                item.hasOwnProperty('score')) {
+                item.hasOwnProperty('score')
+            ) {
                 return 'two-line-score';
             } else {
                 return 'simple';
@@ -184,9 +186,13 @@ class RESTerAutocomplete extends PolymerElement {
 
         const preferredHeight = itemHeight * dropdownItemsVisible;
         const minHeight = itemHeight * 1.5;
-        const maxHeight = !dropdownVisible || top === 0 ? 0 : window.innerHeight - top;
+        const maxHeight =
+            !dropdownVisible || top === 0 ? 0 : window.innerHeight - top;
 
-        const height = Math.max(Math.min(preferredHeight, maxHeight), minHeight);
+        const height = Math.max(
+            Math.min(preferredHeight, maxHeight),
+            minHeight
+        );
 
         return `${height}px`;
     }
@@ -203,8 +209,14 @@ class RESTerAutocomplete extends PolymerElement {
         if (this.itemTemplate === 'two-line-score') {
             const index = this.items.indexOf(item);
             if (value) {
-                const originalScore = Math.max(item.title.score(value), item.description.score(value));
-                this.set(`items.${index}.score`, Math.round(originalScore * 1000));
+                const originalScore = Math.max(
+                    item.title.score(value),
+                    item.description.score(value)
+                );
+                this.set(
+                    `items.${index}.score`,
+                    Math.round(originalScore * 1000)
+                );
             } else {
                 this.set(`items.${index}.score`, 0);
             }
@@ -222,7 +234,8 @@ class RESTerAutocomplete extends PolymerElement {
     _compareItems(itemA, itemB) {
         if (this.sortByIndex) {
             return this.items.indexOf(itemA) - this.items.indexOf(itemB);
-        } if (this.itemTemplate === 'two-line-score') {
+        }
+        if (this.itemTemplate === 'two-line-score') {
             return itemB.score - itemA.score;
         } else {
             return itemA.localeCompare(itemB);
@@ -243,8 +256,13 @@ class RESTerAutocomplete extends PolymerElement {
         if (this.selectedIndex === -1) {
             this._moveSelectedIndexToNextItem();
         } else {
-            const selectedItem = this._getItemByRenderedIndex(this.selectedIndex);
-            if (selectedItem && !this._isItemVisible(selectedItem, this.inputValue)) {
+            const selectedItem = this._getItemByRenderedIndex(
+                this.selectedIndex
+            );
+            if (
+                selectedItem &&
+                !this._isItemVisible(selectedItem, this.inputValue)
+            ) {
                 this._moveSelectedIndexToNextItem();
             }
         }
@@ -275,7 +293,9 @@ class RESTerAutocomplete extends PolymerElement {
                 break;
             case 'Tab':
                 if (this.dropdownVisible && !e.shiftKey) {
-                    const item = this._getItemByRenderedIndex(this.selectedIndex);
+                    const item = this._getItemByRenderedIndex(
+                        this.selectedIndex
+                    );
                     if (item && this._isItemVisible(item, this.inputValue)) {
                         this._selectItem(item);
                     }
@@ -287,7 +307,9 @@ class RESTerAutocomplete extends PolymerElement {
                     e.stopPropagation();
                     e.preventDefault();
 
-                    const item = this._getItemByRenderedIndex(this.selectedIndex);
+                    const item = this._getItemByRenderedIndex(
+                        this.selectedIndex
+                    );
                     if (item && this._isItemVisible(item, this.inputValue)) {
                         this._selectItem(item);
                     }
@@ -299,7 +321,6 @@ class RESTerAutocomplete extends PolymerElement {
                 e.preventDefault();
                 this._setDropdownVisible(false);
                 break;
-
         }
     }
 
@@ -312,7 +333,9 @@ class RESTerAutocomplete extends PolymerElement {
         this._inputFocused = false;
         setTimeout(() => {
             const nextFocus = this.shadowRoot.activeElement;
-            const isDropdownFocused = nextFocus && nextFocus.closest('iron-selector') === this.$.dropdown;
+            const isDropdownFocused =
+                nextFocus &&
+                nextFocus.closest('iron-selector') === this.$.dropdown;
             if (isDropdownFocused) {
                 this._input.focus();
             } else if (!this._inputFocused) {
@@ -345,12 +368,28 @@ class RESTerAutocomplete extends PolymerElement {
         let nextIndex = this.selectedIndex;
         do {
             nextIndex = Math.min(nextIndex + 1, maxIndex);
-        } while (!this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this.inputValue) && nextIndex < maxIndex);
+        } while (
+            !this._isItemVisible(
+                this._getItemByRenderedIndex(nextIndex),
+                this.inputValue
+            ) &&
+            nextIndex < maxIndex
+        );
 
-        if (this._isItemVisible(this._getItemByRenderedIndex(nextIndex), this.inputValue)) {
+        if (
+            this._isItemVisible(
+                this._getItemByRenderedIndex(nextIndex),
+                this.inputValue
+            )
+        ) {
             this._setSelectedIndex(nextIndex);
             this._updateDrodownScroll(false);
-        } else if (!this._isItemVisible(this._getItemByRenderedIndex(this.selectedIndex), this.inputValue)) {
+        } else if (
+            !this._isItemVisible(
+                this._getItemByRenderedIndex(this.selectedIndex),
+                this.inputValue
+            )
+        ) {
             this._moveSelectedIndexToPreviousItem();
         }
     }
@@ -364,7 +403,13 @@ class RESTerAutocomplete extends PolymerElement {
         let prevIndex = this.selectedIndex;
         do {
             prevIndex = Math.max(prevIndex - 1, minIndex);
-        } while (!this._isItemVisible(this._getItemByRenderedIndex(prevIndex), this.inputValue) && prevIndex > minIndex);
+        } while (
+            !this._isItemVisible(
+                this._getItemByRenderedIndex(prevIndex),
+                this.inputValue
+            ) &&
+            prevIndex > minIndex
+        );
 
         this._setSelectedIndex(prevIndex);
         this._updateDrodownScroll(true);
@@ -381,8 +426,11 @@ class RESTerAutocomplete extends PolymerElement {
             return;
         }
 
-        if (item.offsetTop >= list.scrollTop &&
-            item.offsetTop + item.offsetHeight <= list.scrollTop + list.clientHeight) {
+        if (
+            item.offsetTop >= list.scrollTop &&
+            item.offsetTop + item.offsetHeight <=
+                list.scrollTop + list.clientHeight
+        ) {
             // Element is already in view. Nothing to do.
             return;
         }
@@ -390,13 +438,16 @@ class RESTerAutocomplete extends PolymerElement {
         if (alignTop) {
             list.scrollTop = item.offsetTop;
         } else {
-            list.scrollTop = item.offsetTop + item.offsetHeight - list.clientHeight;
+            list.scrollTop =
+                item.offsetTop + item.offsetHeight - list.clientHeight;
         }
     }
 
     _getItemByRenderedIndex(index) {
         const domRepeat = this.$.dropdown.querySelector('dom-repeat');
-        const itemElement = this.$.dropdown.getElementsByClassName('button')[index];
+        const itemElement = this.$.dropdown.getElementsByClassName('button')[
+            index
+        ];
 
         return itemElement && domRepeat.itemForElement(itemElement);
     }
@@ -406,9 +457,8 @@ class RESTerAutocomplete extends PolymerElement {
     }
 
     _selectItem(item) {
-        const newValue = this.itemTemplate === 'two-line-score'
-            ? item.title
-            : item;
+        const newValue =
+            this.itemTemplate === 'two-line-score' ? item.title : item;
 
         if (this._input.parentElement.tagName === 'IRON-INPUT') {
             this._input.parentElement.bindValue = newValue;
@@ -417,11 +467,13 @@ class RESTerAutocomplete extends PolymerElement {
         }
 
         this._setDropdownVisible(false);
-        this.dispatchEvent(new CustomEvent('item-selected', {
-            detail: item,
-            bubbles: true,
-            composed: true
-        }));
+        this.dispatchEvent(
+            new CustomEvent('item-selected', {
+                detail: item,
+                bubbles: true,
+                composed: true
+            })
+        );
     }
 }
 

@@ -1,12 +1,12 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js";
-import "../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js';
+import '../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
 import { getEnvironments } from '../data/scripts/rester.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
@@ -17,7 +17,9 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(RESTerSettingsMixin(PolymerElement)) {
+class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
+    RESTerSettingsMixin(PolymerElement)
+) {
     static get template() {
         return html`
             <style>
@@ -90,4 +92,7 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(RESTerSe
     }
 }
 
-customElements.define(RESTerEnvironmentSelectDialog.is, RESTerEnvironmentSelectDialog);
+customElements.define(
+    RESTerEnvironmentSelectDialog.is,
+    RESTerEnvironmentSelectDialog
+);

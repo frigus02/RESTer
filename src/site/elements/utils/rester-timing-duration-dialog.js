@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
 import { duration as formatDuration } from '../data/scripts/format.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
@@ -14,7 +14,9 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  * @appliesMixin RESTerDialogControllerMixin
  */
-class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(PolymerElement) {
+class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
+    PolymerElement
+) {
     static get template() {
         return html`
             <style>
@@ -159,7 +161,7 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(PolymerElem
     }
 
     _calcPercentage(full, fraction) {
-        return fraction / full * 100;
+        return (fraction / full) * 100;
     }
 
     _formatDuration(duration) {
@@ -169,4 +171,7 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(PolymerElem
     }
 }
 
-customElements.define(RESTerTimingDurationDialog.is, RESTerTimingDurationDialog);
+customElements.define(
+    RESTerTimingDurationDialog.is,
+    RESTerTimingDurationDialog
+);

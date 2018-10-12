@@ -28,7 +28,10 @@ export class Environment {
 
 export function putEnvironment(environment) {
     environment = new Environment(environment);
-    return db.transaction().put('environments', environment).execute();
+    return db
+        .transaction()
+        .put('environments', environment)
+        .execute();
 }
 
 export function getEnvironment(id) {
@@ -41,5 +44,8 @@ export function queryEnvironments() {
 
 export function deleteEnvironment(id) {
     const environment = new Environment({ id });
-    return db.transaction().delete('environments', environment).execute();
+    return db
+        .transaction()
+        .delete('environments', environment)
+        .execute();
 }

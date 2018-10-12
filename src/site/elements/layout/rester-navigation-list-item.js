@@ -1,16 +1,16 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-collapse/iron-collapse.js";
-import "../../../../node_modules/@polymer/iron-selector/iron-selector.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-ripple/paper-ripple.js";
-import "../../../../node_modules/@polymer/paper-styles/paper-styles.js";
-import "../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js";
-import "../controls/rester-subheader.js";
-import "../styles/rester-icons.js";
-import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
+import '../../../../node_modules/@polymer/iron-collapse/iron-collapse.js';
+import '../../../../node_modules/@polymer/iron-selector/iron-selector.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-ripple/paper-ripple.js';
+import '../../../../node_modules/@polymer/paper-styles/paper-styles.js';
+import '../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js';
+import '../controls/rester-subheader.js';
+import '../styles/rester-icons.js';
+import resterPaperItemButtonStyle from '../styles/rester-paper-item-button.js';
 import { debounce } from '../../../shared/util.js';
 
 /**
@@ -212,10 +212,12 @@ class RESTerNavigationListItem extends PolymerElement {
     _notifyIfActive() {
         setTimeout(() => {
             if (this.active) {
-                this.dispatchEvent(new CustomEvent('item-activated', {
-                    bubbles: true,
-                    composed: true
-                }));
+                this.dispatchEvent(
+                    new CustomEvent('item-activated', {
+                        bubbles: true,
+                        composed: true
+                    })
+                );
             }
         });
     }

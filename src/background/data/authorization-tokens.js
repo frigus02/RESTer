@@ -38,7 +38,10 @@ export class AuthorizationToken {
 
 export function addAuthorizationToken(token) {
     token = new AuthorizationToken(token);
-    return db.transaction().add('authTokens', token).execute();
+    return db
+        .transaction()
+        .add('authTokens', token)
+        .execute();
 }
 
 export function queryAuthorizationTokens() {
@@ -47,5 +50,8 @@ export function queryAuthorizationTokens() {
 
 export function deleteAuthorizationToken(id) {
     const token = new AuthorizationToken({ id });
-    return db.transaction().delete('authTokens', token).execute();
+    return db
+        .transaction()
+        .delete('authTokens', token)
+        .execute();
 }

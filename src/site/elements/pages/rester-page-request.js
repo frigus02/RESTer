@@ -1,32 +1,32 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../../node_modules/@polymer/app-route/app-route.js";
-import "../../../../node_modules/@polymer/iron-form/iron-form.js";
-import "../../../../node_modules/@polymer/iron-icon/iron-icon.js";
-import "../../../../node_modules/@polymer/iron-media-query/iron-media-query.js";
-import "../../../../node_modules/@polymer/iron-pages/iron-pages.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
-import "../../../../node_modules/@polymer/paper-spinner/paper-spinner.js";
-import "../../../../node_modules/@polymer/paper-tabs/paper-tabs.js";
-import "../controls/rester-authorization-input.js";
-import "../controls/rester-autocomplete-input.js";
-import "../controls/rester-body-input.js";
-import "../controls/rester-header-input.js";
-import "../controls/rester-highlight-body.js";
-import "../controls/rester-highlight-headers.js";
-import "../controls/rester-request-title-input.js";
-import "../controls/rester-url-input.js";
-import "../controls/rester-variables-input.js";
-import "../styles/rester-icons.js";
-import resterPageStyle from "../styles/rester-page.js";
-import "../utils/rester-badge.js";
-import "../utils/rester-lint-messages.js";
+import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../../node_modules/@polymer/app-route/app-route.js';
+import '../../../../node_modules/@polymer/iron-form/iron-form.js';
+import '../../../../node_modules/@polymer/iron-icon/iron-icon.js';
+import '../../../../node_modules/@polymer/iron-media-query/iron-media-query.js';
+import '../../../../node_modules/@polymer/iron-pages/iron-pages.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js';
+import '../../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
+import '../../../../node_modules/@polymer/paper-tabs/paper-tabs.js';
+import '../controls/rester-authorization-input.js';
+import '../controls/rester-autocomplete-input.js';
+import '../controls/rester-body-input.js';
+import '../controls/rester-header-input.js';
+import '../controls/rester-highlight-body.js';
+import '../controls/rester-highlight-headers.js';
+import '../controls/rester-request-title-input.js';
+import '../controls/rester-url-input.js';
+import '../controls/rester-variables-input.js';
+import '../styles/rester-icons.js';
+import resterPageStyle from '../styles/rester-page.js';
+import '../utils/rester-badge.js';
+import '../utils/rester-lint-messages.js';
 import dialogs from '../data/scripts/dialogs.js';
 import { mapFilesToVariableValues } from '../data/scripts/encode.js';
 import { duration, size, dateTime } from '../data/scripts/format.js';
@@ -59,7 +59,11 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin(RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement))))) {
+class RESTerPageRequest extends RESTerLintMixin(
+    RESTerErrorMixin(
+        RESTerPageMixin(RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement)))
+    )
+) {
     static get template() {
         return html`
             ${resterPageStyle}
@@ -337,7 +341,8 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             historyRouteData: Object,
             pageFullWidth: {
                 type: Boolean,
-                computed: '_computePageFullWidth(settings.requestPageFullWidth)',
+                computed:
+                    '_computePageFullWidth(settings.requestPageFullWidth)',
                 reflectToAttribute: true
             },
             isWideEnoughToShowVariablesOnSide: Boolean,
@@ -351,7 +356,15 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             requestMethods: {
                 type: Array,
                 readOnly: true,
-                value: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+                value: [
+                    'DELETE',
+                    'GET',
+                    'HEAD',
+                    'OPTIONS',
+                    'PATCH',
+                    'POST',
+                    'PUT'
+                ]
             },
             requestIsSending: {
                 type: Boolean,
@@ -360,11 +373,13 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             },
             requestIsSendingAndAbortable: {
                 type: Boolean,
-                computed: '_computeRequestIsSendingAndAbortable(requestIsSending)'
+                computed:
+                    '_computeRequestIsSendingAndAbortable(requestIsSending)'
             },
             requestShowVariablesOnSide: {
                 type: Boolean,
-                computed: '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
+                computed:
+                    '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
                 reflectToAttribute: true
             },
             requestSelectedTab: {
@@ -374,7 +389,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             },
             requestContentType: {
                 type: String,
-                computed: '_computeHeader(request.headers.*, \'Content-Type\')'
+                computed: "_computeHeader(request.headers.*, 'Content-Type')"
             },
             requestAuthorization: {
                 type: String,
@@ -390,7 +405,7 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             },
             responseContentType: {
                 type: String,
-                computed: '_computeHeader(response.headers.*, \'Content-Type\')'
+                computed: "_computeHeader(response.headers.*, 'Content-Type')"
             },
             historyEntry: {
                 type: Object,
@@ -402,7 +417,8 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             },
             historyEntryDuration: {
                 type: Number,
-                computed: '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
+                computed:
+                    '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
             }
         };
     }
@@ -436,7 +452,8 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                 fix: '_lintFixEmptyVariables'
             },
             {
-                message: 'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
+                message:
+                    'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
                 check: '_lintCheckFilesWithoutMultipart',
                 fixLabel: 'Change content type',
                 fix: '_lintFixFilesWithoutMultipart'
@@ -448,7 +465,8 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
                 fix: '_lintFixEmptyFiles'
             },
             {
-                message: 'Suggested content type based on body is {contentType}.',
+                message:
+                    'Suggested content type based on body is {contentType}.',
                 check: '_lintCheckSuggestedContentType',
                 fixLabel: 'Set content type',
                 fix: '_lintFixSuggestedContentType'
@@ -463,24 +481,41 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
 
     _onRouteChanged() {
         if (this.routeActive && this.historyRouteActive) {
-            getHistoryEntry(+this.historyRouteData.historyId).then(historyEntry => {
-                if (historyEntry.request.id !== +this.routeData.requestId &&
-                    !(historyEntry.request.id === undefined && this.routeData.requestId === '')) {
-                    this.showError(`Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`);
-                    window.location = '#/';
-                } else {
-                    if (historyEntry.request.variables && historyEntry.request.variables.values) {
-                        this.requestVariableValues = historyEntry.request.variables.values;
-                        delete historyEntry.request.variables.values;
+            getHistoryEntry(+this.historyRouteData.historyId).then(
+                historyEntry => {
+                    if (
+                        historyEntry.request.id !== +this.routeData.requestId &&
+                        !(
+                            historyEntry.request.id === undefined &&
+                            this.routeData.requestId === ''
+                        )
+                    ) {
+                        this.showError(
+                            `Specified request id "${
+                                this.historyRouteData.historyId
+                            }" does not match the request id of the history entry "${
+                                historyEntry.request.id
+                            }".`
+                        );
+                        window.location = '#/';
                     } else {
-                        this.requestVariableValues = {};
-                    }
+                        if (
+                            historyEntry.request.variables &&
+                            historyEntry.request.variables.values
+                        ) {
+                            this.requestVariableValues =
+                                historyEntry.request.variables.values;
+                            delete historyEntry.request.variables.values;
+                        } else {
+                            this.requestVariableValues = {};
+                        }
 
-                    this._setHistoryEntry(historyEntry);
-                    this._setRequest(historyEntry.request);
-                    this._setResponse(historyEntry.response);
+                        this._setHistoryEntry(historyEntry);
+                        this._setRequest(historyEntry.request);
+                        this._setResponse(historyEntry.response);
+                    }
                 }
-            });
+            );
         } else if (this.routeActive) {
             getRequest(+this.routeData.requestId).then(request => {
                 this._setHistoryEntry(null);
@@ -549,7 +584,9 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             return;
         }
 
-        let header = headers.base.find(h => h.name.toLowerCase() === headerName.toLowerCase());
+        let header = headers.base.find(
+            h => h.name.toLowerCase() === headerName.toLowerCase()
+        );
 
         return header && header.value;
     }
@@ -587,7 +624,10 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
 
         const collection = request.collection || '<no collection>';
         const title = request.title || '<no title>';
-        const time = historyEntry && historyEntry.time ? dateTime(historyEntry.time) : '';
+        const time =
+            historyEntry && historyEntry.time
+                ? dateTime(historyEntry.time)
+                : '';
 
         let pageTitle = `${collection} / ${title}`;
         if (time) {
@@ -603,7 +643,11 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
         const nodeName = e.composedPath
             ? e.composedPath()[0].nodeName.toUpperCase()
             : e.target.nodeName.toUpperCase();
-        if (!e.defaultPrevented && nodeName !== 'TEXTAREA' && e.key === 'Enter') {
+        if (
+            !e.defaultPrevented &&
+            nodeName !== 'TEXTAREA' &&
+            e.key === 'Enter'
+        ) {
             e.preventDefault();
             this._sendRequest();
         }
@@ -618,13 +662,18 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             this._setRequestHeader('Authorization', null);
             this._setRequestHeader('Cookie', auth.token);
         } else {
-            this._setRequestHeader('Authorization', `${auth.scheme} ${auth.token}`);
+            this._setRequestHeader(
+                'Authorization',
+                `${auth.scheme} ${auth.token}`
+            );
             this._setRequestHeader('Cookie', null);
         }
     }
 
     _setRequestHeader(headerName, value) {
-        const index = this.request.headers.findIndex(h => h.name.toLowerCase() === headerName.toLowerCase());
+        const index = this.request.headers.findIndex(
+            h => h.name.toLowerCase() === headerName.toLowerCase()
+        );
         if (index > -1) {
             this.request.headers.splice(index, 1);
         }
@@ -645,13 +694,18 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
         this.$.saveOptions.close();
 
         if (!this.request.title || !this.request.collection) {
-            this.showError('Please enter a Collection and Title for your request in blue bar at the top.', 'Missing Title');
+            this.showError(
+                'Please enter a Collection and Title for your request in blue bar at the top.',
+                'Missing Title'
+            );
             return;
         }
 
         putRequest(this.request).then(id => {
             if (this.historyEntry && this.historyEntry.request.id === id) {
-                window.location = `#/request/${id}/history/${this.historyEntry.id}`;
+                window.location = `#/request/${id}/history/${
+                    this.historyEntry.id
+                }`;
             } else {
                 window.location = `#/request/${id}`;
             }
@@ -683,7 +737,11 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
         }
 
         const usedVariableValues = {};
-        const compiledRequest = replaceVariables(this.request, this.requestVariableValues, usedVariableValues);
+        const compiledRequest = replaceVariables(
+            this.request,
+            this.requestVariableValues,
+            usedVariableValues
+        );
 
         // Prefix with http://, if the compiled URL does not contain any protocol.
         if (!/^[A-Za-z][A-Za-z0-9+-.]*:\/\/*/i.test(compiledRequest.url)) {
@@ -726,7 +784,8 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             })
             .then(historyId => {
                 this._setRequestIsSending(false);
-                window.location = `#/request/${this.request.id || ''}/history/${historyId}`;
+                window.location = `#/request/${this.request.id ||
+                    ''}/history/${historyId}`;
             })
             .catch(error => {
                 this._setRequestIsSending(false);
@@ -753,13 +812,20 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
     }
 
     _lintCheckEmptyVariables() {
-        if (this.request === undefined || this.requestVariableValues === undefined) {
+        if (
+            this.request === undefined ||
+            this.requestVariableValues === undefined
+        ) {
             return false;
         }
 
         const variables = extractVariables(this.request);
         const usedVariableValues = {};
-        replaceVariables(this.request, this.requestVariableValues, usedVariableValues);
+        replaceVariables(
+            this.request,
+            this.requestVariableValues,
+            usedVariableValues
+        );
         return variables.some(name => !usedVariableValues[name]);
     }
 
@@ -773,10 +839,15 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
         }
 
         const contentType = this.requestContentType || '';
-        const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+        const requiredFiles =
+            this.request.body &&
+            this.request.body.match(/\[\$file\.[^}]*?\]/gi);
 
-        return contentType.toLowerCase() !== 'multipart/form-data' &&
-            requiredFiles && requiredFiles.length > 0;
+        return (
+            contentType.toLowerCase() !== 'multipart/form-data' &&
+            requiredFiles &&
+            requiredFiles.length > 0
+        );
     }
 
     _lintFixFilesWithoutMultipart() {
@@ -788,12 +859,17 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
             return false;
         }
 
-        const requiredFiles = this.request.body && this.request.body.match(/\[\$file\.[^}]*?\]/gi);
+        const requiredFiles =
+            this.request.body &&
+            this.request.body.match(/\[\$file\.[^}]*?\]/gi);
         const selectedFiles = this.$.bodyInput.files;
 
-        return requiredFiles && requiredFiles
-            .map(file => file.substring(7, file.length - 1))
-            .some(file => !selectedFiles[file]);
+        return (
+            requiredFiles &&
+            requiredFiles
+                .map(file => file.substring(7, file.length - 1))
+                .some(file => !selectedFiles[file])
+        );
     }
 
     _lintFixEmptyFiles() {
@@ -808,9 +884,12 @@ class RESTerPageRequest extends RESTerLintMixin(RESTerErrorMixin(RESTerPageMixin
         const contentType = parseMediaType(this.requestContentType || '').type;
         const suggested = this.$.bodyInput.getSuggestedContentType();
 
-        if (suggested && suggested !== contentType.toLowerCase() &&
+        if (
+            suggested &&
+            suggested !== contentType.toLowerCase() &&
             !this._lintCheckFilesWithoutMultipart() &&
-            !this._lintCheckEmptyFiles()) {
+            !this._lintCheckEmptyFiles()
+        ) {
             return {
                 contentType: suggested
             };

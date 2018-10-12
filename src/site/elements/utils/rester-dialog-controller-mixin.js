@@ -14,69 +14,76 @@ import dialogs from '../data/scripts/dialogs.js';
  * @polymer
  * @mixinFunction
  */
-const RESTerDialogControllerMixin = superclass => class extends superclass {
-    static get properties() {
-        return {
-            data: Object
-        };
-    }
-
-    constructor() {
-        super();
-        this._onDialogClosed = this._onDialogClosed.bind(this);
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        this.$.dialog.addEventListener('iron-overlay-closed', this._onDialogClosed);
-        dialogs[this.constructor.resterDialogId] = this;
-    }
-
-    disconnectedCallback() {
-        dialogs[this.constructor.resterDialogId] = undefined;
-        this.$.dialog.removeEventListener('iron-overlay-closed', this._onDialogClosed);
-        super.disconnectedCallback();
-    }
-
-    show(data) {
-        if (this._dialogPromise) {
-            return;
+const RESTerDialogControllerMixin = superclass =>
+    class extends superclass {
+        static get properties() {
+            return {
+                data: Object
+            };
         }
 
-        this._dialogPromise = {};
-        this.data = undefined;
-        if (this.$.dialogForm) {
-            this.$.dialogForm.reset();
+        constructor() {
+            super();
+            this._onDialogClosed = this._onDialogClosed.bind(this);
         }
 
-        return new Promise(resolve => {
-            this._dialogPromise.resolve = resolve;
+        connectedCallback() {
+            super.connectedCallback();
+            this.$.dialog.addEventListener(
+                'iron-overlay-closed',
+                this._onDialogClosed
+            );
+            dialogs[this.constructor.resterDialogId] = this;
+        }
 
-            setTimeout(() => {
-                this.data = data;
+        disconnectedCallback() {
+            dialogs[this.constructor.resterDialogId] = undefined;
+            this.$.dialog.removeEventListener(
+                'iron-overlay-closed',
+                this._onDialogClosed
+            );
+            super.disconnectedCallback();
+        }
 
-                this.$.dialog.closingReason = {};
-                this.$.dialog.open();
+        show(data) {
+            if (this._dialogPromise) {
+                return;
+            }
+
+            this._dialogPromise = {};
+            this.data = undefined;
+            if (this.$.dialogForm) {
+                this.$.dialogForm.reset();
+            }
+
+            return new Promise(resolve => {
+                this._dialogPromise.resolve = resolve;
+
+                setTimeout(() => {
+                    this.data = data;
+
+                    this.$.dialog.closingReason = {};
+                    this.$.dialog.open();
+                });
             });
-        });
-    }
-
-    _closeDialogWithAction(action) {
-        this.$.dialog.closingReason.canceled = false;
-        this.$.dialog.closingReason.confirmed = true;
-        this.$.dialog.closingReason.action = action;
-        this.$.dialog.close();
-    }
-
-    _onDialogClosed(e) {
-        if (e.target !== this.$.dialog) {
-            return;
         }
 
-        const reason = e.detail;
-        this._dialogPromise.resolve({reason, data: this.data});
-        this._dialogPromise = undefined;
-    }
-};
+        _closeDialogWithAction(action) {
+            this.$.dialog.closingReason.canceled = false;
+            this.$.dialog.closingReason.confirmed = true;
+            this.$.dialog.closingReason.action = action;
+            this.$.dialog.close();
+        }
+
+        _onDialogClosed(e) {
+            if (e.target !== this.$.dialog) {
+                return;
+            }
+
+            const reason = e.detail;
+            this._dialogPromise.resolve({ reason, data: this.data });
+            this._dialogPromise = undefined;
+        }
+    };
 
 export default RESTerDialogControllerMixin;

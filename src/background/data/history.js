@@ -51,7 +51,10 @@ export class HistoryEntry {
  */
 export function addHistoryEntry(entry) {
     entry = new HistoryEntry(entry);
-    return db.transaction().add('history', entry).execute();
+    return db
+        .transaction()
+        .add('history', entry)
+        .execute();
 }
 
 /**

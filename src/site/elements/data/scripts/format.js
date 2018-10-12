@@ -10,7 +10,10 @@ const optionsTime = {
     second: '2-digit'
 };
 const formatTime = new Intl.DateTimeFormat(undefined, optionsTime);
-const formatDateTime = new Intl.DateTimeFormat(undefined, Object.assign({}, optionsDate, optionsTime));
+const formatDateTime = new Intl.DateTimeFormat(
+    undefined,
+    Object.assign({}, optionsDate, optionsTime)
+);
 
 const sizeKB = 1024;
 const sizeMB = sizeKB * 1024;

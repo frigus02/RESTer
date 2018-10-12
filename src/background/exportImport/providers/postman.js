@@ -19,7 +19,8 @@ export function format(data) {
     const collection = {
         info: {
             name: 'RESTer',
-            schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
+            schema:
+                'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
         },
         item: createPostmanCollectionItems(data)
     };
@@ -89,7 +90,9 @@ class PostmanItem {
         item.request = PostmanRequest.fromResterRequest(resterRequest);
 
         if (resterHistoryEntries.length > 0) {
-            item.response = resterHistoryEntries.map(PostmanResponse.fromResterHistoryEntry);
+            item.response = resterHistoryEntries.map(
+                PostmanResponse.fromResterHistoryEntry
+            );
         }
 
         return item;
@@ -99,7 +102,9 @@ class PostmanItem {
         Object.assign(this, props);
         this.request = new PostmanRequest(this.request);
         if (this.response) {
-            this.response = this.response.map(response => new PostmanResponse(response));
+            this.response = this.response.map(
+                response => new PostmanResponse(response)
+            );
         }
     }
 
@@ -145,9 +150,7 @@ class PostmanRequest {
     toResterRequest() {
         const request = new Request();
         request.method = this.method;
-        request.url = typeof this.url === 'object'
-            ? this.url.raw
-            : this.url;
+        request.url = typeof this.url === 'object' ? this.url.raw : this.url;
 
         if (Array.isArray(this.header)) {
             request.headers = this.header
@@ -162,9 +165,13 @@ class PostmanRequest {
             if (this.body.mode === 'raw') {
                 request.body = this.body.raw;
             } else if (this.body.mode === 'urlencoded') {
-                request.body = formatUrlencodedOrFormdataBody(this.body.urlencoded);
+                request.body = formatUrlencodedOrFormdataBody(
+                    this.body.urlencoded
+                );
             } else if (this.body.mode === 'formdata') {
-                request.body = formatUrlencodedOrFormdataBody(this.body.formdata);
+                request.body = formatUrlencodedOrFormdataBody(
+                    this.body.formdata
+                );
             }
         }
 
@@ -180,13 +187,19 @@ class PostmanResponse {
         // The `name` property is not documented in the schema,
         // but seems to by required by Postman. If it's not present,
         // you cannot select the response.
-        response.name = `${resterHistoryEntry.time} ${resterHistoryEntry.request.title}`;
+        response.name = `${resterHistoryEntry.time} ${
+            resterHistoryEntry.request.title
+        }`;
 
-        response.originalRequest = PostmanRequest.fromResterRequest(resterHistoryEntry.request);
+        response.originalRequest = PostmanRequest.fromResterRequest(
+            resterHistoryEntry.request
+        );
         if (resterHistoryEntry.timing) {
             response.responseTime = resterHistoryEntry.timing.duration;
         } else if (resterHistoryEntry.timeEnd) {
-            response.responseTime = new Date(resterHistoryEntry.timeEnd) - new Date(resterHistoryEntry.time);
+            response.responseTime =
+                new Date(resterHistoryEntry.timeEnd) -
+                new Date(resterHistoryEntry.time);
         }
 
         response.header = resterHistoryEntry.response.headers.map(header => ({
@@ -221,15 +234,20 @@ function parseId(postmanId) {
 function formatUrlencodedOrFormdataBody(parameters) {
     return parameters
         .filter(param => param.key.trim() && !param.disabled)
-        .map(param => `${encodeURIComponent(param.key)}=${encodeURIComponent(param.value)}`)
+        .map(
+            param =>
+                `${encodeURIComponent(param.key)}=${encodeURIComponent(
+                    param.value
+                )}`
+        )
         .join('&');
 }
 
 function sortedIndexOfFolders(folders, newFolder) {
-    return sortedIndexOf(
-        folders,
-        newFolder,
-        folder => [folder.name, folder.constructor.sortOrder]);
+    return sortedIndexOf(folders, newFolder, folder => [
+        folder.name,
+        folder.constructor.sortOrder
+    ]);
 }
 
 function createPostmanCollectionItems({ requests, historyEntries }) {
@@ -240,7 +258,10 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
         const segments = path.split(/\s*\/\s*/i);
         for (const segment of segments) {
             const segmentFolder = new PostmanFolder(segment);
-            const index = sortedIndexOfFolders(currentFolder.item, segmentFolder);
+            const index = sortedIndexOfFolders(
+                currentFolder.item,
+                segmentFolder
+            );
             let folder = currentFolder.item[index];
             if (!folder || folder.name !== segment) {
                 folder = segmentFolder;
@@ -254,7 +275,9 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
     }
 
     for (const request of requests) {
-        const requestHistory = historyEntries.filter(entry => entry.request.id === request.id);
+        const requestHistory = historyEntries.filter(
+            entry => entry.request.id === request.id
+        );
         const folder = ensureFolder(request.collection);
         const item = PostmanItem.fromResterRequest(request, requestHistory);
 
@@ -276,7 +299,10 @@ function createResterData(items, collection) {
 
     for (const item of items) {
         if (PostmanFolder.isPostmanFolder(item)) {
-            const data = createResterData(item.item, appendCollection(collection, item.name));
+            const data = createResterData(
+                item.item,
+                appendCollection(collection, item.name)
+            );
             requests.push(...data.requests);
         } else if (PostmanRequest.isPostmanRequest(item.request)) {
             const postmanItem = new PostmanItem(item);

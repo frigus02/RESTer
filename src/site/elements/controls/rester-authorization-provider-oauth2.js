@@ -48,16 +48,24 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
     editConfiguration(config) {
         const newConfig = clone(config);
 
-        return dialogs.authProviderOAuth2Configuration.show(newConfig).then(result => {
-            if (result.reason.confirmed && result.reason.action === 'save') {
-                newConfig.providerId = this.providerId;
-                return newConfig;
-            } else if (result.reason.confirmed && result.reason.action === 'delete') {
-                return 'delete';
-            } else {
-                return Promise.reject();
-            }
-        });
+        return dialogs.authProviderOAuth2Configuration
+            .show(newConfig)
+            .then(result => {
+                if (
+                    result.reason.confirmed &&
+                    result.reason.action === 'save'
+                ) {
+                    newConfig.providerId = this.providerId;
+                    return newConfig;
+                } else if (
+                    result.reason.confirmed &&
+                    result.reason.action === 'delete'
+                ) {
+                    return 'delete';
+                } else {
+                    return Promise.reject();
+                }
+            });
     }
 
     generateToken(config) {
@@ -82,14 +90,19 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
             password: ''
         };
 
-        return dialogs.authProviderOAuth2GenerateTokenResourceOwner.show(creds).then(result => {
-            if (result.reason.confirmed) {
-                return creds;
-            } else {
-                return Promise.reject();
-            }
-        });
+        return dialogs.authProviderOAuth2GenerateTokenResourceOwner
+            .show(creds)
+            .then(result => {
+                if (result.reason.confirmed) {
+                    return creds;
+                } else {
+                    return Promise.reject();
+                }
+            });
     }
 }
 
-customElements.define(RESTerAuthorizationProviderOAuth2.is, RESTerAuthorizationProviderOAuth2);
+customElements.define(
+    RESTerAuthorizationProviderOAuth2.is,
+    RESTerAuthorizationProviderOAuth2
+);

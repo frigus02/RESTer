@@ -21,14 +21,17 @@ function collectProvidedValues() {
     for (const provider of providers) {
         for (const key in provider.values) {
             if (provider.values.hasOwnProperty(key)) {
-                providedValues[`$${provider.name}.${key}`] = provider.values[key];
+                providedValues[`$${provider.name}.${key}`] =
+                    provider.values[key];
             }
         }
     }
 
-    e.dispatchEvent(new CustomEvent('providedValuesChanged', {
-        detail: providedValues
-    }));
+    e.dispatchEvent(
+        new CustomEvent('providedValuesChanged', {
+            detail: providedValues
+        })
+    );
 }
 
 function initVarProviderChangeListeners() {
@@ -80,9 +83,17 @@ function replaceInternal(obj, allValues, usedValues) {
 }
 
 export function replace(obj, values = {}, usedValues = {}) {
-    return replaceInternal(obj, Object.assign({}, values, providedValues), usedValues);
+    return replaceInternal(
+        obj,
+        Object.assign({}, values, providedValues),
+        usedValues
+    );
 }
 
-export function replaceWithoutProvidedValues(obj, values = {}, usedValues = {}) {
+export function replaceWithoutProvidedValues(
+    obj,
+    values = {},
+    usedValues = {}
+) {
     return replaceInternal(obj, Object.assign({}, values), usedValues);
 }

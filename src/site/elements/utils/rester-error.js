@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
 import { sample } from '../../../shared/util.js';
 
 /**
@@ -66,10 +66,7 @@ class RESTerError extends PolymerElement {
     }
 
     static get titles() {
-        return [
-            'Ups, something went wrong!',
-            'Oh no, this shouldn\'t happen.'
-        ];
+        return ['Ups, something went wrong!', "Oh no, this shouldn't happen."];
     }
 
     show(error, title) {

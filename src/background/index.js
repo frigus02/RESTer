@@ -11,44 +11,47 @@ import { select } from './utils/fields.js';
 // WARNING: All properties must be in quotes. Otherwise UglifyJS would ufligy
 // them and they wouldn't be reachable by name.
 const resterApi = {
-    'data': {
-        'authorizationProviderConfigurations': {
-            'put': authorizationProviderConfigurations.putAuthorizationProviderConfiguration,
-            'query': authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
-            'delete': authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration
+    data: {
+        authorizationProviderConfigurations: {
+            put:
+                authorizationProviderConfigurations.putAuthorizationProviderConfiguration,
+            query:
+                authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
+            delete:
+                authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration
         },
-        'authorizationTokens': {
-            'add': authorizationTokens.addAuthorizationToken,
-            'query': authorizationTokens.queryAuthorizationTokens,
-            'delete': authorizationTokens.deleteAuthorizationToken
+        authorizationTokens: {
+            add: authorizationTokens.addAuthorizationToken,
+            query: authorizationTokens.queryAuthorizationTokens,
+            delete: authorizationTokens.deleteAuthorizationToken
         },
-        'environments': {
-            'put': environments.putEnvironment,
-            'get': environments.getEnvironment,
-            'query': environments.queryEnvironments,
-            'delete': environments.deleteEnvironment
+        environments: {
+            put: environments.putEnvironment,
+            get: environments.getEnvironment,
+            query: environments.queryEnvironments,
+            delete: environments.deleteEnvironment
         },
-        'history': {
-            'add': history.addHistoryEntry,
-            'get': history.getHistoryEntry,
-            'query': history.queryHistoryEntries,
-            'delete': history.deleteHistoryEntries
+        history: {
+            add: history.addHistoryEntry,
+            get: history.getHistoryEntry,
+            query: history.queryHistoryEntries,
+            delete: history.deleteHistoryEntries
         },
-        'requests': {
-            'put': requests.putRequest,
-            'get': requests.getRequest,
-            'query': requests.queryRequests,
-            'queryCollections': requests.queryRequestCollections,
-            'delete': requests.deleteRequest
+        requests: {
+            put: requests.putRequest,
+            get: requests.getRequest,
+            query: requests.queryRequests,
+            queryCollections: requests.queryRequestCollections,
+            delete: requests.deleteRequest
         }
     },
-    'exportImport': {
-        'export': exportImport.exportData,
-        'import': exportImport.importData
+    exportImport: {
+        export: exportImport.exportData,
+        import: exportImport.importData
     },
-    'settings': {
-        'get': settings.get,
-        'set': settings.set
+    settings: {
+        get: settings.get,
+        set: settings.set
     }
 };
 
@@ -83,15 +86,24 @@ chrome.runtime.onConnect.addListener(port => {
     }
 
     function onDataChange(event) {
-        port.postMessage({ action: 'event.dataChange', detail: JSON.stringify(event.detail) });
+        port.postMessage({
+            action: 'event.dataChange',
+            detail: JSON.stringify(event.detail)
+        });
     }
 
     function onDataSlowPerformance(event) {
-        port.postMessage({ action: 'event.dataSlowPerformance', detail: JSON.stringify(event.detail) });
+        port.postMessage({
+            action: 'event.dataSlowPerformance',
+            detail: JSON.stringify(event.detail)
+        });
     }
 
     function onSettingsChange(event) {
-        port.postMessage({ action: 'event.settingsChange', detail: JSON.stringify(event.detail) });
+        port.postMessage({
+            action: 'event.settingsChange',
+            detail: JSON.stringify(event.detail)
+        });
     }
 
     db.addEventListener('change', onDataChange);
@@ -104,7 +116,10 @@ chrome.runtime.onConnect.addListener(port => {
         }
 
         const actionPath = action.split('.').slice(1);
-        const actionFunc = actionPath.reduce((api, path) => api && api[path], resterApi);
+        const actionFunc = actionPath.reduce(
+            (api, path) => api && api[path],
+            resterApi
+        );
         if (!actionFunc) {
             return;
         }
@@ -115,14 +130,22 @@ chrome.runtime.onConnect.addListener(port => {
                     result = select(result, fields);
                 }
 
-                port.postMessage({ id, action: 'apiresponse', result: JSON.stringify(result) });
+                port.postMessage({
+                    id,
+                    action: 'apiresponse',
+                    result: JSON.stringify(result)
+                });
             })
             .catch(error => {
                 if (error.message) {
                     error = error.message;
                 }
 
-                port.postMessage({ id, action: 'apiresponse', error: JSON.stringify(error) });
+                port.postMessage({
+                    id,
+                    action: 'apiresponse',
+                    error: JSON.stringify(error)
+                });
             });
     });
 

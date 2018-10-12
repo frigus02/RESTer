@@ -26,7 +26,8 @@ module.exports = [
         },
         resolve: {
             alias: {
-                '@polymer/font-roboto/roboto.js': '@polymer/font-roboto-local/roboto.js'
+                '@polymer/font-roboto/roboto.js':
+                    '@polymer/font-roboto-local/roboto.js'
             }
         },
         module: {
@@ -55,7 +56,8 @@ module.exports = [
             }),
             new CopyWebpackPlugin([
                 {
-                    from: 'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
+                    from:
+                        'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
                     context: '../../'
                 },
                 {
@@ -67,11 +69,13 @@ module.exports = [
                     context: '../../node_modules/@polymer/font-roboto-local/'
                 },
                 {
-                    from: 'node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
+                    from:
+                        'node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
                     context: '../../'
                 },
                 {
-                    from: 'node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
+                    from:
+                        'node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
                     context: '../../'
                 },
                 {

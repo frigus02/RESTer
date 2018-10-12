@@ -1,14 +1,14 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import { microTask } from "../../../../node_modules/@polymer/polymer/lib/utils/async.js";
-import "../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input.js";
-import "../../../../node_modules/@polymer/paper-input/paper-textarea.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../styles/rester-icons.js";
-import "./rester-file-input.js";
+import { microTask } from '../../../../node_modules/@polymer/polymer/lib/utils/async.js';
+import '../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input.js';
+import '../../../../node_modules/@polymer/paper-input/paper-textarea.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../styles/rester-icons.js';
+import './rester-file-input.js';
 import { encodeFormValue } from '../data/scripts/encode.js';
 
 /**
@@ -149,7 +149,11 @@ class RESTerFormDataInput extends PolymerElement {
             let name = file.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
             if (this._isFileNameInUse(name, index)) {
                 let suffix;
-                for (suffix = 1; this._isFileNameInUse(name + suffix, index); suffix++) {
+                for (
+                    suffix = 1;
+                    this._isFileNameInUse(name + suffix, index);
+                    suffix++
+                ) {
                     // empty
                 }
 
@@ -166,7 +170,11 @@ class RESTerFormDataInput extends PolymerElement {
     }
 
     _ensureEmptyFormDataEntry() {
-        if (!this.formDataEntries.some(e => e.name.trim() === '' && e.value.trim() === '')) {
+        if (
+            !this.formDataEntries.some(
+                e => e.name.trim() === '' && e.value.trim() === ''
+            )
+        ) {
             this.push('formDataEntries', { name: '', value: '', type: 'text' });
         }
     }
@@ -181,9 +189,10 @@ class RESTerFormDataInput extends PolymerElement {
     }
 
     _stringifyFormDataEntries(entries) {
-        const encode = (!this.noEncode || this._isEncodeNeeded(entries))
-            ? encodeFormValue
-            : str => str;
+        const encode =
+            !this.noEncode || this._isEncodeNeeded(entries)
+                ? encodeFormValue
+                : str => str;
 
         return entries
             .filter(entry => entry.name.trim())
@@ -233,16 +242,19 @@ class RESTerFormDataInput extends PolymerElement {
     }
 
     _isEncodeNeeded(entries) {
-        return entries.some(entry =>
-            entry.name.includes('&') ||
-            entry.name.includes('=') ||
-            entry.value.includes('&') ||
-            entry.value.includes('='));
+        return entries.some(
+            entry =>
+                entry.name.includes('&') ||
+                entry.name.includes('=') ||
+                entry.value.includes('&') ||
+                entry.value.includes('=')
+        );
     }
 
     _isFileNameInUse(name, ignoreIndex) {
-        return this.formDataEntries.some((e, i) =>
-            i !== ignoreIndex && e.type === 'file' && e.value === name);
+        return this.formDataEntries.some(
+            (e, i) => i !== ignoreIndex && e.type === 'file' && e.value === name
+        );
     }
 }
 

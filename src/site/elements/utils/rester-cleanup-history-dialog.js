@@ -1,15 +1,18 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-checkbox/paper-checkbox.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/@polymer/paper-slider/paper-slider.js";
-import "../../../../node_modules/@polymer/paper-spinner/paper-spinner.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
-import { getHistoryEntries, deleteHistoryEntries } from '../data/scripts/rester.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-checkbox/paper-checkbox.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/@polymer/paper-slider/paper-slider.js';
+import '../../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
+import {
+    getHistoryEntries,
+    deleteHistoryEntries
+} from '../data/scripts/rester.js';
 import RESTerErrorMixin from './rester-error-mixin.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
@@ -19,7 +22,9 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(RESTerErrorMixin(PolymerElement)) {
+class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
+    RESTerErrorMixin(PolymerElement)
+) {
     static get template() {
         return html`
             <style>
@@ -123,7 +128,9 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(RESTerError
 
             const targetSize = RESTerHistoryCleanupDialog.SIZE_1MB * 10;
             const size = this._getSizeOfEntries(entries);
-            const sizeOfLargeEntries = this._getSizeOfEntries(this.largeHistoryEntries);
+            const sizeOfLargeEntries = this._getSizeOfEntries(
+                this.largeHistoryEntries
+            );
 
             let sizeAfterDeletion = size - sizeOfLargeEntries;
             let deleteCount = 0;
@@ -149,7 +156,10 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(RESTerError
         }
 
         const fromIndex = this.historyEntries.length - 1;
-        const toIndex = Math.max(0, this.historyEntries.length - this.historyEntriesCountToDelete);
+        const toIndex = Math.max(
+            0,
+            this.historyEntries.length - this.historyEntriesCountToDelete
+        );
         for (let i = fromIndex; i >= toIndex; i--) {
             const id = this.historyEntries[i].id;
             if (!idsToDelete.includes(id)) {
@@ -177,4 +187,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(RESTerError
     }
 }
 
-customElements.define(RESTerHistoryCleanupDialog.is, RESTerHistoryCleanupDialog);
+customElements.define(
+    RESTerHistoryCleanupDialog.is,
+    RESTerHistoryCleanupDialog
+);

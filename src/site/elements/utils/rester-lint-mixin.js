@@ -30,55 +30,62 @@ import { replace as replaceVariables } from '../data/scripts/variables.js';
  *     '_runLintInspections(YOUR_OBSERVED_PROPERTIES_HERE)'
  * ]
  */
-const RESTerLintMixin = superclass => class extends superclass {
-    constructor() {
-        super();
-        this._runLintInspectionsImmediately = this._runLintInspectionsImmediately.bind(this);
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        const inspections = this.constructor.resterLintInspections || [];
-        const messages = this.shadowRoot.querySelector('rester-lint-messages');
-
-        if (!messages) {
-            return;
+const RESTerLintMixin = superclass =>
+    class extends superclass {
+        constructor() {
+            super();
+            this._runLintInspectionsImmediately = this._runLintInspectionsImmediately.bind(
+                this
+            );
         }
 
-        inspections.forEach(inspection => {
-            messages.removeMessage(inspection.check);
-        });
-    }
+        disconnectedCallback() {
+            super.disconnectedCallback();
+            const inspections = this.constructor.resterLintInspections || [];
+            const messages = this.shadowRoot.querySelector(
+                'rester-lint-messages'
+            );
 
-    _runLintInspections() {
-        if (!settings.enableRequestLintInspections) {
-            return;
-        }
-
-        debounce(this._runLintInspectionsImmediately, 300);
-    }
-
-    _runLintInspectionsImmediately() {
-        const inspections = this.constructor.resterLintInspections || [];
-        const messages = this.shadowRoot.querySelector('rester-lint-messages');
-
-        if (!messages) {
-            return;
-        }
-
-        inspections.forEach(inspection => {
-            const result = this[inspection.check].call(this);
-            if (result) {
-                messages.putMessage(inspection.check, {
-                    message: replaceVariables(inspection.message, result),
-                    fixLabel: replaceVariables(inspection.fixLabel, result),
-                    fix: this[inspection.fix].bind(this)
-                });
-            } else {
-                messages.removeMessage(inspection.check);
+            if (!messages) {
+                return;
             }
-        });
-    }
-};
+
+            inspections.forEach(inspection => {
+                messages.removeMessage(inspection.check);
+            });
+        }
+
+        _runLintInspections() {
+            if (!settings.enableRequestLintInspections) {
+                return;
+            }
+
+            debounce(this._runLintInspectionsImmediately, 300);
+        }
+
+        _runLintInspectionsImmediately() {
+            const inspections = this.constructor.resterLintInspections || [];
+            const messages = this.shadowRoot.querySelector(
+                'rester-lint-messages'
+            );
+
+            if (!messages) {
+                return;
+            }
+
+            inspections.forEach(inspection => {
+                const result = this[inspection.check].call(this);
+                if (result) {
+                    messages.putMessage(inspection.check, {
+                        message: replaceVariables(inspection.message, result),
+                        fixLabel: replaceVariables(inspection.fixLabel, result),
+                        fix: this[inspection.fix].bind(this)
+                    });
+                } else {
+                    messages.removeMessage(inspection.check);
+                }
+            });
+        }
+    };
 
 export default RESTerLintMixin;

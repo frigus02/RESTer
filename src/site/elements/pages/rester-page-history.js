@@ -1,20 +1,23 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-ripple/paper-ripple.js";
-import "../../../../node_modules/@polymer/paper-spinner/paper-spinner.js";
-import "../../../../node_modules/@polymer/paper-styles/paper-styles.js";
-import "../styles/rester-icons.js";
-import resterPageStyle from "../styles/rester-page.js";
-import resterPaperItemButtonStyle from "../styles/rester-paper-item-button.js";
+import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-ripple/paper-ripple.js';
+import '../../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
+import '../../../../node_modules/@polymer/paper-styles/paper-styles.js';
+import '../styles/rester-icons.js';
+import resterPageStyle from '../styles/rester-page.js';
+import resterPaperItemButtonStyle from '../styles/rester-paper-item-button.js';
 import { dateTime } from '../data/scripts/format.js';
-import { getHistoryEntries, deleteHistoryEntries } from '../data/scripts/rester.js';
+import {
+    getHistoryEntries,
+    deleteHistoryEntries
+} from '../data/scripts/rester.js';
 import { replaceWithoutProvidedValues } from '../data/scripts/variables.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 
@@ -121,7 +124,18 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
     }
 
     static get historyFields() {
-        return ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables', 'response.status', 'response.statusText'];
+        return [
+            'id',
+            'time',
+            'request.id',
+            'request.collection',
+            'request.title',
+            'request.method',
+            'request.url',
+            'request.variables',
+            'response.status',
+            'response.statusText'
+        ];
     }
 
     static get initialCount() {
@@ -140,19 +154,26 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
 
     _load(count) {
         this._setLoading(true);
-        getHistoryEntries(count, RESTerPageHistory.historyFields).then(entries => {
-            this._setLoading(false);
-            this._setHistoryEntries(entries.map(e => {
-                e.timeFormatted = dateTime(e.time);
+        getHistoryEntries(count, RESTerPageHistory.historyFields).then(
+            entries => {
+                this._setLoading(false);
+                this._setHistoryEntries(
+                    entries.map(e => {
+                        e.timeFormatted = dateTime(e.time);
 
-                const compiledRequest = replaceWithoutProvidedValues(e.request, e.request.variables.values);
+                        const compiledRequest = replaceWithoutProvidedValues(
+                            e.request,
+                            e.request.variables.values
+                        );
 
-                e.request.methodCompiled = compiledRequest.method;
-                e.request.urlCompiled = compiledRequest.url;
+                        e.request.methodCompiled = compiledRequest.method;
+                        e.request.urlCompiled = compiledRequest.url;
 
-                return e;
-            }));
-        });
+                        return e;
+                    })
+                );
+            }
+        );
     }
 
     _computeMoreEntriesAvailable() {
@@ -161,7 +182,9 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
 
     _openHistoryEntry(e) {
         const entry = e.model.item;
-        window.location = `#/request/${entry.request.id || ''}/history/${entry.id}`;
+        window.location = `#/request/${entry.request.id || ''}/history/${
+            entry.id
+        }`;
     }
 
     _deleteHistoryEntry(e) {

@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../styles/rester-icons.js";
-import resterPageStyle from "../styles/rester-page.js";
+import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../styles/rester-icons.js';
+import resterPageStyle from '../styles/rester-page.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 import dialogs from '../data/scripts/dialogs.js';
 

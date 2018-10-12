@@ -2,7 +2,7 @@ import Mousetrap from '../../../../../node_modules/mousetrap/mousetrap.js';
 
 // Monkeypatch Mousetrap's stopCallback() function, so it doesn't return true
 // when the element is an INPUT, SELECT, or TEXTAREA.
-Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
+Mousetrap.prototype.stopCallback = function(event, element /*, combo*/) {
     if (element.classList.contains('mousetrap')) {
         return false;
     }
@@ -11,7 +11,14 @@ Mousetrap.prototype.stopCallback = function (event, element/*, combo*/) {
 };
 
 const hotkeys = [];
-const safeKeysForFormControls = ['ctrl', 'alt', 'meta', 'command', 'option', 'mod'];
+const safeKeysForFormControls = [
+    'ctrl',
+    'alt',
+    'meta',
+    'command',
+    'option',
+    'mod'
+];
 const formattingMap = {
     command: '\u2318',
     shift: '\u21E7',
@@ -19,16 +26,19 @@ const formattingMap = {
     right: '\u2192',
     up: '\u2191',
     down: '\u2193',
-    'return': '\u23CE',
+    return: '\u23CE',
     backspace: '\u232B'
 };
 
-
 function getFormattedCombo(combo) {
-    return combo.split('+')
+    return combo
+        .split('+')
         .map(key => {
             if (key === 'mod') {
-                if (window.navigator && window.navigator.platform.indexOf('Mac') >= 0) {
+                if (
+                    window.navigator &&
+                    window.navigator.platform.indexOf('Mac') >= 0
+                ) {
                     key = 'command';
                 } else {
                     key = 'ctrl';
@@ -62,15 +72,21 @@ export class Hotkey {
  * @param {$hotkeys~Hotkey} hotkey - The hotkey.
  */
 export function add(hotkey) {
-    Mousetrap.bind(hotkey.combos, function (event, combo) {
+    Mousetrap.bind(hotkey.combos, function(event, combo) {
         const pressedKeys = combo.split(/[ +]/);
         const nodeName = event.composedPath
             ? event.composedPath()[0].nodeName.toUpperCase()
             : event.target.nodeName.toUpperCase();
 
         let handleEvent = true;
-        if (nodeName === 'INPUT' || nodeName === 'SELECT' || nodeName === 'TEXTAREA') {
-            handleEvent = pressedKeys.some(key => safeKeysForFormControls.indexOf(key) > -1);
+        if (
+            nodeName === 'INPUT' ||
+            nodeName === 'SELECT' ||
+            nodeName === 'TEXTAREA'
+        ) {
+            handleEvent = pressedKeys.some(
+                key => safeKeysForFormControls.indexOf(key) > -1
+            );
         }
 
         if (handleEvent && !event.defaultPrevented) {

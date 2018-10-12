@@ -6,8 +6,8 @@
 
 As the [documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/icons) states, Firefox recommends at least an icon in 48x48. For higher resoltion displays, you should provide double-sized versions of all your icons though. So we use these sizes:
 
-*   48x48
-*   96x96
+-   48x48
+-   96x96
 
 This results in:
 
@@ -51,15 +51,15 @@ For the browser action, Firefox allows to use an SVG icon ([documentation](https
 
 Firefox defines icon colors in the [Photon Design System](http://design.firefox.com/photon/visuals/color.html#icons-and-other-elements). You should use:
 
-*   Grey 90 (#0c0c0d) fill with 80% opacity on light background for primary icons.
-*   Grey 10 (#f9f9fa) fill with 80% opacity on dark background for primary icons.
+-   Grey 90 (#0c0c0d) fill with 80% opacity on light background for primary icons.
+-   Grey 10 (#f9f9fa) fill with 80% opacity on dark background for primary icons.
 
 ## Chrome
 
 As the [documentation](https://developer.chrome.com/extensions/manifest/icons) states, Chrome wants to have icons in the sizes:
 
-*   48x48: used in the extensions management page (chrome://extensions)
-*   128x128: used during installation and by the Chrome Web Store
+-   48x48: used in the extensions management page (chrome://extensions)
+-   128x128: used during installation and by the Chrome Web Store
 
 This results in:
 
@@ -72,9 +72,9 @@ This results in:
 
 For the browser action, the [documentation](https://developer.chrome.com/extensions/browserAction#icon) states, you should use a 16-dip square icon. We will use the following:
 
-*   16x16: factor 1x
-*   24x24: factor 1.5x
-*   32x32: factor 2x
+-   16x16: factor 1x
+-   24x24: factor 1.5x
+-   32x32: factor 2x
 
 This results in:
 

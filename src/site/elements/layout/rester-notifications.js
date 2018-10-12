@@ -1,13 +1,16 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/paper-badge/paper-badge.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
-import "../styles/rester-icons.js";
-import { e as notificationEvents, notifications } from '../data/scripts/notifications.js';
+import '../../../../node_modules/@polymer/paper-badge/paper-badge.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js';
+import '../styles/rester-icons.js';
+import {
+    e as notificationEvents,
+    notifications
+} from '../data/scripts/notifications.js';
 
 /**
  * @polymer
@@ -102,14 +105,26 @@ class RESTerNotifications extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
         this._setNotifications([...notifications]);
-        notificationEvents.addEventListener('notificationAdded', this._onNotificationAdded);
-        notificationEvents.addEventListener('notificationRemoved', this._onNotificationRemoved);
+        notificationEvents.addEventListener(
+            'notificationAdded',
+            this._onNotificationAdded
+        );
+        notificationEvents.addEventListener(
+            'notificationRemoved',
+            this._onNotificationRemoved
+        );
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        notificationEvents.removeEventListener('notificationAdded', this._onNotificationAdded);
-        notificationEvents.removeEventListener('notificationRemoved', this._onNotificationRemoved);
+        notificationEvents.removeEventListener(
+            'notificationAdded',
+            this._onNotificationAdded
+        );
+        notificationEvents.removeEventListener(
+            'notificationRemoved',
+            this._onNotificationRemoved
+        );
     }
 
     _onNotificationAdded(e) {

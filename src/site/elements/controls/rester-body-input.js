@@ -1,15 +1,15 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-icon/iron-icon.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
+import '../../../../node_modules/@polymer/iron-icon/iron-icon.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js';
 import vkbeautify from '../../../../node_modules/frigus02-vkbeautify/vkbeautify.js';
-import "../styles/rester-icons.js";
-import "./rester-ace-input.js";
-import "./rester-form-data-input.js";
+import '../styles/rester-icons.js';
+import './rester-ace-input.js';
+import './rester-form-data-input.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
 /**
@@ -138,7 +138,10 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
                     {
                         title: 'Form',
                         isInputTypeForm: true,
-                        contentTypeSearch: ['x-www-form-urlencoded', 'form-data']
+                        contentTypeSearch: [
+                            'x-www-form-urlencoded',
+                            'form-data'
+                        ]
                     }
                 ]
             },
@@ -161,7 +164,7 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
         } else if (this.selectedInputOption.title === 'XML') {
             return 'application/xml';
         } else if (this.selectedInputOption.title === 'Form') {
-            return  this.files && Object.keys(this.files).length > 0
+            return this.files && Object.keys(this.files).length > 0
                 ? 'multipart/form-data'
                 : 'application/x-www-form-urlencoded';
         }
@@ -169,7 +172,9 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
 
     notifyVisibilityChanged() {
         if (this.selectedInputOption.isInputTypeAce) {
-            this.shadowRoot.querySelector('rester-ace-input').notifyVisibilityChanged();
+            this.shadowRoot
+                .querySelector('rester-ace-input')
+                .notifyVisibilityChanged();
         }
     }
 
@@ -179,9 +184,13 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
 
     _onContentTypeChanged() {
         const lowerContentType = (this.contentType || '').toLowerCase();
-        const newOption = this.inputOptions.find(option =>
-            option.contentTypeSearch && option.contentTypeSearch.some(
-                search => lowerContentType.includes(search)));
+        const newOption = this.inputOptions.find(
+            option =>
+                option.contentTypeSearch &&
+                option.contentTypeSearch.some(search =>
+                    lowerContentType.includes(search)
+                )
+        );
 
         if (newOption) {
             this.selectedInputOption = newOption;
@@ -204,7 +213,10 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
     _beautify() {
         this.$.options.close();
         if (this.selectedInputOption.beautifyMethod) {
-            this.value = vkbeautify[this.selectedInputOption.beautifyMethod](this.value, 4);
+            this.value = vkbeautify[this.selectedInputOption.beautifyMethod](
+                this.value,
+                4
+            );
         }
     }
 }

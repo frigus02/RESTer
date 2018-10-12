@@ -1,111 +1,112 @@
 /* eslint-env node, jest */
 
-import {
-    format,
-    parse
-} from './postman.js';
+import { format, parse } from './postman.js';
 
 jest.mock('../../data/utils/db.js');
 
-describe('format', function () {
-    test('creates nested folder structure for requests', function () {
-        expect(format({
-            requests: [
-                {
-                    id: 1,
-                    collection: 'A / B / C',
-                    title: 'Number 1',
-                    method: 'GET',
-                    url: 'https://example.com',
-                    headers: [],
-                    body: null
-                },
-                {
-                    id: 2,
-                    collection: 'A / B / C',
-                    title: 'Number 2',
-                    method: 'POST',
-                    url: 'https://example.com',
-                    headers: [
-                        {
-                            name: 'Content-Type',
-                            value: 'application/json'
-                        }
-                    ],
-                    body: '{"foo": "bar"}'
-                }
-            ],
-            historyEntries: []
-        })).toMatchSnapshot();
-    });
-
-    test('adds history entries as responses to matching request', function () {
-        expect(format({
-            requests: [
-                {
-                    id: 1,
-                    collection: 'A',
-                    title: 'Number 1',
-                    method: 'GET',
-                    url: 'https://example.com',
-                    headers: [],
-                    body: null
-                },
-                {
-                    id: 2,
-                    collection: 'B',
-                    title: 'Number 2',
-                    method: 'POST',
-                    url: 'https://example.com',
-                    headers: [],
-                    body: null
-                }
-            ],
-            historyEntries: [
-                {
-                    id: 1,
-                    time: 100,
-                    timeEnd: 120,
-                    request: {
+describe('format', function() {
+    test('creates nested folder structure for requests', function() {
+        expect(
+            format({
+                requests: [
+                    {
                         id: 1,
-                        collection: 'A',
-                        title: 'To-do: come up with name',
+                        collection: 'A / B / C',
+                        title: 'Number 1',
                         method: 'GET',
                         url: 'https://example.com',
                         headers: [],
                         body: null
                     },
-                    response: {
-                        status: 200,
-                        statusText: 'OK',
+                    {
+                        id: 2,
+                        collection: 'A / B / C',
+                        title: 'Number 2',
+                        method: 'POST',
+                        url: 'https://example.com',
                         headers: [
                             {
                                 name: 'Content-Type',
-                                value: 'text/html'
+                                value: 'application/json'
                             }
                         ],
-                        body: '<!DOCTYPE html>\n<html>\n</html>\n'
+                        body: '{"foo": "bar"}'
                     }
-                },
-                {
-                    id: 2,
-                    time: 100,
-                    timeEnd: 120,
-                    request: {
+                ],
+                historyEntries: []
+            })
+        ).toMatchSnapshot();
+    });
+
+    test('adds history entries as responses to matching request', function() {
+        expect(
+            format({
+                requests: [
+                    {
+                        id: 1,
+                        collection: 'A',
+                        title: 'Number 1',
                         method: 'GET',
                         url: 'https://example.com',
                         headers: [],
                         body: null
                     },
-                    response: {}
-                }
-            ]
-        })).toMatchSnapshot();
+                    {
+                        id: 2,
+                        collection: 'B',
+                        title: 'Number 2',
+                        method: 'POST',
+                        url: 'https://example.com',
+                        headers: [],
+                        body: null
+                    }
+                ],
+                historyEntries: [
+                    {
+                        id: 1,
+                        time: 100,
+                        timeEnd: 120,
+                        request: {
+                            id: 1,
+                            collection: 'A',
+                            title: 'To-do: come up with name',
+                            method: 'GET',
+                            url: 'https://example.com',
+                            headers: [],
+                            body: null
+                        },
+                        response: {
+                            status: 200,
+                            statusText: 'OK',
+                            headers: [
+                                {
+                                    name: 'Content-Type',
+                                    value: 'text/html'
+                                }
+                            ],
+                            body: '<!DOCTYPE html>\n<html>\n</html>\n'
+                        }
+                    },
+                    {
+                        id: 2,
+                        time: 100,
+                        timeEnd: 120,
+                        request: {
+                            method: 'GET',
+                            url: 'https://example.com',
+                            headers: [],
+                            body: null
+                        },
+                        response: {}
+                    }
+                ]
+            })
+        ).toMatchSnapshot();
     });
 });
 
-describe('parse', function () {
-    test('parses part of Postman Echo collection', function () {
+describe('parse', function() {
+    test('parses part of Postman Echo collection', function() {
         const collectionJson = `{
             "info": {
                 "name": "Postman Echo",
@@ -172,12 +173,14 @@ describe('parse', function () {
             ]
         }`;
 
-        expect(parse(collectionJson, {
-            collectionPrefix: ''
-        })).toMatchSnapshot();
+        expect(
+            parse(collectionJson, {
+                collectionPrefix: ''
+            })
+        ).toMatchSnapshot();
     });
 
-    test('parses nested folders and rester ids', function () {
+    test('parses nested folders and rester ids', function() {
         const collectionJson = `{
             "info": {
                 "name": "Postman Echo",
@@ -219,8 +222,10 @@ describe('parse', function () {
             ]
         }`;
 
-        expect(parse(collectionJson, {
-            collectionPrefix: 'Import'
-        })).toMatchSnapshot();
+        expect(
+            parse(collectionJson, {
+                collectionPrefix: 'Import'
+            })
+        ).toMatchSnapshot();
     });
 });

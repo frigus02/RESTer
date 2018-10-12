@@ -1,12 +1,12 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js";
-import "../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js';
+import '../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
 /**
@@ -14,7 +14,9 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(PolymerElement) {
+class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(
+    PolymerElement
+) {
     static get template() {
         return html`
             <style>
@@ -65,12 +67,7 @@ class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(Po
             supportedLanguages: {
                 type: Array,
                 readOnly: true,
-                value: [
-                    'Plain',
-                    'HTML',
-                    'JSON',
-                    'XML'
-                ]
+                value: ['Plain', 'HTML', 'JSON', 'XML']
             }
         };
     }
@@ -84,4 +81,7 @@ class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(Po
     }
 }
 
-customElements.define(RESTerHighlightLanguageSelectDialog.is, RESTerHighlightLanguageSelectDialog);
+customElements.define(
+    RESTerHighlightLanguageSelectDialog.is,
+    RESTerHighlightLanguageSelectDialog
+);

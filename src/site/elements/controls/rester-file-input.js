@@ -4,8 +4,8 @@ import {
     removeListener as removeGestureListener
 } from '../../../../node_modules/@polymer/polymer/lib/utils/gestures.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input-container.js";
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input-container.js';
 
 /**
  * @polymer

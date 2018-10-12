@@ -12,7 +12,6 @@ export class Group {
     }
 }
 
-
 export class Item {
     constructor({ title, subtitle, action, secondaryAction, data }) {
         this.isItem = true;

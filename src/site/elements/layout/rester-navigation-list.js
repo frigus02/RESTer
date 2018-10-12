@@ -1,7 +1,7 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../data/rester-data-navigation.js";
-import "./rester-navigation-list-item.js";
+import '../data/rester-data-navigation.js';
+import './rester-navigation-list-item.js';
 
 /**
  * @polymer

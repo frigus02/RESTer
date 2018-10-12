@@ -1,9 +1,9 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-input/iron-input.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input-container.js";
-import "./rester-autocomplete.js";
-import resterPaperInputStyle from "../styles/rester-paper-input.js";
+import '../../../../node_modules/@polymer/iron-input/iron-input.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input-container.js';
+import './rester-autocomplete.js';
+import resterPaperInputStyle from '../styles/rester-paper-input.js';
 import { getRequestCollections } from '../data/scripts/rester.js';
 
 /**
@@ -106,8 +106,8 @@ class RESTerRequestTitleInput extends PolymerElement {
 
     constructor() {
         super();
-        this._knownCollection =  undefined;
-        this._knownTitle =  undefined;
+        this._knownCollection = undefined;
+        this._knownTitle = undefined;
     }
 
     ready() {
@@ -131,8 +131,10 @@ class RESTerRequestTitleInput extends PolymerElement {
     }
 
     _onRequestTitleChanged() {
-        if (this.requestCollection !== this._knownCollection ||
-            this.requestTitle !== this._knownTitle) {
+        if (
+            this.requestCollection !== this._knownCollection ||
+            this.requestTitle !== this._knownTitle
+        ) {
             this._knownCollection = this.requestCollection;
             this._knownTitle = this.requestTitle;
 
@@ -155,7 +157,10 @@ class RESTerRequestTitleInput extends PolymerElement {
 
         this.requestTitle = this._knownTitle;
 
-        this._knownCollection = parts.map(p => p.trim()).filter(p => p).join(' / ');
+        this._knownCollection = parts
+            .map(p => p.trim())
+            .filter(p => p)
+            .join(' / ');
         this.requestCollection = this._knownCollection;
     }
 
@@ -173,24 +178,33 @@ class RESTerRequestTitleInput extends PolymerElement {
 
     _onInputKeyDown(e) {
         const caretPos = this.$.nativeInput.selectionStart;
-        const isSelection = this.$.nativeInput.selectionStart !== this.$.nativeInput.selectionEnd;
+        const isSelection =
+            this.$.nativeInput.selectionStart !==
+            this.$.nativeInput.selectionEnd;
         const value = this.$.nativeInput.value;
 
         if (e.key === 'Backspace') {
             if (!isSelection && value.substr(caretPos - 3, 3) === ' / ') {
-                this.value = value.substr(0, caretPos - 2) + value.substr(caretPos);
-                this.$.nativeInput.setSelectionRange(caretPos - 2, caretPos - 2);
+                this.value =
+                    value.substr(0, caretPos - 2) + value.substr(caretPos);
+                this.$.nativeInput.setSelectionRange(
+                    caretPos - 2,
+                    caretPos - 2
+                );
             }
         } else if (e.keyCode === 'Delete') {
             if (!isSelection && value.substr(caretPos, 3) === ' / ') {
-                this.value = value.substr(0, caretPos) + value.substr(caretPos + 2);
+                this.value =
+                    value.substr(0, caretPos) + value.substr(caretPos + 2);
                 this.$.nativeInput.setSelectionRange(caretPos, caretPos);
             }
         } else if (e.key === '/') {
             e.preventDefault();
 
             let strToInsert = ' / ',
-                newValue = value.substring(0, this.$.nativeInput.selectionStart) + value.substring(this.$.nativeInput.selectionEnd);
+                newValue =
+                    value.substring(0, this.$.nativeInput.selectionStart) +
+                    value.substring(this.$.nativeInput.selectionEnd);
 
             if (newValue.substr(caretPos - 1, 1) === ' ') {
                 strToInsert = strToInsert.trimLeft();
@@ -199,8 +213,14 @@ class RESTerRequestTitleInput extends PolymerElement {
                 strToInsert = strToInsert.trimRight();
             }
 
-            this.value = newValue.substr(0, caretPos) + strToInsert + newValue.substr(caretPos);
-            this.$.nativeInput.setSelectionRange(caretPos + strToInsert.length, caretPos + strToInsert.length);
+            this.value =
+                newValue.substr(0, caretPos) +
+                strToInsert +
+                newValue.substr(caretPos);
+            this.$.nativeInput.setSelectionRange(
+                caretPos + strToInsert.length,
+                caretPos + strToInsert.length
+            );
         }
     }
 }

@@ -10,46 +10,53 @@ import {
  *
  * Makes RESTer settings available in property `settings`.
  */
-const RESTerSettingsMixin = superclass => class extends superclass {
-    static get properties() {
-        return {
-            settings: {
-                type: Object,
-                readOnly: true
-            }
-        };
-    }
+const RESTerSettingsMixin = superclass =>
+    class extends superclass {
+        static get properties() {
+            return {
+                settings: {
+                    type: Object,
+                    readOnly: true
+                }
+            };
+        }
 
-    constructor() {
-        super();
-        this._onSettingsChanged = this._onSettingsChanged.bind(this);
-    }
+        constructor() {
+            super();
+            this._onSettingsChanged = this._onSettingsChanged.bind(this);
+        }
 
-    ready() {
-        this._setSettings(settings);
-        settingsLoaded.then(() => {
-            this._onSettingsChanged({ detail: settings });
-        });
-        super.ready();
-    }
+        ready() {
+            this._setSettings(settings);
+            settingsLoaded.then(() => {
+                this._onSettingsChanged({ detail: settings });
+            });
+            super.ready();
+        }
 
-    connectedCallback() {
-        super.connectedCallback();
-        resterEvents.addEventListener('settingsChange', this._onSettingsChanged);
-    }
+        connectedCallback() {
+            super.connectedCallback();
+            resterEvents.addEventListener(
+                'settingsChange',
+                this._onSettingsChanged
+            );
+        }
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        resterEvents.removeEventListener('settingsChange', this._onSettingsChanged);
-    }
+        disconnectedCallback() {
+            super.disconnectedCallback();
+            resterEvents.removeEventListener(
+                'settingsChange',
+                this._onSettingsChanged
+            );
+        }
 
-    _onSettingsChanged(e) {
-        for (let key in e.detail) {
-            if (e.detail.hasOwnProperty(key)) {
-                this.notifyPath(['settings', key]);
+        _onSettingsChanged(e) {
+            for (let key in e.detail) {
+                if (e.detail.hasOwnProperty(key)) {
+                    this.notifyPath(['settings', key]);
+                }
             }
         }
-    }
-};
+    };
 
 export default RESTerSettingsMixin;

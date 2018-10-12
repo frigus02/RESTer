@@ -1,14 +1,14 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-icon/iron-icon.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
-import "../styles/rester-icons.js";
-import "./rester-ace-input.js";
-import "./rester-dom-purify-frame.js";
+import '../../../../node_modules/@polymer/iron-icon/iron-icon.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js';
+import '../styles/rester-icons.js';
+import './rester-ace-input.js';
+import './rester-dom-purify-frame.js';
 import dialogs from '../data/scripts/dialogs.js';
 import { debounce, cancelDebounce } from '../../../shared/util.js';
 import { formatCode } from '../data/scripts/worker.js';
@@ -33,7 +33,9 @@ const prettyPrintModes = {
  * @polymer
  * @customElement
  */
-class RESTerHighlightBody extends RESTerErrorMixin(RESTerSettingsMixin(PolymerElement)) {
+class RESTerHighlightBody extends RESTerErrorMixin(
+    RESTerSettingsMixin(PolymerElement)
+) {
     static get template() {
         return html`
             <style>
@@ -110,7 +112,8 @@ class RESTerHighlightBody extends RESTerErrorMixin(RESTerSettingsMixin(PolymerEl
             },
             renderedBody: {
                 type: String,
-                computed: '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
+                computed:
+                    '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
             },
             contentType: String,
             language: String,
@@ -136,7 +139,8 @@ class RESTerHighlightBody extends RESTerErrorMixin(RESTerSettingsMixin(PolymerEl
             },
             renderPreview: {
                 type: Boolean,
-                computed: '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
+                computed:
+                    '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
             }
         };
     }
@@ -240,12 +244,14 @@ class RESTerHighlightBody extends RESTerErrorMixin(RESTerSettingsMixin(PolymerEl
 
     _togglePrettyPrint() {
         this.$.options.close();
-        this.settings.responseBodyPrettyPrint = !this.settings.responseBodyPrettyPrint;
+        this.settings.responseBodyPrettyPrint = !this.settings
+            .responseBodyPrettyPrint;
     }
 
     _toggleFullSize() {
         this.$.options.close();
-        this.settings.responseBodyFullSize = !this.settings.responseBodyFullSize;
+        this.settings.responseBodyFullSize = !this.settings
+            .responseBodyFullSize;
     }
 
     _togglePreview() {

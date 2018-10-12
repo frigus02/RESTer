@@ -25,11 +25,15 @@ class DataStore extends CustomEventTarget {
     }
 
     get(tableName, ObjectConstructor, id) {
-        return this._get(`${tableName}.e.${id}`).then(entity => entity && new ObjectConstructor(entity));
+        return this._get(`${tableName}.e.${id}`).then(
+            entity => entity && new ObjectConstructor(entity)
+        );
     }
 
     getIndexKeys(tableName, index) {
-        return this._get(`${tableName}.i.${index}`).then(indexData => indexData ? Object.keys(indexData) : []);
+        return this._get(`${tableName}.i.${index}`).then(
+            indexData => (indexData ? Object.keys(indexData) : [])
+        );
     }
 
     query(tableName, ObjectConstructor, top) {
@@ -44,9 +48,11 @@ class DataStore extends CustomEventTarget {
             }
         });
 
-        return this._get(ids).then(entities => Object.values(entities)
-            .map(entity => new ObjectConstructor(entity))
-            .sort((a, b) => b.id - a.id));
+        return this._get(ids).then(entities =>
+            Object.values(entities)
+                .map(entity => new ObjectConstructor(entity))
+                .sort((a, b) => b.id - a.id)
+        );
     }
 
     transaction() {
@@ -55,7 +61,7 @@ class DataStore extends CustomEventTarget {
         const actions = {};
 
         ['add', 'put', 'delete'].forEach(action => {
-            actions[action] = function (tableName, entity) {
+            actions[action] = function(tableName, entity) {
                 if (!queue[tableName]) {
                     queue[tableName] = [];
                 }
@@ -66,106 +72,151 @@ class DataStore extends CustomEventTarget {
             };
         });
 
-        actions.execute = function () {
+        actions.execute = function() {
             return dataStore._withWriteLock(changes => {
                 const result = [];
 
                 const tableNames = Object.keys(queue);
                 const promises = tableNames.map(tableName => {
-                    const table = dataStore.tables.find(table => table.name === tableName);
-                    const initialQuery = table.indexes.map(index => `${tableName}.i.${index}`);
+                    const table = dataStore.tables.find(
+                        table => table.name === tableName
+                    );
+                    const initialQuery = table.indexes.map(
+                        index => `${tableName}.i.${index}`
+                    );
 
-                    queue[tableName].forEach(({action, entity}) => {
+                    queue[tableName].forEach(({ action, entity }) => {
                         if (action === 'add' || action === 'put') {
                             const isNew = !entity.hasOwnProperty('id');
                             if (isNew) {
                                 // New entity. Generate ID and store it in interval list.
                                 entity.id = ++table.info.lastId;
 
-                                dataStore._addIdToIntervals(tableName, entity.id);
+                                dataStore._addIdToIntervals(
+                                    tableName,
+                                    entity.id
+                                );
                             } else if (action === 'add') {
-                                throw new Error(`add(${entity.id}): Cannot add an entity with an id.`);
+                                throw new Error(
+                                    `add(${
+                                        entity.id
+                                    }): Cannot add an entity with an id.`
+                                );
                             } else {
                                 // Existing entity. Make sure ID exists in interval list.
-                                const interval = dataStore._findIdInterval(tableName, (start, end) => entity.id >= start && entity.id <= end);
+                                const interval = dataStore._findIdInterval(
+                                    tableName,
+                                    (start, end) =>
+                                        entity.id >= start && entity.id <= end
+                                );
                                 if (!interval) {
-                                    throw new Error(`put(${entity.id}): Entity does not exist. Cannot insert entity with specific id.`);
+                                    throw new Error(
+                                        `put(${
+                                            entity.id
+                                        }): Entity does not exist. Cannot insert entity with specific id.`
+                                    );
                                 }
                             }
 
                             if (!isNew) {
-                                initialQuery.push(`${tableName}.e.${entity.id}`);
+                                initialQuery.push(
+                                    `${tableName}.e.${entity.id}`
+                                );
                             }
                         } else if (action === 'delete') {
-                            dataStore._removeIdFromIntervals(tableName, entity.id);
+                            dataStore._removeIdFromIntervals(
+                                tableName,
+                                entity.id
+                            );
 
                             initialQuery.push(`${tableName}.e.${entity.id}`);
                         }
                     });
 
-                    return dataStore._get(initialQuery).then(result => {
-                        const dataToSet = {
-                            [tableName]: table.info
-                        };
+                    return dataStore
+                        ._get(initialQuery)
+                        .then(result => {
+                            const dataToSet = {
+                                [tableName]: table.info
+                            };
 
-                        queue[tableName].forEach(({action, entity}) => {
-                            if (action === 'add' || action === 'put') {
-                                dataToSet[`${tableName}.e.${entity.id}`] = entity;
-                            }
-
-                            const oldEntity = result[`${tableName}.e.${entity.id}`] || {};
-                            table.indexes.forEach(index => {
-                                const oldValue = oldEntity[index];
-                                const newValue = entity[index];
-                                const indexData = result[`${tableName}.i.${index}`] || {};
-
-                                if (oldValue && indexData[oldValue]) {
-                                    if (indexData[oldValue].length === 1) {
-                                        delete indexData[oldValue];
-                                    } else {
-                                        const indexInIndexData = indexData[oldValue].indexOf(entity.id);
-                                        indexData[oldValue].splice(indexInIndexData, 1);
-                                    }
+                            queue[tableName].forEach(({ action, entity }) => {
+                                if (action === 'add' || action === 'put') {
+                                    dataToSet[
+                                        `${tableName}.e.${entity.id}`
+                                    ] = entity;
                                 }
 
-                                if (newValue) {
-                                    if (!indexData.hasOwnProperty(newValue)) {
-                                        indexData[newValue] = [];
+                                const oldEntity =
+                                    result[`${tableName}.e.${entity.id}`] || {};
+                                table.indexes.forEach(index => {
+                                    const oldValue = oldEntity[index];
+                                    const newValue = entity[index];
+                                    const indexData =
+                                        result[`${tableName}.i.${index}`] || {};
+
+                                    if (oldValue && indexData[oldValue]) {
+                                        if (indexData[oldValue].length === 1) {
+                                            delete indexData[oldValue];
+                                        } else {
+                                            const indexInIndexData = indexData[
+                                                oldValue
+                                            ].indexOf(entity.id);
+                                            indexData[oldValue].splice(
+                                                indexInIndexData,
+                                                1
+                                            );
+                                        }
                                     }
 
-                                    indexData[newValue].push(entity.id);
+                                    if (newValue) {
+                                        if (
+                                            !indexData.hasOwnProperty(newValue)
+                                        ) {
+                                            indexData[newValue] = [];
+                                        }
+
+                                        indexData[newValue].push(entity.id);
+                                    }
+
+                                    dataToSet[
+                                        `${tableName}.i.${index}`
+                                    ] = indexData;
+                                });
+                            });
+
+                            return dataStore._set(dataToSet);
+                        })
+                        .then(() => {
+                            const dataToRemove = [];
+                            queue[tableName].forEach(({ action, entity }) => {
+                                if (action === 'delete') {
+                                    dataToRemove.push(
+                                        `${tableName}.e.${entity.id}`
+                                    );
                                 }
-
-                                dataToSet[`${tableName}.i.${index}`] = indexData;
                             });
-                        });
 
-                        return dataStore._set(dataToSet);
-                    }).then(() => {
-                        const dataToRemove = [];
-                        queue[tableName].forEach(({action, entity}) => {
-                            if (action === 'delete') {
-                                dataToRemove.push(`${tableName}.e.${entity.id}`);
+                            if (dataToRemove.length > 0) {
+                                return dataStore._remove(dataToRemove);
                             }
-                        });
+                        })
+                        .then(() => {
+                            queue[tableName].forEach(({ action, entity }) => {
+                                changes.push({
+                                    action,
+                                    item: entity,
+                                    itemType: entity.constructor.type
+                                });
 
-                        if (dataToRemove.length > 0) {
-                            return dataStore._remove(dataToRemove);
-                        }
-                    }).then(() => {
-                        queue[tableName].forEach(({action, entity}) => {
-                            changes.push({
-                                action,
-                                item: entity,
-                                itemType: entity.constructor.type
+                                result.push(entity.id);
                             });
-
-                            result.push(entity.id);
                         });
-                    });
                 });
 
-                return Promise.all(promises).then(() => result.length === 1 ? result[0] : result);
+                return Promise.all(promises).then(
+                    () => (result.length === 1 ? result[0] : result)
+                );
             });
         };
 
@@ -173,19 +224,22 @@ class DataStore extends CustomEventTarget {
     }
 
     _withWriteLock(cb) {
-        const then = () => new Promise((resolve, reject) => {
-            try {
-                const changes = [];
-                Promise.resolve(cb(changes)).then((...args) => {
-                    this.dispatchEvent(new CustomEvent('change', {
-                        detail: changes
-                    }));
-                    resolve(...args);
-                }, reject);
-            } catch (e) {
-                reject(e);
-            }
-        });
+        const then = () =>
+            new Promise((resolve, reject) => {
+                try {
+                    const changes = [];
+                    Promise.resolve(cb(changes)).then((...args) => {
+                        this.dispatchEvent(
+                            new CustomEvent('change', {
+                                detail: changes
+                            })
+                        );
+                        resolve(...args);
+                    }, reject);
+                } catch (e) {
+                    reject(e);
+                }
+            });
 
         this.writeLock = this.writeLock.then(then, then);
 
@@ -204,7 +258,10 @@ class DataStore extends CustomEventTarget {
 
     _removeIdFromIntervals(tableName, id) {
         const table = this.tables.find(table => table.name === tableName);
-        const interval = this._findIdInterval(tableName, (start, end) => id >= start && id <= end);
+        const interval = this._findIdInterval(
+            tableName,
+            (start, end) => id >= start && id <= end
+        );
         if (!interval) {
             return;
         }
@@ -265,8 +322,11 @@ class DataStore extends CustomEventTarget {
     }
 
     _get(keys) {
-        return this._performStorageLocalOperation('get', keys,
-            result => typeof keys === 'string' ? result[keys] : result);
+        return this._performStorageLocalOperation(
+            'get',
+            keys,
+            result => (typeof keys === 'string' ? result[keys] : result)
+        );
     }
 
     _set(keys) {
@@ -277,18 +337,24 @@ class DataStore extends CustomEventTarget {
         return this._performStorageLocalOperation('remove', keys);
     }
 
-    _performStorageLocalOperation(op, keys, transformSuccessResult = arg => arg) {
+    _performStorageLocalOperation(
+        op,
+        keys,
+        transformSuccessResult = arg => arg
+    ) {
         return new Promise((resolve, reject) => {
             const start = performance.now();
             chrome.storage.local[op](keys, result => {
                 const millis = performance.now() - start;
                 if (millis > 500) {
-                    this.dispatchEvent(new CustomEvent('slowPerformance', {
-                        detail: {
-                            operation: `storage.local.${op}(...)`,
-                            duration: Math.round(millis)
-                        }
-                    }));
+                    this.dispatchEvent(
+                        new CustomEvent('slowPerformance', {
+                            detail: {
+                                operation: `storage.local.${op}(...)`,
+                                duration: Math.round(millis)
+                            }
+                        })
+                    );
                 }
 
                 if (chrome.runtime.lastError) {

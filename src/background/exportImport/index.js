@@ -24,9 +24,13 @@ export async function exportData(options) {
         historyEntries
     });
 
-    const file = new File([data.content], `rester-export-${options.format}.${data.suffix}`, {
-        type: data.contentType
-    });
+    const file = new File(
+        [data.content],
+        `rester-export-${options.format}.${data.suffix}`,
+        {
+            type: data.contentType
+        }
+    );
     const url = URL.createObjectURL(file);
 
     chrome.downloads.download({

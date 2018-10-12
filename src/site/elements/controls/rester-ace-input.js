@@ -7,7 +7,7 @@ import RESTerThemeMixin from '../data/rester-data-theme-mixin.js';
  * @polymer
  * @mixinFunction
  */
-const RESTerAceShadowDomMixin = (function () {
+const RESTerAceShadowDomMixin = (function() {
     const aceShadowRoots = [];
     const styles = getInitialStyles();
 
@@ -16,7 +16,7 @@ const RESTerAceShadowDomMixin = (function () {
     function createDomHook() {
         const domHook = ace.require('ace/lib/dom');
         const defaultImportCssString = domHook.importCssString;
-        domHook.importCssString = function (cssText, id) {
+        domHook.importCssString = function(cssText, id) {
             const result = defaultImportCssString.call(this, cssText, id);
 
             if (styles.hasOwnProperty(id)) {
@@ -37,7 +37,10 @@ const RESTerAceShadowDomMixin = (function () {
     function getInitialStyles() {
         const style1 = document.getElementById('ace_editor.css');
         const style2 = document.getElementById('ace-tm');
-        const style3 = style2.nextSibling === style1 ? style2.previousSibling : style2.nextSibling;
+        const style3 =
+            style2.nextSibling === style1
+                ? style2.previousSibling
+                : style2.nextSibling;
 
         return {
             'ace_editor.css': style1,
@@ -46,25 +49,26 @@ const RESTerAceShadowDomMixin = (function () {
         };
     }
 
-    return superclass => class AceShadowDomMixin extends superclass {
-        ready() {
-            super.ready();
-            Object.keys(styles).forEach(id => {
-                this.shadowRoot.appendChild(styles[id].cloneNode(true));
-            });
-        }
+    return superclass =>
+        class AceShadowDomMixin extends superclass {
+            ready() {
+                super.ready();
+                Object.keys(styles).forEach(id => {
+                    this.shadowRoot.appendChild(styles[id].cloneNode(true));
+                });
+            }
 
-        connectedCallback() {
-            super.connectedCallback();
-            aceShadowRoots.push(this.shadowRoot);
-        }
+            connectedCallback() {
+                super.connectedCallback();
+                aceShadowRoots.push(this.shadowRoot);
+            }
 
-        disconnectedCallback() {
-            const index = aceShadowRoots.indexOf(this.shadowRoot);
-            aceShadowRoots.splice(index, 1);
-            super.disconnectedCallback();
-        }
-    };
+            disconnectedCallback() {
+                const index = aceShadowRoots.indexOf(this.shadowRoot);
+                aceShadowRoots.splice(index, 1);
+                super.disconnectedCallback();
+            }
+        };
 })();
 
 /**
@@ -73,7 +77,9 @@ const RESTerAceShadowDomMixin = (function () {
  * @polymer
  * @customElement
  */
-class RESTerAceInput extends RESTerThemeMixin(RESTerAceShadowDomMixin(PolymerElement)) {
+class RESTerAceInput extends RESTerThemeMixin(
+    RESTerAceShadowDomMixin(PolymerElement)
+) {
     static get template() {
         return html`
             <style>
@@ -138,7 +144,10 @@ class RESTerAceInput extends RESTerThemeMixin(RESTerAceShadowDomMixin(PolymerEle
 
     ready() {
         super.ready();
-        ace.config.set('basePath', this.resolveUrl('node_modules/ace-builds/src-min-noconflict/'));
+        ace.config.set(
+            'basePath',
+            this.resolveUrl('node_modules/ace-builds/src-min-noconflict/')
+        );
     }
 
     connectedCallback() {

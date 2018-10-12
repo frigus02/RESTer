@@ -1,8 +1,8 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/paper-input/paper-input.js";
-import "../../../../node_modules/@polymer/paper-toggle-button/paper-toggle-button.js";
-import "./rester-autocomplete-input.js";
+import '../../../../node_modules/@polymer/paper-input/paper-input.js';
+import '../../../../node_modules/@polymer/paper-toggle-button/paper-toggle-button.js';
+import './rester-autocomplete-input.js';
 import {
     getHistoryEntries,
     e as resterEvents
@@ -137,23 +137,30 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
             } else if (this.lastUsedVariables[varName]) {
                 this.set(['value', varName], this.lastUsedVariables[varName]);
             } else if (this.variableHistory[varName]) {
-                this.set(['lastUsedVariables', varName], this.variableHistory[varName][0]);
+                this.set(
+                    ['lastUsedVariables', varName],
+                    this.variableHistory[varName][0]
+                );
                 this.set(['value', varName], this.variableHistory[varName][0]);
             } else {
                 this.set(['value', varName], '');
             }
         }
 
-        this._setVariables(varNames.map(varName => ({
-            name: varName,
-            value: values[varName],
-            history: this.variableHistory[varName] || []
-        })));
+        this._setVariables(
+            varNames.map(varName => ({
+                name: varName,
+                value: values[varName],
+                history: this.variableHistory[varName] || []
+            }))
+        );
 
-        this._setProvidedVariables(providedVarNames.map(varName => ({
-            name: varName,
-            value: this.providedVariableValues[varName]
-        })));
+        this._setProvidedVariables(
+            providedVarNames.map(varName => ({
+                name: varName,
+                value: this.providedVariableValues[varName]
+            }))
+        );
     }
 
     _onVariableValueChanged(e) {
@@ -187,7 +194,9 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
                 if (!this.variableHistory.hasOwnProperty(name)) {
                     this.set(['variableHistory', name], [values[name]]);
                 } else {
-                    const index = this.variableHistory[name].indexOf(values[name]);
+                    const index = this.variableHistory[name].indexOf(
+                        values[name]
+                    );
                     if (index > -1) {
                         this.splice(['variableHistory', name], index, 1);
                     }
@@ -198,10 +207,15 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
                 // Update the history property in the variable item, which is used
                 // in the dom-repeat element.
                 if (this.variables) {
-                    const index = this.variables.findIndex(v => v.name === name);
+                    const index = this.variables.findIndex(
+                        v => v.name === name
+                    );
                     if (index > -1) {
                         this.set(['variables', index, 'history'], []);
-                        this.set(['variables', index, 'history'], this.variableHistory[name]);
+                        this.set(
+                            ['variables', index, 'history'],
+                            this.variableHistory[name]
+                        );
                     }
                 }
             }

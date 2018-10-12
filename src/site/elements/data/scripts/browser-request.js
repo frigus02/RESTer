@@ -4,7 +4,9 @@ function ensureIncognitoAccess() {
             if (isAllowed) {
                 resolve();
             } else {
-                reject('RESTer doesn\'t have access to incognito windows. Please allow access on the browser extension page and try again.');
+                reject(
+                    "RESTer doesn't have access to incognito windows. Please allow access on the browser extension page and try again."
+                );
             }
         });
     });
@@ -50,31 +52,40 @@ export function getMatchPatterns(url) {
 }
 
 function sendRequest(request) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         const urlMatchPatterns = getMatchPatterns(request.targetUrl);
         let thisWindowId,
             thisTab,
             requestFinished = false;
 
-        chrome.windows.create({
-            url: request.url,
-            incognito: request.incognito
-        }, window => {
-            thisWindowId = window.id;
-            thisTab = window.tabs[0];
+        chrome.windows.create(
+            {
+                url: request.url,
+                incognito: request.incognito
+            },
+            window => {
+                thisWindowId = window.id;
+                thisTab = window.tabs[0];
 
-            chrome.windows.onRemoved.addListener(onWindowRemoved);
-            chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {
-                urls: urlMatchPatterns,
-                types: ['main_frame'],
-                tabId: thisTab.id
-            }, ['blocking']);
-        });
+                chrome.windows.onRemoved.addListener(onWindowRemoved);
+                chrome.webRequest.onBeforeRequest.addListener(
+                    onBeforeRequest,
+                    {
+                        urls: urlMatchPatterns,
+                        types: ['main_frame'],
+                        tabId: thisTab.id
+                    },
+                    ['blocking']
+                );
+            }
+        );
 
         function onWindowRemoved(windowId) {
             if (windowId === thisWindowId) {
                 chrome.windows.onRemoved.removeListener(onWindowRemoved);
-                chrome.webRequest.onBeforeRequest.removeListener(onBeforeRequest);
+                chrome.webRequest.onBeforeRequest.removeListener(
+                    onBeforeRequest
+                );
 
                 if (!requestFinished) {
                     reject('Window was closed before target url was loaded.');
@@ -88,19 +99,24 @@ function sendRequest(request) {
             }
 
             if (request.extractCookies) {
-                getCookieStoreId(thisTab).then(storeId => {
-                    chrome.cookies.getAll({
-                        url: request.url,
-                        storeId: storeId
-                    }, cookies => {
-                        closeWindow(null, {
-                            url: details.url,
-                            cookies: cookies
-                        });
+                getCookieStoreId(thisTab)
+                    .then(storeId => {
+                        chrome.cookies.getAll(
+                            {
+                                url: request.url,
+                                storeId: storeId
+                            },
+                            cookies => {
+                                closeWindow(null, {
+                                    url: details.url,
+                                    cookies: cookies
+                                });
+                            }
+                        );
+                    })
+                    .catch(() => {
+                        closeWindow('Could not find cookie store.');
                     });
-                }).catch(() => {
-                    closeWindow('Could not find cookie store.');
-                });
             } else {
                 closeWindow(null, {
                     url: details.url

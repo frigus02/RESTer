@@ -17,15 +17,19 @@ function updateValues() {
     if (envId) {
         getEnvironment(envId).then(env => {
             provider.values = env ? env.values : {};
-            provider.e.dispatchEvent(new CustomEvent('valuesChanged', {
-                detail: provider.values
-            }));
+            provider.e.dispatchEvent(
+                new CustomEvent('valuesChanged', {
+                    detail: provider.values
+                })
+            );
         });
     } else {
         provider.values = {};
-        provider.e.dispatchEvent(new CustomEvent('valuesChanged', {
-            detail: provider.values
-        }));
+        provider.e.dispatchEvent(
+            new CustomEvent('valuesChanged', {
+                detail: provider.values
+            })
+        );
     }
 }
 

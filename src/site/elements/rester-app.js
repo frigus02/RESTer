@@ -1,37 +1,37 @@
 import { PolymerElement } from '../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import { setPassiveTouchGestures } from '../../../node_modules/@polymer/polymer/lib/utils/settings.js';
-import "../../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js";
-import "../../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js";
-import "../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../node_modules/@polymer/app-route/app-location.js";
-import "../../../node_modules/@polymer/app-route/app-route.js";
-import "../../../node_modules/@polymer/iron-media-query/iron-media-query.js";
-import "../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../node_modules/@polymer/paper-styles/paper-styles.js";
-import "./controls/rester-edit-environment-dialog.js";
-import "./layout/rester-drawer-footer-links.js";
-import "./layout/rester-navigation-list.js";
-import "./layout/rester-notifications.js";
-import "./layout/rester-pages.js";
-import "./styles/rester-icons.js";
-import "./utils/rester-authorization-provider-basic-generate-token-dialog.js";
-import "./utils/rester-authorization-provider-cookie-configuration-dialog.js";
-import "./utils/rester-authorization-provider-custom-generate-token-dialog.js";
-import "./utils/rester-authorization-provider-oauth2-configuration-dialog.js";
-import "./utils/rester-authorization-provider-oauth2-generate-token-resource-owner-dialog.js";
-import "./utils/rester-environment-select-dialog.js";
-import "./utils/rester-error.js";
-import "./utils/rester-export-dialog.js";
-import "./utils/rester-highlight-language-select-dialog.js";
-import "./utils/rester-hotkeys-cheat-sheet.js";
-import "./utils/rester-import-dialog.js";
-import "./utils/rester-cleanup-history-dialog.js";
-import "./utils/rester-quick-open-dialog.js";
-import "./utils/rester-timing-duration-dialog.js";
-import "./utils/rester-timing-size-dialog.js";
+import '../../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
+import '../../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
+import '../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../node_modules/@polymer/app-route/app-location.js';
+import '../../../node_modules/@polymer/app-route/app-route.js';
+import '../../../node_modules/@polymer/iron-media-query/iron-media-query.js';
+import '../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../node_modules/@polymer/paper-styles/paper-styles.js';
+import './controls/rester-edit-environment-dialog.js';
+import './layout/rester-drawer-footer-links.js';
+import './layout/rester-navigation-list.js';
+import './layout/rester-notifications.js';
+import './layout/rester-pages.js';
+import './styles/rester-icons.js';
+import './utils/rester-authorization-provider-basic-generate-token-dialog.js';
+import './utils/rester-authorization-provider-cookie-configuration-dialog.js';
+import './utils/rester-authorization-provider-custom-generate-token-dialog.js';
+import './utils/rester-authorization-provider-oauth2-configuration-dialog.js';
+import './utils/rester-authorization-provider-oauth2-generate-token-resource-owner-dialog.js';
+import './utils/rester-environment-select-dialog.js';
+import './utils/rester-error.js';
+import './utils/rester-export-dialog.js';
+import './utils/rester-highlight-language-select-dialog.js';
+import './utils/rester-hotkeys-cheat-sheet.js';
+import './utils/rester-import-dialog.js';
+import './utils/rester-cleanup-history-dialog.js';
+import './utils/rester-quick-open-dialog.js';
+import './utils/rester-timing-duration-dialog.js';
+import './utils/rester-timing-size-dialog.js';
 import dialogs from './data/scripts/dialogs.js';
 import { getEnvironments } from './data/scripts/rester.js';
 import RESTerThemeMixin from './data/rester-data-theme-mixin.js';
@@ -47,7 +47,9 @@ setPassiveTouchGestures(true);
  * @polymer
  * @customElement
  */
-class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement))) {
+class RESTerApp extends RESTerThemeMixin(
+    RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement))
+) {
     static get template() {
         return html`
             <style>
@@ -209,15 +211,14 @@ class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(
             },
             showDrawerLockMediaQuery: {
                 type: String,
-                computed: '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
+                computed:
+                    '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
             }
         };
     }
 
     static get observers() {
-        return [
-            '_routePageChanged(routeData.page)'
-        ];
+        return ['_routePageChanged(routeData.page)'];
     }
 
     static get resterHotkeys() {
@@ -300,7 +301,9 @@ class RESTerApp extends RESTerThemeMixin(RESTerSettingsMixin(RESTerHotkeysMixin(
                 return;
             }
 
-            const index = envs.findIndex(env => env.id === this.settings.activeEnvironment);
+            const index = envs.findIndex(
+                env => env.id === this.settings.activeEnvironment
+            );
             const newIndex = (index + 1) % envs.length;
             const newEnv = envs[newIndex];
 

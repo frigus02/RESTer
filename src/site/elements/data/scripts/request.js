@@ -1,11 +1,10 @@
 import { decodeQueryString } from './encode.js';
 import { mergeCookies } from '../../../../shared/util.js';
 
-
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const requiredDefaultHeaders = {
-    'host': /.*/i,
+    host: /.*/i,
     'content-length': /.*/i,
     'content-type': /^multipart\/form-data.*/i
 };
@@ -30,11 +29,14 @@ function setupHeaderInterceptor(currentTabId) {
             }));
 
         // Request ID
-        const resterRequestId = commands.find(c => c.name === 'requestid').value;
+        const resterRequestId = commands.find(c => c.name === 'requestid')
+            .value;
         requestIds.set(details.requestId, resterRequestId);
 
         // Headers
-        const removeDefaultHeaders = commands.some(c => c.name === 'stripdefaultheaders');
+        const removeDefaultHeaders = commands.some(
+            c => c.name === 'stripdefaultheaders'
+        );
         const newHeaders = [];
         const indexesToRemove = [];
         for (let i = 0; i < details.requestHeaders.length; i++) {
@@ -45,26 +47,43 @@ function setupHeaderInterceptor(currentTabId) {
                 indexesToRemove.push(i);
             } else if (lowerCaseName.startsWith(headerCommandPrefix)) {
                 indexesToRemove.push(i);
-            } else if (removeDefaultHeaders && !(requiredDefaultHeaders[lowerCaseName] && requiredDefaultHeaders[lowerCaseName].test(header.value))) {
+            } else if (
+                removeDefaultHeaders &&
+                !(
+                    requiredDefaultHeaders[lowerCaseName] &&
+                    requiredDefaultHeaders[lowerCaseName].test(header.value)
+                )
+            ) {
                 indexesToRemove.push(i);
             }
         }
 
         if (!removeDefaultHeaders) {
             // Merge browser and manual cookie headers
-            const cookieHeaderIndex = details.requestHeaders.findIndex(h => h.name.toLowerCase() === 'cookie');
-            const customCookieHeaderIndex = newHeaders.findIndex(h => h.name.toLowerCase() === 'cookie');
+            const cookieHeaderIndex = details.requestHeaders.findIndex(
+                h => h.name.toLowerCase() === 'cookie'
+            );
+            const customCookieHeaderIndex = newHeaders.findIndex(
+                h => h.name.toLowerCase() === 'cookie'
+            );
             if (cookieHeaderIndex > -1 && customCookieHeaderIndex > -1) {
                 const cookieHeader = details.requestHeaders[cookieHeaderIndex];
                 const customCookieHeader = newHeaders[customCookieHeaderIndex];
 
                 indexesToRemove.push(cookieHeaderIndex);
-                customCookieHeader.value = mergeCookies(cookieHeader.value, customCookieHeader.value);
+                customCookieHeader.value = mergeCookies(
+                    cookieHeader.value,
+                    customCookieHeader.value
+                );
             }
 
             // Remove overridden browser headers
             for (let i = 0; i < details.requestHeaders.length; i++) {
-                const isOverridden = newHeaders.some(header => header.name.toLowerCase() === details.requestHeaders[i].name.toLowerCase());
+                const isOverridden = newHeaders.some(
+                    header =>
+                        header.name.toLowerCase() ===
+                        details.requestHeaders[i].name.toLowerCase()
+                );
                 if (isOverridden && !indexesToRemove.includes(i)) {
                     indexesToRemove.push(i);
                 }
@@ -85,11 +104,15 @@ function setupHeaderInterceptor(currentTabId) {
         };
     }
 
-    chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
-        urls: ['<all_urls>'],
-        types: ['xmlhttprequest'],
-        tabId: currentTabId
-    }, ['blocking', 'requestHeaders']);
+    chrome.webRequest.onBeforeSendHeaders.addListener(
+        onBeforeSendHeaders,
+        {
+            urls: ['<all_urls>'],
+            types: ['xmlhttprequest'],
+            tabId: currentTabId
+        },
+        ['blocking', 'requestHeaders']
+    );
 
     function onHeadersReceived(details) {
         const originalHeaders = [];
@@ -110,7 +133,10 @@ function setupHeaderInterceptor(currentTabId) {
 
             originalHeaders.push(header);
 
-            if (lowerCaseName === 'timing-allow-origin' || lowerCaseName === 'access-control-expose-headers') {
+            if (
+                lowerCaseName === 'timing-allow-origin' ||
+                lowerCaseName === 'access-control-expose-headers'
+            ) {
                 indexesToRemove.push(i);
             }
         }
@@ -133,11 +159,15 @@ function setupHeaderInterceptor(currentTabId) {
         };
     }
 
-    chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {
-        urls: ['<all_urls>'],
-        types: ['xmlhttprequest'],
-        tabId: currentTabId
-    }, ['blocking', 'responseHeaders']);
+    chrome.webRequest.onHeadersReceived.addListener(
+        onHeadersReceived,
+        {
+            urls: ['<all_urls>'],
+            types: ['xmlhttprequest'],
+            tabId: currentTabId
+        },
+        ['blocking', 'responseHeaders']
+    );
 }
 
 function generateFormData(body, tempVariables) {
@@ -147,7 +177,9 @@ function generateFormData(body, tempVariables) {
 
     for (let key in rawData) {
         if (rawData.hasOwnProperty(key)) {
-            const values = Array.isArray(rawData[key]) ? rawData[key] : [rawData[key]];
+            const values = Array.isArray(rawData[key])
+                ? rawData[key]
+                : [rawData[key]];
             for (let value of values) {
                 const fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
 
@@ -163,7 +195,6 @@ function generateFormData(body, tempVariables) {
 
     return formData;
 }
-
 
 /**
  * Executes the specified HTTP request.
@@ -189,7 +220,9 @@ export async function send(request) {
     const requestId = String(Math.random());
 
     // Special handling for multipart requests.
-    const contentTypeIndex = request.headers.findIndex(h => h.name.toLowerCase() === 'content-type');
+    const contentTypeIndex = request.headers.findIndex(
+        h => h.name.toLowerCase() === 'content-type'
+    );
     const contentType = request.headers[contentTypeIndex];
     let requestHeaders = request.headers;
     let requestBody = request.body;
@@ -221,7 +254,10 @@ export async function send(request) {
         signal: request.signal
     };
 
-    if (request.method.toLowerCase() !== 'head' && request.method.toLowerCase() !== 'get') {
+    if (
+        request.method.toLowerCase() !== 'head' &&
+        request.method.toLowerCase() !== 'get'
+    ) {
         init.body = requestBody;
     }
 

@@ -1,19 +1,19 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-a11y-keys/iron-a11y-keys.js";
-import "../../../../node_modules/@polymer/iron-form/iron-form.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-checkbox/paper-checkbox.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
-import resterHintStyle from "../styles/rester-hint.js";
+import '../../../../node_modules/@polymer/iron-a11y-keys/iron-a11y-keys.js';
+import '../../../../node_modules/@polymer/iron-form/iron-form.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-checkbox/paper-checkbox.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
+import resterHintStyle from '../styles/rester-hint.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
 
 /**
@@ -21,7 +21,9 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(PolymerElement) {
+class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(
+    PolymerElement
+) {
     static get template() {
         return html`
             ${resterHintStyle}
@@ -184,9 +186,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
     }
 
     static get observers() {
-        return [
-            '_notifyConfigurationDialogResize(data.flow)'
-        ];
+        return ['_notifyConfigurationDialogResize(data.flow)'];
     }
 
     static get resterDialogId() {
@@ -195,10 +195,58 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
 
     static get _configProperties() {
         return {
-            code: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'redirectUri', 'scope'],
-            implicit: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'authorizationRequestEndpoint', 'clientId', 'redirectUri', 'scope'],
-            client_credentials: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope'],
-            resource_owner: ['id', 'providerId', 'title', 'enableVariables', 'flow', 'accessTokenRequestMethod', 'accessTokenRequestEndpoint', 'accessTokenRequestAuthentication', 'clientId', 'clientSecret', 'scope']
+            code: [
+                'id',
+                'providerId',
+                'title',
+                'enableVariables',
+                'flow',
+                'authorizationRequestEndpoint',
+                'accessTokenRequestMethod',
+                'accessTokenRequestEndpoint',
+                'accessTokenRequestAuthentication',
+                'clientId',
+                'clientSecret',
+                'redirectUri',
+                'scope'
+            ],
+            implicit: [
+                'id',
+                'providerId',
+                'title',
+                'enableVariables',
+                'flow',
+                'authorizationRequestEndpoint',
+                'clientId',
+                'redirectUri',
+                'scope'
+            ],
+            client_credentials: [
+                'id',
+                'providerId',
+                'title',
+                'enableVariables',
+                'flow',
+                'accessTokenRequestMethod',
+                'accessTokenRequestEndpoint',
+                'accessTokenRequestAuthentication',
+                'clientId',
+                'clientSecret',
+                'scope'
+            ],
+            resource_owner: [
+                'id',
+                'providerId',
+                'title',
+                'enableVariables',
+                'flow',
+                'accessTokenRequestMethod',
+                'accessTokenRequestEndpoint',
+                'accessTokenRequestAuthentication',
+                'clientId',
+                'clientSecret',
+                'scope'
+            ]
         };
     }
 
@@ -213,13 +261,20 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
     }
 
     _isFieldVisible(field, selectedFlow, additionalField) {
-        const flowMatches = selectedFlow && RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[selectedFlow].includes(field);
+        const flowMatches =
+            selectedFlow &&
+            RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[
+                selectedFlow
+            ].includes(field);
         if (!flowMatches) {
             return false;
         }
 
         // The client secret is not needed, when no authentication is performed.
-        if (field === 'clientSecret' && (!additionalField || additionalField === 'none')) {
+        if (
+            field === 'clientSecret' &&
+            (!additionalField || additionalField === 'none')
+        ) {
             return false;
         }
 
@@ -228,8 +283,12 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
 
     _save() {
         if (this.$.dialogForm.validate()) {
-            const flowProps = RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[this.data.flow];
-            const notNeededProps = Object.keys(this.data).filter(key => !flowProps.includes(key));
+            const flowProps =
+                RESTerAuthorizationProviderOAuth2ConfigurationDialog
+                    ._configProperties[this.data.flow];
+            const notNeededProps = Object.keys(this.data).filter(
+                key => !flowProps.includes(key)
+            );
             for (const key of notNeededProps) {
                 delete this.data[key];
             }
@@ -243,4 +302,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
     }
 }
 
-customElements.define(RESTerAuthorizationProviderOAuth2ConfigurationDialog.is, RESTerAuthorizationProviderOAuth2ConfigurationDialog);
+customElements.define(
+    RESTerAuthorizationProviderOAuth2ConfigurationDialog.is,
+    RESTerAuthorizationProviderOAuth2ConfigurationDialog
+);

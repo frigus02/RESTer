@@ -1,16 +1,16 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-form/iron-form.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-button/paper-button.js";
-import "../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input.js";
-import "../../../../node_modules/@polymer/paper-input/paper-textarea.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
-import "../styles/rester-icons.js";
+import '../../../../node_modules/@polymer/iron-form/iron-form.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
+import '../../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input.js';
+import '../../../../node_modules/@polymer/paper-input/paper-textarea.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
+import '../styles/rester-icons.js';
 import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin.js';
 
 /**
@@ -18,7 +18,9 @@ import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin
  * @polymer
  * @customElement
  */
-class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(PolymerElement) {
+class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
+    PolymerElement
+) {
     static get template() {
         return html`
             <style>
@@ -125,17 +127,23 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(PolymerEle
         if (newData === undefined) {
             this._setValueItems([]);
         } else {
-            this._setValueItems(Object.keys(newData.values).map(key => ({
-                key,
-                value: newData.values[key]
-            })));
+            this._setValueItems(
+                Object.keys(newData.values).map(key => ({
+                    key,
+                    value: newData.values[key]
+                }))
+            );
             this._ensureEmptyValueItem();
         }
     }
 
     _ensureEmptyValueItem() {
-        if (!this.valueItems.some(value => value.key.trim() === '' && value.value.trim() === '')) {
-            this.push('valueItems', {key: '', value: ''});
+        if (
+            !this.valueItems.some(
+                value => value.key.trim() === '' && value.value.trim() === ''
+            )
+        ) {
+            this.push('valueItems', { key: '', value: '' });
         }
 
         this.$.dialog.notifyResize();
@@ -164,4 +172,7 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(PolymerEle
     }
 }
 
-customElements.define(RESTerEditEnvironmentDialog.is, RESTerEditEnvironmentDialog);
+customElements.define(
+    RESTerEditEnvironmentDialog.is,
+    RESTerEditEnvironmentDialog
+);

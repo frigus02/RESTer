@@ -1,16 +1,16 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../../../node_modules/@polymer/paper-listbox/paper-listbox.js";
-import "../../../../node_modules/@polymer/paper-toggle-button/paper-toggle-button.js";
-import resterHintStyle from "../styles/rester-hint.js";
-import "../styles/rester-icons.js";
-import resterPageStyle from "../styles/rester-page.js";
+import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item.js';
+import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
+import '../../../../node_modules/@polymer/paper-toggle-button/paper-toggle-button.js';
+import resterHintStyle from '../styles/rester-hint.js';
+import '../styles/rester-icons.js';
+import resterPageStyle from '../styles/rester-page.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
@@ -20,7 +20,9 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @polymer
  * @customElement
  */
-class RESTerPageSettings extends RESTerPageMixin(RESTerSettingsMixin(PolymerElement)) {
+class RESTerPageSettings extends RESTerPageMixin(
+    RESTerSettingsMixin(PolymerElement)
+) {
     static get template() {
         return html`
             ${resterHintStyle}

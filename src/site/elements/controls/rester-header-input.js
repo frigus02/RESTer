@@ -1,9 +1,9 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import { microTask } from "../../../../node_modules/@polymer/polymer/lib/utils/async.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../styles/rester-icons.js";
-import "./rester-autocomplete-input.js";
+import { microTask } from '../../../../node_modules/@polymer/polymer/lib/utils/async.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../styles/rester-icons.js';
+import './rester-autocomplete-input.js';
 
 const COMMON_MIME_TYPES = [
     'application/json',
@@ -49,12 +49,12 @@ const REQUEST_HEADERS = [
 ];
 
 const REQUEST_HEADER_VALUES = {
-    'Accept': COMMON_MIME_TYPES,
+    Accept: COMMON_MIME_TYPES,
     'Accept-Charset': ['utf-8', 'iso-8859-1'],
     'Accept-Encoding': ['gzip', 'deflate'],
-    'Authorization': ['Basic ', 'Bearer ', 'Digest '],
+    Authorization: ['Basic ', 'Bearer ', 'Digest '],
     'Cache-Control': ['no-cache'],
-    'Connection': ['close', 'keep-alive'],
+    Connection: ['close', 'keep-alive'],
     'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data']
 };
 
@@ -156,14 +156,22 @@ class RESTerHeaderInput extends PolymerElement {
         // Async ensures, this event is triggered after item.name and item.value
         // properties have been updated.
         microTask.run(() => {
-            this.value = this.headers.filter(header => header.name.trim() !== '' || header.value.trim() !== '');
+            this.value = this.headers.filter(
+                header =>
+                    header.name.trim() !== '' || header.value.trim() !== ''
+            );
             this._ensureEmptyHeader();
         });
     }
 
     _ensureEmptyHeader() {
-        if (!this.headers.some(header => header.name.trim() === '' && header.value.trim() === '')) {
-            this.push('headers', {name: '', value: ''});
+        if (
+            !this.headers.some(
+                header =>
+                    header.name.trim() === '' && header.value.trim() === ''
+            )
+        ) {
+            this.push('headers', { name: '', value: '' });
         }
     }
 

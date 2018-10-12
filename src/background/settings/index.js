@@ -29,7 +29,7 @@ function getSettings() {
 
 function setSettings(settings) {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.set({settings}, () => {
+        chrome.storage.local.set({ settings }, () => {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             } else {
@@ -38,7 +38,6 @@ function setSettings(settings) {
         });
     });
 }
-
 
 export const e = new CustomEventTarget();
 
@@ -57,18 +56,24 @@ export function get() {
 
 export function set(newSettings) {
     // Filter for keys, which actually exist.
-    const changedKeys = Object.keys(newSettings).filter(key => DEFAULTS.hasOwnProperty(key));
+    const changedKeys = Object.keys(newSettings).filter(key =>
+        DEFAULTS.hasOwnProperty(key)
+    );
     const changedSettings = {};
     for (let key of changedKeys) {
         changedSettings[key] = newSettings[key];
     }
 
-    return getSettings().then(settings => {
-        Object.assign(settings, changedSettings);
-        return setSettings(settings);
-    }).then(() => {
-        e.dispatchEvent(new CustomEvent('change', {
-            detail: changedSettings
-        }));
-    });
+    return getSettings()
+        .then(settings => {
+            Object.assign(settings, changedSettings);
+            return setSettings(settings);
+        })
+        .then(() => {
+            e.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: changedSettings
+                })
+            );
+        });
 }

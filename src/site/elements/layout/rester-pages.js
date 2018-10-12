@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../pages/rester-page-about.js";
-import "../pages/rester-page-environments.js";
-import "../pages/rester-page-history.js";
-import "../pages/rester-page-organize.js";
-import "../pages/rester-page-request.js";
-import "../pages/rester-page-settings.js";
+import '../pages/rester-page-about.js';
+import '../pages/rester-page-environments.js';
+import '../pages/rester-page-history.js';
+import '../pages/rester-page-organize.js';
+import '../pages/rester-page-request.js';
+import '../pages/rester-page-settings.js';
 
 /**
  * @polymer
@@ -91,7 +91,9 @@ class RESTerPages extends PolymerElement {
         }
 
         if (this.page) {
-            this._currentElement = document.createElement(`rester-page-${this.page}`);
+            this._currentElement = document.createElement(
+                `rester-page-${this.page}`
+            );
             this._currentElement.classList.add('page');
 
             this.appendChild(this._currentElement);

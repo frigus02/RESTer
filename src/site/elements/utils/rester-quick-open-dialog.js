@@ -1,11 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-input/iron-input.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js";
-import "../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js";
-import "../../../../node_modules/@polymer/paper-dialog/paper-dialog.js";
-import "../../../../node_modules/web-animations-js/web-animations-next-lite.min.js";
-import "../controls/rester-autocomplete.js";
+import '../../../../node_modules/@polymer/iron-input/iron-input.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/fade-out-animation.js';
+import '../../../../node_modules/@polymer/neon-animation/animations/scale-up-animation.js';
+import '../../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
+import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
+import '../controls/rester-autocomplete.js';
 import { getRequests } from '../data/scripts/rester.js';
 
 /**
@@ -101,12 +101,14 @@ class RESTerQuickOpenDialog extends PolymerElement {
     show() {
         this.searchText = '';
         getRequests(RESTerQuickOpenDialog.requestFields).then(requests => {
-            this._setItems(requests.map(r => ({
-                title: `${r.collection} / ${r.title}`,
-                description: `${r.method} ${r.url}`,
-                score: 0,
-                data: r
-            })));
+            this._setItems(
+                requests.map(r => ({
+                    title: `${r.collection} / ${r.title}`,
+                    description: `${r.method} ${r.url}`,
+                    score: 0,
+                    data: r
+                }))
+            );
         });
 
         this.$.dialog.open();

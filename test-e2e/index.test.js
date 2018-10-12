@@ -6,11 +6,17 @@ const { Key, until } = require('selenium-webdriver');
 
 const createDriver = require('../tools/lib/create-web-driver');
 const Server = require('../tools/lib/server');
-const { MainSelectors, RequestSelectors, SettingsSelectors, wrapped } = require('../tools/lib/page-elements');
+const {
+    MainSelectors,
+    RequestSelectors,
+    SettingsSelectors,
+    wrapped
+} = require('../tools/lib/page-elements');
 const pageNavigation = require('../tools/lib/page-navigation');
 
 const timeout = 3000;
-const baseUrl = 'moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa/site/index.html';
+const baseUrl =
+    'moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa/site/index.html';
 jest.setTimeout(timeout * 100);
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -22,7 +28,7 @@ let RequestElements;
 let SettingsElements;
 let goTo;
 
-beforeAll(async function () {
+beforeAll(async function() {
     driver = await createDriver();
     await driver.get(baseUrl);
     MainElements = wrapped(MainSelectors, driver);
@@ -34,7 +40,7 @@ beforeAll(async function () {
     await server.start();
 });
 
-afterAll(async function () {
+afterAll(async function() {
     if (server) {
         await server.stop();
     }
@@ -44,15 +50,15 @@ afterAll(async function () {
     }
 });
 
-test('title', async function () {
+test('title', async function() {
     await goTo('request');
 
     const title = await MainElements.title.getText();
     expect(title).toBe('RESTer');
 });
 
-describe('with browser requests', function () {
-    beforeAll(async function () {
+describe('with browser requests', function() {
+    beforeAll(async function() {
         await goTo('settings');
         await SettingsElements.requestMode.click();
         await delay(500);
@@ -63,8 +69,8 @@ describe('with browser requests', function () {
     registerRequestTests();
 });
 
-describe('with clean requests', function () {
-    beforeAll(async function () {
+describe('with clean requests', function() {
+    beforeAll(async function() {
         await goTo('settings');
         await SettingsElements.requestMode.click();
         await delay(500);
@@ -76,21 +82,39 @@ describe('with clean requests', function () {
 });
 
 function registerRequestTests() {
-    test('GET http://127.0.0.1:7373/echo', async function () {
+    test('GET http://127.0.0.1:7373/echo', async function() {
         await goTo('request');
-        await driver.actions().click(RequestElements.method).sendKeys('GET', Key.TAB, `${server.url}/echo`).perform();
-        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('User-Agent', Key.TAB, 'RESTer').perform();
-        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('Accept', Key.TAB, 'text/plain').perform();
+        await driver
+            .actions()
+            .click(RequestElements.method)
+            .sendKeys('GET', Key.TAB, `${server.url}/echo`)
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('User-Agent', Key.TAB, 'RESTer')
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('Accept', Key.TAB, 'text/plain')
+            .perform();
         await RequestElements.send.click();
-        await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
+        await driver.wait(
+            until.elementIsVisible(RequestElements.responseSection),
+            timeout
+        );
 
         const responseCode = await RequestElements.responseCode.getText();
-        const responseBody = await driver.executeScript(e => e.value, RequestElements.responseBody);
+        const responseBody = await driver.executeScript(
+            e => e.value,
+            RequestElements.responseBody
+        );
         expect(responseCode).toBe('200 OK');
         expect(responseBody).toMatchSnapshot();
     });
 
-    test('GET http://127.0.0.1:7373/echo with cookie', async function () {
+    test('GET http://127.0.0.1:7373/echo with cookie', async function() {
         // Set cookies for http://127.0.0.1:7373
         await driver.executeScript(`window.open('http://127.0.0.1:7373/')`);
         await delay(1000);
@@ -103,14 +127,32 @@ function registerRequestTests() {
 
         // Perform request
         await goTo('request');
-        await driver.actions().click(RequestElements.method).sendKeys('GET', Key.TAB, `${server.url}/echo`).perform();
-        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('User-Agent', Key.TAB, 'RESTer').perform();
-        await driver.actions().click(RequestElements.lastHeaderName).sendKeys('Cookie', Key.TAB, 'number2=200;number3=300').perform();
+        await driver
+            .actions()
+            .click(RequestElements.method)
+            .sendKeys('GET', Key.TAB, `${server.url}/echo`)
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('User-Agent', Key.TAB, 'RESTer')
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('Cookie', Key.TAB, 'number2=200;number3=300')
+            .perform();
         await RequestElements.send.click();
-        await driver.wait(until.elementIsVisible(RequestElements.responseSection), timeout);
+        await driver.wait(
+            until.elementIsVisible(RequestElements.responseSection),
+            timeout
+        );
 
         const responseCode = await RequestElements.responseCode.getText();
-        const responseBody = await driver.executeScript(e => e.value, RequestElements.responseBody);
+        const responseBody = await driver.executeScript(
+            e => e.value,
+            RequestElements.responseBody
+        );
         expect(responseCode).toBe('200 OK');
         expect(responseBody).toMatchSnapshot();
     });

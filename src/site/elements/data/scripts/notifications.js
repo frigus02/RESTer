@@ -8,9 +8,11 @@ export function show(notification) {
     if (!notifications.some(n => n.id === notification.id)) {
         notifications.push(notification);
 
-        e.dispatchEvent(new CustomEvent('notificationAdded', {
-            detail: notification
-        }));
+        e.dispatchEvent(
+            new CustomEvent('notificationAdded', {
+                detail: notification
+            })
+        );
     }
 }
 
@@ -19,8 +21,10 @@ export function hide(notification) {
     if (index > -1) {
         notifications.splice(index, 1);
 
-        e.dispatchEvent(new CustomEvent('notificationRemoved', {
-            detail: notification
-        }));
+        e.dispatchEvent(
+            new CustomEvent('notificationRemoved', {
+                detail: notification
+            })
+        );
     }
 }

@@ -21,21 +21,34 @@ export class AuthorizationProviderConfiguration {
     }
 
     constructor(dbObject) {
-        Object.assign(this, AuthorizationProviderConfiguration.defaultProperties, dbObject);
+        Object.assign(
+            this,
+            AuthorizationProviderConfiguration.defaultProperties,
+            dbObject
+        );
     }
 }
 
 export function putAuthorizationProviderConfiguration(config) {
     config = new AuthorizationProviderConfiguration(config);
-    return db.transaction().put('authProviderConfigs', config).execute();
+    return db
+        .transaction()
+        .put('authProviderConfigs', config)
+        .execute();
 }
 
 export async function queryAuthorizationProviderConfigurations(providerId) {
-    const configs = await db.query('authProviderConfigs', AuthorizationProviderConfiguration);
+    const configs = await db.query(
+        'authProviderConfigs',
+        AuthorizationProviderConfiguration
+    );
     return configs.filter(config => config.providerId === providerId);
 }
 
 export function deleteAuthorizationProviderConfiguration(id) {
     const config = new AuthorizationProviderConfiguration({ id });
-    return db.transaction().delete('authProviderConfigs', config).execute();
+    return db
+        .transaction()
+        .delete('authProviderConfigs', config)
+        .execute();
 }

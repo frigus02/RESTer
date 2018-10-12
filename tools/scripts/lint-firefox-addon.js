@@ -12,7 +12,6 @@ const logSymbols = require('log-symbols');
 
 const ignoreFileName = '.addonslinterignore';
 
-
 /**
  * Lints a Firefox addon.
  *
@@ -50,9 +49,9 @@ async function lintFirefoxAddon(options) {
         result[list] = result[list].filter(message => {
             const file = path.resolve(message.file);
 
-            const ignoreEntry = ignoreList.find(ignore =>
-                ignore.file === file &&
-                ignore.code === message.code);
+            const ignoreEntry = ignoreList.find(
+                ignore => ignore.file === file && ignore.code === message.code
+            );
             if (ignoreEntry) {
                 ignoreEntry.used = true;
                 return false;
@@ -121,7 +120,11 @@ function getIgnoreList() {
 }
 
 function reportResult(result) {
-    const messages = [...result.errors, ...result.warnings, ...result.notices].sort((a, b) => {
+    const messages = [
+        ...result.errors,
+        ...result.warnings,
+        ...result.notices
+    ].sort((a, b) => {
         const file = a.file.localeCompare(b.file);
         if (file !== 0) {
             return file;
@@ -155,11 +158,15 @@ function reportResult(result) {
             location = 'unknown location';
         }
 
-        console.log([
-            '',
-            chalk.gray(location),
-            chalk[colors[message._type]](`${message.code} ${message.message}`)
-        ].join(' '));
+        console.log(
+            [
+                '',
+                chalk.gray(location),
+                chalk[colors[message._type]](
+                    `${message.code} ${message.message}`
+                )
+            ].join(' ')
+        );
 
         if (message.description) {
             console.log(`  ${message.description}`);
@@ -170,15 +177,24 @@ function reportResult(result) {
         console.log();
 
         if (result.summary.errors > 0) {
-            console.log(' ' + logSymbols.error, ' ' + result.summary.errors + ' error(s)');
+            console.log(
+                ' ' + logSymbols.error,
+                ' ' + result.summary.errors + ' error(s)'
+            );
         }
 
         if (result.summary.warnings > 0) {
-            console.log(' ' + logSymbols.warning, ' ' + result.summary.warnings + ' warning(s)');
+            console.log(
+                ' ' + logSymbols.warning,
+                ' ' + result.summary.warnings + ' warning(s)'
+            );
         }
 
         if (result.summary.notices > 0) {
-            console.log(' ' + logSymbols.info, ' ' + result.summary.notices + ' notice(s)');
+            console.log(
+                ' ' + logSymbols.info,
+                ' ' + result.summary.notices + ' notice(s)'
+            );
         }
     }
 }

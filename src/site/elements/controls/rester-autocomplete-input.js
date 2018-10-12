@@ -1,9 +1,9 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/iron-input/iron-input.js";
-import "../../../../node_modules/@polymer/paper-input/paper-input-container.js";
-import resterPaperInputStyle from "../styles/rester-paper-input.js";
-import "./rester-autocomplete.js";
+import '../../../../node_modules/@polymer/iron-input/iron-input.js';
+import '../../../../node_modules/@polymer/paper-input/paper-input-container.js';
+import resterPaperInputStyle from '../styles/rester-paper-input.js';
+import './rester-autocomplete.js';
 
 /**
  * @polymer

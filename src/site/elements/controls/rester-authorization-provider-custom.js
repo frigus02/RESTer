@@ -41,19 +41,24 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
             token: ''
         };
 
-        return dialogs.authProviderCustomGenerateToken.show(data).then(result => {
-            if (result.reason.confirmed) {
-                const token = {};
-                token.providerId = this.providerId;
-                token.title = `${data.scheme} ${data.token}`;
-                token.scheme = data.scheme;
-                token.token = data.token;
-                return token;
-            } else {
-                return Promise.reject();
-            }
-        });
+        return dialogs.authProviderCustomGenerateToken
+            .show(data)
+            .then(result => {
+                if (result.reason.confirmed) {
+                    const token = {};
+                    token.providerId = this.providerId;
+                    token.title = `${data.scheme} ${data.token}`;
+                    token.scheme = data.scheme;
+                    token.token = data.token;
+                    return token;
+                } else {
+                    return Promise.reject();
+                }
+            });
     }
 }
 
-customElements.define(RESTerAuthorizationProviderCustom.is, RESTerAuthorizationProviderCustom);
+customElements.define(
+    RESTerAuthorizationProviderCustom.is,
+    RESTerAuthorizationProviderCustom
+);

@@ -19,40 +19,41 @@ import { add, remove, Hotkey } from '../data/scripts/hotkeys.js';
  *     };
  * }
  */
-const RESTerHotkeysMixin = superclass => class extends superclass {
-    constructor() {
-        super();
-        this._addedResterHotkeys = null;
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        this._addedResterHotkeys = this._getResterHotkeys();
-        for (let hotkey of this._addedResterHotkeys) {
-            add(hotkey);
+const RESTerHotkeysMixin = superclass =>
+    class extends superclass {
+        constructor() {
+            super();
+            this._addedResterHotkeys = null;
         }
-    }
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        for (let hotkey of this._addedResterHotkeys) {
-            remove(hotkey);
+        connectedCallback() {
+            super.connectedCallback();
+            this._addedResterHotkeys = this._getResterHotkeys();
+            for (let hotkey of this._addedResterHotkeys) {
+                add(hotkey);
+            }
         }
-    }
 
-    _getResterHotkeys() {
-        const hotkeys = this.constructor.resterHotkeys || {};
+        disconnectedCallback() {
+            super.disconnectedCallback();
+            for (let hotkey of this._addedResterHotkeys) {
+                remove(hotkey);
+            }
+        }
 
-        return Object.keys(hotkeys).map(comboString => {
-            const details = hotkeys[comboString];
+        _getResterHotkeys() {
+            const hotkeys = this.constructor.resterHotkeys || {};
 
-            return new Hotkey({
-                combos: comboString.split(/\s*,\s*/i),
-                description: details.description,
-                callback: this[details.callback].bind(this)
+            return Object.keys(hotkeys).map(comboString => {
+                const details = hotkeys[comboString];
+
+                return new Hotkey({
+                    combos: comboString.split(/\s*,\s*/i),
+                    description: details.description,
+                    callback: this[details.callback].bind(this)
+                });
             });
-        });
-    }
-};
+        }
+    };
 
 export default RESTerHotkeysMixin;

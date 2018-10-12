@@ -1,13 +1,13 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import "../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js";
-import "../../../../node_modules/@polymer/app-layout/app-header/app-header.js";
-import "../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js";
-import "../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js";
-import "../../../../node_modules/@polymer/paper-item/paper-icon-item.js";
-import "../../../../node_modules/@polymer/paper-item/paper-item-body.js";
-import "../styles/rester-icons.js";
-import resterPageStyle from "../styles/rester-page.js";
+import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
+import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
+import '../styles/rester-icons.js';
+import resterPageStyle from '../styles/rester-page.js';
 import { sort } from '../../../shared/util.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 
@@ -119,20 +119,24 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
         fetch('bower.json')
             .then(response => response.json())
             .then(bower => {
-                const bowerComponents = Object.keys(bower.dependencies).map(name => {
-                    let version = bower.dependencies[name];
+                const bowerComponents = Object.keys(bower.dependencies).map(
+                    name => {
+                        let version = bower.dependencies[name];
 
-                    if (version.includes('#')) {
-                        [name, version] = version.split('#');
+                        if (version.includes('#')) {
+                            [name, version] = version.split('#');
+                        }
+
+                        return {
+                            name,
+                            version
+                        };
                     }
+                );
 
-                    return {
-                        name,
-                        version
-                    };
-                });
-
-                this._setLibraries(sort(bowerComponents, x => x.name.toLowerCase()));
+                this._setLibraries(
+                    sort(bowerComponents, x => x.name.toLowerCase())
+                );
             });
 
         const manifest = chrome.runtime.getManifest();

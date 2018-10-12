@@ -2,7 +2,7 @@ import CustomEventTarget from '../../../../shared/custom-event-target.js';
 
 export const e = new CustomEventTarget();
 
-const port = chrome.runtime.connect({name: 'api'});
+const port = chrome.runtime.connect({ name: 'api' });
 const requests = {};
 const settingsKeys = [
     'activeEnvironment',
@@ -23,9 +23,13 @@ const cachedSettings = {};
 port.onMessage.addListener(message => {
     if (message.action === 'apiresponse') {
         if (message.error) {
-            requests[message.id].reject(message.error && JSON.parse(message.error));
+            requests[message.id].reject(
+                message.error && JSON.parse(message.error)
+            );
         } else {
-            requests[message.id].resolve(message.result && JSON.parse(message.result));
+            requests[message.id].resolve(
+                message.result && JSON.parse(message.result)
+            );
         }
 
         requests[message.id] = undefined;
@@ -45,7 +49,7 @@ function sendApiRequest(action, args, fields) {
     return new Promise((resolve, reject) => {
         const id = Math.random();
 
-        requests[id] = {resolve, reject};
+        requests[id] = { resolve, reject };
 
         port.postMessage({
             id,
@@ -55,7 +59,6 @@ function sendApiRequest(action, args, fields) {
         });
     });
 }
-
 
 /*
 * Data
@@ -98,15 +101,25 @@ export function deleteHistoryEntries(ids) {
 }
 
 export function putAuthorizationProviderConfiguration(config) {
-    return sendApiRequest('data.authorizationProviderConfigurations.put', config);
+    return sendApiRequest(
+        'data.authorizationProviderConfigurations.put',
+        config
+    );
 }
 
 export function getAuthorizationProviderConfigurations(providerId, fields) {
-    return sendApiRequest('data.authorizationProviderConfigurations.query', providerId, fields);
+    return sendApiRequest(
+        'data.authorizationProviderConfigurations.query',
+        providerId,
+        fields
+    );
 }
 
 export function deleteAuthorizationProviderConfiguration(id) {
-    return sendApiRequest('data.authorizationProviderConfigurations.delete', id);
+    return sendApiRequest(
+        'data.authorizationProviderConfigurations.delete',
+        id
+    );
 }
 
 export function addAuthorizationToken(token) {
@@ -145,7 +158,6 @@ export function importData(options) {
     return sendApiRequest('exportImport.import', options);
 }
 
-
 /*
 * Settings
 */
@@ -154,10 +166,10 @@ export const settings = {};
 
 settingsKeys.forEach(key => {
     Object.defineProperty(settings, key, {
-        get: function () {
+        get: function() {
             return cachedSettings[key];
         },
-        set: function (newValue) {
+        set: function(newValue) {
             cachedSettings[key] = newValue;
             sendApiRequest('settings.set', {
                 [key]: newValue

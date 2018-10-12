@@ -5,7 +5,6 @@ const { promisify } = require('util');
 
 const writeFile = promisify(fs.writeFile);
 
-
 function generateUsedLibraryText(usedFiles) {
     const libraries = usedFiles
         .sort()
@@ -31,7 +30,12 @@ function generateUsedLibraryText(usedFiles) {
             return {
                 name: lib,
                 version: packageJson.version,
-                files: files.map(file => `https://unpkg.com/${packageJson.name}@${packageJson.version}/${file}`)
+                files: files.map(
+                    file =>
+                        `https://unpkg.com/${packageJson.name}@${
+                            packageJson.version
+                        }/${file}`
+                )
             };
         })
         .map(lib => `${lib.name} ${lib.version}\n${lib.files.join('\n')}`)
@@ -58,19 +62,24 @@ class GenerateLibraryLinksPlugin {
 
     apply(compiler) {
         const options = this.options;
-        compiler.hooks.emit.tapPromise('GenerateLibraryLinksPlugin', async compilation => {
-            const usedFiles = [
-                ...options.additionalFiles,
-                ...Array.from(compilation.fileDependencies)
-                    .map(filename => filename.substr(process.cwd().length + 1))
-                    .map(filename => filename.replace(/\\/g, '/'))
-            ];
+        compiler.hooks.emit.tapPromise(
+            'GenerateLibraryLinksPlugin',
+            async compilation => {
+                const usedFiles = [
+                    ...options.additionalFiles,
+                    ...Array.from(compilation.fileDependencies)
+                        .map(filename =>
+                            filename.substr(process.cwd().length + 1)
+                        )
+                        .map(filename => filename.replace(/\\/g, '/'))
+                ];
 
-            const text = generateUsedLibraryText(usedFiles);
-            const fileContent = options.header + text + options.footer;
+                const text = generateUsedLibraryText(usedFiles);
+                const fileContent = options.header + text + options.footer;
 
-            await writeFile(options.filename, fileContent, 'utf8');
-        });
+                await writeFile(options.filename, fileContent, 'utf8');
+            }
+        );
     }
 }
 

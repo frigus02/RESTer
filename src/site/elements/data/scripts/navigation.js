@@ -1,12 +1,7 @@
 import CustomEventTarget from '../../../../shared/custom-event-target.js';
 import dialogs from './dialogs.js';
 import { time as formatTime } from './format.js';
-import {
-    Divider,
-    Group,
-    Item,
-    Subheader
-} from './navigation-item-types.js';
+import { Divider, Group, Item, Subheader } from './navigation-item-types.js';
 import {
     e as resterEvents,
     getEnvironment,
@@ -19,7 +14,16 @@ import { clone, group, sort, sortedIndexOf } from '../../../../shared/util.js';
 import { replaceWithoutProvidedValues } from './variables.js';
 
 const requestFields = ['id', 'collection', 'title'];
-const historyFields = ['id', 'time', 'request.id', 'request.collection', 'request.title', 'request.method', 'request.url', 'request.variables'];
+const historyFields = [
+    'id',
+    'time',
+    'request.id',
+    'request.collection',
+    'request.title',
+    'request.method',
+    'request.url',
+    'request.variables'
+];
 const environmentFields = ['id', 'name'];
 
 function createListOfRequestNavItems(rawRequests) {
@@ -43,7 +47,8 @@ function createListOfRequestNavItems(rawRequests) {
             .filter(request => request.collection.length === 0)
             .map(request => createRequestNavItem(request));
         const subcollections = createListOfRequestNavItems(
-            requests.filter(request => request.collection.length > 0));
+            requests.filter(request => request.collection.length > 0)
+        );
         collItem.items = sort(subcollections.concat(subrequests), 'title');
 
         return collItem;
@@ -71,16 +76,23 @@ function createRequestNavItem(request) {
 function createHistoryNavItem(historyEntry) {
     let requestTitle = '';
     if (historyEntry.request.id) {
-        requestTitle = `${historyEntry.request.collection} / ${historyEntry.request.title}`;
+        requestTitle = `${historyEntry.request.collection} / ${
+            historyEntry.request.title
+        }`;
     }
 
-    const compiledRequest = replaceWithoutProvidedValues(historyEntry.request, historyEntry.request.variables.values);
+    const compiledRequest = replaceWithoutProvidedValues(
+        historyEntry.request,
+        historyEntry.request.variables.values
+    );
 
     return new Item({
         title: `${formatTime(historyEntry.time)} ${requestTitle}`,
         subtitle: `${compiledRequest.method} ${compiledRequest.url}`,
         action: {
-            url: `#/request/${historyEntry.request.id || ''}/history/${historyEntry.id}`
+            url: `#/request/${historyEntry.request.id || ''}/history/${
+                historyEntry.id
+            }`
         }
     });
 }
@@ -152,35 +164,51 @@ export default class Navigation extends CustomEventTarget {
         this._environmentNavItemIndex = 0;
         this._historyNavItemsOffset = 0;
         this._historyNavItemsCount = 0;
-        this._updateNavigationBasedOnDataChanges = this._updateNavigationBasedOnDataChanges.bind(this);
-        this._updateNavigationBasedOnSettingsChanges = this._updateNavigationBasedOnSettingsChanges.bind(this);
+        this._updateNavigationBasedOnDataChanges = this._updateNavigationBasedOnDataChanges.bind(
+            this
+        );
+        this._updateNavigationBasedOnSettingsChanges = this._updateNavigationBasedOnSettingsChanges.bind(
+            this
+        );
 
         this._create();
-        resterEvents.addEventListener('dataChange', this._updateNavigationBasedOnDataChanges);
-        resterEvents.addEventListener('settingsChange', this._updateNavigationBasedOnSettingsChanges);
+        resterEvents.addEventListener(
+            'dataChange',
+            this._updateNavigationBasedOnDataChanges
+        );
+        resterEvents.addEventListener(
+            'settingsChange',
+            this._updateNavigationBasedOnSettingsChanges
+        );
     }
 
     async _create() {
-        const [requests, historyEntries, activeEnvironment] = await Promise.all([
-            getRequests(requestFields),
-            getHistoryEntries(5, historyFields),
-            settingsLoaded.then(() => getActiveEnvironment())
-        ]);
+        const [requests, historyEntries, activeEnvironment] = await Promise.all(
+            [
+                getRequests(requestFields),
+                getHistoryEntries(5, historyFields),
+                settingsLoaded.then(() => getActiveEnvironment())
+            ]
+        );
 
-        this.items.push(new Subheader({
-            title: 'Requests',
-            action: {
-                icon: 'add',
-                url: '#/'
-            }
-        }));
+        this.items.push(
+            new Subheader({
+                title: 'Requests',
+                action: {
+                    icon: 'add',
+                    url: '#/'
+                }
+            })
+        );
 
         this._requestNavItemsOffset = 1;
-        const requestNavItems = createListOfRequestNavItems(requests.map(r => {
-            r = clone(r);
-            r.collection = r.collection.split(/\s*\/\s*/i);
-            return r;
-        }));
+        const requestNavItems = createListOfRequestNavItems(
+            requests.map(r => {
+                r = clone(r);
+                r.collection = r.collection.split(/\s*\/\s*/i);
+                return r;
+            })
+        );
         this._requestNavItemsCount = requestNavItems.length;
 
         this.items.push(
@@ -195,7 +223,8 @@ export default class Navigation extends CustomEventTarget {
             })
         );
 
-        this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
+        this._environmentNavItemIndex =
+            this._requestNavItemsOffset + this._requestNavItemsCount + 2;
 
         this.items.push(
             createEnvironmentNavItem(activeEnvironment),
@@ -216,7 +245,9 @@ export default class Navigation extends CustomEventTarget {
         );
 
         this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
-        const historyNavItems = historyEntries.map(entry => createHistoryNavItem(entry));
+        const historyNavItems = historyEntries.map(entry =>
+            createHistoryNavItem(entry)
+        );
         this._historyNavItemsCount = historyNavItems.length;
 
         this.items.push(...historyNavItems);
@@ -232,33 +263,56 @@ export default class Navigation extends CustomEventTarget {
     _splice(path, start, deleteCount, ...items) {
         this._get(path).splice(start, deleteCount, ...items);
 
-        this.dispatchEvent(new CustomEvent('itemsChanged', {
-            detail: {
-                path,
-                start,
-                deleteCount,
-                items
-            }
-        }));
+        this.dispatchEvent(
+            new CustomEvent('itemsChanged', {
+                detail: {
+                    path,
+                    start,
+                    deleteCount,
+                    items
+                }
+            })
+        );
     }
 
-    _removeRequestNavigationItem(requestId, path = [], offset = this._requestNavItemsOffset, count = this._requestNavItemsCount) {
+    _removeRequestNavigationItem(
+        requestId,
+        path = [],
+        offset = this._requestNavItemsOffset,
+        count = this._requestNavItemsCount
+    ) {
         const requests = this._get(path);
-        for (let requestIndex = offset; requestIndex < offset + count; requestIndex++) {
+        for (
+            let requestIndex = offset;
+            requestIndex < offset + count;
+            requestIndex++
+        ) {
             const request = requests[requestIndex];
             if (request.isItem && request.data.id === requestId) {
                 this._splice(path, requestIndex, 1);
                 return true;
             }
 
-            if (request.isGroup && this._removeRequestNavigationItem(requestId, [...path, requestIndex, 'items'], 0, request.items.length)) {
+            if (
+                request.isGroup &&
+                this._removeRequestNavigationItem(
+                    requestId,
+                    [...path, requestIndex, 'items'],
+                    0,
+                    request.items.length
+                )
+            ) {
                 if (request.items.length === 0) {
                     this._splice(path, requestIndex, 1);
 
                     if (path.length === 0) {
                         this._requestNavItemsCount--;
-                        this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
-                        this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
+                        this._environmentNavItemIndex =
+                            this._requestNavItemsOffset +
+                            this._requestNavItemsCount +
+                            2;
+                        this._historyNavItemsOffset =
+                            this._environmentNavItemIndex + 4;
                     }
                 }
 
@@ -277,42 +331,80 @@ export default class Navigation extends CustomEventTarget {
                 }
 
                 if (change.action === 'add' || change.action === 'put') {
-                    let collectionParts = change.item.collection.split(/\s*\/\s*/i),
+                    let collectionParts = change.item.collection.split(
+                            /\s*\/\s*/i
+                        ),
                         collectionPath = [],
                         collectionOffset = this._requestNavItemsOffset,
                         collectionCount = this._requestNavItemsCount;
 
                     while (collectionParts.length > 0) {
-                        const collectionItems = this._get(collectionPath).slice(collectionOffset, collectionOffset + collectionCount);
-                        let collectionIndex = collectionItems.findIndex(item => item.title === collectionParts[0]);
+                        const collectionItems = this._get(collectionPath).slice(
+                            collectionOffset,
+                            collectionOffset + collectionCount
+                        );
+                        let collectionIndex = collectionItems.findIndex(
+                            item => item.title === collectionParts[0]
+                        );
                         if (collectionIndex === -1) {
-                            const collection = createRequestCollectionNavItem(collectionParts[0]);
+                            const collection = createRequestCollectionNavItem(
+                                collectionParts[0]
+                            );
 
-                            collectionIndex = sortedIndexOf(collectionItems, {title: collectionParts[0]}, 'title');
-                            this._splice(collectionPath, collectionOffset + collectionIndex, 0, collection);
+                            collectionIndex = sortedIndexOf(
+                                collectionItems,
+                                { title: collectionParts[0] },
+                                'title'
+                            );
+                            this._splice(
+                                collectionPath,
+                                collectionOffset + collectionIndex,
+                                0,
+                                collection
+                            );
                             if (collectionPath.length === 0) {
                                 this._requestNavItemsCount++;
                             }
                         }
 
                         collectionParts.splice(0, 1);
-                        collectionPath.push(collectionOffset + collectionIndex, 'items');
+                        collectionPath.push(
+                            collectionOffset + collectionIndex,
+                            'items'
+                        );
                         collectionOffset = 0;
                         collectionCount = this._get(collectionPath).length;
                     }
 
                     const collectionItems = this._get(collectionPath);
-                    const insertAtIndex = sortedIndexOf(collectionItems, change.item, 'title');
-                    this._splice(collectionPath, insertAtIndex, 0, createRequestNavItem(change.item));
+                    const insertAtIndex = sortedIndexOf(
+                        collectionItems,
+                        change.item,
+                        'title'
+                    );
+                    this._splice(
+                        collectionPath,
+                        insertAtIndex,
+                        0,
+                        createRequestNavItem(change.item)
+                    );
                 }
 
-                this._environmentNavItemIndex = this._requestNavItemsOffset + this._requestNavItemsCount + 2;
+                this._environmentNavItemIndex =
+                    this._requestNavItemsOffset +
+                    this._requestNavItemsCount +
+                    2;
                 this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
             } else if (change.itemType === 'HistoryEntry') {
                 if (change.action === 'add') {
                     const newHistoryItem = createHistoryNavItem(change.item);
 
-                    this._splice([], this._historyNavItemsOffset, 0, newHistoryItem);
+                    this._splice(
+                        [],
+                        this._historyNavItemsOffset,
+                        0,
+                        newHistoryItem
+                    );
                     this._historyNavItemsCount++;
                     if (this._historyNavItemsCount > 5) {
                         this._splice([], this._historyNavItemsOffset + 5, 1);
@@ -321,7 +413,12 @@ export default class Navigation extends CustomEventTarget {
                 }
             } else if (change.itemType === 'Environment') {
                 if (change.item.id === settings.activeEnvironment) {
-                    this._splice([], this._environmentNavItemIndex, 1, createEnvironmentNavItem(change.item));
+                    this._splice(
+                        [],
+                        this._environmentNavItemIndex,
+                        1,
+                        createEnvironmentNavItem(change.item)
+                    );
                 }
             }
         }
@@ -329,11 +426,19 @@ export default class Navigation extends CustomEventTarget {
 
     async _updateNavigationBasedOnSettingsChanges() {
         const env = await getActiveEnvironment();
-        this._splice([], this._environmentNavItemIndex, 1, createEnvironmentNavItem(env));
+        this._splice(
+            [],
+            this._environmentNavItemIndex,
+            1,
+            createEnvironmentNavItem(env)
+        );
     }
 
     getNextRequestId(requestId) {
-        const requests = this.items.slice(this._requestNavItemsOffset, this._requestNavItemsOffset + this._requestNavItemsCount);
+        const requests = this.items.slice(
+            this._requestNavItemsOffset,
+            this._requestNavItemsOffset + this._requestNavItemsCount
+        );
         const result = findNextRequestId(requestId, requests);
         if (result !== 'noNextInGroup') {
             return result;
@@ -341,8 +446,14 @@ export default class Navigation extends CustomEventTarget {
     }
 
     destroy() {
-        resterEvents.removeEventListener('dataChange', this._updateNavigationBasedOnDataChanges);
-        resterEvents.removeEventListener('settingsChange', this._updateNavigationBasedOnSettingsChanges);
+        resterEvents.removeEventListener(
+            'dataChange',
+            this._updateNavigationBasedOnDataChanges
+        );
+        resterEvents.removeEventListener(
+            'settingsChange',
+            this._updateNavigationBasedOnSettingsChanges
+        );
     }
 }
 

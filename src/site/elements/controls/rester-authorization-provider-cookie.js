@@ -14,7 +14,9 @@ async function ensureCookiesPermission() {
             if (result) {
                 resolve();
             } else {
-                reject('RESTer needs the permissions to read cookies for this.');
+                reject(
+                    'RESTer needs the permissions to read cookies for this.'
+                );
             }
         });
     });
@@ -38,8 +40,15 @@ function getShortestCookieExpirationDate(cookies) {
         const sessionExpirationDate = Date.now() / 1000 + 86400;
 
         const expirationDate = cookies
-            .map(cookie => cookie.session ? sessionExpirationDate : cookie.expirationDate)
-            .reduce((prev, current) => !prev || prev > current ? current : prev);
+            .map(
+                cookie =>
+                    cookie.session
+                        ? sessionExpirationDate
+                        : cookie.expirationDate
+            )
+            .reduce(
+                (prev, current) => (!prev || prev > current ? current : prev)
+            );
         if (expirationDate) {
             // The cookie expiration date is specified in seconds while the
             // Date object uses milliseconds. So we need to multiply by 1000.
@@ -90,11 +99,16 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
 
     async editConfiguration(config) {
         const newConfig = clone(config);
-        const result = await dialogs.authProviderCookieConfiguration.show(newConfig);
+        const result = await dialogs.authProviderCookieConfiguration.show(
+            newConfig
+        );
         if (result.reason.confirmed && result.reason.action === 'save') {
             newConfig.providerId = this.providerId;
             return newConfig;
-        } else if (result.reason.confirmed && result.reason.action === 'delete') {
+        } else if (
+            result.reason.confirmed &&
+            result.reason.action === 'delete'
+        ) {
             return 'delete';
         } else {
             throw new Error('Cancelled');
@@ -113,8 +127,13 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
             extractCookies: true
         });
 
-        const filteredCookies = filterCookies(response.cookies, config.cookieNames);
-        const shortedExpirationDate = getShortestCookieExpirationDate(filteredCookies);
+        const filteredCookies = filterCookies(
+            response.cookies,
+            config.cookieNames
+        );
+        const shortedExpirationDate = getShortestCookieExpirationDate(
+            filteredCookies
+        );
 
         const token = {
             title: 'Unknown',
@@ -133,4 +152,7 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
     }
 }
 
-customElements.define(RESTerAuthorizationProviderCookie.is, RESTerAuthorizationProviderCookie);
+customElements.define(
+    RESTerAuthorizationProviderCookie.is,
+    RESTerAuthorizationProviderCookie
+);

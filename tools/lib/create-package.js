@@ -11,7 +11,6 @@ const packageJson = require('../../package.json');
 
 const readFile = promisify(fs.readFile);
 
-
 const additionalManifestEntries = {
     firefox: {
         applications: {
@@ -70,9 +69,7 @@ const usedImages = {
         'images/icon{16,24,32,48,96}.png',
         'images/icon-light{16,24,32,48,96}.png'
     ],
-    chrome: [
-        'images/icon{16,24,32,48,128}.png'
-    ]
+    chrome: ['images/icon{16,24,32,48,128}.png']
 };
 
 function enhanceManifestJson(manifestJson, browser) {
@@ -83,14 +80,21 @@ function enhanceManifestJson(manifestJson, browser) {
 
     // Validate version
     if (manifest.version !== packageJson.version) {
-        throw new Error(`Version in manifest (${manifest.version}) does not match validated version (${packageJson.version}).`);
+        throw new Error(
+            `Version in manifest (${
+                manifest.version
+            }) does not match validated version (${packageJson.version}).`
+        );
     }
 
     return JSON.stringify(manifest, null, 4);
 }
 
 async function createPackage({ browser, srcDir, destFile }) {
-    const manifestJson = await readFile(path.join(srcDir, 'manifest.json'), 'utf8');
+    const manifestJson = await readFile(
+        path.join(srcDir, 'manifest.json'),
+        'utf8'
+    );
     await mkdirp(path.dirname(destFile));
 
     return await new Promise((resolve, reject) => {
@@ -99,11 +103,11 @@ async function createPackage({ browser, srcDir, destFile }) {
             zlib: { level: 9 }
         });
 
-        output.on('close', function () {
+        output.on('close', function() {
             resolve();
         });
 
-        archive.on('error', function (err) {
+        archive.on('error', function(err) {
             reject(err);
         });
 
@@ -111,10 +115,7 @@ async function createPackage({ browser, srcDir, destFile }) {
 
         archive.glob('**', {
             cwd: srcDir,
-            ignore: [
-                'images/**',
-                'manifest.json'
-            ]
+            ignore: ['images/**', 'manifest.json']
         });
 
         for (const images of usedImages[browser]) {

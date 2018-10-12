@@ -2,9 +2,9 @@ import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polyme
 import dialogs from '../data/scripts/dialogs.js';
 
 /**
-    * @polymer
-    * @customElement
-    */
+ * @polymer
+ * @customElement
+ */
 class RESTerAuthorizationProviderBasic extends PolymerElement {
     static get is() {
         return 'rester-authorization-provider-basic';
@@ -41,19 +41,26 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
             password: ''
         };
 
-        return dialogs.authProviderBasicGenerateToken.show(data).then(result => {
-            if (result.reason.confirmed) {
-                const token = {};
-                token.providerId = this.providerId;
-                token.title = data.userName;
-                token.scheme = 'Basic';
-                token.token = window.btoa(`${data.userName}:${data.password}`);
-                return token;
-            } else {
-                return Promise.reject();
-            }
-        });
+        return dialogs.authProviderBasicGenerateToken
+            .show(data)
+            .then(result => {
+                if (result.reason.confirmed) {
+                    const token = {};
+                    token.providerId = this.providerId;
+                    token.title = data.userName;
+                    token.scheme = 'Basic';
+                    token.token = window.btoa(
+                        `${data.userName}:${data.password}`
+                    );
+                    return token;
+                } else {
+                    return Promise.reject();
+                }
+            });
     }
 }
 
-customElements.define(RESTerAuthorizationProviderBasic.is, RESTerAuthorizationProviderBasic);
+customElements.define(
+    RESTerAuthorizationProviderBasic.is,
+    RESTerAuthorizationProviderBasic
+);

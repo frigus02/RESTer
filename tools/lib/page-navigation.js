@@ -15,11 +15,11 @@ const pages = {
     }
 };
 
-exports.goTo = function (driver, baseUrl, timeout) {
+exports.goTo = function(driver, baseUrl, timeout) {
     let lastPage;
     let lastPageElement;
 
-    return async function (page) {
+    return async function(page) {
         const { url, selector } = pages[page];
 
         await driver.get(`${baseUrl}#${url}`);
