@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.9.1] - 2018-12-18
+
 ### Fixed
 
 -   Made client secret field in OAuth 2 configuration optional. Some servers allow empty client secrets for authentication ([#71](https://github.com/frigus02/RESTer/issues/71)).
@@ -546,7 +548,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/3.9.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/3.9.1...HEAD
+[3.9.1]: https://github.com/frigus02/RESTer/compare/3.9.0...3.9.1
 [3.9.0]: https://github.com/frigus02/RESTer/compare/3.8.2...3.9.0
 [3.8.2]: https://github.com/frigus02/RESTer/compare/3.8.1...3.8.2
 [3.8.1]: https://github.com/frigus02/RESTer/compare/3.8.0...3.8.1
