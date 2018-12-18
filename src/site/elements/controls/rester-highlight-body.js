@@ -53,7 +53,7 @@ class RESTerHighlightBody extends RESTerErrorMixin(
 
                     --paper-menu: {
                         width: 256px;
-                    };
+                    }
                 }
 
                 .menu-item-divider {
@@ -62,39 +62,88 @@ class RESTerHighlightBody extends RESTerErrorMixin(
                 }
             </style>
 
-            <paper-menu-button id="options" dynamic-align horizontal-align="right" restore-focus-on-close>
-                <paper-icon-button slot="dropdown-trigger" icon="more-vert"></paper-icon-button>
-                <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
-                    <paper-icon-item role="menuitemcheckbox" on-tap="_toggleWrap">
-                        <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyWrap]]"></iron-icon> Wrap
+            <paper-menu-button
+                id="options"
+                dynamic-align
+                horizontal-align="right"
+                restore-focus-on-close
+            >
+                <paper-icon-button
+                    slot="dropdown-trigger"
+                    icon="more-vert"
+                ></paper-icon-button>
+                <paper-listbox
+                    slot="dropdown-content"
+                    selectable="[role='menuitemradio']"
+                >
+                    <paper-icon-item
+                        role="menuitemcheckbox"
+                        on-tap="_toggleWrap"
+                    >
+                        <iron-icon
+                            slot="item-icon"
+                            icon="check"
+                            hidden$="[[!settings.responseBodyWrap]]"
+                        ></iron-icon>
+                        Wrap
                     </paper-icon-item>
-                    <paper-icon-item role="menuitemcheckbox" on-tap="_togglePrettyPrint" hidden$="[[!isPrettyPrintSupported]]">
-                        <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyPrettyPrint]]"></iron-icon> Pretty Print
+                    <paper-icon-item
+                        role="menuitemcheckbox"
+                        on-tap="_togglePrettyPrint"
+                        hidden$="[[!isPrettyPrintSupported]]"
+                    >
+                        <iron-icon
+                            slot="item-icon"
+                            icon="check"
+                            hidden$="[[!settings.responseBodyPrettyPrint]]"
+                        ></iron-icon>
+                        Pretty Print
                     </paper-icon-item>
-                    <paper-icon-item role="menuitemcheckbox" on-tap="_toggleFullSize">
-                        <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyFullSize]]"></iron-icon> Full Size
+                    <paper-icon-item
+                        role="menuitemcheckbox"
+                        on-tap="_toggleFullSize"
+                    >
+                        <iron-icon
+                            slot="item-icon"
+                            icon="check"
+                            hidden$="[[!settings.responseBodyFullSize]]"
+                        ></iron-icon>
+                        Full Size
                     </paper-icon-item>
-                    <paper-icon-item role="menuitemcheckbox" on-tap="_togglePreview" hidden$="[[!isPreviewSupported]]">
-                        <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.responseBodyPreview]]"></iron-icon> Preview
+                    <paper-icon-item
+                        role="menuitemcheckbox"
+                        on-tap="_togglePreview"
+                        hidden$="[[!isPreviewSupported]]"
+                    >
+                        <iron-icon
+                            slot="item-icon"
+                            icon="check"
+                            hidden$="[[!settings.responseBodyPreview]]"
+                        ></iron-icon>
+                        Preview
                     </paper-icon-item>
                     <div class="menu-item-divider"></div>
                     <paper-icon-item on-tap="_changeLanguage">
-                        <iron-icon slot="item-icon" icon="language"></iron-icon> Change highlighting ([[language]])
+                        <iron-icon slot="item-icon" icon="language"></iron-icon>
+                        Change highlighting ([[language]])
                     </paper-icon-item>
                 </paper-listbox>
             </paper-menu-button>
 
             <template is="dom-if" if="[[!renderPreview]]">
                 <rester-ace-input
-                        mode="[[aceMode]]"
-                        value="[[renderedBody]]"
-                        use-wrap-mode="[[settings.responseBodyWrap]]"
-                        read-only
-                        max-lines="[[aceMaxLines]]"
-                        disable-search="[[settings.responseBodyFullSize]]"></rester-ace-input>
+                    mode="[[aceMode]]"
+                    value="[[renderedBody]]"
+                    use-wrap-mode="[[settings.responseBodyWrap]]"
+                    read-only
+                    max-lines="[[aceMaxLines]]"
+                    disable-search="[[settings.responseBodyFullSize]]"
+                ></rester-ace-input>
             </template>
             <template is="dom-if" if="[[renderPreview]]">
-                <rester-dom-purify-frame html="[[body]]"></rester-dom-purify-frame>
+                <rester-dom-purify-frame
+                    html="[[body]]"
+                ></rester-dom-purify-frame>
             </template>
         `;
     }

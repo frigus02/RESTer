@@ -19,7 +19,10 @@ class RESTerNavigationList extends PolymerElement {
             <rester-data-navigation items="{{items}}"></rester-data-navigation>
 
             <template is="dom-repeat" items="[[items]]">
-                <rester-navigation-list-item item="[[item]]" route="[[route]]"></rester-navigation-list-item>
+                <rester-navigation-list-item
+                    item="[[item]]"
+                    route="[[route]]"
+                ></rester-navigation-list-item>
             </template>
         `;
     }

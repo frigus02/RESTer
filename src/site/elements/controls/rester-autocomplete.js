@@ -22,7 +22,7 @@ class RESTerAutocomplete extends PolymerElement {
                     --paper-item-body-secondary: {
                         font-size: 12px;
                         line-height: 1em;
-                    };
+                    }
                 }
 
                 #dropdown {
@@ -47,32 +47,56 @@ class RESTerAutocomplete extends PolymerElement {
             </style>
 
             <iron-selector
-                    id="dropdown"
-                    role="menu"
-                    class$="[[_getDropdownVisibilityClass(dropdownVisible)]]"
-                    style$="max-height: [[_getDropdownMaxHeight(dropdownItemsVisible, dropdownVisible)]]"
-                    tabindex="-1"
-                    selected="[[selectedIndex]]"
-                    selected-class="selected">
-                <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'simple')]]" restamp>
-                    <template is="dom-repeat" items="[[items]]" sort="_compareItems">
+                id="dropdown"
+                role="menu"
+                class$="[[_getDropdownVisibilityClass(dropdownVisible)]]"
+                style$="max-height: [[_getDropdownMaxHeight(dropdownItemsVisible, dropdownVisible)]]"
+                tabindex="-1"
+                selected="[[selectedIndex]]"
+                selected-class="selected"
+            >
+                <template
+                    is="dom-if"
+                    if="[[_isActiveItemTemplate(itemTemplate, 'simple')]]"
+                    restamp
+                >
+                    <template
+                        is="dom-repeat"
+                        items="[[items]]"
+                        sort="_compareItems"
+                    >
                         <paper-item
-                                hidden$="[[!_isItemVisible(item, inputValue)]]"
-                                class="button"
-                                on-tap="_onItemClick"
-                                tabindex="-1">
+                            hidden$="[[!_isItemVisible(item, inputValue)]]"
+                            class="button"
+                            on-tap="_onItemClick"
+                            tabindex="-1"
+                        >
                             [[item]]
                         </paper-item>
                     </template>
                 </template>
-                <template is="dom-if" if="[[_isActiveItemTemplate(itemTemplate, 'two-line-score')]]" restamp>
-                    <template is="dom-repeat" items="[[items]]" sort="_compareItems" observe="score" notify-dom-change on-dom-change="_onDomForListChanged">
+                <template
+                    is="dom-if"
+                    if="[[_isActiveItemTemplate(itemTemplate, 'two-line-score')]]"
+                    restamp
+                >
+                    <template
+                        is="dom-repeat"
+                        items="[[items]]"
+                        sort="_compareItems"
+                        observe="score"
+                        notify-dom-change
+                        on-dom-change="_onDomForListChanged"
+                    >
                         <paper-icon-item
-                                hidden$="[[!_isItemVisible(item, inputValue)]]"
-                                class="button"
-                                on-tap="_onItemClick"
-                                tabindex="-1">
-                            <div slot="item-icon" class="score">[[item.score]]</div>
+                            hidden$="[[!_isItemVisible(item, inputValue)]]"
+                            class="button"
+                            on-tap="_onItemClick"
+                            tabindex="-1"
+                        >
+                            <div slot="item-icon" class="score">
+                                [[item.score]]
+                            </div>
                             <paper-item-body two-line>
                                 <div>[[item.title]]</div>
                                 <div secondary>[[item.description]]</div>

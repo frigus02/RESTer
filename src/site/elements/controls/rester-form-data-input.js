@@ -62,22 +62,46 @@ class RESTerFormDataInput extends PolymerElement {
 
             <template id="repeat" is="dom-repeat" items="[[formDataEntries]]">
                 <div class="form-data-entry-line">
-                    <paper-input label="Name" value="{{item.name}}" on-value-changed="_onFormDataEntriesChanged"></paper-input>
-                    <template is="dom-if" if="[[_isFormDataType(item.type, 'text')]]">
-                        <paper-textarea label="Value" value="{{item.value}}" on-value-changed="_onFormDataEntriesChanged"></paper-textarea>
+                    <paper-input
+                        label="Name"
+                        value="{{item.name}}"
+                        on-value-changed="_onFormDataEntriesChanged"
+                    ></paper-input>
+                    <template
+                        is="dom-if"
+                        if="[[_isFormDataType(item.type, 'text')]]"
+                    >
+                        <paper-textarea
+                            label="Value"
+                            value="{{item.value}}"
+                            on-value-changed="_onFormDataEntriesChanged"
+                        ></paper-textarea>
                     </template>
-                    <template is="dom-if" if="[[_isFormDataType(item.type, 'file')]]">
-                        <rester-file-input override-value="[[item.value]]" on-file-changed="_onFormDataEntryFileSelected"></rester-file-input>
+                    <template
+                        is="dom-if"
+                        if="[[_isFormDataType(item.type, 'file')]]"
+                    >
+                        <rester-file-input
+                            override-value="[[item.value]]"
+                            on-file-changed="_onFormDataEntryFileSelected"
+                        ></rester-file-input>
                     </template>
                     <template is="dom-if" if="[[!textOnly]]">
                         <paper-dropdown-menu label="Type">
-                            <paper-listbox slot="dropdown-content" selected="{{item.type}}" attr-for-selected="value">
+                            <paper-listbox
+                                slot="dropdown-content"
+                                selected="{{item.type}}"
+                                attr-for-selected="value"
+                            >
                                 <paper-item value="text">Text</paper-item>
                                 <paper-item value="file">File</paper-item>
                             </paper-listbox>
                         </paper-dropdown-menu>
                     </template>
-                    <paper-icon-button icon="remove" on-tap="_removeFormDataEntry"></paper-icon-button>
+                    <paper-icon-button
+                        icon="remove"
+                        on-tap="_removeFormDataEntry"
+                    ></paper-icon-button>
                 </div>
             </template>
         `;

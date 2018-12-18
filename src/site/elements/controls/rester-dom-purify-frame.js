@@ -20,9 +20,11 @@ class RESTerDOMPurifyIFrame extends PolymerElement {
                 }
             </style>
 
-            <iframe id="frame"
-                    srcdoc="<html lang='en'><head><meta charset='utf-8'></head><body></body></html>"
-                    on-load="_onFrameLoaded"></iframe>
+            <iframe
+                id="frame"
+                srcdoc="<html lang='en'><head><meta charset='utf-8'></head><body></body></html>"
+                on-load="_onFrameLoaded"
+            ></iframe>
         `;
     }
 

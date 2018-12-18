@@ -40,14 +40,11 @@ function getShortestCookieExpirationDate(cookies) {
         const sessionExpirationDate = Date.now() / 1000 + 86400;
 
         const expirationDate = cookies
-            .map(
-                cookie =>
-                    cookie.session
-                        ? sessionExpirationDate
-                        : cookie.expirationDate
+            .map(cookie =>
+                cookie.session ? sessionExpirationDate : cookie.expirationDate
             )
-            .reduce(
-                (prev, current) => (!prev || prev > current ? current : prev)
+            .reduce((prev, current) =>
+                !prev || prev > current ? current : prev
             );
         if (expirationDate) {
             // The cookie expiration date is specified in seconds while the

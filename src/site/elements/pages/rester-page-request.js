@@ -78,14 +78,14 @@ class RESTerPageRequest extends RESTerLintMixin(
                     --paper-tab: {
                         padding: 0 24px;
                         text-transform: uppercase;
-                    };
+                    }
                 }
 
-                :host([request-show-variables-on-side]) [role="main"] {
+                :host([request-show-variables-on-side]) [role='main'] {
                     max-width: 1200px;
                 }
 
-                :host([page-full-width]) [role="main"] {
+                :host([page-full-width]) [role='main'] {
                     max-width: none;
                 }
 
@@ -184,37 +184,78 @@ class RESTerPageRequest extends RESTerLintMixin(
             </style>
 
             <app-route
-                    route="[[route]]"
-                    pattern="/:requestId"
-                    active="{{routeActive}}"
-                    data="{{routeData}}"
-                    tail="{{historyRoute}}"></app-route>
+                route="[[route]]"
+                pattern="/:requestId"
+                active="{{routeActive}}"
+                data="{{routeData}}"
+                tail="{{historyRoute}}"
+            ></app-route>
             <app-route
-                    route="[[historyRoute]]"
-                    pattern="/history/:historyId"
-                    active="{{historyRouteActive}}"
-                    data="{{historyRouteData}}"></app-route>
+                route="[[historyRoute]]"
+                pattern="/history/:historyId"
+                active="{{historyRouteActive}}"
+                data="{{historyRouteData}}"
+            ></app-route>
 
             <app-header-layout>
                 <app-header slot="header" fixed shadow>
                     <app-toolbar>
-                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                        <div main-title hidden>[[request.collection]] / [[request.title]]</div>
+                        <paper-icon-button
+                            icon="menu"
+                            paper-drawer-toggle
+                        ></paper-icon-button>
+                        <div main-title hidden>
+                            [[request.collection]] / [[request.title]]
+                        </div>
                         <rester-request-title-input
-                                request-collection="{{request.collection}}"
-                                request-title="{{request.title}}"
-                                class="title-input"></rester-request-title-input>
-                        <paper-menu-button id="saveOptions" horizontal-align="right" restore-focus-on-close>
-                            <paper-icon-button slot="dropdown-trigger" icon="save"></paper-icon-button>
-                            <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
-                                <paper-item role="menuitem" on-tap="_saveRequest">Save</paper-item>
-                                <paper-item role="menuitem" on-tap="_saveRequestAsNew">Save as new</paper-item>
+                            request-collection="{{request.collection}}"
+                            request-title="{{request.title}}"
+                            class="title-input"
+                        ></rester-request-title-input>
+                        <paper-menu-button
+                            id="saveOptions"
+                            horizontal-align="right"
+                            restore-focus-on-close
+                        >
+                            <paper-icon-button
+                                slot="dropdown-trigger"
+                                icon="save"
+                            ></paper-icon-button>
+                            <paper-listbox
+                                slot="dropdown-content"
+                                selectable="[role='menuitemradio']"
+                            >
+                                <paper-item
+                                    role="menuitem"
+                                    on-tap="_saveRequest"
+                                    >Save</paper-item
+                                >
+                                <paper-item
+                                    role="menuitem"
+                                    on-tap="_saveRequestAsNew"
+                                    >Save as new</paper-item
+                                >
                             </paper-listbox>
                         </paper-menu-button>
-                        <paper-menu-button id="deleteOptions" horizontal-align="right" restore-focus-on-close hidden$="[[!request.id]]">
-                            <paper-icon-button slot="dropdown-trigger" icon="delete"></paper-icon-button>
-                            <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
-                                <paper-item role="menuitem" on-tap="_deleteRequest">Delete</paper-item>
+                        <paper-menu-button
+                            id="deleteOptions"
+                            horizontal-align="right"
+                            restore-focus-on-close
+                            hidden$="[[!request.id]]"
+                        >
+                            <paper-icon-button
+                                slot="dropdown-trigger"
+                                icon="delete"
+                            ></paper-icon-button>
+                            <paper-listbox
+                                slot="dropdown-content"
+                                selectable="[role='menuitemradio']"
+                            >
+                                <paper-item
+                                    role="menuitem"
+                                    on-tap="_deleteRequest"
+                                    >Delete</paper-item
+                                >
                             </paper-listbox>
                         </paper-menu-button>
                     </app-toolbar>
@@ -225,82 +266,129 @@ class RESTerPageRequest extends RESTerLintMixin(
                         <iron-form id="requestForm" on-keydown="_onFormKeyDown">
                             <form class="request-form">
                                 <iron-media-query
-                                        query="(min-width: 1279px)"
-                                        query-matches="{{isWideEnoughToShowVariablesOnSide}}"></iron-media-query>
+                                    query="(min-width: 1279px)"
+                                    query-matches="{{isWideEnoughToShowVariablesOnSide}}"
+                                ></iron-media-query>
 
                                 <div class="form-area-main">
                                     <div class="form-area-url">
                                         <rester-autocomplete-input
-                                                class="method-input"
-                                                label="Method"
-                                                value="{{request.method}}"
-                                                items="[[requestMethods]]"
-                                                required></rester-autocomplete-input>
+                                            class="method-input"
+                                            label="Method"
+                                            value="{{request.method}}"
+                                            items="[[requestMethods]]"
+                                            required
+                                        ></rester-autocomplete-input>
                                         <rester-url-input
-                                                class="url-input"
-                                                label="URL"
-                                                value="{{request.url}}"
-                                                required></rester-url-input>
+                                            class="url-input"
+                                            label="URL"
+                                            value="{{request.url}}"
+                                            required
+                                        ></rester-url-input>
                                         <paper-spinner
-                                                class="is-sending-spinner"
-                                                active
-                                                hidden$="[[!requestIsSending]]"></paper-spinner>
+                                            class="is-sending-spinner"
+                                            active
+                                            hidden$="[[!requestIsSending]]"
+                                        ></paper-spinner>
                                         <paper-button
-                                                class="send-button"
-                                                raised
-                                                type="submit"
-                                                on-tap="_sendRequest"
-                                                disabled$="[[requestIsSending]]"
-                                                hidden$="[[requestIsSendingAndAbortable]]">Send</paper-button>
+                                            class="send-button"
+                                            raised
+                                            type="submit"
+                                            on-tap="_sendRequest"
+                                            disabled$="[[requestIsSending]]"
+                                            hidden$="[[requestIsSendingAndAbortable]]"
+                                            >Send</paper-button
+                                        >
                                         <paper-button
-                                                class="send-button"
-                                                raised
-                                                type="submit"
-                                                on-tap="_abortRequest"
-                                                hidden$="[[!requestIsSendingAndAbortable]]">Abort</paper-button>
+                                            class="send-button"
+                                            raised
+                                            type="submit"
+                                            on-tap="_abortRequest"
+                                            hidden$="[[!requestIsSendingAndAbortable]]"
+                                            >Abort</paper-button
+                                        >
                                     </div>
 
                                     <div class="form-area-tabs">
-                                        <paper-tabs selected="{{requestSelectedTab}}">
-                                            <paper-tab id="requestTab0">Headers</paper-tab>
-                                            <paper-tab id="requestTab1">Body</paper-tab>
-                                            <paper-tab id="requestTab2">Authorization</paper-tab>
-                                            <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
-                                                <paper-tab id="requestTab3">Variables</paper-tab>
+                                        <paper-tabs
+                                            selected="{{requestSelectedTab}}"
+                                        >
+                                            <paper-tab id="requestTab0"
+                                                >Headers</paper-tab
+                                            >
+                                            <paper-tab id="requestTab1"
+                                                >Body</paper-tab
+                                            >
+                                            <paper-tab id="requestTab2"
+                                                >Authorization</paper-tab
+                                            >
+                                            <template
+                                                is="dom-if"
+                                                if="[[!requestShowVariablesOnSide]]"
+                                            >
+                                                <paper-tab id="requestTab3"
+                                                    >Variables</paper-tab
+                                                >
                                             </template>
                                         </paper-tabs>
                                     </div>
-                                    <iron-pages selected="[[requestSelectedTab]]">
-                                        <div role="tabpanel" aria-labelledby="requestTab0">
-                                            <rester-header-input value="{{request.headers}}"></rester-header-input>
+                                    <iron-pages
+                                        selected="[[requestSelectedTab]]"
+                                    >
+                                        <div
+                                            role="tabpanel"
+                                            aria-labelledby="requestTab0"
+                                        >
+                                            <rester-header-input
+                                                value="{{request.headers}}"
+                                            ></rester-header-input>
                                         </div>
-                                        <div role="tabpanel" aria-labelledby="requestTab1">
+                                        <div
+                                            role="tabpanel"
+                                            aria-labelledby="requestTab1"
+                                        >
                                             <rester-body-input
-                                                    id="bodyInput"
-                                                    value="{{request.body}}"
-                                                    content-type="[[requestContentType]]"></rester-body-input>
+                                                id="bodyInput"
+                                                value="{{request.body}}"
+                                                content-type="[[requestContentType]]"
+                                            ></rester-body-input>
                                         </div>
-                                        <div role="tabpanel" aria-labelledby="requestTab2">
+                                        <div
+                                            role="tabpanel"
+                                            aria-labelledby="requestTab2"
+                                        >
                                             <rester-authorization-input
-                                                    authorization="[[requestAuthorization]]"
-                                                    on-authorization-changed="_onRequestAuthorizationChanged"></rester-authorization-input>
+                                                authorization="[[requestAuthorization]]"
+                                                on-authorization-changed="_onRequestAuthorizationChanged"
+                                            ></rester-authorization-input>
                                         </div>
-                                        <template is="dom-if" if="[[!requestShowVariablesOnSide]]">
-                                            <div role="tabpanel" aria-labelledby="requestTab3">
+                                        <template
+                                            is="dom-if"
+                                            if="[[!requestShowVariablesOnSide]]"
+                                        >
+                                            <div
+                                                role="tabpanel"
+                                                aria-labelledby="requestTab3"
+                                            >
                                                 <rester-variables-input
                                                     value="{{requestVariableValues}}"
-                                                    source-obj="[[request]]">
+                                                    source-obj="[[request]]"
+                                                >
                                                 </rester-variables-input>
                                             </div>
                                         </template>
                                     </iron-pages>
                                 </div>
 
-                                <template is="dom-if" if="[[requestShowVariablesOnSide]]">
+                                <template
+                                    is="dom-if"
+                                    if="[[requestShowVariablesOnSide]]"
+                                >
                                     <div class="form-area-side">
                                         <rester-variables-input
                                             value="{{requestVariableValues}}"
-                                            source-obj="[[request]]">
+                                            source-obj="[[request]]"
+                                        >
                                         </rester-variables-input>
                                     </div>
                                 </template>
@@ -312,33 +400,51 @@ class RESTerPageRequest extends RESTerLintMixin(
                     <section hidden$="[[!response]]">
                         <header class="response-header">
                             <h2>Response</h2>
-                            <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
+                            <rester-badge type="[[responseBadgeType]]"
+                                >[[response.status]]
+                                [[response.statusText]]</rester-badge
+                            >
                             <template is="dom-if" if="[[response.redirected]]">
                                 <small class="redirected-info">
                                     redirected
                                     <paper-icon-button
-                                            id="redirected-info-help-button"
-                                            class="redirected-info-help-button"
-                                            icon="help-outline"
-                                            on-tap="_showResponseRedirectedHelp"></paper-icon-button>
-                                    <paper-tooltip for="redirected-info-help-button">What does that mean?</paper-tooltip>
+                                        id="redirected-info-help-button"
+                                        class="redirected-info-help-button"
+                                        icon="help-outline"
+                                        on-tap="_showResponseRedirectedHelp"
+                                    ></paper-icon-button>
+                                    <paper-tooltip
+                                        for="redirected-info-help-button"
+                                        >What does that mean?</paper-tooltip
+                                    >
                                 </small>
                             </template>
                             <div class="network-info-button-container">
-                                <paper-button class="network-info-button" on-tap="_showHistoryEntrySizeDetails" hidden$="[[!historyEntry.timing]]">
-                                    <iron-icon icon="storage"></iron-icon> [[historyEntrySize]]
+                                <paper-button
+                                    class="network-info-button"
+                                    on-tap="_showHistoryEntrySizeDetails"
+                                    hidden$="[[!historyEntry.timing]]"
+                                >
+                                    <iron-icon icon="storage"></iron-icon>
+                                    [[historyEntrySize]]
                                 </paper-button>
-                                <paper-button class="network-info-button" on-tap="_showHistoryEntryDurationDetails">
-                                    <iron-icon icon="timer"></iron-icon> [[historyEntryDuration]]
+                                <paper-button
+                                    class="network-info-button"
+                                    on-tap="_showHistoryEntryDurationDetails"
+                                >
+                                    <iron-icon icon="timer"></iron-icon>
+                                    [[historyEntryDuration]]
                                 </paper-button>
                             </div>
                         </header>
                         <rester-highlight-headers
-                                headers="[[response.headers]]"></rester-highlight-headers>
+                            headers="[[response.headers]]"
+                        ></rester-highlight-headers>
                         <rester-highlight-body
-                                body="[[response.body]]"
-                                content-type="[[responseContentType]]"
-                                hidden$="[[!response.body]]"></rester-highlight-body>
+                            body="[[response.body]]"
+                            content-type="[[responseContentType]]"
+                            hidden$="[[!response.body]]"
+                        ></rester-highlight-body>
                     </section>
                 </div>
             </app-header-layout>

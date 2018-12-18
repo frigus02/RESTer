@@ -12,7 +12,10 @@ const style = html`
             max-width: 100%;
             background: transparent;
             border: none;
-            color: var(--paper-input-container-input-color, var(--primary-text-color));
+            color: var(
+                --paper-input-container-input-color,
+                var(--primary-text-color)
+            );
             -webkit-appearance: none;
             text-align: inherit;
             vertical-align: bottom;
@@ -33,15 +36,24 @@ const style = html`
         }
 
         input::-webkit-input-placeholder {
-            color: var(--paper-input-container-color, var(--secondary-text-color));
+            color: var(
+                --paper-input-container-color,
+                var(--secondary-text-color)
+            );
         }
 
         input:-moz-placeholder {
-            color: var(--paper-input-container-color, var(--secondary-text-color));
+            color: var(
+                --paper-input-container-color,
+                var(--secondary-text-color)
+            );
         }
 
         input::-moz-placeholder {
-            color: var(--paper-input-container-color, var(--secondary-text-color));
+            color: var(
+                --paper-input-container-color,
+                var(--secondary-text-color)
+            );
         }
 
         input::-ms-clear {
@@ -49,7 +61,10 @@ const style = html`
         }
 
         input:-ms-input-placeholder {
-            color: var(--paper-input-container-color, var(--secondary-text-color));
+            color: var(
+                --paper-input-container-color,
+                var(--secondary-text-color)
+            );
         }
 
         label {

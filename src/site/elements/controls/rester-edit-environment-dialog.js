@@ -56,47 +56,53 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+            >
                 <paper-dialog-scrollable>
                     <iron-form id="dialogForm">
                         <form>
                             <paper-input
-                                    label="Environment"
-                                    value="{{data.name}}"
-                                    required
-                                    error-message="This is required!"
-                                    autofocus></paper-input>
+                                label="Environment"
+                                value="{{data.name}}"
+                                required
+                                error-message="This is required!"
+                                autofocus
+                            ></paper-input>
                             <template is="dom-repeat" items="[[valueItems]]">
                                 <div class="value-line">
                                     <paper-input
-                                            label="Key"
-                                            value="{{item.key}}"
-                                            on-value-changed="_ensureEmptyValueItem"></paper-input>
+                                        label="Key"
+                                        value="{{item.key}}"
+                                        on-value-changed="_ensureEmptyValueItem"
+                                    ></paper-input>
                                     <paper-textarea
-                                            label="Value"
-                                            value="{{item.value}}"
-                                            on-value-changed="_ensureEmptyValueItem"></paper-textarea>
+                                        label="Value"
+                                        value="{{item.value}}"
+                                        on-value-changed="_ensureEmptyValueItem"
+                                    ></paper-textarea>
                                     <paper-icon-button
-                                            icon="remove"
-                                            on-tap="_removeValueItem"></paper-icon-button>
+                                        icon="remove"
+                                        on-tap="_removeValueItem"
+                                    ></paper-icon-button>
                                 </div>
                             </template>
                         </form>
                     </iron-form>
                 </paper-dialog-scrollable>
                 <div class="buttons">
-                    <paper-button class="delete-button" hidden$="[[!data.id]]" on-tap="_delete">
+                    <paper-button
+                        class="delete-button"
+                        hidden$="[[!data.id]]"
+                        on-tap="_delete"
+                    >
                         Delete
                     </paper-button>
-                    <paper-button dialog-dismiss>
-                        Cancel
-                    </paper-button>
-                    <paper-button on-tap="_save">
-                        Save
-                    </paper-button>
+                    <paper-button dialog-dismiss> Cancel </paper-button>
+                    <paper-button on-tap="_save"> Save </paper-button>
                 </div>
             </paper-dialog>
         `;

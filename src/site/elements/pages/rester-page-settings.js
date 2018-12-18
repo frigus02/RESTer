@@ -25,8 +25,7 @@ class RESTerPageSettings extends RESTerPageMixin(
 ) {
     static get template() {
         return html`
-            ${resterHintStyle}
-            ${resterPageStyle}
+            ${resterHintStyle} ${resterPageStyle}
 
             <style>
                 :host {
@@ -54,7 +53,10 @@ class RESTerPageSettings extends RESTerPageMixin(
             <app-header-layout>
                 <app-header slot="header" fixed shadow>
                     <app-toolbar>
-                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        <paper-icon-button
+                            icon="menu"
+                            paper-drawer-toggle
+                        ></paper-icon-button>
                         <div main-title>[[pageTitle]]</div>
                     </app-toolbar>
                 </app-header>
@@ -62,9 +64,10 @@ class RESTerPageSettings extends RESTerPageMixin(
                     <div class="setting">
                         <paper-dropdown-menu label="Theme">
                             <paper-listbox
-                                    slot="dropdown-content"
-                                    selected="{{settings.theme}}"
-                                    attr-for-selected="value">
+                                slot="dropdown-content"
+                                selected="{{settings.theme}}"
+                                attr-for-selected="value"
+                            >
                                 <paper-item value="dark">Dark</paper-item>
                                 <paper-item value="light">Light</paper-item>
                             </paper-listbox>
@@ -74,26 +77,34 @@ class RESTerPageSettings extends RESTerPageMixin(
                     <div class="setting">
                         <paper-dropdown-menu label="Request Mode">
                             <paper-listbox
-                                    slot="dropdown-content"
-                                    selected="{{requestMode}}"
-                                    attr-for-selected="value">
-                                <paper-item value="browser">Browser Requests</paper-item>
-                                <paper-item value="clean">Clean Requests</paper-item>
+                                slot="dropdown-content"
+                                selected="{{requestMode}}"
+                                attr-for-selected="value"
+                            >
+                                <paper-item value="browser"
+                                    >Browser Requests</paper-item
+                                >
+                                <paper-item value="clean"
+                                    >Clean Requests</paper-item
+                                >
                             </paper-listbox>
                         </paper-dropdown-menu>
                         <div class="hint">
                             <dl>
                                 <dt>Browser Requests</dt>
                                 <dd>
-                                    Send requests just as the browser would normally do. This will
-                                    include all default headers like <code>User-Agent</code> and also
-                                    <code>Cookie</code>. You can still override these defaults by
-                                    explicitly specifying the header.
+                                    Send requests just as the browser would
+                                    normally do. This will include all default
+                                    headers like <code>User-Agent</code> and
+                                    also <code>Cookie</code>. You can still
+                                    override these defaults by explicitly
+                                    specifying the header.
                                 </dd>
                                 <dt>Clean Requests</dt>
                                 <dd>
-                                    Send requests exactly as you define them in RESTer. This will
-                                    not send any of the default headers except for the ones required
+                                    Send requests exactly as you define them in
+                                    RESTer. This will not send any of the
+                                    default headers except for the ones required
                                     by the browser like <code>Host</code>.
                                 </dd>
                             </dl>
@@ -101,33 +112,47 @@ class RESTerPageSettings extends RESTerPageMixin(
                     </div>
 
                     <div class="setting">
-                        <paper-toggle-button checked="{{settings.enableRequestLintInspections}}">
+                        <paper-toggle-button
+                            checked="{{settings.enableRequestLintInspections}}"
+                        >
                             Inspections for requests
                         </paper-toggle-button>
                         <div class="hint">
-                            RESTer can analyze your request as you type and point out possible mistakes.
-                            Currently this includes:
+                            RESTer can analyze your request as you type and
+                            point out possible mistakes. Currently this
+                            includes:
                             <ul>
                                 <li>Using a variable with an empty value.</li>
-                                <li>Using files in a form body without <code>multipart/form-data</code> content type.</li>
-                                <li>Using an empty file input in a form body.</li>
+                                <li>
+                                    Using files in a form body without
+                                    <code>multipart/form-data</code> content
+                                    type.
+                                </li>
+                                <li>
+                                    Using an empty file input in a form body.
+                                </li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="setting">
-                        <paper-toggle-button checked="{{settings.showVariablesOnSide}}">
+                        <paper-toggle-button
+                            checked="{{settings.showVariablesOnSide}}"
+                        >
                             Show variables on right side
                         </paper-toggle-button>
                         <div class="hint">
-                            By default variables are shown in a tab. When enabling this option and the
-                            browser is wide enough, variables will be shown on the right side of the
+                            By default variables are shown in a tab. When
+                            enabling this option and the browser is wide enough,
+                            variables will be shown on the right side of the
                             request instead.
                         </div>
                     </div>
 
                     <div class="setting">
-                        <paper-toggle-button checked="{{settings.requestPageFullWidth}}">
+                        <paper-toggle-button
+                            checked="{{settings.requestPageFullWidth}}"
+                        >
                             Expand request page to full width
                         </paper-toggle-button>
                     </div>

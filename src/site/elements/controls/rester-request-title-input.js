@@ -42,20 +42,24 @@ class RESTerRequestTitleInput extends PolymerElement {
                 <div slot="label" id="label">
                     <span class="size-helper">[[value]]</span>
                     <span hidden$="[[hasCollection]]">Collection</span>
-                    <span hidden$="[[hasTitle]]"><span hidden$="[[hasTrailingSlash]]">/</span> Title</span>
+                    <span hidden$="[[hasTitle]]"
+                        ><span hidden$="[[hasTrailingSlash]]">/</span>
+                        Title</span
+                    >
                 </div>
-                <iron-input slot="input"
-                        id="input"
-                        bind-value="{{value}}">
-                    <input id="nativeInput"
-                            autocomplete="off"
-                            name="[[name]]"
-                            required$="[[required]]">
+                <iron-input slot="input" id="input" bind-value="{{value}}">
+                    <input
+                        id="nativeInput"
+                        autocomplete="off"
+                        name="[[name]]"
+                        required$="[[required]]"
+                    />
                 </iron-input>
                 <rester-autocomplete
-                        slot="suffix"
-                        for="nativeInput"
-                        items="[[requestCollections]]"></rester-autocomplete>
+                    slot="suffix"
+                    for="nativeInput"
+                    items="[[requestCollections]]"
+                ></rester-autocomplete>
             </paper-input-container>
         `;
     }

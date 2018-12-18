@@ -24,11 +24,13 @@ class RESTerRedirectedHelpDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <paper-dialog-scrollable>
                     <p>
                         The server returned a redirect response (status 3xx) to
@@ -39,8 +41,8 @@ class RESTerRedirectedHelpDialog extends RESTerDialogControllerMixin(
                     </p>
                     <p>
                         If you want RESTer to stop the browser from following
-                        redirects, go to settings and change the request mode
-                        to "Clean Requests".
+                        redirects, go to settings and change the request mode to
+                        "Clean Requests".
                     </p>
                 </paper-dialog-scrollable>
                 <div class="buttons">

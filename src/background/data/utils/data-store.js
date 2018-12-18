@@ -31,8 +31,8 @@ class DataStore extends CustomEventTarget {
     }
 
     getIndexKeys(tableName, index) {
-        return this._get(`${tableName}.i.${index}`).then(
-            indexData => (indexData ? Object.keys(indexData) : [])
+        return this._get(`${tableName}.i.${index}`).then(indexData =>
+            indexData ? Object.keys(indexData) : []
         );
     }
 
@@ -214,8 +214,8 @@ class DataStore extends CustomEventTarget {
                         });
                 });
 
-                return Promise.all(promises).then(
-                    () => (result.length === 1 ? result[0] : result)
+                return Promise.all(promises).then(() =>
+                    result.length === 1 ? result[0] : result
                 );
             });
         };
@@ -322,10 +322,8 @@ class DataStore extends CustomEventTarget {
     }
 
     _get(keys) {
-        return this._performStorageLocalOperation(
-            'get',
-            keys,
-            result => (typeof keys === 'string' ? result[keys] : result)
+        return this._performStorageLocalOperation('get', keys, result =>
+            typeof keys === 'string' ? result[keys] : result
         );
     }
 

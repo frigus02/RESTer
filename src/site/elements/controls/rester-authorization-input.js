@@ -43,40 +43,59 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 <h3>Use existing tokens</h3>
                 <template is="dom-repeat" items="[[tokens]]">
                     <paper-icon-item role="menuitemradio" class="button">
-                        <iron-icon slot="item-icon" icon="check" hidden$="[[!item.isUsed]]"></iron-icon>
+                        <iron-icon
+                            slot="item-icon"
+                            icon="check"
+                            hidden$="[[!item.isUsed]]"
+                        ></iron-icon>
                         <paper-item-body three-line on-tap="_useToken">
                             <div>[[item.token.title]]</div>
                             <div secondary>
-                                [[item.provider.title]]<span hidden$="[[!item.configurationId]]">: [[item.configuration.title]]</span>
+                                [[item.provider.title]]<span
+                                    hidden$="[[!item.configurationId]]"
+                                    >: [[item.configuration.title]]</span
+                                >
                             </div>
-                            <div secondary>[[item.expirationDateFormatted]]</div>
+                            <div secondary>
+                                [[item.expirationDateFormatted]]
+                            </div>
                         </paper-item-body>
                         <paper-icon-button
-                                icon="delete"
-                                aria-label="Delete token"
-                                on-tap="_deleteToken"></paper-icon-button>
+                            icon="delete"
+                            aria-label="Delete token"
+                            on-tap="_deleteToken"
+                        ></paper-icon-button>
                     </paper-icon-item>
                 </template>
             </div>
 
             <div hidden$="[[!configurations.length]]">
                 <h3>Generate new token</h3>
-                <template is="dom-repeat" items="[[configurations]]" sort="_compareConfigurations">
+                <template
+                    is="dom-repeat"
+                    items="[[configurations]]"
+                    sort="_compareConfigurations"
+                >
                     <paper-item class="button">
-                        <paper-item-body two-line on-tap="_generateTokenFromConfig">
+                        <paper-item-body
+                            two-line
+                            on-tap="_generateTokenFromConfig"
+                        >
                             <div>[[item.provider.title]]</div>
                             <div secondary>[[item.configuration.title]]</div>
                         </paper-item-body>
                         <paper-icon-button
-                                icon="visibility-off"
-                                aria-label="Generate token incognito"
-                                on-tap="_generateTokenFromConfigIncognito"
-                                hidden$="[[!item.provider.supportsIncognito]]"></paper-icon-button>
+                            icon="visibility-off"
+                            aria-label="Generate token incognito"
+                            on-tap="_generateTokenFromConfigIncognito"
+                            hidden$="[[!item.provider.supportsIncognito]]"
+                        ></paper-icon-button>
                         <paper-icon-button
-                                icon="edit"
-                                aria-label="Edit configuration"
-                                on-tap="_editConfiguration"
-                                hidden$="[[!item.configuration.id]]"></paper-icon-button>
+                            icon="edit"
+                            aria-label="Edit configuration"
+                            on-tap="_editConfiguration"
+                            hidden$="[[!item.configuration.id]]"
+                        ></paper-icon-button>
                     </paper-item>
                 </template>
             </div>
@@ -92,10 +111,18 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 </template>
             </div>
 
-            <rester-authorization-provider-custom id="providerCustom"></rester-authorization-provider-custom>
-            <rester-authorization-provider-cookie id="providerCookie"></rester-authorization-provider-cookie>
-            <rester-authorization-provider-basic id="providerBasic"></rester-authorization-provider-basic>
-            <rester-authorization-provider-oauth2 id="providerOAuth2"></rester-authorization-provider-oauth2>
+            <rester-authorization-provider-custom
+                id="providerCustom"
+            ></rester-authorization-provider-custom>
+            <rester-authorization-provider-cookie
+                id="providerCookie"
+            ></rester-authorization-provider-cookie>
+            <rester-authorization-provider-basic
+                id="providerBasic"
+            ></rester-authorization-provider-basic>
+            <rester-authorization-provider-oauth2
+                id="providerOAuth2"
+            ></rester-authorization-provider-oauth2>
         `;
     }
 

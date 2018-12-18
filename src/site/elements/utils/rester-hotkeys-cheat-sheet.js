@@ -34,9 +34,9 @@ class RESTerHotkeysCheatSheet extends RESTerHotkeysMixin(PolymerElement) {
 
                 .hotkey__combo {
                     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
-                                0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-                                0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-                    background-color: #00BCD4;
+                        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                        0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+                    background-color: #00bcd4;
                     padding: 4px 8px;
                     border-radius: 2px;
                     display: inline-block;
@@ -53,22 +53,36 @@ class RESTerHotkeysCheatSheet extends RESTerHotkeysMixin(PolymerElement) {
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <h2>Shortcuts</h2>
                 <paper-dialog-scrollable>
                     <div class="hotkeys">
-                        <template is="dom-repeat" items="[[hotkeys]]" as="hotkey">
+                        <template
+                            is="dom-repeat"
+                            items="[[hotkeys]]"
+                            as="hotkey"
+                        >
                             <div class="hotkey">
                                 <span class="hotkey__combos">
-                                    <template is="dom-repeat" items="[[hotkey.combosFormatted]]" as="combo">
-                                        <span class="hotkey__combo">[[combo]]</span>
+                                    <template
+                                        is="dom-repeat"
+                                        items="[[hotkey.combosFormatted]]"
+                                        as="combo"
+                                    >
+                                        <span class="hotkey__combo"
+                                            >[[combo]]</span
+                                        >
                                     </template>
                                 </span>
-                                <span class="hotkey__description">[[hotkey.description]]</span>
+                                <span class="hotkey__description"
+                                    >[[hotkey.description]]</span
+                                >
                             </div>
                         </template>
                     </div>

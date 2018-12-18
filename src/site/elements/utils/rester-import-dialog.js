@@ -46,30 +46,44 @@ class RESTerImportDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <paper-dialog-scrollable>
                     <p>
-                        You can only import requests. History entries, authorization configs,
-                        tokens or environments are not supported.
+                        You can only import requests. History entries,
+                        authorization configs, tokens or environments are not
+                        supported.
                     </p>
                     <p>
-                        Supported formats are the Postman Collection Format v2.0.0 and v2.1.0.
+                        Supported formats are the Postman Collection Format
+                        v2.0.0 and v2.1.0.
                     </p>
                     <rester-file-input
-                            label="Import file"
-                            file="{{file}}"></rester-file-input>
+                        label="Import file"
+                        file="{{file}}"
+                    ></rester-file-input>
                     <paper-input
-                            label="Collection Prefix"
-                            value="{{collectionPrefix}}"></paper-input>
-                    <div class="hint">All requests in the import will be prefixed with this collection. You can use a nested collection (e.g. "My Imports / Version X") or leave it empty to import requestes at the top level.</div>
+                        label="Collection Prefix"
+                        value="{{collectionPrefix}}"
+                    ></paper-input>
+                    <div class="hint">
+                        All requests in the import will be prefixed with this
+                        collection. You can use a nested collection (e.g. "My
+                        Imports / Version X") or leave it empty to import
+                        requestes at the top level.
+                    </div>
                 </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-dismiss>Cancel</paper-button>
-                    <paper-button disabled$="[[!_canImport(isImporting, file)]]" on-tap="_import">
+                    <paper-button
+                        disabled$="[[!_canImport(isImporting, file)]]"
+                        on-tap="_import"
+                    >
                         <span hidden$="[[isImporting]]">Import</span>
                         <span hidden$="[[!isImporting]]">
                             <paper-spinner active></paper-spinner>

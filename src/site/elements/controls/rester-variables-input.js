@@ -29,24 +29,34 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
             </style>
 
             <p class="hint">
-                You can use placeholders everywhere in the request with curly brackets,
-                e.g. <code>{id}</code> or <code>{title}</code>. Below you see input fields
-                for each of these variables.
+                You can use placeholders everywhere in the request with curly
+                brackets, e.g. <code>{id}</code> or <code>{title}</code>. Below
+                you see input fields for each of these variables.
             </p>
 
-            <template is="dom-repeat" items="[[variables]]" sort="_compareVariables">
+            <template
+                is="dom-repeat"
+                items="[[variables]]"
+                sort="_compareVariables"
+            >
                 <rester-autocomplete-input
-                        label="[[item.name]]"
-                        value="{{item.value}}"
-                        on-value-changed="_onVariableValueChanged"
-                        items="[[item.history]]"
-                        sort-by-index></rester-autocomplete-input>
+                    label="[[item.name]]"
+                    value="{{item.value}}"
+                    on-value-changed="_onVariableValueChanged"
+                    items="[[item.history]]"
+                    sort-by-index
+                ></rester-autocomplete-input>
             </template>
-            <template is="dom-repeat" items="[[providedVariables]]" sort="_compareVariables">
+            <template
+                is="dom-repeat"
+                items="[[providedVariables]]"
+                sort="_compareVariables"
+            >
                 <paper-input
-                        label="[[item.name]]"
-                        value="{{item.value}}"
-                        disabled></paper-input>
+                    label="[[item.name]]"
+                    value="{{item.value}}"
+                    disabled
+                ></paper-input>
             </template>
         `;
     }
