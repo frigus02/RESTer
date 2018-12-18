@@ -52,6 +52,11 @@ exports.RequestSelectors = {
         'rester-page-request',
         `${responseSection} rester-badge`
     ]),
+    responseRedirectInfo: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        `${responseSection} .redirected-info`
+    ]),
     responseBody: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',

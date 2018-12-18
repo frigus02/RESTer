@@ -66,7 +66,7 @@ describe('with browser requests', function() {
         await delay(500);
     });
 
-    registerRequestTests();
+    registerRequestTests('browser');
 });
 
 describe('with clean requests', function() {
@@ -78,10 +78,10 @@ describe('with clean requests', function() {
         await delay(500);
     });
 
-    registerRequestTests();
+    registerRequestTests('clean');
 });
 
-function registerRequestTests() {
+function registerRequestTests(mode) {
     test('GET http://127.0.0.1:7373/echo', async function() {
         await goTo('request');
         await driver
@@ -111,6 +111,36 @@ function registerRequestTests() {
             RequestElements.responseBody
         );
         expect(responseCode).toBe('200 OK');
+        expect(responseBody).toMatchSnapshot();
+    });
+
+    test('POST http://127.0.0.1:7373/redirect?how=307', async function() {
+        await goTo('request');
+        await driver
+            .actions()
+            .click(RequestElements.method)
+            .sendKeys('POST', Key.TAB, `${server.url}/redirect?how=307`)
+            .perform();
+        await RequestElements.send.click();
+        await driver.wait(
+            until.elementIsVisible(RequestElements.responseSection),
+            timeout
+        );
+
+        const responseCode = await RequestElements.responseCode.getText();
+        const responseBody = await driver.executeScript(
+            e => e.value,
+            RequestElements.responseBody
+        );
+        if (mode === 'browser') {
+            expect(responseCode).toBe('200 OK');
+            expect(
+                await RequestElements.responseRedirectInfo.isDisplayed()
+            ).toBe(true);
+        } else {
+            expect(responseCode).toBe('307 Temporary Redirect');
+        }
+
         expect(responseBody).toMatchSnapshot();
     });
 

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 -   Made client secret field in OAuth 2 configuration optional. Some servers allow empty client secrets for authentication ([#71](https://github.com/frigus02/RESTer/issues/71)).
 -   Fixed request headers getting messed up when there were more than 10 headers ([#75](https://github.com/frigus02/RESTer/issues/75)).
 -   Fixed export on Android ([#76](https://github.com/frigus02/RESTer/issues/76)).
+-   Handle redirects correctly ([#79](https://github.com/frigus02/RESTer/issues/79)). In "Browser Requests" mode, RESTer now shows on the response, if the request was redirected. In "Clean Requests" mode, RESTer does not follow redirects and shows the 3xx response instead.
 
 ## [3.9.0] - 2018-07-25
 
