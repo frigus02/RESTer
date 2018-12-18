@@ -14,6 +14,7 @@ import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
 import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js';
 import '../../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
 import '../../../../node_modules/@polymer/paper-tabs/paper-tabs.js';
+import '../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js';
 import '../controls/rester-authorization-input.js';
 import '../controls/rester-autocomplete-input.js';
 import '../controls/rester-body-input.js';
@@ -149,6 +150,17 @@ class RESTerPageRequest extends RESTerLintMixin(
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                }
+
+                .redirected-info {
+                    margin-left: 1em;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .redirected-info-help-button {
+                    width: 36px;
+                    height: 36px;
                 }
 
                 .network-info-button-container {
@@ -301,6 +313,17 @@ class RESTerPageRequest extends RESTerLintMixin(
                         <header class="response-header">
                             <h2>Response</h2>
                             <rester-badge type="[[responseBadgeType]]">[[response.status]] [[response.statusText]]</rester-badge>
+                            <template is="dom-if" if="[[response.redirected]]">
+                                <small class="redirected-info">
+                                    redirected
+                                    <paper-icon-button
+                                            id="redirected-info-help-button"
+                                            class="redirected-info-help-button"
+                                            icon="help-outline"
+                                            on-tap="_showResponseRedirectedHelp"></paper-icon-button>
+                                    <paper-tooltip for="redirected-info-help-button">What does that mean?</paper-tooltip>
+                                </small>
+                            </template>
                             <div class="network-info-button-container">
                                 <paper-button class="network-info-button" on-tap="_showHistoryEntrySizeDetails" hidden$="[[!historyEntry.timing]]">
                                     <iron-icon icon="storage"></iron-icon> [[historyEntrySize]]
@@ -597,9 +620,9 @@ class RESTerPageRequest extends RESTerLintMixin(
         } else if (status >= 200 && status < 300) {
             return 'success';
         } else if (status >= 300 && status < 400) {
-            return 'info';
-        } else if (status >= 400) {
             return 'warn';
+        } else if (status >= 400) {
+            return 'error';
         }
     }
 
@@ -771,7 +794,8 @@ class RESTerPageRequest extends RESTerLintMixin(
                     status: plainResponse.status,
                     statusText: plainResponse.statusText,
                     headers: plainResponse.headers,
-                    body: plainResponse.body
+                    body: plainResponse.body,
+                    redirected: plainResponse.redirected
                 };
 
                 return addHistoryEntry({
@@ -799,6 +823,10 @@ class RESTerPageRequest extends RESTerLintMixin(
         if (this._requestAbortController) {
             this._requestAbortController.abort();
         }
+    }
+
+    _showResponseRedirectedHelp() {
+        dialogs.redirectedHelp.show();
     }
 
     _showHistoryEntrySizeDetails() {

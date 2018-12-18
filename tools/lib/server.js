@@ -57,6 +57,14 @@ async function middleware(req, res) {
         }
 
         res.end(lines.join('\r\n'));
+    } else if (req.url === '/redirect') {
+        res.statusCode = 302;
+        res.setHeader('Location', '/echo');
+        res.end('Found /echo');
+    } else if (req.url === '/redirect?how=307') {
+        res.statusCode = 307;
+        res.setHeader('Location', '/echo');
+        res.end('Temporary redirect /echo');
     } else if (req.url === '/large') {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

@@ -7,7 +7,6 @@ User-Agent: RESTer
 Accept: text/plain
 Accept-Language: en
 Accept-Encoding: gzip, deflate
-origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
 Connection: keep-alive
 Pragma: no-cache
 Cache-Control: no-cache"
@@ -20,11 +19,27 @@ User-Agent: RESTer
 Accept: */*
 Accept-Language: en
 Accept-Encoding: gzip, deflate
-origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
 Connection: keep-alive
 Cookie: number1=10; number2=200; number3=300
 Pragma: no-cache
 Cache-Control: no-cache"
+`;
+
+exports[`with browser requests POST http://127.0.0.1:7373/redirect?how=307 1`] = `
+"POST /echo HTTP/1.1
+Host: 127.0.0.1:7373
+User-Agent: RESTer
+Accept: */*
+Accept-Language: en
+Accept-Encoding: gzip, deflate
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 0
+Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+"
 `;
 
 exports[`with clean requests GET http://127.0.0.1:7373/echo 1`] = `
@@ -44,3 +59,5 @@ Cookie: number2=200;number3=300
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
+
+exports[`with clean requests POST http://127.0.0.1:7373/redirect?how=307 1`] = `""`;

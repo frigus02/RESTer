@@ -9,7 +9,8 @@ import {
     parseCookies,
     stringifyCookies,
     mergeCookies,
-    parseMediaType
+    parseMediaType,
+    parseStatusLine
 } from './util.js';
 
 describe('clone', function() {
@@ -162,5 +163,55 @@ describe('parseMediaType', function() {
 
     test('empty string', function() {
         expect(parseMediaType('')).toEqual({ type: '' });
+    });
+});
+
+describe('parseStatusLine', function() {
+    test('HTTP/0.9 response', function() {
+        expect(parseStatusLine('HTTP/0.9 200 OK')).toEqual({
+            httpVersion: 'HTTP/0.9',
+            statusCode: 200,
+            reasonPhrase: 'OK'
+        });
+    });
+
+    test('HTTP/1.1 response', function() {
+        expect(parseStatusLine('HTTP/1.1 200 OK')).toEqual({
+            httpVersion: 'HTTP/1.1',
+            statusCode: 200,
+            reasonPhrase: 'OK'
+        });
+    });
+
+    test('spaces in reason phrase', function() {
+        expect(parseStatusLine('HTTP/1.1 404 Not Found')).toEqual({
+            httpVersion: 'HTTP/1.1',
+            statusCode: 404,
+            reasonPhrase: 'Not Found'
+        });
+    });
+
+    test('invalid: empty reason phrase', function() {
+        expect(parseStatusLine('HTTP/1.1 200')).toEqual({
+            httpVersion: 'HTTP/1.1',
+            statusCode: 200,
+            reasonPhrase: ''
+        });
+    });
+
+    test('invalid: no status code', function() {
+        expect(parseStatusLine('HTTP/1.1')).toEqual({
+            httpVersion: 'HTTP/1.1',
+            statusCode: 0,
+            reasonPhrase: ''
+        });
+    });
+
+    test('invalid: status code is not a string', function() {
+        expect(parseStatusLine('HTTP/1.1 ABC DEF')).toEqual({
+            httpVersion: 'HTTP/1.1',
+            statusCode: Number.NaN,
+            reasonPhrase: 'DEF'
+        });
     });
 });
