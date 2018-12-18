@@ -269,6 +269,7 @@ export async function send(request) {
     const fetchResponse = await fetch(request.url, init);
     response.status = fetchResponse.status;
     response.statusText = fetchResponse.statusText;
+    response.redirected = fetchResponse.redirected;
     response.headers = [...originalResponseHeaders.get(requestId)];
     originalResponseHeaders.delete(requestId);
 

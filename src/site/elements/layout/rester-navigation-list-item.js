@@ -7,7 +7,6 @@ import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
 import '../../../../node_modules/@polymer/paper-item/paper-item.js';
 import '../../../../node_modules/@polymer/paper-ripple/paper-ripple.js';
 import '../../../../node_modules/@polymer/paper-styles/paper-styles.js';
-import '../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js';
 import '../controls/rester-subheader.js';
 import '../styles/rester-icons.js';
 import resterPaperItemButtonStyle from '../styles/rester-paper-item-button.js';
@@ -125,7 +124,7 @@ class RESTerNavigationListItem extends PolymerElement {
                                 indent-level="[[_getIndentLevelForSubitems()]]"
                                 route="[[route]]"
                                 on-item-activated="_onSubitemActivated"
-                            subitem></rester-navigation-list-item>
+                                subitem></rester-navigation-list-item>
                     </template>
                 </iron-collapse>
             </template>
