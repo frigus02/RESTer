@@ -25,7 +25,7 @@
     "package:firefox": "node tools/scripts/package-addon.js firefox"
   },
   "dependencies": {
-    "@polymer/app-layout": "3.0.1",
+    "@polymer/app-layout": "3.0.2",
     "@polymer/app-route": "3.0.2",
     "@polymer/font-roboto-local": "3.0.2",
     "@polymer/iron-a11y-keys": "3.0.1",
@@ -59,8 +59,8 @@
     "@polymer/paper-tabs": "3.0.1",
     "@polymer/paper-toggle-button": "3.0.1",
     "@polymer/paper-tooltip": "3.0.1",
-    "@polymer/polymer": "3.0.5",
-    "@webcomponents/webcomponentsjs": "2.1.3",
+    "@polymer/polymer": "3.1.0",
+    "@webcomponents/webcomponentsjs": "2.2.1",
     "ace-builds": "1.3.3",
     "dompurify": "1.0.8",
     "frigus02-vkbeautify": "1.0.1",
