@@ -28,7 +28,7 @@ Cache-Control: no-cache"
 exports[`with browser requests POST http://127.0.0.1:7373/redirect?how=307 1`] = `
 "POST /echo HTTP/1.1
 Host: 127.0.0.1:7373
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0
+User-Agent: RESTer
 Accept: */*
 Accept-Language: en
 Accept-Encoding: gzip, deflate

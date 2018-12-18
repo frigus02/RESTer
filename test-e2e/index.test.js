@@ -121,6 +121,11 @@ function registerRequestTests(mode) {
             .click(RequestElements.method)
             .sendKeys('POST', Key.TAB, `${server.url}/redirect?how=307`)
             .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('User-Agent', Key.TAB, 'RESTer')
+            .perform();
         await RequestElements.send.click();
         await driver.wait(
             until.elementIsVisible(RequestElements.responseSection),
