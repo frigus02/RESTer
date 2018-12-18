@@ -18,7 +18,7 @@ const style = html`
             content: '';
             opacity: 0.24;
             pointer-events: none;
-            transition: background-color .25s ease;
+            transition: background-color 0.25s ease;
         }
 
         paper-item.button:hover::before,

@@ -45,23 +45,29 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close
-                    on-iron-overlay-opened="_onOpened">
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+                on-iron-overlay-opened="_onOpened"
+            >
                 <h2>Clean up history</h2>
                 <paper-dialog-scrollable>
                     <p>
-                        Deleting old history entries can make RESTer faster and free up some
-                        disk space.
+                        Deleting old history entries can make RESTer faster and
+                        free up some disk space.
                     </p>
 
                     <template is="dom-if" if="[[largeHistoryEntries.length]]">
                         <div class="action">
-                            <paper-checkbox checked="{{deleteLargeHistoryEntries}}">
-                                Delete large entries ([[largeHistoryEntries.length]] entries over 1MB)
+                            <paper-checkbox
+                                checked="{{deleteLargeHistoryEntries}}"
+                            >
+                                Delete large entries
+                                ([[largeHistoryEntries.length]] entries over
+                                1MB)
                             </paper-checkbox>
                         </div>
                     </template>
@@ -69,16 +75,22 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
                     <div class="action">
                         <span>Delete oldest entries:</span>
                         <paper-slider
-                                value="{{historyEntriesCountToDelete}}"
-                                max="[[historyEntries.length]]"
-                                pin></paper-slider>
+                            value="{{historyEntriesCountToDelete}}"
+                            max="[[historyEntries.length]]"
+                            pin
+                        ></paper-slider>
                         <span>[[historyEntriesCountToDelete]] entries</span>
                     </div>
                 </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-dismiss>Cancel</paper-button>
-                    <paper-button disabled$="[[isDeletingEntries]]" on-tap="_deleteOldHistory">
-                        <span hidden$="[[isDeletingEntries]]">Delete entries</span>
+                    <paper-button
+                        disabled$="[[isDeletingEntries]]"
+                        on-tap="_deleteOldHistory"
+                    >
+                        <span hidden$="[[isDeletingEntries]]"
+                            >Delete entries</span
+                        >
                         <span hidden$="[[!isDeletingEntries]]">
                             <paper-spinner active></paper-spinner>
                         </span>

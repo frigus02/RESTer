@@ -27,14 +27,14 @@ class RESTerNotifications extends PolymerElement {
                 paper-menu-button {
                     --paper-menu-button: {
                         padding: 0;
-                    };
+                    }
                 }
 
                 paper-badge {
                     --paper-badge: {
                         margin-top: 4px;
                         margin-left: -8px;
-                    };
+                    }
                 }
 
                 paper-item {
@@ -43,15 +43,20 @@ class RESTerNotifications extends PolymerElement {
             </style>
 
             <paper-menu-button
-                    id="options"
-                    dynamic-align
-                    vertical-offset="48"
-                    restore-focus-on-close>
+                id="options"
+                dynamic-align
+                vertical-offset="48"
+                restore-focus-on-close
+            >
                 <paper-icon-button
-                        slot="dropdown-trigger"
-                        id="menu-button"
-                        icon="[[icon]]"></paper-icon-button>
-                <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
+                    slot="dropdown-trigger"
+                    id="menu-button"
+                    icon="[[icon]]"
+                ></paper-icon-button>
+                <paper-listbox
+                    slot="dropdown-content"
+                    selectable="[role='menuitemradio']"
+                >
                     <template is="dom-repeat" items="[[notifications]]">
                         <paper-item role="menuitem" on-tap="_openNotification">
                             <paper-item-body two-line>
@@ -69,9 +74,10 @@ class RESTerNotifications extends PolymerElement {
             </paper-menu-button>
 
             <paper-badge
-                    for="menu-button"
-                    label="[[notifications.length]]"
-                    hidden$="[[isEmpty]]"></paper-badge>
+                for="menu-button"
+                label="[[notifications.length]]"
+                hidden$="[[isEmpty]]"
+            ></paper-badge>
         `;
     }
 

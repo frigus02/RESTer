@@ -133,8 +133,8 @@ beforeEach(function() {
     });
     settingsLoadedDfd = new Deferred();
     mockRester.mockSettingsLoaded(settingsLoadedDfd.promise);
-    mockVariables.replaceWithoutProvidedValues.mockImplementation(
-        obj => (obj === fakeRequests[3] ? fakeRequest3Compiled : obj)
+    mockVariables.replaceWithoutProvidedValues.mockImplementation(obj =>
+        obj === fakeRequests[3] ? fakeRequest3Compiled : obj
     );
 
     nav = new Navigation();

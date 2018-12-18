@@ -59,22 +59,27 @@ class RESTerQuickOpenDialog extends PolymerElement {
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <div>
                     <iron-input bind-value="{{searchText}}">
-                        <input id="nativeInput"
-                                placeholder="Type to open a request..."
-                                autocomplete="off"
-                                autofocus>
+                        <input
+                            id="nativeInput"
+                            placeholder="Type to open a request..."
+                            autocomplete="off"
+                            autofocus
+                        />
                     </iron-input>
                     <rester-autocomplete
-                            for="nativeInput"
-                            items="[[items]]"
-                            on-item-selected="_onItemSelected"></rester-autocomplete>
+                        for="nativeInput"
+                        items="[[items]]"
+                        on-item-selected="_onItemSelected"
+                    ></rester-autocomplete>
                 </div>
             </paper-dialog>
         `;

@@ -8,7 +8,7 @@ const style = html`
             color: var(--secondary-text-color);
         }
 
-        paper-input[hidden]+.hint {
+        paper-input[hidden] + .hint {
             display: none;
         }
     </style>

@@ -17,22 +17,22 @@ class RESTerBadge extends PolymerElement {
                     font-weight: bold;
                 }
 
-                :host([type="info"]) {
+                :host([type='info']) {
                     color: var(--light-theme-text-color);
                     background-color: #00bcd4;
                 }
 
-                :host([type="success"]) {
+                :host([type='success']) {
                     color: var(--light-theme-text-color);
                     background-color: #4caf50;
                 }
 
-                :host([type="warn"]) {
+                :host([type='warn']) {
                     color: var(--light-theme-text-color);
                     background-color: #ffc107;
                 }
 
-                :host([type="error"]) {
+                :host([type='error']) {
                     color: var(--dark-theme-text-color);
                     background-color: #f44336;
                 }

@@ -28,11 +28,13 @@ class RESTerError extends PolymerElement {
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <h2>[[title]]</h2>
                 <paper-dialog-scrollable>
                     <template is="dom-repeat" items="[[errorMessageLines]]">

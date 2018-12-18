@@ -39,14 +39,22 @@ class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <paper-dialog-scrollable>
-                    <paper-radio-group selected="{{data}}" on-paper-radio-group-changed="_close">
-                        <template is="dom-repeat" items="[[supportedLanguages]]">
+                    <paper-radio-group
+                        selected="{{data}}"
+                        on-paper-radio-group-changed="_close"
+                    >
+                        <template
+                            is="dom-repeat"
+                            items="[[supportedLanguages]]"
+                        >
                             <paper-radio-button name="[[item]]">
                                 <div>[[item]]</div>
                             </paper-radio-button>

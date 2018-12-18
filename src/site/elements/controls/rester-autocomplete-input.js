@@ -21,28 +21,34 @@ class RESTerAutocompleteInput extends PolymerElement {
             </style>
 
             <paper-input-container
-                    no-label-float="[[noLabelFloat]]"
-                    invalid="[[invalid]]"
-                    disabled$="[[disabled]]">
+                no-label-float="[[noLabelFloat]]"
+                invalid="[[invalid]]"
+                disabled$="[[disabled]]"
+            >
                 <label slot="label" for="input">[[label]]</label>
-                <iron-input slot="input"
-                        id="input"
-                        bind-value="{{value}}"
-                        invalid="{{invalid}}">
-                    <input id="nativeInput"
-                            placeholder$="[[placeholder]]"
-                            autocomplete="off"
-                            name$="[[name]]"
-                            autofocus$="[[autofocus]]"
-                            required$="[[required]]"
-                            disabled$="[[disabled]]">
+                <iron-input
+                    slot="input"
+                    id="input"
+                    bind-value="{{value}}"
+                    invalid="{{invalid}}"
+                >
+                    <input
+                        id="nativeInput"
+                        placeholder$="[[placeholder]]"
+                        autocomplete="off"
+                        name$="[[name]]"
+                        autofocus$="[[autofocus]]"
+                        required$="[[required]]"
+                        disabled$="[[disabled]]"
+                    />
                 </iron-input>
                 <rester-autocomplete
-                        slot="suffix"
-                        for="nativeInput"
-                        items="[[items]]"
-                        dropdown-items-visible="[[dropdownItemsVisible]]"
-                        sort-by-index="[[sortByIndex]]"></rester-autocomplete>
+                    slot="suffix"
+                    for="nativeInput"
+                    items="[[items]]"
+                    dropdown-items-visible="[[dropdownItemsVisible]]"
+                    sort-by-index="[[sortByIndex]]"
+                ></rester-autocomplete>
             </paper-input-container>
         `;
     }

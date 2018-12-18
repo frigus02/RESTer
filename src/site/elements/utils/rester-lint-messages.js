@@ -35,16 +35,24 @@ class RESTerLintMessages extends PolymerElement {
                 }
             </style>
 
-            <template is="dom-repeat" items="[[messages]]" filter="_filterDismissedMessage" observe="dismissed">
+            <template
+                is="dom-repeat"
+                items="[[messages]]"
+                filter="_filterDismissedMessage"
+                observe="dismissed"
+            >
                 <div class="lint-message">
                     <div class="text">[[item.message]]</div>
                     <template is="dom-if" if="[[item.fix]]">
-                        <paper-button on-tap="_fixMessage">[[item.fixLabel]]</paper-button>
+                        <paper-button on-tap="_fixMessage"
+                            >[[item.fixLabel]]</paper-button
+                        >
                     </template>
                     <paper-icon-button
-                            icon="close"
-                            class="dismiss-button"
-                            on-tap="_dismissMessage"></paper-icon-button>
+                        icon="close"
+                        class="dismiss-button"
+                        on-tap="_dismissMessage"
+                    ></paper-icon-button>
                 </div>
             </template>
         `;

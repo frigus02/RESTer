@@ -94,20 +94,23 @@ class RESTerHeaderInput extends PolymerElement {
             <template is="dom-repeat" items="[[headers]]">
                 <div class="header-line">
                     <rester-autocomplete-input
-                            class="name"
-                            label="Name"
-                            value="{{item.name}}"
-                            on-value-changed="_onHeadersChanged"
-                            items="[[requestHeaders]]"></rester-autocomplete-input>
+                        class="name"
+                        label="Name"
+                        value="{{item.name}}"
+                        on-value-changed="_onHeadersChanged"
+                        items="[[requestHeaders]]"
+                    ></rester-autocomplete-input>
                     <rester-autocomplete-input
-                            class="value"
-                            label="Value"
-                            value="{{item.value}}"
-                            on-value-changed="_onHeadersChanged"
-                            items="[[_getRequestHeaderValues(item.name)]]"></rester-autocomplete-input>
+                        class="value"
+                        label="Value"
+                        value="{{item.value}}"
+                        on-value-changed="_onHeadersChanged"
+                        items="[[_getRequestHeaderValues(item.name)]]"
+                    ></rester-autocomplete-input>
                     <paper-icon-button
-                            icon="remove"
-                            on-tap="_removeHeader"></paper-icon-button>
+                        icon="remove"
+                        on-tap="_removeHeader"
+                    ></paper-icon-button>
                 </div>
             </template>
         `;

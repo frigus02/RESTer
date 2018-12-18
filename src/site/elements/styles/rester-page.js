@@ -6,7 +6,7 @@ const style = html`
             background-color: var(--primary-color);
         }
 
-        [role="main"] {
+        [role='main'] {
             max-width: 1000px;
             margin: 0 auto;
             padding: 16px;

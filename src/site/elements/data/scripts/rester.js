@@ -61,8 +61,8 @@ function sendApiRequest(action, args, fields) {
 }
 
 /*
-* Data
-*/
+ * Data
+ */
 
 export function putRequest(request) {
     return sendApiRequest('data.requests.put', request);
@@ -159,8 +159,8 @@ export function importData(options) {
 }
 
 /*
-* Settings
-*/
+ * Settings
+ */
 
 export const settings = {};
 

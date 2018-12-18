@@ -34,15 +34,28 @@ class RESTerFileInput extends PolymerElement {
                 }
             </style>
 
-            <paper-input-container no-label-float$="[[!label]]" always-float-label>
+            <paper-input-container
+                no-label-float$="[[!label]]"
+                always-float-label
+            >
                 <paper-button raised class="browse-button" slot="prefix">
                     Browse...
                 </paper-button>
-                <label hidden$="[[!label]]" aria-hidden="true" slot="label">[[label]]</label>
+                <label hidden$="[[!label]]" aria-hidden="true" slot="label"
+                    >[[label]]</label
+                >
                 <div slot="input">
-                    <input id="input" type="file" name$="[[name]]" required$="[[required]]" on-change="_onInputChange">
+                    <input
+                        id="input"
+                        type="file"
+                        name$="[[name]]"
+                        required$="[[required]]"
+                        on-change="_onInputChange"
+                    />
                     <span hidden$="[[!value]]">[[value]]</span>
-                    <span hidden$="[[value]]" class="placeholder">No file selected.</span>
+                    <span hidden$="[[value]]" class="placeholder"
+                        >No file selected.</span
+                    >
                 </div>
             </paper-input-container>
         `;

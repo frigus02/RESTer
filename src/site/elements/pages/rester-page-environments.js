@@ -69,26 +69,47 @@ class RESTerPageEnvironments extends RESTerPageMixin(
             <app-header-layout>
                 <app-header slot="header" fixed shadow>
                     <app-toolbar>
-                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        <paper-icon-button
+                            icon="menu"
+                            paper-drawer-toggle
+                        ></paper-icon-button>
                         <div main-title>[[pageTitle]]</div>
                     </app-toolbar>
                 </app-header>
                 <div role="main">
                     <p>
-                        Environments can be used to store a list of values, which are available as variables in requests
-                        by using the placeholder <code>{$env.&lt;name&gt;}</code>. Example: <code>{$env.hostname}</code>
-                        if the active environment contains a value with the key <em>hostname</em>.
+                        Environments can be used to store a list of values,
+                        which are available as variables in requests by using
+                        the placeholder <code>{$env.&lt;name&gt;}</code>.
+                        Example: <code>{$env.hostname}</code> if the active
+                        environment contains a value with the key
+                        <em>hostname</em>.
                     </p>
 
-                    <paper-radio-group selected="{{settings.activeEnvironment}}">
-                        <template is="dom-repeat" items="[[environments]]" as="env" sort="_compareEnvironments">
+                    <paper-radio-group
+                        selected="{{settings.activeEnvironment}}"
+                    >
+                        <template
+                            is="dom-repeat"
+                            items="[[environments]]"
+                            as="env"
+                            sort="_compareEnvironments"
+                        >
                             <paper-radio-button name="[[env.id]]">
                                 <div>[[env.name]]</div>
-                                <template is="dom-repeat" items="[[_computeValueItems(env)]]">
-                                    <div secondary>[[item.key]]: [[item.value]]</div>
+                                <template
+                                    is="dom-repeat"
+                                    items="[[_computeValueItems(env)]]"
+                                >
+                                    <div secondary>
+                                        [[item.key]]: [[item.value]]
+                                    </div>
                                 </template>
                             </paper-radio-button>
-                            <paper-icon-button icon="edit" on-tap="_editEnvironment"></paper-icon-button>
+                            <paper-icon-button
+                                icon="edit"
+                                on-tap="_editEnvironment"
+                            ></paper-icon-button>
                         </template>
                     </paper-radio-group>
 

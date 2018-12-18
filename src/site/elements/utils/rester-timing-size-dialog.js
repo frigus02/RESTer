@@ -29,24 +29,32 @@ class RESTerTimingSizeDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <paper-dialog-scrollable>
                     <table>
                         <tr>
                             <td class="label">Transfered</td>
-                            <td class="value">[[_formatSize(data.transferSize)]]</td>
+                            <td class="value">
+                                [[_formatSize(data.transferSize)]]
+                            </td>
                         </tr>
                         <tr>
                             <td class="label">Body (encoded)</td>
-                            <td class="value">[[_formatSize(data.encodedBodySize)]]</td>
+                            <td class="value">
+                                [[_formatSize(data.encodedBodySize)]]
+                            </td>
                         </tr>
                         <tr>
                             <td class="label">Body (decoded)</td>
-                            <td class="value">[[_formatSize(data.decodedBodySize)]]</td>
+                            <td class="value">
+                                [[_formatSize(data.decodedBodySize)]]
+                            </td>
                         </tr>
                     </table>
                 </paper-dialog-scrollable>

@@ -29,8 +29,7 @@ import RESTerPageMixin from '../layout/rester-page-mixin.js';
 class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
     static get template() {
         return html`
-            ${resterPageStyle}
-            ${resterPaperItemButtonStyle}
+            ${resterPageStyle} ${resterPaperItemButtonStyle}
 
             <style>
                 :host {
@@ -59,7 +58,10 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
             <app-header-layout>
                 <app-header slot="header" fixed shadow>
                     <app-toolbar>
-                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        <paper-icon-button
+                            icon="menu"
+                            paper-drawer-toggle
+                        ></paper-icon-button>
                         <div main-title>[[pageTitle]]</div>
                     </app-toolbar>
                 </app-header>
@@ -67,23 +69,30 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
                     <template is="dom-repeat" items="[[historyEntries]]">
                         <paper-item class="button">
                             <paper-item-body
-                                    two-line$="[[!item.request.id]]"
-                                    three-line$="[[item.request.id]]"
-                                    on-tap="_openHistoryEntry">
+                                two-line$="[[!item.request.id]]"
+                                three-line$="[[item.request.id]]"
+                                on-tap="_openHistoryEntry"
+                            >
                                 <paper-ripple></paper-ripple>
                                 <div>[[item.timeFormatted]]</div>
                                 <template is="dom-if" if="[[item.request.id]]">
-                                    <div secondary>[[item.request.collection]] / [[item.request.title]]</div>
+                                    <div secondary>
+                                        [[item.request.collection]] /
+                                        [[item.request.title]]
+                                    </div>
                                 </template>
                                 <div secondary>
-                                    [[item.request.methodCompiled]] [[item.request.urlCompiled]]<br>
-                                    [[item.response.status]] [[item.response.statusText]]
+                                    [[item.request.methodCompiled]]
+                                    [[item.request.urlCompiled]]<br />
+                                    [[item.response.status]]
+                                    [[item.response.statusText]]
                                 </div>
                             </paper-item-body>
                             <paper-icon-button
-                                    icon="delete"
-                                    alt="Delete history entry"
-                                    on-tap="_deleteHistoryEntry"></paper-icon-button>
+                                icon="delete"
+                                alt="Delete history entry"
+                                on-tap="_deleteHistoryEntry"
+                            ></paper-icon-button>
                         </paper-item>
                     </template>
                     <div hidden$="[[!loading]]">
@@ -91,9 +100,10 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
                     </div>
                     <div class="button-container" hidden$="[[loading]]">
                         <paper-button
-                                raised
-                                on-tap="loadAll"
-                                hidden$="[[!moreEntriesAvailable]]">
+                            raised
+                            on-tap="loadAll"
+                            hidden$="[[!moreEntriesAvailable]]"
+                        >
                             Load all (this may take a while)
                         </paper-button>
                     </div>

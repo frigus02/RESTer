@@ -51,57 +51,81 @@ class RESTerAuthorizationProviderCookieConfigurationDialog extends RESTerDialogC
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+            >
                 <paper-dialog-scrollable>
                     <iron-a11y-keys
-                            target="[[form]]"
-                            keys="enter"
-                            on-keys-pressed="_save"
-                            stop-keyboard-event-propagation></iron-a11y-keys>
+                        target="[[form]]"
+                        keys="enter"
+                        on-keys-pressed="_save"
+                        stop-keyboard-event-propagation
+                    ></iron-a11y-keys>
                     <iron-form id="dialogForm">
                         <form>
                             <paper-input
-                                    label="Title"
-                                    value="{{data.title}}"
-                                    required
-                                    error-message="This is required!"
-                                    autofocus></paper-input>
-                            <div class="hint">A name for this configuration, only used to identify the config in RESTer.</div>
+                                label="Title"
+                                value="{{data.title}}"
+                                required
+                                error-message="This is required!"
+                                autofocus
+                            ></paper-input>
+                            <div class="hint">
+                                A name for this configuration, only used to
+                                identify the config in RESTer.
+                            </div>
                             <paper-checkbox checked="{{data.enableVariables}}">
                                 Enable environment variables
                             </paper-checkbox>
                             <paper-input
-                                    label="Start URL"
-                                    value="{{data.startUrl}}"
-                                    required
-                                    error-message="This is required!"></paper-input>
-                            <div class="hint">On token generation, RESTer will open a new browser window and navigate to this URL. Ideally the URL should prompt you to login and then redirect you to the End URL.</div>
+                                label="Start URL"
+                                value="{{data.startUrl}}"
+                                required
+                                error-message="This is required!"
+                            ></paper-input>
+                            <div class="hint">
+                                On token generation, RESTer will open a new
+                                browser window and navigate to this URL. Ideally
+                                the URL should prompt you to login and then
+                                redirect you to the End URL.
+                            </div>
                             <paper-input
-                                    label="End URL"
-                                    value="{{data.endUrl}}"
-                                    required
-                                    error-message="This is required!"></paper-input>
-                            <div class="hint">As soon as the browser navigates to this URL, RESTer will consider the authentication flow successful and close the window.</div>
+                                label="End URL"
+                                value="{{data.endUrl}}"
+                                required
+                                error-message="This is required!"
+                            ></paper-input>
+                            <div class="hint">
+                                As soon as the browser navigates to this URL,
+                                RESTer will consider the authentication flow
+                                successful and close the window.
+                            </div>
                             <paper-input
-                                    label="Cookie Names"
-                                    value="{{data.cookieNames}}"></paper-input>
-                            <div class="hint">By default RESTer will extract all cookies in the domain of the Start URL. You can optionally provide a semicolon (;) separated list of cookie names here to filter the extracted cookies.</div>
+                                label="Cookie Names"
+                                value="{{data.cookieNames}}"
+                            ></paper-input>
+                            <div class="hint">
+                                By default RESTer will extract all cookies in
+                                the domain of the Start URL. You can optionally
+                                provide a semicolon (;) separated list of cookie
+                                names here to filter the extracted cookies.
+                            </div>
                         </form>
                     </iron-form>
                 </paper-dialog-scrollable>
                 <div class="buttons">
-                    <paper-button class="delete-button" hidden$="[[!data.id]]" on-tap="_delete">
+                    <paper-button
+                        class="delete-button"
+                        hidden$="[[!data.id]]"
+                        on-tap="_delete"
+                    >
                         Delete
                     </paper-button>
-                    <paper-button dialog-dismiss>
-                        Cancel
-                    </paper-button>
-                    <paper-button on-tap="_save">
-                        Save
-                    </paper-button>
+                    <paper-button dialog-dismiss> Cancel </paper-button>
+                    <paper-button on-tap="_save"> Save </paper-button>
                 </div>
             </paper-dialog>
         `;

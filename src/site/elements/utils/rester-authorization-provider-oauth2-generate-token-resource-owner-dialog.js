@@ -36,40 +36,41 @@ class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends 
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+            >
                 <paper-dialog-scrollable>
                     <iron-a11y-keys
-                            target="[[form]]"
-                            keys="enter"
-                            on-keys-pressed="_save"
-                            stop-keyboard-event-propagation></iron-a11y-keys>
+                        target="[[form]]"
+                        keys="enter"
+                        on-keys-pressed="_save"
+                        stop-keyboard-event-propagation
+                    ></iron-a11y-keys>
                     <iron-form id="dialogForm">
                         <form>
                             <paper-input
-                                    label="User name"
-                                    value="{{data.username}}"
-                                    required
-                                    error-message="This is required!"
-                                    autofocus></paper-input>
+                                label="User name"
+                                value="{{data.username}}"
+                                required
+                                error-message="This is required!"
+                                autofocus
+                            ></paper-input>
                             <paper-input
-                                    label="Password"
-                                    value="{{data.password}}"
-                                    type="password"
-                                    required
-                                    error-message="This is required!"></paper-input>
+                                label="Password"
+                                value="{{data.password}}"
+                                type="password"
+                                required
+                                error-message="This is required!"
+                            ></paper-input>
                         </form>
                     </iron-form>
                 </paper-dialog-scrollable>
                 <div class="buttons">
-                    <paper-button dialog-dismiss>
-                        Cancel
-                    </paper-button>
-                    <paper-button on-tap="_save">
-                        Save
-                    </paper-button>
+                    <paper-button dialog-dismiss> Cancel </paper-button>
+                    <paper-button on-tap="_save"> Save </paper-button>
                 </div>
             </paper-dialog>
         `;

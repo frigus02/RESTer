@@ -36,34 +36,38 @@ class RESTerUrlInput extends PolymerElement {
 
             <div hidden$="[[expanded]]" class="flex">
                 <paper-input
-                        id="inputAbsolute"
-                        value="{{value}}"
-                        name="[[name]]"
-                        invalid="{{invalid}}"
-                        label="[[label]]"
-                        required$="[[required]]">
+                    id="inputAbsolute"
+                    value="{{value}}"
+                    name="[[name]]"
+                    invalid="{{invalid}}"
+                    label="[[label]]"
+                    required$="[[required]]"
+                >
                 </paper-input>
             </div>
 
             <div hidden$="[[!expanded]]" class="flex">
                 <paper-input
-                        id="inputOriginAndPath"
-                        value="[[originAndPath]]"
-                        on-value-changed="_onOriginAndPathChanged"
-                        label="[[label]]">
+                    id="inputOriginAndPath"
+                    value="[[originAndPath]]"
+                    on-value-changed="_onOriginAndPathChanged"
+                    label="[[label]]"
+                >
                 </paper-input>
                 <rester-form-data-input
-                        value="[[query]]"
-                        on-value-changed="_onQueryChanged"
-                        no-encode
-                        text-only></rester-form-data-input>
+                    value="[[query]]"
+                    on-value-changed="_onQueryChanged"
+                    no-encode
+                    text-only
+                ></rester-form-data-input>
             </div>
 
             <paper-icon-button
-                    aria-label="Expand"
-                    icon="expand-more"
-                    class="expand-button"
-                    on-tap="_toggleExpanded"></paper-icon-button>
+                aria-label="Expand"
+                icon="expand-more"
+                class="expand-button"
+                on-tap="_toggleExpanded"
+            ></paper-icon-button>
         `;
     }
 

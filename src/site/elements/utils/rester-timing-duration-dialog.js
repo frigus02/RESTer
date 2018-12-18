@@ -49,11 +49,13 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <paper-dialog-scrollable>
                     <div hidden$="[[dataAvailable]]">No data available.</div>
                     <table hidden$="[[!dataAvailable]]">
@@ -62,9 +64,14 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
                                 <tr>
                                     <td class="label">[[item.label]]</td>
                                     <td class="timeline">
-                                        <div class="timeline-bar" style$="width: [[_calcPercentage(data.duration, item.duration)]]%; margin-left: [[_calcPercentage(data.duration, item.startAt)]]%;"></div>
+                                        <div
+                                            class="timeline-bar"
+                                            style$="width: [[_calcPercentage(data.duration, item.duration)]]%; margin-left: [[_calcPercentage(data.duration, item.startAt)]]%;"
+                                        ></div>
                                     </td>
-                                    <td class="value">[[_formatDuration(item.duration)]]</td>
+                                    <td class="value">
+                                        [[_formatDuration(item.duration)]]
+                                    </td>
                                 </tr>
                             </template>
                         </tbody>
@@ -72,7 +79,9 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
                             <tr>
                                 <td class="label"></td>
                                 <td class="timeline"></td>
-                                <td class="value">[[_formatDuration(data.duration)]]</td>
+                                <td class="value">
+                                    [[_formatDuration(data.duration)]]
+                                </td>
                             </tr>
                         </tfoot>
                     </table>

@@ -35,7 +35,7 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
 
                     --paper-menu: {
                         width: 256px;
-                    };
+                    }
                 }
 
                 .menu-item-divider {
@@ -52,43 +52,86 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
                 }
             </style>
 
-            <paper-menu-button id="options" horizontal-align="right" restore-focus-on-close>
-                <paper-icon-button slot="dropdown-trigger" icon="more-vert"></paper-icon-button>
-                <paper-listbox slot="dropdown-content" selectable="[role='menuitemradio']">
+            <paper-menu-button
+                id="options"
+                horizontal-align="right"
+                restore-focus-on-close
+            >
+                <paper-icon-button
+                    slot="dropdown-trigger"
+                    icon="more-vert"
+                ></paper-icon-button>
+                <paper-listbox
+                    slot="dropdown-content"
+                    selectable="[role='menuitemradio']"
+                >
                     <template is="dom-repeat" items="[[inputOptions]]">
-                        <paper-icon-item role="menuitemradio" on-tap="_selectInputOption">
+                        <paper-icon-item
+                            role="menuitemradio"
+                            on-tap="_selectInputOption"
+                        >
                             <iron-icon
-                                    slot="item-icon"
-                                    icon="check"
-                                    hidden$="[[!_isInputOptionSelected(item, selectedInputOption)]]"></iron-icon>
+                                slot="item-icon"
+                                icon="check"
+                                hidden$="[[!_isInputOptionSelected(item, selectedInputOption)]]"
+                            ></iron-icon>
                             [[item.title]]
                         </paper-icon-item>
                     </template>
-                    <div class="menu-item-divider" hidden$="[[!selectedInputOption.isInputTypeAce]]"></div>
-                    <paper-icon-item role="menuitemcheckbox" hidden$="[[!selectedInputOption.isInputTypeAce]]" on-tap="_toggleFullSize">
-                        <iron-icon slot="item-icon" icon="check" hidden$="[[!settings.requestBodyFullSize]]"></iron-icon> Full Size
+                    <div
+                        class="menu-item-divider"
+                        hidden$="[[!selectedInputOption.isInputTypeAce]]"
+                    ></div>
+                    <paper-icon-item
+                        role="menuitemcheckbox"
+                        hidden$="[[!selectedInputOption.isInputTypeAce]]"
+                        on-tap="_toggleFullSize"
+                    >
+                        <iron-icon
+                            slot="item-icon"
+                            icon="check"
+                            hidden$="[[!settings.requestBodyFullSize]]"
+                        ></iron-icon>
+                        Full Size
                     </paper-icon-item>
-                    <div class="menu-item-divider" hidden$="[[!selectedInputOption.beautifyMethod]]"></div>
-                    <paper-icon-item role="menuitem" hidden$="[[!selectedInputOption.beautifyMethod]]" on-tap="_beautify">
-                        <iron-icon slot="item-icon" icon="format-paint"></iron-icon>
+                    <div
+                        class="menu-item-divider"
+                        hidden$="[[!selectedInputOption.beautifyMethod]]"
+                    ></div>
+                    <paper-icon-item
+                        role="menuitem"
+                        hidden$="[[!selectedInputOption.beautifyMethod]]"
+                        on-tap="_beautify"
+                    >
+                        <iron-icon
+                            slot="item-icon"
+                            icon="format-paint"
+                        ></iron-icon>
                         Beautify
                     </paper-icon-item>
                 </paper-listbox>
             </paper-menu-button>
 
-            <template is="dom-if" if="[[selectedInputOption.isInputTypeAce]]" restamp>
+            <template
+                is="dom-if"
+                if="[[selectedInputOption.isInputTypeAce]]"
+                restamp
+            >
                 <rester-ace-input
-                        mode="[[selectedInputOption.aceMode]]"
-                        value="{{value}}"
-                        max-lines="[[aceMaxLines]]"
-                        disable-search="[[settings.requestBodyFullSize]]">
+                    mode="[[selectedInputOption.aceMode]]"
+                    value="{{value}}"
+                    max-lines="[[aceMaxLines]]"
+                    disable-search="[[settings.requestBodyFullSize]]"
+                >
                 </rester-ace-input>
             </template>
 
-            <template is="dom-if" if="[[selectedInputOption.isInputTypeForm]]" restamp>
-                <rester-form-data-input
-                        value="{{value}}"
-                        files="{{files}}">
+            <template
+                is="dom-if"
+                if="[[selectedInputOption.isInputTypeForm]]"
+                restamp
+            >
+                <rester-form-data-input value="{{value}}" files="{{files}}">
                 </rester-form-data-input>
             </template>
         `;

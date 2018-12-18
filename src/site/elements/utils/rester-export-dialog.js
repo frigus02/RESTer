@@ -45,22 +45,28 @@ class RESTerExportDialog extends RESTerDialogControllerMixin(
                 }
             </style>
 
-            <paper-dialog id="dialog"
-                    entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation"
-                    with-backdrop
-                    restore-focus-on-close>
+            <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                with-backdrop
+                restore-focus-on-close
+            >
                 <paper-dialog-scrollable>
                     <p>
-                        The export can include requests and the history. Authorization configs,
-                        tokens or environments are not supported.
+                        The export can include requests and the history.
+                        Authorization configs, tokens or environments are not
+                        supported.
                     </p>
                     <paper-dropdown-menu label="Format">
                         <paper-listbox
-                                slot="dropdown-content"
-                                selected="{{format}}"
-                                attr-for-selected="value">
-                            <paper-item value="postman">Postman Collection Format v2.1.0</paper-item>
+                            slot="dropdown-content"
+                            selected="{{format}}"
+                            attr-for-selected="value"
+                        >
+                            <paper-item value="postman"
+                                >Postman Collection Format v2.1.0</paper-item
+                            >
                         </paper-listbox>
                     </paper-dropdown-menu>
                     <paper-checkbox checked="{{includeHistory}}">
@@ -69,7 +75,10 @@ class RESTerExportDialog extends RESTerDialogControllerMixin(
                 </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-dismiss>Cancel</paper-button>
-                    <paper-button disabled$="[[isPreparingExport]]" on-tap="_export">
+                    <paper-button
+                        disabled$="[[isPreparingExport]]"
+                        on-tap="_export"
+                    >
                         <span hidden$="[[isPreparingExport]]">Export</span>
                         <span hidden$="[[!isPreparingExport]]">
                             <paper-spinner active></paper-spinner>

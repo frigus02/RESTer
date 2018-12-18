@@ -27,16 +27,16 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
 
                     --paper-item-focused-before: {
                         background: none;
-                    };
+                    }
 
                     --paper-icon-item: {
                         align-items: flex-start;
                         margin-top: 16px;
-                    };
+                    }
 
                     --paper-item-icon: {
                         margin-top: 2px;
-                    };
+                    }
 
                     --paper-item-body-two-line-min-height: 0;
                 }
@@ -45,7 +45,10 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
             <app-header-layout>
                 <app-header slot="header" fixed shadow>
                     <app-toolbar>
-                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        <paper-icon-button
+                            icon="menu"
+                            paper-drawer-toggle
+                        ></paper-icon-button>
                         <div main-title>[[pageTitle]]</div>
                     </app-toolbar>
                 </app-header>
@@ -54,7 +57,9 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
                         <iron-icon slot="item-icon" icon="home"></iron-icon>
                         <paper-item-body two-line>
                             <div>Homepage</div>
-                            <div secondary>https://github.com/frigus02/RESTer</div>
+                            <div secondary>
+                                https://github.com/frigus02/RESTer
+                            </div>
                         </paper-item-body>
                     </paper-icon-item>
                     <paper-icon-item>
@@ -85,7 +90,10 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
                             <div>Libraries and frameworks</div>
                             <div secondary>
                                 <template is="dom-repeat" items="[[libraries]]">
-                                    <div><span>[[item.name]]</span> <span>[[item.version]]</span></div>
+                                    <div>
+                                        <span>[[item.name]]</span>
+                                        <span>[[item.version]]</span>
+                                    </div>
                                 </template>
                             </div>
                         </paper-item-body>

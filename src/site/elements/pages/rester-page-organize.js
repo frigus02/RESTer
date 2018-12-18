@@ -33,7 +33,10 @@ class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
             <app-header-layout>
                 <app-header slot="header" fixed shadow>
                     <app-toolbar>
-                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        <paper-icon-button
+                            icon="menu"
+                            paper-drawer-toggle
+                        ></paper-icon-button>
                         <div main-title>[[pageTitle]]</div>
                     </app-toolbar>
                 </app-header>
@@ -47,9 +50,9 @@ class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
                     </paper-button>
                     <h2>Clean up</h2>
                     <p>
-                        RESTer does not automatically delete any of your history. It can be
-                        a good idea to clean it up every once in a while when you notice that
-                        RESTer gets slower.
+                        RESTer does not automatically delete any of your
+                        history. It can be a good idea to clean it up every once
+                        in a while when you notice that RESTer gets slower.
                     </p>
                     <paper-button raised on-tap="_cleanupHistory">
                         Clean up history
