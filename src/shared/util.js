@@ -223,3 +223,27 @@ export function parseMediaType(mediaType) {
     const type = mediaType.substr(0, `${mediaType};`.indexOf(';')).trim();
     return { type };
 }
+
+/**
+ * Parses an HTTP status line and returns the status code and text.
+ * @param {String} statusLine - An HTTP status line, e.g. "HTTP/1.1 200 OK"
+ */
+export function parseStatusLine(statusLine) {
+    const firstSpace = statusLine.indexOf(' ');
+    if (firstSpace === -1) {
+        return { httpVersion: statusLine, statusCode: 0, reasonPhrase: '' };
+    }
+
+    const httpVersion = statusLine.substring(0, firstSpace);
+    let secondSpace = statusLine.indexOf(' ', firstSpace + 1);
+    if (secondSpace === -1) {
+        // Reason phrase is empty
+        secondSpace = statusLine.length;
+    }
+
+    const statusCode = Number.parseInt(
+        statusLine.substring(firstSpace + 1, secondSpace)
+    );
+    const reasonPhrase = statusLine.substring(secondSpace + 1);
+    return { httpVersion, statusCode, reasonPhrase };
+}

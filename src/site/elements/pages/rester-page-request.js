@@ -620,9 +620,9 @@ class RESTerPageRequest extends RESTerLintMixin(
         } else if (status >= 200 && status < 300) {
             return 'success';
         } else if (status >= 300 && status < 400) {
-            return 'info';
-        } else if (status >= 400) {
             return 'warn';
+        } else if (status >= 400) {
+            return 'error';
         }
     }
 

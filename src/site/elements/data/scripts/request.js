@@ -1,5 +1,5 @@
 import { decodeQueryString } from './encode.js';
-import { mergeCookies } from '../../../../shared/util.js';
+import { mergeCookies, parseStatusLine } from '../../../../shared/util.js';
 
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
@@ -13,7 +13,7 @@ const requiredDefaultHeaders = {
 const requestIds = new Map();
 
 // Maps from RESTer requestId to original response headers.
-const originalResponseHeaders = new Map();
+const originalResponses = new Map();
 
 chrome.tabs.getCurrent(tab => {
     setupHeaderInterceptor(tab.id);
@@ -143,7 +143,13 @@ function setupHeaderInterceptor(currentTabId) {
 
         const resterRequestId = requestIds.get(details.requestId);
         requestIds.delete(details.requestId);
-        originalResponseHeaders.set(resterRequestId, originalHeaders);
+
+        const statusLine = parseStatusLine(details.statusLine);
+        originalResponses.set(resterRequestId, {
+            status: statusLine.statusCode,
+            statusText: statusLine.reasonPhrase,
+            headers: originalHeaders
+        });
 
         indexesToRemove.reverse();
         for (let index of indexesToRemove) {
@@ -201,9 +207,10 @@ function generateFormData(body, tempVariables) {
  * @param {Object} request - The request object.
  * @param {String} request.method - The HTTP method like GET or POST.
  * @param {String} request.url - The url.
- * @param {Boolean} request.stripDefaultHeaders - When true, will try to strip
- * all default headers the browser would normally send to the server like
- * `Accept` or `User-Agent`.
+ * @param {Boolean} request.stripDefaultHeaders - When true, will try to send a
+ * clean request. This means stripping all default headers the browser would
+ * normally send to the server like `Accept` or `User-Agent`. It also means not
+ * following sending credentials or following redirects.
  * @param {Array} request.headers - The headers. Each header is an object with
  * the properties `name` and `value`.
  * @param {String} request.body - The body.
@@ -250,7 +257,7 @@ export async function send(request) {
         mode: 'cors',
         credentials: request.stripDefaultHeaders ? 'omit' : 'include',
         cache: 'no-store',
-        redirect: 'follow',
+        redirect: request.stripDefaultHeaders ? 'manual' : 'follow',
         signal: request.signal
     };
 
@@ -267,11 +274,13 @@ export async function send(request) {
     };
 
     const fetchResponse = await fetch(request.url, init);
-    response.status = fetchResponse.status;
-    response.statusText = fetchResponse.statusText;
     response.redirected = fetchResponse.redirected;
-    response.headers = [...originalResponseHeaders.get(requestId)];
-    originalResponseHeaders.delete(requestId);
+
+    const originalResponse = originalResponses.get(requestId);
+    originalResponses.delete(requestId);
+    response.status = originalResponse.status;
+    response.statusText = originalResponse.statusText;
+    response.headers = [...originalResponse.headers];
 
     const fetchBody = await fetchResponse.text();
     response.timeEnd = new Date();
