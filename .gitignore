@@ -1,6 +1,5 @@
 .build/
 .package/
-.vscode/
 node_modules/
 *.sublime-workspace
 *.sublime-project

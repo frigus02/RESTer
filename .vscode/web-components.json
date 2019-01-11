@@ -1,0 +1,1130 @@
+{
+    "version": 1,
+    "tags": [
+        {
+            "name": "rester-ace-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "mode",
+                    "description": ""
+                },
+                {
+                    "name": "read-only",
+                    "description": ""
+                },
+                {
+                    "name": "use-wrap-mode",
+                    "description": ""
+                },
+                {
+                    "name": "max-lines",
+                    "description": ""
+                },
+                {
+                    "name": "disable-search",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "authorization",
+                    "description": ""
+                },
+                {
+                    "name": "tokens",
+                    "description": ""
+                },
+                {
+                    "name": "configurations",
+                    "description": ""
+                },
+                {
+                    "name": "providers",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-basic",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "provider-id",
+                    "description": ""
+                },
+                {
+                    "name": "title",
+                    "description": ""
+                },
+                {
+                    "name": "needs-configuration",
+                    "description": ""
+                },
+                {
+                    "name": "supports-incognito",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-cookie",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "provider-id",
+                    "description": ""
+                },
+                {
+                    "name": "title",
+                    "description": ""
+                },
+                {
+                    "name": "needs-configuration",
+                    "description": ""
+                },
+                {
+                    "name": "supports-incognito",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-custom",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "provider-id",
+                    "description": ""
+                },
+                {
+                    "name": "title",
+                    "description": ""
+                },
+                {
+                    "name": "needs-configuration",
+                    "description": ""
+                },
+                {
+                    "name": "supports-incognito",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-oauth2",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "provider-id",
+                    "description": ""
+                },
+                {
+                    "name": "title",
+                    "description": ""
+                },
+                {
+                    "name": "needs-configuration",
+                    "description": ""
+                },
+                {
+                    "name": "supports-incognito",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-autocomplete-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "placeholder",
+                    "description": ""
+                },
+                {
+                    "name": "label",
+                    "description": ""
+                },
+                {
+                    "name": "autofocus",
+                    "description": ""
+                },
+                {
+                    "name": "no-label-float",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "items",
+                    "description": ""
+                },
+                {
+                    "name": "dropdown-items-visible",
+                    "description": ""
+                },
+                {
+                    "name": "sort-by-index",
+                    "description": ""
+                },
+                {
+                    "name": "invalid",
+                    "description": ""
+                },
+                {
+                    "name": "required",
+                    "description": ""
+                },
+                {
+                    "name": "disabled",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-autocomplete",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "for",
+                    "description": ""
+                },
+                {
+                    "name": "items",
+                    "description": ""
+                },
+                {
+                    "name": "dropdown-items-visible",
+                    "description": ""
+                },
+                {
+                    "name": "item-template",
+                    "description": ""
+                },
+                {
+                    "name": "selected-index",
+                    "description": ""
+                },
+                {
+                    "name": "dropdown-visible",
+                    "description": ""
+                },
+                {
+                    "name": "input-value",
+                    "description": ""
+                },
+                {
+                    "name": "sort-by-index",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-body-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "files",
+                    "description": ""
+                },
+                {
+                    "name": "content-type",
+                    "description": ""
+                },
+                {
+                    "name": "input-options",
+                    "description": ""
+                },
+                {
+                    "name": "selected-input-option",
+                    "description": ""
+                },
+                {
+                    "name": "ace-max-lines",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-code-output",
+            "description": "",
+            "attributes": []
+        },
+        {
+            "name": "rester-dom-purify-frame",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "html",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-edit-environment-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "value-items",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-file-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "label",
+                    "description": ""
+                },
+                {
+                    "name": "required",
+                    "description": ""
+                },
+                {
+                    "name": "file",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "override-value",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-form-data-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "files",
+                    "description": ""
+                },
+                {
+                    "name": "no-encode",
+                    "description": ""
+                },
+                {
+                    "name": "text-only",
+                    "description": ""
+                },
+                {
+                    "name": "form-data-entries",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-header-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "headers",
+                    "description": ""
+                },
+                {
+                    "name": "request-headers",
+                    "description": ""
+                },
+                {
+                    "name": "request-header-values",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-highlight-body",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "body",
+                    "description": ""
+                },
+                {
+                    "name": "body-formatted",
+                    "description": ""
+                },
+                {
+                    "name": "rendered-body",
+                    "description": ""
+                },
+                {
+                    "name": "content-type",
+                    "description": ""
+                },
+                {
+                    "name": "language",
+                    "description": ""
+                },
+                {
+                    "name": "ace-mode",
+                    "description": ""
+                },
+                {
+                    "name": "ace-max-lines",
+                    "description": ""
+                },
+                {
+                    "name": "pretty-print-mode",
+                    "description": ""
+                },
+                {
+                    "name": "pretty-print-status",
+                    "description": ""
+                },
+                {
+                    "name": "is-pretty-print-supported",
+                    "description": ""
+                },
+                {
+                    "name": "is-pretty-print-in-progress",
+                    "description": ""
+                },
+                {
+                    "name": "is-pretty-print-error",
+                    "description": ""
+                },
+                {
+                    "name": "is-preview-supported",
+                    "description": ""
+                },
+                {
+                    "name": "render-preview",
+                    "description": ""
+                },
+                {
+                    "name": "show-wrap-mode-warning",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-highlight-headers",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "headers",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-request-title-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "request-collection",
+                    "description": ""
+                },
+                {
+                    "name": "request-title",
+                    "description": ""
+                },
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "required",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "request-collections",
+                    "description": ""
+                },
+                {
+                    "name": "has-collection",
+                    "description": ""
+                },
+                {
+                    "name": "has-trailing-slash",
+                    "description": ""
+                },
+                {
+                    "name": "has-title",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-subheader",
+            "description": "",
+            "attributes": []
+        },
+        {
+            "name": "rester-url-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "label",
+                    "description": ""
+                },
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "required",
+                    "description": ""
+                },
+                {
+                    "name": "origin-and-path",
+                    "description": ""
+                },
+                {
+                    "name": "query",
+                    "description": ""
+                },
+                {
+                    "name": "expanded",
+                    "description": ""
+                },
+                {
+                    "name": "invalid",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-variables-input",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "source-obj",
+                    "description": ""
+                },
+                {
+                    "name": "variables",
+                    "description": ""
+                },
+                {
+                    "name": "provided-variables",
+                    "description": ""
+                },
+                {
+                    "name": "last-used-variables",
+                    "description": ""
+                },
+                {
+                    "name": "variable-history",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-data-navigation",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "items",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-drawer-footer-links",
+            "description": "",
+            "attributes": []
+        },
+        {
+            "name": "rester-navigation-list-item",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "item",
+                    "description": ""
+                },
+                {
+                    "name": "indent-level",
+                    "description": ""
+                },
+                {
+                    "name": "route",
+                    "description": ""
+                },
+                {
+                    "name": "active",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-navigation-list",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "route",
+                    "description": ""
+                },
+                {
+                    "name": "items",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-notifications",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "notifications",
+                    "description": ""
+                },
+                {
+                    "name": "is-empty",
+                    "description": ""
+                },
+                {
+                    "name": "icon",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-pages",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "page",
+                    "description": ""
+                },
+                {
+                    "name": "page-title",
+                    "description": ""
+                },
+                {
+                    "name": "route",
+                    "description": ""
+                },
+                {
+                    "name": "show-drawer-toggle",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-page-about",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "version",
+                    "description": ""
+                },
+                {
+                    "name": "libraries",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-page-environments",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "environments",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-page-history",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "history-entries",
+                    "description": ""
+                },
+                {
+                    "name": "more-entries-available",
+                    "description": ""
+                },
+                {
+                    "name": "loading",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-page-organize",
+            "description": "",
+            "attributes": []
+        },
+        {
+            "name": "rester-page-request",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "route",
+                    "description": ""
+                },
+                {
+                    "name": "route-active",
+                    "description": ""
+                },
+                {
+                    "name": "route-data",
+                    "description": ""
+                },
+                {
+                    "name": "history-route",
+                    "description": ""
+                },
+                {
+                    "name": "history-route-active",
+                    "description": ""
+                },
+                {
+                    "name": "history-route-data",
+                    "description": ""
+                },
+                {
+                    "name": "page-full-width",
+                    "description": ""
+                },
+                {
+                    "name": "is-wide-enough-to-show-variables-on-side",
+                    "description": ""
+                },
+                {
+                    "name": "request",
+                    "description": ""
+                },
+                {
+                    "name": "request-variable-values",
+                    "description": ""
+                },
+                {
+                    "name": "request-methods",
+                    "description": ""
+                },
+                {
+                    "name": "request-is-sending",
+                    "description": ""
+                },
+                {
+                    "name": "request-is-sending-and-abortable",
+                    "description": ""
+                },
+                {
+                    "name": "request-show-variables-on-side",
+                    "description": ""
+                },
+                {
+                    "name": "request-selected-tab",
+                    "description": ""
+                },
+                {
+                    "name": "request-content-type",
+                    "description": ""
+                },
+                {
+                    "name": "request-authorization",
+                    "description": ""
+                },
+                {
+                    "name": "response",
+                    "description": ""
+                },
+                {
+                    "name": "response-badge-type",
+                    "description": ""
+                },
+                {
+                    "name": "response-content-type",
+                    "description": ""
+                },
+                {
+                    "name": "history-entry",
+                    "description": ""
+                },
+                {
+                    "name": "history-entry-size",
+                    "description": ""
+                },
+                {
+                    "name": "history-entry-duration",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-page-settings",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "request-mode",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-app",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "route",
+                    "description": ""
+                },
+                {
+                    "name": "route-data",
+                    "description": ""
+                },
+                {
+                    "name": "route-tail",
+                    "description": ""
+                },
+                {
+                    "name": "page",
+                    "description": ""
+                },
+                {
+                    "name": "page-title",
+                    "description": ""
+                },
+                {
+                    "name": "responsive-width",
+                    "description": ""
+                },
+                {
+                    "name": "responsive-width-min",
+                    "description": ""
+                },
+                {
+                    "name": "responsive-width-max",
+                    "description": ""
+                },
+                {
+                    "name": "show-drawer-lock-media-query",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-basic-generate-token-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "form",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-cookie-configuration-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "form",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-custom-generate-token-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "form",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-oauth2-configuration-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "form",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-authorization-provider-oauth2-generate-token-resource-owner-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "form",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-badge",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "type",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-cleanup-history-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "large-entries",
+                    "description": ""
+                },
+                {
+                    "name": "delete-large-entries",
+                    "description": ""
+                },
+                {
+                    "name": "entries",
+                    "description": ""
+                },
+                {
+                    "name": "entry-count-to-delete",
+                    "description": ""
+                },
+                {
+                    "name": "can-delete-entries",
+                    "description": ""
+                },
+                {
+                    "name": "is-deleting-entries",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-curl-command-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "curl-command",
+                    "description": ""
+                },
+                {
+                    "name": "copy-to-clipboard-not-supported",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-environment-select-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "environments",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-error",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "title",
+                    "description": ""
+                },
+                {
+                    "name": "error",
+                    "description": ""
+                },
+                {
+                    "name": "error-message",
+                    "description": ""
+                },
+                {
+                    "name": "error-message-lines",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-export-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "format",
+                    "description": ""
+                },
+                {
+                    "name": "include-history",
+                    "description": ""
+                },
+                {
+                    "name": "is-preparing-export",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-highlight-language-select-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "supported-languages",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-hotkeys-cheat-sheet",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "hotkeys",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-import-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "file",
+                    "description": ""
+                },
+                {
+                    "name": "collection-prefix",
+                    "description": ""
+                },
+                {
+                    "name": "is-importing",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-lint-messages",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "messages",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-quick-open-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "search-text",
+                    "description": ""
+                },
+                {
+                    "name": "items",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-redirected-help-dialog",
+            "description": "",
+            "attributes": []
+        },
+        {
+            "name": "rester-timing-duration-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "data-available",
+                    "description": ""
+                },
+                {
+                    "name": "timeline",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "rester-timing-size-dialog",
+            "description": "",
+            "attributes": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ]
+        }
+    ]
+}
