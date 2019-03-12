@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.10.0] - 2019-03-12
+
 ### Added
 
 -   Added more headers to the autocomplete list of request headers ([#87](https://github.com/frigus02/RESTer/issues/87)).
@@ -552,7 +554,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/3.9.1...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/3.10.0...HEAD
+[3.10.0]: https://github.com/frigus02/RESTer/compare/3.9.1...3.10.0
 [3.9.1]: https://github.com/frigus02/RESTer/compare/3.9.0...3.9.1
 [3.9.0]: https://github.com/frigus02/RESTer/compare/3.8.2...3.9.0
 [3.8.2]: https://github.com/frigus02/RESTer/compare/3.8.1...3.8.2
