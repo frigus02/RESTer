@@ -16,17 +16,24 @@ const COMMON_MIME_TYPES = [
 ];
 
 const REQUEST_HEADERS = [
-    'Accept',
     'Accept-Charset',
     'Accept-Encoding',
     'Accept-Language',
+    'Accept',
+    'Access-Control-Request-Headers',
+    'Access-Control-Request-Method',
     'Authorization',
     'Cache-Control',
     'Connection',
+    'Content-Language',
     'Content-Type',
     'Cookie',
     'Date',
+    'DNT',
+    'DPR',
+    'Early-Data',
     'Expect',
+    'Forwarded',
     'From',
     'Host',
     'If-Match',
@@ -34,18 +41,25 @@ const REQUEST_HEADERS = [
     'If-None-Match',
     'If-Range',
     'If-Unmodified-Since',
+    'Keep-Alive',
     'Max-Forwards',
+    'Origin',
     'Pragma',
     'Proxy-Authorization',
     'Range',
     'Referer',
+    'Save-Data',
     'TE',
     'Trailer',
     'Transfer-Encoding',
+    'Upgrade-Insecure-Requests',
     'Upgrade',
     'User-Agent',
+    'Vary',
     'Via',
-    'Warning'
+    'Viewport-Width',
+    'Warning',
+    'Width'
 ];
 
 const REQUEST_HEADER_VALUES = {

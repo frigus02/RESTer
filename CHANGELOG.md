@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+-   Added more headers to the autocomplete list of request headers ([#87](https://github.com/frigus02/RESTer/issues/87)).
+
 ## [3.9.1] - 2018-12-18
 
 ### Fixed
