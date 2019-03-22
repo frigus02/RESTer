@@ -218,6 +218,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                             restore-focus-on-close
                         >
                             <paper-icon-button
+                                id="save-request-button"
                                 slot="dropdown-trigger"
                                 icon="save"
                             ></paper-icon-button>
@@ -237,6 +238,9 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 >
                             </paper-listbox>
                         </paper-menu-button>
+                        <paper-tooltip for="save-request-button"
+                            >Save</paper-tooltip
+                        >
                         <paper-menu-button
                             id="deleteOptions"
                             horizontal-align="right"
@@ -244,6 +248,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                             hidden$="[[!request.id]]"
                         >
                             <paper-icon-button
+                                id="delete-request-button"
                                 slot="dropdown-trigger"
                                 icon="delete"
                             ></paper-icon-button>
@@ -258,12 +263,16 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 >
                             </paper-listbox>
                         </paper-menu-button>
+                        <paper-tooltip for="delete-request-button"
+                            >Delete</paper-tooltip
+                        >
                         <paper-menu-button
                             id="moreOptions"
                             horizontal-align="right"
                             restore-focus-on-close
                         >
                             <paper-icon-button
+                                id="request-menu-button"
                                 slot="dropdown-trigger"
                                 icon="more-vert"
                             ></paper-icon-button>
@@ -278,6 +287,9 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 >
                             </paper-listbox>
                         </paper-menu-button>
+                        <paper-tooltip for="request-menu-button"
+                            >More options</paper-tooltip
+                        >
                     </app-toolbar>
                 </app-header>
                 <div role="main">
