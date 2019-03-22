@@ -290,18 +290,18 @@ https://unpkg.com/@webcomponents/webcomponentsjs@2.2.7/bundles/webcomponents-sd.
 https://unpkg.com/@webcomponents/webcomponentsjs@2.2.7/webcomponents-bundle.js
 https://unpkg.com/@webcomponents/webcomponentsjs@2.2.7/webcomponents-loader.js
 
-ace-builds 1.3.3
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/ace.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/ext-searchbox.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-html.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-json.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-text.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/mode-xml.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/theme-chrome.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/theme-twilight.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/worker-html.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/worker-json.js
-https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/worker-xml.js
+ace-builds 1.4.3
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.4.3/src-min-noconflict/worker-xml.js
 
 dompurify 1.0.10
 https://unpkg.com/dompurify@1.0.10/dist/purify.es.js
