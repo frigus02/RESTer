@@ -258,6 +258,26 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 >
                             </paper-listbox>
                         </paper-menu-button>
+                        <paper-menu-button
+                            id="moreOptions"
+                            horizontal-align="right"
+                            restore-focus-on-close
+                        >
+                            <paper-icon-button
+                                slot="dropdown-trigger"
+                                icon="more-vert"
+                            ></paper-icon-button>
+                            <paper-listbox
+                                slot="dropdown-content"
+                                selectable="[role='menuitemradio']"
+                            >
+                                <paper-item
+                                    role="menuitem"
+                                    on-tap="_showCurlCommandDialog"
+                                    >Show curl command</paper-item
+                                >
+                            </paper-listbox>
+                        </paper-menu-button>
                     </app-toolbar>
                 </app-header>
                 <div role="main">
@@ -860,11 +880,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         });
     }
 
-    _sendRequest() {
-        if (!this.$.requestForm.validate()) {
-            return;
-        }
-
+    _compileRequest() {
         const usedVariableValues = {};
         const compiledRequest = replaceVariables(
             this.request,
@@ -884,6 +900,25 @@ class RESTerPageRequest extends RESTerLintMixin(
         compiledRequest.tempVariables = {
             values: mapFilesToVariableValues(this.$.bodyInput.files || {})
         };
+
+        return {
+            compiledRequest,
+            usedVariableValues
+        };
+    }
+
+    _showCurlCommandDialog() {
+        this.$.moreOptions.close();
+        const { compiledRequest } = this._compileRequest();
+        dialogs.curlCommand.show(compiledRequest);
+    }
+
+    _sendRequest() {
+        if (!this.$.requestForm.validate()) {
+            return;
+        }
+
+        const { compiledRequest, usedVariableValues } = this._compileRequest();
 
         if (window.AbortController) {
             this._requestAbortController = new AbortController();
