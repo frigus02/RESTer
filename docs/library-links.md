@@ -321,8 +321,8 @@ https://unpkg.com/string_score@0.1.22/string_score.js
 web-animations-js 2.3.1
 https://unpkg.com/web-animations-js@2.3.1/web-animations-next-lite.min.js
 
-webpack 4.27.1
-https://unpkg.com/webpack@4.27.1/buildin/amd-define.js
-https://unpkg.com/webpack@4.27.1/buildin/global.js
-https://unpkg.com/webpack@4.27.1/buildin/module.js
+webpack 4.29.6
+https://unpkg.com/webpack@4.29.6/buildin/amd-define.js
+https://unpkg.com/webpack@4.29.6/buildin/global.js
+https://unpkg.com/webpack@4.29.6/buildin/module.js
 ```
