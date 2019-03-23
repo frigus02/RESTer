@@ -1,6 +1,6 @@
 # RESTer
 
-[![Build Status](https://travis-ci.org/frigus02/RESTer.svg?branch=master)](https://travis-ci.org/frigus02/RESTer)
+[![Build Status](https://travis-ci.com/frigus02/RESTer.svg?branch=master)](https://travis-ci.com/frigus02/RESTer)
 
 A REST client for almost any web service.
 
@@ -26,12 +26,14 @@ It requires a few permissions to do this. [Which permissions and why?](./docs/pe
 
 The project requires:
 
--   `node` >= 8
+-   `node` >= 10
 -   `yarn` >= 1
 
 Install all other dependencies with the command:
 
-    yarn install
+```command
+yarn install
+```
 
 ### Test
 
@@ -52,11 +54,13 @@ To load the add-on in the browser:
 
 To create packages for AMO and the Chrome Web Store run:
 
-    yarn build
-    yarn lint
-    yarn test
-    yarn test:e2e
-    yarn package
+```command
+yarn build
+yarn lint
+yarn test
+yarn test:e2e
+yarn package
+```
 
 Afterwards you will find the generated files in the folder _.package_.
 
