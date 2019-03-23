@@ -22,13 +22,14 @@ import './utils/rester-authorization-provider-cookie-configuration-dialog.js';
 import './utils/rester-authorization-provider-custom-generate-token-dialog.js';
 import './utils/rester-authorization-provider-oauth2-configuration-dialog.js';
 import './utils/rester-authorization-provider-oauth2-generate-token-resource-owner-dialog.js';
+import './utils/rester-cleanup-history-dialog.js';
+import './utils/rester-curl-command-dialog.js';
 import './utils/rester-environment-select-dialog.js';
 import './utils/rester-error.js';
 import './utils/rester-export-dialog.js';
 import './utils/rester-highlight-language-select-dialog.js';
 import './utils/rester-hotkeys-cheat-sheet.js';
 import './utils/rester-import-dialog.js';
-import './utils/rester-cleanup-history-dialog.js';
 import './utils/rester-quick-open-dialog.js';
 import './utils/rester-redirected-help-dialog.js';
 import './utils/rester-timing-duration-dialog.js';
@@ -173,12 +174,13 @@ class RESTerApp extends RESTerThemeMixin(
             <rester-authorization-provider-custom-generate-token-dialog></rester-authorization-provider-custom-generate-token-dialog>
             <rester-authorization-provider-oauth2-configuration-dialog></rester-authorization-provider-oauth2-configuration-dialog>
             <rester-authorization-provider-oauth2-generate-token-resource-owner-dialog></rester-authorization-provider-oauth2-generate-token-resource-owner-dialog>
+            <rester-cleanup-history-dialog></rester-cleanup-history-dialog>
+            <rester-curl-command-dialog></rester-curl-command-dialog>
             <rester-edit-environment-dialog></rester-edit-environment-dialog>
             <rester-environment-select-dialog></rester-environment-select-dialog>
             <rester-export-dialog></rester-export-dialog>
             <rester-highlight-language-select-dialog></rester-highlight-language-select-dialog>
             <rester-import-dialog></rester-import-dialog>
-            <rester-cleanup-history-dialog></rester-cleanup-history-dialog>
             <rester-redirected-help-dialog></rester-redirected-help-dialog>
             <rester-timing-duration-dialog></rester-timing-duration-dialog>
             <rester-timing-size-dialog></rester-timing-size-dialog>

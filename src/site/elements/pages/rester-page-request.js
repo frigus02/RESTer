@@ -212,31 +212,14 @@ class RESTerPageRequest extends RESTerLintMixin(
                             request-title="{{request.title}}"
                             class="title-input"
                         ></rester-request-title-input>
-                        <paper-menu-button
-                            id="saveOptions"
-                            horizontal-align="right"
-                            restore-focus-on-close
+                        <paper-icon-button
+                            id="save-request-button"
+                            icon="save"
+                            on-tap="_saveRequest"
+                        ></paper-icon-button>
+                        <paper-tooltip for="save-request-button"
+                            >Save request</paper-tooltip
                         >
-                            <paper-icon-button
-                                slot="dropdown-trigger"
-                                icon="save"
-                            ></paper-icon-button>
-                            <paper-listbox
-                                slot="dropdown-content"
-                                selectable="[role='menuitemradio']"
-                            >
-                                <paper-item
-                                    role="menuitem"
-                                    on-tap="_saveRequest"
-                                    >Save</paper-item
-                                >
-                                <paper-item
-                                    role="menuitem"
-                                    on-tap="_saveRequestAsNew"
-                                    >Save as new</paper-item
-                                >
-                            </paper-listbox>
-                        </paper-menu-button>
                         <paper-menu-button
                             id="deleteOptions"
                             horizontal-align="right"
@@ -244,6 +227,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                             hidden$="[[!request.id]]"
                         >
                             <paper-icon-button
+                                id="delete-request-button"
                                 slot="dropdown-trigger"
                                 icon="delete"
                             ></paper-icon-button>
@@ -254,10 +238,43 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 <paper-item
                                     role="menuitem"
                                     on-tap="_deleteRequest"
-                                    >Delete</paper-item
+                                    >Delete request</paper-item
                                 >
                             </paper-listbox>
                         </paper-menu-button>
+                        <paper-tooltip for="delete-request-button"
+                            >Delete request</paper-tooltip
+                        >
+                        <paper-menu-button
+                            id="moreOptions"
+                            horizontal-align="right"
+                            restore-focus-on-close
+                        >
+                            <paper-icon-button
+                                id="request-menu-button"
+                                slot="dropdown-trigger"
+                                icon="more-vert"
+                            ></paper-icon-button>
+                            <paper-listbox
+                                slot="dropdown-content"
+                                selectable="[role='menuitemradio']"
+                            >
+                                <paper-item
+                                    role="menuitem"
+                                    hidden$="[[!request.id]]"
+                                    on-tap="_duplicateRequest"
+                                    >Duplicate request</paper-item
+                                >
+                                <paper-item
+                                    role="menuitem"
+                                    on-tap="_showCurlCommandDialog"
+                                    >Show curl command</paper-item
+                                >
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <paper-tooltip for="request-menu-button"
+                            >More options</paper-tooltip
+                        >
                     </app-toolbar>
                 </app-header>
                 <div role="main">
@@ -820,8 +837,6 @@ class RESTerPageRequest extends RESTerLintMixin(
     }
 
     _saveRequest() {
-        this.$.saveOptions.close();
-
         if (!this.request.title || !this.request.collection) {
             this.showError(
                 'Please enter a Collection and Title for your request in blue bar at the top.',
@@ -841,9 +856,10 @@ class RESTerPageRequest extends RESTerLintMixin(
         });
     }
 
-    _saveRequestAsNew() {
-        this.$.saveOptions.close();
+    _duplicateRequest() {
+        this.$.moreOptions.close();
         delete this.request.id;
+        this.request.title += ' Copy';
         this._saveRequest();
     }
 
@@ -860,11 +876,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         });
     }
 
-    _sendRequest() {
-        if (!this.$.requestForm.validate()) {
-            return;
-        }
-
+    _compileRequest() {
         const usedVariableValues = {};
         const compiledRequest = replaceVariables(
             this.request,
@@ -884,6 +896,25 @@ class RESTerPageRequest extends RESTerLintMixin(
         compiledRequest.tempVariables = {
             values: mapFilesToVariableValues(this.$.bodyInput.files || {})
         };
+
+        return {
+            compiledRequest,
+            usedVariableValues
+        };
+    }
+
+    _showCurlCommandDialog() {
+        this.$.moreOptions.close();
+        const { compiledRequest } = this._compileRequest();
+        dialogs.curlCommand.show(compiledRequest);
+    }
+
+    _sendRequest() {
+        if (!this.$.requestForm.validate()) {
+            return;
+        }
+
+        const { compiledRequest, usedVariableValues } = this._compileRequest();
 
         if (window.AbortController) {
             this._requestAbortController = new AbortController();
