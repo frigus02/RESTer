@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   Added option to show curl command for current request.
 
+### Changed
+
+-   Changed way of how to duplicate requests. The save button now just saves the current request. You can duplicate a request by clicking on the corresponding menu item in the "More options" menu (the icon with 3 dots in top right corner).
+
 ## [3.10.0] - 2019-03-12
 
 ### Added

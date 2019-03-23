@@ -212,34 +212,13 @@ class RESTerPageRequest extends RESTerLintMixin(
                             request-title="{{request.title}}"
                             class="title-input"
                         ></rester-request-title-input>
-                        <paper-menu-button
-                            id="saveOptions"
-                            horizontal-align="right"
-                            restore-focus-on-close
-                        >
-                            <paper-icon-button
-                                id="save-request-button"
-                                slot="dropdown-trigger"
-                                icon="save"
-                            ></paper-icon-button>
-                            <paper-listbox
-                                slot="dropdown-content"
-                                selectable="[role='menuitemradio']"
-                            >
-                                <paper-item
-                                    role="menuitem"
-                                    on-tap="_saveRequest"
-                                    >Save</paper-item
-                                >
-                                <paper-item
-                                    role="menuitem"
-                                    on-tap="_saveRequestAsNew"
-                                    >Save as new</paper-item
-                                >
-                            </paper-listbox>
-                        </paper-menu-button>
+                        <paper-icon-button
+                            id="save-request-button"
+                            icon="save"
+                            on-tap="_saveRequest"
+                        ></paper-icon-button>
                         <paper-tooltip for="save-request-button"
-                            >Save</paper-tooltip
+                            >Save request</paper-tooltip
                         >
                         <paper-menu-button
                             id="deleteOptions"
@@ -259,12 +238,12 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 <paper-item
                                     role="menuitem"
                                     on-tap="_deleteRequest"
-                                    >Delete</paper-item
+                                    >Delete request</paper-item
                                 >
                             </paper-listbox>
                         </paper-menu-button>
                         <paper-tooltip for="delete-request-button"
-                            >Delete</paper-tooltip
+                            >Delete request</paper-tooltip
                         >
                         <paper-menu-button
                             id="moreOptions"
@@ -280,6 +259,12 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 slot="dropdown-content"
                                 selectable="[role='menuitemradio']"
                             >
+                                <paper-item
+                                    role="menuitem"
+                                    hidden$="[[!request.id]]"
+                                    on-tap="_duplicateRequest"
+                                    >Duplicate request</paper-item
+                                >
                                 <paper-item
                                     role="menuitem"
                                     on-tap="_showCurlCommandDialog"
@@ -852,8 +837,6 @@ class RESTerPageRequest extends RESTerLintMixin(
     }
 
     _saveRequest() {
-        this.$.saveOptions.close();
-
         if (!this.request.title || !this.request.collection) {
             this.showError(
                 'Please enter a Collection and Title for your request in blue bar at the top.',
@@ -873,9 +856,10 @@ class RESTerPageRequest extends RESTerLintMixin(
         });
     }
 
-    _saveRequestAsNew() {
-        this.$.saveOptions.close();
+    _duplicateRequest() {
+        this.$.moreOptions.close();
         delete this.request.id;
+        this.request.title += ' Copy';
         this._saveRequest();
     }
 
