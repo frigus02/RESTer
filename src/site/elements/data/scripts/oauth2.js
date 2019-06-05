@@ -44,8 +44,7 @@ function decodeJwt(token) {
 }
 
 function createToken(config, tokenResponse) {
-    let token = {};
-    token.configurationId = config.id;
+    const token = {};
 
     token.scheme = 'Bearer';
     token.token = tokenResponse.access_token;

@@ -46,7 +46,6 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
             .then(result => {
                 if (result.reason.confirmed) {
                     const token = {};
-                    token.providerId = this.providerId;
                     token.title = data.userName;
                     token.scheme = 'Basic';
                     token.token = window.btoa(
