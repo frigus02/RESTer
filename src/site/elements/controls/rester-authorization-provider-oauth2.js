@@ -77,10 +77,6 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
             })
             .then(creds => {
                 return generateOAuth2Token(config, creds);
-            })
-            .then(token => {
-                token.providerId = 3;
-                return token;
             });
     }
 

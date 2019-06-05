@@ -136,9 +136,7 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
             title: 'Unknown',
             scheme: 'Cookie',
             token: filteredCookies.map(c => `${c.name}=${c.value}`).join(';'),
-            expirationDate: shortedExpirationDate,
-            configurationId: config.id,
-            providerId: 3
+            expirationDate: shortedExpirationDate
         };
 
         if (config.enableVariables) {

@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   Changed way of how to duplicate requests. The save button now just saves the current request. You can duplicate a request by clicking on the corresponding menu item in the "More options" menu (the icon with 3 dots in top right corner).
 
+### Fixed
+
+-   Auth tokens were not visible after reloading the page ([#97](https://github.com/frigus02/RESTer/issues/97)).
+
 ## [3.10.0] - 2019-03-12
 
 ### Added

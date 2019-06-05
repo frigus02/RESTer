@@ -191,8 +191,9 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 this.push('configurations', {
                     provider,
                     configuration: {
-                        providerId: provider.providerId,
-                        title: ''
+                        id: 0,
+                        title: '',
+                        providerId: provider.providerId
                     }
                 });
             }
@@ -227,6 +228,8 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
 
         try {
             const token = await provider.generateToken(configuration);
+            token.providerId = configuration.providerId;
+            token.configurationId = configuration.id;
             const id = await addAuthorizationToken(token);
             token.id = id;
             const renderToken = this._prepareTokenForRender(token);
@@ -314,7 +317,9 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
 
     _prepareTokenForRender(token) {
         const config = this.configurations.find(
-            c => c.configuration.id === token.configurationId
+            c =>
+                c.configuration.providerId === token.providerId &&
+                c.configuration.id === token.configurationId
         );
         return {
             token,

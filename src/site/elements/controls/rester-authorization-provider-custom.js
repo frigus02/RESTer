@@ -46,7 +46,6 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
             .then(result => {
                 if (result.reason.confirmed) {
                     const token = {};
-                    token.providerId = this.providerId;
                     token.title = `${data.scheme} ${data.token}`;
                     token.scheme = data.scheme;
                     token.token = data.token;
