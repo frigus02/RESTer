@@ -60,32 +60,35 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
                         free up some disk space.
                     </p>
 
-                    <template is="dom-if" if="[[largeHistoryEntries.length]]">
+                    <template is="dom-if" if="[[largeEntries.length]]">
                         <div class="action">
-                            <paper-checkbox
-                                checked="{{deleteLargeHistoryEntries}}"
-                            >
-                                Delete large entries
-                                ([[largeHistoryEntries.length]] entries over
-                                1MB)
+                            <paper-checkbox checked="{{deleteLargeEntries}}">
+                                Delete large entries ([[largeEntries.length]]
+                                entries over 1MB)
                             </paper-checkbox>
                         </div>
                     </template>
 
-                    <div class="action">
-                        <span>Delete oldest entries:</span>
-                        <paper-slider
-                            value="{{historyEntriesCountToDelete}}"
-                            max="[[historyEntries.length]]"
-                            pin
-                        ></paper-slider>
-                        <span>[[historyEntriesCountToDelete]] entries</span>
-                    </div>
+                    <template is="dom-if" if="[[entries.length]]">
+                        <div class="action">
+                            <span>Delete oldest entries:</span>
+                            <paper-slider
+                                value="{{entryCountToDelete}}"
+                                max="[[entries.length]]"
+                                pin
+                            ></paper-slider>
+                            <span>[[entryCountToDelete]] entries</span>
+                        </div>
+                    </template>
+
+                    <template is="dom-if" if="[[!entries.length]]">
+                        <p>The history is empty. Nothing to clean up.</p>
+                    </template>
                 </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-dismiss>Cancel</paper-button>
                     <paper-button
-                        disabled$="[[isDeletingEntries]]"
+                        disabled$="[[!canDeleteEntries]]"
                         on-tap="_deleteOldHistory"
                     >
                         <span hidden$="[[isDeletingEntries]]"
@@ -106,16 +109,21 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
 
     static get properties() {
         return {
-            largeHistoryEntries: {
+            largeEntries: {
                 type: Array,
                 readOnly: true
             },
-            deleteLargeHistoryEntries: Boolean,
-            historyEntries: {
-                type: Number,
+            deleteLargeEntries: Boolean,
+            entries: {
+                type: Array,
                 readOnly: true
             },
-            historyEntriesCountToDelete: Number,
+            entryCountToDelete: Number,
+            canDeleteEntries: {
+                type: Boolean,
+                computed:
+                    '_computeCanDeleteEntries(deleteLargeEntries, entryCountToDelete, isDeletingEntries)'
+            },
             isDeletingEntries: {
                 type: Boolean,
                 readOnly: true,
@@ -134,14 +142,14 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
 
     _onOpened() {
         getHistoryEntries(null, ['id', 'size']).then(entries => {
-            this._setHistoryEntries(entries);
-            this._setLargeHistoryEntries(entries.filter(this._isEntryLarge));
-            this.deleteLargeHistoryEntries = true;
+            this._setEntries(entries);
+            this._setLargeEntries(entries.filter(this._isEntryLarge));
+            this.deleteLargeEntries = this.largeEntries.length > 0;
 
             const targetSize = RESTerHistoryCleanupDialog.SIZE_1MB * 10;
             const size = this._getSizeOfEntries(entries);
             const sizeOfLargeEntries = this._getSizeOfEntries(
-                this.largeHistoryEntries
+                this.largeEntries
             );
 
             let sizeAfterDeletion = size - sizeOfLargeEntries;
@@ -155,7 +163,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
                 }
             }
 
-            this.historyEntriesCountToDelete = deleteCount;
+            this.entryCountToDelete = deleteCount;
         });
     }
 
@@ -163,17 +171,17 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
         this._setIsDeletingEntries(true);
 
         const idsToDelete = [];
-        if (this.deleteLargeHistoryEntries) {
-            idsToDelete.push(...this.largeHistoryEntries.map(e => e.id));
+        if (this.deleteLargeEntries) {
+            idsToDelete.push(...this.largeEntries.map(e => e.id));
         }
 
-        const fromIndex = this.historyEntries.length - 1;
+        const fromIndex = this.entries.length - 1;
         const toIndex = Math.max(
             0,
-            this.historyEntries.length - this.historyEntriesCountToDelete
+            this.entries.length - this.entryCountToDelete
         );
         for (let i = fromIndex; i >= toIndex; i--) {
-            const id = this.historyEntries[i].id;
+            const id = this.entries[i].id;
             if (!idsToDelete.includes(id)) {
                 idsToDelete.push(id);
             }
@@ -196,6 +204,16 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
 
     _isEntryLarge(entry) {
         return entry.size > RESTerHistoryCleanupDialog.SIZE_1MB;
+    }
+
+    _computeCanDeleteEntries(
+        deleteLargeEntries,
+        entryCountToDelete,
+        isDeletingEntries
+    ) {
+        return (
+            (deleteLargeEntries || entryCountToDelete > 0) && !isDeletingEntries
+        );
     }
 }
 
