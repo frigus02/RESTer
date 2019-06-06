@@ -11,6 +11,7 @@ import './rester-authorization-provider-basic.js';
 import './rester-authorization-provider-cookie.js';
 import './rester-authorization-provider-custom.js';
 import './rester-authorization-provider-oauth2.js';
+import { truncate } from '../data/scripts/encode.js';
 import { expirationDate } from '../data/scripts/format.js';
 import {
     addAuthorizationToken,
@@ -37,6 +38,11 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 :host {
                     display: block;
                 }
+
+                paper-item-body div {
+                    white-space: initial;
+                    word-break: break-all;
+                }
             </style>
 
             <div hidden$="[[!tokens.length]]">
@@ -49,7 +55,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                             hidden$="[[!item.isUsed]]"
                         ></iron-icon>
                         <paper-item-body three-line on-tap="_useToken">
-                            <div>[[item.token.title]]</div>
+                            <div>[[_truncateTokenTitle(item.token.title)]]</div>
                             <div secondary>
                                 [[item.provider.title]]<span
                                     hidden$="[[!item.configurationId]]"
@@ -350,6 +356,10 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
         } else {
             return providerCompare;
         }
+    }
+
+    _truncateTokenTitle(title) {
+        return truncate(title, 100);
     }
 }
 
