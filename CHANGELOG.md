@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.11.1] - 2019-06-06
+
 ### Fixed
 
 -   Fixed UI bug in clean up dialog when history is empty ([#96](https://github.com/frigus02/RESTer/issues/96)).
@@ -573,7 +575,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/3.11.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/3.11.1...HEAD
+[3.11.1]: https://github.com/frigus02/RESTer/compare/3.11.0...3.11.1
 [3.11.0]: https://github.com/frigus02/RESTer/compare/3.10.0...3.11.0
 [3.10.0]: https://github.com/frigus02/RESTer/compare/3.9.1...3.10.0
 [3.9.1]: https://github.com/frigus02/RESTer/compare/3.9.0...3.9.1
