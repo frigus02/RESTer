@@ -84,6 +84,6 @@ describe('truncate', function() {
     test('trims string and appends ellipsis when longer than maxlength', function() {
         const value = 'my loooooooooooooooooong string';
 
-        expect(truncate(value, 15)).toEqual('my loooooooo...');
+        expect(truncate(value, 15)).toEqual('my loooooooooo…');
     });
 });

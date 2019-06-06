@@ -56,7 +56,7 @@ export function mapFilesToVariableValues(files) {
     return values;
 }
 
-export function truncate(str, maxLength, ellipsis = '...') {
+export function truncate(str, maxLength, ellipsis = '…') {
     if (str.length > maxLength) {
         return str.substr(0, maxLength - ellipsis.length) + ellipsis;
     } else {

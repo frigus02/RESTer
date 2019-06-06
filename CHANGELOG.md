@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 -   Fixed UI bug in clean up dialog when history is empty ([#96](https://github.com/frigus02/RESTer/issues/96)).
+-   Long auth tokens no longer break the page layout ([#101](https://github.com/frigus02/RESTer/issues/101)).
 
 ## [3.11.0] - 2019-06-05
 
