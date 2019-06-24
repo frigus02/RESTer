@@ -4,7 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
-const GenerateLibraryLinksPlugin = require('./tools/plugins/generate-library-links');
+const {
+    GenerateLibraryLinksPlugin,
+    GenerateAboutLibrariesPlugin
+} = require('./tools/plugins/generate-library-links');
 
 module.exports = [
     {
@@ -91,25 +94,6 @@ module.exports = [
             ]),
             new GenerateLibraryLinksPlugin({
                 filename: path.resolve(__dirname, 'docs/library-links.md'),
-                additionalFiles: [
-                    'node_modules/ace-builds/src-min-noconflict/ext-searchbox.js',
-                    'node_modules/ace-builds/src-min-noconflict/mode-html.js',
-                    'node_modules/ace-builds/src-min-noconflict/mode-json.js',
-                    'node_modules/ace-builds/src-min-noconflict/mode-text.js',
-                    'node_modules/ace-builds/src-min-noconflict/mode-xml.js',
-                    'node_modules/ace-builds/src-min-noconflict/theme-chrome.js',
-                    'node_modules/ace-builds/src-min-noconflict/theme-twilight.js',
-                    'node_modules/ace-builds/src-min-noconflict/worker-html.js',
-                    'node_modules/ace-builds/src-min-noconflict/worker-json.js',
-                    'node_modules/ace-builds/src-min-noconflict/worker-xml.js',
-                    'node_modules/frigus02-vkbeautify/vkbeautify.js',
-                    'node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js',
-                    'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js',
-                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js',
-                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js',
-                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js',
-                    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js'
-                ],
                 header: [
                     '# Libary links',
                     'As stated in the post [Improving Review Time by Providing Links to Third Party Sources](https://blog.mozilla.org/addons/2016/04/05/improved-review-time-with-links-to-sources/) it is useful for the addon reviewers to have links to the sources of third party libraries, which are used in the addon.',
@@ -118,6 +102,9 @@ module.exports = [
                     '```\n'
                 ].join('\n\n'),
                 footer: '\n```\n'
+            }),
+            new GenerateAboutLibrariesPlugin({
+                filename: 'libraries.json'
             })
         ]
     }

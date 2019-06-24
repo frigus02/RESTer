@@ -8,7 +8,6 @@ import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
 import '../../../../node_modules/@polymer/paper-item/paper-item-body.js';
 import '../styles/rester-icons.js';
 import resterPageStyle from '../styles/rester-page.js';
-import { sort } from '../../../shared/util.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
 
 /**
@@ -39,6 +38,16 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
                     }
 
                     --paper-item-body-two-line-min-height: 0;
+                }
+
+                .libraries {
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                }
+
+                .library-link {
+                    color: var(--secondary-text-color);
                 }
             </style>
 
@@ -88,14 +97,18 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
                         <iron-icon slot="item-icon" icon="widgets"></iron-icon>
                         <paper-item-body two-line>
                             <div>Libraries and frameworks</div>
-                            <div secondary>
+                            <ul secondary class="libraries">
                                 <template is="dom-repeat" items="[[libraries]]">
-                                    <div>
-                                        <span>[[item.name]]</span>
+                                    <li>
+                                        <a
+                                            class="library-link"
+                                            href="[[item.url]]"
+                                            >[[item.name]]</a
+                                        >
                                         <span>[[item.version]]</span>
-                                    </div>
+                                    </li>
                                 </template>
-                            </div>
+                            </ul>
                         </paper-item-body>
                     </paper-icon-item>
                 </div>
@@ -124,27 +137,10 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
         super.ready();
         this._setPageTitle('About');
 
-        fetch('bower.json')
+        fetch(chrome.runtime.getURL('site/libraries.json'))
             .then(response => response.json())
-            .then(bower => {
-                const bowerComponents = Object.keys(bower.dependencies).map(
-                    name => {
-                        let version = bower.dependencies[name];
-
-                        if (version.includes('#')) {
-                            [name, version] = version.split('#');
-                        }
-
-                        return {
-                            name,
-                            version
-                        };
-                    }
-                );
-
-                this._setLibraries(
-                    sort(bowerComponents, x => x.name.toLowerCase())
-                );
+            .then(libraries => {
+                this._setLibraries(libraries);
             });
 
         const manifest = chrome.runtime.getManifest();
