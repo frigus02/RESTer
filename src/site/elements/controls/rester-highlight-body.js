@@ -6,6 +6,7 @@ import '../../../../node_modules/@polymer/paper-item/paper-icon-item.js';
 import '../../../../node_modules/@polymer/paper-item/paper-item.js';
 import '../../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
 import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js';
+import '../../../../node_modules/@polymer/paper-progress/paper-progress.js';
 import '../styles/rester-icons.js';
 import './rester-ace-input.js';
 import './rester-dom-purify-frame.js';
@@ -59,6 +60,13 @@ class RESTerHighlightBody extends RESTerErrorMixin(
                 .menu-item-divider {
                     border-top: 1px solid var(--divider-color);
                     margin: 4px 0;
+                }
+
+                paper-progress {
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    z-index: 11;
                 }
             </style>
 
@@ -131,6 +139,10 @@ class RESTerHighlightBody extends RESTerErrorMixin(
             </paper-menu-button>
 
             <template is="dom-if" if="[[!renderPreview]]">
+                <paper-progress
+                    indeterminate
+                    hidden$="[[!isPrettyPrintInProgress]]"
+                ></paper-progress>
                 <rester-ace-input
                     mode="[[aceMode]]"
                     value="[[renderedBody]]"
@@ -162,7 +174,7 @@ class RESTerHighlightBody extends RESTerErrorMixin(
             renderedBody: {
                 type: String,
                 computed:
-                    '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint)'
+                    '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint, isPrettyPrintSupported)'
             },
             contentType: String,
             language: String,
@@ -181,6 +193,11 @@ class RESTerHighlightBody extends RESTerErrorMixin(
             isPrettyPrintSupported: {
                 type: Boolean,
                 computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
+            },
+            isPrettyPrintInProgress: {
+                type: Boolean,
+                computed:
+                    '_computeIsPrettyPrintInProgress(settings.responseBodyPrettyPrint, isPrettyPrintSupported, bodyFormatted)'
             },
             isPreviewSupported: {
                 type: Boolean,
@@ -207,8 +224,13 @@ class RESTerHighlightBody extends RESTerErrorMixin(
         this._startFormatBodyWorker = this._startFormatBodyWorker.bind(this);
     }
 
-    _computeRenderedBody(body, bodyFormatted, prettyPrint) {
-        if (prettyPrint && bodyFormatted) {
+    _computeRenderedBody(
+        body,
+        bodyFormatted,
+        prettyPrint,
+        isPrettyPrintSupported
+    ) {
+        if (prettyPrint && isPrettyPrintSupported) {
             return bodyFormatted;
         } else {
             return body;
@@ -233,6 +255,14 @@ class RESTerHighlightBody extends RESTerErrorMixin(
 
     _computeIsPreviewSupported(language) {
         return language === 'HTML';
+    }
+
+    _computeIsPrettyPrintInProgress(
+        prettyPrint,
+        isPrettyPrintSupported,
+        bodyFormatted
+    ) {
+        return prettyPrint && isPrettyPrintSupported && !bodyFormatted;
     }
 
     _computeRenderPreview(preview, isPreviewSupported) {
