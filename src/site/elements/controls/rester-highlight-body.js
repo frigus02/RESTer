@@ -13,7 +13,6 @@ import './rester-dom-purify-frame.js';
 import dialogs from '../data/scripts/dialogs.js';
 import { debounce, cancelDebounce } from '../../../shared/util.js';
 import { formatCode } from '../data/scripts/worker.js';
-import RESTerErrorMixin from '../utils/rester-error-mixin.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
 
 const aceModes = {
@@ -29,14 +28,11 @@ const prettyPrintModes = {
 };
 
 /**
- * @appliesMixin RESTerErrorMixin
  * @appliesMixin RESTerSettingsMixin
  * @polymer
  * @customElement
  */
-class RESTerHighlightBody extends RESTerErrorMixin(
-    RESTerSettingsMixin(PolymerElement)
-) {
+class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
     static get template() {
         return html`
             <style>
@@ -60,6 +56,13 @@ class RESTerHighlightBody extends RESTerErrorMixin(
                 .menu-item-divider {
                     border-top: 1px solid var(--divider-color);
                     margin: 4px 0;
+                }
+
+                .pretty-print-error {
+                    background-color: var(--accent-color);
+                    color: var(--light-theme-text-color);
+                    padding: 8px 16px;
+                    font-size: small;
                 }
 
                 paper-progress {
@@ -143,6 +146,12 @@ class RESTerHighlightBody extends RESTerErrorMixin(
                     indeterminate
                     hidden$="[[!isPrettyPrintInProgress]]"
                 ></paper-progress>
+                <div
+                    class="pretty-print-error"
+                    hidden$="[[!isPrettyPrintError]]"
+                >
+                    Pretty Print failed: [[bodyFormatted]]
+                </div>
                 <rester-ace-input
                     mode="[[aceMode]]"
                     value="[[renderedBody]]"
@@ -174,7 +183,7 @@ class RESTerHighlightBody extends RESTerErrorMixin(
             renderedBody: {
                 type: String,
                 computed:
-                    '_computeRenderedBody(body, bodyFormatted, settings.responseBodyPrettyPrint, isPrettyPrintSupported)'
+                    '_computeRenderedBody(body, bodyFormatted, prettyPrintStatus)'
             },
             contentType: String,
             language: String,
@@ -190,14 +199,21 @@ class RESTerHighlightBody extends RESTerErrorMixin(
                 type: String,
                 computed: '_computePrettyPrintMode(language)'
             },
+            prettyPrintStatus: {
+                type: String,
+                readOnly: true
+            },
             isPrettyPrintSupported: {
                 type: Boolean,
                 computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
             },
             isPrettyPrintInProgress: {
                 type: Boolean,
-                computed:
-                    '_computeIsPrettyPrintInProgress(settings.responseBodyPrettyPrint, isPrettyPrintSupported, bodyFormatted)'
+                computed: '_computeIsPrettyPrintInProgress(prettyPrintStatus)'
+            },
+            isPrettyPrintError: {
+                type: Boolean,
+                computed: '_computeIsPrettyPrintError(prettyPrintStatus)'
             },
             isPreviewSupported: {
                 type: Boolean,
@@ -213,7 +229,7 @@ class RESTerHighlightBody extends RESTerErrorMixin(
 
     static get observers() {
         return [
-            '_formatBody(body, prettyPrintMode)',
+            '_formatBody(body, prettyPrintMode, settings.responseBodyPrettyPrint)',
             '_autoSelectLanguage(contentType)'
         ];
     }
@@ -224,13 +240,11 @@ class RESTerHighlightBody extends RESTerErrorMixin(
         this._startFormatBodyWorker = this._startFormatBodyWorker.bind(this);
     }
 
-    _computeRenderedBody(
-        body,
-        bodyFormatted,
-        prettyPrint,
-        isPrettyPrintSupported
-    ) {
-        if (prettyPrint && isPrettyPrintSupported) {
+    _computeRenderedBody(body, bodyFormatted, prettyPrintStatus) {
+        if (
+            prettyPrintStatus === 'in_progress' ||
+            prettyPrintStatus === 'success'
+        ) {
             return bodyFormatted;
         } else {
             return body;
@@ -253,35 +267,37 @@ class RESTerHighlightBody extends RESTerErrorMixin(
         return !!prettyPrintMode;
     }
 
-    _computeIsPreviewSupported(language) {
-        return language === 'HTML';
+    _computeIsPrettyPrintInProgress(prettyPrintStatus) {
+        return prettyPrintStatus === 'in_progress';
     }
 
-    _computeIsPrettyPrintInProgress(
-        prettyPrint,
-        isPrettyPrintSupported,
-        bodyFormatted
-    ) {
-        return prettyPrint && isPrettyPrintSupported && !bodyFormatted;
+    _computeIsPrettyPrintError(prettyPrintStatus) {
+        return prettyPrintStatus === 'error';
+    }
+
+    _computeIsPreviewSupported(language) {
+        return language === 'HTML';
     }
 
     _computeRenderPreview(preview, isPreviewSupported) {
         return preview && isPreviewSupported;
     }
 
-    _formatBody(body, prettyPrintMode) {
+    _formatBody(body, prettyPrintMode, prettyPrintEnabled) {
         this._setBodyFormatted('');
         if (this._formatBodyWorker) {
             this._formatBodyWorker.cancel();
             this._formatBodyWorker = undefined;
         }
 
-        if (!body || !prettyPrintMode) {
+        if (!body || !prettyPrintMode || !prettyPrintEnabled) {
             cancelDebounce(this._startFormatBodyWorker);
+            this._setPrettyPrintStatus('none');
             return;
         }
 
         debounce(this._startFormatBodyWorker, 100, body, prettyPrintMode);
+        this._setPrettyPrintStatus('in_progress');
     }
 
     _startFormatBodyWorker(body, prettyPrintMode) {
@@ -293,11 +309,13 @@ class RESTerHighlightBody extends RESTerErrorMixin(
         this._formatBodyWorker.then(result => {
             this._formatBodyWorker = undefined;
             this._setBodyFormatted(result);
+            this._setPrettyPrintStatus('success');
         });
 
         this._formatBodyWorker.catch(error => {
             this._formatBodyWorker = undefined;
-            this.showError(error);
+            this._setBodyFormatted(error && error.message);
+            this._setPrettyPrintStatus('error');
         });
     }
 
