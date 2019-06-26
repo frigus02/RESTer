@@ -637,11 +637,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                         )
                     ) {
                         this.showError(
-                            `Specified request id "${
-                                this.historyRouteData.historyId
-                            }" does not match the request id of the history entry "${
-                                historyEntry.request.id
-                            }".`
+                            `Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`
                         );
                         window.location = '#/';
                     } else {
@@ -847,9 +843,7 @@ class RESTerPageRequest extends RESTerLintMixin(
 
         putRequest(this.request).then(id => {
             if (this.historyEntry && this.historyEntry.request.id === id) {
-                window.location = `#/request/${id}/history/${
-                    this.historyEntry.id
-                }`;
+                window.location = `#/request/${id}/history/${this.historyEntry.id}`;
             } else {
                 window.location = `#/request/${id}`;
             }

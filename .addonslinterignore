@@ -18,8 +18,6 @@ site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js UNS
 site/node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js UNSAFE_VAR_ASSIGNMENT
 site/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js NO_DOCUMENT_WRITE
 site/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js UNSAFE_VAR_ASSIGNMENT
-site/node_modules/ace-builds/src-min-noconflict/mode-html.js MOZILLA_COND_OF_USE
-site/node_modules/ace-builds/src-min-noconflict/worker-html.js MOZILLA_COND_OF_USE
 
 # Issues come from imported libraries and should be fine.
 # Setting innerHTML in rester-dom-purify-frame.html should be fine because HTML

@@ -75,9 +75,9 @@ https://unpkg.com/@polymer/iron-iconset-svg@3.0.1/iron-iconset-svg.js
 @polymer/iron-input 3.0.1
 https://unpkg.com/@polymer/iron-input@3.0.1/iron-input.js
 
-@polymer/iron-location 3.0.1
-https://unpkg.com/@polymer/iron-location@3.0.1/iron-location.js
-https://unpkg.com/@polymer/iron-location@3.0.1/iron-query-params.js
+@polymer/iron-location 3.0.2
+https://unpkg.com/@polymer/iron-location@3.0.2/iron-location.js
+https://unpkg.com/@polymer/iron-location@3.0.2/iron-query-params.js
 
 @polymer/iron-media-query 3.0.1
 https://unpkg.com/@polymer/iron-media-query@3.0.1/iron-media-query.js
@@ -223,49 +223,51 @@ https://unpkg.com/@polymer/paper-toggle-button@3.0.1/paper-toggle-button.js
 @polymer/paper-tooltip 3.0.1
 https://unpkg.com/@polymer/paper-tooltip@3.0.1/paper-tooltip.js
 
-@polymer/polymer 3.2.0
-https://unpkg.com/@polymer/polymer@3.2.0/lib/elements/array-selector.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/elements/custom-style.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/elements/dom-bind.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/elements/dom-if.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/elements/dom-module.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/elements/dom-repeat.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/legacy/class.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/legacy/legacy-element-mixin.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/legacy/mutable-data-behavior.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/legacy/polymer-fn.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/legacy/polymer.dom.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/legacy/templatizer-behavior.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/dir-mixin.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/element-mixin.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/gesture-event-listeners.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/mutable-data.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/properties-changed.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/properties-mixin.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/property-accessors.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/property-effects.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/mixins/template-stamp.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/array-splice.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/async.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/boot.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/case-map.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/debounce.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/flattened-nodes-observer.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/flush.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/gestures.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/html-tag.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/mixin.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/path.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/render-status.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/resolve-url.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/settings.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/style-gather.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/telemetry.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/templatize.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/unresolved.js
-https://unpkg.com/@polymer/polymer@3.2.0/lib/utils/wrap.js
-https://unpkg.com/@polymer/polymer@3.2.0/polymer-element.js
-https://unpkg.com/@polymer/polymer@3.2.0/polymer-legacy.js
+@polymer/polymer 3.3.0
+https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/array-selector.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/custom-style.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-bind.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-if.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-module.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-repeat.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/class.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/legacy-element-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/mutable-data-behavior.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/polymer-fn.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/polymer.dom.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/templatizer-behavior.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/dir-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/element-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/gesture-event-listeners.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/mutable-data.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/properties-changed.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/properties-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/property-accessors.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/property-effects.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/template-stamp.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/array-splice.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/async.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/boot.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/case-map.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/debounce.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/flattened-nodes-observer.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/flush.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/gestures.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/hide-template-controls.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/html-tag.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/mixin.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/path.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/render-status.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/resolve-url.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/scope-subtree.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/settings.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/style-gather.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/telemetry.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/templatize.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/unresolved.js
+https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/wrap.js
+https://unpkg.com/@polymer/polymer@3.3.0/polymer-element.js
+https://unpkg.com/@polymer/polymer@3.3.0/polymer-legacy.js
 
 @webcomponents/shadycss 1.9.1
 https://unpkg.com/@webcomponents/shadycss@1.9.1/entrypoints/apply-shim.js
@@ -290,21 +292,21 @@ https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/bundles/webcomponents-sd
 https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js
 https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-loader.js
 
-ace-builds 1.4.4
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/ace.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/ext-searchbox.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/mode-html.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/mode-json.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/mode-text.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/mode-xml.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/theme-chrome.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/theme-twilight.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/worker-html.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/worker-json.js
-https://unpkg.com/ace-builds@1.4.4/src-min-noconflict/worker-xml.js
+ace-builds 1.4.5
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/worker-xml.js
 
-dompurify 1.0.10
-https://unpkg.com/dompurify@1.0.10/dist/purify.es.js
+dompurify 1.0.11
+https://unpkg.com/dompurify@1.0.11/dist/purify.es.js
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
@@ -318,11 +320,11 @@ https://unpkg.com/mousetrap@1.6.3/mousetrap.js
 string_score 0.1.22
 https://unpkg.com/string_score@0.1.22/string_score.js
 
-web-animations-js 2.3.1
-https://unpkg.com/web-animations-js@2.3.1/web-animations-next-lite.min.js
+web-animations-js 2.3.2
+https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js
 
-webpack 4.33.0
-https://unpkg.com/webpack@4.33.0/buildin/amd-define.js
-https://unpkg.com/webpack@4.33.0/buildin/global.js
-https://unpkg.com/webpack@4.33.0/buildin/module.js
+webpack 4.35.0
+https://unpkg.com/webpack@4.35.0/buildin/amd-define.js
+https://unpkg.com/webpack@4.35.0/buildin/global.js
+https://unpkg.com/webpack@4.35.0/buildin/module.js
 ```

@@ -45,7 +45,7 @@ export function get() {
     return getSettings().then(settings => {
         const keys = Object.keys(DEFAULTS);
         for (let key of keys) {
-            if (!settings.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(settings, key)) {
                 settings[key] = DEFAULTS[key];
             }
         }
@@ -57,7 +57,7 @@ export function get() {
 export function set(newSettings) {
     // Filter for keys, which actually exist.
     const changedKeys = Object.keys(newSettings).filter(key =>
-        DEFAULTS.hasOwnProperty(key)
+        Object.prototype.hasOwnProperty.call(DEFAULTS, key)
     );
     const changedSettings = {};
     for (let key of changedKeys) {

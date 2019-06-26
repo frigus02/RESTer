@@ -19,7 +19,7 @@ const RESTerAceShadowDomMixin = (function() {
         domHook.importCssString = function(cssText, id) {
             const result = defaultImportCssString.call(this, cssText, id);
 
-            if (styles.hasOwnProperty(id)) {
+            if (Object.prototype.hasOwnProperty.call(styles, id)) {
                 return result;
             }
 

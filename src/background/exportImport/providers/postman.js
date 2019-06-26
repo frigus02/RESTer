@@ -187,9 +187,7 @@ class PostmanResponse {
         // The `name` property is not documented in the schema,
         // but seems to by required by Postman. If it's not present,
         // you cannot select the response.
-        response.name = `${resterHistoryEntry.time} ${
-            resterHistoryEntry.request.title
-        }`;
+        response.name = `${resterHistoryEntry.time} ${resterHistoryEntry.request.title}`;
 
         response.originalRequest = PostmanRequest.fromResterRequest(
             resterHistoryEntry.request

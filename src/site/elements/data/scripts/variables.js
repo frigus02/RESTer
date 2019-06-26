@@ -13,14 +13,14 @@ initVarProviderChangeListeners();
 
 function collectProvidedValues() {
     for (const prop in providedValues) {
-        if (providedValues.hasOwnProperty(prop)) {
+        if (Object.prototype.hasOwnProperty.call(providedValues, prop)) {
             delete providedValues[prop];
         }
     }
 
     for (const provider of providers) {
         for (const key in provider.values) {
-            if (provider.values.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(provider.values, key)) {
                 providedValues[`$${provider.name}.${key}`] =
                     provider.values[key];
             }

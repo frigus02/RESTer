@@ -52,7 +52,7 @@ const RESTerSettingsMixin = superclass =>
 
         _onSettingsChanged(e) {
             for (let key in e.detail) {
-                if (e.detail.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(e.detail, key)) {
                     this.notifyPath(['settings', key]);
                 }
             }

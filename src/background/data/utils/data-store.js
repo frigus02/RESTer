@@ -87,7 +87,10 @@ class DataStore extends CustomEventTarget {
 
                     queue[tableName].forEach(({ action, entity }) => {
                         if (action === 'add' || action === 'put') {
-                            const isNew = !entity.hasOwnProperty('id');
+                            const isNew = !Object.prototype.hasOwnProperty.call(
+                                entity,
+                                'id'
+                            );
                             if (isNew) {
                                 // New entity. Generate ID and store it in interval list.
                                 entity.id = ++table.info.lastId;
@@ -98,9 +101,7 @@ class DataStore extends CustomEventTarget {
                                 );
                             } else if (action === 'add') {
                                 throw new Error(
-                                    `add(${
-                                        entity.id
-                                    }): Cannot add an entity with an id.`
+                                    `add(${entity.id}): Cannot add an entity with an id.`
                                 );
                             } else {
                                 // Existing entity. Make sure ID exists in interval list.
@@ -111,9 +112,7 @@ class DataStore extends CustomEventTarget {
                                 );
                                 if (!interval) {
                                     throw new Error(
-                                        `put(${
-                                            entity.id
-                                        }): Entity does not exist. Cannot insert entity with specific id.`
+                                        `put(${entity.id}): Entity does not exist. Cannot insert entity with specific id.`
                                     );
                                 }
                             }
@@ -171,7 +170,10 @@ class DataStore extends CustomEventTarget {
 
                                     if (newValue) {
                                         if (
-                                            !indexData.hasOwnProperty(newValue)
+                                            !Object.prototype.hasOwnProperty.call(
+                                                indexData,
+                                                newValue
+                                            )
                                         ) {
                                             indexData[newValue] = [];
                                         }
