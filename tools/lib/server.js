@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require('http');
+const { randomLengthLoremIpsum } = require('./lorem-ipsum');
 
 const hostname = '127.0.0.1';
 const port = 7373;
@@ -69,13 +70,15 @@ async function middleware(req, res) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
 
+        const count = 50000;
         const entries = [];
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < count; i++) {
             entries.push({
                 title: `Item ${String(i).padStart(5, '0')}`,
-                body:
-                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-                image: `https://cataas.com/cat/says/${i}`
+                body: randomLengthLoremIpsum(),
+                image: `https://cataas.com/cat/says/${Math.ceil(
+                    Math.random() * count
+                )}`
             });
         }
 
