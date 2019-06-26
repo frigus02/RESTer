@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 -   Fixed library list on about page.
+-   Improve memory usage of large response bodies ([#106](https://github.com/frigus02/RESTer/issues/106)).
 
 ## [3.11.1] - 2019-06-06
 
