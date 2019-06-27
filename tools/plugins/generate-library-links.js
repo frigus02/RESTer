@@ -5,14 +5,8 @@ const { promisify } = require('util');
 
 const writeFile = promisify(fs.writeFile);
 
-function generateUsedLibraries(compilation) {
-    const usedFiles = [
-        ...Object.keys(compilation.assets),
-        ...Array.from(compilation.fileDependencies).map(stripCwd)
-    ];
-
-    const libraries = usedFiles
-        .map(normalizeFileName)
+function generateUsedLibraries(webPackFiles) {
+    const libraries = Array.from(webPackFiles.files)
         .sort()
         .filter((path, index, self) => self.indexOf(path) === index)
         .filter(path => path.startsWith('node_modules/'))
@@ -49,6 +43,23 @@ function normalizeFileName(filename) {
     return filename.replace(/\\/g, '/');
 }
 
+class WebPackFiles {
+    constructor() {
+        this.files = new Set();
+    }
+
+    update(compilation) {
+        const newFiles = [
+            ...Object.keys(compilation.assets),
+            ...Array.from(compilation.fileDependencies).map(stripCwd)
+        ].map(normalizeFileName);
+
+        for (const file of newFiles) {
+            this.files.add(file);
+        }
+    }
+}
+
 /**
  * Generates a file with a list of used libraries by collecting all file
  * names. This useful for addon reviewers to get a quick overview over 3rd
@@ -62,6 +73,7 @@ function normalizeFileName(filename) {
 class GenerateLibraryLinksPlugin {
     constructor(options) {
         this.options = options;
+        this.files = new WebPackFiles();
     }
 
     apply(compiler) {
@@ -69,7 +81,8 @@ class GenerateLibraryLinksPlugin {
         compiler.hooks.emit.tapPromise(
             'GenerateLibraryLinksPlugin',
             async compilation => {
-                const libraries = generateUsedLibraries(compilation);
+                this.files.update(compilation);
+                const libraries = generateUsedLibraries(this.files);
                 const text = libraries
                     .map(lib => {
                         const { name, version } = lib.packageJson;
@@ -98,6 +111,7 @@ class GenerateLibraryLinksPlugin {
 class GenerateAboutLibrariesPlugin {
     constructor(options) {
         this.options = options;
+        this.files = new WebPackFiles();
     }
 
     apply(compiler) {
@@ -105,7 +119,8 @@ class GenerateAboutLibrariesPlugin {
         compiler.hooks.emit.tapPromise(
             'GenerateAboutLibrariesPlugin',
             async compilation => {
-                const libraries = generateUsedLibraries(compilation);
+                this.files.update(compilation);
+                const libraries = generateUsedLibraries(this.files);
                 const text = JSON.stringify(
                     libraries.map(lib => ({
                         name: lib.packageJson.name,
