@@ -1,6 +1,6 @@
 function appendSearchParams(searchParams, params) {
     for (const key in params) {
-        if (params.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(params, key)) {
             const values = Array.isArray(params[key])
                 ? params[key]
                 : [params[key]];

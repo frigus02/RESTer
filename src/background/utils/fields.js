@@ -13,11 +13,11 @@ function filterProperties(obj, fields) {
             let field = fieldPath[i],
                 isLast = i === fieldPath.length - 1;
 
-            if (!curObj.hasOwnProperty(field)) {
+            if (!Object.prototype.hasOwnProperty.call(curObj, field)) {
                 break;
             }
 
-            if (!curResult.hasOwnProperty(field)) {
+            if (!Object.prototype.hasOwnProperty.call(curResult, field)) {
                 if (isLast) {
                     curResult[field] = curObj[field];
                 } else {

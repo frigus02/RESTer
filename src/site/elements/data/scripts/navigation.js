@@ -76,9 +76,7 @@ function createRequestNavItem(request) {
 function createHistoryNavItem(historyEntry) {
     let requestTitle = '';
     if (historyEntry.request.id) {
-        requestTitle = `${historyEntry.request.collection} / ${
-            historyEntry.request.title
-        }`;
+        requestTitle = `${historyEntry.request.collection} / ${historyEntry.request.title}`;
     }
 
     const compiledRequest = replaceWithoutProvidedValues(

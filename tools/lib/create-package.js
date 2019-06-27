@@ -81,9 +81,7 @@ function enhanceManifestJson(manifestJson, browser) {
     // Validate version
     if (manifest.version !== packageJson.version) {
         throw new Error(
-            `Version in manifest (${
-                manifest.version
-            }) does not match validated version (${packageJson.version}).`
+            `Version in manifest (${manifest.version}) does not match validated version (${packageJson.version}).`
         );
     }
 

@@ -200,8 +200,13 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
     _addHistoryEntryToVariableHistory(entry) {
         const values = entry.request.variables.values || {};
         for (let name in values) {
-            if (values.hasOwnProperty(name)) {
-                if (!this.variableHistory.hasOwnProperty(name)) {
+            if (Object.prototype.hasOwnProperty.call(values, name)) {
+                if (
+                    !Object.prototype.hasOwnProperty.call(
+                        this.variableHistory,
+                        name
+                    )
+                ) {
                     this.set(['variableHistory', name], [values[name]]);
                 } else {
                     const index = this.variableHistory[name].indexOf(

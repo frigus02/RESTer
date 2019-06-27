@@ -258,7 +258,10 @@ class RESTerFormDataInput extends PolymerElement {
 
     _cleanUpUnusedFiles() {
         for (let key in this.files) {
-            if (this.files.hasOwnProperty(key) && !this._isFileNameInUse(key)) {
+            if (
+                Object.prototype.hasOwnProperty.call(this.files, key) &&
+                !this._isFileNameInUse(key)
+            ) {
                 delete this.files[key];
                 this.notifyPath(['files', key]);
             }

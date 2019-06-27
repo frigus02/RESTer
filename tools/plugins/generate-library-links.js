@@ -110,9 +110,7 @@ class GenerateAboutLibrariesPlugin {
                     libraries.map(lib => ({
                         name: lib.packageJson.name,
                         version: lib.packageJson.version,
-                        url: `https://www.npmjs.com/package/${
-                            lib.packageJson.name
-                        }`
+                        url: `https://www.npmjs.com/package/${lib.packageJson.name}`
                     }))
                 );
 

@@ -10,13 +10,14 @@ import { replace as replaceVariables } from './variables.js';
  * true.
  */
 export async function prepareConfigWithEnvVariables(config) {
-    if (config.enableVariables) {
-        config = replaceVariables(config);
-
-        const envId = settings.activeEnvironment;
-        const env = await getEnvironment(envId, ['name']);
-        config.env = env;
+    if (!config.enableVariables) {
+        config;
     }
 
-    return config;
+    const envId = settings.activeEnvironment;
+    const env = await getEnvironment(envId, ['name']);
+    return {
+        ...replaceVariables(config),
+        env
+    };
 }

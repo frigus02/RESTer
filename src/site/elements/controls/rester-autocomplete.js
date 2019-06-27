@@ -189,9 +189,9 @@ class RESTerAutocomplete extends PolymerElement {
         const item = this.items && this.items[0];
         if (item) {
             if (
-                item.hasOwnProperty('title') &&
-                item.hasOwnProperty('description') &&
-                item.hasOwnProperty('score')
+                Object.prototype.hasOwnProperty.call(item, 'title') &&
+                Object.prototype.hasOwnProperty.call(item, 'description') &&
+                Object.prototype.hasOwnProperty.call(item, 'score')
             ) {
                 return 'two-line-score';
             } else {

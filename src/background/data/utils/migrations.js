@@ -13,7 +13,7 @@ export function migrateVariablesObject(variables) {
     if (!variables) {
         return {};
     } else {
-        if (variables.hasOwnProperty('enabled')) {
+        if (Object.prototype.hasOwnProperty.call(variables, 'enabled')) {
             delete variables.enabled;
         }
 

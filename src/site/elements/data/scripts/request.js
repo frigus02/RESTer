@@ -182,7 +182,7 @@ function generateFormData(body, tempVariables) {
     const formData = new FormData();
 
     for (let key in rawData) {
-        if (rawData.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(rawData, key)) {
             const values = Array.isArray(rawData[key])
                 ? rawData[key]
                 : [rawData[key]];
