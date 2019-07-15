@@ -863,7 +863,6 @@ class RESTerPageRequest extends RESTerLintMixin(
     _duplicateRequest() {
         this.$.moreOptions.close();
         delete this.request.id;
-        this.request.title += ' Copy';
         this._saveRequest();
     }
 
