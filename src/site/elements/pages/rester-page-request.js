@@ -97,6 +97,10 @@ class RESTerPageRequest extends RESTerLintMixin(
                     flex: 1;
                 }
 
+                paper-menu-button {
+                    padding: 0;
+                }
+
                 .request-form {
                     display: flex;
                     flex-direction: row;
@@ -217,7 +221,9 @@ class RESTerPageRequest extends RESTerLintMixin(
                             icon="save"
                             on-tap="_saveRequest"
                         ></paper-icon-button>
-                        <paper-tooltip for="save-request-button"
+                        <paper-tooltip
+                            for="save-request-button"
+                            animation-delay="300"
                             >Save request</paper-tooltip
                         >
                         <paper-menu-button
@@ -242,7 +248,9 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 >
                             </paper-listbox>
                         </paper-menu-button>
-                        <paper-tooltip for="delete-request-button"
+                        <paper-tooltip
+                            for="delete-request-button"
+                            animation-delay="300"
                             >Delete request</paper-tooltip
                         >
                         <paper-menu-button
@@ -272,7 +280,9 @@ class RESTerPageRequest extends RESTerLintMixin(
                                 >
                             </paper-listbox>
                         </paper-menu-button>
-                        <paper-tooltip for="request-menu-button"
+                        <paper-tooltip
+                            for="request-menu-button"
+                            animation-delay="300"
                             >More options</paper-tooltip
                         >
                     </app-toolbar>
@@ -853,7 +863,6 @@ class RESTerPageRequest extends RESTerLintMixin(
     _duplicateRequest() {
         this.$.moreOptions.close();
         delete this.request.id;
-        this.request.title += ' Copy';
         this._saveRequest();
     }
 

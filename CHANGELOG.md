@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+-   No longer append "Copy" to a request title when using the "Duplicate request" function. It turned out to be more annoying than helpful.
+
 ## [3.11.2] - 2019-06-27
 
 ### Fixed
