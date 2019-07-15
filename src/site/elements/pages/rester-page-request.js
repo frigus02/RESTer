@@ -97,6 +97,10 @@ class RESTerPageRequest extends RESTerLintMixin(
                     flex: 1;
                 }
 
+                paper-menu-button {
+                    padding: 0;
+                }
+
                 .request-form {
                     display: flex;
                     flex-direction: row;
