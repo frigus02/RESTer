@@ -1,8 +1,8 @@
-dist: xenial
+dist: bionic
 addons:
   firefox: "latest-dev"
 language: node_js
-node_js: "11"
+node_js: "12"
 script:
 - yarn build
 - yarn lint
@@ -12,4 +12,3 @@ cache:
   yarn: true
   directories:
   - node_modules
-  - $HOME/.cache/bower

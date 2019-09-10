@@ -10,7 +10,7 @@
 # inside of an Add-on SDK extension. We can probably safely ignore this warning.
 background/bundle.js STORAGE_LOCAL
 
-# These are part of other bower components and should be fine.
+# These are part of other modules and should be fine.
 site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js UNSAFE_VAR_ASSIGNMENT
 site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js UNSAFE_VAR_ASSIGNMENT
 site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js UNSAFE_VAR_ASSIGNMENT
