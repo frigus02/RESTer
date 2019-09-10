@@ -7,15 +7,15 @@ Update this file with all changes to used third party libraries (add/remove depe
     yarn build
 
 ```
-@polymer/app-layout 3.0.2
-https://unpkg.com/@polymer/app-layout@3.0.2/app-drawer-layout/app-drawer-layout.js
-https://unpkg.com/@polymer/app-layout@3.0.2/app-drawer/app-drawer.js
-https://unpkg.com/@polymer/app-layout@3.0.2/app-header-layout/app-header-layout.js
-https://unpkg.com/@polymer/app-layout@3.0.2/app-header/app-header.js
-https://unpkg.com/@polymer/app-layout@3.0.2/app-layout-behavior/app-layout-behavior.js
-https://unpkg.com/@polymer/app-layout@3.0.2/app-scroll-effects/app-scroll-effects-behavior.js
-https://unpkg.com/@polymer/app-layout@3.0.2/app-toolbar/app-toolbar.js
-https://unpkg.com/@polymer/app-layout@3.0.2/helpers/helpers.js
+@polymer/app-layout 3.1.0
+https://unpkg.com/@polymer/app-layout@3.1.0/app-drawer-layout/app-drawer-layout.js
+https://unpkg.com/@polymer/app-layout@3.1.0/app-drawer/app-drawer.js
+https://unpkg.com/@polymer/app-layout@3.1.0/app-header-layout/app-header-layout.js
+https://unpkg.com/@polymer/app-layout@3.1.0/app-header/app-header.js
+https://unpkg.com/@polymer/app-layout@3.1.0/app-layout-behavior/app-layout-behavior.js
+https://unpkg.com/@polymer/app-layout@3.1.0/app-scroll-effects/app-scroll-effects-behavior.js
+https://unpkg.com/@polymer/app-layout@3.1.0/app-toolbar/app-toolbar.js
+https://unpkg.com/@polymer/app-layout@3.1.0/helpers/helpers.js
 
 @polymer/app-route 3.0.2
 https://unpkg.com/@polymer/app-route@3.0.2/app-location.js
@@ -292,18 +292,18 @@ https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/bundles/webcomponents-sd
 https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js
 https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-loader.js
 
-ace-builds 1.4.5
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/ace.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/ext-searchbox.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-html.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-json.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-text.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/mode-xml.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/theme-chrome.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/theme-twilight.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/worker-html.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/worker-json.js
-https://unpkg.com/ace-builds@1.4.5/src-min-noconflict/worker-xml.js
+ace-builds 1.4.6
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/worker-xml.js
 
 dompurify 1.0.11
 https://unpkg.com/dompurify@1.0.11/dist/purify.es.js
@@ -311,8 +311,8 @@ https://unpkg.com/dompurify@1.0.11/dist/purify.es.js
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 
-lodash 4.17.11
-https://unpkg.com/lodash@4.17.11/lodash.js
+lodash 4.17.15
+https://unpkg.com/lodash@4.17.15/lodash.js
 
 mousetrap 1.6.3
 https://unpkg.com/mousetrap@1.6.3/mousetrap.js
@@ -323,8 +323,8 @@ https://unpkg.com/string_score@0.1.22/string_score.js
 web-animations-js 2.3.2
 https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js
 
-webpack 4.35.0
-https://unpkg.com/webpack@4.35.0/buildin/amd-define.js
-https://unpkg.com/webpack@4.35.0/buildin/global.js
-https://unpkg.com/webpack@4.35.0/buildin/module.js
+webpack 4.39.3
+https://unpkg.com/webpack@4.39.3/buildin/amd-define.js
+https://unpkg.com/webpack@4.39.3/buildin/global.js
+https://unpkg.com/webpack@4.39.3/buildin/module.js
 ```
