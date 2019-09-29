@@ -6,6 +6,8 @@ A REST client for almost any web service.
 
 Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Chrome](https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
 
+![](docs/preview.png)
+
 You can...
 
 -   perform HTTP requests with any method, URL, body and custom headers.
@@ -14,7 +16,7 @@ You can...
 
 The add-on supports the following goodies:
 
--   Create and save your authorization headers with Basic or OAuth2 authentication.
+-   Create and save your authorization headers with Basic, OAuth 2 or Cookie authentication.
 -   Use placeholders in saved requests.
 -   Use shortcuts for the frequently used actions (try pressing "?" to see the available shortcuts for the current context).
 
@@ -22,7 +24,7 @@ It requires a few permissions to do this. [Which permissions and why?](./docs/pe
 
 ## Develop
 
-### Dependencies
+### Prerequisites
 
 The project requires:
 
@@ -35,20 +37,20 @@ Install all other dependencies with the command:
 yarn install
 ```
 
-### Test
+### Run locally
 
-WebExtensions enfore a content security policy (CSP) for all sites in the add-on, which does not allow inline scripts. However, as the main site uses Polymer, a big amount of the JavaScript is written as inline scripts. This affects both the add-on code itself and dependencies.
+To build the add-on run:
 
-To make the browser load the add-on, you should run:
+```command
+yarn start
+```
 
-    yarn start
-
-This will generate a working add-on in the folder _.build_, where all JavaScript code is extracted into separate script files. It will also watch files for changes and update the folder accordingly.
+This will generate a working add-on in the folder _.build_. It will also watch files for changes and update the folder accordingly.
 
 To load the add-on in the browser:
 
--   **Firefox**: Go to [about:debugging](about:debugging), click on "Load Temporary Add-on" and select the file _manifest.json_ inside the _.build_ folder.
--   **Chrome**: Go to [chrome://extensions](chrome://extensions), check the box "Developer mode", click on "Load unpacked extension..." and select the folder _.build_.
+-   **Firefox**: Go to [about:debugging](about:debugging), click on "Load Temporary Add-on..." and select the file _manifest.json_ inside the _.build_ folder.
+-   **Chrome**: Go to [chrome://extensions](chrome://extensions), make sure "Developer mode" is turned on, click on "Load unpacked" and select the folder _.build_.
 
 ### Package
 
