@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.0] - 2020-03-14
+
 ### Changed
 
+-   **Breaking**: RESTer now requires Firefox 63 or Chrome 67.
 -   No longer append "Copy" to a request title when using the "Duplicate request" function. It turned out to be more annoying than helpful.
+
+### Fixed
+
+-   Fixed clean request mode in Chrome >= 72 ([#122](https://github.com/frigus02/RESTer/issues/122)).
 
 ## [3.11.2] - 2019-06-27
 
@@ -586,7 +593,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/3.11.2...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/frigus02/RESTer/compare/3.11.2...4.0.0
 [3.11.2]: https://github.com/frigus02/RESTer/compare/3.11.1...3.11.2
 [3.11.1]: https://github.com/frigus02/RESTer/compare/3.11.0...3.11.1
 [3.11.0]: https://github.com/frigus02/RESTer/compare/3.10.0...3.11.0
