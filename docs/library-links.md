@@ -284,14 +284,6 @@ https://unpkg.com/@webcomponents/shadycss@1.9.5/src/style-util.js
 https://unpkg.com/@webcomponents/shadycss@1.9.5/src/template-map.js
 https://unpkg.com/@webcomponents/shadycss@1.9.5/src/unscoped-style-handler.js
 
-@webcomponents/webcomponentsjs 2.4.2
-https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-ce.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-sd-ce-pf.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-sd-ce.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-sd.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/webcomponents-bundle.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/webcomponents-loader.js
-
 ace-builds 1.4.8
 https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/ace.js
 https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/ext-searchbox.js
