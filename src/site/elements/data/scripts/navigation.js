@@ -181,13 +181,15 @@ export default class Navigation extends CustomEventTarget {
     }
 
     async _create() {
-        const [requests, historyEntries, activeEnvironment] = await Promise.all(
-            [
-                getRequests(requestFields),
-                getHistoryEntries(5, historyFields),
-                settingsLoaded.then(() => getActiveEnvironment())
-            ]
-        );
+        const [
+            requests,
+            historyEntries,
+            activeEnvironment
+        ] = await Promise.all([
+            getRequests(requestFields),
+            getHistoryEntries(5, historyFields),
+            settingsLoaded.then(() => getActiveEnvironment())
+        ]);
 
         this.items.push(
             new Subheader({

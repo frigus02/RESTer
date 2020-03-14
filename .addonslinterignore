@@ -1,24 +1,6 @@
 # Explanation of all rules:
 # http://mozilla.github.io/addons-linter/
 
-# Message details:
-#   "storage.local" can cause issues when loaded temporarily
-#   This API can cause issues when loaded temporarily using about:debugging
-#   in Firefox unless you specify applications > gecko > id in the manifest.
-#   Please see: https://mzl.la/2hizK4a for more.
-# But we don't want to specify an addon id, since the WebExtension is embedded
-# inside of an Add-on SDK extension. We can probably safely ignore this warning.
-background/bundle.js STORAGE_LOCAL
-
-# These are part of other modules and should be fine.
-site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js UNSAFE_VAR_ASSIGNMENT
-site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js UNSAFE_VAR_ASSIGNMENT
-site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js UNSAFE_VAR_ASSIGNMENT
-site/node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js UNSAFE_VAR_ASSIGNMENT
-site/node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js UNSAFE_VAR_ASSIGNMENT
-site/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js NO_DOCUMENT_WRITE
-site/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js UNSAFE_VAR_ASSIGNMENT
-
 # Issues come from imported libraries and should be fine.
 # Setting innerHTML in rester-dom-purify-frame.html should be fine because HTML
 # is sanitized with DOMPurify.

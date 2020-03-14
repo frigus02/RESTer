@@ -72,16 +72,6 @@ module.exports = [
                     context: '../../node_modules/@polymer/font-roboto-local/'
                 },
                 {
-                    from:
-                        'node_modules/@webcomponents/webcomponentsjs/webcomponents-*.js',
-                    context: '../../'
-                },
-                {
-                    from:
-                        'node_modules/@webcomponents/webcomponentsjs/bundles/*.js',
-                    context: '../../'
-                },
-                {
                     from: 'elements/data/workers/format-code.js',
                     to: 'elements/data/workers/format-code.js'
                 },

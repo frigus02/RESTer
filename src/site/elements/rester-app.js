@@ -57,7 +57,9 @@ class RESTerApp extends RESTerThemeMixin(
             <style>
                 :host {
                     --primary-text-color: var(--dark-theme-text-color);
-                    --primary-background-color: var(--dark-theme-background-color);
+                    --primary-background-color: var(
+                        --dark-theme-background-color
+                    );
                     --secondary-text-color: var(--dark-theme-secondary-color);
                     --disabled-text-color: var(--dark-theme-disabled-color);
                     --divider-color: var(--dark-theme-divider-color);
@@ -75,7 +77,7 @@ class RESTerApp extends RESTerThemeMixin(
                     --app-drawer-content-container: {
                         background-color: var(--primary-background-color);
                         border-right: 1px solid var(--divider-color);
-                    };
+                    }
 
                     display: block;
                     background-color: var(--primary-background-color);
@@ -83,9 +85,11 @@ class RESTerApp extends RESTerThemeMixin(
                     @apply --paper-font-common-base;
                 }
 
-                :host([theme="light"]) {
+                :host([theme='light']) {
                     --primary-text-color: var(--light-theme-text-color);
-                    --primary-background-color: var(--light-theme-background-color);
+                    --primary-background-color: var(
+                        --light-theme-background-color
+                    );
                     --secondary-text-color: var(--light-theme-secondary-color);
                     --disabled-text-color: var(--light-theme-disabled-color);
                     --divider-color: var(--light-theme-divider-color);
@@ -116,14 +120,16 @@ class RESTerApp extends RESTerThemeMixin(
 
             <app-location route="{{route}}" use-hash-as-path></app-location>
             <app-route
-                    route="[[route]]"
-                    pattern="/:page"
-                    data="{{routeData}}"
-                    tail="{{routeTail}}"></app-route>
+                route="[[route]]"
+                pattern="/:page"
+                data="{{routeData}}"
+                tail="{{routeTail}}"
+            ></app-route>
 
             <app-drawer-layout
-                    responsive-width="[[responsiveWidth]]"
-                    narrow="{{drawerIsNarrow}}">
+                responsive-width="[[responsiveWidth]]"
+                narrow="{{drawerIsNarrow}}"
+            >
                 <!-- Navigation -->
                 <app-drawer slot="drawer" id="drawer">
                     <app-header-layout has-scrolling-region>
@@ -131,21 +137,27 @@ class RESTerApp extends RESTerThemeMixin(
                             <app-toolbar>
                                 <div main-title>RESTer</div>
                                 <iron-media-query
-                                        query="[[showDrawerLockMediaQuery]]"
-                                        query-matches="{{showDrawerLock}}"></iron-media-query>
+                                    query="[[showDrawerLockMediaQuery]]"
+                                    query-matches="{{showDrawerLock}}"
+                                ></iron-media-query>
                                 <paper-icon-button
-                                        icon="[[_getDrawerToggleIcon(settings.pinSidenav)]]"
-                                        on-tap="_toggleDrawerLockOpen"
-                                        hidden$="[[!showDrawerLock]]"></paper-icon-button>
+                                    icon="[[_getDrawerToggleIcon(settings.pinSidenav)]]"
+                                    on-tap="_toggleDrawerLockOpen"
+                                    hidden$="[[!showDrawerLock]]"
+                                ></paper-icon-button>
                                 <rester-notifications></rester-notifications>
                             </app-toolbar>
                         </app-header>
                         <div class="navigation">
                             <rester-navigation-list
-                                    route="[[route]]"
-                                    on-item-activated="_onNavigationItemActivated"></rester-navigation-list>
+                                route="[[route]]"
+                                on-item-activated="_onNavigationItemActivated"
+                            ></rester-navigation-list>
                             <rester-drawer-footer-links>
-                                <a href="#" on-tap="_showShortcuts">Shortcuts</a> &dash;
+                                <a href="#" on-tap="_showShortcuts"
+                                    >Shortcuts</a
+                                >
+                                &dash;
                                 <a href="#/about">About</a>
                             </rester-drawer-footer-links>
                         </div>
@@ -154,16 +166,21 @@ class RESTerApp extends RESTerThemeMixin(
 
                 <!-- Main -->
                 <rester-pages
-                        page="[[page]]"
-                        page-title="{{pageTitle}}"
-                        route="[[routeTail]]"
-                        show-drawer-toggle="[[drawerIsNarrow]]"
-                        on-drawer-toggle-tapped="_onDrawerToggleTapped"></rester-pages>
+                    page="[[page]]"
+                    page-title="{{pageTitle}}"
+                    route="[[routeTail]]"
+                    show-drawer-toggle="[[drawerIsNarrow]]"
+                    on-drawer-toggle-tapped="_onDrawerToggleTapped"
+                ></rester-pages>
             </app-drawer-layout>
 
             <rester-error></rester-error>
-            <rester-hotkeys-cheat-sheet id="cheatSheet"></rester-hotkeys-cheat-sheet>
-            <rester-quick-open-dialog id="quickOpenDialog"></rester-quick-open-dialog>
+            <rester-hotkeys-cheat-sheet
+                id="cheatSheet"
+            ></rester-hotkeys-cheat-sheet>
+            <rester-quick-open-dialog
+                id="quickOpenDialog"
+            ></rester-quick-open-dialog>
 
             <!--
                 All dialogs need to be outside of the app-drawe-layout.
