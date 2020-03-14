@@ -111,7 +111,13 @@ function setupHeaderInterceptor(currentTabId) {
             types: ['xmlhttprequest'],
             tabId: currentTabId
         },
-        ['blocking', 'requestHeaders']
+        [
+            'blocking',
+            'requestHeaders',
+            // Chrome requires "extraHeaders" from version 72, but adding this
+            // unconditionally causes an error in Firefox.
+            chrome.webRequest.OnBeforeSendHeadersOptions.EXTRA_HEADERS
+        ].filter(option => !!option)
     );
 
     function onHeadersReceived(details) {
@@ -172,7 +178,13 @@ function setupHeaderInterceptor(currentTabId) {
             types: ['xmlhttprequest'],
             tabId: currentTabId
         },
-        ['blocking', 'responseHeaders']
+        [
+            'blocking',
+            'responseHeaders',
+            // Chrome requires "extraHeaders" from version 72, but adding this
+            // unconditionally causes an error in Firefox.
+            chrome.webRequest.OnHeadersReceivedOptions.EXTRA_HEADERS
+        ].filter(option => !!option)
     );
 }
 
