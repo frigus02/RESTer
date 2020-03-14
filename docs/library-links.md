@@ -54,8 +54,8 @@ https://unpkg.com/@polymer/iron-collapse@3.0.1/iron-collapse.js
 @polymer/iron-dropdown 3.0.1
 https://unpkg.com/@polymer/iron-dropdown@3.0.1/iron-dropdown.js
 
-@polymer/iron-fit-behavior 3.0.1
-https://unpkg.com/@polymer/iron-fit-behavior@3.0.1/iron-fit-behavior.js
+@polymer/iron-fit-behavior 3.0.2
+https://unpkg.com/@polymer/iron-fit-behavior@3.0.2/iron-fit-behavior.js
 
 @polymer/iron-flex-layout 3.0.1
 https://unpkg.com/@polymer/iron-flex-layout@3.0.1/iron-flex-layout.js
@@ -89,12 +89,12 @@ https://unpkg.com/@polymer/iron-menu-behavior@3.0.2/iron-menubar-behavior.js
 @polymer/iron-meta 3.0.1
 https://unpkg.com/@polymer/iron-meta@3.0.1/iron-meta.js
 
-@polymer/iron-overlay-behavior 3.0.2
-https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-focusables-helper.js
-https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-overlay-backdrop.js
-https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-overlay-behavior.js
-https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-overlay-manager.js
-https://unpkg.com/@polymer/iron-overlay-behavior@3.0.2/iron-scroll-manager.js
+@polymer/iron-overlay-behavior 3.0.3
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.3/iron-focusables-helper.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.3/iron-overlay-backdrop.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.3/iron-overlay-behavior.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.3/iron-overlay-manager.js
+https://unpkg.com/@polymer/iron-overlay-behavior@3.0.3/iron-scroll-manager.js
 
 @polymer/iron-pages 3.0.1
 https://unpkg.com/@polymer/iron-pages@3.0.1/iron-pages.js
@@ -125,8 +125,8 @@ https://unpkg.com/@polymer/neon-animation@3.0.1/neon-animatable-behavior.js
 https://unpkg.com/@polymer/neon-animation@3.0.1/neon-animation-behavior.js
 https://unpkg.com/@polymer/neon-animation@3.0.1/neon-animation-runner-behavior.js
 
-@polymer/paper-badge 3.0.1
-https://unpkg.com/@polymer/paper-badge@3.0.1/paper-badge.js
+@polymer/paper-badge 3.1.0
+https://unpkg.com/@polymer/paper-badge@3.1.0/paper-badge.js
 
 @polymer/paper-behaviors 3.0.1
 https://unpkg.com/@polymer/paper-behaviors@3.0.1/paper-button-behavior.js
@@ -150,10 +150,10 @@ https://unpkg.com/@polymer/paper-dialog-behavior@3.0.1/paper-dialog-shared-style
 @polymer/paper-dialog-scrollable 3.0.1
 https://unpkg.com/@polymer/paper-dialog-scrollable@3.0.1/paper-dialog-scrollable.js
 
-@polymer/paper-dropdown-menu 3.0.1
-https://unpkg.com/@polymer/paper-dropdown-menu@3.0.1/paper-dropdown-menu-icons.js
-https://unpkg.com/@polymer/paper-dropdown-menu@3.0.1/paper-dropdown-menu-shared-styles.js
-https://unpkg.com/@polymer/paper-dropdown-menu@3.0.1/paper-dropdown-menu.js
+@polymer/paper-dropdown-menu 3.1.0
+https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/paper-dropdown-menu-icons.js
+https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/paper-dropdown-menu-shared-styles.js
+https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/paper-dropdown-menu.js
 
 @polymer/paper-fab 3.0.1
 https://unpkg.com/@polymer/paper-fab@3.0.1/paper-fab.js
@@ -161,14 +161,14 @@ https://unpkg.com/@polymer/paper-fab@3.0.1/paper-fab.js
 @polymer/paper-icon-button 3.0.2
 https://unpkg.com/@polymer/paper-icon-button@3.0.2/paper-icon-button.js
 
-@polymer/paper-input 3.0.2
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-input-addon-behavior.js
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-input-behavior.js
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-input-char-counter.js
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-input-container.js
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-input-error.js
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-input.js
-https://unpkg.com/@polymer/paper-input@3.0.2/paper-textarea.js
+@polymer/paper-input 3.2.0
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-input-addon-behavior.js
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-input-behavior.js
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-input-char-counter.js
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-input-container.js
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-input-error.js
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-input.js
+https://unpkg.com/@polymer/paper-input@3.2.0/paper-textarea.js
 
 @polymer/paper-item 3.0.1
 https://unpkg.com/@polymer/paper-item@3.0.1/paper-icon-item.js
@@ -193,8 +193,8 @@ https://unpkg.com/@polymer/paper-radio-button@3.0.1/paper-radio-button.js
 @polymer/paper-radio-group 3.0.1
 https://unpkg.com/@polymer/paper-radio-group@3.0.1/paper-radio-group.js
 
-@polymer/paper-ripple 3.0.1
-https://unpkg.com/@polymer/paper-ripple@3.0.1/paper-ripple.js
+@polymer/paper-ripple 3.0.2
+https://unpkg.com/@polymer/paper-ripple@3.0.2/paper-ripple.js
 
 @polymer/paper-slider 3.0.1
 https://unpkg.com/@polymer/paper-slider@3.0.1/paper-slider.js
@@ -223,90 +223,90 @@ https://unpkg.com/@polymer/paper-toggle-button@3.0.1/paper-toggle-button.js
 @polymer/paper-tooltip 3.0.1
 https://unpkg.com/@polymer/paper-tooltip@3.0.1/paper-tooltip.js
 
-@polymer/polymer 3.3.0
-https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/array-selector.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/custom-style.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-bind.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-if.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-module.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/elements/dom-repeat.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/class.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/legacy-element-mixin.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/mutable-data-behavior.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/polymer-fn.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/polymer.dom.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/legacy/templatizer-behavior.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/dir-mixin.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/element-mixin.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/gesture-event-listeners.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/mutable-data.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/properties-changed.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/properties-mixin.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/property-accessors.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/property-effects.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/mixins/template-stamp.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/array-splice.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/async.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/boot.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/case-map.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/debounce.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/flattened-nodes-observer.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/flush.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/gestures.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/hide-template-controls.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/html-tag.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/mixin.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/path.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/render-status.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/resolve-url.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/scope-subtree.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/settings.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/style-gather.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/telemetry.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/templatize.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/unresolved.js
-https://unpkg.com/@polymer/polymer@3.3.0/lib/utils/wrap.js
-https://unpkg.com/@polymer/polymer@3.3.0/polymer-element.js
-https://unpkg.com/@polymer/polymer@3.3.0/polymer-legacy.js
+@polymer/polymer 3.3.1
+https://unpkg.com/@polymer/polymer@3.3.1/lib/elements/array-selector.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/elements/custom-style.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/elements/dom-bind.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/elements/dom-if.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/elements/dom-module.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/elements/dom-repeat.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/legacy/class.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/legacy/legacy-element-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/legacy/mutable-data-behavior.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/legacy/polymer-fn.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/legacy/polymer.dom.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/legacy/templatizer-behavior.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/dir-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/element-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/gesture-event-listeners.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/mutable-data.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/properties-changed.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/properties-mixin.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/property-accessors.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/property-effects.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/mixins/template-stamp.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/array-splice.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/async.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/boot.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/case-map.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/debounce.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/flattened-nodes-observer.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/flush.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/gestures.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/hide-template-controls.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/html-tag.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/mixin.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/path.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/render-status.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/resolve-url.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/scope-subtree.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/settings.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/style-gather.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/telemetry.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/templatize.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/unresolved.js
+https://unpkg.com/@polymer/polymer@3.3.1/lib/utils/wrap.js
+https://unpkg.com/@polymer/polymer@3.3.1/polymer-element.js
+https://unpkg.com/@polymer/polymer@3.3.1/polymer-legacy.js
 
-@webcomponents/shadycss 1.9.1
-https://unpkg.com/@webcomponents/shadycss@1.9.1/entrypoints/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/entrypoints/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/apply-shim-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/common-regex.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/common-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/css-parse.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/document-wait.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/style-settings.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/style-util.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/template-map.js
-https://unpkg.com/@webcomponents/shadycss@1.9.1/src/unscoped-style-handler.js
+@webcomponents/shadycss 1.9.5
+https://unpkg.com/@webcomponents/shadycss@1.9.5/entrypoints/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/entrypoints/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/apply-shim-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/common-regex.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/common-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/css-parse.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/document-wait.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/style-settings.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/style-util.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/template-map.js
+https://unpkg.com/@webcomponents/shadycss@1.9.5/src/unscoped-style-handler.js
 
-@webcomponents/webcomponentsjs 2.2.10
-https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/bundles/webcomponents-ce.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/bundles/webcomponents-sd-ce-pf.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/bundles/webcomponents-sd-ce.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/bundles/webcomponents-sd.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js
-https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-loader.js
+@webcomponents/webcomponentsjs 2.4.2
+https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-ce.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-sd-ce-pf.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-sd-ce.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/bundles/webcomponents-sd.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/webcomponents-bundle.js
+https://unpkg.com/@webcomponents/webcomponentsjs@2.4.2/webcomponents-loader.js
 
-ace-builds 1.4.6
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/ace.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/ext-searchbox.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-html.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-json.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-text.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/mode-xml.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/theme-chrome.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/theme-twilight.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/worker-html.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/worker-json.js
-https://unpkg.com/ace-builds@1.4.6/src-min-noconflict/worker-xml.js
+ace-builds 1.4.8
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.4.8/src-min-noconflict/worker-xml.js
 
-dompurify 1.0.11
-https://unpkg.com/dompurify@1.0.11/dist/purify.es.js
+dompurify 2.0.8
+https://unpkg.com/dompurify@2.0.8/dist/purify.es.js
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
@@ -314,8 +314,8 @@ https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 lodash 4.17.15
 https://unpkg.com/lodash@4.17.15/lodash.js
 
-mousetrap 1.6.3
-https://unpkg.com/mousetrap@1.6.3/mousetrap.js
+mousetrap 1.6.5
+https://unpkg.com/mousetrap@1.6.5/mousetrap.js
 
 string_score 0.1.22
 https://unpkg.com/string_score@0.1.22/string_score.js
