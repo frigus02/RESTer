@@ -64,6 +64,9 @@ class RESTerAuthorizationProviderCustomGenerateTokenDialog extends RESTerDialogC
                                 required
                                 error-message="This is required!"
                             ></paper-input>
+                            <paper-checkbox checked="{{data.toBase64}}">
+                                Encode to base64 string
+                            </paper-checkbox>
                         </form>
                     </iron-form>
                 </paper-dialog-scrollable>

@@ -38,7 +38,8 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
     generateToken() {
         const data = {
             scheme: '',
-            token: ''
+            token: '',
+            toBase64: false,
         };
 
         return dialogs.authProviderCustomGenerateToken
@@ -48,7 +49,7 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
                     const token = {};
                     token.title = `${data.scheme} ${data.token}`;
                     token.scheme = data.scheme;
-                    token.token = data.token;
+                    token.token = data.toBase64 ? window.btoa(data.token) : data.token;
                     return token;
                 } else {
                     return Promise.reject();
