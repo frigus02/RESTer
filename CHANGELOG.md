@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.1.0] - 2020-04-12
+
 ### Added
 
 -   Added checkbox option for automatically encode token value to base64 string for custom authorization header dialog.
@@ -597,7 +599,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.0.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.1.0...HEAD
+[4.1.0]: https://github.com/frigus02/RESTer/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/frigus02/RESTer/compare/3.11.2...4.0.0
 [3.11.2]: https://github.com/frigus02/RESTer/compare/3.11.1...3.11.2
 [3.11.1]: https://github.com/frigus02/RESTer/compare/3.11.0...3.11.1
