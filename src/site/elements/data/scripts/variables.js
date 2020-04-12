@@ -5,7 +5,7 @@ import providerEnv from './variables-provider-env.js';
 export const e = new CustomEventTarget();
 export const providedValues = {};
 
-const RE_VARS = /\{(\S+?)\}/gi;
+const RE_VARS = /\{([\w$-]+(\.[\w$-]+)*)\}/g;
 const providers = [providerEnv];
 
 collectProvidedValues();
