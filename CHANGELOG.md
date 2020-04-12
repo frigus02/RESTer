@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+-   Added checkbox option for automatically encode token value to base64 string for custom authorization header dialog.
+
 ## [4.0.0] - 2020-03-14
 
 ### Changed
