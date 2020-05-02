@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed Postman export when there was a request with the same title as the collection of another request (might fix [#127](https://github.com/frigus02/RESTer/issues/127)).
+
 ## [4.1.0] - 2020-04-12
 
 ### Added
