@@ -103,6 +103,36 @@ describe('format', function() {
             })
         ).toMatchSnapshot();
     });
+
+    test('request with same name as collection', function() {
+        expect(
+            format({
+                requests: [
+                    {
+                        collection: 'A',
+                        title: 'B',
+                        method: 'GET',
+                        url: 'https://www.example.com',
+                        headers: [],
+                        body: null,
+                        variables: {},
+                        id: 2
+                    },
+                    {
+                        collection: 'A / B',
+                        title: 'C',
+                        method: 'GET',
+                        url: 'https://www.example.com',
+                        headers: [],
+                        body: null,
+                        variables: {},
+                        id: 1
+                    }
+                ],
+                historyEntries: []
+            })
+        ).toMatchSnapshot();
+    });
 });
 
 describe('parse', function() {

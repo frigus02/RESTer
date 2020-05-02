@@ -121,6 +121,49 @@ Object {
 }
 `;
 
+exports[`format request with same name as collection 1`] = `
+Object {
+  "content": "{
+    \\"info\\": {
+        \\"name\\": \\"RESTer\\",
+        \\"schema\\": \\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\"
+    },
+    \\"item\\": [
+        {
+            \\"name\\": \\"A\\",
+            \\"item\\": [
+                {
+                    \\"name\\": \\"B\\",
+                    \\"item\\": [
+                        {
+                            \\"request\\": {
+                                \\"url\\": \\"https://www.example.com\\",
+                                \\"method\\": \\"GET\\",
+                                \\"header\\": []
+                            },
+                            \\"id\\": \\"rester-1\\",
+                            \\"name\\": \\"C\\"
+                        }
+                    ]
+                },
+                {
+                    \\"request\\": {
+                        \\"url\\": \\"https://www.example.com\\",
+                        \\"method\\": \\"GET\\",
+                        \\"header\\": []
+                    },
+                    \\"id\\": \\"rester-2\\",
+                    \\"name\\": \\"B\\"
+                }
+            ]
+        }
+    ]
+}",
+  "contentType": "application/json",
+  "suffix": "json",
+}
+`;
+
 exports[`parse parses nested folders and rester ids 1`] = `
 Object {
   "data": Object {

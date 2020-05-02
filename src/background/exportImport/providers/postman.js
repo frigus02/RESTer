@@ -241,10 +241,10 @@ function formatUrlencodedOrFormdataBody(parameters) {
         .join('&');
 }
 
-function sortedIndexOfFolders(folders, newFolder) {
-    return sortedIndexOf(folders, newFolder, folder => [
-        folder.name,
-        folder.constructor.sortOrder
+function sortedIndexOfItemsAndFolders(itemsAndFolders, newItemOrFolder) {
+    return sortedIndexOf(itemsAndFolders, newItemOrFolder, itemOrFolder => [
+        itemOrFolder.name,
+        itemOrFolder.constructor.sortOrder
     ]);
 }
 
@@ -256,12 +256,16 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
         const segments = path.split(/\s*\/\s*/i);
         for (const segment of segments) {
             const segmentFolder = new PostmanFolder(segment);
-            const index = sortedIndexOfFolders(
+            const index = sortedIndexOfItemsAndFolders(
                 currentFolder.item,
                 segmentFolder
             );
             let folder = currentFolder.item[index];
-            if (!folder || folder.name !== segment) {
+            if (
+                !folder ||
+                !PostmanFolder.isPostmanFolder(folder) ||
+                folder.name !== segment
+            ) {
                 folder = segmentFolder;
                 currentFolder.item.splice(index, 0, folder);
             }
@@ -279,7 +283,7 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
         const folder = ensureFolder(request.collection);
         const item = PostmanItem.fromResterRequest(request, requestHistory);
 
-        const index = sortedIndexOfFolders(folder.item, item);
+        const index = sortedIndexOfItemsAndFolders(folder.item, item);
         folder.item.splice(index, 0, item);
     }
 
