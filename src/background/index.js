@@ -138,7 +138,11 @@ chrome.runtime.onConnect.addListener(port => {
             })
             .catch(error => {
                 if (error.message) {
-                    error = error.message;
+                    error = {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack
+                    };
                 }
 
                 port.postMessage({
