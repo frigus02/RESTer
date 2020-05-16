@@ -45,15 +45,22 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
         return dialogs.authProviderCustomGenerateToken
             .show(data)
             .then(result => {
-                if (result.reason.confirmed) {
-                    const token = {};
-                    token.title = `${data.scheme} ${data.token}`;
-                    token.scheme = data.scheme;
-                    token.token = data.toBase64 ? window.btoa(data.token) : data.token;
-                    return token;
-                } else {
+                if (!result.reason.confirmed) {
                     return Promise.reject();
                 }
+
+                const token = {};
+                token.scheme = data.scheme;
+
+                if (data.toBase64) {
+                    token.token = window.btoa(data.token);
+                    token.title = `${data.scheme} Base64(${data.token})`;
+                } else {
+                    token.title = `${data.scheme} ${data.token}`;
+                    token.token = data.token;
+                }
+
+                return token;
             });
     }
 }
