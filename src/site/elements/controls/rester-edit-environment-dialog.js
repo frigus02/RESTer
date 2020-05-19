@@ -27,6 +27,7 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
             <style>
                 paper-dialog {
                     width: 1000px;
+                    max-width: 90vw;
                 }
 
                 .value-line {
