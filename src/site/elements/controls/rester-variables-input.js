@@ -30,8 +30,9 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
 
             <p class="hint">
                 You can use placeholders everywhere in the request with curly
-                brackets, e.g. <code>{id}</code> or <code>{title}</code>. Below
-                you see input fields for each of these variables.
+                brackets, e.g. <code>{id}</code> or <code>{title}</code>. Placeholders can
+                contain alphanumeric characters as well as <code>$._-</code>. Below you see input fields
+                for each of these variables.
             </p>
 
             <template
