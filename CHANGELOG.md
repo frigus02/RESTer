@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Canged
+
+-   Variable now has a rule.
+
+## [4.1.1] - 2020-05-02
+
 ### Fixed
 
--   Fixed variable matching rule.
+-   Fixed Postman export when there was a request with the same title as the collection of another request (might fix [#127](https://github.com/frigus02/RESTer/issues/127)).
 
 ## [4.1.0] - 2020-04-12
 
@@ -603,7 +609,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.1.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.1.1...HEAD
+[4.1.1]: https://github.com/frigus02/RESTer/compare/4.1.0...4.1.1
 [4.1.0]: https://github.com/frigus02/RESTer/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/frigus02/RESTer/compare/3.11.2...4.0.0
 [3.11.2]: https://github.com/frigus02/RESTer/compare/3.11.1...3.11.2

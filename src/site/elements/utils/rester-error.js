@@ -26,6 +26,10 @@ class RESTerError extends PolymerElement {
                     word-wrap: break-word;
                     white-space: pre-line;
                 }
+
+                details {
+                    margin: 14px 0;
+                }
             </style>
 
             <paper-dialog
@@ -39,6 +43,12 @@ class RESTerError extends PolymerElement {
                 <paper-dialog-scrollable>
                     <template is="dom-repeat" items="[[errorMessageLines]]">
                         <p>[[item]]</p>
+                    </template>
+                    <template is="dom-if" if="[[hasErrorDetails]]">
+                        <details>
+                            <summary>Details</summary>
+                            <pre>[[errorDetails]]</pre>
+                        </details>
                     </template>
                 </paper-dialog-scrollable>
                 <div class="buttons">
@@ -56,13 +66,17 @@ class RESTerError extends PolymerElement {
         return {
             title: String,
             error: Object,
-            errorMessage: {
-                type: String,
-                computed: '_computeErrorMessage(error)'
-            },
             errorMessageLines: {
                 type: Array,
-                computed: '_computeErrorMessageLines(errorMessage)'
+                computed: '_computeErrorMessageLines(error)'
+            },
+            errorDetails: {
+                type: String,
+                computed: '_computeErrorDetails(error)'
+            },
+            hasErrorDetails: {
+                type: Boolean,
+                computed: '_computeHasErrorDetails(errorDetails)'
             }
         };
     }
@@ -77,26 +91,28 @@ class RESTerError extends PolymerElement {
         this.$.dialog.open();
     }
 
-    _computeErrorMessage(error) {
+    _computeErrorMessageLines(error) {
         if (typeof error === 'string') {
-            return error;
+            return error.split('\n');
         } else if (error.message) {
-            return error.message;
+            return [`${error.name}: ${error.message}`];
         } else {
-            try {
-                return JSON.stringify(error);
-            } catch (e) {
-                return 'Unknown error.';
-            }
+            return 'Unknown error';
         }
     }
 
-    _computeErrorMessageLines(errorMessage) {
-        if (!errorMessage) {
-            return [];
+    _computeErrorDetails(error) {
+        if (error.stack) {
+            return error.stack;
+        } else if (typeof error !== 'string') {
+            try {
+                return JSON.stringify(error, null, 4);
+            } catch (e) {}
         }
+    }
 
-        return errorMessage.split('\n');
+    _computeHasErrorDetails(errorDetails) {
+        return !!errorDetails;
     }
 }
 
