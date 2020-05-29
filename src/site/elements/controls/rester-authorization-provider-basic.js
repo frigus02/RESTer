@@ -37,6 +37,7 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
 
     generateToken() {
         const data = {
+            title: '',
             userName: '',
             password: '',
         };
@@ -46,7 +47,7 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
             .then((result) => {
                 if (result.reason.confirmed) {
                     const token = {};
-                    token.title = data.userName;
+                    token.title = data.title;
                     token.scheme = 'Basic';
                     token.token = window.btoa(
                         `${data.userName}:${data.password}`
