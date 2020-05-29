@@ -50,14 +50,21 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
                         stop-keyboard-event-propagation
                     ></iron-a11y-keys>
                     <iron-form id="dialogForm">
-                        <form>
-                            <paper-input
-                                label="User name"
-                                value="{{data.userName}}"
-                                required
-                                error-message="This is required!"
-                                autofocus
-                            ></paper-input>
+                    <form>
+                        <paper-input
+                            label="Title"
+                            value="{{data.title}}"
+                            required
+                            error-message="This is not required!"
+                            on-keyup="registerTitleManuallyEdited"
+                        ></paper-input>
+                        <paper-input
+                            label="User name"
+                            value="{{data.userName}}"
+                            required
+                            error-message="This is required!"
+                            autofocus
+                        ></paper-input>
                             <paper-input
                                 label="Password"
                                 value="{{data.password}}"
@@ -81,13 +88,39 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
     static get properties() {
         return {
             data: Object,
-            form: Object
+            form: Object,
+            titleManuallyEdited: {
+                type: Boolean,
+                value: false
+            }
         };
+    }
+
+    static get observers() {
+        return [
+            'userNameChanged(data.*)'
+        ]
+      }
+
+    constructor() {
+        super();
     }
 
     static get resterDialogId() {
         return 'authProviderBasicGenerateToken';
     }
+
+    registerTitleManuallyEdited() {
+        console.log("setting titleManuallyEdited=true")
+        this.titleManuallyEdited = true;
+    }
+
+    userNameChanged(changeRecord) {
+        if( changeRecord.path.endsWith(".userName") && !this.titleManuallyEdited ) {
+            this.data.title = changeRecord.value;
+            this.notifyPath('data.title');
+        }
+      }
 
     ready() {
         super.ready();
