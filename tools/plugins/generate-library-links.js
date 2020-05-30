@@ -10,7 +10,7 @@ function generateUsedLibraries(webPackFiles) {
         .sort()
         .filter((path, index, self) => self.indexOf(path) === index)
         .filter(path => path.startsWith('node_modules/'))
-        .map(path => path.substr('node_modules/'.length))
+        .map(path => path.substr(path.lastIndexOf('node_modules/') + 'node_modules/'.length))
         .reduce((libs, path) => {
             const lib = path.startsWith('@')
                 ? path.substr(0, path.indexOf('/', path.indexOf('/') + 1))
