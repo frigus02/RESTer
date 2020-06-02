@@ -55,7 +55,7 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
                             label="Title"
                             value="{{data.title}}"
                             required
-                            error-message="This is not required!"
+                            error-message="This is required!"
                             on-keyup="registerTitleManuallyEdited"
                         ></paper-input>
                         <paper-input
@@ -88,11 +88,7 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
     static get properties() {
         return {
             data: Object,
-            form: Object,
-            titleManuallyEdited: {
-                type: Boolean,
-                value: false
-            }
+            form: Object
         };
     }
 
@@ -102,21 +98,20 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
         ]
       }
 
-    constructor() {
-        super();
-    }
-
     static get resterDialogId() {
         return 'authProviderBasicGenerateToken';
     }
 
     registerTitleManuallyEdited() {
         console.log("setting titleManuallyEdited=true")
-        this.titleManuallyEdited = true;
+        this.data.titleManuallyEdited = true;
     }
 
     userNameChanged(changeRecord) {
-        if( changeRecord.path.endsWith(".userName") && !this.titleManuallyEdited ) {
+        if( !this.data ) {
+            return;
+        }
+        if( changeRecord.path.endsWith(".userName") && !this.data.titleManuallyEdited ) {
             this.data.title = changeRecord.value;
             this.notifyPath('data.title');
         }
