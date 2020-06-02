@@ -40,6 +40,7 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
             title: '',
             userName: '',
             password: '',
+            titleManuallyEdited: false,
         };
 
         return dialogs.authProviderBasicGenerateToken
