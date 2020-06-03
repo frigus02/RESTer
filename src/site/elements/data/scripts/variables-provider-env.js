@@ -3,23 +3,23 @@ import {
     e as resterEvents,
     getEnvironment,
     settings,
-    settingsLoaded
+    settingsLoaded,
 } from './rester.js';
 
 const provider = {
     name: 'env',
     e: new CustomEventTarget(),
-    values: {}
+    values: {},
 };
 
 function updateValues() {
     let envId = settings.activeEnvironment;
     if (envId) {
-        getEnvironment(envId).then(env => {
+        getEnvironment(envId).then((env) => {
             provider.values = env ? env.values : {};
             provider.e.dispatchEvent(
                 new CustomEvent('valuesChanged', {
-                    detail: provider.values
+                    detail: provider.values,
                 })
             );
         });
@@ -27,7 +27,7 @@ function updateValues() {
         provider.values = {};
         provider.e.dispatchEvent(
             new CustomEvent('valuesChanged', {
-                detail: provider.values
+                detail: provider.values,
             })
         );
     }

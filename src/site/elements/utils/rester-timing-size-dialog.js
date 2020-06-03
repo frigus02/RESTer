@@ -71,7 +71,7 @@ class RESTerTimingSizeDialog extends RESTerDialogControllerMixin(
 
     static get properties() {
         return {
-            data: String
+            data: String,
         };
     }
 

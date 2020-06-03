@@ -2,7 +2,7 @@ import Mousetrap from '../../../../../node_modules/mousetrap/mousetrap.js';
 
 // Monkeypatch Mousetrap's stopCallback() function, so it doesn't return true
 // when the element is an INPUT, SELECT, or TEXTAREA.
-Mousetrap.prototype.stopCallback = function(event, element /*, combo*/) {
+Mousetrap.prototype.stopCallback = function (event, element /*, combo*/) {
     if (element.classList.contains('mousetrap')) {
         return false;
     }
@@ -17,7 +17,7 @@ const safeKeysForFormControls = [
     'meta',
     'command',
     'option',
-    'mod'
+    'mod',
 ];
 const formattingMap = {
     command: '\u2318',
@@ -27,13 +27,13 @@ const formattingMap = {
     up: '\u2191',
     down: '\u2193',
     return: '\u23CE',
-    backspace: '\u232B'
+    backspace: '\u232B',
 };
 
 function getFormattedCombo(combo) {
     return combo
         .split('+')
-        .map(key => {
+        .map((key) => {
             if (key === 'mod') {
                 if (
                     window.navigator &&
@@ -72,7 +72,7 @@ export class Hotkey {
  * @param {$hotkeys~Hotkey} hotkey - The hotkey.
  */
 export function add(hotkey) {
-    Mousetrap.bind(hotkey.combos, function(event, combo) {
+    Mousetrap.bind(hotkey.combos, function (event, combo) {
         const pressedKeys = combo.split(/[ +]/);
         const nodeName = event.composedPath
             ? event.composedPath()[0].nodeName.toUpperCase()
@@ -85,7 +85,7 @@ export function add(hotkey) {
             nodeName === 'TEXTAREA'
         ) {
             handleEvent = pressedKeys.some(
-                key => safeKeysForFormControls.indexOf(key) > -1
+                (key) => safeKeysForFormControls.indexOf(key) > -1
             );
         }
 

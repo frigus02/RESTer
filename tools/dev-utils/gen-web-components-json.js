@@ -19,7 +19,7 @@ function camelToKebabCase(str) {
 }
 
 async function readdirRecursive(dir) {
-    const files = (await readdir(dir)).map(file => dir + '/' + file);
+    const files = (await readdir(dir)).map((file) => dir + '/' + file);
     const recursiveFiles = [];
     for (const file of files) {
         if ((await stat(file)).isDirectory()) {
@@ -55,33 +55,33 @@ async function getWebComponentsInFile(file) {
     const code = await readFile(file, 'utf8');
     const ast = babelParser.parse(code, {
         sourceType: 'module',
-        sourceFilename: file
+        sourceFilename: file,
     });
     const body = ast.program.body;
 
     const classes = body.filter(
-        statement =>
+        (statement) =>
             statement.type === 'ClassDeclaration' &&
             statement.superClass &&
             isPolymerElement(statement.superClass)
     );
-    const webComponents = classes.map(statement => {
+    const webComponents = classes.map((statement) => {
         const body = statement.body.body;
-        const is = body.find(statement => isStaticGetter(statement, 'is'));
+        const is = body.find((statement) => isStaticGetter(statement, 'is'));
         const name = is.body.body.find(
-            statement => statement.type === 'ReturnStatement'
+            (statement) => statement.type === 'ReturnStatement'
         ).argument.value;
-        const properties = body.find(statement =>
+        const properties = body.find((statement) =>
             isStaticGetter(statement, 'properties')
         );
         const attributes = properties
             ? properties.body.body
-                  .find(statement => statement.type === 'ReturnStatement')
-                  .argument.properties.map(property => {
+                  .find((statement) => statement.type === 'ReturnStatement')
+                  .argument.properties.map((property) => {
                       const name = camelToKebabCase(property.key.name);
                       return {
                           name,
-                          description: ''
+                          description: '',
                       };
                   })
             : [];
@@ -89,7 +89,7 @@ async function getWebComponentsInFile(file) {
         return {
             name,
             description: '',
-            attributes
+            attributes,
         };
     });
 
@@ -98,10 +98,10 @@ async function getWebComponentsInFile(file) {
 
 async function main() {
     const files = await readdirRecursive('src/site');
-    const jsFiles = files.filter(file => file.endsWith('.js'));
+    const jsFiles = files.filter((file) => file.endsWith('.js'));
     const webComponents = {
         version: 1,
-        tags: []
+        tags: [],
     };
     for (const file of jsFiles) {
         console.log('Reading Web Components in file', file);

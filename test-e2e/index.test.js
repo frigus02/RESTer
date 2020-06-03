@@ -10,7 +10,7 @@ const {
     MainSelectors,
     RequestSelectors,
     SettingsSelectors,
-    wrapped
+    wrapped,
 } = require('../tools/lib/page-elements');
 const pageNavigation = require('../tools/lib/page-navigation');
 
@@ -19,7 +19,7 @@ const baseUrl =
     'moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa/site/index.html';
 jest.setTimeout(timeout * 100);
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 let driver;
 let server;
@@ -28,7 +28,7 @@ let RequestElements;
 let SettingsElements;
 let goTo;
 
-beforeAll(async function() {
+beforeAll(async function () {
     driver = await createDriver();
     await driver.get(baseUrl);
     MainElements = wrapped(MainSelectors, driver);
@@ -40,7 +40,7 @@ beforeAll(async function() {
     await server.start();
 });
 
-afterAll(async function() {
+afterAll(async function () {
     if (server) {
         await server.stop();
     }
@@ -50,15 +50,15 @@ afterAll(async function() {
     }
 });
 
-test('title', async function() {
+test('title', async function () {
     await goTo('request');
 
     const title = await MainElements.title.getText();
     expect(title).toBe('RESTer');
 });
 
-describe('with browser requests', function() {
-    beforeAll(async function() {
+describe('with browser requests', function () {
+    beforeAll(async function () {
         await goTo('settings');
         await SettingsElements.requestMode.click();
         await delay(500);
@@ -69,8 +69,8 @@ describe('with browser requests', function() {
     registerRequestTests('browser');
 });
 
-describe('with clean requests', function() {
-    beforeAll(async function() {
+describe('with clean requests', function () {
+    beforeAll(async function () {
         await goTo('settings');
         await SettingsElements.requestMode.click();
         await delay(500);
@@ -82,7 +82,7 @@ describe('with clean requests', function() {
 });
 
 function registerRequestTests(mode) {
-    test('GET http://127.0.0.1:7373/echo', async function() {
+    test('GET http://127.0.0.1:7373/echo', async function () {
         await goTo('request');
         await driver
             .actions()
@@ -107,14 +107,14 @@ function registerRequestTests(mode) {
 
         const responseCode = await RequestElements.responseCode.getText();
         const responseBody = await driver.executeScript(
-            e => e.value,
+            (e) => e.value,
             RequestElements.responseBody
         );
         expect(responseCode).toBe('200 OK');
         expect(responseBody).toMatchSnapshot();
     });
 
-    test('POST http://127.0.0.1:7373/redirect?how=307', async function() {
+    test('POST http://127.0.0.1:7373/redirect?how=307', async function () {
         await goTo('request');
         await driver
             .actions()
@@ -134,7 +134,7 @@ function registerRequestTests(mode) {
 
         const responseCode = await RequestElements.responseCode.getText();
         const responseBody = await driver.executeScript(
-            e => e.value,
+            (e) => e.value,
             RequestElements.responseBody
         );
         if (mode === 'browser') {
@@ -149,7 +149,7 @@ function registerRequestTests(mode) {
         expect(responseBody).toMatchSnapshot();
     });
 
-    test('GET http://127.0.0.1:7373/echo with cookie', async function() {
+    test('GET http://127.0.0.1:7373/echo with cookie', async function () {
         // Set cookies for http://127.0.0.1:7373
         await driver.executeScript(`window.open('http://127.0.0.1:7373/')`);
         await delay(1000);
@@ -185,7 +185,7 @@ function registerRequestTests(mode) {
 
         const responseCode = await RequestElements.responseCode.getText();
         const responseBody = await driver.executeScript(
-            e => e.value,
+            (e) => e.value,
             RequestElements.responseBody
         );
         expect(responseCode).toBe('200 OK');

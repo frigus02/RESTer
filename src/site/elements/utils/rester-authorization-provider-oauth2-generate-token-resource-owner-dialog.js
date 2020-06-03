@@ -83,7 +83,7 @@ class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends 
     static get properties() {
         return {
             data: Object,
-            form: Object
+            form: Object,
         };
     }
 

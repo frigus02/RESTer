@@ -14,11 +14,11 @@ import dialogs from '../data/scripts/dialogs.js';
  * @polymer
  * @mixinFunction
  */
-const RESTerDialogControllerMixin = superclass =>
+const RESTerDialogControllerMixin = (superclass) =>
     class extends superclass {
         static get properties() {
             return {
-                data: Object
+                data: Object,
             };
         }
 
@@ -56,7 +56,7 @@ const RESTerDialogControllerMixin = superclass =>
                 this.$.dialogForm.reset();
             }
 
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 this._dialogPromise.resolve = resolve;
 
                 setTimeout(() => {

@@ -19,7 +19,7 @@ import { add, remove, Hotkey } from '../data/scripts/hotkeys.js';
  *     };
  * }
  */
-const RESTerHotkeysMixin = superclass =>
+const RESTerHotkeysMixin = (superclass) =>
     class extends superclass {
         constructor() {
             super();
@@ -44,13 +44,13 @@ const RESTerHotkeysMixin = superclass =>
         _getResterHotkeys() {
             const hotkeys = this.constructor.resterHotkeys || {};
 
-            return Object.keys(hotkeys).map(comboString => {
+            return Object.keys(hotkeys).map((comboString) => {
                 const details = hotkeys[comboString];
 
                 return new Hotkey({
                     combos: comboString.split(/\s*,\s*/i),
                     description: details.description,
-                    callback: this[details.callback].bind(this)
+                    callback: this[details.callback].bind(this),
                 });
             });
         }

@@ -8,7 +8,7 @@ import {
     getHistoryEntries,
     getRequests,
     settings,
-    settingsLoaded
+    settingsLoaded,
 } from './rester.js';
 import { clone, group, sort, sortedIndexOf } from '../../../../shared/util.js';
 import { replaceWithoutProvidedValues } from './variables.js';
@@ -22,21 +22,21 @@ const historyFields = [
     'request.title',
     'request.method',
     'request.url',
-    'request.variables'
+    'request.variables',
 ];
 const environmentFields = ['id', 'name'];
 
 function createListOfRequestNavItems(rawRequests) {
-    const collGroups = group(rawRequests, request => request.collection[0]);
-    const collGroupArray = Object.keys(collGroups).map(name => ({
+    const collGroups = group(rawRequests, (request) => request.collection[0]);
+    const collGroupArray = Object.keys(collGroups).map((name) => ({
         name,
-        items: collGroups[name]
+        items: collGroups[name],
     }));
     const sortedCollGroupArray = sort(collGroupArray, 'name');
 
-    return sortedCollGroupArray.map(coll => {
+    return sortedCollGroupArray.map((coll) => {
         const collection = coll.name;
-        const requests = coll.items.map(request => {
+        const requests = coll.items.map((request) => {
             request = clone(request);
             request.collection = request.collection.slice(1);
             return request;
@@ -44,10 +44,10 @@ function createListOfRequestNavItems(rawRequests) {
 
         const collItem = createRequestCollectionNavItem(collection);
         const subrequests = requests
-            .filter(request => request.collection.length === 0)
-            .map(request => createRequestNavItem(request));
+            .filter((request) => request.collection.length === 0)
+            .map((request) => createRequestNavItem(request));
         const subcollections = createListOfRequestNavItems(
-            requests.filter(request => request.collection.length > 0)
+            requests.filter((request) => request.collection.length > 0)
         );
         collItem.items = sort(subcollections.concat(subrequests), 'title');
 
@@ -57,7 +57,7 @@ function createListOfRequestNavItems(rawRequests) {
 
 function createRequestCollectionNavItem(collection) {
     return new Group({
-        title: collection
+        title: collection,
     });
 }
 
@@ -65,11 +65,11 @@ function createRequestNavItem(request) {
     return new Item({
         title: request.title,
         action: {
-            url: `#/request/${request.id}`
+            url: `#/request/${request.id}`,
         },
         data: {
-            id: request.id
-        }
+            id: request.id,
+        },
     });
 }
 
@@ -90,8 +90,8 @@ function createHistoryNavItem(historyEntry) {
         action: {
             url: `#/request/${historyEntry.request.id || ''}/history/${
                 historyEntry.id
-            }`
-        }
+            }`,
+        },
     });
 }
 
@@ -100,14 +100,14 @@ function createEnvironmentNavItem(activeEnvironment) {
         title: 'Environment',
         subtitle: activeEnvironment && activeEnvironment.name,
         action: {
-            url: '#/environments'
+            url: '#/environments',
         },
         secondaryAction: {
             icon: 'more-vert',
             handler() {
                 dialogs.environmentSelect.show();
-            }
-        }
+            },
+        },
     });
 }
 
@@ -184,11 +184,11 @@ export default class Navigation extends CustomEventTarget {
         const [
             requests,
             historyEntries,
-            activeEnvironment
+            activeEnvironment,
         ] = await Promise.all([
             getRequests(requestFields),
             getHistoryEntries(5, historyFields),
-            settingsLoaded.then(() => getActiveEnvironment())
+            settingsLoaded.then(() => getActiveEnvironment()),
         ]);
 
         this.items.push(
@@ -196,14 +196,14 @@ export default class Navigation extends CustomEventTarget {
                 title: 'Requests',
                 action: {
                     icon: 'add',
-                    url: '#/'
-                }
+                    url: '#/',
+                },
             })
         );
 
         this._requestNavItemsOffset = 1;
         const requestNavItems = createListOfRequestNavItems(
-            requests.map(r => {
+            requests.map((r) => {
                 r = clone(r);
                 r.collection = r.collection.split(/\s*\/\s*/i);
                 return r;
@@ -218,8 +218,8 @@ export default class Navigation extends CustomEventTarget {
                 title: 'Settings',
                 action: {
                     icon: 'settings',
-                    url: '#/settings'
-                }
+                    url: '#/settings',
+                },
             })
         );
 
@@ -231,21 +231,21 @@ export default class Navigation extends CustomEventTarget {
             new Item({
                 title: 'Organize',
                 action: {
-                    url: '#/organize'
-                }
+                    url: '#/organize',
+                },
             }),
             new Divider(),
             new Subheader({
                 title: 'History',
                 action: {
                     icon: 'history',
-                    url: '#/history'
-                }
+                    url: '#/history',
+                },
             })
         );
 
         this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
-        const historyNavItems = historyEntries.map(entry =>
+        const historyNavItems = historyEntries.map((entry) =>
             createHistoryNavItem(entry)
         );
         this._historyNavItemsCount = historyNavItems.length;
@@ -269,8 +269,8 @@ export default class Navigation extends CustomEventTarget {
                     path,
                     start,
                     deleteCount,
-                    items
-                }
+                    items,
+                },
             })
         );
     }
@@ -344,7 +344,7 @@ export default class Navigation extends CustomEventTarget {
                             collectionOffset + collectionCount
                         );
                         let collectionIndex = collectionItems.findIndex(
-                            item => item.title === collectionParts[0]
+                            (item) => item.title === collectionParts[0]
                         );
                         if (collectionIndex === -1) {
                             const collection = createRequestCollectionNavItem(

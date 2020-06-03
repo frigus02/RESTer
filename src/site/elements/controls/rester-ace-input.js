@@ -7,7 +7,7 @@ import RESTerThemeMixin from '../data/rester-data-theme-mixin.js';
  * @polymer
  * @mixinFunction
  */
-const RESTerAceShadowDomMixin = (function() {
+const RESTerAceShadowDomMixin = (function () {
     const aceShadowRoots = [];
     const styles = getInitialStyles();
 
@@ -16,7 +16,7 @@ const RESTerAceShadowDomMixin = (function() {
     function createDomHook() {
         const domHook = ace.require('ace/lib/dom');
         const defaultImportCssString = domHook.importCssString;
-        domHook.importCssString = function(cssText, id) {
+        domHook.importCssString = function (cssText, id) {
             const result = defaultImportCssString.call(this, cssText, id);
 
             if (Object.prototype.hasOwnProperty.call(styles, id)) {
@@ -26,7 +26,7 @@ const RESTerAceShadowDomMixin = (function() {
             const style = document.getElementById(id);
             styles[id] = style;
 
-            aceShadowRoots.forEach(root => {
+            aceShadowRoots.forEach((root) => {
                 root.appendChild(style.cloneNode(true));
             });
 
@@ -45,15 +45,15 @@ const RESTerAceShadowDomMixin = (function() {
         return {
             'ace_editor.css': style1,
             'ace-tm': style2,
-            '': style3
+            '': style3,
         };
     }
 
-    return superclass =>
+    return (superclass) =>
         class AceShadowDomMixin extends superclass {
             ready() {
                 super.ready();
-                Object.keys(styles).forEach(id => {
+                Object.keys(styles).forEach((id) => {
                     this.shadowRoot.appendChild(styles[id].cloneNode(true));
                 });
             }
@@ -105,32 +105,32 @@ class RESTerAceInput extends RESTerThemeMixin(
             value: {
                 type: String,
                 notify: true,
-                observer: '_onValueChanged'
+                observer: '_onValueChanged',
             },
             mode: {
                 type: String,
-                observer: '_onModeChanged'
+                observer: '_onModeChanged',
             },
             readOnly: {
                 type: Boolean,
                 value: false,
-                observer: '_onReadOnlyChanged'
+                observer: '_onReadOnlyChanged',
             },
             useWrapMode: {
                 type: Boolean,
                 value: false,
-                observer: '_onUseWrapModeChanged'
+                observer: '_onUseWrapModeChanged',
             },
             maxLines: {
                 type: Number,
                 value: 20,
-                observer: '_onMaxLinesChanged'
+                observer: '_onMaxLinesChanged',
             },
             disableSearch: {
                 type: Boolean,
                 value: false,
-                observer: '_onDisableSearchChanged'
-            }
+                observer: '_onDisableSearchChanged',
+            },
         };
     }
 

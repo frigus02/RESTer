@@ -18,6 +18,6 @@ export async function prepareConfigWithEnvVariables(config) {
     const env = await getEnvironment(envId, ['name']);
     return {
         ...replaceVariables(config),
-        env
+        env,
     };
 }

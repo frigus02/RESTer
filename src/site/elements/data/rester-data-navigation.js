@@ -16,8 +16,8 @@ class RESTerDataNavigation extends PolymerElement {
                 type: Array,
                 value: [],
                 readOnly: true,
-                notify: true
-            }
+                notify: true,
+            },
         };
     }
 

@@ -116,26 +116,26 @@ class RESTerFormDataInput extends PolymerElement {
             value: {
                 type: String,
                 notify: true,
-                observer: '_onValueChanged'
+                observer: '_onValueChanged',
             },
             files: {
                 type: Object,
                 notify: true,
                 readOnly: true,
-                value: {}
+                value: {},
             },
             noEncode: {
                 type: Boolean,
-                value: false
+                value: false,
             },
             textOnly: {
                 type: Boolean,
-                value: false
+                value: false,
             },
             formDataEntries: {
                 type: Array,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -196,7 +196,7 @@ class RESTerFormDataInput extends PolymerElement {
     _ensureEmptyFormDataEntry() {
         if (
             !this.formDataEntries.some(
-                e => e.name.trim() === '' && e.value.trim() === ''
+                (e) => e.name.trim() === '' && e.value.trim() === ''
             )
         ) {
             this.push('formDataEntries', { name: '', value: '', type: 'text' });
@@ -216,11 +216,11 @@ class RESTerFormDataInput extends PolymerElement {
         const encode =
             !this.noEncode || this._isEncodeNeeded(entries)
                 ? encodeFormValue
-                : str => str;
+                : (str) => str;
 
         return entries
-            .filter(entry => entry.name.trim())
-            .map(entry => {
+            .filter((entry) => entry.name.trim())
+            .map((entry) => {
                 let str = encode(entry.name);
                 if (entry.type === 'file') {
                     str += '=' + `[$file.${entry.value}]`;
@@ -236,7 +236,7 @@ class RESTerFormDataInput extends PolymerElement {
     _parseFormDataEntries(str) {
         return (str || '')
             .split('&')
-            .map(row => {
+            .map((row) => {
                 const keyValue = row.split('=');
                 const name = decodeURIComponent(keyValue[0]);
                 const value = decodeURIComponent(keyValue[1] || '');
@@ -253,7 +253,7 @@ class RESTerFormDataInput extends PolymerElement {
                     return { name, value, type: 'text' };
                 }
             })
-            .filter(row => row.name.trim());
+            .filter((row) => row.name.trim());
     }
 
     _cleanUpUnusedFiles() {
@@ -270,7 +270,7 @@ class RESTerFormDataInput extends PolymerElement {
 
     _isEncodeNeeded(entries) {
         return entries.some(
-            entry =>
+            (entry) =>
                 entry.name.includes('&') ||
                 entry.name.includes('=') ||
                 entry.value.includes('&') ||

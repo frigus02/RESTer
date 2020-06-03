@@ -2,21 +2,21 @@ import DataStore from './data-store.js';
 
 const db = new DataStore([
     {
-        name: 'authProviderConfigs'
+        name: 'authProviderConfigs',
     },
     {
-        name: 'authTokens'
+        name: 'authTokens',
     },
     {
-        name: 'environments'
+        name: 'environments',
     },
     {
-        name: 'history'
+        name: 'history',
     },
     {
         name: 'requests',
-        indexes: ['collection']
-    }
+        indexes: ['collection'],
+    },
 ]);
 
 export default db;

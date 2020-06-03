@@ -15,23 +15,23 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
             providerId: {
                 type: Number,
                 readOnly: true,
-                value: 1
+                value: 1,
             },
             title: {
                 type: String,
                 readOnly: true,
-                value: 'Custom'
+                value: 'Custom',
             },
             needsConfiguration: {
                 type: Boolean,
                 readOnly: true,
-                value: false
+                value: false,
             },
             supportsIncognito: {
                 type: Boolean,
                 readOnly: true,
-                value: false
-            }
+                value: false,
+            },
         };
     }
 
@@ -44,7 +44,7 @@ class RESTerAuthorizationProviderCustom extends PolymerElement {
 
         return dialogs.authProviderCustomGenerateToken
             .show(data)
-            .then(result => {
+            .then((result) => {
                 if (!result.reason.confirmed) {
                     return Promise.reject();
                 }

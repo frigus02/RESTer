@@ -220,7 +220,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
     static get properties() {
         return {
             data: Object,
-            form: Object
+            form: Object,
         };
     }
 
@@ -247,7 +247,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
                 'clientId',
                 'clientSecret',
                 'redirectUri',
-                'scope'
+                'scope',
             ],
             implicit: [
                 'id',
@@ -258,7 +258,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
                 'authorizationRequestEndpoint',
                 'clientId',
                 'redirectUri',
-                'scope'
+                'scope',
             ],
             client_credentials: [
                 'id',
@@ -271,7 +271,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
                 'accessTokenRequestAuthentication',
                 'clientId',
                 'clientSecret',
-                'scope'
+                'scope',
             ],
             resource_owner: [
                 'id',
@@ -284,8 +284,8 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
                 'accessTokenRequestAuthentication',
                 'clientId',
                 'clientSecret',
-                'scope'
-            ]
+                'scope',
+            ],
         };
     }
 
@@ -326,7 +326,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
                 RESTerAuthorizationProviderOAuth2ConfigurationDialog
                     ._configProperties[this.data.flow];
             const notNeededProps = Object.keys(this.data).filter(
-                key => !flowProps.includes(key)
+                (key) => !flowProps.includes(key)
             );
             for (const key of notNeededProps) {
                 delete this.data[key];

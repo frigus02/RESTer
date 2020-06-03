@@ -1,7 +1,7 @@
 import {
     e as resterEvents,
     settings,
-    settingsLoaded
+    settingsLoaded,
 } from '../data/scripts/rester.js';
 
 /**
@@ -10,14 +10,14 @@ import {
  *
  * Makes RESTer settings available in property `settings`.
  */
-const RESTerSettingsMixin = superclass =>
+const RESTerSettingsMixin = (superclass) =>
     class extends superclass {
         static get properties() {
             return {
                 settings: {
                     type: Object,
-                    readOnly: true
-                }
+                    readOnly: true,
+                },
             };
         }
 

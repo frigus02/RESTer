@@ -19,12 +19,12 @@ const aceModes = {
     Plain: 'ace/mode/text',
     HTML: 'ace/mode/html',
     JSON: 'ace/mode/json',
-    XML: 'ace/mode/xml'
+    XML: 'ace/mode/xml',
 };
 
 const prettyPrintModes = {
     JSON: 'json',
-    XML: 'xml'
+    XML: 'xml',
 };
 
 const bodySizeWrapWarning = 1048576; // 1 MiB
@@ -198,64 +198,64 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
             body: String,
             bodyFormatted: {
                 type: String,
-                readOnly: true
+                readOnly: true,
             },
             renderedBody: {
                 type: String,
                 computed:
-                    '_computeRenderedBody(body, bodyFormatted, prettyPrintStatus)'
+                    '_computeRenderedBody(body, bodyFormatted, prettyPrintStatus)',
             },
             contentType: String,
             language: String,
             aceMode: {
                 type: String,
-                computed: '_computeAceMode(language)'
+                computed: '_computeAceMode(language)',
             },
             aceMaxLines: {
                 type: Number,
-                computed: '_computeAceMaxLines(settings.responseBodyFullSize)'
+                computed: '_computeAceMaxLines(settings.responseBodyFullSize)',
             },
             prettyPrintMode: {
                 type: String,
-                computed: '_computePrettyPrintMode(language)'
+                computed: '_computePrettyPrintMode(language)',
             },
             prettyPrintStatus: {
                 type: String,
-                readOnly: true
+                readOnly: true,
             },
             isPrettyPrintSupported: {
                 type: Boolean,
-                computed: '_computeIsPrettyPrintSupported(prettyPrintMode)'
+                computed: '_computeIsPrettyPrintSupported(prettyPrintMode)',
             },
             isPrettyPrintInProgress: {
                 type: Boolean,
-                computed: '_computeIsPrettyPrintInProgress(prettyPrintStatus)'
+                computed: '_computeIsPrettyPrintInProgress(prettyPrintStatus)',
             },
             isPrettyPrintError: {
                 type: Boolean,
-                computed: '_computeIsPrettyPrintError(prettyPrintStatus)'
+                computed: '_computeIsPrettyPrintError(prettyPrintStatus)',
             },
             isPreviewSupported: {
                 type: Boolean,
-                computed: '_computeIsPreviewSupported(language)'
+                computed: '_computeIsPreviewSupported(language)',
             },
             renderPreview: {
                 type: Boolean,
                 computed:
-                    '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)'
+                    '_computeRenderPreview(settings.responseBodyPreview, isPreviewSupported)',
             },
             showWrapModeWarning: {
                 type: Boolean,
                 computed:
-                    '_computeShowWrapModeWarning(settings.responseBodyWrap, body)'
-            }
+                    '_computeShowWrapModeWarning(settings.responseBodyWrap, body)',
+            },
         };
     }
 
     static get observers() {
         return [
             '_formatBody(body, prettyPrintMode, settings.responseBodyPrettyPrint)',
-            '_autoSelectLanguage(contentType)'
+            '_autoSelectLanguage(contentType)',
         ];
     }
 
@@ -332,16 +332,16 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
     _startFormatBodyWorker(body, prettyPrintMode) {
         this._formatBodyWorker = formatCode.run({
             code: body,
-            language: prettyPrintMode
+            language: prettyPrintMode,
         });
 
-        this._formatBodyWorker.then(result => {
+        this._formatBodyWorker.then((result) => {
             this._formatBodyWorker = undefined;
             this._setBodyFormatted(result);
             this._setPrettyPrintStatus('success');
         });
 
-        this._formatBodyWorker.catch(error => {
+        this._formatBodyWorker.catch((error) => {
             this._formatBodyWorker = undefined;
             this._setBodyFormatted(error && error.message);
             this._setPrettyPrintStatus('error');
@@ -387,7 +387,7 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
 
     _changeLanguage() {
         this.$.options.close();
-        dialogs.highlightLanguageSelect.show(this.language).then(result => {
+        dialogs.highlightLanguageSelect.show(this.language).then((result) => {
             if (result.reason.confirmed) {
                 this.language = result.data;
             }

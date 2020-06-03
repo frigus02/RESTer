@@ -16,7 +16,7 @@ const historyFields = [
     'request.title',
     'request.method',
     'request.url',
-    'request.variables'
+    'request.variables',
 ];
 const environmentFields = ['id', 'name'];
 
@@ -27,7 +27,7 @@ const fakeRequests = [
         title: 'Get Posts',
         method: 'GET',
         url: 'http://jsonplaceholder.com/posts',
-        variables: {}
+        variables: {},
     },
     {
         id: 5,
@@ -35,7 +35,7 @@ const fakeRequests = [
         title: 'Create Post',
         method: 'POST',
         url: 'http://jsonplaceholder.com/posts',
-        variables: {}
+        variables: {},
     },
     {
         id: 6,
@@ -43,7 +43,7 @@ const fakeRequests = [
         title: 'Get Profile',
         method: 'GET',
         url: 'https://api.googleapis.com/profile',
-        variables: {}
+        variables: {},
     },
     {
         id: 7,
@@ -51,8 +51,8 @@ const fakeRequests = [
         title: 'Get Post',
         method: 'GET',
         url: 'http://jsonplaceholder.com/posts/{id}',
-        variables: { values: { id: '123' } }
-    }
+        variables: { values: { id: '123' } },
+    },
 ];
 const fakeRequest3Compiled = {
     id: 7,
@@ -60,43 +60,43 @@ const fakeRequest3Compiled = {
     title: 'Get Post',
     method: 'GET',
     url: 'http://jsonplaceholder.com/posts/123',
-    variables: { values: { id: '123' } }
+    variables: { values: { id: '123' } },
 };
 const fakeHistoryEntries = [
     {
         id: 46,
         time: new Date('February 21, 2016 12:50'),
-        request: { method: 'GET', url: 'http://google.com', variables: {} }
+        request: { method: 'GET', url: 'http://google.com', variables: {} },
     },
     {
         id: 45,
         time: new Date('February 21, 2016 12:43'),
-        request: fakeRequests[0]
+        request: fakeRequests[0],
     },
     {
         id: 44,
         time: new Date('February 21, 2016 12:40'),
-        request: fakeRequests[1]
+        request: fakeRequests[1],
     },
     {
         id: 43,
         time: new Date('February 21, 2016 12:39'),
-        request: fakeRequests[0]
+        request: fakeRequests[0],
     },
     {
         id: 42,
         time: new Date('February 18, 2016 15:03'),
-        request: fakeRequests[2]
+        request: fakeRequests[2],
     },
     {
         id: 41,
         time: new Date('February 18, 2016 15:01'),
-        request: fakeRequests[3]
-    }
+        request: fakeRequests[3],
+    },
 ];
 const fakeEnvironments = [
     { id: 1, name: 'dev', values: {} },
-    { id: 3, name: 'prod', values: {} }
+    { id: 3, name: 'prod', values: {} },
 ];
 
 class Deferred {
@@ -114,7 +114,7 @@ class Deferred {
     }
 
     static flush() {
-        return new Promise(resolve => setImmediate(resolve));
+        return new Promise((resolve) => setImmediate(resolve));
     }
 }
 
@@ -124,28 +124,28 @@ let getEnvironmentDfd;
 let settingsLoadedDfd;
 let nav;
 
-beforeEach(function() {
+beforeEach(function () {
     getRequestsDfd = Deferred.mock(mockRester.getRequests);
     getHistoryEntriesDfd = Deferred.mock(mockRester.getHistoryEntries);
     getEnvironmentDfd = Deferred.mock(mockRester.getEnvironment);
     mockRester.mockSettings({
-        activeEnvironment: 1
+        activeEnvironment: 1,
     });
     settingsLoadedDfd = new Deferred();
     mockRester.mockSettingsLoaded(settingsLoadedDfd.promise);
-    mockVariables.replaceWithoutProvidedValues.mockImplementation(obj =>
+    mockVariables.replaceWithoutProvidedValues.mockImplementation((obj) =>
         obj === fakeRequests[3] ? fakeRequest3Compiled : obj
     );
 
     nav = new Navigation();
 });
 
-afterEach(function() {
+afterEach(function () {
     nav.destroy();
     jest.resetAllMocks();
 });
 
-test('items are created on startup', async function() {
+test('items are created on startup', async function () {
     expect(nav.items).toEqual([]);
     expect(mockRester.getRequests).toBeCalledWith(requestFields);
     expect(mockRester.getHistoryEntries).toBeCalledWith(5, historyFields);
@@ -170,8 +170,8 @@ test('items are created on startup', async function() {
     expect(nav.items).toMatchSnapshot();
 });
 
-describe('with resolved data', function() {
-    beforeEach(async function() {
+describe('with resolved data', function () {
+    beforeEach(async function () {
         settingsLoadedDfd.resolve();
         getRequestsDfd.resolve(fakeRequests);
         getHistoryEntriesDfd.resolve(fakeHistoryEntries.slice(1));
@@ -180,19 +180,19 @@ describe('with resolved data', function() {
         await Deferred.flush();
     });
 
-    test('getNextRequestId returns id from next item', function() {
+    test('getNextRequestId returns id from next item', function () {
         expect(nav.getNextRequestId(5)).toBe(7);
     });
 
-    test('getNextRequestId returns id from previous item when no next item is available', function() {
+    test('getNextRequestId returns id from previous item when no next item is available', function () {
         expect(nav.getNextRequestId(1)).toBe(7);
     });
 
-    test('getNextRequestId returns id from first item in next collection when current collection has only one item', function() {
+    test('getNextRequestId returns id from first item in next collection when current collection has only one item', function () {
         expect(nav.getNextRequestId(6)).toBe(5);
     });
 
-    test('getNextRequestId returns undefined when only one item exists', async function() {
+    test('getNextRequestId returns undefined when only one item exists', async function () {
         const changeListener = mockRester.e.addEventListener.mock.calls[0][1];
 
         // Delete all items except one.
@@ -202,19 +202,19 @@ describe('with resolved data', function() {
                     {
                         action: 'delete',
                         item: { id: fakeRequests[0].id },
-                        itemType: 'Request'
+                        itemType: 'Request',
                     },
                     {
                         action: 'delete',
                         item: { id: fakeRequests[1].id },
-                        itemType: 'Request'
+                        itemType: 'Request',
                     },
                     {
                         action: 'delete',
                         item: { id: fakeRequests[2].id },
-                        itemType: 'Request'
-                    }
-                ]
+                        itemType: 'Request',
+                    },
+                ],
             })
         );
 
@@ -222,8 +222,8 @@ describe('with resolved data', function() {
     });
 });
 
-describe('with resolved empty data', function() {
-    beforeEach(async function() {
+describe('with resolved empty data', function () {
+    beforeEach(async function () {
         settingsLoadedDfd.resolve();
         getRequestsDfd.resolve([]);
         getHistoryEntriesDfd.resolve([]);
@@ -232,7 +232,7 @@ describe('with resolved empty data', function() {
         await Deferred.flush();
     });
 
-    test('items are updated when data changes', function() {
+    test('items are updated when data changes', function () {
         expect(mockRester.e.addEventListener).toBeCalledWith(
             'dataChange',
             expect.any(Function)
@@ -250,29 +250,29 @@ describe('with resolved empty data', function() {
                     {
                         action: 'add',
                         item: fakeRequests[0],
-                        itemType: 'Request'
+                        itemType: 'Request',
                     },
                     {
                         action: 'add',
                         item: fakeRequests[1],
-                        itemType: 'Request'
+                        itemType: 'Request',
                     },
                     {
                         action: 'add',
                         item: fakeRequests[2],
-                        itemType: 'Request'
+                        itemType: 'Request',
                     },
                     {
                         action: 'add',
                         item: fakeHistoryEntries[5],
-                        itemType: 'HistoryEntry'
+                        itemType: 'HistoryEntry',
                     },
                     {
                         action: 'add',
                         item: fakeHistoryEntries[4],
-                        itemType: 'HistoryEntry'
-                    }
-                ]
+                        itemType: 'HistoryEntry',
+                    },
+                ],
             })
         );
 
@@ -287,9 +287,9 @@ describe('with resolved empty data', function() {
                     {
                         action: 'delete',
                         item: { id: fakeRequests[2].id },
-                        itemType: 'Request'
-                    }
-                ]
+                        itemType: 'Request',
+                    },
+                ],
             })
         );
 
@@ -304,24 +304,24 @@ describe('with resolved empty data', function() {
                     {
                         action: 'put',
                         item: fakeRequests[1],
-                        itemType: 'Request'
+                        itemType: 'Request',
                     },
                     {
                         action: 'add',
                         item: fakeHistoryEntries[3],
-                        itemType: 'HistoryEntry'
+                        itemType: 'HistoryEntry',
                     },
                     {
                         action: 'add',
                         item: fakeHistoryEntries[2],
-                        itemType: 'HistoryEntry'
+                        itemType: 'HistoryEntry',
                     },
                     {
                         action: 'add',
                         item: fakeHistoryEntries[1],
-                        itemType: 'HistoryEntry'
-                    }
-                ]
+                        itemType: 'HistoryEntry',
+                    },
+                ],
             })
         );
 
@@ -337,9 +337,9 @@ describe('with resolved empty data', function() {
                     {
                         action: 'add',
                         item: fakeHistoryEntries[0],
-                        itemType: 'HistoryEntry'
-                    }
-                ]
+                        itemType: 'HistoryEntry',
+                    },
+                ],
             })
         );
 
@@ -353,9 +353,9 @@ describe('with resolved empty data', function() {
                     {
                         action: 'delete',
                         item: { id: fakeRequests[0].id },
-                        itemType: 'Request'
-                    }
-                ]
+                        itemType: 'Request',
+                    },
+                ],
             })
         );
 
@@ -363,7 +363,7 @@ describe('with resolved empty data', function() {
 
         // Should handle name changes of the active environment
         const changedEnvironment = Object.assign({}, fakeEnvironments[0], {
-            name: 'prod'
+            name: 'prod',
         });
         changeListener(
             new CustomEvent('dataChange', {
@@ -371,16 +371,16 @@ describe('with resolved empty data', function() {
                     {
                         action: 'put',
                         item: changedEnvironment,
-                        itemType: 'Environment'
-                    }
-                ]
+                        itemType: 'Environment',
+                    },
+                ],
             })
         );
 
         expect(nav.items).toMatchSnapshot('6. Updated environment name');
     });
 
-    test('items are updated when settings change', async function() {
+    test('items are updated when settings change', async function () {
         expect(mockRester.e.addEventListener).toBeCalledWith(
             'settingsChange',
             expect.any(Function)
@@ -391,7 +391,7 @@ describe('with resolved empty data', function() {
 
         // Check preconditions.
         expect(nav.items.length).toEqual(7);
-        const envItem1 = nav.items.find(item => item.title === 'Environment');
+        const envItem1 = nav.items.find((item) => item.title === 'Environment');
         expect(envItem1.subtitle).toBe('dev');
 
         // Should handle change of active environment
@@ -400,7 +400,7 @@ describe('with resolved empty data', function() {
 
         await Deferred.flush();
 
-        const envItem2 = nav.items.find(item => item.title === 'Environment');
+        const envItem2 = nav.items.find((item) => item.title === 'Environment');
         expect(envItem2.subtitle).toBeUndefined();
     });
 });

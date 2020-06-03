@@ -1,6 +1,10 @@
 import { PolymerElement } from '../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import { setPassiveTouchGestures } from '../../../node_modules/@polymer/polymer/lib/utils/settings.js';
+import {
+    setPassiveTouchGestures,
+    setRemoveNestedTemplates,
+    setSuppressTemplateNotifications,
+} from '../../../node_modules/@polymer/polymer/lib/utils/settings.js';
 import '../../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
@@ -41,6 +45,8 @@ import RESTerHotkeysMixin from './data/rester-data-hotkeys-mixin.js';
 import RESTerSettingsMixin from './data/rester-data-settings-mixin.js';
 
 setPassiveTouchGestures(true);
+setRemoveNestedTemplates(true);
+setSuppressTemplateNotifications(true);
 
 /**
  * @appliesMixin RESTerThemeMixin
@@ -216,25 +222,25 @@ class RESTerApp extends RESTerThemeMixin(
             page: String,
             pageTitle: {
                 type: String,
-                observer: '_onPageTitleChanged'
+                observer: '_onPageTitleChanged',
             },
             responsiveWidth: {
                 type: String,
-                computed: '_computeResponsiveWidth(settings.pinSidenav)'
+                computed: '_computeResponsiveWidth(settings.pinSidenav)',
             },
             responsiveWidthMin: {
                 type: String,
-                value: '600px'
+                value: '600px',
             },
             responsiveWidthMax: {
                 type: String,
-                value: '1279px'
+                value: '1279px',
             },
             showDrawerLockMediaQuery: {
                 type: String,
                 computed:
-                    '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)'
-            }
+                    '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)',
+            },
         };
     }
 
@@ -246,20 +252,20 @@ class RESTerApp extends RESTerThemeMixin(
         return {
             'mod+m': {
                 description: 'New request.',
-                callback: '_newRequest'
+                callback: '_newRequest',
             },
             'mod+o, mod+p': {
                 description: 'Open request.',
-                callback: '_showQuickOpenDialog'
+                callback: '_showQuickOpenDialog',
             },
             'mod+e': {
                 description: 'Cycle through environments.',
-                callback: '_activateNextEnvironment'
+                callback: '_activateNextEnvironment',
             },
             'mod+shift+e': {
                 description: 'Open environment selection dialog.',
-                callback: '_showEnvironmentSelectDialog'
-            }
+                callback: '_showEnvironmentSelectDialog',
+            },
         };
     }
 
@@ -317,13 +323,13 @@ class RESTerApp extends RESTerThemeMixin(
     }
 
     _activateNextEnvironment() {
-        getEnvironments().then(envs => {
+        getEnvironments().then((envs) => {
             if (envs.length === 0) {
                 return;
             }
 
             const index = envs.findIndex(
-                env => env.id === this.settings.activeEnvironment
+                (env) => env.id === this.settings.activeEnvironment
             );
             const newIndex = (index + 1) % envs.length;
             const newEnv = envs[newIndex];

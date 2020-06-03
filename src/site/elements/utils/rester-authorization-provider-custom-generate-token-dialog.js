@@ -85,7 +85,7 @@ class RESTerAuthorizationProviderCustomGenerateTokenDialog extends RESTerDialogC
     static get properties() {
         return {
             data: Object,
-            form: Object
+            form: Object,
         };
     }
 

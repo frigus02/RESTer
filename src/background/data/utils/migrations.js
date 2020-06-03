@@ -3,9 +3,9 @@ export function migrateHeadersObjectToArray(headers) {
         return headers;
     }
 
-    return Object.keys(headers).map(name => ({
+    return Object.keys(headers).map((name) => ({
         name: name,
-        value: headers[name]
+        value: headers[name],
     }));
 }
 

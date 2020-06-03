@@ -17,23 +17,23 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
             providerId: {
                 type: Number,
                 readOnly: true,
-                value: 3
+                value: 3,
             },
             title: {
                 type: String,
                 readOnly: true,
-                value: 'OAuth 2'
+                value: 'OAuth 2',
             },
             needsConfiguration: {
                 type: Boolean,
                 readOnly: true,
-                value: true
+                value: true,
             },
             supportsIncognito: {
                 type: Boolean,
                 readOnly: true,
-                value: true
-            }
+                value: true,
+            },
         };
     }
 
@@ -41,7 +41,7 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
         return this.editConfiguration({
             flow: null,
             accessTokenRequestMethod: 'POST',
-            accessTokenRequestAuthentication: 'basic'
+            accessTokenRequestAuthentication: 'basic',
         });
     }
 
@@ -50,7 +50,7 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
 
         return dialogs.authProviderOAuth2Configuration
             .show(newConfig)
-            .then(result => {
+            .then((result) => {
                 if (
                     result.reason.confirmed &&
                     result.reason.action === 'save'
@@ -75,7 +75,7 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
                     return this._getResourceOwnerGenerateTokenData();
                 }
             })
-            .then(creds => {
+            .then((creds) => {
                 return generateOAuth2Token(config, creds);
             });
     }
@@ -83,12 +83,12 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
     _getResourceOwnerGenerateTokenData() {
         const creds = {
             username: '',
-            password: ''
+            password: '',
         };
 
         return dialogs.authProviderOAuth2GenerateTokenResourceOwner
             .show(creds)
-            .then(result => {
+            .then((result) => {
                 if (result.reason.confirmed) {
                     return creds;
                 } else {

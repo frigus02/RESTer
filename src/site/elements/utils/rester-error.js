@@ -68,16 +68,16 @@ class RESTerError extends PolymerElement {
             error: Object,
             errorMessageLines: {
                 type: Array,
-                computed: '_computeErrorMessageLines(error)'
+                computed: '_computeErrorMessageLines(error)',
             },
             errorDetails: {
                 type: String,
-                computed: '_computeErrorDetails(error)'
+                computed: '_computeErrorDetails(error)',
             },
             hasErrorDetails: {
                 type: Boolean,
-                computed: '_computeHasErrorDetails(errorDetails)'
-            }
+                computed: '_computeHasErrorDetails(errorDetails)',
+            },
         };
     }
 

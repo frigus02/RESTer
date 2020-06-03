@@ -4,8 +4,8 @@ import { format, parse } from './postman.js';
 
 jest.mock('../../data/utils/db.js');
 
-describe('format', function() {
-    test('creates nested folder structure for requests', function() {
+describe('format', function () {
+    test('creates nested folder structure for requests', function () {
         expect(
             format({
                 requests: [
@@ -16,7 +16,7 @@ describe('format', function() {
                         method: 'GET',
                         url: 'https://example.com',
                         headers: [],
-                        body: null
+                        body: null,
                     },
                     {
                         id: 2,
@@ -27,18 +27,18 @@ describe('format', function() {
                         headers: [
                             {
                                 name: 'Content-Type',
-                                value: 'application/json'
-                            }
+                                value: 'application/json',
+                            },
                         ],
-                        body: '{"foo": "bar"}'
-                    }
+                        body: '{"foo": "bar"}',
+                    },
                 ],
-                historyEntries: []
+                historyEntries: [],
             })
         ).toMatchSnapshot();
     });
 
-    test('adds history entries as responses to matching request', function() {
+    test('adds history entries as responses to matching request', function () {
         expect(
             format({
                 requests: [
@@ -49,7 +49,7 @@ describe('format', function() {
                         method: 'GET',
                         url: 'https://example.com',
                         headers: [],
-                        body: null
+                        body: null,
                     },
                     {
                         id: 2,
@@ -58,8 +58,8 @@ describe('format', function() {
                         method: 'POST',
                         url: 'https://example.com',
                         headers: [],
-                        body: null
-                    }
+                        body: null,
+                    },
                 ],
                 historyEntries: [
                     {
@@ -73,7 +73,7 @@ describe('format', function() {
                             method: 'GET',
                             url: 'https://example.com',
                             headers: [],
-                            body: null
+                            body: null,
                         },
                         response: {
                             status: 200,
@@ -81,11 +81,11 @@ describe('format', function() {
                             headers: [
                                 {
                                     name: 'Content-Type',
-                                    value: 'text/html'
-                                }
+                                    value: 'text/html',
+                                },
                             ],
-                            body: '<!DOCTYPE html>\n<html>\n</html>\n'
-                        }
+                            body: '<!DOCTYPE html>\n<html>\n</html>\n',
+                        },
                     },
                     {
                         id: 2,
@@ -95,16 +95,16 @@ describe('format', function() {
                             method: 'GET',
                             url: 'https://example.com',
                             headers: [],
-                            body: null
+                            body: null,
                         },
-                        response: {}
-                    }
-                ]
+                        response: {},
+                    },
+                ],
             })
         ).toMatchSnapshot();
     });
 
-    test('request with same name as collection', function() {
+    test('request with same name as collection', function () {
         expect(
             format({
                 requests: [
@@ -116,7 +116,7 @@ describe('format', function() {
                         headers: [],
                         body: null,
                         variables: {},
-                        id: 2
+                        id: 2,
                     },
                     {
                         collection: 'A / B',
@@ -126,17 +126,17 @@ describe('format', function() {
                         headers: [],
                         body: null,
                         variables: {},
-                        id: 1
-                    }
+                        id: 1,
+                    },
                 ],
-                historyEntries: []
+                historyEntries: [],
             })
         ).toMatchSnapshot();
     });
 });
 
-describe('parse', function() {
-    test('parses part of Postman Echo collection', function() {
+describe('parse', function () {
+    test('parses part of Postman Echo collection', function () {
         const collectionJson = `{
             "info": {
                 "name": "Postman Echo",
@@ -205,12 +205,12 @@ describe('parse', function() {
 
         expect(
             parse(collectionJson, {
-                collectionPrefix: ''
+                collectionPrefix: '',
             })
         ).toMatchSnapshot();
     });
 
-    test('parses nested folders and rester ids', function() {
+    test('parses nested folders and rester ids', function () {
         const collectionJson = `{
             "info": {
                 "name": "Postman Echo",
@@ -254,7 +254,7 @@ describe('parse', function() {
 
         expect(
             parse(collectionJson, {
-                collectionPrefix: 'Import'
+                collectionPrefix: 'Import',
             })
         ).toMatchSnapshot();
     });

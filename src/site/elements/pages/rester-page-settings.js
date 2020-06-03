@@ -169,14 +169,14 @@ class RESTerPageSettings extends RESTerPageMixin(
         return {
             requestMode: {
                 type: String,
-                observer: '_onRequestModeChanged'
-            }
+                observer: '_onRequestModeChanged',
+            },
         };
     }
 
     static get observers() {
         return [
-            '_onSettingsStripDefaultHeadersChanged(settings.stripDefaultHeaders)'
+            '_onSettingsStripDefaultHeadersChanged(settings.stripDefaultHeaders)',
         ];
     }
 

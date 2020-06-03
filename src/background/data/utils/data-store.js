@@ -7,18 +7,18 @@ class DataStore extends CustomEventTarget {
         this.tables = tables;
         this.writeLock = Promise.resolve();
 
-        this.tables.forEach(table => {
+        this.tables.forEach((table) => {
             table.indexes = table.indexes || [];
             table.info = null;
 
-            this._get(table.name).then(info => {
+            this._get(table.name).then((info) => {
                 table.info = info || {
                     // Last used ID.
                     lastId: 0,
 
                     // List of currently stored IDs as intervals.
                     // Example: [1,2,5,8,12,12] --> 1-2, 5-8, 12
-                    ids: []
+                    ids: [],
                 };
             });
         });
@@ -26,12 +26,12 @@ class DataStore extends CustomEventTarget {
 
     get(tableName, ObjectConstructor, id) {
         return this._get(`${tableName}.e.${id}`).then(
-            entity => entity && new ObjectConstructor(entity)
+            (entity) => entity && new ObjectConstructor(entity)
         );
     }
 
     getIndexKeys(tableName, index) {
-        return this._get(`${tableName}.i.${index}`).then(indexData =>
+        return this._get(`${tableName}.i.${index}`).then((indexData) =>
             indexData ? Object.keys(indexData) : []
         );
     }
@@ -48,9 +48,9 @@ class DataStore extends CustomEventTarget {
             }
         });
 
-        return this._get(ids).then(entities =>
+        return this._get(ids).then((entities) =>
             Object.values(entities)
-                .map(entity => new ObjectConstructor(entity))
+                .map((entity) => new ObjectConstructor(entity))
                 .sort((a, b) => b.id - a.id)
         );
     }
@@ -60,8 +60,8 @@ class DataStore extends CustomEventTarget {
         const queue = {};
         const actions = {};
 
-        ['add', 'put', 'delete'].forEach(action => {
-            actions[action] = function(tableName, entity) {
+        ['add', 'put', 'delete'].forEach((action) => {
+            actions[action] = function (tableName, entity) {
                 if (!queue[tableName]) {
                     queue[tableName] = [];
                 }
@@ -72,17 +72,17 @@ class DataStore extends CustomEventTarget {
             };
         });
 
-        actions.execute = function() {
-            return dataStore._withWriteLock(changes => {
+        actions.execute = function () {
+            return dataStore._withWriteLock((changes) => {
                 const result = [];
 
                 const tableNames = Object.keys(queue);
-                const promises = tableNames.map(tableName => {
+                const promises = tableNames.map((tableName) => {
                     const table = dataStore.tables.find(
-                        table => table.name === tableName
+                        (table) => table.name === tableName
                     );
                     const initialQuery = table.indexes.map(
-                        index => `${tableName}.i.${index}`
+                        (index) => `${tableName}.i.${index}`
                     );
 
                     queue[tableName].forEach(({ action, entity }) => {
@@ -134,9 +134,9 @@ class DataStore extends CustomEventTarget {
 
                     return dataStore
                         ._get(initialQuery)
-                        .then(result => {
+                        .then((result) => {
                             const dataToSet = {
-                                [tableName]: table.info
+                                [tableName]: table.info,
                             };
 
                             queue[tableName].forEach(({ action, entity }) => {
@@ -148,7 +148,7 @@ class DataStore extends CustomEventTarget {
 
                                 const oldEntity =
                                     result[`${tableName}.e.${entity.id}`] || {};
-                                table.indexes.forEach(index => {
+                                table.indexes.forEach((index) => {
                                     const oldValue = oldEntity[index];
                                     const newValue = entity[index];
                                     const indexData =
@@ -208,7 +208,7 @@ class DataStore extends CustomEventTarget {
                                 changes.push({
                                     action,
                                     item: entity,
-                                    itemType: entity.constructor.type
+                                    itemType: entity.constructor.type,
                                 });
 
                                 result.push(entity.id);
@@ -233,7 +233,7 @@ class DataStore extends CustomEventTarget {
                     Promise.resolve(cb(changes)).then((...args) => {
                         this.dispatchEvent(
                             new CustomEvent('change', {
-                                detail: changes
+                                detail: changes,
                             })
                         );
                         resolve(...args);
@@ -249,7 +249,7 @@ class DataStore extends CustomEventTarget {
     }
 
     _addIdToIntervals(tableName, id) {
-        const table = this.tables.find(table => table.name === tableName);
+        const table = this.tables.find((table) => table.name === tableName);
         const lastIdInIds = table.info.ids[table.info.ids.length - 1];
         if (lastIdInIds && lastIdInIds === id) {
             table.info.ids[table.info.ids.length - 1] = id;
@@ -259,7 +259,7 @@ class DataStore extends CustomEventTarget {
     }
 
     _removeIdFromIntervals(tableName, id) {
-        const table = this.tables.find(table => table.name === tableName);
+        const table = this.tables.find((table) => table.name === tableName);
         const interval = this._findIdInterval(
             tableName,
             (start, end) => id >= start && id <= end
@@ -284,7 +284,7 @@ class DataStore extends CustomEventTarget {
     }
 
     _forEachIdInterval(tableName, cb) {
-        const table = this.tables.find(table => table.name === tableName);
+        const table = this.tables.find((table) => table.name === tableName);
         for (let i = 0; i < table.info.ids.length / 2; i++) {
             const start = table.info.ids[i * 2];
             const end = table.info.ids[i * 2 + 1];
@@ -296,7 +296,7 @@ class DataStore extends CustomEventTarget {
     }
 
     _forEachIdIntervalReverse(tableName, cb) {
-        const table = this.tables.find(table => table.name === tableName);
+        const table = this.tables.find((table) => table.name === tableName);
         for (let i = table.info.ids.length / 2 - 1; i >= 0; i--) {
             const start = table.info.ids[i * 2];
             const end = table.info.ids[i * 2 + 1];
@@ -314,7 +314,7 @@ class DataStore extends CustomEventTarget {
                 interval = {
                     start,
                     end,
-                    index
+                    index,
                 };
                 return true;
             }
@@ -324,7 +324,7 @@ class DataStore extends CustomEventTarget {
     }
 
     _get(keys) {
-        return this._performStorageLocalOperation('get', keys, result =>
+        return this._performStorageLocalOperation('get', keys, (result) =>
             typeof keys === 'string' ? result[keys] : result
         );
     }
@@ -340,19 +340,19 @@ class DataStore extends CustomEventTarget {
     _performStorageLocalOperation(
         op,
         keys,
-        transformSuccessResult = arg => arg
+        transformSuccessResult = (arg) => arg
     ) {
         return new Promise((resolve, reject) => {
             const start = performance.now();
-            chrome.storage.local[op](keys, result => {
+            chrome.storage.local[op](keys, (result) => {
                 const millis = performance.now() - start;
                 if (millis > 500) {
                     this.dispatchEvent(
                         new CustomEvent('slowPerformance', {
                             detail: {
                                 operation: `storage.local.${op}(...)`,
-                                duration: Math.round(millis)
-                            }
+                                duration: Math.round(millis),
+                            },
                         })
                     );
                 }

@@ -5,7 +5,7 @@ import '../../../../node_modules/@polymer/paper-toggle-button/paper-toggle-butto
 import './rester-autocomplete-input.js';
 import {
     getHistoryEntries,
-    e as resterEvents
+    e as resterEvents,
 } from '../data/scripts/rester.js';
 import { debounce } from '../../../shared/util.js';
 import { extract } from '../data/scripts/variables.js';
@@ -30,9 +30,10 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
 
             <p class="hint">
                 You can use placeholders everywhere in the request with curly
-                brackets, e.g. <code>{id}</code> or <code>{title}</code>. Placeholders can
-                contain alphanumeric characters as well as <code>$._-</code>. Below you see input fields
-                for each of these variables.
+                brackets, e.g. <code>{id}</code> or <code>{title}</code>.
+                Placeholders can contain alphanumeric characters as well as
+                <code>$._-</code>. Below you see input fields for each of these
+                variables.
             </p>
 
             <template
@@ -71,33 +72,33 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
             value: {
                 type: Object,
                 notify: true,
-                observer: '_updateVariablesDebounced'
+                observer: '_updateVariablesDebounced',
             },
             sourceObj: {
-                type: Object
+                type: Object,
             },
             variables: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             providedVariables: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             lastUsedVariables: {
                 type: Object,
-                readOnly: true
+                readOnly: true,
             },
             variableHistory: {
                 type: Object,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
     static get observers() {
         return [
-            '_updateVariablesDebounced(sourceObj.*, providedVariableValues)'
+            '_updateVariablesDebounced(sourceObj.*, providedVariableValues)',
         ];
     }
 
@@ -113,7 +114,7 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
         this._setLastUsedVariables({});
         this._setVariableHistory({});
 
-        getHistoryEntries(25, ['request.variables.values']).then(entries => {
+        getHistoryEntries(25, ['request.variables.values']).then((entries) => {
             entries.reverse();
             for (let entry of entries) {
                 this._addHistoryEntryToVariableHistory(entry);
@@ -138,8 +139,8 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
 
     _updateVariables() {
         const allVarNames = extract(this.sourceObj);
-        const varNames = allVarNames.filter(n => !n.startsWith('$'));
-        const providedVarNames = allVarNames.filter(n => n.startsWith('$'));
+        const varNames = allVarNames.filter((n) => !n.startsWith('$'));
+        const providedVarNames = allVarNames.filter((n) => n.startsWith('$'));
         const values = this.value || {};
 
         for (let varName of varNames) {
@@ -159,17 +160,17 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
         }
 
         this._setVariables(
-            varNames.map(varName => ({
+            varNames.map((varName) => ({
                 name: varName,
                 value: values[varName],
-                history: this.variableHistory[varName] || []
+                history: this.variableHistory[varName] || [],
             }))
         );
 
         this._setProvidedVariables(
-            providedVarNames.map(varName => ({
+            providedVarNames.map((varName) => ({
                 name: varName,
-                value: this.providedVariableValues[varName]
+                value: this.providedVariableValues[varName],
             }))
         );
     }
@@ -224,7 +225,7 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
                 // in the dom-repeat element.
                 if (this.variables) {
                     const index = this.variables.findIndex(
-                        v => v.name === name
+                        (v) => v.name === name
                     );
                     if (index > -1) {
                         this.set(['variables', index, 'history'], []);

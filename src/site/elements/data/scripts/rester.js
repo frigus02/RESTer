@@ -16,11 +16,11 @@ const settingsKeys = [
     'responseBodyPreview',
     'showVariablesOnSide',
     'requestPageFullWidth',
-    'theme'
+    'theme',
 ];
 const cachedSettings = {};
 
-port.onMessage.addListener(message => {
+port.onMessage.addListener((message) => {
     if (message.action === 'apiresponse') {
         if (message.error) {
             requests[message.id].reject(
@@ -55,7 +55,7 @@ function sendApiRequest(action, args, fields) {
             id,
             action: 'api.' + action,
             args: JSON.stringify(args),
-            fields
+            fields,
         });
     });
 }
@@ -164,23 +164,23 @@ export function importData(options) {
 
 export const settings = {};
 
-settingsKeys.forEach(key => {
+settingsKeys.forEach((key) => {
     Object.defineProperty(settings, key, {
-        get: function() {
+        get: function () {
             return cachedSettings[key];
         },
-        set: function(newValue) {
+        set: function (newValue) {
             cachedSettings[key] = newValue;
             sendApiRequest('settings.set', {
-                [key]: newValue
+                [key]: newValue,
             });
         },
-        enumerable: true
+        enumerable: true,
     });
 });
 
-export const settingsLoaded = new Promise(resolve => {
-    sendApiRequest('settings.get').then(settings => {
+export const settingsLoaded = new Promise((resolve) => {
+    sendApiRequest('settings.get').then((settings) => {
         Object.assign(cachedSettings, settings);
         resolve();
     });

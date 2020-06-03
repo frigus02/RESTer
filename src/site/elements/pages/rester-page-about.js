@@ -125,12 +125,12 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
         return {
             version: {
                 type: String,
-                readOnly: true
+                readOnly: true,
             },
             libraries: {
                 type: Array,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -139,8 +139,8 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
         this._setPageTitle('About');
 
         fetch(chrome.runtime.getURL('site/libraries.json'))
-            .then(response => response.json())
-            .then(libraries => {
+            .then((response) => response.json())
+            .then((libraries) => {
                 this._setLibraries(libraries);
             });
 

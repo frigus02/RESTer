@@ -22,7 +22,7 @@ export class Response {
             statusText: null,
             headers: [],
             body: null,
-            redirected: false
+            redirected: false,
         };
     }
 

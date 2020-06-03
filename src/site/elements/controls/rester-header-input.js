@@ -12,7 +12,7 @@ const COMMON_MIME_TYPES = [
     'application/xml',
     'text/html',
     'text/plain',
-    'text/xml'
+    'text/xml',
 ];
 
 const REQUEST_HEADERS = [
@@ -59,7 +59,7 @@ const REQUEST_HEADERS = [
     'Via',
     'Viewport-Width',
     'Warning',
-    'Width'
+    'Width',
 ];
 
 const REQUEST_HEADER_VALUES = {
@@ -69,7 +69,7 @@ const REQUEST_HEADER_VALUES = {
     Authorization: ['Basic ', 'Bearer ', 'Digest '],
     'Cache-Control': ['no-cache'],
     Connection: ['close', 'keep-alive'],
-    'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data']
+    'Content-Type': [...COMMON_MIME_TYPES, 'multipart/form-data'],
 };
 
 /**
@@ -139,23 +139,23 @@ class RESTerHeaderInput extends PolymerElement {
             value: {
                 type: Array,
                 notify: true,
-                observer: '_onValueChanged'
+                observer: '_onValueChanged',
             },
             headers: {
                 type: Array,
                 readOnly: true,
-                value: []
+                value: [],
             },
             requestHeaders: {
                 type: Array,
                 readOnly: true,
-                value: REQUEST_HEADERS
+                value: REQUEST_HEADERS,
             },
             requestHeaderValues: {
                 type: Object,
                 readOnly: true,
-                value: REQUEST_HEADER_VALUES
-            }
+                value: REQUEST_HEADER_VALUES,
+            },
         };
     }
 
@@ -174,7 +174,7 @@ class RESTerHeaderInput extends PolymerElement {
         // properties have been updated.
         microTask.run(() => {
             this.value = this.headers.filter(
-                header =>
+                (header) =>
                     header.name.trim() !== '' || header.value.trim() !== ''
             );
             this._ensureEmptyHeader();
@@ -184,7 +184,7 @@ class RESTerHeaderInput extends PolymerElement {
     _ensureEmptyHeader() {
         if (
             !this.headers.some(
-                header =>
+                (header) =>
                     header.name.trim() === '' && header.value.trim() === ''
             )
         ) {

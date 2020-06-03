@@ -66,12 +66,12 @@ class RESTerCurlCommandDialog extends RESTerDialogControllerMixin(
             data: Object,
             curlCommand: {
                 type: String,
-                computed: '_computeCurlCommand(data)'
+                computed: '_computeCurlCommand(data)',
             },
             copyToClipboardNotSupported: {
                 type: Boolean,
-                value: !(navigator.clipboard && navigator.clipboard.writeText)
-            }
+                value: !(navigator.clipboard && navigator.clipboard.writeText),
+            },
         };
     }
 

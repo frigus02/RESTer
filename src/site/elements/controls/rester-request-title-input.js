@@ -73,38 +73,38 @@ class RESTerRequestTitleInput extends PolymerElement {
             requestCollection: {
                 type: String,
                 notify: true,
-                observer: '_onRequestTitleChanged'
+                observer: '_onRequestTitleChanged',
             },
             requestTitle: {
                 type: String,
                 notify: true,
-                observer: '_onRequestTitleChanged'
+                observer: '_onRequestTitleChanged',
             },
             name: String,
             required: {
                 type: Boolean,
-                value: false
+                value: false,
             },
             value: {
                 type: String,
-                observer: '_onValueChanged'
+                observer: '_onValueChanged',
             },
             requestCollections: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             hasCollection: {
                 type: Boolean,
-                computed: '_computeHasCollection(requestCollection)'
+                computed: '_computeHasCollection(requestCollection)',
             },
             hasTrailingSlash: {
                 type: Boolean,
-                computed: '_computeHasTrailingSlash(value)'
+                computed: '_computeHasTrailingSlash(value)',
             },
             hasTitle: {
                 type: Boolean,
-                computed: '_computeHasTitle(requestTitle)'
-            }
+                computed: '_computeHasTitle(requestTitle)',
+            },
         };
     }
 
@@ -119,8 +119,8 @@ class RESTerRequestTitleInput extends PolymerElement {
 
         this._onInputKeyDown = this._onInputKeyDown.bind(this);
 
-        getRequestCollections().then(result => {
-            this._setRequestCollections(result.map(c => c + ' / '));
+        getRequestCollections().then((result) => {
+            this._setRequestCollections(result.map((c) => c + ' / '));
         });
     }
 
@@ -162,8 +162,8 @@ class RESTerRequestTitleInput extends PolymerElement {
         this.requestTitle = this._knownTitle;
 
         this._knownCollection = parts
-            .map(p => p.trim())
-            .filter(p => p)
+            .map((p) => p.trim())
+            .filter((p) => p)
             .join(' / ');
         this.requestCollection = this._knownCollection;
     }

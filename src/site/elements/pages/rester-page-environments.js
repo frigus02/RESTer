@@ -14,7 +14,7 @@ import { truncate } from '../data/scripts/encode.js';
 import {
     getEnvironments,
     putEnvironment,
-    deleteEnvironment
+    deleteEnvironment,
 } from '../data/scripts/rester.js';
 import { cloneDeep } from '../../../shared/util.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
@@ -127,8 +127,8 @@ class RESTerPageEnvironments extends RESTerPageMixin(
         return {
             environments: {
                 type: Array,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -141,7 +141,7 @@ class RESTerPageEnvironments extends RESTerPageMixin(
     ready() {
         super.ready();
         this._setPageTitle('Environments');
-        getEnvironments().then(envs => {
+        getEnvironments().then((envs) => {
             this._setEnvironments(envs);
         });
     }
@@ -149,7 +149,7 @@ class RESTerPageEnvironments extends RESTerPageMixin(
     _addEnvironment() {
         this._environmentInDialog = {
             name: '',
-            values: {}
+            values: {},
         };
         this._environmentInDialogIndex = -1;
         this._showEditDialog();
@@ -164,12 +164,12 @@ class RESTerPageEnvironments extends RESTerPageMixin(
     _showEditDialog() {
         dialogs.editEnvironment
             .show(this._environmentInDialog)
-            .then(result => this._onEditDialogClosed(result));
+            .then((result) => this._onEditDialogClosed(result));
     }
 
     _onEditDialogClosed(result) {
         if (result.reason.confirmed && result.reason.action === 'save') {
-            putEnvironment(this._environmentInDialog).then(id => {
+            putEnvironment(this._environmentInDialog).then((id) => {
                 this._environmentInDialog.id = id;
 
                 if (this._environmentInDialogIndex > -1) {
@@ -198,9 +198,9 @@ class RESTerPageEnvironments extends RESTerPageMixin(
     }
 
     _computeValueItems(env) {
-        return Object.keys(env.values).map(key => ({
+        return Object.keys(env.values).map((key) => ({
             key,
-            value: truncate(env.values[key], 120)
+            value: truncate(env.values[key], 120),
         }));
     }
 }

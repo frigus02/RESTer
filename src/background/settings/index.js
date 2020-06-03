@@ -12,12 +12,12 @@ const DEFAULTS = {
     responseBodyPreview: false,
     showVariablesOnSide: false,
     requestPageFullWidth: false,
-    theme: 'dark'
+    theme: 'dark',
 };
 
 function getSettings() {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get('settings', result => {
+        chrome.storage.local.get('settings', (result) => {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             } else {
@@ -42,7 +42,7 @@ function setSettings(settings) {
 export const e = new CustomEventTarget();
 
 export function get() {
-    return getSettings().then(settings => {
+    return getSettings().then((settings) => {
         const keys = Object.keys(DEFAULTS);
         for (let key of keys) {
             if (!Object.prototype.hasOwnProperty.call(settings, key)) {
@@ -56,7 +56,7 @@ export function get() {
 
 export function set(newSettings) {
     // Filter for keys, which actually exist.
-    const changedKeys = Object.keys(newSettings).filter(key =>
+    const changedKeys = Object.keys(newSettings).filter((key) =>
         Object.prototype.hasOwnProperty.call(DEFAULTS, key)
     );
     const changedSettings = {};
@@ -65,14 +65,14 @@ export function set(newSettings) {
     }
 
     return getSettings()
-        .then(settings => {
+        .then((settings) => {
             Object.assign(settings, changedSettings);
             return setSettings(settings);
         })
         .then(() => {
             e.dispatchEvent(
                 new CustomEvent('change', {
-                    detail: changedSettings
+                    detail: changedSettings,
                 })
             );
         });

@@ -6,11 +6,11 @@ import { clone } from '../../../shared/util.js';
 
 async function ensureCookiesPermission() {
     const requiredPermissions = {
-        permissions: ['cookies']
+        permissions: ['cookies'],
     };
 
     return new Promise((resolve, reject) => {
-        chrome.permissions.request(requiredPermissions, result => {
+        chrome.permissions.request(requiredPermissions, (result) => {
             if (result) {
                 resolve();
             } else {
@@ -26,9 +26,9 @@ function filterCookies(cookies, cookieNames) {
     const names = (cookieNames || '')
         .trim()
         .split(/\s*;\s*/i)
-        .filter(name => name.length > 0);
+        .filter((name) => name.length > 0);
     if (names.length > 0) {
-        return cookies.filter(cookie => names.includes(cookie.name));
+        return cookies.filter((cookie) => names.includes(cookie.name));
     } else {
         return cookies;
     }
@@ -40,7 +40,7 @@ function getShortestCookieExpirationDate(cookies) {
         const sessionExpirationDate = Date.now() / 1000 + 86400;
 
         const expirationDate = cookies
-            .map(cookie =>
+            .map((cookie) =>
                 cookie.session ? sessionExpirationDate : cookie.expirationDate
             )
             .reduce((prev, current) =>
@@ -70,23 +70,23 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
             providerId: {
                 type: Number,
                 readOnly: true,
-                value: 4
+                value: 4,
             },
             title: {
                 type: String,
                 readOnly: true,
-                value: 'Cookie'
+                value: 'Cookie',
             },
             needsConfiguration: {
                 type: Boolean,
                 readOnly: true,
-                value: true
+                value: true,
             },
             supportsIncognito: {
                 type: Boolean,
                 readOnly: true,
-                value: true
-            }
+                value: true,
+            },
         };
     }
 
@@ -121,7 +121,7 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
             url: config.startUrl,
             targetUrl: config.endUrl,
             incognito: config.incognito,
-            extractCookies: true
+            extractCookies: true,
         });
 
         const filteredCookies = filterCookies(
@@ -135,8 +135,8 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
         const token = {
             title: 'Unknown',
             scheme: 'Cookie',
-            token: filteredCookies.map(c => `${c.name}=${c.value}`).join(';'),
-            expirationDate: shortedExpirationDate
+            token: filteredCookies.map((c) => `${c.name}=${c.value}`).join(';'),
+            expirationDate: shortedExpirationDate,
         };
 
         if (config.enableVariables) {

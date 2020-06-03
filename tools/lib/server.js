@@ -16,9 +16,9 @@ function formatHeaders(rawHeaders) {
 }
 
 function readBody(req) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         let body = '';
-        req.on('data', data => {
+        req.on('data', (data) => {
             body += data;
         });
         req.on('end', () => {
@@ -51,7 +51,7 @@ async function middleware(req, res) {
 
         const lines = [
             `${req.method} ${req.url} HTTP/${req.httpVersion}`,
-            ...formatHeaders(req.rawHeaders)
+            ...formatHeaders(req.rawHeaders),
         ];
         if (req.method !== 'GET' && req.method !== 'HEAD') {
             lines.push('', await readBody(req));
@@ -78,7 +78,7 @@ async function middleware(req, res) {
                 body: randomLengthLoremIpsum(),
                 image: `https://cataas.com/cat/says/${Math.ceil(
                     Math.random() * count
-                )}`
+                )}`,
             });
         }
 
@@ -125,7 +125,7 @@ class Server {
     }
 
     stop() {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.server.close(() => resolve());
         });
     }

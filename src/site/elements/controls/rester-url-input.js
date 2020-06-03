@@ -82,28 +82,28 @@ class RESTerUrlInput extends PolymerElement {
             value: {
                 type: String,
                 notify: true,
-                observer: '_onValueChanged'
+                observer: '_onValueChanged',
             },
             required: {
                 type: Boolean,
-                value: false
+                value: false,
             },
             originAndPath: {
-                type: String
+                type: String,
             },
             query: {
-                type: String
+                type: String,
             },
             expanded: {
                 type: Boolean,
                 value: false,
-                reflectToAttribute: true
+                reflectToAttribute: true,
             },
             invalid: {
                 type: Boolean,
                 value: false,
-                notify: true
-            }
+                notify: true,
+            },
         };
     }
 

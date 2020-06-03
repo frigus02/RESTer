@@ -35,7 +35,7 @@ async function createResterExtensionXpi() {
     await createPackage({
         browser: 'firefox',
         srcDir,
-        destFile: xpiPath
+        destFile: xpiPath,
     });
 }
 

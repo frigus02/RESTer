@@ -34,8 +34,8 @@ class RESTerHighlightHeaders extends PolymerElement {
         return {
             headers: {
                 type: Array,
-                value: []
-            }
+                value: [],
+            },
         };
     }
 }

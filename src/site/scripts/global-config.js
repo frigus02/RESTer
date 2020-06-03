@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', () => {

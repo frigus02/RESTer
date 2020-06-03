@@ -3,7 +3,7 @@ import { sortedIndexOf } from '../../../shared/util.js';
 
 const supportedSchemas = [
     'https://schema.getpostman.com/json/collection/v2.0.0/collection.json',
-    'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
+    'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
 ];
 
 /**
@@ -20,15 +20,15 @@ export function format(data) {
         info: {
             name: 'RESTer',
             schema:
-                'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
+                'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
         },
-        item: createPostmanCollectionItems(data)
+        item: createPostmanCollectionItems(data),
     };
 
     return {
         contentType: 'application/json',
         content: JSON.stringify(collection, null, 4),
-        suffix: 'json'
+        suffix: 'json',
     };
 }
 
@@ -52,14 +52,14 @@ export function parse(data, options) {
     } catch (e) {
         return {
             supported: false,
-            error: e
+            error: e,
         };
     }
 
     const items = createResterData(collection.item, options.collectionPrefix);
     return {
         supported: true,
-        data: items
+        data: items,
     };
 }
 
@@ -103,7 +103,7 @@ class PostmanItem {
         this.request = new PostmanRequest(this.request);
         if (this.response) {
             this.response = this.response.map(
-                response => new PostmanResponse(response)
+                (response) => new PostmanResponse(response)
             );
         }
     }
@@ -124,15 +124,15 @@ class PostmanRequest {
         const request = new PostmanRequest();
         request.url = resterRequest.url;
         request.method = resterRequest.method;
-        request.header = resterRequest.headers.map(header => ({
+        request.header = resterRequest.headers.map((header) => ({
             key: header.name,
-            value: header.value
+            value: header.value,
         }));
 
         if (resterRequest.body) {
             request.body = {
                 mode: 'raw',
-                raw: resterRequest.body
+                raw: resterRequest.body,
             };
         }
 
@@ -154,10 +154,10 @@ class PostmanRequest {
 
         if (Array.isArray(this.header)) {
             request.headers = this.header
-                .filter(header => !header.disabled)
-                .map(header => ({
+                .filter((header) => !header.disabled)
+                .map((header) => ({
                     name: header.key,
-                    value: header.value
+                    value: header.value,
                 }));
         }
 
@@ -200,9 +200,9 @@ class PostmanResponse {
                 new Date(resterHistoryEntry.time);
         }
 
-        response.header = resterHistoryEntry.response.headers.map(header => ({
+        response.header = resterHistoryEntry.response.headers.map((header) => ({
             key: header.name,
-            value: header.value
+            value: header.value,
         }));
         response.body = resterHistoryEntry.response.body;
         response.status = resterHistoryEntry.response.statusText;
@@ -231,9 +231,9 @@ function parseId(postmanId) {
 
 function formatUrlencodedOrFormdataBody(parameters) {
     return parameters
-        .filter(param => param.key.trim() && !param.disabled)
+        .filter((param) => param.key.trim() && !param.disabled)
         .map(
-            param =>
+            (param) =>
                 `${encodeURIComponent(param.key)}=${encodeURIComponent(
                     param.value
                 )}`
@@ -242,9 +242,9 @@ function formatUrlencodedOrFormdataBody(parameters) {
 }
 
 function sortedIndexOfItemsAndFolders(itemsAndFolders, newItemOrFolder) {
-    return sortedIndexOf(itemsAndFolders, newItemOrFolder, itemOrFolder => [
+    return sortedIndexOf(itemsAndFolders, newItemOrFolder, (itemOrFolder) => [
         itemOrFolder.name,
-        itemOrFolder.constructor.sortOrder
+        itemOrFolder.constructor.sortOrder,
     ]);
 }
 
@@ -278,7 +278,7 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
 
     for (const request of requests) {
         const requestHistory = historyEntries.filter(
-            entry => entry.request.id === request.id
+            (entry) => entry.request.id === request.id
         );
         const folder = ensureFolder(request.collection);
         const item = PostmanItem.fromResterRequest(request, requestHistory);
@@ -315,6 +315,6 @@ function createResterData(items, collection) {
     }
 
     return {
-        requests
+        requests,
     };
 }

@@ -34,7 +34,7 @@ class RESTerNavigationList extends PolymerElement {
     static get properties() {
         return {
             route: Object,
-            items: Array
+            items: Array,
         };
     }
 }

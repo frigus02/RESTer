@@ -34,9 +34,9 @@ async function lintFirefoxAddon(options) {
             metadata: false,
             output: 'none',
             boring: false,
-            selfHosted: false
+            selfHosted: false,
         },
-        runAsBinary: false
+        runAsBinary: false,
     });
 
     await linter.run();
@@ -46,11 +46,11 @@ async function lintFirefoxAddon(options) {
 
     result.count = 0;
     for (let list of lists) {
-        result[list] = result[list].filter(message => {
+        result[list] = result[list].filter((message) => {
             const file = path.resolve(message.file);
 
             const ignoreEntry = ignoreList.find(
-                ignore => ignore.file === file && ignore.code === message.code
+                (ignore) => ignore.file === file && ignore.code === message.code
             );
             if (ignoreEntry) {
                 ignoreEntry.used = true;
@@ -66,7 +66,7 @@ async function lintFirefoxAddon(options) {
 
     reportResult(result);
 
-    const unusedIgnoreEntries = ignoreList.filter(ignore => !ignore.used);
+    const unusedIgnoreEntries = ignoreList.filter((ignore) => !ignore.used);
     if (unusedIgnoreEntries.length > 0) {
         console.log(`Unused entries in ${ignoreFileName}:`);
         for (const ignoreEntry of unusedIgnoreEntries) {
@@ -81,14 +81,14 @@ async function lintFirefoxAddon(options) {
 
 function getIgnoreList() {
     const ignoreFile = path.join(process.cwd(), ignoreFileName);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const lineReader = readline.createInterface({
-            input: fs.createReadStream(ignoreFile)
+            input: fs.createReadStream(ignoreFile),
         });
 
         const ignore = [];
 
-        lineReader.on('line', line => {
+        lineReader.on('line', (line) => {
             line = line.trim();
 
             // Ignore comments and empty lines.
@@ -109,7 +109,7 @@ function getIgnoreList() {
 
             ignore.push({
                 file: path.resolve(file),
-                code
+                code,
             });
         });
 
@@ -123,7 +123,7 @@ function reportResult(result) {
     const messages = [
         ...result.errors,
         ...result.warnings,
-        ...result.notices
+        ...result.notices,
     ].sort((a, b) => {
         const file = a.file.localeCompare(b.file);
         if (file !== 0) {
@@ -139,11 +139,11 @@ function reportResult(result) {
     const colors = {
         error: 'red',
         warning: 'blue',
-        notice: 'white'
+        notice: 'white',
     };
 
     let prevFile;
-    messages.forEach(message => {
+    messages.forEach((message) => {
         if (prevFile !== message.file) {
             console.log(chalk.underline(message.file));
             prevFile = message.file;
@@ -164,7 +164,7 @@ function reportResult(result) {
                 chalk.gray(location),
                 chalk[colors[message._type]](
                     `${message.code} ${message.message}`
-                )
+                ),
             ].join(' ')
         );
 
@@ -201,8 +201,8 @@ function reportResult(result) {
 
 async function main() {
     await lintFirefoxAddon({
-        addonDir: path.resolve(process.argv[2])
+        addonDir: path.resolve(process.argv[2]),
     });
 }
 
-main().catch(err => console.error(err.stack));
+main().catch((err) => console.error(err.stack));

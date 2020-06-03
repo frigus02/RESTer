@@ -51,21 +51,21 @@ class RESTerPages extends PolymerElement {
         return {
             page: {
                 type: String,
-                observer: '_onPageChanged'
+                observer: '_onPageChanged',
             },
             pageTitle: {
                 type: String,
                 readOnly: true,
-                notify: true
+                notify: true,
             },
             route: {
                 type: Object,
-                observer: '_onRouteChanged'
+                observer: '_onRouteChanged',
             },
             showDrawerToggle: {
                 type: Boolean,
-                observer: '_onShowDrawerToggleChanged'
-            }
+                observer: '_onShowDrawerToggleChanged',
+            },
         };
     }
 

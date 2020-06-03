@@ -2,19 +2,19 @@
  * @polymer
  * @mixinFunction
  */
-const RESTerPageMixin = superclass =>
+const RESTerPageMixin = (superclass) =>
     class extends superclass {
         static get properties() {
             return {
                 pageTitle: {
                     type: String,
                     readOnly: true,
-                    notify: true
+                    notify: true,
                 },
                 showDrawerToggle: {
                     type: Boolean,
-                    observer: '_onShowDrawerToggleChanged'
-                }
+                    observer: '_onShowDrawerToggleChanged',
+                },
             };
         }
 
@@ -59,7 +59,7 @@ const RESTerPageMixin = superclass =>
             this.dispatchEvent(
                 new CustomEvent('drawer-toggle-tapped', {
                     bubbles: true,
-                    composed: true
+                    composed: true,
                 })
             );
         }

@@ -4,7 +4,7 @@ import {
     providedValues,
     extract,
     replace,
-    replaceWithoutProvidedValues
+    replaceWithoutProvidedValues,
 } from './variables.js';
 import mockProviderEnv from './variables-provider-env.js';
 
@@ -17,27 +17,27 @@ const fakeObject = {
     headers: [
         {
             name: 'Authorization',
-            value: 'Bearer {token}'
-        }
-    ]
+            value: 'Bearer {token}',
+        },
+    ],
 };
 
 function setProviderEnvValues(values) {
     mockProviderEnv.values = values;
     mockProviderEnv.e.dispatchEvent(
         new CustomEvent('valuesChanged', {
-            detail: mockProviderEnv.values
+            detail: mockProviderEnv.values,
         })
     );
 }
 
-describe('providedValues', function() {
-    test('contains aggregated values from all providers', function() {
+describe('providedValues', function () {
+    test('contains aggregated values from all providers', function () {
         expect({}).toEqual(providedValues);
 
         setProviderEnvValues({
             host: 'example.com',
-            port: 443
+            port: 443,
         });
 
         expect(Object.keys(providedValues).length).toEqual(2);
@@ -46,8 +46,8 @@ describe('providedValues', function() {
     });
 });
 
-describe('extract', function() {
-    test('aggregates placeholders from given object', function() {
+describe('extract', function () {
+    test('aggregates placeholders from given object', function () {
         const variables = extract(fakeObject);
 
         expect(variables.length).toEqual(3);
@@ -55,14 +55,14 @@ describe('extract', function() {
     });
 });
 
-describe('replace', function() {
-    test('replaces all variables with their values', function() {
+describe('replace', function () {
+    test('replaces all variables with their values', function () {
         setProviderEnvValues({
-            host: 'example.com'
+            host: 'example.com',
         });
 
         const values = {
-            id: 12
+            id: 12,
         };
         const usedValues = {};
         const newObject = replace(fakeObject, values, usedValues);
@@ -73,24 +73,24 @@ describe('replace', function() {
             headers: [
                 {
                     name: 'Authorization',
-                    value: 'Bearer {token}'
-                }
-            ]
+                    value: 'Bearer {token}',
+                },
+            ],
         });
         expect(usedValues).toEqual({
             '$env.host': 'example.com',
-            id: 12
+            id: 12,
         });
     });
 
-    test('prefers provided values over local values', function() {
+    test('prefers provided values over local values', function () {
         setProviderEnvValues({
-            host: 'example.com'
+            host: 'example.com',
         });
 
         const values = {
             '$env.host': 'mycoolsite.com',
-            id: 12
+            id: 12,
         };
         const newObject = replace(fakeObject, values);
 
@@ -100,19 +100,19 @@ describe('replace', function() {
             headers: [
                 {
                     name: 'Authorization',
-                    value: 'Bearer {token}'
-                }
-            ]
+                    value: 'Bearer {token}',
+                },
+            ],
         });
     });
 
-    test('leaves variables without or with empty value untouched', function() {
+    test('leaves variables without or with empty value untouched', function () {
         setProviderEnvValues({
-            host: 'example.com'
+            host: 'example.com',
         });
 
         const values = {
-            id: ''
+            id: '',
         };
         const usedValues = {};
         const newObject = replace(fakeObject, values, usedValues);
@@ -123,25 +123,25 @@ describe('replace', function() {
             headers: [
                 {
                     name: 'Authorization',
-                    value: 'Bearer {token}'
-                }
-            ]
+                    value: 'Bearer {token}',
+                },
+            ],
         });
         expect(usedValues).toEqual({
-            '$env.host': 'example.com'
+            '$env.host': 'example.com',
         });
     });
 });
 
-describe('replaceWithoutProvidedValues', function() {
-    test('does not use provided values', function() {
+describe('replaceWithoutProvidedValues', function () {
+    test('does not use provided values', function () {
         setProviderEnvValues({
-            host: 'example.com'
+            host: 'example.com',
         });
 
         const values = {
             '$env.host': 'mycoolsite.com',
-            id: 12
+            id: 12,
         };
         const newObject = replaceWithoutProvidedValues(fakeObject, values);
 
@@ -151,9 +151,9 @@ describe('replaceWithoutProvidedValues', function() {
             headers: [
                 {
                     name: 'Authorization',
-                    value: 'Bearer {token}'
-                }
-            ]
+                    value: 'Bearer {token}',
+                },
+            ],
         });
     });
 });

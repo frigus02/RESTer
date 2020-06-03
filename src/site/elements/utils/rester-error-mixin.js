@@ -11,7 +11,7 @@
  *     this.showError(e);
  * }
  */
-const RESTerErrorMixin = superclass =>
+const RESTerErrorMixin = (superclass) =>
     class extends superclass {
         showError(error, title) {
             const resterApp = document.querySelector('rester-app');

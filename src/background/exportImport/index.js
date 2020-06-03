@@ -21,21 +21,21 @@ export async function exportData(options) {
     const provider = providers[options.format];
     const data = provider.format({
         requests,
-        historyEntries
+        historyEntries,
     });
 
     const file = new File(
         [data.content],
         `rester-export-${options.format}.${data.suffix}`,
         {
-            type: data.contentType
+            type: data.contentType,
         }
     );
     const url = URL.createObjectURL(file);
 
     chrome.downloads.download({
         filename: file.name,
-        url: url
+        url: url,
     });
 }
 
@@ -51,7 +51,7 @@ export async function importData(options) {
     let data;
     for (const provider of Object.values(providers)) {
         const parsed = provider.parse(options.data, {
-            collectionPrefix: options.collectionPrefix
+            collectionPrefix: options.collectionPrefix,
         });
         if (parsed.supported) {
             data = parsed.data;

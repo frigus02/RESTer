@@ -7,21 +7,21 @@ const { RequestSelectors, SettingsSelectors } = require('./page-elements');
 const pages = {
     request: {
         url: '/',
-        selector: RequestSelectors.page
+        selector: RequestSelectors.page,
     },
     settings: {
         url: '/settings',
-        selector: SettingsSelectors.page
-    }
+        selector: SettingsSelectors.page,
+    },
 };
 
-exports.goTo = function(driver, baseUrl, timeout) {
+exports.goTo = function (driver, baseUrl, timeout) {
     /* eslint-disable require-atomic-updates */
 
     let lastPage;
     let lastPageElement;
 
-    return async function(page) {
+    return async function (page) {
         const { url, selector } = pages[page];
 
         await driver.get(`${baseUrl}#${url}`);

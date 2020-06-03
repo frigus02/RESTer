@@ -11,7 +11,7 @@ import '../../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
 import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
 import {
     getHistoryEntries,
-    deleteHistoryEntries
+    deleteHistoryEntries,
 } from '../data/scripts/rester.js';
 import RESTerErrorMixin from './rester-error-mixin.js';
 import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
@@ -111,24 +111,24 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
         return {
             largeEntries: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             deleteLargeEntries: Boolean,
             entries: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             entryCountToDelete: Number,
             canDeleteEntries: {
                 type: Boolean,
                 computed:
-                    '_computeCanDeleteEntries(deleteLargeEntries, entryCountToDelete, isDeletingEntries)'
+                    '_computeCanDeleteEntries(deleteLargeEntries, entryCountToDelete, isDeletingEntries)',
             },
             isDeletingEntries: {
                 type: Boolean,
                 readOnly: true,
-                value: false
-            }
+                value: false,
+            },
         };
     }
 
@@ -141,7 +141,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
     }
 
     _onOpened() {
-        getHistoryEntries(null, ['id', 'size']).then(entries => {
+        getHistoryEntries(null, ['id', 'size']).then((entries) => {
             this._setEntries(entries);
             this._setLargeEntries(entries.filter(this._isEntryLarge));
             this.deleteLargeEntries = this.largeEntries.length > 0;
@@ -172,7 +172,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
 
         const idsToDelete = [];
         if (this.deleteLargeEntries) {
-            idsToDelete.push(...this.largeEntries.map(e => e.id));
+            idsToDelete.push(...this.largeEntries.map((e) => e.id));
         }
 
         const fromIndex = this.entries.length - 1;
@@ -192,14 +192,14 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
                 this._setIsDeletingEntries(false);
                 this._closeDialogWithAction();
             })
-            .catch(error => {
+            .catch((error) => {
                 this._setIsDeletingEntries(false);
                 this.showError(error);
             });
     }
 
     _getSizeOfEntries(entries) {
-        return entries.map(e => e.size).reduce((a, b) => a + b, 0);
+        return entries.map((e) => e.size).reduce((a, b) => a + b, 0);
     }
 
     _isEntryLarge(entry) {

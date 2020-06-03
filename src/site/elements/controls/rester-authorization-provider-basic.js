@@ -15,35 +15,35 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
             providerId: {
                 type: Number,
                 readOnly: true,
-                value: 2
+                value: 2,
             },
             title: {
                 type: String,
                 readOnly: true,
-                value: 'Basic'
+                value: 'Basic',
             },
             needsConfiguration: {
                 type: Boolean,
                 readOnly: true,
-                value: false
+                value: false,
             },
             supportsIncognito: {
                 type: Boolean,
                 readOnly: true,
-                value: false
-            }
+                value: false,
+            },
         };
     }
 
     generateToken() {
         const data = {
             userName: '',
-            password: ''
+            password: '',
         };
 
         return dialogs.authProviderBasicGenerateToken
             .show(data)
-            .then(result => {
+            .then((result) => {
                 if (result.reason.confirmed) {
                     const token = {};
                     token.title = data.userName;

@@ -67,13 +67,13 @@ class RESTerLintMessages extends PolymerElement {
             messages: {
                 type: Array,
                 readOnly: true,
-                value: []
-            }
+                value: [],
+            },
         };
     }
 
     putMessage(id, message) {
-        const index = this.messages.findIndex(m => m.id === id);
+        const index = this.messages.findIndex((m) => m.id === id);
 
         message.id = id;
         if (index === -1) {
@@ -84,7 +84,7 @@ class RESTerLintMessages extends PolymerElement {
     }
 
     removeMessage(id) {
-        const index = this.messages.findIndex(m => m.id === id);
+        const index = this.messages.findIndex((m) => m.id === id);
         if (index > -1) {
             this.splice('messages', index, 1);
         }

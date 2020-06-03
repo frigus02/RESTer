@@ -50,8 +50,8 @@ class RESTerBadge extends PolymerElement {
         return {
             type: {
                 type: String,
-                reflectToAttribute: true
-            }
+                reflectToAttribute: true,
+            },
         };
     }
 }

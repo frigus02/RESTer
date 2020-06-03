@@ -1,6 +1,6 @@
 import {
     providedValues,
-    e as variablesEvents
+    e as variablesEvents,
 } from '../data/scripts/variables.js';
 
 /**
@@ -9,14 +9,14 @@ import {
  *
  * Makes RESTer provided variable values available in property `providedVariableValues`.
  */
-const RESTerVariablesMixin = superclass =>
+const RESTerVariablesMixin = (superclass) =>
     class extends superclass {
         static get properties() {
             return {
                 providedVariableValues: {
                     type: Object,
-                    readOnly: true
-                }
+                    readOnly: true,
+                },
             };
         }
 

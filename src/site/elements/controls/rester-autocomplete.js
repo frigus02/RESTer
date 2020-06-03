@@ -117,34 +117,34 @@ class RESTerAutocomplete extends PolymerElement {
             for: String,
             items: {
                 type: Array,
-                value: []
+                value: [],
             },
             dropdownItemsVisible: {
                 type: Number,
-                value: 4.7
+                value: 4.7,
             },
             itemTemplate: {
                 type: String,
-                computed: '_computeItemTemplate(items)'
+                computed: '_computeItemTemplate(items)',
             },
             selectedIndex: {
                 type: Number,
                 readOnly: true,
-                value: -1
+                value: -1,
             },
             dropdownVisible: {
                 type: Boolean,
                 value: false,
-                readOnly: true
+                readOnly: true,
             },
             inputValue: {
                 type: String,
-                readOnly: true
+                readOnly: true,
             },
             sortByIndex: {
                 type: Boolean,
-                value: false
-            }
+                value: false,
+            },
         };
     }
 
@@ -495,7 +495,7 @@ class RESTerAutocomplete extends PolymerElement {
             new CustomEvent('item-selected', {
                 detail: item,
                 bubbles: true,
-                composed: true
+                composed: true,
             })
         );
     }
