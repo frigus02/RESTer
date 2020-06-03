@@ -1,6 +1,10 @@
 import { PolymerElement } from '../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import { setPassiveTouchGestures } from '../../../node_modules/@polymer/polymer/lib/utils/settings.js';
+import {
+    setPassiveTouchGestures,
+    setRemoveNestedTemplates,
+    setSuppressTemplateNotifications,
+} from '../../../node_modules/@polymer/polymer/lib/utils/settings.js';
 import '../../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
@@ -41,6 +45,8 @@ import RESTerHotkeysMixin from './data/rester-data-hotkeys-mixin.js';
 import RESTerSettingsMixin from './data/rester-data-settings-mixin.js';
 
 setPassiveTouchGestures(true);
+setRemoveNestedTemplates(true);
+setSuppressTemplateNotifications(true);
 
 /**
  * @appliesMixin RESTerThemeMixin
