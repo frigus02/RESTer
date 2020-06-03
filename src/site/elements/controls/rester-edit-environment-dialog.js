@@ -11,6 +11,7 @@ import '../../../../node_modules/@polymer/paper-input/paper-input.js';
 import '../../../../node_modules/@polymer/paper-input/paper-textarea.js';
 import '../../../../node_modules/web-animations-js/web-animations-next-lite.min.js';
 import '../styles/rester-icons.js';
+import { RE_PATTERN_VAR } from '../data/scripts/variables.js';
 import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin.js';
 
 /**
@@ -25,7 +26,8 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
         return html`
             <style>
                 paper-dialog {
-                    max-width: 600px;
+                    width: 1000px;
+                    max-width: 90vw;
                 }
 
                 .value-line {
@@ -77,7 +79,10 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
                                     <paper-input
                                         label="Key"
                                         value="{{item.key}}"
+                                        pattern="^[[rePatternVar]]$"
                                         on-value-changed="_ensureEmptyValueItem"
+                                        error-message="Can only contain alphanumeric or ._-$ characters"
+                                        auto-validate
                                     ></paper-input>
                                     <paper-textarea
                                         label="Value"
@@ -121,7 +126,10 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
             valueItems: {
                 type: Array,
                 readOnly: true
-            }
+            },
+            rePatternVar: {
+                value: RE_PATTERN_VAR
+            },
         };
     }
 
