@@ -156,22 +156,22 @@ class RESTerNavigationListItem extends PolymerElement {
         return {
             item: {
                 type: Object,
-                observer: '_notifyIfActive'
+                observer: '_notifyIfActive',
             },
             indentLevel: {
                 type: Number,
-                value: 0
+                value: 0,
             },
             route: {
                 type: Object,
-                observer: '_onRouteChanged'
+                observer: '_onRouteChanged',
             },
             active: {
                 type: Boolean,
                 computed: '_computeActive(route)',
                 observer: '_onActiveChanged',
-                reflectToAttribute: true
-            }
+                reflectToAttribute: true,
+            },
         };
     }
 
@@ -227,7 +227,7 @@ class RESTerNavigationListItem extends PolymerElement {
                 this.dispatchEvent(
                     new CustomEvent('item-activated', {
                         bubbles: true,
-                        composed: true
+                        composed: true,
                     })
                 );
             }

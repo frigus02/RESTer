@@ -78,8 +78,8 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
         return {
             environments: {
                 type: Array,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 

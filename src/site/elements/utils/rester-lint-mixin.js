@@ -30,7 +30,7 @@ import { replace as replaceVariables } from '../data/scripts/variables.js';
  *     '_runLintInspections(YOUR_OBSERVED_PROPERTIES_HERE)'
  * ]
  */
-const RESTerLintMixin = superclass =>
+const RESTerLintMixin = (superclass) =>
     class extends superclass {
         constructor() {
             super();
@@ -50,7 +50,7 @@ const RESTerLintMixin = superclass =>
                 return;
             }
 
-            inspections.forEach(inspection => {
+            inspections.forEach((inspection) => {
                 messages.removeMessage(inspection.check);
             });
         }
@@ -73,13 +73,13 @@ const RESTerLintMixin = superclass =>
                 return;
             }
 
-            inspections.forEach(inspection => {
+            inspections.forEach((inspection) => {
                 const result = this[inspection.check].call(this);
                 if (result) {
                     messages.putMessage(inspection.check, {
                         message: replaceVariables(inspection.message, result),
                         fixLabel: replaceVariables(inspection.fixLabel, result),
-                        fix: this[inspection.fix].bind(this)
+                        fix: this[inspection.fix].bind(this),
                     });
                 } else {
                     messages.removeMessage(inspection.check);

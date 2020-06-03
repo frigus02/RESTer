@@ -3,7 +3,7 @@
 /* eslint-env browser */
 /* global chrome:false */
 
-(function() {
+(function () {
     const div = document.body.appendChild(document.createElement('div'));
     div.style.position = 'fixed';
     div.style.top = '10px';
@@ -14,7 +14,7 @@
     input.addEventListener('change', () => {
         const file = input.files[0];
         const reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
             const data = JSON.parse(reader.result);
             chrome.storage.local.set(data, () => {
                 alert('Done!');

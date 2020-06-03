@@ -103,13 +103,13 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
             dataAvailable: {
                 type: Boolean,
                 value: false,
-                computed: '_computeDataAvailable(data)'
+                computed: '_computeDataAvailable(data)',
             },
             timeline: {
                 type: Array,
                 value: [],
-                computed: '_computeTimeline(data)'
-            }
+                computed: '_computeTimeline(data)',
+            },
         };
     }
 
@@ -129,13 +129,13 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
         const queueRequest = {
             label: 'Queue request',
             startAt: 0,
-            duration: data.domainLookupStart - data.fetchStart
+            duration: data.domainLookupStart - data.fetchStart,
         };
 
         const lookupDns = {
             label: 'Lookup DNS',
             startAt: data.domainLookupStart - data.fetchStart,
-            duration: data.domainLookupEnd - data.domainLookupStart
+            duration: data.domainLookupEnd - data.domainLookupStart,
         };
 
         // Missing: domainLookupEnd to connectStart
@@ -143,7 +143,7 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
         const connect = {
             label: 'Connect',
             startAt: data.connectStart - data.fetchStart,
-            duration: data.connectEnd - data.connectStart
+            duration: data.connectEnd - data.connectStart,
         };
 
         // Missing: connectEnd to requestStart
@@ -151,13 +151,13 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
         const sendRequest = {
             label: 'Send request + wait (TTFB)',
             startAt: data.requestStart - data.fetchStart,
-            duration: data.responseStart - data.requestStart
+            duration: data.responseStart - data.requestStart,
         };
 
         const downloadResponse = {
             label: 'Download response',
             startAt: data.responseStart - data.fetchStart,
-            duration: data.responseEnd - data.responseStart
+            duration: data.responseEnd - data.responseStart,
         };
 
         return [
@@ -165,7 +165,7 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
             lookupDns,
             connect,
             sendRequest,
-            downloadResponse
+            downloadResponse,
         ];
     }
 

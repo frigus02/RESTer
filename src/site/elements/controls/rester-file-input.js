@@ -1,7 +1,7 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import {
     addListener as addGestureListener,
-    removeListener as removeGestureListener
+    removeListener as removeGestureListener,
 } from '../../../../node_modules/@polymer/polymer/lib/utils/gestures.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import '../../../../node_modules/@polymer/paper-button/paper-button.js';
@@ -70,22 +70,22 @@ class RESTerFileInput extends PolymerElement {
             name: String,
             label: {
                 type: String,
-                value: null
+                value: null,
             },
             required: {
                 type: Boolean,
-                value: false
+                value: false,
             },
             file: {
                 type: Object,
                 notify: true,
-                readOnly: true
+                readOnly: true,
             },
             value: {
                 type: String,
-                computed: '_computeValue(file, overrideValue)'
+                computed: '_computeValue(file, overrideValue)',
             },
-            overrideValue: String
+            overrideValue: String,
         };
     }
 

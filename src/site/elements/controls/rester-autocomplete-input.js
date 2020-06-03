@@ -66,30 +66,30 @@ class RESTerAutocompleteInput extends PolymerElement {
             noLabelFloat: Boolean,
             value: {
                 type: String,
-                notify: true
+                notify: true,
             },
             items: {
                 type: Array,
-                value: []
+                value: [],
             },
             dropdownItemsVisible: {
                 type: Number,
-                value: 4.7
+                value: 4.7,
             },
             sortByIndex: {
                 type: Boolean,
-                value: false
+                value: false,
             },
             invalid: {
                 type: Boolean,
                 value: false,
-                notify: true
+                notify: true,
             },
             required: {
                 type: Boolean,
-                value: false
+                value: false,
             },
-            disabled: Boolean
+            disabled: Boolean,
         };
     }
 

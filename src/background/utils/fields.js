@@ -1,5 +1,5 @@
 function prepareFields(fields) {
-    return fields.map(field => field.split('.'));
+    return fields.map((field) => field.split('.'));
 }
 
 function filterProperties(obj, fields) {
@@ -37,7 +37,7 @@ export function select(data, fields) {
     fields = prepareFields(fields);
 
     if (Array.isArray(data)) {
-        return data.map(item => filterProperties(item, fields));
+        return data.map((item) => filterProperties(item, fields));
     } else {
         return filterProperties(data, fields);
     }

@@ -6,7 +6,7 @@ const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`
 const requiredDefaultHeaders = {
     host: /.*/i,
     'content-length': /.*/i,
-    'content-type': /^multipart\/form-data.*/i
+    'content-type': /^multipart\/form-data.*/i,
 };
 
 // Maps from browser requestId to RESTer requestId.
@@ -15,27 +15,27 @@ const requestIds = new Map();
 // Maps from RESTer requestId to original response headers.
 const originalResponses = new Map();
 
-chrome.tabs.getCurrent(tab => {
+chrome.tabs.getCurrent((tab) => {
     setupHeaderInterceptor(tab.id);
 });
 
 function setupHeaderInterceptor(currentTabId) {
     function onBeforeSendHeaders(details) {
         const commands = details.requestHeaders
-            .filter(h => h.name.toLowerCase().startsWith(headerCommandPrefix))
-            .map(h => ({
+            .filter((h) => h.name.toLowerCase().startsWith(headerCommandPrefix))
+            .map((h) => ({
                 name: h.name.substr(headerCommandPrefix.length),
-                value: h.value
+                value: h.value,
             }));
 
         // Request ID
-        const resterRequestId = commands.find(c => c.name === 'requestid')
+        const resterRequestId = commands.find((c) => c.name === 'requestid')
             .value;
         requestIds.set(details.requestId, resterRequestId);
 
         // Headers
         const removeDefaultHeaders = commands.some(
-            c => c.name === 'stripdefaultheaders'
+            (c) => c.name === 'stripdefaultheaders'
         );
         const newHeaders = [];
         const indexesToRemove = [];
@@ -61,10 +61,10 @@ function setupHeaderInterceptor(currentTabId) {
         if (!removeDefaultHeaders) {
             // Merge browser and manual cookie headers
             const cookieHeaderIndex = details.requestHeaders.findIndex(
-                h => h.name.toLowerCase() === 'cookie'
+                (h) => h.name.toLowerCase() === 'cookie'
             );
             const customCookieHeaderIndex = newHeaders.findIndex(
-                h => h.name.toLowerCase() === 'cookie'
+                (h) => h.name.toLowerCase() === 'cookie'
             );
             if (cookieHeaderIndex > -1 && customCookieHeaderIndex > -1) {
                 const cookieHeader = details.requestHeaders[cookieHeaderIndex];
@@ -80,7 +80,7 @@ function setupHeaderInterceptor(currentTabId) {
             // Remove overridden browser headers
             for (let i = 0; i < details.requestHeaders.length; i++) {
                 const isOverridden = newHeaders.some(
-                    header =>
+                    (header) =>
                         header.name.toLowerCase() ===
                         details.requestHeaders[i].name.toLowerCase()
                 );
@@ -100,7 +100,7 @@ function setupHeaderInterceptor(currentTabId) {
         }
 
         return {
-            requestHeaders: details.requestHeaders
+            requestHeaders: details.requestHeaders,
         };
     }
 
@@ -109,15 +109,15 @@ function setupHeaderInterceptor(currentTabId) {
         {
             urls: ['<all_urls>'],
             types: ['xmlhttprequest'],
-            tabId: currentTabId
+            tabId: currentTabId,
         },
         [
             'blocking',
             'requestHeaders',
             // Chrome requires "extraHeaders" from version 72, but adding this
             // unconditionally causes an error in Firefox.
-            chrome.webRequest.OnBeforeSendHeadersOptions.EXTRA_HEADERS
-        ].filter(option => !!option)
+            chrome.webRequest.OnBeforeSendHeadersOptions.EXTRA_HEADERS,
+        ].filter((option) => !!option)
     );
 
     function onHeadersReceived(details) {
@@ -125,12 +125,12 @@ function setupHeaderInterceptor(currentTabId) {
         const newHeaders = [
             {
                 name: 'timing-allow-origin',
-                value: '*'
+                value: '*',
             },
             {
                 name: 'access-control-expose-headers',
-                value: details.responseHeaders.map(h => h.name).join(', ')
-            }
+                value: details.responseHeaders.map((h) => h.name).join(', '),
+            },
         ];
         const indexesToRemove = [];
         for (let i = 0; i < details.responseHeaders.length; i++) {
@@ -154,7 +154,7 @@ function setupHeaderInterceptor(currentTabId) {
         originalResponses.set(resterRequestId, {
             status: statusLine.statusCode,
             statusText: statusLine.reasonPhrase,
-            headers: originalHeaders
+            headers: originalHeaders,
         });
 
         indexesToRemove.reverse();
@@ -167,7 +167,7 @@ function setupHeaderInterceptor(currentTabId) {
         }
 
         return {
-            responseHeaders: details.responseHeaders
+            responseHeaders: details.responseHeaders,
         };
     }
 
@@ -176,15 +176,15 @@ function setupHeaderInterceptor(currentTabId) {
         {
             urls: ['<all_urls>'],
             types: ['xmlhttprequest'],
-            tabId: currentTabId
+            tabId: currentTabId,
         },
         [
             'blocking',
             'responseHeaders',
             // Chrome requires "extraHeaders" from version 72, but adding this
             // unconditionally causes an error in Firefox.
-            chrome.webRequest.OnHeadersReceivedOptions.EXTRA_HEADERS
-        ].filter(option => !!option)
+            chrome.webRequest.OnHeadersReceivedOptions.EXTRA_HEADERS,
+        ].filter((option) => !!option)
     );
 }
 
@@ -240,13 +240,13 @@ export async function send(request) {
 
     // Special handling for multipart requests.
     const contentTypeIndex = request.headers.findIndex(
-        h => h.name.toLowerCase() === 'content-type'
+        (h) => h.name.toLowerCase() === 'content-type'
     );
     const contentType = request.headers[contentTypeIndex];
     let requestHeaders = request.headers;
     let requestBody = request.body;
     if (contentType && contentType.value === 'multipart/form-data') {
-        requestHeaders = request.headers.filter(h => h !== contentType);
+        requestHeaders = request.headers.filter((h) => h !== contentType);
         requestBody = generateFormData(request.body, request.tempVariables);
     }
 
@@ -270,7 +270,7 @@ export async function send(request) {
         credentials: request.stripDefaultHeaders ? 'omit' : 'include',
         cache: 'no-store',
         redirect: request.stripDefaultHeaders ? 'manual' : 'follow',
-        signal: request.signal
+        signal: request.signal,
     };
 
     if (
@@ -282,7 +282,7 @@ export async function send(request) {
 
     // Send request.
     const response = {
-        timeStart: new Date()
+        timeStart: new Date(),
     };
 
     const fetchResponse = await fetch(request.url, init);
@@ -300,7 +300,7 @@ export async function send(request) {
 
     const matchingTimings = performance.getEntries({
         name: request.url,
-        entryType: 'resource'
+        entryType: 'resource',
     });
     if (matchingTimings.length > 0) {
         response.timing = matchingTimings[matchingTimings.length - 1].toJSON();

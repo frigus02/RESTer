@@ -96,7 +96,7 @@ function sendAuthorizationRequest(config, responseType) {
     const params = {
         response_type: responseType,
         client_id: config.clientId,
-        redirect_uri: config.redirectUri
+        redirect_uri: config.redirectUri,
     };
 
     if (config.scope) {
@@ -106,7 +106,7 @@ function sendAuthorizationRequest(config, responseType) {
     return browserRequest.send({
         url: generateUri(config.authorizationRequestEndpoint, params),
         targetUrl: config.redirectUri,
-        incognito: config.incognito
+        incognito: config.incognito,
     });
 }
 
@@ -115,9 +115,12 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
         method: config.accessTokenRequestMethod,
         headers: [
             { name: 'Accept', value: 'application/json' },
-            { name: 'Content-Type', value: 'application/x-www-form-urlencoded' }
+            {
+                name: 'Content-Type',
+                value: 'application/x-www-form-urlencoded',
+            },
         ],
-        stripDefaultHeaders: true
+        stripDefaultHeaders: true,
     };
 
     if (config.accessTokenRequestAuthentication === 'basic') {
@@ -127,7 +130,7 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
 
         accessTokenRequest.headers.push({
             name: 'Authorization',
-            value: `Basic ${token}`
+            value: `Basic ${token}`,
         });
     } else if (config.accessTokenRequestAuthentication === 'body') {
         accessTokenRequestParams.client_id = config.clientId;
@@ -157,9 +160,9 @@ function validateAuthorizationResponse(response, requiredProperties) {
     const hash = decodeQueryString(url.hash.substr(1));
     const search = decodeQueryString(url.search.substr(1));
 
-    if (requiredProperties.every(p => hash[p])) {
+    if (requiredProperties.every((p) => hash[p])) {
         return hash;
-    } else if (requiredProperties.every(p => search[p])) {
+    } else if (requiredProperties.every((p) => search[p])) {
         return search;
     } else if (hash.error) {
         throw createError(
@@ -212,11 +215,11 @@ function validateAccessTokenResponse(response, validErrorStatuses) {
 }
 
 function executeImplicitFlow(config) {
-    return sendAuthorizationRequest(config, 'token').then(response => {
+    return sendAuthorizationRequest(config, 'token').then((response) => {
         try {
             const result = validateAuthorizationResponse(response, [
                 'access_token',
-                'token_type'
+                'token_type',
             ]);
             return createToken(config, result);
         } catch (e) {
@@ -227,15 +230,15 @@ function executeImplicitFlow(config) {
 
 function executeCodeFlow(config) {
     return sendAuthorizationRequest(config, 'code')
-        .then(response => {
+        .then((response) => {
             try {
                 const result = validateAuthorizationResponse(response, [
-                    'code'
+                    'code',
                 ]);
                 const accessTokenRequestParams = {
                     grant_type: 'authorization_code',
                     code: result.code,
-                    redirect_uri: config.redirectUri
+                    redirect_uri: config.redirectUri,
                 };
 
                 return sendAccessTokenRequest(config, accessTokenRequestParams);
@@ -243,7 +246,7 @@ function executeCodeFlow(config) {
                 return Promise.reject(e);
             }
         })
-        .then(response => {
+        .then((response) => {
             try {
                 const result = validateAccessTokenResponse(response, [400]);
                 return createToken(config, result);
@@ -255,7 +258,7 @@ function executeCodeFlow(config) {
 
 function executeClientCredentialsFlow(config) {
     const accessTokenRequestParams = {
-        grant_type: 'client_credentials'
+        grant_type: 'client_credentials',
     };
 
     if (config.scope) {
@@ -263,11 +266,11 @@ function executeClientCredentialsFlow(config) {
     }
 
     return sendAccessTokenRequest(config, accessTokenRequestParams).then(
-        response => {
+        (response) => {
             try {
                 const result = validateAccessTokenResponse(response, [
                     400,
-                    401
+                    401,
                 ]);
                 return createToken(config, result);
             } catch (e) {
@@ -281,7 +284,7 @@ function executeResourceOwnerPasswordCredentialsFlow(config, credentials) {
     const accessTokenRequestParams = {
         grant_type: 'password',
         username: credentials.username,
-        password: credentials.password
+        password: credentials.password,
     };
 
     if (config.scope) {
@@ -289,11 +292,11 @@ function executeResourceOwnerPasswordCredentialsFlow(config, credentials) {
     }
 
     return sendAccessTokenRequest(config, accessTokenRequestParams).then(
-        response => {
+        (response) => {
             try {
                 const result = validateAccessTokenResponse(response, [
                     400,
-                    401
+                    401,
                 ]);
                 return createToken(config, result);
             } catch (e) {
@@ -304,7 +307,7 @@ function executeResourceOwnerPasswordCredentialsFlow(config, credentials) {
 }
 
 export function generateToken(config, credentials) {
-    return prepareConfigWithEnvVariables(config).then(config => {
+    return prepareConfigWithEnvVariables(config).then((config) => {
         if (config.flow === 'code') {
             return executeCodeFlow(config);
         } else if (config.flow === 'implicit') {

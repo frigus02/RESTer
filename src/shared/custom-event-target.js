@@ -22,6 +22,6 @@ export default class CustomEventTarget {
 
     dispatchEvent(event) {
         const listeners = this._listeners[event.type] || [];
-        listeners.forEach(l => l(event));
+        listeners.forEach((l) => l(event));
     }
 }

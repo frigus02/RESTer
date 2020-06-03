@@ -22,7 +22,7 @@ const sizes = [
     { px: 48, dpi: 288 },
     { px: 32, dpi: 192 },
     { px: 24, dpi: 144 },
-    { px: 16, dpi: 96 }
+    { px: 16, dpi: 96 },
 ];
 const variations = ['', '-dev', '-light', '-light-dev'];
 
@@ -48,7 +48,7 @@ async function main() {
     );
 
     // - Light DEV
-    iconXml.svg.path.forEach(path => {
+    iconXml.svg.path.forEach((path) => {
         path.$.style = path.$.style.replace('fill:#0c0c0d', 'fill:#f9f9fa');
     });
     await writeFile(
@@ -58,7 +58,9 @@ async function main() {
     );
 
     // - Light
-    const devGroupIndex = iconXml.svg.g.findIndex(node => node.$.id === 'dev');
+    const devGroupIndex = iconXml.svg.g.findIndex(
+        (node) => node.$.id === 'dev'
+    );
     iconXml.svg.g.splice(devGroupIndex, 1);
     await writeFile(
         rootDir + '/.icons/icon-light.svg',
@@ -67,7 +69,7 @@ async function main() {
     );
 
     // - Dark (default)
-    iconXml.svg.path.forEach(path => {
+    iconXml.svg.path.forEach((path) => {
         path.$.style = path.$.style.replace('fill:#f9f9fa', 'fill:#0c0c0d');
     });
     await writeFile(
@@ -92,7 +94,7 @@ async function main() {
                     `--export-png="${outputPng}"`,
                     `--export-area-page`,
                     `--export-dpi=${size.dpi}`,
-                    `"${inputSvg}"`
+                    `"${inputSvg}"`,
                 ].join(' ')
             );
         }
@@ -102,4 +104,4 @@ async function main() {
     await rimraf(rootDir + '/.icons');
 }
 
-main().catch(err => console.error(err.stack));
+main().catch((err) => console.error(err.stack));

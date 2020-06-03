@@ -6,7 +6,7 @@ export const e = new CustomEventTarget();
 export const providedValues = {};
 
 export const RE_PATTERN_VAR = '[\\w$-]+(\\.[\\w$-]+)*';
-const RE_VARS = new RegExp('\\{('+ RE_PATTERN_VAR +')\\}', 'g');
+const RE_VARS = new RegExp('\\{(' + RE_PATTERN_VAR + ')\\}', 'g');
 const providers = [providerEnv];
 
 collectProvidedValues();
@@ -30,7 +30,7 @@ function collectProvidedValues() {
 
     e.dispatchEvent(
         new CustomEvent('providedValuesChanged', {
-            detail: providedValues
+            detail: providedValues,
         })
     );
 }
@@ -48,12 +48,12 @@ export function extract(obj) {
         const matches = obj.match(RE_VARS);
         if (matches) {
             matches
-                .map(m => m.substr(1, m.length - 2))
-                .forEach(v => vars.add(v));
+                .map((m) => m.substr(1, m.length - 2))
+                .forEach((v) => vars.add(v));
         }
     } else if (typeof obj === 'object' && obj !== null) {
-        Object.keys(obj).forEach(key => {
-            extract(obj[key]).forEach(v => vars.add(v));
+        Object.keys(obj).forEach((key) => {
+            extract(obj[key]).forEach((v) => vars.add(v));
         });
     }
 
@@ -62,7 +62,7 @@ export function extract(obj) {
 
 function replaceInternal(obj, allValues, usedValues) {
     if (typeof obj === 'string') {
-        obj = obj.replace(RE_VARS, match => {
+        obj = obj.replace(RE_VARS, (match) => {
             let varName = match.substr(1, match.length - 2),
                 value = allValues[varName];
 
@@ -75,7 +75,7 @@ function replaceInternal(obj, allValues, usedValues) {
         });
     } else if (typeof obj === 'object' && obj !== null) {
         obj = clone(obj);
-        Object.keys(obj).forEach(key => {
+        Object.keys(obj).forEach((key) => {
             obj[key] = replaceInternal(obj[key], allValues, usedValues);
         });
     }

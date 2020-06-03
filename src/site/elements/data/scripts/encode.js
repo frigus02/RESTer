@@ -49,7 +49,7 @@ export function encodeFormValue(value) {
 
 export function mapFilesToVariableValues(files) {
     const values = {};
-    Object.keys(files).forEach(key => {
+    Object.keys(files).forEach((key) => {
         values[`$file.${key}`] = files[key];
     });
 

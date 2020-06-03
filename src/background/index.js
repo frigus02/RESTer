@@ -18,69 +18,69 @@ const resterApi = {
             query:
                 authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
             delete:
-                authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration
+                authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration,
         },
         authorizationTokens: {
             add: authorizationTokens.addAuthorizationToken,
             query: authorizationTokens.queryAuthorizationTokens,
-            delete: authorizationTokens.deleteAuthorizationToken
+            delete: authorizationTokens.deleteAuthorizationToken,
         },
         environments: {
             put: environments.putEnvironment,
             get: environments.getEnvironment,
             query: environments.queryEnvironments,
-            delete: environments.deleteEnvironment
+            delete: environments.deleteEnvironment,
         },
         history: {
             add: history.addHistoryEntry,
             get: history.getHistoryEntry,
             query: history.queryHistoryEntries,
-            delete: history.deleteHistoryEntries
+            delete: history.deleteHistoryEntries,
         },
         requests: {
             put: requests.putRequest,
             get: requests.getRequest,
             query: requests.queryRequests,
             queryCollections: requests.queryRequestCollections,
-            delete: requests.deleteRequest
-        }
+            delete: requests.deleteRequest,
+        },
     },
     exportImport: {
         export: exportImport.exportData,
-        import: exportImport.importData
+        import: exportImport.importData,
     },
     settings: {
         get: settings.get,
-        set: settings.set
-    }
+        set: settings.set,
+    },
 };
 
 chrome.browserAction.onClicked.addListener(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const resterUrl = chrome.extension.getURL('site/index.html');
         const blankUrls = ['about:blank', 'about:newtab'];
         if (blankUrls.includes(tabs[0].url)) {
             try {
                 chrome.tabs.update({
                     loadReplace: true,
-                    url: resterUrl
+                    url: resterUrl,
                 });
             } catch (e) {
                 // Chrome does not support loadReplace and throws an exception,
                 // it is specified. Try again without loadReplace.
                 chrome.tabs.update({
-                    url: resterUrl
+                    url: resterUrl,
                 });
             }
         } else {
             chrome.tabs.create({
-                url: resterUrl
+                url: resterUrl,
             });
         }
     });
 });
 
-chrome.runtime.onConnect.addListener(port => {
+chrome.runtime.onConnect.addListener((port) => {
     if (port.name !== 'api') {
         return;
     }
@@ -88,21 +88,21 @@ chrome.runtime.onConnect.addListener(port => {
     function onDataChange(event) {
         port.postMessage({
             action: 'event.dataChange',
-            detail: JSON.stringify(event.detail)
+            detail: JSON.stringify(event.detail),
         });
     }
 
     function onDataSlowPerformance(event) {
         port.postMessage({
             action: 'event.dataSlowPerformance',
-            detail: JSON.stringify(event.detail)
+            detail: JSON.stringify(event.detail),
         });
     }
 
     function onSettingsChange(event) {
         port.postMessage({
             action: 'event.settingsChange',
-            detail: JSON.stringify(event.detail)
+            detail: JSON.stringify(event.detail),
         });
     }
 
@@ -125,7 +125,7 @@ chrome.runtime.onConnect.addListener(port => {
         }
 
         Promise.resolve(actionFunc(args && JSON.parse(args)))
-            .then(result => {
+            .then((result) => {
                 if (result && fields) {
                     result = select(result, fields);
                 }
@@ -133,22 +133,22 @@ chrome.runtime.onConnect.addListener(port => {
                 port.postMessage({
                     id,
                     action: 'apiresponse',
-                    result: JSON.stringify(result)
+                    result: JSON.stringify(result),
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 if (error.message) {
                     error = {
                         name: error.name,
                         message: error.message,
-                        stack: error.stack
+                        stack: error.stack,
                     };
                 }
 
                 port.postMessage({
                     id,
                     action: 'apiresponse',
-                    error: JSON.stringify(error)
+                    error: JSON.stringify(error),
                 });
             });
     });

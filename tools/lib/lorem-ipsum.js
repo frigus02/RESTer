@@ -100,7 +100,7 @@ const loremIpsumWords = [
     'ipsum',
     'dolor',
     'sit',
-    'amet.'
+    'amet.',
 ];
 
 function randomLengthLoremIpsum() {

@@ -16,7 +16,7 @@ export class AuthorizationProviderConfiguration {
     static get defaultProperties() {
         return {
             title: '',
-            providerId: 0
+            providerId: 0,
         };
     }
 
@@ -31,10 +31,7 @@ export class AuthorizationProviderConfiguration {
 
 export function putAuthorizationProviderConfiguration(config) {
     config = new AuthorizationProviderConfiguration(config);
-    return db
-        .transaction()
-        .put('authProviderConfigs', config)
-        .execute();
+    return db.transaction().put('authProviderConfigs', config).execute();
 }
 
 export async function queryAuthorizationProviderConfigurations(providerId) {
@@ -42,13 +39,10 @@ export async function queryAuthorizationProviderConfigurations(providerId) {
         'authProviderConfigs',
         AuthorizationProviderConfiguration
     );
-    return configs.filter(config => config.providerId === providerId);
+    return configs.filter((config) => config.providerId === providerId);
 }
 
 export function deleteAuthorizationProviderConfiguration(id) {
     const config = new AuthorizationProviderConfiguration({ id });
-    return db
-        .transaction()
-        .delete('authProviderConfigs', config)
-        .execute();
+    return db.transaction().delete('authProviderConfigs', config).execute();
 }

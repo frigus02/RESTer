@@ -16,7 +16,7 @@ import resterPaperItemButtonStyle from '../styles/rester-paper-item-button.js';
 import { dateTime } from '../data/scripts/format.js';
 import {
     getHistoryEntries,
-    deleteHistoryEntries
+    deleteHistoryEntries,
 } from '../data/scripts/rester.js';
 import { replaceWithoutProvidedValues } from '../data/scripts/variables.js';
 import RESTerPageMixin from '../layout/rester-page-mixin.js';
@@ -120,16 +120,16 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
         return {
             historyEntries: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             moreEntriesAvailable: {
                 type: Boolean,
-                computed: '_computeMoreEntriesAvailable(historyEntries.length)'
+                computed: '_computeMoreEntriesAvailable(historyEntries.length)',
             },
             loading: {
                 type: Boolean,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -144,7 +144,7 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
             'request.url',
             'request.variables',
             'response.status',
-            'response.statusText'
+            'response.statusText',
         ];
     }
 
@@ -165,10 +165,10 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
     _load(count) {
         this._setLoading(true);
         getHistoryEntries(count, RESTerPageHistory.historyFields).then(
-            entries => {
+            (entries) => {
                 this._setLoading(false);
                 this._setHistoryEntries(
-                    entries.map(e => {
+                    entries.map((e) => {
                         e.timeFormatted = dateTime(e.time);
 
                         const compiledRequest = replaceWithoutProvidedValues(

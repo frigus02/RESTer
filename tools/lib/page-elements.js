@@ -17,8 +17,8 @@ function queryThroughShadowDOM(selectorChain) {
 exports.MainSelectors = {
     title: By.js(queryThroughShadowDOM, [
         'rester-app',
-        'app-drawer [main-title]'
-    ])
+        'app-drawer [main-title]',
+    ]),
 };
 
 const responseSection = 'section:nth-child(2)';
@@ -28,41 +28,41 @@ exports.RequestSelectors = {
         'rester-app',
         'rester-page-request',
         '.method-input',
-        'input'
+        'input',
     ]),
     lastHeaderName: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
         'rester-header-input',
         '.header-line:last-of-type rester-autocomplete-input:nth-child(1)',
-        'input'
+        'input',
     ]),
     send: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
-        '.send-button'
+        '.send-button',
     ]),
     responseSection: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
-        responseSection
+        responseSection,
     ]),
     responseCode: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
-        `${responseSection} rester-badge`
+        `${responseSection} rester-badge`,
     ]),
     responseRedirectInfo: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
-        `${responseSection} .redirected-info`
+        `${responseSection} .redirected-info`,
     ]),
     responseBody: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
         `${responseSection} rester-highlight-body`,
-        'rester-ace-input'
-    ])
+        'rester-ace-input',
+    ]),
 };
 
 exports.SettingsSelectors = {
@@ -70,27 +70,27 @@ exports.SettingsSelectors = {
     requestMode: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-settings',
-        '.setting:nth-child(2) paper-dropdown-menu'
+        '.setting:nth-child(2) paper-dropdown-menu',
     ]),
     requestModeBrowserRequestsItem: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-settings',
-        '.setting:nth-child(2) paper-dropdown-menu paper-item:nth-child(1)'
+        '.setting:nth-child(2) paper-dropdown-menu paper-item:nth-child(1)',
     ]),
     requestModeCleanRequestsItem: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-settings',
-        '.setting:nth-child(2) paper-dropdown-menu paper-item:nth-child(2)'
-    ])
+        '.setting:nth-child(2) paper-dropdown-menu paper-item:nth-child(2)',
+    ]),
 };
 
-exports.wrapped = function(selectors, driver) {
+exports.wrapped = function (selectors, driver) {
     const wrapper = {};
-    Object.keys(selectors).forEach(key => {
+    Object.keys(selectors).forEach((key) => {
         const selector = selectors[key];
         Object.defineProperty(wrapper, key, {
             get: () => driver.findElement(selector),
-            enumerable: true
+            enumerable: true,
         });
     });
 

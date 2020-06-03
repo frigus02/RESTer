@@ -75,8 +75,8 @@ class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(
             supportedLanguages: {
                 type: Array,
                 readOnly: true,
-                value: ['Plain', 'HTML', 'JSON', 'XML']
-            }
+                value: ['Plain', 'HTML', 'JSON', 'XML'],
+            },
         };
     }
 

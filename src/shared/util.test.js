@@ -10,11 +10,11 @@ import {
     stringifyCookies,
     mergeCookies,
     parseMediaType,
-    parseStatusLine
+    parseStatusLine,
 } from './util.js';
 
-describe('clone', function() {
-    test('returns a shallow clone of an array', function() {
+describe('clone', function () {
+    test('returns a shallow clone of an array', function () {
         const original = [1, 'test', [3, 4], { foo: 'bar' }];
         const result = clone(original);
         expect(result).toEqual(original);
@@ -22,7 +22,7 @@ describe('clone', function() {
         expect(result[2]).toBe(original[2]);
     });
 
-    test('returns a shallow clone of an object', function() {
+    test('returns a shallow clone of an object', function () {
         const original = { foo: 'bar', arr: [1, 2] };
         const result = clone(original);
         expect(result).toEqual(original);
@@ -31,8 +31,8 @@ describe('clone', function() {
     });
 });
 
-describe('cloneDeep', function() {
-    test('returns a deep clone of an array', function() {
+describe('cloneDeep', function () {
+    test('returns a deep clone of an array', function () {
         const original = [1, 'test', [3, 4], { foo: 'bar' }];
         const result = cloneDeep(original);
         expect(result).toEqual(original);
@@ -40,7 +40,7 @@ describe('cloneDeep', function() {
         expect(result[2]).not.toBe(original[2]);
     });
 
-    test('returns a deep clone of an object', function() {
+    test('returns a deep clone of an object', function () {
         const original = { foo: 'bar', arr: [1, 2] };
         const result = cloneDeep(original);
         expect(result).toEqual(original);
@@ -49,56 +49,56 @@ describe('cloneDeep', function() {
     });
 });
 
-describe('randInt', function() {
-    test('returns a random number within the specified range', function() {
+describe('randInt', function () {
+    test('returns a random number within the specified range', function () {
         const result = randInt(42, 84);
         expect(result).toBeGreaterThanOrEqual(42);
         expect(result).toBeLessThanOrEqual(84);
     });
 });
 
-describe('sample', function() {
-    test('returns a random element from the specified array', function() {
+describe('sample', function () {
+    test('returns a random element from the specified array', function () {
         const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         const result = sample(data);
         expect(data).toContain(result);
     });
 });
 
-describe('sortedIndexOf', function() {
-    test('finds number element at start', function() {
+describe('sortedIndexOf', function () {
+    test('finds number element at start', function () {
         expect(sortedIndexOf([2, 3, 4], 1)).toBe(0);
     });
 
-    test('finds number in the middle', function() {
+    test('finds number in the middle', function () {
         expect(sortedIndexOf([1, 3, 4], 2)).toBe(1);
     });
 
-    test('finds number in the middle (number already exists)', function() {
+    test('finds number in the middle (number already exists)', function () {
         expect(sortedIndexOf([1, 2, 3, 4], 2)).toBe(1);
     });
 
-    test('finds string in the middle', function() {
+    test('finds string in the middle', function () {
         expect(sortedIndexOf(['apple', 'grape', 'orange'], 'melon')).toBe(2);
     });
 
-    test('finds object in the middle', function() {
+    test('finds object in the middle', function () {
         expect(
             sortedIndexOf(
                 [{ name: 'apple' }, { name: 'grape' }, { name: 'orange' }],
                 { name: 'melon' },
-                x => x.name
+                (x) => x.name
             )
         ).toBe(2);
     });
 
-    test('finds array in the middle', function() {
+    test('finds array in the middle', function () {
         expect(
             sortedIndexOf(
                 [
                     ['comments', 'folder'],
                     ['posts', 'folder'],
-                    ['posts', 'item']
+                    ['posts', 'item'],
                 ],
                 ['comments,a', 'item']
             )
@@ -106,112 +106,112 @@ describe('sortedIndexOf', function() {
     });
 });
 
-describe('parseCookies', function() {
-    test('parses cookie string', function() {
+describe('parseCookies', function () {
+    test('parses cookie string', function () {
         expect(parseCookies('foo=bar;a=b; complex=1=2=3 ; foo=baz')).toEqual({
             foo: 'baz',
             a: 'b',
-            complex: '1=2=3'
+            complex: '1=2=3',
         });
     });
 });
 
-describe('stringifyCookies', function() {
-    test('makes cookie string from object', function() {
+describe('stringifyCookies', function () {
+    test('makes cookie string from object', function () {
         expect(
             stringifyCookies({
                 foo: 'baz',
                 a: 'b',
-                complex: '1=2=3'
+                complex: '1=2=3',
             })
         ).toBe('foo=baz; a=b; complex=1=2=3');
     });
 });
 
-describe('mergeCookies', function() {
-    test('merges cookie strings', function() {
+describe('mergeCookies', function () {
+    test('merges cookie strings', function () {
         expect(mergeCookies('foo=bar; a=b', 'complex=1=2=3;foo=baz;')).toBe(
             'foo=baz; a=b; complex=1=2=3'
         );
     });
 });
 
-describe('parseMediaType', function() {
-    test('no params', function() {
+describe('parseMediaType', function () {
+    test('no params', function () {
         expect(parseMediaType('application/json')).toEqual({
-            type: 'application/json'
+            type: 'application/json',
         });
     });
 
-    test('one param', function() {
+    test('one param', function () {
         expect(parseMediaType('application/json;charset=utf-8')).toEqual({
-            type: 'application/json'
+            type: 'application/json',
         });
     });
 
-    test('multiple params', function() {
+    test('multiple params', function () {
         expect(
             parseMediaType('application/json;charset=utf-8;boundary=123')
         ).toEqual({ type: 'application/json' });
     });
 
-    test('spaces around semicolon', function() {
+    test('spaces around semicolon', function () {
         expect(parseMediaType('application/json ; charset=utf-8')).toEqual({
-            type: 'application/json'
+            type: 'application/json',
         });
     });
 
-    test('empty string', function() {
+    test('empty string', function () {
         expect(parseMediaType('')).toEqual({ type: '' });
     });
 });
 
-describe('parseStatusLine', function() {
-    test('HTTP/0.9 response', function() {
+describe('parseStatusLine', function () {
+    test('HTTP/0.9 response', function () {
         expect(parseStatusLine('HTTP/0.9 200 OK')).toEqual({
             httpVersion: 'HTTP/0.9',
             statusCode: 200,
-            reasonPhrase: 'OK'
+            reasonPhrase: 'OK',
         });
     });
 
-    test('HTTP/1.1 response', function() {
+    test('HTTP/1.1 response', function () {
         expect(parseStatusLine('HTTP/1.1 200 OK')).toEqual({
             httpVersion: 'HTTP/1.1',
             statusCode: 200,
-            reasonPhrase: 'OK'
+            reasonPhrase: 'OK',
         });
     });
 
-    test('spaces in reason phrase', function() {
+    test('spaces in reason phrase', function () {
         expect(parseStatusLine('HTTP/1.1 404 Not Found')).toEqual({
             httpVersion: 'HTTP/1.1',
             statusCode: 404,
-            reasonPhrase: 'Not Found'
+            reasonPhrase: 'Not Found',
         });
     });
 
-    test('invalid: empty reason phrase', function() {
+    test('invalid: empty reason phrase', function () {
         expect(parseStatusLine('HTTP/1.1 200')).toEqual({
             httpVersion: 'HTTP/1.1',
             statusCode: 200,
-            reasonPhrase: ''
+            reasonPhrase: '',
         });
     });
 
-    test('invalid: no status code', function() {
+    test('invalid: no status code', function () {
         expect(parseStatusLine('HTTP/1.1')).toEqual({
             httpVersion: 'HTTP/1.1',
             statusCode: 0,
-            reasonPhrase: ''
+            reasonPhrase: '',
         });
     });
 
-    test('invalid: status code is not a string', function() {
+    test('invalid: status code is not a string', function () {
         expect(parseStatusLine('HTTP/1.1 ABC DEF')).toEqual({
             httpVersion: 'HTTP/1.1',
             statusCode: Number.NaN,
-            reasonPhrase: 'DEF'
+            reasonPhrase: 'DEF',
         });
     });
 });

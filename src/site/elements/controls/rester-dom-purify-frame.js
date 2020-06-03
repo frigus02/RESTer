@@ -36,8 +36,8 @@ class RESTerDOMPurifyIFrame extends PolymerElement {
         return {
             html: {
                 type: String,
-                observer: '_onHtmlChanged'
-            }
+                observer: '_onHtmlChanged',
+            },
         };
     }
 

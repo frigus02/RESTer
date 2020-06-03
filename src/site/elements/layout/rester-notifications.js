@@ -9,7 +9,7 @@ import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js
 import '../styles/rester-icons.js';
 import {
     e as notificationEvents,
-    notifications
+    notifications,
 } from '../data/scripts/notifications.js';
 
 /**
@@ -89,16 +89,16 @@ class RESTerNotifications extends PolymerElement {
         return {
             notifications: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             isEmpty: {
                 type: Boolean,
-                computed: '_computeIsEmpty(notifications.length)'
+                computed: '_computeIsEmpty(notifications.length)',
             },
             icon: {
                 type: String,
-                computed: '_computeIcon(isEmpty)'
-            }
+                computed: '_computeIcon(isEmpty)',
+            },
         };
     }
 

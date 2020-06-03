@@ -102,8 +102,8 @@ class RESTerHotkeysCheatSheet extends RESTerHotkeysMixin(PolymerElement) {
         return {
             hotkeys: {
                 type: Array,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -111,8 +111,8 @@ class RESTerHotkeysCheatSheet extends RESTerHotkeysMixin(PolymerElement) {
         return {
             '?': {
                 description: 'Shows this cheat sheet.',
-                callback: 'show'
-            }
+                callback: 'show',
+            },
         };
     }
 

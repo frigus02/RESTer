@@ -97,17 +97,17 @@ class RESTerExportDialog extends RESTerDialogControllerMixin(
         return {
             format: {
                 type: String,
-                value: 'postman'
+                value: 'postman',
             },
             includeHistory: {
                 type: Boolean,
-                value: true
+                value: true,
             },
             isPreparingExport: {
                 type: Boolean,
                 value: false,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -120,7 +120,7 @@ class RESTerExportDialog extends RESTerDialogControllerMixin(
         try {
             await exportData({
                 format: this.format,
-                includeHistory: this.includeHistory
+                includeHistory: this.includeHistory,
             });
             this._closeDialogWithAction();
         } catch (e) {

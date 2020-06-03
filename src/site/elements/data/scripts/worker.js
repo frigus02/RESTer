@@ -6,18 +6,18 @@ class SimpleWorker {
     run(data) {
         const worker = new Worker(this.workerScript);
         const promise = new Promise((resolve, reject) => {
-            worker.onmessage = function(event) {
+            worker.onmessage = function (event) {
                 worker.terminate();
                 resolve(event.data);
             };
 
-            worker.onerror = function(error) {
+            worker.onerror = function (error) {
                 worker.terminate();
                 reject(error);
             };
         });
 
-        promise.cancel = function() {
+        promise.cancel = function () {
             worker.terminate();
         };
 

@@ -94,8 +94,8 @@ class RESTerQuickOpenDialog extends PolymerElement {
             searchText: String,
             items: {
                 type: Array,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -105,13 +105,13 @@ class RESTerQuickOpenDialog extends PolymerElement {
 
     show() {
         this.searchText = '';
-        getRequests(RESTerQuickOpenDialog.requestFields).then(requests => {
+        getRequests(RESTerQuickOpenDialog.requestFields).then((requests) => {
             this._setItems(
-                requests.map(r => ({
+                requests.map((r) => ({
                     title: `${r.collection} / ${r.title}`,
                     description: `${r.method} ${r.url}`,
                     score: 0,
-                    data: r
+                    data: r,
                 }))
             );
         });

@@ -121,14 +121,14 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
         return {
             data: {
                 type: Object,
-                observer: '_onDataChanged'
+                observer: '_onDataChanged',
             },
             valueItems: {
                 type: Array,
-                readOnly: true
+                readOnly: true,
             },
             rePatternVar: {
-                value: RE_PATTERN_VAR
+                value: RE_PATTERN_VAR,
             },
         };
     }
@@ -142,9 +142,9 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
             this._setValueItems([]);
         } else {
             this._setValueItems(
-                Object.keys(newData.values).map(key => ({
+                Object.keys(newData.values).map((key) => ({
                     key,
-                    value: newData.values[key]
+                    value: newData.values[key],
                 }))
             );
             this._ensureEmptyValueItem();
@@ -154,7 +154,7 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
     _ensureEmptyValueItem() {
         if (
             !this.valueItems.some(
-                value => value.key.trim() === '' && value.value.trim() === ''
+                (value) => value.key.trim() === '' && value.value.trim() === ''
             )
         ) {
             this.push('valueItems', { key: '', value: '' });
@@ -175,7 +175,7 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
     _save() {
         if (this.$.dialogForm.validate()) {
             this.data.values = {};
-            this.valueItems.forEach(value => {
+            this.valueItems.forEach((value) => {
                 if (value.key.trim() !== '') {
                     this.data.values[value.key.trim()] = value.value;
                 }

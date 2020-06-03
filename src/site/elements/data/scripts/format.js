@@ -1,13 +1,13 @@
 const optionsDate = {
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
 };
 const optionsTime = {
     hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit'
+    second: '2-digit',
 };
 const formatTime = new Intl.DateTimeFormat(undefined, optionsTime);
 const formatDateTime = new Intl.DateTimeFormat(

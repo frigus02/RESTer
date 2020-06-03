@@ -146,14 +146,14 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
             value: {
                 type: String,
                 notify: true,
-                value: ''
+                value: '',
             },
             files: {
-                type: Object
+                type: Object,
             },
             contentType: {
                 type: String,
-                observer: '_onContentTypeChanged'
+                observer: '_onContentTypeChanged',
             },
             inputOptions: {
                 type: Array,
@@ -162,37 +162,37 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
                     {
                         title: 'Plain',
                         isInputTypeAce: true,
-                        aceMode: 'ace/mode/text'
+                        aceMode: 'ace/mode/text',
                     },
                     {
                         title: 'JSON',
                         isInputTypeAce: true,
                         contentTypeSearch: ['json'],
                         aceMode: 'ace/mode/json',
-                        beautifyMethod: 'json'
+                        beautifyMethod: 'json',
                     },
                     {
                         title: 'XML',
                         isInputTypeAce: true,
                         contentTypeSearch: ['xml'],
                         aceMode: 'ace/mode/xml',
-                        beautifyMethod: 'xml'
+                        beautifyMethod: 'xml',
                     },
                     {
                         title: 'Form',
                         isInputTypeForm: true,
                         contentTypeSearch: [
                             'x-www-form-urlencoded',
-                            'form-data'
-                        ]
-                    }
-                ]
+                            'form-data',
+                        ],
+                    },
+                ],
             },
             selectedInputOption: Object,
             aceMaxLines: {
                 type: Number,
-                computed: '_computeAceMaxLines(settings.requestBodyFullSize)'
-            }
+                computed: '_computeAceMaxLines(settings.requestBodyFullSize)',
+            },
         };
     }
 
@@ -228,9 +228,9 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
     _onContentTypeChanged() {
         const lowerContentType = (this.contentType || '').toLowerCase();
         const newOption = this.inputOptions.find(
-            option =>
+            (option) =>
                 option.contentTypeSearch &&
-                option.contentTypeSearch.some(search =>
+                option.contentTypeSearch.some((search) =>
                     lowerContentType.includes(search)
                 )
         );

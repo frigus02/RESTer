@@ -1,6 +1,6 @@
 function ensureIncognitoAccess() {
     return new Promise((resolve, reject) => {
-        chrome.extension.isAllowedIncognitoAccess(isAllowed => {
+        chrome.extension.isAllowedIncognitoAccess((isAllowed) => {
             if (isAllowed) {
                 resolve();
             } else {
@@ -17,8 +17,8 @@ function getCookieStoreId(tab) {
         if (tab.cookieStoreId) {
             resolve(tab.cookieStoreId);
         } else {
-            chrome.cookies.getAllCookieStores(stores => {
-                const store = stores.find(s => s.tabIds.includes(tab.id));
+            chrome.cookies.getAllCookieStores((stores) => {
+                const store = stores.find((s) => s.tabIds.includes(tab.id));
                 if (store) {
                     resolve(store.id);
                 } else {
@@ -52,7 +52,7 @@ export function getMatchPatterns(url) {
 }
 
 function sendRequest(request) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         const urlMatchPatterns = getMatchPatterns(request.targetUrl);
         let thisWindowId,
             thisTab,
@@ -61,9 +61,9 @@ function sendRequest(request) {
         chrome.windows.create(
             {
                 url: request.url,
-                incognito: request.incognito
+                incognito: request.incognito,
             },
-            window => {
+            (window) => {
                 thisWindowId = window.id;
                 thisTab = window.tabs[0];
 
@@ -73,7 +73,7 @@ function sendRequest(request) {
                     {
                         urls: urlMatchPatterns,
                         types: ['main_frame'],
-                        tabId: thisTab.id
+                        tabId: thisTab.id,
                     },
                     ['blocking']
                 );
@@ -100,16 +100,16 @@ function sendRequest(request) {
 
             if (request.extractCookies) {
                 getCookieStoreId(thisTab)
-                    .then(storeId => {
+                    .then((storeId) => {
                         chrome.cookies.getAll(
                             {
                                 url: request.url,
-                                storeId: storeId
+                                storeId: storeId,
                             },
-                            cookies => {
+                            (cookies) => {
                                 closeWindow(null, {
                                     url: details.url,
-                                    cookies: cookies
+                                    cookies: cookies,
                                 });
                             }
                         );
@@ -119,12 +119,12 @@ function sendRequest(request) {
                     });
             } else {
                 closeWindow(null, {
-                    url: details.url
+                    url: details.url,
                 });
             }
 
             return {
-                cancel: true
+                cancel: true,
             };
         }
 

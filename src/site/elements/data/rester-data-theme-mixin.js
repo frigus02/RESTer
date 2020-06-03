@@ -1,7 +1,7 @@
 import {
     e as resterEvents,
     settings,
-    settingsLoaded
+    settingsLoaded,
 } from '../data/scripts/rester.js';
 
 /**
@@ -10,15 +10,15 @@ import {
  *
  * Makes RESTer theme available in property and attribute `theme`.
  */
-const RESTerThemeMixin = superclass =>
+const RESTerThemeMixin = (superclass) =>
     class extends superclass {
         static get properties() {
             return {
                 theme: {
                     type: String,
                     readOnly: true,
-                    reflectToAttribute: true
-                }
+                    reflectToAttribute: true,
+                },
             };
         }
 

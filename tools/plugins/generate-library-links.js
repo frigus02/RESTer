@@ -9,8 +9,9 @@ function generateUsedLibraries(webPackFiles) {
     const libraries = Array.from(webPackFiles.files)
         .sort()
         .filter((path, index, self) => self.indexOf(path) === index)
-        .filter(path => path.startsWith('node_modules/'))
-        .map(path => path.substr('node_modules/'.length))
+        .filter((path) => path.startsWith('node_modules/'))
+        .map((path) => path.substr('node_modules/'.length))
+        .filter((path) => path.substr(path.lastIndexOf('/') + 1).includes('.'))
         .reduce((libs, path) => {
             const lib = path.startsWith('@')
                 ? path.substr(0, path.indexOf('/', path.indexOf('/') + 1))
@@ -23,14 +24,14 @@ function generateUsedLibraries(webPackFiles) {
 
     return Object.keys(libraries)
         .sort()
-        .map(lib => {
+        .map((lib) => {
             const usedFiles = libraries[lib];
             const packageJson = require(`../../node_modules/${lib}/package.json`);
 
             return {
                 name: lib,
                 packageJson,
-                usedFiles
+                usedFiles,
             };
         });
 }
@@ -51,7 +52,7 @@ class WebPackFiles {
     update(compilation) {
         const newFiles = [
             ...Object.keys(compilation.assets),
-            ...Array.from(compilation.fileDependencies).map(stripCwd)
+            ...Array.from(compilation.fileDependencies).map(stripCwd),
         ].map(normalizeFileName);
 
         for (const file of newFiles) {
@@ -80,14 +81,14 @@ class GenerateLibraryLinksPlugin {
         const options = this.options;
         compiler.hooks.emit.tapPromise(
             'GenerateLibraryLinksPlugin',
-            async compilation => {
+            async (compilation) => {
                 this.files.update(compilation);
                 const libraries = generateUsedLibraries(this.files);
                 const text = libraries
-                    .map(lib => {
+                    .map((lib) => {
                         const { name, version } = lib.packageJson;
                         const fileUrls = lib.usedFiles.map(
-                            file =>
+                            (file) =>
                                 `https://unpkg.com/${name}@${version}/${file}`
                         );
                         return `${name} ${version}\n${fileUrls.join('\n')}`;
@@ -118,20 +119,20 @@ class GenerateAboutLibrariesPlugin {
         const options = this.options;
         compiler.hooks.emit.tapPromise(
             'GenerateAboutLibrariesPlugin',
-            async compilation => {
+            async (compilation) => {
                 this.files.update(compilation);
                 const libraries = generateUsedLibraries(this.files);
                 const text = JSON.stringify(
-                    libraries.map(lib => ({
+                    libraries.map((lib) => ({
                         name: lib.packageJson.name,
                         version: lib.packageJson.version,
-                        url: `https://www.npmjs.com/package/${lib.packageJson.name}`
+                        url: `https://www.npmjs.com/package/${lib.packageJson.name}`,
                     }))
                 );
 
                 compilation.assets[options.filename] = {
                     source: () => text,
-                    size: () => text.length
+                    size: () => text.length,
                 };
             }
         );

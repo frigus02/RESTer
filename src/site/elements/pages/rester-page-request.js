@@ -38,12 +38,12 @@ import {
     deleteRequest,
     getHistoryEntry,
     getRequest,
-    putRequest
+    putRequest,
 } from '../data/scripts/rester.js';
 import { cloneDeep, parseMediaType } from '../../../shared/util.js';
 import {
     replace as replaceVariables,
-    extract as extractVariables
+    extract as extractVariables,
 } from '../data/scripts/variables.js';
 import RESTerErrorMixin from '../utils/rester-error-mixin.js';
 import RESTerLintMixin from '../utils/rester-lint-mixin.js';
@@ -488,7 +488,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         return {
             route: {
                 type: Object,
-                observer: '_onRouteChanged'
+                observer: '_onRouteChanged',
             },
             routeActive: Boolean,
             routeData: Object,
@@ -499,15 +499,15 @@ class RESTerPageRequest extends RESTerLintMixin(
                 type: Boolean,
                 computed:
                     '_computePageFullWidth(settings.requestPageFullWidth)',
-                reflectToAttribute: true
+                reflectToAttribute: true,
             },
             isWideEnoughToShowVariablesOnSide: Boolean,
             request: {
                 type: Object,
-                readOnly: true
+                readOnly: true,
             },
             requestVariableValues: {
-                type: Object
+                type: Object,
             },
             requestMethods: {
                 type: Array,
@@ -519,70 +519,70 @@ class RESTerPageRequest extends RESTerLintMixin(
                     'OPTIONS',
                     'PATCH',
                     'POST',
-                    'PUT'
-                ]
+                    'PUT',
+                ],
             },
             requestIsSending: {
                 type: Boolean,
                 readOnly: true,
-                value: false
+                value: false,
             },
             requestIsSendingAndAbortable: {
                 type: Boolean,
                 computed:
-                    '_computeRequestIsSendingAndAbortable(requestIsSending)'
+                    '_computeRequestIsSendingAndAbortable(requestIsSending)',
             },
             requestShowVariablesOnSide: {
                 type: Boolean,
                 computed:
                     '_computeRequestShowVariablesOnSide(settings.showVariablesOnSide, isWideEnoughToShowVariablesOnSide)',
-                reflectToAttribute: true
+                reflectToAttribute: true,
             },
             requestSelectedTab: {
                 type: Number,
                 value: 0,
-                observer: '_onRequestSelectedTabChanged'
+                observer: '_onRequestSelectedTabChanged',
             },
             requestContentType: {
                 type: String,
-                computed: "_computeHeader(request.headers.*, 'Content-Type')"
+                computed: "_computeHeader(request.headers.*, 'Content-Type')",
             },
             requestAuthorization: {
                 type: String,
-                computed: '_computeRequestAuthorization(request.headers.*)'
+                computed: '_computeRequestAuthorization(request.headers.*)',
             },
             response: {
                 type: Object,
-                readOnly: true
+                readOnly: true,
             },
             responseBadgeType: {
                 type: String,
-                computed: '_computeResponseBadgeType(response.status)'
+                computed: '_computeResponseBadgeType(response.status)',
             },
             responseContentType: {
                 type: String,
-                computed: "_computeHeader(response.headers.*, 'Content-Type')"
+                computed: "_computeHeader(response.headers.*, 'Content-Type')",
             },
             historyEntry: {
                 type: Object,
-                readOnly: true
+                readOnly: true,
             },
             historyEntrySize: {
                 type: Number,
-                computed: '_computeHistoryEntrySize(historyEntry.timing)'
+                computed: '_computeHistoryEntrySize(historyEntry.timing)',
             },
             historyEntryDuration: {
                 type: Number,
                 computed:
-                    '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)'
-            }
+                    '_computeHistoryEntryDuration(historyEntry.time, historyEntry.timeEnd, historyEntry.timing)',
+            },
         };
     }
 
     static get observers() {
         return [
             '_updatePageTitle(request, historyEntry)',
-            '_runLintInspections(request.*, requestVariableValues.*)'
+            '_runLintInspections(request.*, requestVariableValues.*)',
         ];
     }
 
@@ -590,12 +590,12 @@ class RESTerPageRequest extends RESTerLintMixin(
         return {
             'mod+s': {
                 description: 'Save the current request.',
-                callback: '_saveRequest'
+                callback: '_saveRequest',
             },
             'mod+enter': {
                 description: 'Send the current request.',
-                callback: '_sendRequest'
-            }
+                callback: '_sendRequest',
+            },
         };
     }
 
@@ -605,28 +605,28 @@ class RESTerPageRequest extends RESTerLintMixin(
                 message: 'Some variables have an empty value.',
                 check: '_lintCheckEmptyVariables',
                 fixLabel: 'View variables',
-                fix: '_lintFixEmptyVariables'
+                fix: '_lintFixEmptyVariables',
             },
             {
                 message:
                     'There are files selected, but the content type is not set to multipart/form-data. Files will be ignored.',
                 check: '_lintCheckFilesWithoutMultipart',
                 fixLabel: 'Change content type',
-                fix: '_lintFixFilesWithoutMultipart'
+                fix: '_lintFixFilesWithoutMultipart',
             },
             {
                 message: 'There are empty file inputs.',
                 check: '_lintCheckEmptyFiles',
                 fixLabel: 'View body',
-                fix: '_lintFixEmptyFiles'
+                fix: '_lintFixEmptyFiles',
             },
             {
                 message:
                     'Suggested content type based on body is {contentType}.',
                 check: '_lintCheckSuggestedContentType',
                 fixLabel: 'Set content type',
-                fix: '_lintFixSuggestedContentType'
-            }
+                fix: '_lintFixSuggestedContentType',
+            },
         ];
     }
 
@@ -638,7 +638,7 @@ class RESTerPageRequest extends RESTerLintMixin(
     _onRouteChanged() {
         if (this.routeActive && this.historyRouteActive) {
             getHistoryEntry(+this.historyRouteData.historyId).then(
-                historyEntry => {
+                (historyEntry) => {
                     if (
                         historyEntry.request.id !== +this.routeData.requestId &&
                         !(
@@ -669,7 +669,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                 }
             );
         } else if (this.routeActive) {
-            getRequest(+this.routeData.requestId).then(request => {
+            getRequest(+this.routeData.requestId).then((request) => {
                 this._setHistoryEntry(null);
                 this._setRequest(request);
                 this.requestVariableValues = {};
@@ -685,8 +685,8 @@ class RESTerPageRequest extends RESTerLintMixin(
                 headers: [],
                 body: '',
                 variables: {
-                    enabled: false
-                }
+                    enabled: false,
+                },
             });
             this.requestVariableValues = {};
             this._setResponse(null);
@@ -716,7 +716,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         if (authorization) {
             return {
                 scheme: authorization.substr(0, authorization.indexOf(' ')),
-                token: authorization.substr(authorization.indexOf(' ') + 1)
+                token: authorization.substr(authorization.indexOf(' ') + 1),
             };
         }
 
@@ -724,7 +724,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         if (cookie) {
             return {
                 scheme: 'Cookie',
-                token: cookie
+                token: cookie,
             };
         }
 
@@ -737,7 +737,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         }
 
         let header = headers.base.find(
-            h => h.name.toLowerCase() === headerName.toLowerCase()
+            (h) => h.name.toLowerCase() === headerName.toLowerCase()
         );
 
         return header && header.value;
@@ -824,7 +824,7 @@ class RESTerPageRequest extends RESTerLintMixin(
 
     _setRequestHeader(headerName, value) {
         const index = this.request.headers.findIndex(
-            h => h.name.toLowerCase() === headerName.toLowerCase()
+            (h) => h.name.toLowerCase() === headerName.toLowerCase()
         );
         if (index > -1) {
             this.request.headers.splice(index, 1);
@@ -833,7 +833,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         if (value || value === '') {
             const newHeader = {
                 name: headerName,
-                value: value
+                value: value,
             };
 
             this.request.headers.push(newHeader);
@@ -851,7 +851,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             return;
         }
 
-        putRequest(this.request).then(id => {
+        putRequest(this.request).then((id) => {
             if (this.historyEntry && this.historyEntry.request.id === id) {
                 window.location = `#/request/${id}/history/${this.historyEntry.id}`;
             } else {
@@ -897,12 +897,12 @@ class RESTerPageRequest extends RESTerLintMixin(
         }
 
         compiledRequest.tempVariables = {
-            values: mapFilesToVariableValues(this.$.bodyInput.files || {})
+            values: mapFilesToVariableValues(this.$.bodyInput.files || {}),
         };
 
         return {
             compiledRequest,
-            usedVariableValues
+            usedVariableValues,
         };
     }
 
@@ -926,7 +926,7 @@ class RESTerPageRequest extends RESTerLintMixin(
 
         this._setRequestIsSending(true);
         return send(compiledRequest)
-            .then(plainResponse => {
+            .then((plainResponse) => {
                 const requestClone = cloneDeep(this.request);
                 requestClone.variables.values = usedVariableValues;
 
@@ -935,7 +935,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                     statusText: plainResponse.statusText,
                     headers: plainResponse.headers,
                     body: plainResponse.body,
-                    redirected: plainResponse.redirected
+                    redirected: plainResponse.redirected,
                 };
 
                 return addHistoryEntry({
@@ -943,15 +943,16 @@ class RESTerPageRequest extends RESTerLintMixin(
                     timeEnd: new Date(plainResponse.timeEnd),
                     timing: plainResponse.timing,
                     request: requestClone,
-                    response: response
+                    response: response,
                 });
             })
-            .then(historyId => {
+            .then((historyId) => {
                 this._setRequestIsSending(false);
-                window.location = `#/request/${this.request.id ||
-                    ''}/history/${historyId}`;
+                window.location = `#/request/${
+                    this.request.id || ''
+                }/history/${historyId}`;
             })
-            .catch(error => {
+            .catch((error) => {
                 this._setRequestIsSending(false);
                 if (error.name !== 'AbortError') {
                     this.showError(error);
@@ -994,7 +995,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             this.requestVariableValues,
             usedVariableValues
         );
-        return variables.some(name => !usedVariableValues[name]);
+        return variables.some((name) => !usedVariableValues[name]);
     }
 
     _lintFixEmptyVariables() {
@@ -1035,8 +1036,8 @@ class RESTerPageRequest extends RESTerLintMixin(
         return (
             requiredFiles &&
             requiredFiles
-                .map(file => file.substring(7, file.length - 1))
-                .some(file => !selectedFiles[file])
+                .map((file) => file.substring(7, file.length - 1))
+                .some((file) => !selectedFiles[file])
         );
     }
 
@@ -1059,7 +1060,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             !this._lintCheckEmptyFiles()
         ) {
             return {
-                contentType: suggested
+                contentType: suggested,
             };
         }
     }

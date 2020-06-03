@@ -19,4 +19,4 @@ async function main() {
     console.log(`Created file ${destFile}.`);
 }
 
-main().catch(err => console.error(err.stack));
+main().catch((err) => console.error(err.stack));

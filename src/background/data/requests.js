@@ -1,6 +1,6 @@
 import {
     migrateHeadersObjectToArray,
-    migrateVariablesObject
+    migrateVariablesObject,
 } from './utils/migrations.js';
 import db from './utils/db.js';
 
@@ -34,7 +34,7 @@ export class Request {
             url: null,
             headers: [],
             body: null,
-            variables: {}
+            variables: {},
         };
     }
 
@@ -68,10 +68,7 @@ export function putRequest(request) {
         delete request.variables.values;
     }
 
-    return db
-        .transaction()
-        .put('requests', request)
-        .execute();
+    return db.transaction().put('requests', request).execute();
 }
 
 /**
@@ -114,8 +111,5 @@ export function queryRequestCollections() {
  */
 export function deleteRequest(id) {
     const request = new Request({ id });
-    return db
-        .transaction()
-        .delete('requests', request)
-        .execute();
+    return db.transaction().delete('requests', request).execute();
 }

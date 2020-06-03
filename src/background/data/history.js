@@ -23,7 +23,7 @@ export class HistoryEntry {
             time: 0,
             timeEnd: 0,
             request: null,
-            response: null
+            response: null,
         };
     }
 
@@ -51,10 +51,7 @@ export class HistoryEntry {
  */
 export function addHistoryEntry(entry) {
     entry = new HistoryEntry(entry);
-    return db
-        .transaction()
-        .add('history', entry)
-        .execute();
+    return db.transaction().add('history', entry).execute();
 }
 
 /**

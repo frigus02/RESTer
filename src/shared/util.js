@@ -93,11 +93,11 @@ export function compareAny(a, b) {
 
 function createIteree(prop) {
     if (typeof prop === 'undefined' || prop === null) {
-        return obj => obj;
+        return (obj) => obj;
     } else if (typeof prop === 'function') {
-        return obj => prop(obj);
+        return (obj) => prop(obj);
     } else {
-        return obj => obj[prop];
+        return (obj) => obj[prop];
     }
 }
 
@@ -196,7 +196,7 @@ export function parseCookies(cookieString) {
  */
 export function stringifyCookies(cookies) {
     return Object.keys(cookies)
-        .map(name => `${name}=${cookies[name]}`)
+        .map((name) => `${name}=${cookies[name]}`)
         .join('; ');
 }
 

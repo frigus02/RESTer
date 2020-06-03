@@ -103,13 +103,13 @@ class RESTerImportDialog extends RESTerDialogControllerMixin(
             file: Object,
             collectionPrefix: {
                 type: String,
-                value: ''
+                value: '',
             },
             isImporting: {
                 type: Boolean,
                 value: false,
-                readOnly: true
-            }
+                readOnly: true,
+            },
         };
     }
 
@@ -126,7 +126,7 @@ class RESTerImportDialog extends RESTerDialogControllerMixin(
         try {
             await importData({
                 data: await this._loadFile(),
-                collectionPrefix: this.collectionPrefix
+                collectionPrefix: this.collectionPrefix,
             });
             this._closeDialogWithAction();
         } catch (e) {
