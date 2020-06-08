@@ -101,7 +101,6 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
     }
 
     registerTitleManuallyEdited() {
-        console.log('setting titleManuallyEdited=true');
         this.data.titleManuallyEdited = true;
     }
 
