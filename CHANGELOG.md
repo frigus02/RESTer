@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 -   Allow entering a custom title for basic authentication tokens.
+-   Add OAuth 2 config title to generated tokens ([#140](https://github.com/frigus02/RESTer/issues/140)).
 
 ### Canged
 

@@ -48,6 +48,7 @@ function createToken(config, tokenResponse) {
 
     token.scheme = 'Bearer';
     token.token = tokenResponse.access_token;
+    token.title = config.title;
 
     try {
         let tokenPayload = decodeJwt(tokenResponse.access_token),
@@ -59,15 +60,13 @@ function createToken(config, tokenResponse) {
             userName = tokenPayload.preferred_username || tokenPayload.name;
 
         if (userName && userId) {
-            token.title = `${userName} (${userId})`;
-        } else {
-            token.title = userName || userId;
+            token.title += ` ${userName} (${userId})`;
+        } else if (userName || userId) {
+            token.title += ` ${userName || userId}`;
         }
-    } catch (e) {
-        token.title = 'Unknown';
-    }
+    } catch (e) {}
 
-    if (config.enableVariables) {
+    if (config.enableVariables && config.env) {
         token.title += ` (Environment: ${config.env.name})`;
     }
 
@@ -214,49 +213,33 @@ function validateAccessTokenResponse(response, validErrorStatuses) {
     }
 }
 
-function executeImplicitFlow(config) {
-    return sendAuthorizationRequest(config, 'token').then((response) => {
-        try {
-            const result = validateAuthorizationResponse(response, [
-                'access_token',
-                'token_type',
-            ]);
-            return createToken(config, result);
-        } catch (e) {
-            return Promise.reject(e);
-        }
-    });
+async function executeImplicitFlow(config) {
+    const response = await sendAuthorizationRequest(config, 'token');
+    const result = validateAuthorizationResponse(response, [
+        'access_token',
+        'token_type',
+    ]);
+    return createToken(config, result);
 }
 
-function executeCodeFlow(config) {
-    return sendAuthorizationRequest(config, 'code')
-        .then((response) => {
-            try {
-                const result = validateAuthorizationResponse(response, [
-                    'code',
-                ]);
-                const accessTokenRequestParams = {
-                    grant_type: 'authorization_code',
-                    code: result.code,
-                    redirect_uri: config.redirectUri,
-                };
+async function executeCodeFlow(config) {
+    const authResponse = await sendAuthorizationRequest(config, 'code');
+    const authResult = validateAuthorizationResponse(authResponse, ['code']);
+    const accessTokenRequestParams = {
+        grant_type: 'authorization_code',
+        code: authResult.code,
+        redirect_uri: config.redirectUri,
+    };
 
-                return sendAccessTokenRequest(config, accessTokenRequestParams);
-            } catch (e) {
-                return Promise.reject(e);
-            }
-        })
-        .then((response) => {
-            try {
-                const result = validateAccessTokenResponse(response, [400]);
-                return createToken(config, result);
-            } catch (e) {
-                return Promise.reject(e);
-            }
-        });
+    const response = await sendAccessTokenRequest(
+        config,
+        accessTokenRequestParams
+    );
+    const result = validateAccessTokenResponse(response, [400]);
+    return createToken(config, result);
 }
 
-function executeClientCredentialsFlow(config) {
+async function executeClientCredentialsFlow(config) {
     const accessTokenRequestParams = {
         grant_type: 'client_credentials',
     };
@@ -265,22 +248,18 @@ function executeClientCredentialsFlow(config) {
         accessTokenRequestParams.scope = config.scope;
     }
 
-    return sendAccessTokenRequest(config, accessTokenRequestParams).then(
-        (response) => {
-            try {
-                const result = validateAccessTokenResponse(response, [
-                    400,
-                    401,
-                ]);
-                return createToken(config, result);
-            } catch (e) {
-                return Promise.reject(e);
-            }
-        }
+    const response = await sendAccessTokenRequest(
+        config,
+        accessTokenRequestParams
     );
+    const result = validateAccessTokenResponse(response, [400, 401]);
+    return createToken(config, result);
 }
 
-function executeResourceOwnerPasswordCredentialsFlow(config, credentials) {
+async function executeResourceOwnerPasswordCredentialsFlow(
+    config,
+    credentials
+) {
     const accessTokenRequestParams = {
         grant_type: 'password',
         username: credentials.username,
@@ -291,42 +270,29 @@ function executeResourceOwnerPasswordCredentialsFlow(config, credentials) {
         accessTokenRequestParams.scope = config.scope;
     }
 
-    return sendAccessTokenRequest(config, accessTokenRequestParams).then(
-        (response) => {
-            try {
-                const result = validateAccessTokenResponse(response, [
-                    400,
-                    401,
-                ]);
-                return createToken(config, result);
-            } catch (e) {
-                return Promise.reject(e);
-            }
-        }
+    const response = await sendAccessTokenRequest(
+        config,
+        accessTokenRequestParams
     );
+    const result = validateAccessTokenResponse(response, [400, 401]);
+    return createToken(config, result);
 }
 
-export function generateToken(config, credentials) {
-    return prepareConfigWithEnvVariables(config).then((config) => {
-        if (config.flow === 'code') {
-            return executeCodeFlow(config);
-        } else if (config.flow === 'implicit') {
-            return executeImplicitFlow(config);
-        } else if (config.flow === 'client_credentials') {
-            return executeClientCredentialsFlow(config);
-        } else if (config.flow === 'resource_owner') {
-            return executeResourceOwnerPasswordCredentialsFlow(
-                config,
-                credentials
-            );
-        } else {
-            return Promise.reject(
-                createError(
-                    'Invalid flow.',
-                    `Got: ${config.flow}`,
-                    `Expected one of: code, implicit, resource_owner`
-                )
-            );
-        }
-    });
+export async function generateToken(config, credentials) {
+    config = await prepareConfigWithEnvVariables(config);
+    if (config.flow === 'code') {
+        return executeCodeFlow(config);
+    } else if (config.flow === 'implicit') {
+        return executeImplicitFlow(config);
+    } else if (config.flow === 'client_credentials') {
+        return executeClientCredentialsFlow(config);
+    } else if (config.flow === 'resource_owner') {
+        return executeResourceOwnerPasswordCredentialsFlow(config, credentials);
+    } else {
+        throw createError(
+            'Invalid flow.',
+            `Got: ${config.flow}`,
+            `Expected one of: code, implicit, resource_owner`
+        );
+    }
 }
