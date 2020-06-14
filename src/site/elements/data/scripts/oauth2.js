@@ -67,7 +67,7 @@ function createToken(config, tokenResponse) {
         token.title = 'Unknown';
     }
 
-    if (config.enableVariables) {
+    if (config.enableVariables && config.env) {
         token.title += ` (Environment: ${config.env.name})`;
     }
 

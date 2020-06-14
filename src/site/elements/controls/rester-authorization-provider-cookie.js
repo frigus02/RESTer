@@ -139,7 +139,7 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
             expirationDate: shortedExpirationDate,
         };
 
-        if (config.enableVariables) {
+        if (config.enableVariables && config.env) {
             token.title += ` (Environment: ${config.env.name})`;
         }
 
