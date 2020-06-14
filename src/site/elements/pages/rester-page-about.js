@@ -84,6 +84,7 @@ class RESTerPageAbout extends RESTerPageMixin(PolymerElement) {
                             <div>Contributors</div>
                             <div secondary>Adam Zimmerman</div>
                             <div secondary>Ferenc Czina</div>
+                            <div secondary>Henning Waack</div>
                             <div secondary>Yusup Hambali</div>
                         </paper-item-body>
                     </paper-icon-item>

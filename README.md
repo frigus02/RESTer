@@ -70,4 +70,5 @@ Afterwards you will find the generated files in the folder _.package_.
 
 -   [Adam Zimmerman](https://github.com/AdamZ)
 -   [Ferenc Czina](https://github.com/fricci)
+-   [Henning Waack](https://github.com/HenningWaack)
 -   [Yusup Hambali](https://github.com/sup-ham)
