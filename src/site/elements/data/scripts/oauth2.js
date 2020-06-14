@@ -199,15 +199,23 @@ function validateAccessTokenResponse(response, validErrorStatuses) {
             );
         }
     } else if (validErrorStatuses.indexOf(response.status) !== -1) {
-        throw createError(
-            `Access token error: ${body.error}.`,
-            `Description: ${body.error_description}`,
-            `URI: ${body.error_uri}`
-        );
+        if (body.error || body.error_description || body.error_uri) {
+            throw createError(
+                `Access token error: ${body.error}.`,
+                `Description: ${body.error_description}`,
+                `URI: ${body.error_uri}`
+            );
+        } else {
+            throw createError(
+                `Unknown access token error.`,
+                `Got body: ${response.body}`
+            );
+        }
     } else {
         throw createError(
             'Invalid access token response.',
             `Got status: ${response.status}`,
+            `Got body: ${response.body}`,
             `Expected status of: 200, ${validErrorStatuses.join(', ')}`
         );
     }
