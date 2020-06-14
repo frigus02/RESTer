@@ -52,6 +52,13 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
                     <iron-form id="dialogForm">
                         <form>
                             <paper-input
+                                label="Title"
+                                value="{{data.title}}"
+                                required
+                                error-message="This is required!"
+                                on-keyup="registerTitleManuallyEdited"
+                            ></paper-input>
+                            <paper-input
                                 label="User name"
                                 value="{{data.userName}}"
                                 required
@@ -85,8 +92,29 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
         };
     }
 
+    static get observers() {
+        return ['userNameChanged(data.*)'];
+    }
+
     static get resterDialogId() {
         return 'authProviderBasicGenerateToken';
+    }
+
+    registerTitleManuallyEdited() {
+        this.data.titleManuallyEdited = true;
+    }
+
+    userNameChanged(changeRecord) {
+        if (!this.data) {
+            return;
+        }
+        if (
+            changeRecord.path.endsWith('.userName') &&
+            !this.data.titleManuallyEdited
+        ) {
+            this.data.title = changeRecord.value;
+            this.notifyPath('data.title');
+        }
     }
 
     ready() {
