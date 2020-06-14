@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.2.0] - 2020-06-14
+
 ### Added
 
 -   Allow entering a custom title for basic authentication tokens.
@@ -14,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Canged
 
--   Variable names can now only contain alphanumeric characters as well as `$._-`. This fixes an annoying behaviour when JSON objects were incorrectly identified as variables ([#116](https://github.com/frigus02/RESTer/issues/116).
+-   Variable names can now only contain alphanumeric characters as well as `$._-`. This fixes an annoying behaviour when JSON objects were incorrectly identified as variables ([#116](https://github.com/frigus02/RESTer/issues/116)).
 -   Increase width of environment variable dialog.
 -   When an authentication token has been generated using the _Custom_ option and it's base64 encoded, show "Base64" in the token title.
 
@@ -616,7 +618,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.1.1...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.2.0...HEAD
+[4.2.0]: https://github.com/frigus02/RESTer/compare/4.1.1...4.2.0
 [4.1.1]: https://github.com/frigus02/RESTer/compare/4.1.0...4.1.1
 [4.1.0]: https://github.com/frigus02/RESTer/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/frigus02/RESTer/compare/3.11.2...4.0.0
