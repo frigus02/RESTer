@@ -47,8 +47,8 @@ https://unpkg.com/@polymer/font-roboto-local@3.0.2/fonts/robotomono/RobotoMono-T
 https://unpkg.com/@polymer/font-roboto-local@3.0.2/fonts/robotomono/RobotoMono-ThinItalic.ttf
 https://unpkg.com/@polymer/font-roboto-local@3.0.2/roboto.js
 
-@polymer/iron-a11y-announcer 3.0.2
-https://unpkg.com/@polymer/iron-a11y-announcer@3.0.2/iron-a11y-announcer.js
+@polymer/iron-a11y-announcer 3.1.0
+https://unpkg.com/@polymer/iron-a11y-announcer@3.1.0/iron-a11y-announcer.js
 
 @polymer/iron-a11y-keys 3.0.1
 https://unpkg.com/@polymer/iron-a11y-keys@3.0.1/iron-a11y-keys.js
@@ -292,20 +292,20 @@ https://unpkg.com/@polymer/polymer@3.4.1/lib/utils/wrap.js
 https://unpkg.com/@polymer/polymer@3.4.1/polymer-element.js
 https://unpkg.com/@polymer/polymer@3.4.1/polymer-legacy.js
 
-@webcomponents/shadycss 1.9.6
-https://unpkg.com/@webcomponents/shadycss@1.9.6/entrypoints/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/entrypoints/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/apply-shim-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/common-regex.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/common-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/css-parse.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/document-wait.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/style-settings.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/style-util.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/template-map.js
-https://unpkg.com/@webcomponents/shadycss@1.9.6/src/unscoped-style-handler.js
+@webcomponents/shadycss 1.10.0
+https://unpkg.com/@webcomponents/shadycss@1.10.0/entrypoints/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/entrypoints/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/apply-shim-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/common-regex.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/common-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/css-parse.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/document-wait.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/style-settings.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/style-util.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/template-map.js
+https://unpkg.com/@webcomponents/shadycss@1.10.0/src/unscoped-style-handler.js
 
 ace-builds 1.4.11
 https://unpkg.com/ace-builds@1.4.11/src-min-noconflict/ace.js
@@ -320,8 +320,8 @@ https://unpkg.com/ace-builds@1.4.11/src-min-noconflict/worker-html.js
 https://unpkg.com/ace-builds@1.4.11/src-min-noconflict/worker-json.js
 https://unpkg.com/ace-builds@1.4.11/src-min-noconflict/worker-xml.js
 
-dompurify 2.0.11
-https://unpkg.com/dompurify@2.0.11/dist/purify.es.js
+dompurify 2.0.12
+https://unpkg.com/dompurify@2.0.12/dist/purify.es.js
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
