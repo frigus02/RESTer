@@ -74,7 +74,7 @@
     "addons-linter": "2.0.1",
     "archiver": "4.0.1",
     "babel-eslint": "10.1.0",
-    "babel-jest": "26.1.0",
+    "babel-jest": "26.3.0",
     "chalk": "4.1.0",
     "concurrently": "5.2.0",
     "copy-webpack-plugin": "6.0.3",
