@@ -122,9 +122,18 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
         stripDefaultHeaders: true,
     };
 
-    if (config.accessTokenRequestAuthentication === 'basic') {
-        const userName = encodeURI(config.clientId);
-        const password = encodeURI(config.clientSecret || '');
+    if (
+        config.accessTokenRequestAuthentication === 'basic' ||
+        config.accessTokenRequestAuthentication === 'basic-noencode'
+    ) {
+        const userName =
+            config.accessTokenRequestAuthentication === 'basic'
+                ? encodeURI(config.clientId)
+                : config.clientId;
+        const password =
+            config.accessTokenRequestAuthentication === 'basic'
+                ? encodeURI(config.clientSecret || '')
+                : config.clientSecret || '';
         const token = window.btoa(`${userName}:${password}`);
 
         accessTokenRequest.headers.push({
