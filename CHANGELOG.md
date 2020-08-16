@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.3.0] - 2020-08-16
+
 ### Added
 
 -   Some OAuth 2 servers don't supports URL-encoded credentials in HTTP Basic authentication headers ([#139])(https://github.com/frigus02/RESTer/issues/139)). RESTer now allows to turn URL-encoding off by choosing the "HTTP Basic authentication (no encode)" authentication option.
@@ -623,7 +625,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.2.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.3.0...HEAD
+[4.3.0]: https://github.com/frigus02/RESTer/compare/4.2.0...4.3.0
 [4.2.0]: https://github.com/frigus02/RESTer/compare/4.1.1...4.2.0
 [4.1.1]: https://github.com/frigus02/RESTer/compare/4.1.0...4.1.1
 [4.1.0]: https://github.com/frigus02/RESTer/compare/4.0.0...4.1.0
