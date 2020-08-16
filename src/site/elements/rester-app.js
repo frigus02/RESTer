@@ -34,6 +34,7 @@ import './utils/rester-export-dialog.js';
 import './utils/rester-highlight-language-select-dialog.js';
 import './utils/rester-hotkeys-cheat-sheet.js';
 import './utils/rester-import-dialog.js';
+import './utils/rester-multi-delete-dialog.js';
 import './utils/rester-quick-open-dialog.js';
 import './utils/rester-redirected-help-dialog.js';
 import './utils/rester-timing-duration-dialog.js';
@@ -204,6 +205,7 @@ class RESTerApp extends RESTerThemeMixin(
             <rester-export-dialog></rester-export-dialog>
             <rester-highlight-language-select-dialog></rester-highlight-language-select-dialog>
             <rester-import-dialog></rester-import-dialog>
+            <rester-multi-delete-dialog></rester-multi-delete-dialog>
             <rester-redirected-help-dialog></rester-redirected-help-dialog>
             <rester-timing-duration-dialog></rester-timing-duration-dialog>
             <rester-timing-size-dialog></rester-timing-size-dialog>
