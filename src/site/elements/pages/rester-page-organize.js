@@ -48,7 +48,11 @@ class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
                     <paper-button raised on-tap="_importData">
                         Import requests
                     </paper-button>
-                    <h2>Clean up</h2>
+                    <h2>Clean up requests</h2>
+                    <paper-button raised on-tap="_cleanupRequests">
+                        Clean up requests
+                    </paper-button>
+                    <h2>Clean up history</h2>
                     <p>
                         RESTer does not automatically delete any of your
                         history. It can be a good idea to clean it up every once
@@ -77,6 +81,10 @@ class RESTerPageOrganize extends RESTerPageMixin(PolymerElement) {
 
     _importData() {
         dialogs.import.show();
+    }
+
+    _cleanupRequests() {
+        dialogs.multiDelete.show();
     }
 
     _cleanupHistory() {
