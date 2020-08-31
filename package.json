@@ -88,7 +88,7 @@
     "jest": "26.4.2",
     "log-symbols": "4.0.0",
     "mkdirp": "1.0.4",
-    "prettier": "2.0.5",
+    "prettier": "2.1.1",
     "rimraf": "3.0.2",
     "selenium-webdriver": "4.0.0-alpha.7",
     "string-replace-loader": "2.3.0",
