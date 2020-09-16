@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixes
 
--   Update dependencies. DOMPurify 2.0.6 and older contain a cross-site scripting vulnerability, which makes it worth publishing a new version of RESTer.
+-   Update dependencies.
 
 ## [4.3.0] - 2020-08-16
 
