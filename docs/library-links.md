@@ -320,8 +320,8 @@ https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-html.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-json.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js
 
-dompurify 2.0.12
-https://unpkg.com/dompurify@2.0.12/dist/purify.es.js
+dompurify 2.0.15
+https://unpkg.com/dompurify@2.0.15/dist/purify.es.js
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js

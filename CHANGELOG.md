@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.3.1] - 2020-09-16
+
+### Fixes
+
+-   Update dependencies.
+
 ## [4.3.0] - 2020-08-16
 
 ### Added
@@ -625,7 +631,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.3.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.3.1...HEAD
+[4.3.1]: https://github.com/frigus02/RESTer/compare/4.3.0...4.3.1
 [4.3.0]: https://github.com/frigus02/RESTer/compare/4.2.0...4.3.0
 [4.2.0]: https://github.com/frigus02/RESTer/compare/4.1.1...4.2.0
 [4.1.1]: https://github.com/frigus02/RESTer/compare/4.1.0...4.1.1
