@@ -92,7 +92,7 @@
     "rimraf": "3.0.2",
     "selenium-webdriver": "4.0.0-alpha.7",
     "string-replace-loader": "2.3.0",
-    "webpack": "4.44.1",
+    "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
     "xml2js": "0.4.23"
   },
