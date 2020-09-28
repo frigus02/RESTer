@@ -1970,10 +1970,10 @@ acorn@^7.1.1, acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c"
   integrity sha512-+G7P8jJmCHr+S+cLfQxygbWhXy+8YTVGzAkpEbcLo2mLoL7tij/VG41QSHACSf5QgYRhMZYHuNc6drJaO0Da+w==
 
-addons-linter@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-2.3.0.tgz#14c9f6eb6d95c1e0c2b3b0a6a971c8f1150e0a4f"
-  integrity sha512-jVDJM2ZCsTFV4jcwtRz6N2NgkeYExd25mAacgI7rDWXc81WGLwS+aQE1Ht5Jor8Y/iOpckLAG6/4VNJZhtLZ7w==
+addons-linter@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-2.6.0.tgz#7f4e9dd4ee1f2e67a9b226e92392a5c314ed0028"
+  integrity sha512-ZoJHIOwJumaziCg+RN0m+mlYrTlzWc5siZ77guwm9ExD5Ys+jL7aW0KnD6pg1mbmF51x/CVOSWaFLPwcJfj3GQ==
   dependencies:
     "@babel/runtime" "7.11.2"
     ajv "6.12.5"
@@ -1983,9 +1983,9 @@ addons-linter@2.3.0:
     columnify "1.5.4"
     common-tags "1.8.0"
     deepmerge "4.2.2"
-    dispensary "0.53.0"
+    dispensary "0.56.0"
     es6-promisify "6.1.1"
-    eslint "7.8.1"
+    eslint "7.9.0"
     eslint-plugin-no-unsanitized "3.1.2"
     eslint-visitor-keys "2.0.0"
     espree "7.3.0"
@@ -1998,7 +1998,7 @@ addons-linter@2.3.0:
     mdn-browser-compat-data "1.0.35"
     os-locale "5.0.0"
     pino "6.6.1"
-    postcss "7.0.32"
+    postcss "7.0.34"
     probe-image-size "5.0.0"
     relaxed-json "1.0.3"
     semver "7.3.2"
@@ -3362,10 +3362,10 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dispensary@0.53.0:
-  version "0.53.0"
-  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.53.0.tgz#2a2174a6cf3ed12b510daf1a1284285af5b9fd3b"
-  integrity sha512-6p3Fm6BAq9nUPlFleAwUq0JrYPsYHj7KxS6lESpaeTJISgXzP6resVTfTXZ4XiQpCCeFdT8hYNTN+UZplR5u6g==
+dispensary@0.56.0:
+  version "0.56.0"
+  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.56.0.tgz#ecdbbe463bc487a9c6d31a5cfacf6ae7e4cd8e23"
+  integrity sha512-ERrvhlGUN3mTSx6WVgI1PxXih75WPETsJUBwYRn0R8OOIVF7P/XIUVCa2+xrkP6l+pj6E8MI5fI4VSDMt2SduA==
   dependencies:
     async "~3.2.0"
     natural-compare-lite "~1.4.0"
@@ -3729,10 +3729,10 @@ eslint@7.10.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-eslint@7.8.1:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.8.1.tgz#e59de3573fb6a5be8ff526c791571646d124a8fa"
-  integrity sha512-/2rX2pfhyUG0y+A123d0ccXtMm7DV7sH1m3lk9nk2DZ2LReq39FXHueR9xZwshE5MdfSf0xunSaMWRqyIA6M1w==
+eslint@7.9.0:
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.9.0.tgz#522aeccc5c3a19017cf0cb46ebfd660a79acf337"
+  integrity sha512-V6QyhX21+uXp4T+3nrNfI3hQNBDa/P8ga7LoQOenwrlEFXrEnUEE+ok1dMtaS3b6rmLXhT1TkTIsG75HMLbknA==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@eslint/eslintrc" "^0.1.3"
@@ -6728,10 +6728,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postcss@7.0.32:
-  version "7.0.32"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.32.tgz#4310d6ee347053da3433db2be492883d62cec59d"
-  integrity sha512-03eXong5NLnNCD05xscnGKGDZ98CyzoqPSMjOe6SuoQY7Z2hIj0Ld1g/O/UQRuOle2aRtiIRDg9tDcTGAkLfKw==
+postcss@7.0.34:
+  version "7.0.34"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.34.tgz#f2baf57c36010df7de4009940f21532c16d65c20"
+  integrity sha512-H/7V2VeNScX9KE83GDrDZNiGT1m2H+UTnlinIzhjlLX9hfMUn1mHNnGeX81a1c8JSBdBvqk7c2ZOG6ZPn5itGw==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
