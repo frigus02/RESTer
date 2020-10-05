@@ -1970,10 +1970,10 @@ acorn@^7.1.1, acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c"
   integrity sha512-+G7P8jJmCHr+S+cLfQxygbWhXy+8YTVGzAkpEbcLo2mLoL7tij/VG41QSHACSf5QgYRhMZYHuNc6drJaO0Da+w==
 
-addons-linter@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-2.6.0.tgz#7f4e9dd4ee1f2e67a9b226e92392a5c314ed0028"
-  integrity sha512-ZoJHIOwJumaziCg+RN0m+mlYrTlzWc5siZ77guwm9ExD5Ys+jL7aW0KnD6pg1mbmF51x/CVOSWaFLPwcJfj3GQ==
+addons-linter@2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-2.7.0.tgz#86e4fddd7dce6231a14d50396716e0c565891446"
+  integrity sha512-kH+0fAKSc461PnCyYQ0/SeKcxEQ2zxCZwG2GB6xjvfkMiMAwwic87VP62Cffc8H/zHEfYuT8uFmy42ayH5mqEQ==
   dependencies:
     "@babel/runtime" "7.11.2"
     ajv "6.12.5"
@@ -1983,7 +1983,7 @@ addons-linter@2.6.0:
     columnify "1.5.4"
     common-tags "1.8.0"
     deepmerge "4.2.2"
-    dispensary "0.56.0"
+    dispensary "0.57.0"
     es6-promisify "6.1.1"
     eslint "7.9.0"
     eslint-plugin-no-unsanitized "3.1.2"
@@ -1995,10 +1995,10 @@ addons-linter@2.6.0:
     glob "7.1.6"
     is-mergeable-object "1.1.1"
     jed "1.1.1"
-    mdn-browser-compat-data "1.0.35"
+    mdn-browser-compat-data "1.0.39"
     os-locale "5.0.0"
     pino "6.6.1"
-    postcss "7.0.34"
+    postcss "7.0.35"
     probe-image-size "5.0.0"
     relaxed-json "1.0.3"
     semver "7.3.2"
@@ -3362,10 +3362,10 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dispensary@0.56.0:
-  version "0.56.0"
-  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.56.0.tgz#ecdbbe463bc487a9c6d31a5cfacf6ae7e4cd8e23"
-  integrity sha512-ERrvhlGUN3mTSx6WVgI1PxXih75WPETsJUBwYRn0R8OOIVF7P/XIUVCa2+xrkP6l+pj6E8MI5fI4VSDMt2SduA==
+dispensary@0.57.0:
+  version "0.57.0"
+  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.57.0.tgz#aa02ac07e177aaf18f41acbf65b9b4a71f623ba7"
+  integrity sha512-vgRaZa9Ok8QdrAVtx+s6heBgI1RGT+Y6VA336oPWYADZZz83K+5NOTpLamEKRyJdRY5pYLaWhV2Js7bau1JyKg==
   dependencies:
     async "~3.2.0"
     natural-compare-lite "~1.4.0"
@@ -5895,10 +5895,10 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-mdn-browser-compat-data@1.0.35:
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.35.tgz#f0e97bd84acb044e8e99905c97ddad9edbf528fa"
-  integrity sha512-7SMAEZgBaElDNcqFhmInBnSo+c+MOzprt7hrGNcEo9hMhDiPQ7L4dwEt6gunudjI0jXenPJaW0S8U4ckeP2uhw==
+mdn-browser-compat-data@1.0.39:
+  version "1.0.39"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.39.tgz#d06353cb60f210f9c3a7506727e1943c77b96a2c"
+  integrity sha512-1U5Lt+pjYxJ1mosBIdK5fr3guzV4v81f8yy0rLAj/cu7ki3ciCe85LVJJ0RLK0lP6VwFtjpXSOESfwAEpz0FyQ==
   dependencies:
     extend "3.0.2"
 
@@ -6728,10 +6728,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postcss@7.0.34:
-  version "7.0.34"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.34.tgz#f2baf57c36010df7de4009940f21532c16d65c20"
-  integrity sha512-H/7V2VeNScX9KE83GDrDZNiGT1m2H+UTnlinIzhjlLX9hfMUn1mHNnGeX81a1c8JSBdBvqk7c2ZOG6ZPn5itGw==
+postcss@7.0.35:
+  version "7.0.35"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.35.tgz#d2be00b998f7f211d8a276974079f2e92b970e24"
+  integrity sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
