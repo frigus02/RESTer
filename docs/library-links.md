@@ -320,8 +320,8 @@ https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-html.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-json.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js
 
-dompurify 2.0.15
-https://unpkg.com/dompurify@2.0.15/dist/purify.es.js
+dompurify 2.1.1
+https://unpkg.com/dompurify@2.1.1/dist/purify.es.js
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
@@ -335,7 +335,7 @@ https://unpkg.com/string_score@0.1.22/string_score.js
 web-animations-js 2.3.2
 https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js
 
-webpack 4.44.1
-https://unpkg.com/webpack@4.44.1/buildin/amd-define.js
-https://unpkg.com/webpack@4.44.1/buildin/module.js
+webpack 4.44.2
+https://unpkg.com/webpack@4.44.2/buildin/amd-define.js
+https://unpkg.com/webpack@4.44.2/buildin/module.js
 ```

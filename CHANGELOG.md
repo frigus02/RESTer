@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+-   Always render response body preview on white background. This improves color contrasts, especially with the Dark theme. (See [#181](https://github.com/frigus02/RESTer/issues/181)).
+
 ## [4.3.1] - 2020-09-16
 
 ### Fixes
