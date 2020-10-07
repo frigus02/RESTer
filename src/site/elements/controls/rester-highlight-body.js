@@ -52,6 +52,7 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
                     right: 16px; /* Make sure the scrollbar is clickable */
                     z-index: 10;
                     padding: 0;
+                    background-color: var(--primary-background-color);
 
                     --paper-menu: {
                         width: 256px;
@@ -82,6 +83,10 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
                     position: absolute;
                     top: 0;
                     z-index: 11;
+                }
+
+                rester-dom-purify-frame {
+                    background-color: white;
                 }
             </style>
 

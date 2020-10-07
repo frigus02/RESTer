@@ -32,6 +32,7 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
                     right: 16px; /* Make sure the scrollbar is clickable */
                     z-index: 10;
                     padding: 0;
+                    background-color: var(--primary-background-color);
 
                     --paper-menu: {
                         width: 256px;
