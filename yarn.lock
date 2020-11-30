@@ -7667,10 +7667,10 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-string-replace-loader@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/string-replace-loader/-/string-replace-loader-3.0.0.tgz#011f3eaf1f3cff525ef960038542a0d09e32b3e5"
-  integrity sha512-noRtCUOW3aQ3VGT0dQUrS9jaKCM9TRFPWlT6p2oBEf2kzJxXtZxaMvszg+xU6bPfuPQ9gohHRgk33lEDnqX9fg==
+string-replace-loader@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/string-replace-loader/-/string-replace-loader-3.0.1.tgz#a899de524a4dfaa296e4be73f1667de150bed8d2"
+  integrity sha512-G6UD9HX1XaKXnWpKgNHPVc/pYYLtP8+UWfORY5n3GTLSUNUo2hU2ABBnC9B3hg7ATWVSIGTisiP8zGq1DlvTbg==
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
