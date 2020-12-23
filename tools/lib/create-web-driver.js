@@ -12,6 +12,13 @@ const createPackage = require('./create-package');
 const fsUnlink = promisify(fs.unlink);
 const rootDir = path.resolve(__dirname, '../../');
 
+firefox.Channel.AURORA = new firefox.Channel(
+    // The path to Firefox Developer Edition has spaces in it on macOS, which was not the case in
+    // https://github.com/SeleniumHQ/selenium/blob/b4b7674a8a4e2802e7e9a1c4fa85201a2413b781/javascript/node/selenium-webdriver/firefox.js#L745
+    '/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox-bin',
+    'Firefox Developer Edition\\firefox.exe'
+);
+
 function ensureGeckoDriverInPath() {
     const geckodriverPath = path.resolve(rootDir, 'node_modules/geckodriver');
     const envPath = process.env.PATH || '';
