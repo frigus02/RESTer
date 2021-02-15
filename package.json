@@ -71,7 +71,7 @@
     "@babel/core": "7.12.13",
     "@babel/parser": "7.12.15",
     "@babel/preset-env": "7.12.13",
-    "addons-linter": "2.17.0",
+    "addons-linter": "2.18.0",
     "archiver": "5.2.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "26.6.3",
