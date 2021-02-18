@@ -34,7 +34,7 @@ Accept-Language: en
 Accept-Encoding: gzip, deflate
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 0
-Origin: null
+Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
 Connection: keep-alive
 Pragma: no-cache
 Cache-Control: no-cache
