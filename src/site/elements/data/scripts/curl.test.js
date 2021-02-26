@@ -13,7 +13,7 @@ describe('generateCommand', function () {
         expect(generateCommand(request)).toMatchSnapshot();
     });
 
-    test('url (needs escaping)', function () {
+    test('url (contains dollar)', function () {
         const request = {
             url: 'http://example.com/$HOME',
             headers: [],
@@ -21,9 +21,17 @@ describe('generateCommand', function () {
         expect(generateCommand(request)).toMatchSnapshot();
     });
 
-    test('url (needs escaping)', function () {
+    test('url (contains quote)', function () {
         const request = {
             url: "http://example.com/?quote='",
+            headers: [],
+        };
+        expect(generateCommand(request)).toMatchSnapshot();
+    });
+
+    test('url (contains query string)', function () {
+        const request = {
+            url: 'http://example.com/?foo=bar&n=1',
             headers: [],
         };
         expect(generateCommand(request)).toMatchSnapshot();

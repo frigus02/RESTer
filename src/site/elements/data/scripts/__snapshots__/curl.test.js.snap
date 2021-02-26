@@ -6,7 +6,7 @@ exports[`generateCommand body (needs escaping 1) 1`] = `
     -d '{
                 \\"hello\\": \\"world\\",
                 \\"shell\\": \\"$HOME\\",
-                \\"single\\": \\"\\\\'quotes\\\\'\\"
+                \\"single\\": \\"'\\\\''quotes'\\\\''\\"
             }'"
 `;
 
@@ -18,7 +18,7 @@ b'"
 
 exports[`generateCommand body (needs escaping 3) 1`] = `
 "curl -X PUT http://example.com \\\\
-    -d '\\\\\\\\'"
+    -d '\\\\'"
 `;
 
 exports[`generateCommand body (simple) 1`] = `
@@ -32,15 +32,17 @@ exports[`generateCommand headers 1`] = `
 "curl -X PUT http://example.com \\\\
     -H 'Accept: application/json' \\\\
     -H 'X-Shell-Variable: $HOME' \\\\
-    -H 'X-Quotes: Some double \\" and single \\\\' quotes'"
+    -H 'X-Quotes: Some double \\" and single '\\\\'' quotes'"
 `;
 
 exports[`generateCommand method (GET) 1`] = `"curl http://example.com"`;
 
 exports[`generateCommand method (other) 1`] = `"curl -X PUT http://example.com"`;
 
-exports[`generateCommand url (needs escaping) 1`] = `"curl 'http://example.com/$HOME'"`;
+exports[`generateCommand url (contains dollar) 1`] = `"curl 'http://example.com/$HOME'"`;
 
-exports[`generateCommand url (needs escaping) 2`] = `"curl 'http://example.com/?quote=\\\\''"`;
+exports[`generateCommand url (contains query string) 1`] = `"curl 'http://example.com/?foo=bar&n=1'"`;
+
+exports[`generateCommand url (contains quote) 1`] = `"curl 'http://example.com/?quote='\\\\'"`;
 
 exports[`generateCommand url (simple) 1`] = `"curl http://example.com"`;
