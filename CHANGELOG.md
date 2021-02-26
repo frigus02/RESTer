@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.3.3] - 2021-02-26
+
+### Fixes
+
+-   Fixed shell escaping for curl command generation. Query parameters and single quotes should now be escaped properly. (See [#287](https://github.com/frigus02/RESTer/issues/287)).
+
 ## [4.3.2] - 2020-10-07
 
 ### Fixed
@@ -638,7 +644,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.3.2...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.3.3...HEAD
+[4.3.3]: https://github.com/frigus02/RESTer/compare/4.3.2...4.3.3
 [4.3.2]: https://github.com/frigus02/RESTer/compare/4.3.1...4.3.2
 [4.3.1]: https://github.com/frigus02/RESTer/compare/4.3.0...4.3.1
 [4.3.0]: https://github.com/frigus02/RESTer/compare/4.2.0...4.3.0
