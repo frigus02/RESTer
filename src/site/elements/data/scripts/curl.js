@@ -2,7 +2,7 @@
 // Source: https://github.com/xxorax/node-shell-escape/blob/ebdb90e58050d74dbda9b8177f7de11cbb355d94/shell-escape.js
 // License: MIT
 function shellescape(s) {
-    if (/[^A-Za-z0-9_\/:=.-]/.test(s)) {
+    if (/[^A-Za-z0-9_/:=.-]/.test(s)) {
         s = "'" + s.replace(/'/g, "'\\''") + "'";
         s = s
             .replace(/^'+/g, "'") // deduplicate single-quotes at the beginning
