@@ -378,17 +378,17 @@ https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-html.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-json.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js
 
-dompurify 2.2.3
-https://unpkg.com/dompurify@2.2.3/dist/purify.es.js
-https://unpkg.com/dompurify@2.2.3/package.json
+dompurify 2.2.6
+https://unpkg.com/dompurify@2.2.6/dist/purify.es.js
+https://unpkg.com/dompurify@2.2.6/package.json
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/package.json
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 
-html-webpack-plugin 4.5.0
-https://unpkg.com/html-webpack-plugin@4.5.0/lib/loader.js
-https://unpkg.com/html-webpack-plugin@4.5.0/package.json
+html-webpack-plugin 5.2.0
+https://unpkg.com/html-webpack-plugin@5.2.0/lib/loader.js
+https://unpkg.com/html-webpack-plugin@5.2.0/package.json
 
 mousetrap 1.6.5
 https://unpkg.com/mousetrap@1.6.5/mousetrap.js
