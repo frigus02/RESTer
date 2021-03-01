@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.12.17",
-    "@babel/parser": "7.12.17",
+    "@babel/parser": "7.13.4",
     "@babel/preset-env": "7.12.17",
     "addons-linter": "2.19.0",
     "archiver": "5.2.0",
