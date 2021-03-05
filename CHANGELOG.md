@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+-   User name is now allowd to be empty in the basic auth dialog. (See [#289](https://github.com/frigus02/RESTer/issues/289))
+
 ## [4.3.3] - 2021-02-26
 
 ### Fixes
