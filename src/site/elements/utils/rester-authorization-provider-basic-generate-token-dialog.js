@@ -61,8 +61,6 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
                             <paper-input
                                 label="User name"
                                 value="{{data.userName}}"
-                                required
-                                error-message="This is required!"
                                 autofocus
                             ></paper-input>
                             <paper-input
@@ -105,14 +103,18 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
     }
 
     userNameChanged(changeRecord) {
-        if (!this.data) {
+        if (!this.data || this.data.titleManuallyEdited) {
             return;
         }
-        if (
-            changeRecord.path.endsWith('.userName') &&
-            !this.data.titleManuallyEdited
-        ) {
+
+        if (changeRecord.path.endsWith('.userName')) {
             this.data.title = changeRecord.value;
+            this.notifyPath('data.title');
+        } else if (
+            changeRecord.path.endsWith('.password') &&
+            !this.data.userName
+        ) {
+            this.data.title = 'Empty user name';
             this.notifyPath('data.title');
         }
     }
