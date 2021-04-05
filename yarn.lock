@@ -3974,10 +3974,10 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-geckodriver@1.22.2:
-  version "1.22.2"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.22.2.tgz#e0904bed50a1d2abaa24597d4ae43eb6662f9d72"
-  integrity sha512-xcf1OLfHqNX4+wQhj4weu2gtiwtPnV8yEEKvLkC8GuFtUc5WjOGodV/2pHiYJjCSJRQfsmIgY5Xs1zaJf/OGFA==
+geckodriver@1.22.3:
+  version "1.22.3"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.22.3.tgz#324b3102944e8928e67bde61ca129afac417dece"
+  integrity sha512-HJvImEC5m/2J7aIn+AdiZml1yTOSFZAb8h8lmZBSUgGSCPdNTd0/6YxBVBsvzpaTuaDQHbMUr+8ikaFKF+Sj/A==
   dependencies:
     adm-zip "0.5.3"
     bluebird "3.7.2"
