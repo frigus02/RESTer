@@ -2,20 +2,16 @@
 
 'use strict';
 
-const childProcess = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const { promisify } = require('util');
+import { exec as _exec } from 'child_process';
+import { readFile, writeFile, rm, mkdir } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { promisify } from 'util';
 
-const rimraf = promisify(require('rimraf'));
-const xml2js = require('xml2js');
+import { Parser, Builder } from 'xml2js';
 
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
-const mkdir = promisify(fs.mkdir);
-const exec = promisify(childProcess.exec);
+const exec = promisify(_exec);
 
-const rootDir = __dirname + '/../..';
+const rootUrl = new URL('../../', import.meta.url);
 const sizes = [
     { px: 128, dpi: 768 },
     { px: 96, dpi: 576 },
@@ -28,21 +24,21 @@ const variations = ['', '-dev', '-light', '-light-dev'];
 
 async function main() {
     // Read icon
-    const parser = new xml2js.Parser();
+    const parser = new Parser();
     const parseString = promisify(parser.parseString).bind(parser);
-    const iconBuffer = await readFile(rootDir + '/resources/icon.svg');
+    const iconBuffer = await readFile(new URL('resources/icon.svg', rootUrl));
     const iconXml = await parseString(iconBuffer);
 
     // Create clean working folder
-    await rimraf(rootDir + '/.icons');
-    await mkdir(rootDir + '/.icons');
+    await rm(new URL('.icons', rootUrl), { force: true, recursive: true });
+    await mkdir(new URL('.icons', rootUrl));
 
     // Create different icon versions
-    const builder = new xml2js.Builder();
+    const builder = new Builder();
 
     // - Dark (default) DEV
     await writeFile(
-        rootDir + '/.icons/icon-dev.svg',
+        new URL('.icons/icon-dev.svg', rootUrl),
         builder.buildObject(iconXml),
         { encoding: 'utf8' }
     );
@@ -52,7 +48,7 @@ async function main() {
         path.$.style = path.$.style.replace('fill:#0c0c0d', 'fill:#f9f9fa');
     });
     await writeFile(
-        rootDir + '/.icons/icon-light-dev.svg',
+        new URL('.icons/icon-light-dev.svg', rootUrl),
         builder.buildObject(iconXml),
         { encoding: 'utf8' }
     );
@@ -63,7 +59,7 @@ async function main() {
     );
     iconXml.svg.g.splice(devGroupIndex, 1);
     await writeFile(
-        rootDir + '/.icons/icon-light.svg',
+        new URL('.icons/icon-light.svg', rootUrl),
         builder.buildObject(iconXml),
         { encoding: 'utf8' }
     );
@@ -73,7 +69,7 @@ async function main() {
         path.$.style = path.$.style.replace('fill:#f9f9fa', 'fill:#0c0c0d');
     });
     await writeFile(
-        rootDir + '/.icons/icon.svg',
+        new URL('.icons/icon.svg', rootUrl),
         builder.buildObject(iconXml),
         { encoding: 'utf8' }
     );
@@ -81,17 +77,17 @@ async function main() {
     // Export PNGs
     for (const variation of variations) {
         for (const size of sizes) {
-            const inputSvg = path.resolve(
-                `${rootDir}/.icons/icon${variation}.svg`
+            const inputSvg = fileURLToPath(
+                new URL(`.icons/icon${variation}.svg`, rootUrl)
             );
-            const outputPng = path.resolve(
-                `${rootDir}/src/images/icon${variation}${size.px}.png`
+            const outputPng = fileURLToPath(
+                new URL(`src/images/icon${variation}${size.px}.png`, rootUrl)
             );
             await exec(
                 [
-                    '"C:\\Program Files\\Inkscape\\inkscape.com"',
-                    `--without-gui`,
-                    `--export-png="${outputPng}"`,
+                    'inkscape',
+                    '--export-type=png',
+                    `--export-filename="${outputPng}"`,
                     `--export-area-page`,
                     `--export-dpi=${size.dpi}`,
                     `"${inputSvg}"`,
@@ -101,7 +97,7 @@ async function main() {
     }
 
     // Clean up
-    await rimraf(rootDir + '/.icons');
+    await rm(new URL('.icons', rootUrl), { force: true, recursive: true });
 }
 
 main().catch((err) => console.error(err.stack));

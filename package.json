@@ -16,13 +16,13 @@
     "build:site": "webpack --mode production",
     "lint": "yarn run lint:javascript && yarn run lint:firefox",
     "lint:javascript": "eslint .",
-    "lint:firefox": "node tools/scripts/lint-firefox-addon.js .build/",
-    "format": "prettier --write \"**/*.{js,md}\" !.build/**",
+    "lint:firefox": "node tools/scripts/lint-firefox-addon.mjs .build/",
+    "format": "prettier --write \"**/*.{js,mjs,md}\" !.build/**",
     "test": "jest \"src/.+\\.test\\.js$\"",
     "test:e2e": "jest \"test-e2e/.+\\.test\\.js$\"",
     "package": "yarn run clean:package && yarn run package:chrome && yarn run package:firefox",
-    "package:chrome": "node tools/scripts/package-addon.js chrome",
-    "package:firefox": "node tools/scripts/package-addon.js firefox"
+    "package:chrome": "node tools/scripts/package-addon.mjs chrome",
+    "package:firefox": "node tools/scripts/package-addon.mjs firefox"
   },
   "dependencies": {
     "@polymer/app-layout": "3.1.0",
@@ -87,7 +87,6 @@
     "html-webpack-plugin": "5.3.1",
     "jest": "26.6.3",
     "log-symbols": "4.1.0",
-    "mkdirp": "1.0.4",
     "prettier": "2.2.1",
     "rimraf": "3.0.2",
     "selenium-webdriver": "4.0.0-beta.3",
@@ -97,7 +96,7 @@
     "xml2js": "0.4.23"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.0.0"
   },
   "private": true
 }

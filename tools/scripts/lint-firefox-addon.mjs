@@ -2,13 +2,13 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import { createReadStream } from 'fs';
+import { resolve as resolvePath } from 'path';
+import { createInterface } from 'readline';
 
-const addonsLinter = require('addons-linter');
-const chalk = require('chalk');
-const logSymbols = require('log-symbols');
+import { createInstance } from 'addons-linter';
+import chalk from 'chalk';
+import logSymbols from 'log-symbols';
 
 const ignoreFileName = '.addonslinterignore';
 
@@ -22,7 +22,7 @@ const ignoreFileName = '.addonslinterignore';
 async function lintFirefoxAddon(options) {
     const ignoreList = await getIgnoreList();
 
-    const linter = addonsLinter.createInstance({
+    const linter = createInstance({
         config: {
             // This mimics the first command line argument from yargs,
             // which should be the directory to the extension.
@@ -47,7 +47,7 @@ async function lintFirefoxAddon(options) {
     result.count = 0;
     for (let list of lists) {
         result[list] = result[list].filter((message) => {
-            const file = path.resolve(message.file);
+            const file = resolvePath(message.file);
 
             const ignoreEntry = ignoreList.find(
                 (ignore) => ignore.file === file && ignore.code === message.code
@@ -80,10 +80,10 @@ async function lintFirefoxAddon(options) {
 }
 
 function getIgnoreList() {
-    const ignoreFile = path.join(process.cwd(), ignoreFileName);
+    const ignoreFile = new URL('../../' + ignoreFileName, import.meta.url);
     return new Promise((resolve) => {
-        const lineReader = readline.createInterface({
-            input: fs.createReadStream(ignoreFile),
+        const lineReader = createInterface({
+            input: createReadStream(ignoreFile),
         });
 
         const ignore = [];
@@ -108,7 +108,7 @@ function getIgnoreList() {
             }
 
             ignore.push({
-                file: path.resolve(file),
+                file: resolvePath(file),
                 code,
             });
         });
@@ -201,7 +201,7 @@ function reportResult(result) {
 
 async function main() {
     await lintFirefoxAddon({
-        addonDir: path.resolve(process.argv[2]),
+        addonDir: resolvePath(process.argv[2]),
     });
 }
 
