@@ -88,9 +88,9 @@ https://unpkg.com/@polymer/iron-collapse@3.0.1/package.json
 https://unpkg.com/@polymer/iron-dropdown@3.0.1/iron-dropdown.js
 https://unpkg.com/@polymer/iron-dropdown@3.0.1/package.json
 
-@polymer/iron-fit-behavior 3.0.2
-https://unpkg.com/@polymer/iron-fit-behavior@3.0.2/iron-fit-behavior.js
-https://unpkg.com/@polymer/iron-fit-behavior@3.0.2/package.json
+@polymer/iron-fit-behavior 3.1.0
+https://unpkg.com/@polymer/iron-fit-behavior@3.1.0/iron-fit-behavior.js
+https://unpkg.com/@polymer/iron-fit-behavior@3.1.0/package.json
 
 @polymer/iron-flex-layout 3.0.1
 https://unpkg.com/@polymer/iron-flex-layout@3.0.1/iron-flex-layout.js
@@ -210,11 +210,11 @@ https://unpkg.com/@polymer/paper-dialog-behavior@3.0.1/paper-dialog-shared-style
 https://unpkg.com/@polymer/paper-dialog-scrollable@3.0.1/package.json
 https://unpkg.com/@polymer/paper-dialog-scrollable@3.0.1/paper-dialog-scrollable.js
 
-@polymer/paper-dropdown-menu 3.1.0
-https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/package.json
-https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/paper-dropdown-menu-icons.js
-https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/paper-dropdown-menu-shared-styles.js
-https://unpkg.com/@polymer/paper-dropdown-menu@3.1.0/paper-dropdown-menu.js
+@polymer/paper-dropdown-menu 3.2.0
+https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/package.json
+https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/paper-dropdown-menu-icons.js
+https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/paper-dropdown-menu-shared-styles.js
+https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/paper-dropdown-menu.js
 
 @polymer/paper-fab 3.0.1
 https://unpkg.com/@polymer/paper-fab@3.0.1/package.json
@@ -246,10 +246,10 @@ https://unpkg.com/@polymer/paper-item@3.0.1/paper-item.js
 https://unpkg.com/@polymer/paper-listbox@3.0.1/package.json
 https://unpkg.com/@polymer/paper-listbox@3.0.1/paper-listbox.js
 
-@polymer/paper-menu-button 3.0.1
-https://unpkg.com/@polymer/paper-menu-button@3.0.1/package.json
-https://unpkg.com/@polymer/paper-menu-button@3.0.1/paper-menu-button-animations.js
-https://unpkg.com/@polymer/paper-menu-button@3.0.1/paper-menu-button.js
+@polymer/paper-menu-button 3.1.0
+https://unpkg.com/@polymer/paper-menu-button@3.1.0/package.json
+https://unpkg.com/@polymer/paper-menu-button@3.1.0/paper-menu-button-animations.js
+https://unpkg.com/@polymer/paper-menu-button@3.1.0/paper-menu-button.js
 
 @polymer/paper-progress 3.0.1
 https://unpkg.com/@polymer/paper-progress@3.0.1/package.json
@@ -348,21 +348,21 @@ https://unpkg.com/@polymer/polymer@3.4.1/package.json
 https://unpkg.com/@polymer/polymer@3.4.1/polymer-element.js
 https://unpkg.com/@polymer/polymer@3.4.1/polymer-legacy.js
 
-@webcomponents/shadycss 1.10.1
-https://unpkg.com/@webcomponents/shadycss@1.10.1/entrypoints/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/entrypoints/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/package.json
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/apply-shim-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/common-regex.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/common-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/css-parse.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/document-wait.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/style-settings.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/style-util.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/template-map.js
-https://unpkg.com/@webcomponents/shadycss@1.10.1/src/unscoped-style-handler.js
+@webcomponents/shadycss 1.10.2
+https://unpkg.com/@webcomponents/shadycss@1.10.2/entrypoints/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/entrypoints/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/package.json
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/apply-shim-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/common-regex.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/common-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/css-parse.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/document-wait.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/style-settings.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/style-util.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/template-map.js
+https://unpkg.com/@webcomponents/shadycss@1.10.2/src/unscoped-style-handler.js
 
 ace-builds 1.4.12
 https://unpkg.com/ace-builds@1.4.12/package.json
@@ -378,17 +378,17 @@ https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-html.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-json.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js
 
-dompurify 2.2.6
-https://unpkg.com/dompurify@2.2.6/dist/purify.es.js
-https://unpkg.com/dompurify@2.2.6/package.json
+dompurify 2.2.7
+https://unpkg.com/dompurify@2.2.7/dist/purify.es.js
+https://unpkg.com/dompurify@2.2.7/package.json
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/package.json
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 
-html-webpack-plugin 5.2.0
-https://unpkg.com/html-webpack-plugin@5.2.0/lib/loader.js
-https://unpkg.com/html-webpack-plugin@5.2.0/package.json
+html-webpack-plugin 5.3.1
+https://unpkg.com/html-webpack-plugin@5.3.1/lib/loader.js
+https://unpkg.com/html-webpack-plugin@5.3.1/package.json
 
 mousetrap 1.6.5
 https://unpkg.com/mousetrap@1.6.5/mousetrap.js

@@ -1,15 +1,12 @@
 'use strict';
 
-const fs = require('fs');
+const { createWriteStream } = require('fs');
+const { readFile, mkdir } = require('fs/promises');
 const path = require('path');
-const { promisify } = require('util');
 
 const archiver = require('archiver');
-const mkdirp = require('mkdirp');
 
 const packageJson = require('../../package.json');
-
-const readFile = promisify(fs.readFile);
 
 const additionalManifestEntries = {
     firefox: {
@@ -93,10 +90,10 @@ async function createPackage({ browser, srcDir, destFile }) {
         path.join(srcDir, 'manifest.json'),
         'utf8'
     );
-    await mkdirp(path.dirname(destFile));
+    await mkdir(path.dirname(destFile), { recursive: true });
 
     return await new Promise((resolve, reject) => {
-        const output = fs.createWriteStream(destFile);
+        const output = createWriteStream(destFile);
         const archive = archiver('zip', {
             zlib: { level: 9 },
         });
