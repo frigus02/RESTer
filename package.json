@@ -61,7 +61,7 @@
     "@polymer/paper-tooltip": "3.0.1",
     "@polymer/polymer": "3.4.1",
     "ace-builds": "1.4.12",
-    "dompurify": "2.2.7",
+    "dompurify": "2.2.8",
     "frigus02-vkbeautify": "1.0.1",
     "mousetrap": "1.6.5",
     "string_score": "0.1.22",
@@ -70,7 +70,7 @@
   "devDependencies": {
     "@babel/core": "7.13.16",
     "@babel/parser": "7.13.16",
-    "@babel/preset-env": "7.13.15",
+    "@babel/preset-env": "7.14.0",
     "addons-linter": "3.2.0",
     "archiver": "5.3.0",
     "babel-eslint": "10.1.0",
@@ -91,7 +91,7 @@
     "rimraf": "3.0.2",
     "selenium-webdriver": "4.0.0-beta.3",
     "string-replace-loader": "3.0.1",
-    "webpack": "5.35.1",
+    "webpack": "5.36.2",
     "webpack-cli": "4.6.0",
     "xml2js": "0.4.23"
   },
