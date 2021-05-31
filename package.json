@@ -18,7 +18,7 @@
     "lint:javascript": "eslint .",
     "lint:firefox": "node tools/scripts/lint-firefox-addon.mjs .build/",
     "format": "prettier --write \"**/*.{js,mjs,md}\" !.build/**",
-    "test": "jest \"src/.+\\.test\\.js$\"",
+    "test": "jest --env jsdom \"src/.+\\.test\\.js$\"",
     "test:e2e": "jest \"test-e2e/.+\\.test\\.js$\"",
     "package": "yarn run clean:package && yarn run package:chrome && yarn run package:firefox",
     "package:chrome": "node tools/scripts/package-addon.mjs chrome",

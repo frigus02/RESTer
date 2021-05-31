@@ -114,7 +114,7 @@ class Deferred {
     }
 
     static flush() {
-        return new Promise((resolve) => setImmediate(resolve));
+        return new Promise((resolve) => setTimeout(resolve));
     }
 }
 
