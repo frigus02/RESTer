@@ -44,36 +44,19 @@ function decodeJwt(token) {
 }
 
 function createCodeVerifier() {
-    const charset =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~';
-    const size = 50;
-
-    const charsetIndexBuffer = new Uint8Array(size);
-    for (let i = 0; i < size; i += 1) {
-        charsetIndexBuffer[i] = (Math.random() * charset.length) | 0;
-    }
-
-    const randomChars = [];
-    for (let i = 0; i < charsetIndexBuffer.byteLength; i += 1) {
-        const index = charsetIndexBuffer[i] % charset.length;
-        randomChars.push(charset[index]);
-    }
-
-    return randomChars.join('');
+    const array = new Uint8Array(32);
+    window.crypto.getRandomValues(array);
+    return base64urlencode(array);
 }
 
 async function createCodeChallenge(codeVerifier) {
     const data = new TextEncoder().encode(codeVerifier);
-    const digest = await crypto.subtle.digest('SHA-256', data);
-    return base64urlencode(digest);
+    const digest = await window.crypto.subtle.digest('SHA-256', data);
+    return base64urlencode(new Uint8Array(digest));
 }
 
-function base64urlencode(str) {
-    // Convert the ArrayBuffer to string using Uint8 array to conver to what btoa accepts.
-    // btoa accepts chars only within ascii 0-255 and base64 encodes them.
-    // Then convert the base64 encoded to base64url encoded
-    //   (replace + with -, replace / with _, trim trailing =)
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
+function base64urlencode(octets) {
+    return btoa(String.fromCharCode(...octets))
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
