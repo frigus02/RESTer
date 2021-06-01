@@ -31,10 +31,10 @@ const template = html`
 
         form {
             /*
-                    * The paper-input-error inside of the paper-input is positioned
-                    * absolute underneath the input and has 20px height. Without the
-                    * padding the dialog would start scrolling.
-                    */
+             * The paper-input-error inside of the paper-input is positioned
+             * absolute underneath the input and has 20px height. Without the
+             * padding the dialog would start scrolling.
+             */
             padding-bottom: 20px;
         }
 
@@ -146,7 +146,11 @@ const template = html`
                             <paper-item value="none"
                                 >None (public client)</paper-item
                             >
-                            <paper-item value="pkce">PKCE</paper-item>
+                            <paper-item
+                                value="pkce"
+                                hidden$="[[!_isFieldVisible('accessTokenRequestAuthentication:pkce', data.flow)]]"
+                                >PKCE</paper-item
+                            >
                             <paper-item value="basic"
                                 >HTTP Basic authentication</paper-item
                             >
@@ -207,17 +211,68 @@ const template = html`
             >
                 Delete
             </paper-button>
-            <paper-button dialog-dismiss> Cancel </paper-button>
-            <paper-button on-tap="_save"> Save </paper-button>
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button on-tap="_save">Save</paper-button>
         </div>
     </paper-dialog>
 `;
 
-/**
- * @appliesMixin RESTerDialogControllerMixin
- * @polymer
- * @customElement
- */
+const FIELDS_FOR_FLOW = {
+    code: [
+        'id',
+        'providerId',
+        'title',
+        'enableVariables',
+        'flow',
+        'authorizationRequestEndpoint',
+        'accessTokenRequestMethod',
+        'accessTokenRequestEndpoint',
+        'accessTokenRequestAuthentication',
+        'accessTokenRequestAuthentication:pkce',
+        'clientId',
+        'clientSecret',
+        'redirectUri',
+        'scope',
+    ],
+    implicit: [
+        'id',
+        'providerId',
+        'title',
+        'enableVariables',
+        'flow',
+        'authorizationRequestEndpoint',
+        'clientId',
+        'redirectUri',
+        'scope',
+    ],
+    client_credentials: [
+        'id',
+        'providerId',
+        'title',
+        'enableVariables',
+        'flow',
+        'accessTokenRequestMethod',
+        'accessTokenRequestEndpoint',
+        'accessTokenRequestAuthentication',
+        'clientId',
+        'clientSecret',
+        'scope',
+    ],
+    resource_owner: [
+        'id',
+        'providerId',
+        'title',
+        'enableVariables',
+        'flow',
+        'accessTokenRequestMethod',
+        'accessTokenRequestEndpoint',
+        'accessTokenRequestAuthentication',
+        'clientId',
+        'clientSecret',
+        'scope',
+    ],
+};
+
 class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(
     PolymerElement
 ) {
@@ -237,68 +292,14 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
     }
 
     static get observers() {
-        return ['_notifyConfigurationDialogResize(data.flow)'];
+        return [
+            '_notifyConfigurationDialogResize(data.flow)',
+            '_clearUnsupportedValues(data.flow)',
+        ];
     }
 
     static get resterDialogId() {
         return 'authProviderOAuth2Configuration';
-    }
-
-    static get _configProperties() {
-        return {
-            code: [
-                'id',
-                'providerId',
-                'title',
-                'enableVariables',
-                'flow',
-                'authorizationRequestEndpoint',
-                'accessTokenRequestMethod',
-                'accessTokenRequestEndpoint',
-                'accessTokenRequestAuthentication',
-                'clientId',
-                'clientSecret',
-                'redirectUri',
-                'scope',
-            ],
-            implicit: [
-                'id',
-                'providerId',
-                'title',
-                'enableVariables',
-                'flow',
-                'authorizationRequestEndpoint',
-                'clientId',
-                'redirectUri',
-                'scope',
-            ],
-            client_credentials: [
-                'id',
-                'providerId',
-                'title',
-                'enableVariables',
-                'flow',
-                'accessTokenRequestMethod',
-                'accessTokenRequestEndpoint',
-                'accessTokenRequestAuthentication',
-                'clientId',
-                'clientSecret',
-                'scope',
-            ],
-            resource_owner: [
-                'id',
-                'providerId',
-                'title',
-                'enableVariables',
-                'flow',
-                'accessTokenRequestMethod',
-                'accessTokenRequestEndpoint',
-                'accessTokenRequestAuthentication',
-                'clientId',
-                'clientSecret',
-                'scope',
-            ],
-        };
     }
 
     ready() {
@@ -311,22 +312,31 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
         this.$.dialog.notifyResize();
     }
 
-    _isFieldVisible(field, selectedFlow, additionalField) {
-        const flowMatches =
-            selectedFlow &&
-            RESTerAuthorizationProviderOAuth2ConfigurationDialog._configProperties[
-                selectedFlow
-            ].includes(field);
+    _clearUnsupportedValues(flow) {
+        if (
+            this.data &&
+            this.data.accessTokenRequestAuthentication === 'pkce' &&
+            flow &&
+            !FIELDS_FOR_FLOW[flow].includes(
+                'accessTokenRequestAuthentication:pkce'
+            )
+        ) {
+            this.set('data.accessTokenRequestAuthentication', null);
+        }
+    }
+
+    _isFieldVisible(field, flow, accessTokenRequestAuthentication) {
+        const flowMatches = flow && FIELDS_FOR_FLOW[flow].includes(field);
         if (!flowMatches) {
             return false;
         }
 
-        // The client secret is not needed, when no authentication is performed.
+        // The client secret is not needed for public clients
         if (
             field === 'clientSecret' &&
-            (!additionalField ||
-                additionalField === 'none' ||
-                additionalField === 'pkce')
+            (!accessTokenRequestAuthentication ||
+                accessTokenRequestAuthentication === 'none' ||
+                accessTokenRequestAuthentication === 'pkce')
         ) {
             return false;
         }
@@ -336,9 +346,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
 
     _save() {
         if (this.$.dialogForm.validate()) {
-            const flowProps =
-                RESTerAuthorizationProviderOAuth2ConfigurationDialog
-                    ._configProperties[this.data.flow];
+            const flowProps = FIELDS_FOR_FLOW[this.data.flow];
             const notNeededProps = Object.keys(this.data).filter(
                 (key) => !flowProps.includes(key)
             );
