@@ -146,6 +146,7 @@ const template = html`
                             <paper-item value="none"
                                 >None (public client)</paper-item
                             >
+                            <paper-item value="pkce">PKCE</paper-item>
                             <paper-item value="basic"
                                 >HTTP Basic authentication</paper-item
                             >
@@ -323,7 +324,9 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
         // The client secret is not needed, when no authentication is performed.
         if (
             field === 'clientSecret' &&
-            (!additionalField || additionalField === 'none')
+            (!additionalField ||
+                additionalField === 'none' ||
+                additionalField === 'pkce')
         ) {
             return false;
         }

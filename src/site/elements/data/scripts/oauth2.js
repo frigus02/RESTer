@@ -43,6 +43,42 @@ function decodeJwt(token) {
     return JSON.parse(decodedPayload);
 }
 
+function createCodeVerifier() {
+    const charset =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~';
+    const size = 50;
+
+    const charsetIndexBuffer = new Uint8Array(size);
+    for (let i = 0; i < size; i += 1) {
+        charsetIndexBuffer[i] = (Math.random() * charset.length) | 0;
+    }
+
+    const randomChars = [];
+    for (let i = 0; i < charsetIndexBuffer.byteLength; i += 1) {
+        const index = charsetIndexBuffer[i] % charset.length;
+        randomChars.push(charset[index]);
+    }
+
+    return randomChars.join('');
+}
+
+async function createCodeChallenge(codeVerifier) {
+    const data = new TextEncoder().encode(codeVerifier);
+    const digest = await crypto.subtle.digest('SHA-256', data);
+    return base64urlencode(digest);
+}
+
+function base64urlencode(str) {
+    // Convert the ArrayBuffer to string using Uint8 array to conver to what btoa accepts.
+    // btoa accepts chars only within ascii 0-255 and base64 encodes them.
+    // Then convert the base64 encoded to base64url encoded
+    //   (replace + with -, replace / with _, trim trailing =)
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+}
+
 function createToken(config, tokenResponse) {
     const token = {};
 
@@ -91,12 +127,16 @@ function tryParseJson(str, defaultValue) {
     }
 }
 
-function sendAuthorizationRequest(config, responseType) {
+async function sendAuthorizationRequest(config, responseType) {
     const params = {
         response_type: responseType,
         client_id: config.clientId,
         redirect_uri: config.redirectUri,
     };
+    if (config.accessTokenRequestAuthentication === 'pkce') {
+        params.code_challenge = await createCodeChallenge(config.codeVerifier);
+        params.code_challenge_method = 'S256';
+    }
 
     if (config.scope) {
         params.scope = config.scope;
@@ -143,6 +183,9 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
     } else if (config.accessTokenRequestAuthentication === 'body') {
         accessTokenRequestParams.client_id = config.clientId;
         accessTokenRequestParams.client_secret = config.clientSecret || '';
+    } else if (config.accessTokenRequestAuthentication === 'pkce') {
+        accessTokenRequestParams.client_id = config.clientId;
+        accessTokenRequestParams.code_verifier = config.codeVerifier;
     } else {
         accessTokenRequestParams.client_id = config.clientId;
     }
@@ -240,6 +283,10 @@ async function executeImplicitFlow(config) {
 }
 
 async function executeCodeFlow(config) {
+    if (config.accessTokenRequestAuthentication === 'pkce') {
+        config.codeVerifier = createCodeVerifier();
+    }
+
     const authResponse = await sendAuthorizationRequest(config, 'code');
     const authResult = validateAuthorizationResponse(authResponse, ['code']);
     const accessTokenRequestParams = {
