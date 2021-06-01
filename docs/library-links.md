@@ -50,9 +50,9 @@ https://unpkg.com/@polymer/font-roboto-local@3.0.2/fonts/robotomono/RobotoMono-T
 https://unpkg.com/@polymer/font-roboto-local@3.0.2/package.json
 https://unpkg.com/@polymer/font-roboto-local@3.0.2/roboto.js
 
-@polymer/iron-a11y-announcer 3.1.0
-https://unpkg.com/@polymer/iron-a11y-announcer@3.1.0/iron-a11y-announcer.js
-https://unpkg.com/@polymer/iron-a11y-announcer@3.1.0/package.json
+@polymer/iron-a11y-announcer 3.2.0
+https://unpkg.com/@polymer/iron-a11y-announcer@3.2.0/iron-a11y-announcer.js
+https://unpkg.com/@polymer/iron-a11y-announcer@3.2.0/package.json
 
 @polymer/iron-a11y-keys 3.0.1
 https://unpkg.com/@polymer/iron-a11y-keys@3.0.1/iron-a11y-keys.js
@@ -378,9 +378,9 @@ https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-html.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-json.js
 https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js
 
-dompurify 2.2.7
-https://unpkg.com/dompurify@2.2.7/dist/purify.es.js
-https://unpkg.com/dompurify@2.2.7/package.json
+dompurify 2.2.8
+https://unpkg.com/dompurify@2.2.8/dist/purify.es.js
+https://unpkg.com/dompurify@2.2.8/package.json
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/package.json
@@ -394,9 +394,9 @@ mousetrap 1.6.5
 https://unpkg.com/mousetrap@1.6.5/mousetrap.js
 https://unpkg.com/mousetrap@1.6.5/package.json
 
-string-replace-loader 3.0.1
-https://unpkg.com/string-replace-loader@3.0.1/index.js
-https://unpkg.com/string-replace-loader@3.0.1/package.json
+string-replace-loader 3.0.2
+https://unpkg.com/string-replace-loader@3.0.2/index.js
+https://unpkg.com/string-replace-loader@3.0.2/package.json
 
 string_score 0.1.22
 https://unpkg.com/string_score@0.1.22/package.json
