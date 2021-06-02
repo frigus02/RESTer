@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.5.0] - 2021-06-02
+
+### Added
+
+-   PKCE support for OAuth 2 authorization code flow.
+
 ## [4.4.0] - 2021-03-05
 
 ### Changed
@@ -650,7 +656,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.4.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.5.0...HEAD
+[4.5.0]: https://github.com/frigus02/RESTer/compare/4.4.0...4.5.0
 [4.4.0]: https://github.com/frigus02/RESTer/compare/4.3.3...4.4.0
 [4.3.3]: https://github.com/frigus02/RESTer/compare/4.3.2...4.3.3
 [4.3.2]: https://github.com/frigus02/RESTer/compare/4.3.1...4.3.2
