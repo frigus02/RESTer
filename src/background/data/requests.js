@@ -13,7 +13,10 @@ import db from './utils/db.js';
  * @property {String} method - The HTTP method name (GET, POST, ...).
  * @property {String} url - The url.
  * @property {Array} headers - The request headers as an array oj objects.
- * Each object has the properties `name` and `value`.
+ * Each object has the properties `name`, `value` and optionally `flag`. The
+ * `flag` stores internal RESTer metadata. Currently the only metadata is
+ * "authorization", indicating that this header has been added through the
+ * Authorization UI.
  * @property {String} body - The request body as string.
  * @property {Object} variables - Configuration of replacement variables,
  * which are applied when sending the request.

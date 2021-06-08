@@ -807,33 +807,42 @@ class RESTerPageRequest extends RESTerLintMixin(
 
     _onRequestAuthorizationChanged(e) {
         const auth = e.detail.value;
+        const flag = 'authorization';
         if (!auth) {
-            this._setRequestHeader('Authorization', null);
-            this._setRequestHeader('Cookie', null);
+            this._setRequestHeader('Authorization', null, flag);
+            this._setRequestHeader('Cookie', null, flag);
         } else if (auth.scheme === 'Cookie') {
-            this._setRequestHeader('Authorization', null);
-            this._setRequestHeader('Cookie', auth.token);
+            this._setRequestHeader('Authorization', null, flag);
+            this._setRequestHeader('Cookie', auth.token, flag);
         } else {
             this._setRequestHeader(
                 'Authorization',
-                `${auth.scheme} ${auth.token}`
+                `${auth.scheme} ${auth.token}`,
+                flag
             );
-            this._setRequestHeader('Cookie', null);
+            this._setRequestHeader('Cookie', null, flag);
         }
     }
 
-    _setRequestHeader(headerName, value) {
-        const index = this.request.headers.findIndex(
-            (h) => h.name.toLowerCase() === headerName.toLowerCase()
-        );
-        if (index > -1) {
-            this.request.headers.splice(index, 1);
+    _setRequestHeader(headerName, value, flag) {
+        const valueSet = value !== null && value !== undefined;
+        const flagSet = flag !== null && flag !== undefined;
+
+        for (let i = this.request.headers.length - 1; i >= 0; i--) {
+            const header = this.request.headers[i];
+            if (
+                header.name.toLowerCase() === headerName.toLowerCase() &&
+                (valueSet || !flagSet || header.flag === flag)
+            ) {
+                this.request.headers.splice(i, 1);
+            }
         }
 
-        if (value || value === '') {
+        if (valueSet) {
             const newHeader = {
                 name: headerName,
                 value: value,
+                flag,
             };
 
             this.request.headers.push(newHeader);
