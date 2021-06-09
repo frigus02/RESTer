@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+-   Don't remove manually entered Cookie header when selecting an Authorization in the Authorization tab ([#395](https://github.com/frigus02/RESTer/issues/395)).
+
 ## [4.5.0] - 2021-06-02
 
 ### Added
