@@ -68,10 +68,10 @@
     "web-animations-js": "2.3.2"
   },
   "devDependencies": {
-    "@babel/core": "7.14.3",
-    "@babel/parser": "7.14.4",
-    "@babel/preset-env": "7.14.4",
-    "addons-linter": "3.6.0",
+    "@babel/core": "7.14.5",
+    "@babel/parser": "7.14.5",
+    "@babel/preset-env": "7.14.5",
+    "addons-linter": "3.7.0",
     "archiver": "5.3.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "27.0.2",
@@ -89,10 +89,10 @@
     "log-symbols": "5.0.0",
     "prettier": "2.3.1",
     "rimraf": "3.0.2",
-    "selenium-webdriver": "4.0.0-beta.3",
+    "selenium-webdriver": "4.0.0-beta.4",
     "string-replace-loader": "3.0.2",
     "webpack": "5.38.1",
-    "webpack-cli": "4.7.0",
+    "webpack-cli": "4.7.2",
     "xml2js": "0.4.23"
   },
   "engines": {
