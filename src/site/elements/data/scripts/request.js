@@ -29,8 +29,9 @@ function setupHeaderInterceptor(currentTabId) {
             }));
 
         // Request ID
-        const resterRequestId = commands.find((c) => c.name === 'requestid')
-            .value;
+        const resterRequestId = commands.find(
+            (c) => c.name === 'requestid'
+        ).value;
         requestIds.set(details.requestId, resterRequestId);
 
         // Headers
@@ -259,7 +260,10 @@ export async function send(request) {
 
     for (const header of requestHeaders) {
         if (header && header.name && header.value) {
-            headers.append(headerPrefix + header.name, JSON.stringify(header));
+            headers.append(
+                headerPrefix + header.name,
+                JSON.stringify({ name: header.name, value: header.value })
+            );
         }
     }
 

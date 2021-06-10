@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed bug where Chrome would not send custom headers if an authorization was selected ([#399](https://github.com/frigus02/RESTer/issues/399)).
+
 ## [4.5.1] - 2021-06-09
 
 ### Fixed
