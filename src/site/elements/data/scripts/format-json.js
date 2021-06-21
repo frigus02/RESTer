@@ -44,206 +44,245 @@ export function formatJson(str) {
 
     const len = str.length;
     let state = S.VALUE;
-    let nextState = [S.END];
+    const nextState = [S.END];
     for (let i = 0; i < len; i++) {
         const c = str[i];
 
-        if (state === S.VALUE) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === '"') {
-                state = S.STRING;
-            } else if (NUMBER_START_CHARS.has(c)) {
-                state = S.NUMBER;
-            } else if (c === '{') {
-                state = S.OBJECT;
-            } else if (c === '[') {
-                state = S.ARRAY;
-            } else if (c === 't') {
-                state = S.TRUE_1;
-            } else if (c === 'f') {
-                state = S.FALSE_1;
-            } else if (c === 'n') {
-                state = S.NULL_1;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.STRING) {
-            if (c === '\\') {
-                state = S.STRING_SLASHED;
-                nextState.push(S.STRING);
-            } else if (c === '"') {
-                state = nextState.pop();
-            } else {
-                // TODO: is this a valid character in the string?
-            }
-        } else if (state === S.STRING_SLASHED) {
-            if (STRING_ESCAPED_CHARS.has(c)) {
-                state = nextState.pop();
-            } else if (c === 'u') {
-                state = S.STRING_SLASHED_U_1;
-            } else {
-                throw new ParseError('invalid escaped char in string', i);
-            }
-        } else if (state === S.STRING_SLASHED_U_1) {
-            if (HEX_CHARS.has(c)) {
-                state = S.STRING_SLASHED_U_2;
-            } else {
-                throw new ParseError('invalid escaped unicode in string', i);
-            }
-        } else if (state === S.STRING_SLASHED_U_2) {
-            if (HEX_CHARS.has(c)) {
-                state = S.STRING_SLASHED_U_3;
-            } else {
-                throw new ParseError('invalid escaped unicode in string', i);
-            }
-        } else if (state === S.STRING_SLASHED_U_3) {
-            if (HEX_CHARS.has(c)) {
-                state = S.STRING_SLASHED_U_4;
-            } else {
-                throw new ParseError('invalid escaped unicode in string', i);
-            }
-        } else if (state === S.STRING_SLASHED_U_4) {
-            if (HEX_CHARS.has(c)) {
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid escaped unicode in string', i);
-            }
-        } else if (state === S.NUMBER) {
-            // TODO: validate number format?
-            if (!NUMBER_CHARS.has(c)) {
-                state = nextState.pop();
-                i--;
-                continue;
-            }
-        } else if (state === S.OBJECT) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === '"') {
-                indent += INDENT_SIZE;
-                formatBefore = generateIndent(indent);
-                state = S.STRING;
-                nextState.push(S.OBJECT_VALUE);
-            } else if (c === '}') {
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid object', i);
-            }
-        } else if (state === S.OBJECT_KEY) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === '"') {
-                state = S.STRING;
-                nextState.push(S.OBJECT_VALUE);
-            } else {
-                throw new ParseError('invalid object key', i);
-            }
-        } else if (state === S.OBJECT_VALUE) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === ':') {
-                formatAfter = ' ';
-                state = S.VALUE;
-                nextState.push(S.OBJECT_VALUE_END);
-            } else {
-                throw new ParseError('invalid object value', i);
-            }
-        } else if (state === S.OBJECT_VALUE_END) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === ',') {
-                formatAfter = generateIndent(indent);
-                state = S.OBJECT_KEY;
-            } else if (c === '}') {
-                indent -= INDENT_SIZE;
-                formatBefore = generateIndent(indent);
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid object', i);
-            }
-        } else if (state === S.ARRAY) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === ']') {
-                state = nextState.pop();
-            } else {
-                indent += INDENT_SIZE;
-                formatBefore = generateIndent(indent);
-                state = S.VALUE;
-                nextState.push(S.ARRAY_VALUE_END);
-                i--;
-                continue;
-            }
-        } else if (state === S.ARRAY_VALUE_END) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            if (c === ',') {
-                formatAfter = generateIndent(indent);
-                state = S.VALUE;
-                nextState.push(S.ARRAY_VALUE_END);
-            } else if (c === ']') {
-                indent -= INDENT_SIZE;
-                formatBefore = generateIndent(indent);
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid array', i);
-            }
-        } else if (state === S.TRUE_1) {
-            if (c === 'r') {
-                state = S.TRUE_2;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.TRUE_2) {
-            if (c === 'u') {
-                state = S.TRUE_3;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.TRUE_3) {
-            if (c === 'e') {
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.FALSE_1) {
-            if (c === 'a') {
-                state = S.FALSE_2;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.FALSE_2) {
-            if (c === 'l') {
-                state = S.FALSE_3;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.FALSE_3) {
-            if (c === 's') {
-                state = S.FALSE_4;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.FALSE_4) {
-            if (c === 'e') {
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.NULL_1) {
-            if (c === 'u') {
-                state = S.NULL_2;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.NULL_2) {
-            if (c === 'l') {
-                state = S.NULL_3;
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.NULL_3) {
-            if (c === 'l') {
-                state = nextState.pop();
-            } else {
-                throw new ParseError('invalid value', i);
-            }
-        } else if (state === S.END) {
-            if (WHITESPACE_CHARS.has(c)) continue;
-            throw new ParseError('invalid end', i);
+        switch (state) {
+            case S.VALUE:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === '"') {
+                    state = S.STRING;
+                } else if (NUMBER_START_CHARS.has(c)) {
+                    state = S.NUMBER;
+                } else if (c === '{') {
+                    state = S.OBJECT;
+                } else if (c === '[') {
+                    state = S.ARRAY;
+                } else if (c === 't') {
+                    state = S.TRUE_1;
+                } else if (c === 'f') {
+                    state = S.FALSE_1;
+                } else if (c === 'n') {
+                    state = S.NULL_1;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.STRING:
+                if (c === '\\') {
+                    state = S.STRING_SLASHED;
+                    nextState.push(S.STRING);
+                } else if (c === '"') {
+                    state = nextState.pop();
+                } else {
+                    // TODO: is this a valid character in the string?
+                }
+                break;
+            case S.STRING_SLASHED:
+                if (STRING_ESCAPED_CHARS.has(c)) {
+                    state = nextState.pop();
+                } else if (c === 'u') {
+                    state = S.STRING_SLASHED_U_1;
+                } else {
+                    throw new ParseError('invalid escaped char in string', i);
+                }
+                break;
+            case S.STRING_SLASHED_U_1:
+                if (HEX_CHARS.has(c)) {
+                    state = S.STRING_SLASHED_U_2;
+                } else {
+                    throw new ParseError(
+                        'invalid escaped unicode in string',
+                        i
+                    );
+                }
+                break;
+            case S.STRING_SLASHED_U_2:
+                if (HEX_CHARS.has(c)) {
+                    state = S.STRING_SLASHED_U_3;
+                } else {
+                    throw new ParseError(
+                        'invalid escaped unicode in string',
+                        i
+                    );
+                }
+                break;
+            case S.STRING_SLASHED_U_3:
+                if (HEX_CHARS.has(c)) {
+                    state = S.STRING_SLASHED_U_4;
+                } else {
+                    throw new ParseError(
+                        'invalid escaped unicode in string',
+                        i
+                    );
+                }
+                break;
+            case S.STRING_SLASHED_U_4:
+                if (HEX_CHARS.has(c)) {
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError(
+                        'invalid escaped unicode in string',
+                        i
+                    );
+                }
+                break;
+            case S.NUMBER:
+                // TODO: validate number format?
+                if (!NUMBER_CHARS.has(c)) {
+                    state = nextState.pop();
+                    i--;
+                    continue;
+                }
+                break;
+            case S.OBJECT:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === '"') {
+                    indent += INDENT_SIZE;
+                    formatBefore = generateIndent(indent);
+                    state = S.STRING;
+                    nextState.push(S.OBJECT_VALUE);
+                } else if (c === '}') {
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError('invalid object', i);
+                }
+                break;
+            case S.OBJECT_KEY:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === '"') {
+                    state = S.STRING;
+                    nextState.push(S.OBJECT_VALUE);
+                } else {
+                    throw new ParseError('invalid object key', i);
+                }
+                break;
+            case S.OBJECT_VALUE:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === ':') {
+                    formatAfter = ' ';
+                    state = S.VALUE;
+                    nextState.push(S.OBJECT_VALUE_END);
+                } else {
+                    throw new ParseError('invalid object value', i);
+                }
+                break;
+            case S.OBJECT_VALUE_END:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === ',') {
+                    formatAfter = generateIndent(indent);
+                    state = S.OBJECT_KEY;
+                } else if (c === '}') {
+                    indent -= INDENT_SIZE;
+                    formatBefore = generateIndent(indent);
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError('invalid object', i);
+                }
+                break;
+            case S.ARRAY:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === ']') {
+                    state = nextState.pop();
+                } else {
+                    indent += INDENT_SIZE;
+                    formatBefore = generateIndent(indent);
+                    state = S.VALUE;
+                    nextState.push(S.ARRAY_VALUE_END);
+                    i--;
+                    continue;
+                }
+                break;
+            case S.ARRAY_VALUE_END:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                if (c === ',') {
+                    formatAfter = generateIndent(indent);
+                    state = S.VALUE;
+                    nextState.push(S.ARRAY_VALUE_END);
+                } else if (c === ']') {
+                    indent -= INDENT_SIZE;
+                    formatBefore = generateIndent(indent);
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError('invalid array', i);
+                }
+                break;
+            case S.TRUE_1:
+                if (c === 'r') {
+                    state = S.TRUE_2;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.TRUE_2:
+                if (c === 'u') {
+                    state = S.TRUE_3;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.TRUE_3:
+                if (c === 'e') {
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.FALSE_1:
+                if (c === 'a') {
+                    state = S.FALSE_2;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.FALSE_2:
+                if (c === 'l') {
+                    state = S.FALSE_3;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.FALSE_3:
+                if (c === 's') {
+                    state = S.FALSE_4;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.FALSE_4:
+                if (c === 'e') {
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.NULL_1:
+                if (c === 'u') {
+                    state = S.NULL_2;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.NULL_2:
+                if (c === 'l') {
+                    state = S.NULL_3;
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.NULL_3:
+                if (c === 'l') {
+                    state = nextState.pop();
+                } else {
+                    throw new ParseError('invalid value', i);
+                }
+                break;
+            case S.END:
+                if (WHITESPACE_CHARS.has(c)) continue;
+                throw new ParseError('invalid end', i);
+            default:
+                throw new ParseError('invalid state', i);
         }
 
         result += formatBefore + c + formatAfter;
