@@ -37,27 +37,20 @@ const HEX_CHARS = new Set('0123456789abcdefABCDEF');
 
 export function formatJson(str) {
     let result = '';
+
     let indent = 0;
+    let formatBefore = '';
+    let formatAfter = '';
 
     const len = str.length;
     let state = S.VALUE;
     let nextState = [S.END];
     for (let i = 0; i < len; i++) {
         const c = str[i];
-        let formatBefore = '';
-        let formatAfter = '';
 
-        if (state === S.VALUE || state === S.ARRAY) {
+        if (state === S.VALUE) {
             if (WHITESPACE_CHARS.has(c)) continue;
-            if (state === S.ARRAY && c !== ']') {
-                indent += INDENT_SIZE;
-                formatBefore = generateIndent(indent);
-                nextState.push(S.ARRAY_VALUE_END);
-            }
-
-            if (state === S.ARRAY && c === ']') {
-                state = nextState.pop();
-            } else if (c === '"') {
+            if (c === '"') {
                 state = S.STRING;
             } else if (NUMBER_START_CHARS.has(c)) {
                 state = S.NUMBER;
@@ -163,6 +156,18 @@ export function formatJson(str) {
             } else {
                 throw new ParseError('invalid object', i);
             }
+        } else if (state === S.ARRAY) {
+            if (WHITESPACE_CHARS.has(c)) continue;
+            if (c === ']') {
+                state = nextState.pop();
+            } else {
+                indent += INDENT_SIZE;
+                formatBefore = generateIndent(indent);
+                state = S.VALUE;
+                nextState.push(S.ARRAY_VALUE_END);
+                i--;
+                continue;
+            }
         } else if (state === S.ARRAY_VALUE_END) {
             if (WHITESPACE_CHARS.has(c)) continue;
             if (c === ',') {
@@ -242,6 +247,8 @@ export function formatJson(str) {
         }
 
         result += formatBefore + c + formatAfter;
+        formatBefore = '';
+        formatAfter = '';
     }
     if (state === S.NUMBER) {
         state = nextState.pop();
