@@ -1,6 +1,9 @@
 'use strict';
 
-importScripts('../../../node_modules/frigus02-vkbeautify/vkbeautify.js');
+importScripts(
+    '../../../node_modules/frigus02-vkbeautify/vkbeautify.js',
+    '../scripts/format-json.js'
+);
 
 self.onmessage = function (event) {
     const result = format(event.data.code, event.data.language);
@@ -9,7 +12,7 @@ self.onmessage = function (event) {
 
 function format(code, language) {
     if (language === 'json') {
-        return vkbeautify.json(code, 4);
+        return resterFormatJson.formatJson(code);
     } else if (language === 'xml') {
         return vkbeautify.xml(code, 4);
     }
