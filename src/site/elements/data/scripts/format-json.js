@@ -255,7 +255,7 @@ export function formatJson(str) {
     }
 
     if (state !== S.END) {
-        throw new ParseError('no value found', len);
+        throw new ParseError('incomplete json', len);
     }
 
     return result;
