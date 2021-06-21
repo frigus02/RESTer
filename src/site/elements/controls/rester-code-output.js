@@ -19,6 +19,7 @@ class RESTerCodeOutput extends RESTerThemeMixin(PolymerElement) {
                     font-weight: 400;
                     line-height: 16px;
                     padding: 4px;
+                    overflow-wrap: break-word;
                 }
 
                 :host([theme='dark']) {
