@@ -11,6 +11,7 @@ import '../styles/rester-icons.js';
 import './rester-ace-input.js';
 import './rester-form-data-input.js';
 import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
+import { formatJson } from '../data/scripts/format-json.js';
 
 /**
  * @appliesMixin RESTerSettingsMixin
@@ -256,11 +257,10 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
 
     _beautify() {
         this.$.options.close();
-        if (this.selectedInputOption.beautifyMethod) {
-            this.value = vkbeautify[this.selectedInputOption.beautifyMethod](
-                this.value,
-                4
-            );
+        if (this.selectedInputOption.beautifyMethod === 'json') {
+            this.value = formatJson(this.value);
+        } else if (this.selectedInputOption.beautifyMethod === 'xml') {
+            this.value = vkbeautify.xml(this.value, 4);
         }
     }
 }

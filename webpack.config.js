@@ -78,6 +78,10 @@ module.exports = [
                         to: 'elements/data/workers/format-code.js',
                     },
                     {
+                        from: 'elements/data/scripts/format-json.js',
+                        to: 'elements/data/scripts/format-json.js',
+                    },
+                    {
                         from: 'images/*',
                     },
                     {
