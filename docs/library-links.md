@@ -386,9 +386,9 @@ frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/package.json
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 
-html-webpack-plugin 5.3.1
-https://unpkg.com/html-webpack-plugin@5.3.1/lib/loader.js
-https://unpkg.com/html-webpack-plugin@5.3.1/package.json
+html-webpack-plugin 5.3.2
+https://unpkg.com/html-webpack-plugin@5.3.2/lib/loader.js
+https://unpkg.com/html-webpack-plugin@5.3.2/package.json
 
 mousetrap 1.6.5
 https://unpkg.com/mousetrap@1.6.5/mousetrap.js
