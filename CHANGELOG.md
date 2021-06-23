@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.6.0] - 2021-06-23
+
+### Changed
+
+-   JSON pretty printing/beautifying no longer modifies certain values in the JSON, e.g. big numbers ([#401](https://github.com/frigus02/RESTer/issues/401)).
+
+    Before JSON was pretty printed using `JSON.stringify(JSON.parse(str), null, 4)`. This is easy and fast. But it normalizes values, e.g. a value like `0.0` changes to `0`. Since numbers are represented as `Number` after being parsed, very big numbers loose precision, e.g. `55871516310040211` turns into `55871516310040210`.
+
+    The new formatting is a bit slower but does not modify any except whitespace.
+
+    I think this is worth the performance cost. RESTer should not modify the response just because it pretty prints it. This could be very confusing.
+
 ## [4.5.2] - 2021-06-10
 
 ### Fixed
@@ -668,7 +680,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.5.2...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.6.0...HEAD
+[4.6.0]: https://github.com/frigus02/RESTer/compare/4.5.2...4.6.0
 [4.5.2]: https://github.com/frigus02/RESTer/compare/4.5.1...4.5.2
 [4.5.1]: https://github.com/frigus02/RESTer/compare/4.5.0...4.5.1
 [4.5.0]: https://github.com/frigus02/RESTer/compare/4.4.0...4.5.0
