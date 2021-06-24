@@ -964,7 +964,11 @@ class RESTerPageRequest extends RESTerLintMixin(
             .catch((error) => {
                 this._setRequestIsSending(false);
                 if (error.name !== 'AbortError') {
-                    this.showError(error);
+                    this.showError(error, null, [
+                        'Is the URL correct?',
+                        'Is your network connection working?',
+                        'Could this be caused by an invalid HTTPS certificate? If so, try to open the URL in a new tab and accept the certificate warning. Then try the request in RESTer again.',
+                    ]);
                 }
             });
     }
