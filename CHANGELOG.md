@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 -   Troubleshooting advice for network errors (see [#397](https://github.com/frigus02/RESTer/issues/397)).
+-   Add heading and "no items" text to environment selection dialog (see [#360](https://github.com/frigus02/RESTer/issues/360)).
 
 ### Changed
 
