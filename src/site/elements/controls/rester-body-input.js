@@ -164,6 +164,7 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
                     {
                         title: 'Plain',
                         isInputTypeAce: true,
+                        contentTypeSearch: ['plain'],
                         aceMode: 'ace/mode/text',
                     },
                     {
