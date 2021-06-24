@@ -21,8 +21,6 @@ class RESTerError extends PolymerElement {
                 }
 
                 paper-dialog-scrollable p:not(:first-child) {
-                    text-indent: -16px;
-                    padding-left: 16px;
                     word-wrap: break-word;
                     white-space: pre-line;
                 }
@@ -43,6 +41,16 @@ class RESTerError extends PolymerElement {
                 <paper-dialog-scrollable>
                     <template is="dom-repeat" items="[[errorMessageLines]]">
                         <p>[[item]]</p>
+                    </template>
+                    <template is="dom-if" if="[[hasHelp]]">
+                        <div class="help">
+                            <h3>Troubleshooting</h3>
+                            <ul>
+                                <template is="dom-repeat" items="[[help]]">
+                                    <li>[[item]]</li>
+                                </template>
+                            </ul>
+                        </div>
                     </template>
                     <template is="dom-if" if="[[hasErrorDetails]]">
                         <details>
@@ -66,6 +74,7 @@ class RESTerError extends PolymerElement {
         return {
             title: String,
             error: Object,
+            help: Array,
             errorMessageLines: {
                 type: Array,
                 computed: '_computeErrorMessageLines(error)',
@@ -73,6 +82,10 @@ class RESTerError extends PolymerElement {
             errorDetails: {
                 type: String,
                 computed: '_computeErrorDetails(error)',
+            },
+            hasHelp: {
+                type: Boolean,
+                computed: '_computeHasHelp(help)',
             },
             hasErrorDetails: {
                 type: Boolean,
@@ -85,9 +98,10 @@ class RESTerError extends PolymerElement {
         return ['Ups, something went wrong!', "Oh no, this shouldn't happen."];
     }
 
-    show(error, title) {
+    show(error, title, help) {
         this.title = title || sample(RESTerError.titles);
         this.error = error;
+        this.help = help || [];
         this.$.dialog.open();
     }
 
@@ -109,6 +123,10 @@ class RESTerError extends PolymerElement {
                 return JSON.stringify(error, null, 4);
             } catch (e) {}
         }
+    }
+
+    _computeHasHelp(help) {
+        return help.length > 0;
     }
 
     _computeHasErrorDetails(errorDetails) {

@@ -23,8 +23,8 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
     static get template() {
         return html`
             <style>
-                dom-repeat {
-                    display: none;
+                paper-dialog {
+                    max-width: 400px;
                 }
 
                 paper-radio-group {
@@ -49,22 +49,29 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
                 with-backdrop
                 restore-focus-on-close
             >
+                <h2>Select environment</h2>
                 <paper-dialog-scrollable>
-                    <paper-radio-group
-                        selected="{{settings.activeEnvironment}}"
-                        on-paper-radio-group-changed="_close"
-                    >
-                        <template
-                            is="dom-repeat"
-                            items="[[environments]]"
-                            as="env"
-                            sort="_compareEnvironments"
+                    <template is="dom-if" if="[[hasEnvironments]]">
+                        <paper-radio-group
+                            selected="{{settings.activeEnvironment}}"
+                            on-paper-radio-group-changed="_close"
                         >
-                            <paper-radio-button name="[[env.id]]">
-                                <div>[[env.name]]</div>
-                            </paper-radio-button>
-                        </template>
-                    </paper-radio-group>
+                            <template
+                                is="dom-repeat"
+                                items="[[environments]]"
+                                as="env"
+                                sort="_compareEnvironments"
+                            >
+                                <paper-radio-button name="[[env.id]]">
+                                    <div>[[env.name]]</div>
+                                </paper-radio-button>
+                            </template>
+                        </paper-radio-group>
+                    </template>
+                    <template is="dom-if" if="[[!hasEnvironments]]">
+                        There are no environments, yet. Please go to the
+                        environments page and create one.
+                    </template>
                 </paper-dialog-scrollable>
             </paper-dialog>
         `;
@@ -79,6 +86,10 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
             environments: {
                 type: Array,
                 readOnly: true,
+            },
+            hasEnvironments: {
+                type: Boolean,
+                computed: '_computeHasEnvironments(environments)',
             },
         };
     }
@@ -95,6 +106,10 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
 
     _compareEnvironments(a, b) {
         return a.name.localeCompare(b.name);
+    }
+
+    _computeHasEnvironments(environments) {
+        return environments && environments.length > 0;
     }
 
     _close() {

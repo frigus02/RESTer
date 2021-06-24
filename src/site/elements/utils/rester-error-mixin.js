@@ -13,13 +13,13 @@
  */
 const RESTerErrorMixin = (superclass) =>
     class extends superclass {
-        showError(error, title) {
+        showError(error, title, help) {
             const resterApp = document.querySelector('rester-app');
             const resterError = resterApp.shadowRoot.querySelector(
                 'rester-error'
             );
             if (resterError) {
-                resterError.show(error, title);
+                resterError.show(error, title, help);
             }
         }
     };

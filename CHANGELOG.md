@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+-   Troubleshooting advice for network errors (see [#397](https://github.com/frigus02/RESTer/issues/397)).
+-   Heading and "no items" text to environment selection dialog (see [#360](https://github.com/frigus02/RESTer/issues/360)).
+-   Tooltip for URL parameters toggle button (see [#360](https://github.com/frigus02/RESTer/issues/360)).
+
+### Changed
+
+-   Use normal button to add new environment because the floating action button is hard to see (see [#360](https://github.com/frigus02/RESTer/issues/360)).
+
 ### Fixed
 
 -   RESTer doesn't switch to plain body input if request content type is `text/plain` (see [#410](https://github.com/frigus02/RESTer/issues/410)).

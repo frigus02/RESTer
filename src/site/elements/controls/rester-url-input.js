@@ -2,6 +2,7 @@ import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polyme
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
 import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import '../../../../node_modules/@polymer/paper-input/paper-input.js';
+import '../../../../node_modules/@polymer/paper-tooltip/paper-tooltip.js';
 import '../styles/rester-icons.js';
 import './rester-form-data-input.js';
 
@@ -63,11 +64,15 @@ class RESTerUrlInput extends PolymerElement {
             </div>
 
             <paper-icon-button
-                aria-label="Expand"
+                id="toggle-url-params-button"
+                aria-label="Toggle URL params"
                 icon="expand-more"
                 class="expand-button"
                 on-tap="_toggleExpanded"
             ></paper-icon-button>
+            <paper-tooltip for="toggle-url-params-button" animation-delay="300"
+                >Toggle URL params</paper-tooltip
+            >
         `;
     }
 
