@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+-   RESTer doesn't switch to plain body input if request content type is `text/plain` (see [#410](https://github.com/frigus02/RESTer/issues/410)).
+
 ## [4.6.0] - 2021-06-23
 
 ### Changed
