@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.7.0] - 2021-06-24
+
 ### Added
 
 -   Troubleshooting advice for network errors (see [#397](https://github.com/frigus02/RESTer/issues/397)).
@@ -694,7 +696,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.6.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.7.0...HEAD
+[4.7.0]: https://github.com/frigus02/RESTer/compare/4.6.0...4.7.0
 [4.6.0]: https://github.com/frigus02/RESTer/compare/4.5.2...4.6.0
 [4.5.2]: https://github.com/frigus02/RESTer/compare/4.5.1...4.5.2
 [4.5.1]: https://github.com/frigus02/RESTer/compare/4.5.0...4.5.1
