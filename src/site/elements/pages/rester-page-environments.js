@@ -3,7 +3,7 @@ import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-t
 import '../../../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '../../../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
-import '../../../../node_modules/@polymer/paper-fab/paper-fab.js';
+import '../../../../node_modules/@polymer/paper-button/paper-button.js';
 import '../../../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import '../../../../node_modules/@polymer/paper-radio-button/paper-radio-button.js';
 import '../../../../node_modules/@polymer/paper-radio-group/paper-radio-group.js';
@@ -58,11 +58,9 @@ class RESTerPageEnvironments extends RESTerPageMixin(
                     word-break: break-all;
                 }
 
-                paper-fab {
-                    position: fixed;
-                    right: 24px;
-                    bottom: 24px;
-                    color: var(--light-theme-text-color);
+                paper-button.add {
+                    background-color: var(--primary-color);
+                    margin-top: 16px;
                 }
             </style>
 
@@ -113,7 +111,10 @@ class RESTerPageEnvironments extends RESTerPageMixin(
                         </template>
                     </paper-radio-group>
 
-                    <paper-fab icon="add" on-tap="_addEnvironment"></paper-fab>
+                    <paper-button on-tap="_addEnvironment" class="add">
+                        <iron-icon icon="add"></iron-icon>
+                        Add environment
+                    </paper-button>
                 </div>
             </app-header-layout>
         `;

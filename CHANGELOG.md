@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   Troubleshooting advice for network errors (see [#397](https://github.com/frigus02/RESTer/issues/397)).
 
+### Changed
+
+-   Use normal button to add new environment because the floating action button is hard to see (see [#360](https://github.com/frigus02/RESTer/issues/360)).
+
 ### Fixed
 
 -   RESTer doesn't switch to plain body input if request content type is `text/plain` (see [#410](https://github.com/frigus02/RESTer/issues/410)).

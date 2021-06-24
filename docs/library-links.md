@@ -216,10 +216,6 @@ https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/paper-dropdown-menu-icons.j
 https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/paper-dropdown-menu-shared-styles.js
 https://unpkg.com/@polymer/paper-dropdown-menu@3.2.0/paper-dropdown-menu.js
 
-@polymer/paper-fab 3.0.1
-https://unpkg.com/@polymer/paper-fab@3.0.1/package.json
-https://unpkg.com/@polymer/paper-fab@3.0.1/paper-fab.js
-
 @polymer/paper-icon-button 3.0.2
 https://unpkg.com/@polymer/paper-icon-button@3.0.2/package.json
 https://unpkg.com/@polymer/paper-icon-button@3.0.2/paper-icon-button.js
