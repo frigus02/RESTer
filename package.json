@@ -84,7 +84,7 @@
     "file-loader": "6.2.0",
     "geckodriver": "2.0.0",
     "html-webpack-plugin": "5.3.2",
-    "jest": "27.0.5",
+    "jest": "27.0.6",
     "log-symbols": "5.0.0",
     "prettier": "2.3.2",
     "rimraf": "3.0.2",
