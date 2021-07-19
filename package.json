@@ -78,7 +78,7 @@
     "concurrently": "6.2.0",
     "copy-webpack-plugin": "9.0.1",
     "cpx2": "3.0.0",
-    "eslint": "7.30.0",
+    "eslint": "7.31.0",
     "eslint-config-crockford": "2.0.0",
     "eslint-config-prettier": "8.3.0",
     "file-loader": "6.2.0",
