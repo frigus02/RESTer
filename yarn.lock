@@ -923,7 +923,7 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
-"@eslint/eslintrc@^0.4.2", "@eslint/eslintrc@^0.4.3":
+"@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
   integrity sha512-J6KFFz5QCYUJq3pf0mjEcCJVERbzv71PUIDczuh9JkwGEzced6CO5ADLHB1rbf/+oPBtoPfMYNOpGDzCANlbXw==
@@ -1137,10 +1137,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@mdn/browser-compat-data@3.3.8":
-  version "3.3.8"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.8.tgz#1d236cc4b127584ece97db593a1b0ba5e4e00fba"
-  integrity sha512-0Yb0nvzo9dvb0a3wer907Ouc6vHyt4R2vtRY8rFYVo8WoXlRBsblWxW2cYY9nNRRXrNLq5alBMgcXb22S8fccQ==
+"@mdn/browser-compat-data@3.3.11":
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.11.tgz#de8f3d3c1fed81415791bf15603089279f207c6f"
+  integrity sha512-lZj43fIFrNiUCOBJixccekZQrOqIBq9SWNR9sYyeUmqxl6aWjpUMcngfxbcjvxgb7tmJPl12pI6s6cQwI5oqHA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2058,13 +2058,13 @@ acorn@^8.2.4, acorn@^8.4.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
   integrity sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==
 
-addons-linter@3.9.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.9.0.tgz#0c0e03967191a738befd321501ceb5a7f960555d"
-  integrity sha512-iE4/vbzO0/akYweufj3ndHmBHCgg3HNLwDqrMA551feuua7eS/uAYAvo2bHe2lQJxoK45PV+bGLKYZP5ci3iVw==
+addons-linter@3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.10.0.tgz#a77cbc04cfb2a7b158b0d65fda9a40a3668bc3f8"
+  integrity sha512-1EuVfj0twUtat18hNz8v6am+ce1ukjNdgybaSpUIi9EuGBosRk+dY3kVLxJ2tngC+F0iPHpD+xOxxgR4IrpN9A==
   dependencies:
-    "@mdn/browser-compat-data" "3.3.8"
-    addons-scanner-utils "4.8.0"
+    "@mdn/browser-compat-data" "3.3.11"
+    addons-scanner-utils "4.9.0"
     ajv "6.12.6"
     ajv-merge-patch "4.1.0"
     chalk "4.1.1"
@@ -2073,7 +2073,7 @@ addons-linter@3.9.0:
     common-tags "1.8.0"
     deepmerge "4.2.2"
     dispensary "0.62.0"
-    eslint "7.29.0"
+    eslint "7.31.0"
     eslint-plugin-no-unsanitized "3.1.5"
     eslint-visitor-keys "2.1.0"
     espree "7.3.1"
@@ -2084,7 +2084,7 @@ addons-linter@3.9.0:
     is-mergeable-object "1.1.1"
     jed "1.1.1"
     os-locale "5.0.0"
-    pino "6.11.3"
+    pino "6.12.0"
     postcss "8.3.5"
     relaxed-json "1.0.3"
     semver "7.3.5"
@@ -2094,10 +2094,10 @@ addons-linter@3.9.0:
     yargs "17.0.1"
     yauzl "2.10.0"
 
-addons-scanner-utils@4.8.0:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-4.8.0.tgz#788ccdcb5e92880ae64a4c9695bf44e77583fd8d"
-  integrity sha512-LjwZql59OKrQgppreOvRcgJDYrnj9XKVW2gb5Q1ZyGG3CH46VCiiNHJB6nYMgOntLo+DPQwQQPOSknZ1zW+wTw==
+addons-scanner-utils@4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-4.9.0.tgz#f38ba12e2a0885c1aaacca8ba36c83b34f238fa8"
+  integrity sha512-RF+pVMSj3CcWV6NH4pBboCZnpzfr48ZmJCBXt/LZbU59PNepZDFxax9tl2MXzX01AXNwKUGa321pPyc5h4zV5A==
   dependencies:
     "@types/yauzl" "2.9.1"
     common-tags "1.8.0"
@@ -3203,51 +3203,6 @@ eslint-visitor-keys@^1.0.0, eslint-visitor-keys@^1.1.0, eslint-visitor-keys@^1.3
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.3.0.tgz#30ebd1ef7c2fdff01c3a4f151044af25fab0523e"
   integrity sha512-6J72N8UNa462wa/KFODt/PJ3IU60SDpC3QXC1Hjc1BXXpfL2C9R5+AU7jhe0F6GREqVMh4Juu+NY7xn+6dipUQ==
 
-eslint@7.29.0:
-  version "7.29.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.29.0.tgz#ee2a7648f2e729485e4d0bd6383ec1deabc8b3c0"
-  integrity sha512-82G/JToB9qIy/ArBzIWG9xvvwL3R86AlCjtGw+A29OMZDqhTybz/MByORSukGxeI+YPCR4coYyITKk8BFH9nDA==
-  dependencies:
-    "@babel/code-frame" "7.12.11"
-    "@eslint/eslintrc" "^0.4.2"
-    ajv "^6.10.0"
-    chalk "^4.0.0"
-    cross-spawn "^7.0.2"
-    debug "^4.0.1"
-    doctrine "^3.0.0"
-    enquirer "^2.3.5"
-    escape-string-regexp "^4.0.0"
-    eslint-scope "^5.1.1"
-    eslint-utils "^2.1.0"
-    eslint-visitor-keys "^2.0.0"
-    espree "^7.3.1"
-    esquery "^1.4.0"
-    esutils "^2.0.2"
-    fast-deep-equal "^3.1.3"
-    file-entry-cache "^6.0.1"
-    functional-red-black-tree "^1.0.1"
-    glob-parent "^5.1.2"
-    globals "^13.6.0"
-    ignore "^4.0.6"
-    import-fresh "^3.0.0"
-    imurmurhash "^0.1.4"
-    is-glob "^4.0.0"
-    js-yaml "^3.13.1"
-    json-stable-stringify-without-jsonify "^1.0.1"
-    levn "^0.4.1"
-    lodash.merge "^4.6.2"
-    minimatch "^3.0.4"
-    natural-compare "^1.4.0"
-    optionator "^0.9.1"
-    progress "^2.0.0"
-    regexpp "^3.1.0"
-    semver "^7.2.1"
-    strip-ansi "^6.0.0"
-    strip-json-comments "^3.1.0"
-    table "^6.0.9"
-    text-table "^0.2.0"
-    v8-compile-cache "^2.0.3"
-
 eslint@7.31.0:
   version "7.31.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.31.0.tgz#f972b539424bf2604907a970860732c5d99d3aca"
@@ -3457,6 +3412,11 @@ fast-safe-stringify@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.7.tgz#124aa885899261f68aedb42a7c080de9da608743"
   integrity sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==
+
+fast-safe-stringify@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.8.tgz#dc2af48c46cf712b683e849b2bbd446b32de936f"
+  integrity sha512-lXatBjf3WPjmWD6DpIZxkeSsCOwqI0maYMpgDlx8g4U2qi4lbjA9oH/HD2a87G+KfsUmo5WbJFmqBZlPxtptag==
 
 fastest-levenshtein@^1.0.12:
   version "1.0.12"
@@ -5281,7 +5241,19 @@ pino-std-serializers@^3.1.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-3.2.0.tgz#b56487c402d882eb96cd67c257868016b61ad671"
   integrity sha512-EqX4pwDPrt3MuOAAUBMU0Tk5kR/YcCM5fNPEzgCO2zJ5HfX0vbiH9HbJglnyeQsN96Kznae6MWD47pZB5avTrg==
 
-pino@6.11.3, pino@~6.11.0:
+pino@6.12.0:
+  version "6.12.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-6.12.0.tgz#2281521620d70eeff519039467352d656f46735e"
+  integrity sha512-5NGopOcUusGuklGHVVv9az0Hv/Dj3urHhD3G+zhl5pBGIRYAeGCi/Ej6YCl16Q2ko28cmYiJz+/qRoJiwy62Rw==
+  dependencies:
+    fast-redact "^3.0.0"
+    fast-safe-stringify "^2.0.8"
+    flatstr "^1.0.12"
+    pino-std-serializers "^3.1.0"
+    quick-format-unescaped "^4.0.3"
+    sonic-boom "^1.0.2"
+
+pino@~6.11.0:
   version "6.11.3"
   resolved "https://registry.yarnpkg.com/pino/-/pino-6.11.3.tgz#0c02eec6029d25e6794fdb6bbea367247d74bc29"
   integrity sha512-drPtqkkSf0ufx2gaea3TryFiBHdNIdXKf5LN0hTM82SXI4xVIve2wLwNg92e1MT6m3jASLu6VO7eGY6+mmGeyw==
