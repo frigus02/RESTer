@@ -67,7 +67,7 @@
     "web-animations-js": "2.3.2"
   },
   "devDependencies": {
-    "@babel/core": "7.14.6",
+    "@babel/core": "7.14.8",
     "@babel/parser": "7.14.7",
     "@babel/preset-env": "7.14.7",
     "addons-linter": "3.9.0",
