@@ -10,7 +10,7 @@ Accept-Encoding: gzip, deflate
 Connection: keep-alive
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
-Sec-Fetch-Site: cross-site
+Sec-Fetch-Site: same-origin
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
@@ -26,7 +26,7 @@ Connection: keep-alive
 Cookie: number1=10; number2=200; number3=300
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
-Sec-Fetch-Site: cross-site
+Sec-Fetch-Site: same-origin
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
@@ -44,7 +44,7 @@ Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
 Connection: keep-alive
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
-Sec-Fetch-Site: cross-site
+Sec-Fetch-Site: same-origin
 Pragma: no-cache
 Cache-Control: no-cache
 
