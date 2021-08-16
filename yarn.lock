@@ -1142,10 +1142,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@mdn/browser-compat-data@3.3.13":
-  version "3.3.13"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.13.tgz#1b89fed0146d77c92f4d19b768fa5e646db8561b"
-  integrity sha512-YCclX4FGCVMkdIFykkyrgBkERN1huqU+Lyr767mbTuSVtj2LKfXpVwv/D0C1ZaefRvpinRJ/Xfy0mBNi7XIs0w==
+"@mdn/browser-compat-data@3.3.14":
+  version "3.3.14"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.14.tgz#b72a37c654e598f9ae6f8335faaee182bebc6b28"
+  integrity sha512-n2RC9d6XatVbWFdHLimzzUJxJ1KY8LdjqrW6YvGPiRmsHkhOUx74/Ct10x5Yo7bC/Jvqx7cDEW8IMPv/+vwEzA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2068,12 +2068,12 @@ acorn@^8.2.4, acorn@^8.4.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
   integrity sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==
 
-addons-linter@3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.11.0.tgz#1ed92f514439ac5edc3136b01213fd7f02d585c8"
-  integrity sha512-eV6XolL0AFrhar/8+Otu9JEtogx1nuWBAUMFhGflGoORdNCzDIPHVDHTqdJB5veqP5NdrEMO2FtiMFdU/IV0iw==
+addons-linter@3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.12.0.tgz#9950928fb704306e8ebce1fefb8f9257e1b69610"
+  integrity sha512-GAvHjjqxVn8cQYBD6xshneACdaY2KjakWIyUhXrVbx3g8TZSF78ISucKZ1+XtKZLDvEr1LIJjeeYlR49LNH3CQ==
   dependencies:
-    "@mdn/browser-compat-data" "3.3.13"
+    "@mdn/browser-compat-data" "3.3.14"
     addons-scanner-utils "4.9.0"
     ajv "6.12.6"
     ajv-merge-patch "4.1.0"
@@ -2101,7 +2101,7 @@ addons-linter@3.11.0:
     source-map-support "0.5.19"
     tosource "1.0.0"
     upath "2.0.1"
-    yargs "17.0.1"
+    yargs "17.1.0"
     yauzl "2.10.0"
 
 addons-scanner-utils@4.9.0:
@@ -6548,10 +6548,10 @@ yargs-parser@^20.2.2:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.9.tgz#2eb7dc3b0289718fc295f362753845c41a0c94ee"
   integrity sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==
 
-yargs@17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.0.1.tgz#6a1ced4ed5ee0b388010ba9fd67af83b9362e0bb"
-  integrity sha512-xBBulfCc8Y6gLFcrPvtqKz9hz8SO0l1Ni8GgDekvBX2ro0HRQImDGnikfc33cgzcYUSncapnNcZDjVFIH3f6KQ==
+yargs@17.1.0:
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.1.0.tgz#0cd9827a0572c9a1795361c4d1530e53ada168cf"
+  integrity sha512-SQr7qqmQ2sNijjJGHL4u7t8vyDZdZ3Ahkmo4sc1w5xI9TBX0QDdG/g4SFnxtWOsGLjwHQue57eFALfwFCnixgg==
   dependencies:
     cliui "^7.0.2"
     escalade "^3.1.1"
