@@ -3760,16 +3760,16 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-geckodriver@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-2.0.3.tgz#6cafc0b27fcf86a1b4453f8a15fa861279b4efb9"
-  integrity sha512-83rIYhTFAuV8ae30qFQ85kezeFkUivwI9RDSLjFX5XdDiT1hPVGW0iyFVNlJJf+R4jWIvzhG8uIyS/8oqTCtxA==
+geckodriver@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-2.0.4.tgz#2f644ede43ce7bea10336d57838179da0f7374d9"
+  integrity sha512-3Fu75v6Ov8h5Vt25+djJU56MJA2gRctgjhvG5xGzLFTQjltPz7nojQdBHbmgWznUt3CHl8VaiDn8MaepY7B0dA==
   dependencies:
     adm-zip "0.5.5"
     bluebird "3.7.2"
     got "11.8.2"
     https-proxy-agent "5.0.0"
-    tar "6.1.2"
+    tar "6.1.9"
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -6210,10 +6210,10 @@ tar-stream@^2.2.0:
     inherits "^2.0.3"
     readable-stream "^3.1.1"
 
-tar@6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.2.tgz#1f045a90a6eb23557a603595f41a16c57d47adc6"
-  integrity sha512-EwKEgqJ7nJoS+s8QfLYVGMDmAsj+StbI2AM/RTHeUSsOw6Z8bwNBRv5z3CY0m7laC5qUAqruLX5AhMuc5deY3Q==
+tar@6.1.9:
+  version "6.1.9"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.9.tgz#5646ef51342ac55456b2466e44da810439978db1"
+  integrity sha512-XjLaMNl76o07zqZC/aW4lwegdY07baOH1T8w3AEfrHAdyg/oYO4ctjzEBq9Gy9fEP9oHqLIgvx6zuGDGe+bc8Q==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
