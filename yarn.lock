@@ -1224,10 +1224,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@mdn/browser-compat-data@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.0.2.tgz#54431f690853e11b61f93b29ded25978f78c38e0"
-  integrity sha512-XGLqWi1uOil0L4TJs9KOTMRl9FdEtRQLvBDaB7++AFnFf9G0QYihiUNRJ4eXZa53KI9VORsEi3Fj8p3N+m/Gdw==
+"@mdn/browser-compat-data@4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.0.3.tgz#d4224c934cf0519e39f9d9d35667cef334cf98fe"
+  integrity sha512-4E2lXYsEIReRs/VntABgz4FRigtCwOmjRDY9++FcgRwcVExkwKt0sesxwj0TiHDtDgjmMQ1woY6WpkTS/T8Y9A==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2150,12 +2150,17 @@ acorn@^8.2.4, acorn@^8.4.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
   integrity sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==
 
-addons-linter@3.14.0:
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.14.0.tgz#87db4e3705767452d2d42a3eae580c5f1b8ea568"
-  integrity sha512-vtumbG5Ma50K3JkQerx7Q03CfIYy4qZLl4jgwx42tdU8rSFy0vOWqr3t6pOnWD94r1dHAxcDoVglz2YcUrhBuQ==
+acorn@^8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.5.0.tgz#4512ccb99b3698c752591e9bb4472e38ad43cee2"
+  integrity sha512-yXbYeFy+jUuYd3/CDcg2NkIYE991XYX/bje7LmjJigUciaeO1JR4XxXgCIV1/Zc/dRuFEyw1L0pbA+qynJkW5Q==
+
+addons-linter@3.15.0:
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.15.0.tgz#013a711b98c09f5ea724d1b6cb66aac6c69ac6e6"
+  integrity sha512-qSa8Xx/mxYcLKuKgTDdASHlstuhKyom0SK03+GDTgiTZBxCi1A+rEYF7bKa7BLMrE3gpQeGwnC/wjvtu2n1p1A==
   dependencies:
-    "@mdn/browser-compat-data" "4.0.2"
+    "@mdn/browser-compat-data" "4.0.3"
     addons-scanner-utils "4.10.0"
     ajv "6.12.6"
     ajv-merge-patch "4.1.0"
@@ -2168,7 +2173,7 @@ addons-linter@3.14.0:
     eslint "7.32.0"
     eslint-plugin-no-unsanitized "3.1.5"
     eslint-visitor-keys "3.0.0"
-    espree "8.0.0"
+    espree "9.0.0"
     esprima "4.0.1"
     fluent-syntax "0.13.0"
     glob "7.1.7"
@@ -2180,7 +2185,7 @@ addons-linter@3.14.0:
     postcss "8.3.6"
     relaxed-json "1.0.3"
     semver "7.3.5"
-    source-map-support "0.5.19"
+    source-map-support "0.5.20"
     tosource "1.0.0"
     upath "2.0.1"
     yargs "17.1.1"
@@ -3356,12 +3361,12 @@ eslint@7.32.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-espree@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-8.0.0.tgz#08c92c31814c96c96c54d3a35cc80f1cdb420275"
-  integrity sha512-y/+i23dwTjIDJrYCcjcAMr3c3UGbPIjC6THMQKjWmhP97fW0FPiI89kmpKfmgV/5jrkIi6toQP+CMm3qBE1Hig==
+espree@9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/espree/-/espree-9.0.0.tgz#e90a2965698228502e771c7a58489b1a9d107090"
+  integrity sha512-r5EQJcYZ2oaGbeR0jR0fFVijGOcwai07/690YRXLINuhmVeRY4UKSAsQPe/0BNuDgwP7Ophoc1PRsr2E3tkbdQ==
   dependencies:
-    acorn "^8.4.1"
+    acorn "^8.5.0"
     acorn-jsx "^5.3.1"
     eslint-visitor-keys "^3.0.0"
 
@@ -5939,10 +5944,10 @@ source-map-js@^0.6.2:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-0.6.2.tgz#0bb5de631b41cfbda6cfba8bd05a80efdfd2385e"
   integrity sha512-/3GptzWzu0+0MBQFrDKzw/DvvMTUORvgY6k6jd/VS6iCR4RDTKWH6v6WPwQoUO8667uQEf9Oe38DxAYWY5F/Ug==
 
-source-map-support@0.5.19, source-map-support@^0.5.6, source-map-support@~0.5.12, source-map-support@~0.5.19, source-map-support@~0.5.4:
-  version "0.5.19"
-  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
-  integrity sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==
+source-map-support@0.5.20, source-map-support@^0.5.6, source-map-support@~0.5.12, source-map-support@~0.5.19, source-map-support@~0.5.4:
+  version "0.5.20"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.20.tgz#12166089f8f5e5e8c56926b377633392dd2cb6c9"
+  integrity sha512-n1lZZ8Ve4ksRqizaBQgxXDgKwttHDhyfQjA6YZZn8+AroHbsIz+JjwxQDxbp+7y5OYCI8t1Yk7etjD9CRd2hIw==
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
