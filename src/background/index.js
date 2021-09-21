@@ -13,12 +13,9 @@ import { select } from './utils/fields.js';
 const resterApi = {
     data: {
         authorizationProviderConfigurations: {
-            put:
-                authorizationProviderConfigurations.putAuthorizationProviderConfiguration,
-            query:
-                authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
-            delete:
-                authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration,
+            put: authorizationProviderConfigurations.putAuthorizationProviderConfiguration,
+            query: authorizationProviderConfigurations.queryAuthorizationProviderConfigurations,
+            delete: authorizationProviderConfigurations.deleteAuthorizationProviderConfiguration,
         },
         authorizationTokens: {
             add: authorizationTokens.addAuthorizationToken,

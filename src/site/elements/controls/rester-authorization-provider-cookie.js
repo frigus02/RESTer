@@ -128,9 +128,8 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
             response.cookies,
             config.cookieNames
         );
-        const shortedExpirationDate = getShortestCookieExpirationDate(
-            filteredCookies
-        );
+        const shortedExpirationDate =
+            getShortestCookieExpirationDate(filteredCookies);
 
         const token = {
             title: 'Unknown',

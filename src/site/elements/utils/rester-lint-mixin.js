@@ -34,9 +34,8 @@ const RESTerLintMixin = (superclass) =>
     class extends superclass {
         constructor() {
             super();
-            this._runLintInspectionsImmediately = this._runLintInspectionsImmediately.bind(
-                this
-            );
+            this._runLintInspectionsImmediately =
+                this._runLintInspectionsImmediately.bind(this);
         }
 
         disconnectedCallback() {

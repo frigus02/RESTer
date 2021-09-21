@@ -22,9 +22,8 @@ const RESTerVariablesMixin = (superclass) =>
 
         constructor() {
             super();
-            this._onProvidedValuesChanged = this._onProvidedValuesChanged.bind(
-                this
-            );
+            this._onProvidedValuesChanged =
+                this._onProvidedValuesChanged.bind(this);
         }
 
         connectedCallback() {

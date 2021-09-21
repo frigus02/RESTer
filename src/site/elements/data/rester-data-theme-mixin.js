@@ -24,9 +24,8 @@ const RESTerThemeMixin = (superclass) =>
 
         constructor() {
             super();
-            this._onThemeSettingsChanged = this._onThemeSettingsChanged.bind(
-                this
-            );
+            this._onThemeSettingsChanged =
+                this._onThemeSettingsChanged.bind(this);
         }
 
         connectedCallback() {

@@ -162,12 +162,10 @@ export default class Navigation extends CustomEventTarget {
         this._environmentNavItemIndex = 0;
         this._historyNavItemsOffset = 0;
         this._historyNavItemsCount = 0;
-        this._updateNavigationBasedOnDataChanges = this._updateNavigationBasedOnDataChanges.bind(
-            this
-        );
-        this._updateNavigationBasedOnSettingsChanges = this._updateNavigationBasedOnSettingsChanges.bind(
-            this
-        );
+        this._updateNavigationBasedOnDataChanges =
+            this._updateNavigationBasedOnDataChanges.bind(this);
+        this._updateNavigationBasedOnSettingsChanges =
+            this._updateNavigationBasedOnSettingsChanges.bind(this);
 
         this._create();
         resterEvents.addEventListener(
@@ -181,15 +179,13 @@ export default class Navigation extends CustomEventTarget {
     }
 
     async _create() {
-        const [
-            requests,
-            historyEntries,
-            activeEnvironment,
-        ] = await Promise.all([
-            getRequests(requestFields),
-            getHistoryEntries(5, historyFields),
-            settingsLoaded.then(() => getActiveEnvironment()),
-        ]);
+        const [requests, historyEntries, activeEnvironment] = await Promise.all(
+            [
+                getRequests(requestFields),
+                getHistoryEntries(5, historyFields),
+                settingsLoaded.then(() => getActiveEnvironment()),
+            ]
+        );
 
         this.items.push(
             new Subheader({
@@ -331,9 +327,8 @@ export default class Navigation extends CustomEventTarget {
                 }
 
                 if (change.action === 'add' || change.action === 'put') {
-                    let collectionParts = change.item.collection.split(
-                            /\s*\/\s*/i
-                        ),
+                    let collectionParts =
+                            change.item.collection.split(/\s*\/\s*/i),
                         collectionPath = [],
                         collectionOffset = this._requestNavItemsOffset,
                         collectionCount = this._requestNavItemsCount;

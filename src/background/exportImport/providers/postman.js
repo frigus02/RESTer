@@ -19,8 +19,7 @@ export function format(data) {
     const collection = {
         info: {
             name: 'RESTer',
-            schema:
-                'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+            schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
         },
         item: createPostmanCollectionItems(data),
     };

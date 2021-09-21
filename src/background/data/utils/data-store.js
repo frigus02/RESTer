@@ -141,9 +141,8 @@ class DataStore extends CustomEventTarget {
 
                             queue[tableName].forEach(({ action, entity }) => {
                                 if (action === 'add' || action === 'put') {
-                                    dataToSet[
-                                        `${tableName}.e.${entity.id}`
-                                    ] = entity;
+                                    dataToSet[`${tableName}.e.${entity.id}`] =
+                                        entity;
                                 }
 
                                 const oldEntity =
@@ -181,9 +180,8 @@ class DataStore extends CustomEventTarget {
                                         indexData[newValue].push(entity.id);
                                     }
 
-                                    dataToSet[
-                                        `${tableName}.i.${index}`
-                                    ] = indexData;
+                                    dataToSet[`${tableName}.i.${index}`] =
+                                        indexData;
                                 });
                             });
 

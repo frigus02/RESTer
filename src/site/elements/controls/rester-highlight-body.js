@@ -375,14 +375,14 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
 
     _togglePrettyPrint() {
         this.$.options.close();
-        this.settings.responseBodyPrettyPrint = !this.settings
-            .responseBodyPrettyPrint;
+        this.settings.responseBodyPrettyPrint =
+            !this.settings.responseBodyPrettyPrint;
     }
 
     _toggleFullSize() {
         this.$.options.close();
-        this.settings.responseBodyFullSize = !this.settings
-            .responseBodyFullSize;
+        this.settings.responseBodyFullSize =
+            !this.settings.responseBodyFullSize;
     }
 
     _togglePreview() {

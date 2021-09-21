@@ -469,9 +469,8 @@ class RESTerAutocomplete extends PolymerElement {
 
     _getItemByRenderedIndex(index) {
         const domRepeat = this.$.dropdown.querySelector('dom-repeat');
-        const itemElement = this.$.dropdown.getElementsByClassName('button')[
-            index
-        ];
+        const itemElement =
+            this.$.dropdown.getElementsByClassName('button')[index];
 
         return itemElement && domRepeat.itemForElement(itemElement);
     }

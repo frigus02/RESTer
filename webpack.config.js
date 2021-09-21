@@ -60,8 +60,7 @@ module.exports = [
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        from:
-                            'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
+                        from: 'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
                         context: '../../',
                     },
                     {
