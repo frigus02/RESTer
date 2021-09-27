@@ -60,7 +60,7 @@
     "@polymer/paper-tooltip": "3.0.1",
     "@polymer/polymer": "3.4.1",
     "ace-builds": "1.4.12",
-    "dompurify": "2.3.2",
+    "dompurify": "2.3.3",
     "frigus02-vkbeautify": "1.0.1",
     "mousetrap": "1.6.5",
     "string_score": "0.1.22",
