@@ -1224,10 +1224,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@mdn/browser-compat-data@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.0.3.tgz#d4224c934cf0519e39f9d9d35667cef334cf98fe"
-  integrity sha512-4E2lXYsEIReRs/VntABgz4FRigtCwOmjRDY9++FcgRwcVExkwKt0sesxwj0TiHDtDgjmMQ1woY6WpkTS/T8Y9A==
+"@mdn/browser-compat-data@4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.0.4.tgz#85cbd21aea2a07abb7b17515fec3ab9e5d906544"
+  integrity sha512-G3B1PB3EyWpzaV1oi7QkzzHvS0ax0YOCgCyQipVwj9yccXW/pWziCkPCmWDElkMU5ULTJQJ/E0YWIGJFzzVutw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2150,13 +2150,13 @@ acorn@^8.2.4, acorn@^8.4.1, acorn@^8.5.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.5.0.tgz#4512ccb99b3698c752591e9bb4472e38ad43cee2"
   integrity sha512-yXbYeFy+jUuYd3/CDcg2NkIYE991XYX/bje7LmjJigUciaeO1JR4XxXgCIV1/Zc/dRuFEyw1L0pbA+qynJkW5Q==
 
-addons-linter@3.15.0:
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.15.0.tgz#013a711b98c09f5ea724d1b6cb66aac6c69ac6e6"
-  integrity sha512-qSa8Xx/mxYcLKuKgTDdASHlstuhKyom0SK03+GDTgiTZBxCi1A+rEYF7bKa7BLMrE3gpQeGwnC/wjvtu2n1p1A==
+addons-linter@3.16.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.16.0.tgz#b4ad06bb56cfbc612c364ba6f554300bf53454e2"
+  integrity sha512-lnI4r428/8dJxKapZt7zJ+haVu8D7xxWLHFSVbBDfr9G+Z2+jYHvYeYRFlcoRU0zM+1YkINIB0cJIaPhboDaWg==
   dependencies:
-    "@mdn/browser-compat-data" "4.0.3"
-    addons-scanner-utils "4.10.0"
+    "@mdn/browser-compat-data" "4.0.4"
+    addons-scanner-utils "4.11.0"
     ajv "6.12.6"
     ajv-merge-patch "4.1.0"
     chalk "4.1.2"
@@ -2186,10 +2186,10 @@ addons-linter@3.15.0:
     yargs "17.1.1"
     yauzl "2.10.0"
 
-addons-scanner-utils@4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-4.10.0.tgz#b01aad308e7f6f06eece9d8264fb4a4d0ed475b6"
-  integrity sha512-QVpmVvcKuHHNEqz2aUKKqb5hA65xFSUP2aitkR8OSD2Fh1DGIBrVvjXP41nef3f2hLDJ+2oWrEK7toEK1wk2dQ==
+addons-scanner-utils@4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-4.11.0.tgz#23fb9ac8ed09b07f0424092cd8b1a61d9de25f6a"
+  integrity sha512-4bb7TqufOeUBowAyoclBpgpXnAjY5R31vwp95v63MSIhArKBioXukB4BFyEN6lCiaBdouKW6etG4IytYbUHyJw==
   dependencies:
     "@types/yauzl" "2.9.2"
     common-tags "1.8.0"
