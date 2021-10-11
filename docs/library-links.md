@@ -360,19 +360,22 @@ https://unpkg.com/@webcomponents/shadycss@1.11.0/src/style-util.js
 https://unpkg.com/@webcomponents/shadycss@1.11.0/src/template-map.js
 https://unpkg.com/@webcomponents/shadycss@1.11.0/src/unscoped-style-handler.js
 
-ace-builds 1.4.12
-https://unpkg.com/ace-builds@1.4.12/package.json
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/ace.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/ext-searchbox.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/mode-html.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/mode-json.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/mode-text.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/mode-xml.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/theme-chrome.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/theme-twilight.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-html.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-json.js
-https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js
+ace-builds 1.4.13
+https://unpkg.com/ace-builds@1.4.13/css/ace.css
+https://unpkg.com/ace-builds@1.4.13/css/theme/chrome.css
+https://unpkg.com/ace-builds@1.4.13/css/theme/twilight.css
+https://unpkg.com/ace-builds@1.4.13/package.json
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/worker-xml.js
 
 dompurify 2.3.3
 https://unpkg.com/dompurify@2.3.3/dist/purify.es.js

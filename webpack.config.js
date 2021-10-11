@@ -60,6 +60,10 @@ module.exports = [
             new CopyWebpackPlugin({
                 patterns: [
                     {
+                        from: 'node_modules/ace-builds/css/{ace,theme/{chrome,twilight}}.css',
+                        context: '../../',
+                    },
+                    {
                         from: 'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
                         context: '../../',
                     },
