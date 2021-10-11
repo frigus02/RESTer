@@ -2145,14 +2145,14 @@ acorn@^8.2.4, acorn@^8.4.1, acorn@^8.5.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.5.0.tgz#4512ccb99b3698c752591e9bb4472e38ad43cee2"
   integrity sha512-yXbYeFy+jUuYd3/CDcg2NkIYE991XYX/bje7LmjJigUciaeO1JR4XxXgCIV1/Zc/dRuFEyw1L0pbA+qynJkW5Q==
 
-addons-linter@3.18.0:
-  version "3.18.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.18.0.tgz#9dbbce282b4e0d098ab8561f2ba6a2ca17e6a556"
-  integrity sha512-+P3IRI5QhKUwOfTEVT0KYTxYNMMb/pgaBAOORH0D8vZZiff8vT6GcgFNVF1VhBZ1C0u4c7kGa++uxxDAojaaqw==
+addons-linter@3.20.0:
+  version "3.20.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-3.20.0.tgz#6674bf5794fd7521ba1aca78cf6b2b7b17470433"
+  integrity sha512-rHaahIZ34HSL1D7ZYCMs/QQPOp0pAnsOMqtNSy/zDSrkgVtlCQvSeMpx1a3ZnE2pGRVHjMIO506KWUmrN1lPRw==
   dependencies:
     "@mdn/browser-compat-data" "4.0.5"
     addons-moz-compare "1.2.0"
-    addons-scanner-utils "4.11.0"
+    addons-scanner-utils "5.0.0"
     ajv "6.12.6"
     ajv-merge-patch "4.1.0"
     chalk "4.1.2"
@@ -2173,7 +2173,7 @@ addons-linter@3.18.0:
     jed "1.1.1"
     os-locale "5.0.0"
     pino "6.13.3"
-    postcss "8.3.8"
+    postcss "8.3.9"
     relaxed-json "1.0.3"
     semver "7.3.5"
     source-map-support "0.5.20"
@@ -2187,10 +2187,10 @@ addons-moz-compare@1.2.0:
   resolved "https://registry.yarnpkg.com/addons-moz-compare/-/addons-moz-compare-1.2.0.tgz#d6246cbae224ab629cb7da397b2b9602938ea085"
   integrity sha512-COG8qk2/dubPqabfcoJW4E7pm2EQDI43iMrHnhlobvq/uRMEzx/PYJ1KaUZ97Vgg44R3QdRG5CvDsTRbMUHcDw==
 
-addons-scanner-utils@4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-4.11.0.tgz#23fb9ac8ed09b07f0424092cd8b1a61d9de25f6a"
-  integrity sha512-4bb7TqufOeUBowAyoclBpgpXnAjY5R31vwp95v63MSIhArKBioXukB4BFyEN6lCiaBdouKW6etG4IytYbUHyJw==
+addons-scanner-utils@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-5.0.0.tgz#d5df1bb36d4e8d4e1a4580f1ca11d6349f7b2b5a"
+  integrity sha512-uENKmGryUeR07I1c8RonDZY/bkAG+zKfZ3T61JFusgY5wiARQJ5+8hI33m8sctXxPopjfxiIjHsG/g7cQzn4Yw==
   dependencies:
     "@types/yauzl" "2.9.2"
     common-tags "1.8.0"
@@ -5091,15 +5091,10 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nanocolors@^0.2.2:
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.2.12.tgz#4d05932e70116078673ea4cc6699a1c56cc77777"
-  integrity sha512-SFNdALvzW+rVlzqexid6epYdt8H9Zol7xDoQarioEFcFN0JHo4CYNztAxmtfgGTVRCmFlEOqqhBpoFGKqSAMug==
-
-nanoid@^3.1.25:
-  version "3.1.28"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.28.tgz#3c01bac14cb6c5680569014cc65a2f26424c6bd4"
-  integrity sha512-gSu9VZ2HtmoKYe/lmyPFES5nknFrHa+/DT9muUFWFMi6Jh9E1I7bkvlQ8xxf1Kos9pi9o8lBnIOkatMhKX/YUw==
+nanoid@^3.1.28:
+  version "3.1.29"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.29.tgz#214fb2d7a33e1a5bef4757b779dfaeb6a4e5aeb4"
+  integrity sha512-dW2pUSGZ8ZnCFIlBIA31SV8huOGCHb6OwzVCc7A69rb/a+SgPBwfmLvK5TKQ3INPbRkcI8a/Owo0XbiTNH19wg==
 
 natural-compare-lite@~1.4.0:
   version "1.4.0"
@@ -5425,13 +5420,13 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postcss@8.3.8:
-  version "8.3.8"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.8.tgz#9ebe2a127396b4b4570ae9f7770e7fb83db2bac1"
-  integrity sha512-GT5bTjjZnwDifajzczOC+r3FI3Cu+PgPvrsjhQdRqa2kTJ4968/X9CUce9xttIB0xOs5c6xf0TCWZo/y9lF6bA==
+postcss@8.3.9:
+  version "8.3.9"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.9.tgz#98754caa06c4ee9eb59cc48bd073bb6bd3437c31"
+  integrity sha512-f/ZFyAKh9Dnqytx5X62jgjhhzttjZS7hMsohcI7HEI5tjELX/HxCy3EFhsRxyzGvrzFF+82XPvCS8T9TFleVJw==
   dependencies:
-    nanocolors "^0.2.2"
-    nanoid "^3.1.25"
+    nanoid "^3.1.28"
+    picocolors "^0.2.1"
     source-map-js "^0.6.2"
 
 prelude-ls@^1.2.1:
