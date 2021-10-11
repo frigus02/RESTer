@@ -344,21 +344,21 @@ https://unpkg.com/@polymer/polymer@3.4.1/package.json
 https://unpkg.com/@polymer/polymer@3.4.1/polymer-element.js
 https://unpkg.com/@polymer/polymer@3.4.1/polymer-legacy.js
 
-@webcomponents/shadycss 1.10.2
-https://unpkg.com/@webcomponents/shadycss@1.10.2/entrypoints/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/entrypoints/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/package.json
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/apply-shim-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/apply-shim.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/common-regex.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/common-utils.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/css-parse.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/custom-style-interface.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/document-wait.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/style-settings.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/style-util.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/template-map.js
-https://unpkg.com/@webcomponents/shadycss@1.10.2/src/unscoped-style-handler.js
+@webcomponents/shadycss 1.11.0
+https://unpkg.com/@webcomponents/shadycss@1.11.0/entrypoints/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/entrypoints/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/package.json
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/apply-shim-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/apply-shim.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/common-regex.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/common-utils.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/css-parse.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/custom-style-interface.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/document-wait.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/style-settings.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/style-util.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/template-map.js
+https://unpkg.com/@webcomponents/shadycss@1.11.0/src/unscoped-style-handler.js
 
 ace-builds 1.4.12
 https://unpkg.com/ace-builds@1.4.12/package.json
