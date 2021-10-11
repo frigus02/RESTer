@@ -1,9 +1,10 @@
 'use strict';
 
-module.exports = (api) => {
-    if (api.env('test')) {
-        return {
-            presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
-        };
-    }
-};
+const presets = [];
+const plugins = [];
+
+if (process.env.NODE_ENV === 'test') {
+    presets.push(['@babel/preset-env', { targets: { node: 'current' } }]);
+}
+
+module.exports = { presets, plugins };
