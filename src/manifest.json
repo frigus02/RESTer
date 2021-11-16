@@ -14,12 +14,12 @@
         "downloads",
         "storage",
         "unlimitedStorage",
-        "webRequest",
-        "webRequestBlocking",
         "<all_urls>"
     ],
     "optional_permissions": [
-        "cookies"
+        "cookies",
+        "webRequest",
+        "webRequestBlocking"
     ],
     "background": {
         "scripts": [

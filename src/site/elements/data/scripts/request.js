@@ -15,9 +15,45 @@ const requestIds = new Map();
 // Maps from RESTer requestId to original response headers.
 const originalResponses = new Map();
 
-chrome.tabs.getCurrent((tab) => {
-    setupHeaderInterceptor(tab.id);
-});
+function ensureWebRequestPermission() {
+    const requiredPermissions = {
+        permissions: ['webRequest', 'webRequestBlocking'],
+    };
+
+    return new Promise((resolve, reject) => {
+        chrome.permissions.request(requiredPermissions, (result) => {
+            if (result) {
+                resolve();
+            } else {
+                reject(
+                    new Error(
+                        'RESTer needs webRequest and webRequestBlocking permissions for the clean request mode.'
+                    )
+                );
+            }
+        });
+    });
+}
+
+function getCurrentTabId() {
+    return new Promise((resolve) => {
+        chrome.tabs.getCurrent((tab) => {
+            resolve(tab.id);
+        });
+    });
+}
+
+let headerInterceptorPromise;
+function ensureHeaderInterceptor() {
+    if (!headerInterceptorPromise) {
+        headerInterceptorPromise = (async function () {
+            await ensureWebRequestPermission();
+            setupHeaderInterceptor(await getCurrentTabId());
+        })();
+    }
+
+    return headerInterceptorPromise;
+}
 
 function setupHeaderInterceptor(currentTabId) {
     function onBeforeSendHeaders(details) {
@@ -237,6 +273,10 @@ function generateFormData(body, tempVariables) {
  * was successfully saved and returns the request response.
  */
 export async function send(request) {
+    if (request.stripDefaultHeaders) {
+        await ensureHeaderInterceptor();
+    }
+
     const requestId = String(Math.random());
 
     // Special handling for multipart requests.
@@ -253,17 +293,25 @@ export async function send(request) {
 
     // Create fetch request options.
     const headers = new Headers();
-    headers.append(headerCommandPrefix + 'requestid', requestId);
     if (request.stripDefaultHeaders) {
-        headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
-    }
+        headers.append(headerCommandPrefix + 'requestid', requestId);
+        if (request.stripDefaultHeaders) {
+            headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
+        }
 
-    for (const header of requestHeaders) {
-        if (header && header.name && header.value) {
-            headers.append(
-                headerPrefix + header.name,
-                JSON.stringify({ name: header.name, value: header.value })
-            );
+        for (const header of requestHeaders) {
+            if (header && header.name && header.value) {
+                headers.append(
+                    headerPrefix + header.name,
+                    JSON.stringify({ name: header.name, value: header.value })
+                );
+            }
+        }
+    } else {
+        for (const header of requestHeaders) {
+            if (header && header.name && header.value) {
+                headers.append(header.name, header.value);
+            }
         }
     }
 
@@ -292,11 +340,19 @@ export async function send(request) {
     const fetchResponse = await fetch(request.url, init);
     response.redirected = fetchResponse.redirected;
 
-    const originalResponse = originalResponses.get(requestId);
-    originalResponses.delete(requestId);
-    response.status = originalResponse.status;
-    response.statusText = originalResponse.statusText;
-    response.headers = [...originalResponse.headers];
+    if (request.stripDefaultHeaders) {
+        const originalResponse = originalResponses.get(requestId);
+        originalResponses.delete(requestId);
+        response.status = originalResponse.status;
+        response.statusText = originalResponse.statusText;
+        response.headers = [...originalResponse.headers];
+    } else {
+        response.status = fetchResponse.status;
+        response.statusText = fetchResponse.statusText;
+        response.headers = Array.from(fetchResponse.headers.entries()).map(
+            ([name, value]) => ({ name, value })
+        );
+    }
 
     const fetchBody = await fetchResponse.text();
     response.timeEnd = new Date();
