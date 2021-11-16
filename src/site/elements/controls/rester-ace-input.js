@@ -84,9 +84,10 @@ class RESTerAceInput extends RESTerThemeMixin(PolymerElement) {
     ready() {
         super.ready();
         ace.config.set('useStrictCSP', true);
+        ace.config.set('loadWorkerFromBlob', false);
         ace.config.set(
             'basePath',
-            this.resolveUrl('node_modules/ace-builds/src-min-noconflict/')
+            '/site/node_modules/ace-builds/src-min-noconflict/'
         );
     }
 

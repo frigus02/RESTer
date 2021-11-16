@@ -64,6 +64,10 @@ module.exports = [
                         context: '../../',
                     },
                     {
+                        from: 'node_modules/ace-builds/css/{main,chrome,twilight}-*.png',
+                        context: '../../',
+                    },
+                    {
                         from: 'node_modules/ace-builds/src-min-noconflict/{ext-searchbox,mode-{html,json,text,xml},theme-{chrome,twilight},worker-{html,json,xml}}.js',
                         context: '../../',
                     },
