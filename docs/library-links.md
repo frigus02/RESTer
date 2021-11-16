@@ -362,8 +362,26 @@ https://unpkg.com/@webcomponents/shadycss@1.11.0/src/unscoped-style-handler.js
 
 ace-builds 1.4.13
 https://unpkg.com/ace-builds@1.4.13/css/ace.css
+https://unpkg.com/ace-builds@1.4.13/css/chrome-1.png
+https://unpkg.com/ace-builds@1.4.13/css/main-1.png
+https://unpkg.com/ace-builds@1.4.13/css/main-10.png
+https://unpkg.com/ace-builds@1.4.13/css/main-11.png
+https://unpkg.com/ace-builds@1.4.13/css/main-12.png
+https://unpkg.com/ace-builds@1.4.13/css/main-13.png
+https://unpkg.com/ace-builds@1.4.13/css/main-14.png
+https://unpkg.com/ace-builds@1.4.13/css/main-15.png
+https://unpkg.com/ace-builds@1.4.13/css/main-16.png
+https://unpkg.com/ace-builds@1.4.13/css/main-2.png
+https://unpkg.com/ace-builds@1.4.13/css/main-3.png
+https://unpkg.com/ace-builds@1.4.13/css/main-4.png
+https://unpkg.com/ace-builds@1.4.13/css/main-5.png
+https://unpkg.com/ace-builds@1.4.13/css/main-6.png
+https://unpkg.com/ace-builds@1.4.13/css/main-7.png
+https://unpkg.com/ace-builds@1.4.13/css/main-8.png
+https://unpkg.com/ace-builds@1.4.13/css/main-9.png
 https://unpkg.com/ace-builds@1.4.13/css/theme/chrome.css
 https://unpkg.com/ace-builds@1.4.13/css/theme/twilight.css
+https://unpkg.com/ace-builds@1.4.13/css/twilight-1.png
 https://unpkg.com/ace-builds@1.4.13/package.json
 https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/ace.js
 https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/ext-searchbox.js
@@ -385,9 +403,9 @@ frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/package.json
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
 
-html-webpack-plugin 5.3.2
-https://unpkg.com/html-webpack-plugin@5.3.2/lib/loader.js
-https://unpkg.com/html-webpack-plugin@5.3.2/package.json
+html-webpack-plugin 5.5.0
+https://unpkg.com/html-webpack-plugin@5.5.0/lib/loader.js
+https://unpkg.com/html-webpack-plugin@5.5.0/package.json
 
 mousetrap 1.6.5
 https://unpkg.com/mousetrap@1.6.5/mousetrap.js
