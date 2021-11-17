@@ -87,10 +87,12 @@ class GenerateLibraryLinksPlugin {
                 const text = libraries
                     .map((lib) => {
                         const { name, version } = lib.packageJson;
-                        const fileUrls = lib.usedFiles.map(
-                            (file) =>
-                                `https://unpkg.com/${name}@${version}/${file}`
-                        );
+                        const fileUrls = lib.usedFiles
+                            .filter((file) => file !== 'package.json')
+                            .map(
+                                (file) =>
+                                    `https://unpkg.com/${name}@${version}/${file}`
+                            );
                         return `${name} ${version}\n${fileUrls.join('\n')}`;
                     })
                     .join('\n\n');
