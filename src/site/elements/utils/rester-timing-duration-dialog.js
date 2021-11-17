@@ -166,7 +166,7 @@ class RESTerTimingDurationDialog extends RESTerDialogControllerMixin(
             connect,
             sendRequest,
             downloadResponse,
-        ];
+        ].filter((item) => item.startAt >= 0 && item.duration >= 0);
     }
 
     _calcPercentage(full, fraction) {

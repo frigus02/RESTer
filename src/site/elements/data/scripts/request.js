@@ -15,9 +15,53 @@ const requestIds = new Map();
 // Maps from RESTer requestId to original response headers.
 const originalResponses = new Map();
 
-chrome.tabs.getCurrent((tab) => {
-    setupHeaderInterceptor(tab.id);
-});
+function requestWebRequestPermissions() {
+    const requiredPermissions = {
+        permissions: ['webRequest', 'webRequestBlocking'],
+    };
+
+    return new Promise((resolve, reject) => {
+        chrome.permissions.request(requiredPermissions, (granted) => {
+            if (granted) {
+                resolve();
+            } else {
+                reject(chrome.runtime.lastError);
+            }
+        });
+    });
+}
+
+function getCurrentTabId() {
+    return new Promise((resolve) => {
+        chrome.tabs.getCurrent((tab) => {
+            resolve(tab.id);
+        });
+    });
+}
+
+let headerInterceptorPromise;
+function ensureHeaderInterceptor() {
+    if (!headerInterceptorPromise) {
+        headerInterceptorPromise = (async function () {
+            try {
+                await requestWebRequestPermissions();
+                setupHeaderInterceptor(await getCurrentTabId());
+                return true;
+            } catch (e) {
+                console.warn(
+                    'RESTer could not install the header interceptor. ' +
+                        'Certain features like setting cookies or the ' +
+                        '"Clean Request" mode will not work as expected. ' +
+                        'Reason: ' +
+                        e.message
+                );
+                return false;
+            }
+        })();
+    }
+
+    return headerInterceptorPromise;
+}
 
 function setupHeaderInterceptor(currentTabId) {
     function onBeforeSendHeaders(details) {
@@ -237,6 +281,8 @@ function generateFormData(body, tempVariables) {
  * was successfully saved and returns the request response.
  */
 export async function send(request) {
+    const headersIntercepted = await ensureHeaderInterceptor();
+
     const requestId = String(Math.random());
 
     // Special handling for multipart requests.
@@ -253,17 +299,25 @@ export async function send(request) {
 
     // Create fetch request options.
     const headers = new Headers();
-    headers.append(headerCommandPrefix + 'requestid', requestId);
-    if (request.stripDefaultHeaders) {
-        headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
-    }
+    if (headersIntercepted) {
+        headers.append(headerCommandPrefix + 'requestid', requestId);
+        if (request.stripDefaultHeaders) {
+            headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
+        }
 
-    for (const header of requestHeaders) {
-        if (header && header.name && header.value) {
-            headers.append(
-                headerPrefix + header.name,
-                JSON.stringify({ name: header.name, value: header.value })
-            );
+        for (const header of requestHeaders) {
+            if (header && header.name && header.value) {
+                headers.append(
+                    headerPrefix + header.name,
+                    JSON.stringify({ name: header.name, value: header.value })
+                );
+            }
+        }
+    } else {
+        for (const header of requestHeaders) {
+            if (header && header.name && header.value) {
+                headers.append(header.name, header.value);
+            }
         }
     }
 
@@ -292,11 +346,19 @@ export async function send(request) {
     const fetchResponse = await fetch(request.url, init);
     response.redirected = fetchResponse.redirected;
 
-    const originalResponse = originalResponses.get(requestId);
-    originalResponses.delete(requestId);
-    response.status = originalResponse.status;
-    response.statusText = originalResponse.statusText;
-    response.headers = [...originalResponse.headers];
+    if (headersIntercepted) {
+        const originalResponse = originalResponses.get(requestId);
+        originalResponses.delete(requestId);
+        response.status = originalResponse.status;
+        response.statusText = originalResponse.statusText;
+        response.headers = [...originalResponse.headers];
+    } else {
+        response.status = fetchResponse.status;
+        response.statusText = fetchResponse.statusText;
+        response.headers = Array.from(fetchResponse.headers.entries()).map(
+            ([name, value]) => ({ name, value })
+        );
+    }
 
     const fetchBody = await fetchResponse.text();
     response.timeEnd = new Date();
