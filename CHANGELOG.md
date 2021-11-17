@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.8.0] - 2021-11-17
+
+### Changed
+
+-   The `webRequest` and `webRequestBlocking` permissions are not optional. RESTer requests them automatically the first time a request is sent. Neither Firefox, nor Chrome currently show a permission prompt for that. Making those permissions optional allows RESTer to work in environments where those permissins are blocked (e.g. by Chrome Enterprise Policy).
+
 ## [4.7.0] - 2021-06-24
 
 ### Added
@@ -696,7 +702,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.7.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.8.0...HEAD
+[4.8.0]: https://github.com/frigus02/RESTer/compare/4.7.0...4.8.0
 [4.7.0]: https://github.com/frigus02/RESTer/compare/4.6.0...4.7.0
 [4.6.0]: https://github.com/frigus02/RESTer/compare/4.5.2...4.6.0
 [4.5.2]: https://github.com/frigus02/RESTer/compare/4.5.1...4.5.2
