@@ -15,21 +15,17 @@ const requestIds = new Map();
 // Maps from RESTer requestId to original response headers.
 const originalResponses = new Map();
 
-function ensureWebRequestPermission() {
+function requestWebRequestPermissions() {
     const requiredPermissions = {
         permissions: ['webRequest', 'webRequestBlocking'],
     };
 
     return new Promise((resolve, reject) => {
-        chrome.permissions.request(requiredPermissions, (result) => {
-            if (result) {
+        chrome.permissions.request(requiredPermissions, (granted) => {
+            if (granted) {
                 resolve();
             } else {
-                reject(
-                    new Error(
-                        'RESTer needs webRequest and webRequestBlocking permissions for the clean request mode.'
-                    )
-                );
+                reject(chrome.runtime.lastError);
             }
         });
     });
@@ -47,8 +43,20 @@ let headerInterceptorPromise;
 function ensureHeaderInterceptor() {
     if (!headerInterceptorPromise) {
         headerInterceptorPromise = (async function () {
-            await ensureWebRequestPermission();
-            setupHeaderInterceptor(await getCurrentTabId());
+            try {
+                await requestWebRequestPermissions();
+                setupHeaderInterceptor(await getCurrentTabId());
+                return true;
+            } catch (e) {
+                console.warn(
+                    'RESTer could not install the header interceptor. ' +
+                        'Certain features like setting cookies or the ' +
+                        '"Clean Request" mode will not work as expected. ' +
+                        'Reason: ' +
+                        e.message
+                );
+                return false;
+            }
         })();
     }
 
@@ -273,9 +281,7 @@ function generateFormData(body, tempVariables) {
  * was successfully saved and returns the request response.
  */
 export async function send(request) {
-    if (request.stripDefaultHeaders) {
-        await ensureHeaderInterceptor();
-    }
+    const headersIntercepted = await ensureHeaderInterceptor();
 
     const requestId = String(Math.random());
 
@@ -293,7 +299,7 @@ export async function send(request) {
 
     // Create fetch request options.
     const headers = new Headers();
-    if (request.stripDefaultHeaders) {
+    if (headersIntercepted) {
         headers.append(headerCommandPrefix + 'requestid', requestId);
         if (request.stripDefaultHeaders) {
             headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
@@ -340,7 +346,7 @@ export async function send(request) {
     const fetchResponse = await fetch(request.url, init);
     response.redirected = fetchResponse.redirected;
 
-    if (request.stripDefaultHeaders) {
+    if (headersIntercepted) {
         const originalResponse = originalResponses.get(requestId);
         originalResponses.delete(requestId);
         response.status = originalResponse.status;
