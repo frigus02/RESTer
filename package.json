@@ -74,7 +74,7 @@
     "addons-linter": "4.4.0",
     "archiver": "5.3.0",
     "babel-jest": "27.3.1",
-    "chalk": "4.1.2",
+    "chalk": "5.0.0",
     "concurrently": "6.4.0",
     "copy-webpack-plugin": "10.0.0",
     "cpx2": "4.0.0",
