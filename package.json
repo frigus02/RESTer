@@ -73,7 +73,7 @@
     "@babel/preset-env": "7.16.4",
     "addons-linter": "4.4.0",
     "archiver": "5.3.0",
-    "babel-jest": "27.4.2",
+    "babel-jest": "27.4.4",
     "chalk": "5.0.0",
     "concurrently": "6.4.0",
     "copy-webpack-plugin": "10.0.0",
