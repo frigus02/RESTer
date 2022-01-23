@@ -52,49 +52,61 @@ export function extract(obj) {
                 .forEach((v) => vars.add(v));
         }
     } else if (typeof obj === 'object' && obj !== null) {
-        Object.keys(obj).forEach((key) => {
+        for (const key of Object.keys(obj)) {
             extract(obj[key]).forEach((v) => vars.add(v));
-        });
+        }
     }
 
     return Array.from(vars);
 }
 
-function replaceInternal(obj, allValues, usedValues) {
+function replaceInternal(obj, values, usedValues, mapValue) {
     if (typeof obj === 'string') {
         obj = obj.replace(RE_VARS, (match) => {
-            let varName = match.substr(1, match.length - 2),
-                value = allValues[varName];
+            const varName = match.substr(1, match.length - 2);
+            const value = values[varName];
 
             if (value) {
                 usedValues[varName] = value;
-                return value;
+                return mapValue(value);
             } else {
                 return `{${varName}}`;
             }
         });
     } else if (typeof obj === 'object' && obj !== null) {
         obj = clone(obj);
-        Object.keys(obj).forEach((key) => {
-            obj[key] = replaceInternal(obj[key], allValues, usedValues);
-        });
+        for (const key of Object.keys(obj)) {
+            obj[key] = replaceInternal(obj[key], values, usedValues, mapValue);
+        }
     }
 
     return obj;
 }
 
-export function replace(obj, values = {}, usedValues = {}) {
+export function replace(
+    obj,
+    values = {},
+    usedValues = {},
+    mapValue = (x) => x
+) {
     return replaceInternal(
         obj,
         Object.assign({}, values, providedValues),
-        usedValues
+        usedValues,
+        mapValue
     );
 }
 
 export function replaceWithoutProvidedValues(
     obj,
     values = {},
-    usedValues = {}
+    usedValues = {},
+    mapValue = (x) => x
 ) {
-    return replaceInternal(obj, Object.assign({}, values), usedValues);
+    return replaceInternal(
+        obj,
+        Object.assign({}, values),
+        usedValues,
+        mapValue
+    );
 }
