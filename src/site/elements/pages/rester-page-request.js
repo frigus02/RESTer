@@ -894,7 +894,8 @@ class RESTerPageRequest extends RESTerLintMixin(
         const compiledRequest = replaceVariables(
             this.request,
             this.requestVariableValues,
-            usedVariableValues
+            usedVariableValues,
+            (value) => this.$.bodyInput.maybeEncodeVariableValue(value)
         );
 
         // Prefix with http://, if the compiled URL does not contain any protocol.

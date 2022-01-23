@@ -216,6 +216,14 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
         }
     }
 
+    maybeEncodeVariableValue(value) {
+        if (this.selectedInputOption.title === 'Form') {
+            return encodeURIComponent(value);
+        }
+
+        return value;
+    }
+
     notifyVisibilityChanged() {
         if (this.selectedInputOption.isInputTypeAce) {
             this.shadowRoot
