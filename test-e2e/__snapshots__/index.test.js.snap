@@ -31,6 +31,27 @@ Pragma: no-cache
 Cache-Control: no-cache"
 `;
 
+exports[`with browser requests POST http://127.0.0.1:7373/echo 1`] = `
+"POST /echo HTTP/1.1
+Host: 127.0.0.1:7373
+User-Agent: RESTer
+Accept: */*
+Accept-Language: en
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
+Content-Length: 25
+Connection: keep-alive
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Custom-Header: **http://127.0.0.1:7373**
+Pragma: no-cache
+Cache-Control: no-cache
+
+user=test&token=a%26b%3Dc"
+`;
+
 exports[`with browser requests POST http://127.0.0.1:7373/redirect?how=307 1`] = `
 "POST /echo HTTP/1.1
 Host: 127.0.0.1:7373
@@ -67,6 +88,19 @@ User-Agent: RESTer
 Cookie: number2=200;number3=300
 Pragma: no-cache
 Cache-Control: no-cache"
+`;
+
+exports[`with clean requests POST http://127.0.0.1:7373/echo 1`] = `
+"POST /echo HTTP/1.1
+Host: 127.0.0.1:7373
+User-Agent: RESTer
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+Custom-Header: **http://127.0.0.1:7373**
+Pragma: no-cache
+Cache-Control: no-cache
+
+user=test&token=a%26b%3Dc"
 `;
 
 exports[`with clean requests POST http://127.0.0.1:7373/redirect?how=307 1`] = `""`;
