@@ -891,12 +891,24 @@ class RESTerPageRequest extends RESTerLintMixin(
 
     _compileRequest() {
         const usedVariableValues = {};
-        const compiledRequest = replaceVariables(
-            this.request,
-            this.requestVariableValues,
-            usedVariableValues,
-            (value) => this.$.bodyInput.maybeEncodeVariableValue(value)
-        );
+        const compile = (obj, encodeFn = undefined) =>
+            replaceVariables(
+                obj,
+                this.requestVariableValues,
+                usedVariableValues,
+                encodeFn
+            );
+        const compiledRequest = {
+            ...this.request,
+            collection: compile(this.request.collection),
+            title: compile(this.request.title),
+            method: compile(this.request.method),
+            url: compile(this.request.url),
+            headers: compile(this.request.headers),
+            body: compile(this.request.body, (value) =>
+                this.$.bodyInput.maybeEncodeVariableValue(value)
+            ),
+        };
 
         // Prefix with http://, if the compiled URL does not contain any protocol.
         if (!/^[A-Za-z][A-Za-z0-9+-.]*:\/\/*/i.test(compiledRequest.url)) {
