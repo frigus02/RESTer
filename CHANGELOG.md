@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.8.2] - 2022-01-26
+
 ### Fixed
 
 -   Only url-encode variables in request body (see [#583](https://github.com/frigus02/RESTer/issues/583)).
@@ -712,7 +714,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.8.1...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.8.2...HEAD
+[4.8.2]: https://github.com/frigus02/RESTer/compare/4.8.1...4.8.2
 [4.8.1]: https://github.com/frigus02/RESTer/compare/4.8.0...4.8.1
 [4.8.0]: https://github.com/frigus02/RESTer/compare/4.7.0...4.8.0
 [4.7.0]: https://github.com/frigus02/RESTer/compare/4.6.0...4.7.0
