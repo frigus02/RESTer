@@ -30,11 +30,49 @@ exports.RequestSelectors = {
         '.method-input',
         'input',
     ]),
+    headersTab: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'paper-tab:nth-child(1)',
+    ]),
+    headersTabContent: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'rester-header-input',
+    ]),
+    bodyTab: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'paper-tab:nth-child(2)',
+    ]),
+    bodyTabContent: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'rester-body-input',
+    ]),
+    variablesTab: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'paper-tab:nth-child(4)',
+    ]),
+    variablesTabContent: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'rester-variables-input',
+    ]),
     lastHeaderName: By.js(queryThroughShadowDOM, [
         'rester-app',
         'rester-page-request',
         'rester-header-input',
         '.header-line:last-of-type rester-autocomplete-input:nth-child(1)',
+        'input',
+    ]),
+    lastBodyFormInputName: By.js(queryThroughShadowDOM, [
+        'rester-app',
+        'rester-page-request',
+        'rester-body-input',
+        'rester-form-data-input',
+        '.form-data-entry-line:last-of-type paper-input',
         'input',
     ]),
     send: By.js(queryThroughShadowDOM, [

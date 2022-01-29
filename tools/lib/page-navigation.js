@@ -34,3 +34,27 @@ exports.goTo = function (driver, baseUrl, timeout) {
         lastPageElement = await driver.findElement(selector);
     };
 };
+
+const tabs = {
+    headers: {
+        tabSelector: RequestSelectors.headersTab,
+        contentSelector: RequestSelectors.headersTabContent,
+    },
+    body: {
+        tabSelector: RequestSelectors.bodyTab,
+        contentSelector: RequestSelectors.bodyTabContent,
+    },
+    variables: {
+        tabSelector: RequestSelectors.variablesTab,
+        contentSelector: RequestSelectors.variablesTabContent,
+    },
+};
+
+exports.switchRequestTab = function (driver, timeout) {
+    return async function (tab) {
+        const { tabSelector, contentSelector } = tabs[tab];
+
+        await driver.findElement(tabSelector).click();
+        await driver.wait(until.elementLocated(contentSelector), timeout);
+    };
+};

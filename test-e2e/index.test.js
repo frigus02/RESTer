@@ -27,6 +27,7 @@ let MainElements;
 let RequestElements;
 let SettingsElements;
 let goTo;
+let switchRequestTab;
 
 beforeAll(async function () {
     driver = await createDriver();
@@ -35,6 +36,7 @@ beforeAll(async function () {
     RequestElements = wrapped(RequestSelectors, driver);
     SettingsElements = wrapped(SettingsSelectors, driver);
     goTo = pageNavigation.goTo(driver, baseUrl, timeout);
+    switchRequestTab = pageNavigation.switchRequestTab(driver, timeout);
 
     server = new Server();
     await server.start();
@@ -60,6 +62,7 @@ test('title', async function () {
 describe('with browser requests', function () {
     beforeAll(async function () {
         await goTo('settings');
+        await delay(500);
         await SettingsElements.requestMode.click();
         await delay(500);
         await SettingsElements.requestModeBrowserRequestsItem.click();
@@ -72,6 +75,7 @@ describe('with browser requests', function () {
 describe('with clean requests', function () {
     beforeAll(async function () {
         await goTo('settings');
+        await delay(500);
         await SettingsElements.requestMode.click();
         await delay(500);
         await SettingsElements.requestModeCleanRequestsItem.click();
@@ -89,6 +93,7 @@ function registerRequestTests(mode) {
             .click(RequestElements.method)
             .sendKeys('GET', Key.TAB, `${server.url}/echo`)
             .perform();
+        await switchRequestTab('headers');
         await driver
             .actions()
             .click(RequestElements.lastHeaderName)
@@ -114,6 +119,65 @@ function registerRequestTests(mode) {
         expect(responseBody).toMatchSnapshot();
     });
 
+    test('POST http://127.0.0.1:7373/echo', async function () {
+        await goTo('request');
+        await driver
+            .actions()
+            .click(RequestElements.method)
+            .sendKeys('POST', Key.TAB, '{host}/echo')
+            .perform();
+        await switchRequestTab('headers');
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('User-Agent', Key.TAB, 'RESTer')
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys(
+                'Content-Type',
+                Key.TAB,
+                'application/x-www-form-urlencoded'
+            )
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastHeaderName)
+            .sendKeys('Custom-Header', Key.TAB, '**{host}**')
+            .perform();
+        await switchRequestTab('body');
+        await driver
+            .actions()
+            .click(RequestElements.lastBodyFormInputName)
+            .sendKeys('user', Key.TAB, 'test')
+            .perform();
+        await driver
+            .actions()
+            .click(RequestElements.lastBodyFormInputName)
+            .sendKeys('token', Key.TAB, '{token}')
+            .perform();
+        await delay(100); // Pause seems necessary so RESTer can recognize the {token} variable
+        await switchRequestTab('variables');
+        await driver
+            .actions()
+            .sendKeys(Key.TAB, server.url, Key.TAB, 'a&b=c')
+            .perform();
+        await RequestElements.send.click();
+        await driver.wait(
+            until.elementIsVisible(RequestElements.responseSection),
+            timeout
+        );
+
+        const responseCode = await RequestElements.responseCode.getText();
+        const responseBody = await driver.executeScript(
+            (e) => e.value,
+            RequestElements.responseBody
+        );
+        expect(responseCode).toBe('200 OK');
+        expect(responseBody).toMatchSnapshot();
+    });
+
     test('POST http://127.0.0.1:7373/redirect?how=307', async function () {
         await goTo('request');
         await driver
@@ -121,6 +185,7 @@ function registerRequestTests(mode) {
             .click(RequestElements.method)
             .sendKeys('POST', Key.TAB, `${server.url}/redirect?how=307`)
             .perform();
+        await switchRequestTab('headers');
         await driver
             .actions()
             .click(RequestElements.lastHeaderName)
@@ -167,6 +232,7 @@ function registerRequestTests(mode) {
             .click(RequestElements.method)
             .sendKeys('GET', Key.TAB, `${server.url}/echo`)
             .perform();
+        await switchRequestTab('headers');
         await driver
             .actions()
             .click(RequestElements.lastHeaderName)
