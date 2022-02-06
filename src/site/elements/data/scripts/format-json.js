@@ -1,5 +1,8 @@
 /* global module:false define:false */
 
+/**
+ * JSON formatting (pretty printing), which does not modify the JSON in any other way than normalizing whitespace.
+ */
 (function (global, factory) {
     if (typeof exports === 'object' && typeof module !== 'undefined') {
         module.exports = factory();
@@ -36,6 +39,8 @@
             NULL_1: s++,
             NULL_2: s++,
             NULL_3: s++,
+            NAN_1: s++,
+            NAN_2: s++,
             END: s++,
         };
     })();
@@ -53,9 +58,9 @@
             this.next = [final];
         }
 
-        push(next) {
+        push(next, i) {
             if (this.next.length > MAX_DEPTH) {
-                throw new ParseError('max depth reached', Number.NaN);
+                throw new ParseError('max depth reached', i);
             }
 
             this.next.push(next);
@@ -95,6 +100,8 @@
                         state.current = S.FALSE_1;
                     } else if (c === 'n') {
                         state.current = S.NULL_1;
+                    } else if (c === 'N') {
+                        state.current = S.NAN_1;
                     } else {
                         throw new ParseError('invalid value', i);
                     }
@@ -102,7 +109,7 @@
                 case S.STRING:
                     if (c === '\\') {
                         state.current = S.STRING_SLASHED;
-                        state.push(S.STRING);
+                        state.push(S.STRING, i);
                     } else if (c === '"') {
                         state.pop();
                     } else {
@@ -175,7 +182,7 @@
                         indent += INDENT_SIZE;
                         formatBefore = generateIndent(indent);
                         state.current = S.STRING;
-                        state.push(S.OBJECT_VALUE);
+                        state.push(S.OBJECT_VALUE, i);
                     } else if (c === '}') {
                         state.pop();
                     } else {
@@ -186,7 +193,7 @@
                     if (WHITESPACE_CHARS.has(c)) continue;
                     if (c === '"') {
                         state.current = S.STRING;
-                        state.push(S.OBJECT_VALUE);
+                        state.push(S.OBJECT_VALUE, i);
                     } else {
                         throw new ParseError('invalid object key', i);
                     }
@@ -196,7 +203,7 @@
                     if (c === ':') {
                         formatAfter = ' ';
                         state.current = S.VALUE;
-                        state.push(S.OBJECT_VALUE_END);
+                        state.push(S.OBJECT_VALUE_END, i);
                     } else {
                         throw new ParseError('invalid object value', i);
                     }
@@ -222,7 +229,7 @@
                         indent += INDENT_SIZE;
                         formatBefore = generateIndent(indent);
                         state.current = S.VALUE;
-                        state.push(S.ARRAY_VALUE_END);
+                        state.push(S.ARRAY_VALUE_END, i);
                         i--;
                         continue;
                     }
@@ -232,7 +239,7 @@
                     if (c === ',') {
                         formatAfter = generateIndent(indent);
                         state.current = S.VALUE;
-                        state.push(S.ARRAY_VALUE_END);
+                        state.push(S.ARRAY_VALUE_END, i);
                     } else if (c === ']') {
                         indent -= INDENT_SIZE;
                         formatBefore = generateIndent(indent);
@@ -306,6 +313,20 @@
                     break;
                 case S.NULL_3:
                     if (c === 'l') {
+                        state.pop();
+                    } else {
+                        throw new ParseError('invalid value', i);
+                    }
+                    break;
+                case S.NAN_1:
+                    if (c === 'a') {
+                        state.current = S.NAN_2;
+                    } else {
+                        throw new ParseError('invalid value', i);
+                    }
+                    break;
+                case S.NAN_2:
+                    if (c === 'N') {
                         state.pop();
                     } else {
                         throw new ParseError('invalid value', i);
