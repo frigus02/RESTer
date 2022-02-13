@@ -304,42 +304,42 @@ https://unpkg.com/@webcomponents/shadycss@1.11.0/src/style-util.js
 https://unpkg.com/@webcomponents/shadycss@1.11.0/src/template-map.js
 https://unpkg.com/@webcomponents/shadycss@1.11.0/src/unscoped-style-handler.js
 
-ace-builds 1.4.13
-https://unpkg.com/ace-builds@1.4.13/css/ace.css
-https://unpkg.com/ace-builds@1.4.13/css/chrome-1.png
-https://unpkg.com/ace-builds@1.4.13/css/main-1.png
-https://unpkg.com/ace-builds@1.4.13/css/main-10.png
-https://unpkg.com/ace-builds@1.4.13/css/main-11.png
-https://unpkg.com/ace-builds@1.4.13/css/main-12.png
-https://unpkg.com/ace-builds@1.4.13/css/main-13.png
-https://unpkg.com/ace-builds@1.4.13/css/main-14.png
-https://unpkg.com/ace-builds@1.4.13/css/main-15.png
-https://unpkg.com/ace-builds@1.4.13/css/main-16.png
-https://unpkg.com/ace-builds@1.4.13/css/main-2.png
-https://unpkg.com/ace-builds@1.4.13/css/main-3.png
-https://unpkg.com/ace-builds@1.4.13/css/main-4.png
-https://unpkg.com/ace-builds@1.4.13/css/main-5.png
-https://unpkg.com/ace-builds@1.4.13/css/main-6.png
-https://unpkg.com/ace-builds@1.4.13/css/main-7.png
-https://unpkg.com/ace-builds@1.4.13/css/main-8.png
-https://unpkg.com/ace-builds@1.4.13/css/main-9.png
-https://unpkg.com/ace-builds@1.4.13/css/theme/chrome.css
-https://unpkg.com/ace-builds@1.4.13/css/theme/twilight.css
-https://unpkg.com/ace-builds@1.4.13/css/twilight-1.png
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/ace.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/ext-searchbox.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-html.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-json.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-text.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/mode-xml.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/theme-chrome.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/theme-twilight.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/worker-html.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/worker-json.js
-https://unpkg.com/ace-builds@1.4.13/src-min-noconflict/worker-xml.js
+ace-builds 1.4.14
+https://unpkg.com/ace-builds@1.4.14/css/ace.css
+https://unpkg.com/ace-builds@1.4.14/css/chrome-1.png
+https://unpkg.com/ace-builds@1.4.14/css/main-1.png
+https://unpkg.com/ace-builds@1.4.14/css/main-10.png
+https://unpkg.com/ace-builds@1.4.14/css/main-11.png
+https://unpkg.com/ace-builds@1.4.14/css/main-12.png
+https://unpkg.com/ace-builds@1.4.14/css/main-13.png
+https://unpkg.com/ace-builds@1.4.14/css/main-14.png
+https://unpkg.com/ace-builds@1.4.14/css/main-15.png
+https://unpkg.com/ace-builds@1.4.14/css/main-16.png
+https://unpkg.com/ace-builds@1.4.14/css/main-2.png
+https://unpkg.com/ace-builds@1.4.14/css/main-3.png
+https://unpkg.com/ace-builds@1.4.14/css/main-4.png
+https://unpkg.com/ace-builds@1.4.14/css/main-5.png
+https://unpkg.com/ace-builds@1.4.14/css/main-6.png
+https://unpkg.com/ace-builds@1.4.14/css/main-7.png
+https://unpkg.com/ace-builds@1.4.14/css/main-8.png
+https://unpkg.com/ace-builds@1.4.14/css/main-9.png
+https://unpkg.com/ace-builds@1.4.14/css/theme/chrome.css
+https://unpkg.com/ace-builds@1.4.14/css/theme/twilight.css
+https://unpkg.com/ace-builds@1.4.14/css/twilight-1.png
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/ace.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/ext-searchbox.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/mode-html.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/mode-json.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/mode-text.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/mode-xml.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/theme-chrome.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/theme-twilight.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/worker-html.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/worker-json.js
+https://unpkg.com/ace-builds@1.4.14/src-min-noconflict/worker-xml.js
 
-dompurify 2.3.4
-https://unpkg.com/dompurify@2.3.4/dist/purify.es.js
+dompurify 2.3.5
+https://unpkg.com/dompurify@2.3.5/dist/purify.es.js
 
 frigus02-vkbeautify 1.0.1
 https://unpkg.com/frigus02-vkbeautify@1.0.1/vkbeautify.js
