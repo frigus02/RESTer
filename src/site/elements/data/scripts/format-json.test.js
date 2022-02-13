@@ -19,6 +19,14 @@ describe('formatJson', function () {
         );
     });
 
+    test('throw in case of too much nesting', function () {
+        const depth = 502;
+        const json = '['.repeat(depth) + ']'.repeat(depth);
+        expect(() => formatJson(json)).toThrow(
+            'ParseError at 501: max depth reached'
+        );
+    });
+
     const values = {
         string: '"abc \\" \\\\ \\/ \\b \\f \\n \\r \\t \\u0000"',
         number: '0',
@@ -33,6 +41,7 @@ describe('formatJson', function () {
         true: 'true',
         false: 'false',
         null: 'null',
+        nan: 'NaN',
     };
     for (const [name, value] of Object.entries(values)) {
         test(`handles ${name}`, () => {
