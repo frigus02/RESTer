@@ -6,7 +6,7 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: text/plain
 Accept-Language: en
-Accept-Encoding: gzip, deflate
+Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
@@ -21,7 +21,7 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: */*
 Accept-Language: en
-Accept-Encoding: gzip, deflate
+Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
 Cookie: number1=10; number2=200; number3=300
 Sec-Fetch-Dest: empty
@@ -37,7 +37,7 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: */*
 Accept-Language: en
-Accept-Encoding: gzip, deflate
+Accept-Encoding: gzip, deflate, br
 Content-Type: application/x-www-form-urlencoded
 Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
 Content-Length: 25
@@ -58,7 +58,7 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: */*
 Accept-Language: en
-Accept-Encoding: gzip, deflate
+Accept-Encoding: gzip, deflate, br
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 0
 Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
