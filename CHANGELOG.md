@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 -   Always encode URL query params (name and value) when "Toogle URL params" is on. This fixes an issue where entering `#` in a query param would truncate the remaining URL (see [#628](https://github.com/frigus02/RESTer/issues/628)).
+-   Fixes OAuth 2 issues with invalid `Origin` header in certain cases (see [#75](https://github.com/frigus02/RESTer/issues/75#issuecomment-1072638551)).
 
 ## [4.9.0] - 2022-02-13
 
