@@ -40,7 +40,7 @@ function getCurrentTabId() {
 }
 
 let headerInterceptorPromise;
-function ensureHeaderInterceptor() {
+export function ensureHeaderInterceptor() {
     if (!headerInterceptorPromise) {
         headerInterceptorPromise = (async function () {
             try {

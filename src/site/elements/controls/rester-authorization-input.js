@@ -13,6 +13,7 @@ import './rester-authorization-provider-custom.js';
 import './rester-authorization-provider-oauth2.js';
 import { truncate } from '../data/scripts/encode.js';
 import { expirationDate } from '../data/scripts/format.js';
+import { ensureHeaderInterceptor } from '../data/scripts/request.js';
 import {
     addAuthorizationToken,
     deleteAuthorizationProviderConfiguration,
@@ -233,6 +234,16 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
         configuration.incognito = !!incognito;
 
         try {
+            // If generating an OAuth 2 token is the first thing a user does,
+            // RESTer hasn't requested webRequest permissions, yet. Those are
+            // necessary control headers, which is especially imported for
+            // OAuth 2 where headers like "Origin" may be used by the server to
+            // protect against invalid requests. Requesting these permissions
+            // has to happen on user interaction, so it has to be done
+            // immediately on click.
+            // Fixes https://github.com/frigus02/RESTer/issues/75
+            await ensureHeaderInterceptor();
+
             const token = await provider.generateToken(configuration);
             token.providerId = configuration.providerId;
             token.configurationId = configuration.id;
