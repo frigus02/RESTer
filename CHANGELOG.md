@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.9.1] - 2022-03-18
+
 ### Fixed
 
 -   Always encode URL query params (name and value) when "Toogle URL params" is on. This fixes an issue where entering `#` in a query param would truncate the remaining URL (see [#628](https://github.com/frigus02/RESTer/issues/628)).
@@ -725,7 +727,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.9.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.9.1...HEAD
+[4.9.1]: https://github.com/frigus02/RESTer/compare/4.9.0...4.9.1
 [4.9.0]: https://github.com/frigus02/RESTer/compare/4.8.2...4.9.0
 [4.8.2]: https://github.com/frigus02/RESTer/compare/4.8.1...4.8.2
 [4.8.1]: https://github.com/frigus02/RESTer/compare/4.8.0...4.8.1
