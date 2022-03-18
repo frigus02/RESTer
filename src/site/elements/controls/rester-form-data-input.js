@@ -124,10 +124,6 @@ class RESTerFormDataInput extends PolymerElement {
                 readOnly: true,
                 value: {},
             },
-            noEncode: {
-                type: Boolean,
-                value: false,
-            },
             textOnly: {
                 type: Boolean,
                 value: false,
@@ -213,19 +209,14 @@ class RESTerFormDataInput extends PolymerElement {
     }
 
     _stringifyFormDataEntries(entries) {
-        const encode =
-            !this.noEncode || this._isEncodeNeeded(entries)
-                ? encodeFormValue
-                : (str) => str;
-
         return entries
             .filter((entry) => entry.name.trim())
             .map((entry) => {
-                let str = encode(entry.name);
+                let str = encodeFormValue(entry.name);
                 if (entry.type === 'file') {
                     str += '=' + `[$file.${entry.value}]`;
                 } else if (entry.value) {
-                    str += '=' + encode(entry.value);
+                    str += '=' + encodeFormValue(entry.value);
                 }
 
                 return str;
@@ -266,16 +257,6 @@ class RESTerFormDataInput extends PolymerElement {
                 this.notifyPath(['files', key]);
             }
         }
-    }
-
-    _isEncodeNeeded(entries) {
-        return entries.some(
-            (entry) =>
-                entry.name.includes('&') ||
-                entry.name.includes('=') ||
-                entry.value.includes('&') ||
-                entry.value.includes('=')
-        );
     }
 
     _isFileNameInUse(name, ignoreIndex) {
