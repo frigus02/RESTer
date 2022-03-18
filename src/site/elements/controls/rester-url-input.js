@@ -58,7 +58,6 @@ class RESTerUrlInput extends PolymerElement {
                 <rester-form-data-input
                     value="[[query]]"
                     on-value-changed="_onQueryChanged"
-                    no-encode
                     text-only
                 ></rester-form-data-input>
             </div>
