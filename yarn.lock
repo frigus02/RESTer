@@ -952,7 +952,7 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.6.tgz#d5e0706cf8c6acd8c6032f8d54070af261bbbb2f"
   integrity sha512-ws57AidsDvREKrZKYffXddNkyaF14iHNHm8VQnZH6t99E8gczjNN0GpvcGny0imC80yQ0tHz1xVUKk/KFQSUyA==
 
-"@eslint/eslintrc@^1.1.0", "@eslint/eslintrc@^1.2.1":
+"@eslint/eslintrc@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.2.1.tgz#8b5e1c49f4077235516bc9ec7d41378c0f69b8c6"
   integrity sha512-bxvbYnBPN1Gibwyp6NrpnFzA3YtRL3BBAyEAFVIpNTm2Rn4Vy87GA5M4aSn3InRrlsbX5N0GW7XIx+U4SAEKdQ==
@@ -1184,10 +1184,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mdn/browser-compat-data@4.1.8":
-  version "4.1.8"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.1.8.tgz#26b38739ac734b70246da33b4fb0209ccd03b674"
-  integrity sha512-iY8qGU+yJvscccvWLyWPKfF9BSLmSFth5HBNjSNtIfoyUrQV3lTZml+zyKWRymMYCgvos6LiSqMj1RDEj3TehA==
+"@mdn/browser-compat-data@4.1.11":
+  version "4.1.11"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.1.11.tgz#bba69cb97e224d70b8755492b2e2d0103a60fa94"
+  integrity sha512-sYJ5CWXVAJX3608rV3WowUGxPm3p7HCgoGh/eBseCQ2c5ALBz6oRTK2OWPFz679aBUik6IY1IlA89uxbb5/FjA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2100,12 +2100,12 @@ acorn@^8.2.4, acorn@^8.4.1, acorn@^8.7.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.7.0.tgz#90951fde0f8f09df93549481e5fc141445b791cf"
   integrity sha512-V/LGr1APy+PXIwKebEWrkZPwoeoF+w1jiOBUmuxuiUIaOHtob8Qc9BTrYo7VuI5fR8tqsy+buA2WFooR5olqvQ==
 
-addons-linter@4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-4.12.0.tgz#8f47a1e5dfd81d852c63cb72aa9d66a6401c807a"
-  integrity sha512-gSlv81CVSyeNdqChdQtwces7SUPig9/4oNZXpQgFWxc12E7dBUDMzLPLvT5ch+EYRRQ6LNMnVJMqkDBvQwrYYg==
+addons-linter@4.13.0:
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-4.13.0.tgz#6ded9c94aa835fc7235094b98ad58b25f65cb22a"
+  integrity sha512-pbBOgn0v1EoDSci5lWXjjCQzvNjoC/pJrekkiAILlGYUGWHNfE/XHDggWojoOPA8sbD6dGFWm3AtDDtFoPQGag==
   dependencies:
-    "@mdn/browser-compat-data" "4.1.8"
+    "@mdn/browser-compat-data" "4.1.11"
     addons-moz-compare "1.2.0"
     addons-scanner-utils "6.3.0"
     ajv "6.12.6"
@@ -2115,7 +2115,7 @@ addons-linter@4.12.0:
     columnify "1.6.0"
     common-tags "1.8.2"
     deepmerge "4.2.2"
-    eslint "8.9.0"
+    eslint "8.11.0"
     eslint-plugin-no-unsanitized "4.0.1"
     eslint-visitor-keys "3.3.0"
     espree "9.3.1"
@@ -2126,8 +2126,8 @@ addons-linter@4.12.0:
     is-mergeable-object "1.1.1"
     jed "1.1.1"
     os-locale "5.0.0"
-    pino "7.8.0"
-    postcss "8.4.6"
+    pino "7.8.1"
+    postcss "8.4.8"
     relaxed-json "1.0.3"
     semver "7.3.5"
     sha.js "2.4.11"
@@ -3210,47 +3210,6 @@ eslint@8.11.0:
   integrity sha512-/KRpd9mIRg2raGxHRGwW9ZywYNAClZrHjdueHcrVDuO3a6bj83eoTirCCk0M0yPwOjWYKHwRVRid+xK4F/GHgA==
   dependencies:
     "@eslint/eslintrc" "^1.2.1"
-    "@humanwhocodes/config-array" "^0.9.2"
-    ajv "^6.10.0"
-    chalk "^4.0.0"
-    cross-spawn "^7.0.2"
-    debug "^4.3.2"
-    doctrine "^3.0.0"
-    escape-string-regexp "^4.0.0"
-    eslint-scope "^7.1.1"
-    eslint-utils "^3.0.0"
-    eslint-visitor-keys "^3.3.0"
-    espree "^9.3.1"
-    esquery "^1.4.0"
-    esutils "^2.0.2"
-    fast-deep-equal "^3.1.3"
-    file-entry-cache "^6.0.1"
-    functional-red-black-tree "^1.0.1"
-    glob-parent "^6.0.1"
-    globals "^13.6.0"
-    ignore "^5.2.0"
-    import-fresh "^3.0.0"
-    imurmurhash "^0.1.4"
-    is-glob "^4.0.0"
-    js-yaml "^4.1.0"
-    json-stable-stringify-without-jsonify "^1.0.1"
-    levn "^0.4.1"
-    lodash.merge "^4.6.2"
-    minimatch "^3.0.4"
-    natural-compare "^1.4.0"
-    optionator "^0.9.1"
-    regexpp "^3.2.0"
-    strip-ansi "^6.0.1"
-    strip-json-comments "^3.1.0"
-    text-table "^0.2.0"
-    v8-compile-cache "^2.0.3"
-
-eslint@8.9.0:
-  version "8.9.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.9.0.tgz#a2a8227a99599adc4342fd9b854cb8d8d6412fdb"
-  integrity sha512-PB09IGwv4F4b0/atrbcMFboF/giawbBLVC7fyDamk5Wtey4Jh2K+rYaBhCAbUyEI4QzB1ly09Uglc9iCtFaG2Q==
-  dependencies:
-    "@eslint/eslintrc" "^1.1.0"
     "@humanwhocodes/config-array" "^0.9.2"
     ajv "^6.10.0"
     chalk "^4.0.0"
@@ -4882,10 +4841,10 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nanoid@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
-  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
+nanoid@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.1.tgz#6347a18cac88af88f58af0b3594b723d5e99bb35"
+  integrity sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw==
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -5163,10 +5122,10 @@ pino-std-serializers@^4.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-4.0.0.tgz#1791ccd2539c091ae49ce9993205e2cd5dbba1e2"
   integrity sha512-cK0pekc1Kjy5w9V2/n+8MkZwusa6EyyxfeQCB799CQRhRt/CqYKiWs5adeu8Shve2ZNffvfC/7J64A2PJo1W/Q==
 
-pino@7.8.0:
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-7.8.0.tgz#cbd48121fba0e9e08acea440d27aa7baa91fd73c"
-  integrity sha512-Ynw2HRVapiyj+ZGfUcpms+SRgDKFIy0ztaFUf3X6IHh+vsysMvn+tpV/Ej3gyutPp4n9tgH6ZkkCAelSvP5zmQ==
+pino@7.8.1:
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-7.8.1.tgz#f8a7b590a6f2321e2f23b91515763530efbd61bb"
+  integrity sha512-G0AVnaJBBtbdOpZ3z0/QD3R57BWwjVo4K7e+c5mHKjNCYIY1FIKuNlWjVJfCVQ4Bq6iN/yAAh5OCeeTI7OXosA==
   dependencies:
     fast-redact "^3.0.0"
     on-exit-leak-free "^0.2.0"
@@ -5191,12 +5150,12 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postcss@8.4.6:
-  version "8.4.6"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.6.tgz#c5ff3c3c457a23864f32cb45ac9b741498a09ae1"
-  integrity sha512-OovjwIzs9Te46vlEx7+uXB0PLijpwjXGKXjVGGPIGubGpq7uh5Xgf6D6FiJ/SzJMBosHDp6a2hiXOS97iBXcaA==
+postcss@8.4.8:
+  version "8.4.8"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.8.tgz#dad963a76e82c081a0657d3a2f3602ce10c2e032"
+  integrity sha512-2tXEqGxrjvAO6U+CJzDL2Fk2kPHTv1jQsYkSoMeOis2SsYaXRO2COxTdQp99cYvif9JTXaAk9lYGc3VhJt7JPQ==
   dependencies:
-    nanoid "^3.2.0"
+    nanoid "^3.3.1"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
