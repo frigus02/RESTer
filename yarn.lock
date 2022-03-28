@@ -1179,10 +1179,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mdn/browser-compat-data@4.1.11":
-  version "4.1.11"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.1.11.tgz#bba69cb97e224d70b8755492b2e2d0103a60fa94"
-  integrity sha512-sYJ5CWXVAJX3608rV3WowUGxPm3p7HCgoGh/eBseCQ2c5ALBz6oRTK2OWPFz679aBUik6IY1IlA89uxbb5/FjA==
+"@mdn/browser-compat-data@4.1.12":
+  version "4.1.12"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.1.12.tgz#d266138c24295440619ea562ce3f4ec22600e897"
+  integrity sha512-y3Ntio6hb5+m6asxcA3nnIN6URjAFMji2EZZVYGd2Ag5On4mmvPhMnXdiIScCMXgHjFX+5qXuKaojLLhJHZPAg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2095,12 +2095,12 @@ acorn@^8.2.4, acorn@^8.4.1, acorn@^8.7.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.7.0.tgz#90951fde0f8f09df93549481e5fc141445b791cf"
   integrity sha512-V/LGr1APy+PXIwKebEWrkZPwoeoF+w1jiOBUmuxuiUIaOHtob8Qc9BTrYo7VuI5fR8tqsy+buA2WFooR5olqvQ==
 
-addons-linter@4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-4.13.0.tgz#6ded9c94aa835fc7235094b98ad58b25f65cb22a"
-  integrity sha512-pbBOgn0v1EoDSci5lWXjjCQzvNjoC/pJrekkiAILlGYUGWHNfE/XHDggWojoOPA8sbD6dGFWm3AtDDtFoPQGag==
+addons-linter@4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-4.14.0.tgz#e8a5b99665a7e7df3fda2da42d73593fea8db3f9"
+  integrity sha512-TH3/PMS4Dd0Jf3kXW7DLXseHZcD7ZbnfnQAztkrP4YC0HQKQVZJ+lGOuDOGUtVQDMwC/eEdvHvZoRnHDer5qkg==
   dependencies:
-    "@mdn/browser-compat-data" "4.1.11"
+    "@mdn/browser-compat-data" "4.1.12"
     addons-moz-compare "1.2.0"
     addons-scanner-utils "6.3.0"
     ajv "6.12.6"
@@ -2121,15 +2121,15 @@ addons-linter@4.13.0:
     is-mergeable-object "1.1.1"
     jed "1.1.1"
     os-locale "5.0.0"
-    pino "7.8.1"
-    postcss "8.4.8"
+    pino "7.9.1"
+    postcss "8.4.12"
     relaxed-json "1.0.3"
     semver "7.3.5"
     sha.js "2.4.11"
     source-map-support "0.5.21"
     tosource "1.0.0"
     upath "2.0.1"
-    yargs "17.3.1"
+    yargs "17.4.0"
     yauzl "2.10.0"
 
 addons-moz-compare@1.2.0:
@@ -5158,10 +5158,10 @@ pino-std-serializers@^4.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-4.0.0.tgz#1791ccd2539c091ae49ce9993205e2cd5dbba1e2"
   integrity sha512-cK0pekc1Kjy5w9V2/n+8MkZwusa6EyyxfeQCB799CQRhRt/CqYKiWs5adeu8Shve2ZNffvfC/7J64A2PJo1W/Q==
 
-pino@7.8.1:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-7.8.1.tgz#f8a7b590a6f2321e2f23b91515763530efbd61bb"
-  integrity sha512-G0AVnaJBBtbdOpZ3z0/QD3R57BWwjVo4K7e+c5mHKjNCYIY1FIKuNlWjVJfCVQ4Bq6iN/yAAh5OCeeTI7OXosA==
+pino@7.9.1:
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-7.9.1.tgz#7e6f401cac6e80b4eaee908ab90a05e48455cec2"
+  integrity sha512-28+D7c5orCoScdcWtiPXrCA9tdVosBWrYQgVtPdYTyiuTt6u/+rbEtpJR+dtVG8k1flhv0H2f0XSkgGm+TdjqQ==
   dependencies:
     fast-redact "^3.0.0"
     on-exit-leak-free "^0.2.0"
@@ -5186,10 +5186,10 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postcss@8.4.8:
-  version "8.4.8"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.8.tgz#dad963a76e82c081a0657d3a2f3602ce10c2e032"
-  integrity sha512-2tXEqGxrjvAO6U+CJzDL2Fk2kPHTv1jQsYkSoMeOis2SsYaXRO2COxTdQp99cYvif9JTXaAk9lYGc3VhJt7JPQ==
+postcss@8.4.12:
+  version "8.4.12"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.12.tgz#1e7de78733b28970fa4743f7da6f3763648b1905"
+  integrity sha512-lg6eITwYe9v6Hr5CncVbK70SoioNQIq81nsaG86ev5hAidQvmOeETBqs7jm43K2F5/Ley3ytDtriImV6TpNiSg==
   dependencies:
     nanoid "^3.3.1"
     picocolors "^1.0.0"
@@ -6316,10 +6316,10 @@ yargs-parser@^21.0.0:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.0.0.tgz#a485d3966be4317426dd56bdb6a30131b281dc55"
   integrity sha512-z9kApYUOCwoeZ78rfRYYWdiU/iNL6mwwYlkkZfJoyMR1xps+NEBX5X7XmRpxkZHhXJ6+Ey00IwKxBBSW9FIjyA==
 
-yargs@17.3.1:
-  version "17.3.1"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.3.1.tgz#da56b28f32e2fd45aefb402ed9c26f42be4c07b9"
-  integrity sha512-WUANQeVgjLbNsEmGk20f+nlHgOqzRFpiGWVaBrYGYIGANIIu3lWjoyi0fNlFmJkvfhCZ6BXINe7/W2O2bV4iaA==
+yargs@17.4.0:
+  version "17.4.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.4.0.tgz#9fc9efc96bd3aa2c1240446af28499f0e7593d00"
+  integrity sha512-WJudfrk81yWFSOkZYpAZx4Nt7V4xp7S/uJkX0CnxovMCt1wCE8LNftPpNuF9X/u9gN5nsD7ycYtRcDf2pL3UiA==
   dependencies:
     cliui "^7.0.2"
     escalade "^3.1.1"
