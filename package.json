@@ -84,7 +84,7 @@
     "file-loader": "6.2.0",
     "geckodriver": "3.0.1",
     "html-webpack-plugin": "5.5.0",
-    "jest": "28.0.3",
+    "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
     "log-symbols": "5.1.0",
     "prettier": "2.6.2",
