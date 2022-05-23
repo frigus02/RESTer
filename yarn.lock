@@ -1787,10 +1787,10 @@
     "@polymer/paper-styles" "^3.0.0-pre.26"
     "@polymer/polymer" "^3.0.0"
 
-"@polymer/polymer@3.4.1", "@polymer/polymer@^3.0.0", "@polymer/polymer@^3.3.1":
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.4.1.tgz#333bef25711f8411bb5624fb3eba8212ef8bee96"
-  integrity sha512-KPWnhDZibtqKrUz7enIPOiO4ZQoJNOuLwqrhV2MXzIt3VVnUVJVG5ORz4Z2sgO+UZ+/UZnPD0jqY+jmw/+a9mQ==
+"@polymer/polymer@3.5.0", "@polymer/polymer@^3.0.0", "@polymer/polymer@^3.3.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.5.0.tgz#e2f35c9e8a03137de38c7fb608498b05c004f3c6"
+  integrity sha512-0OyN+LQ68tudbWYm7BeU4WELiqXvRn1HIpSnW0u7iFTdxJakJGLehh7PFgKL1noe9a0HHSKznQIfz+hMxzgBtA==
   dependencies:
     "@webcomponents/shadycss" "^1.9.1"
 
