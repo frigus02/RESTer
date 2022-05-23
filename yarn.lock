@@ -299,12 +299,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@7.17.10":
-  version "7.17.10"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.17.10.tgz#873b16db82a8909e0fbd7f115772f4b739f6ce78"
-  integrity sha512-n2Q6i+fnJqzOaq2VkdXxy2TCPCWQZHiCo0XqmrCvDWcZQKRyZzYi4Z0yxlBuN0w+r2ZHmre+Q087DSrw3pbJDQ==
-
-"@babel/parser@^7.1.0", "@babel/parser@^7.14.7", "@babel/parser@^7.16.7", "@babel/parser@^7.18.0":
+"@babel/parser@7.18.0", "@babel/parser@^7.1.0", "@babel/parser@^7.14.7", "@babel/parser@^7.16.7", "@babel/parser@^7.18.0":
   version "7.18.0"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.18.0.tgz#10a8d4e656bc01128d299a787aa006ce1a91e112"
   integrity sha512-AqDccGC+m5O/iUStSJy3DGRIUFu7WbY/CppZYwrEUB4N0tZlnI8CSTsgL7v5fHVFmUbRv2sd+yy27o8Ydt4MGg==
