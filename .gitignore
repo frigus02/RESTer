@@ -1,5 +1,6 @@
 .build/
 .package/
+docs/library-links.md.new
 node_modules/
 *.sublime-workspace
 *.sublime-project

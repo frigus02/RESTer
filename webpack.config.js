@@ -97,7 +97,7 @@ module.exports = [
                 ],
             }),
             new GenerateLibraryLinksPlugin({
-                filename: path.resolve(__dirname, 'docs/library-links.md'),
+                filename: path.resolve(__dirname, 'docs/library-links.md.new'),
                 header: [
                     '# Libary links',
                     'As stated in the post [Improving Review Time by Providing Links to Third Party Sources](https://blog.mozilla.org/addons/2016/04/05/improved-review-time-with-links-to-sources/) it is useful for the addon reviewers to have links to the sources of third party libraries, which are used in the addon.',

@@ -20,6 +20,13 @@ To release a new version of RESTer:
 
 1. Add new version in `CHANGELOG.md`
 
+1. Build the extension and update library-links.md
+
+   ```sh
+   yarn build
+   mv docs/library-links.md.new docs/library-links.md
+   ```
+
 1. Commit and push changes
 
     ```sh
