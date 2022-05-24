@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.10.0] - 2022-05-24
+
+### Added
+
+-   Add "Send Request In New Tab" menu entry, which opens the current request URL in a new tab. Thanks [@keremcankabadayi](https://github.com/keremcankabadayi). See [#674](https://github.com/frigus02/RESTer/issues/674).
+
 ## [4.9.1] - 2022-03-18
 
 ### Fixed
@@ -727,7 +733,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.9.1...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.10.0...HEAD
+[4.10.0]: https://github.com/frigus02/RESTer/compare/4.9.1...4.10.0
 [4.9.1]: https://github.com/frigus02/RESTer/compare/4.9.0...4.9.1
 [4.9.0]: https://github.com/frigus02/RESTer/compare/4.8.2...4.9.0
 [4.8.2]: https://github.com/frigus02/RESTer/compare/4.8.1...4.8.2
