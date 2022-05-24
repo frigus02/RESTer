@@ -941,6 +941,7 @@ class RESTerPageRequest extends RESTerLintMixin(
     }
 
     _openRequestInNewTab() {
+        this.$.moreOptions.close();
         const { compiledRequest } = this._compileRequest();
         window.open(compiledRequest.url, '_blank').focus();
     }
