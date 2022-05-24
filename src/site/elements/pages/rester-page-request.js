@@ -279,6 +279,11 @@ class RESTerPageRequest extends RESTerLintMixin(
                                     on-tap="_showCurlCommandDialog"
                                     >Show curl command</paper-item
                                 >
+                                <paper-item
+                                    role="menuitem"
+                                    on-tap="_openRequestInNewTab"
+                                    >Send Request In New Tab</paper-item
+                                >
                             </paper-listbox>
                         </paper-menu-button>
                         <paper-tooltip
@@ -933,6 +938,12 @@ class RESTerPageRequest extends RESTerLintMixin(
         this.$.moreOptions.close();
         const { compiledRequest } = this._compileRequest();
         dialogs.curlCommand.show(compiledRequest);
+    }
+
+    _openRequestInNewTab() {
+        this.$.moreOptions.close();
+        const { compiledRequest } = this._compileRequest();
+        window.open(compiledRequest.url, '_blank').focus();
     }
 
     _sendRequest() {
