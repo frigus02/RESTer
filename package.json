@@ -59,7 +59,7 @@
     "@polymer/paper-toggle-button": "3.0.1",
     "@polymer/paper-tooltip": "3.0.1",
     "@polymer/polymer": "3.5.1",
-    "ace-builds": "1.6.1",
+    "ace-builds": "1.7.1",
     "dompurify": "2.3.8",
     "frigus02-vkbeautify": "1.0.1",
     "mousetrap": "1.6.5",
