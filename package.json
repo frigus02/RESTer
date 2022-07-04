@@ -85,7 +85,7 @@
     "geckodriver": "3.0.1",
     "html-webpack-plugin": "5.5.0",
     "jest": "28.1.1",
-    "jest-environment-jsdom": "28.1.1",
+    "jest-environment-jsdom": "28.1.2",
     "log-symbols": "5.1.0",
     "prettier": "2.7.1",
     "rimraf": "3.0.2",
