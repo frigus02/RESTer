@@ -82,7 +82,7 @@
     "eslint-config-crockford": "2.0.0",
     "eslint-config-prettier": "8.5.0",
     "file-loader": "6.2.0",
-    "geckodriver": "3.0.1",
+    "geckodriver": "3.0.2",
     "html-webpack-plugin": "5.5.0",
     "jest": "28.1.2",
     "jest-environment-jsdom": "28.1.2",
