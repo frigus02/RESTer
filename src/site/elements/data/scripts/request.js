@@ -1,5 +1,7 @@
 import { decodeQueryString } from './encode.js';
+import { getFilenameFromContentDispositionHeader } from './content-disposition.js';
 import { mergeCookies, parseStatusLine } from '../../../../shared/util.js';
+import { e } from './rester.js';
 
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
@@ -259,6 +261,19 @@ function generateFormData(body, tempVariables) {
     return formData;
 }
 
+function downloadFile(blob, filename) {
+    let a = document.createElement('a');
+    document.body.appendChild(a);
+    a.style = 'display: none';
+
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+}
+
 /**
  * Executes the specified HTTP request.
  * @param {Object} request - The request object.
@@ -360,9 +375,24 @@ export async function send(request) {
         );
     }
 
-    const fetchBody = await fetchResponse.text();
     response.timeEnd = new Date();
-    response.body = fetchBody;
+
+    // check if the responce is binary file content, if so, open file download
+    const disposition = response.headers.find(
+        (x) => x.name === 'Content-Disposition'
+    );
+
+    if (disposition && disposition.value.startsWith('attachment')) {
+        const blob = await fetchResponse.blob();
+        const filename = getFilenameFromContentDispositionHeader(
+            disposition.value
+        );
+        response.body = "body not available; it has been saved as a file because of the content-disposition header"
+        downloadFile(blob, filename);
+    } else {
+        const fetchBody = await fetchResponse.text();
+        response.body = fetchBody;
+    }
 
     const matchingTimings = performance.getEntries({
         name: request.url,
