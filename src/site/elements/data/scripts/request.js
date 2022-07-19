@@ -1,7 +1,5 @@
 import { decodeQueryString } from './encode.js';
-import { getFilenameFromContentDispositionHeader } from './content-disposition.js';
 import { mergeCookies, parseStatusLine } from '../../../../shared/util.js';
-import { e } from './rester.js';
 
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
@@ -261,17 +259,39 @@ function generateFormData(body, tempVariables) {
     return formData;
 }
 
-function downloadFile(blob, filename) {
-    let a = document.createElement('a');
-    document.body.appendChild(a);
-    a.style = 'display: none';
+function getFilenameFromContentDispositionHeader(disposition){
+    const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
+    const asciiFilenameRegex = /^filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
 
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = filename;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    let fileName = null;
+    if (utf8FilenameRegex.test(disposition)) {
+      fileName = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
+    } else {
+      // prevent ReDos attacks by anchoring the ascii regex to string start and
+      //  slicing off everything before 'filename='
+      const filenameStart = disposition.toLowerCase().indexOf('filename=');
+      if (filenameStart >= 0) {
+        const partialDisposition = disposition.slice(filenameStart);
+        const matches = asciiFilenameRegex.exec(partialDisposition );
+        if (matches != null && matches[2]) {
+          fileName = matches[2];
+        }
+      }
+    }
+
+    if(fileName!=null){
+        // sanitize filename for illegal characters
+        const illegalRe = /[\/\?<>\\:\*\|":]/g;
+        const controlRe = /[\x00-\x1f\x80-\x9f]/g;
+        const reservedRe = /^\.+$/;
+        const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+        fileName = fileName
+        .replace(illegalRe, "")
+        .replace(controlRe, "")
+        .replace(reservedRe, "")
+        .replace(windowsReservedRe, "");
+    }
+    return fileName;
 }
 
 /**
@@ -375,22 +395,30 @@ export async function send(request) {
         );
     }
 
-    response.timeEnd = new Date();
 
     // check if the responce is binary file content, if so, open file download
     const disposition = response.headers.find(
-        (x) => x.name === 'Content-Disposition'
+        (x) => x.name.toLowerCase() === 'content-disposition'
     );
 
     if (disposition && disposition.value.startsWith('attachment')) {
         const blob = await fetchResponse.blob();
-        const filename = getFilenameFromContentDispositionHeader(
-            disposition.value
-        );
+        response.timeEnd = new Date();
+        let filename = getFilenameFromContentDispositionHeader(disposition.value);
+        console.log(filename)
         response.body = "body not available; it has been saved as a file because of the content-disposition header"
-        downloadFile(blob, filename);
+        const url = window.URL.createObjectURL(blob);
+        console.log(chrome.downloads.download)
+        chrome.downloads.download({
+            filename: filename,
+            url: url,
+            saveAs: true
+        }, info=>(
+            console.log(chrome.runtime.lastError)
+        ));
     } else {
         const fetchBody = await fetchResponse.text();
+        response.timeEnd = new Date();
         response.body = fetchBody;
     }
 
