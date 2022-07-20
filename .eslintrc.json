@@ -17,6 +17,7 @@
         "no-plusplus": 0,
         "no-underscore-dangle": 0,
         "no-use-before-define": 0,
+        "no-control-regex": 0,
         "no-var": 2,
         "one-var": 0,
         "strict": 2

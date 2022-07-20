@@ -259,9 +259,9 @@ function generateFormData(body, tempVariables) {
     return formData;
 }
 
-function getFilenameFromContentDispositionHeader(disposition){
-    const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
-    const asciiFilenameRegex = /^filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
+export function getFilenameFromContentDispositionHeader(disposition){
+    const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-.]+)(?:; ?|$)/i;
+    const asciiFilenameRegex = /filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
 
     let fileName = null;
     if (utf8FilenameRegex.test(disposition)) {
@@ -273,17 +273,17 @@ function getFilenameFromContentDispositionHeader(disposition){
       if (filenameStart >= 0) {
         const partialDisposition = disposition.slice(filenameStart);
         const matches = asciiFilenameRegex.exec(partialDisposition );
-        if (matches != null && matches[2]) {
+        if (matches !== null && matches[2]) {
           fileName = matches[2];
         }
       }
     }
 
-    if(fileName!=null){
+    if(fileName!==null){
         // sanitize filename for illegal characters
-        const illegalRe = /[\/\?<>\\:\*\|":]/g;
+        const illegalRe = /[/?<>\\:*|":]/g;
         const controlRe = /[\x00-\x1f\x80-\x9f]/g;
-        const reservedRe = /^\.+$/;
+        const reservedRe = /^\.+/g;
         const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
         fileName = fileName
         .replace(illegalRe, "")
@@ -405,15 +405,14 @@ export async function send(request) {
         const blob = await fetchResponse.blob();
         response.timeEnd = new Date();
         let filename = getFilenameFromContentDispositionHeader(disposition.value);
-        console.log(filename)
         response.body = "body not available; it has been saved as a file because of the content-disposition header"
         const url = window.URL.createObjectURL(blob);
-        console.log(chrome.downloads.download)
         chrome.downloads.download({
             filename: filename,
             url: url,
             saveAs: true
-        }, info=>(
+        }, ()=>(
+            // in case of failed download
             console.log(chrome.runtime.lastError)
         ));
     } else {
