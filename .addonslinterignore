@@ -5,15 +5,3 @@
 # Setting innerHTML in rester-dom-purify-frame.html should be fine because HTML
 # is sanitized with DOMPurify.
 site/scripts/bundle.js UNSAFE_VAR_ASSIGNMENT
-
-site/node_modules/ace-builds/src-min-noconflict/ext-searchbox.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/mode-html.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/mode-json.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/mode-text.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/mode-xml.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/theme-chrome.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/theme-twilight.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/worker-html.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/worker-json.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/ace-builds/src-min-noconflict/worker-xml.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
-site/node_modules/frigus02-vkbeautify/vkbeautify.js _File_ignored_because_of_a_matching_ignore_pattern._Use_"--no-ignore"_to_override.
