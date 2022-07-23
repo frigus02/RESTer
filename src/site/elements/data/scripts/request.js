@@ -1,5 +1,6 @@
 import { decodeQueryString } from './encode.js';
 import { mergeCookies, parseStatusLine } from '../../../../shared/util.js';
+import { downloadBlob } from '../../../../shared/download-blob.js';
 
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
@@ -259,6 +260,43 @@ function generateFormData(body, tempVariables) {
     return formData;
 }
 
+export function getFilenameFromContentDispositionHeader(disposition) {
+    const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-.]+)(?:; ?|$)/i;
+    const asciiFilenameRegex = /filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
+
+    let fileName = null;
+    if (utf8FilenameRegex.test(disposition)) {
+        fileName = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
+    } else {
+        // Prevent ReDos attacks by anchoring the ascii regex to string start
+        // and slicing off everything before 'filename='
+        const filenameStart = disposition.toLowerCase().indexOf('filename=');
+        if (filenameStart >= 0) {
+            const partialDisposition = disposition.slice(filenameStart);
+            const matches = asciiFilenameRegex.exec(partialDisposition);
+            if (matches !== null && matches[2]) {
+                fileName = matches[2];
+            }
+        }
+    }
+
+    if (fileName !== null) {
+        // Sanitize filename for illegal characters
+        const illegalRe = /[/?<>\\:*|":]/g;
+        const controlRe = /[\x00-\x1f\x80-\x9f]/g;
+        const reservedRe = /^\.+/g;
+        const windowsReservedRe =
+            /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+        fileName = fileName
+            .replace(illegalRe, '')
+            .replace(controlRe, '')
+            .replace(reservedRe, '')
+            .replace(windowsReservedRe, '');
+    }
+
+    return fileName;
+}
+
 /**
  * Executes the specified HTTP request.
  * @param {Object} request - The request object.
@@ -360,9 +398,25 @@ export async function send(request) {
         );
     }
 
-    const fetchBody = await fetchResponse.text();
-    response.timeEnd = new Date();
-    response.body = fetchBody;
+    // Check if the responce is binary file content. If so, open file download.
+    const disposition = response.headers.find(
+        (x) => x.name.toLowerCase() === 'content-disposition'
+    );
+
+    if (disposition && disposition.value.startsWith('attachment')) {
+        const fetchBody = await fetchResponse.blob();
+        response.timeEnd = new Date();
+        response.body =
+            'body not available; it has been saved as a file because of the content-disposition header';
+        const filename = getFilenameFromContentDispositionHeader(
+            disposition.value
+        );
+        downloadBlob(fetchBody, { filename, saveAs: true });
+    } else {
+        const fetchBody = await fetchResponse.text();
+        response.timeEnd = new Date();
+        response.body = fetchBody;
+    }
 
     const matchingTimings = performance.getEntries({
         name: request.url,

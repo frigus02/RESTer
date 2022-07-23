@@ -83,6 +83,10 @@ async function middleware(req, res) {
         }
 
         res.end(JSON.stringify(entries));
+    } else if (req.url === '/file') {
+        res.statusCode = 200;
+        res.setHeader('Content-Disposition', 'attachment; filename=hello.txt');
+        res.end('World');
     } else if (req.url === '/basic-auth') {
         const auth = req.headers.authorization || '';
         const [scheme, token] = auth.split(/\s+/);

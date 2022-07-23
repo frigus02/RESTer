@@ -1,5 +1,6 @@
 import db from '../data/utils/db.js';
 import { queryHistoryEntries } from '../data/history.js';
+import { downloadBlob } from '../../shared/download-blob.js';
 import { queryRequests } from '../data/requests.js';
 import * as providers from './providers/index.js';
 
@@ -27,16 +28,9 @@ export async function exportData(options) {
     const file = new File(
         [data.content],
         `rester-export-${options.format}.${data.suffix}`,
-        {
-            type: data.contentType,
-        }
+        { type: data.contentType }
     );
-    const url = URL.createObjectURL(file);
-
-    chrome.downloads.download({
-        filename: file.name,
-        url: url,
-    });
+    downloadBlob(file, { filename: file.name });
 }
 
 /**
