@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.11.0] - 2022-07-23
+
+### Added
+
+-   RESTer will now download response bodies as files, if the response has a `Content-Disposition: attachment` header. Thanks [@zenglanmu](https://github.com/zenglanmu).
+
 ## [4.10.0] - 2022-05-24
 
 ### Added
@@ -733,7 +739,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.10.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.11.0...HEAD
+[4.11.0]: https://github.com/frigus02/RESTer/compare/4.10.0...4.11.0
 [4.10.0]: https://github.com/frigus02/RESTer/compare/4.9.1...4.10.0
 [4.9.1]: https://github.com/frigus02/RESTer/compare/4.9.0...4.9.1
 [4.9.0]: https://github.com/frigus02/RESTer/compare/4.8.2...4.9.0

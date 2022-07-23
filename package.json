@@ -1,6 +1,6 @@
 {
   "name": "rester",
-  "version": "4.10.0",
+  "version": "4.11.0",
   "description": "A REST client for almost any web service.",
   "homepage": "https://github.com/frigus02/RESTer",
   "bugs": "https://github.com/frigus02/RESTer/issues",
