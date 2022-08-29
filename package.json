@@ -60,14 +60,14 @@
     "@polymer/paper-tooltip": "3.0.1",
     "@polymer/polymer": "3.5.1",
     "ace-builds": "1.9.6",
-    "dompurify": "2.3.10",
+    "dompurify": "2.4.0",
     "frigus02-vkbeautify": "1.0.1",
     "mousetrap": "1.6.5",
     "string_score": "0.1.22",
     "web-animations-js": "2.3.2"
   },
   "devDependencies": {
-    "@babel/core": "7.18.10",
+    "@babel/core": "7.18.13",
     "@babel/eslint-parser": "7.18.9",
     "@babel/parser": "7.18.11",
     "@babel/preset-env": "7.18.10",
