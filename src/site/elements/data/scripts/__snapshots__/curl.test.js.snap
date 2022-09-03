@@ -1,38 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateCommand body (needs escaping 1) 1`] = `
-"curl -X PUT http://example.com \\\\
-    -H 'Content-Type: application/json' \\\\
+"curl -X PUT http://example.com \\
+    -H 'Content-Type: application/json' \\
     -d '{
-                \\"hello\\": \\"world\\",
-                \\"shell\\": \\"$HOME\\",
-                \\"single\\": \\"'\\\\''quotes'\\\\''\\"
+                "hello": "world",
+                "shell": "$HOME",
+                "single": "'\\''quotes'\\''"
             }'"
 `;
 
 exports[`generateCommand body (needs escaping 2) 1`] = `
-"curl -X PUT http://example.com \\\\
+"curl -X PUT http://example.com \\
     -d 'a
 b'"
 `;
 
 exports[`generateCommand body (needs escaping 3) 1`] = `
-"curl -X PUT http://example.com \\\\
-    -d '\\\\'"
+"curl -X PUT http://example.com \\
+    -d '\\'"
 `;
 
 exports[`generateCommand body (simple) 1`] = `
-"curl -X PUT http://example.com \\\\
+"curl -X PUT http://example.com \\
     -d foo=bar"
 `;
 
 exports[`generateCommand empty request 1`] = `"curl"`;
 
 exports[`generateCommand headers 1`] = `
-"curl -X PUT http://example.com \\\\
-    -H 'Accept: application/json' \\\\
-    -H 'X-Shell-Variable: $HOME' \\\\
-    -H 'X-Quotes: Some double \\" and single '\\\\'' quotes'"
+"curl -X PUT http://example.com \\
+    -H 'Accept: application/json' \\
+    -H 'X-Shell-Variable: $HOME' \\
+    -H 'X-Quotes: Some double " and single '\\'' quotes'"
 `;
 
 exports[`generateCommand method (GET) 1`] = `"curl http://example.com"`;
@@ -43,6 +43,6 @@ exports[`generateCommand url (contains dollar) 1`] = `"curl 'http://example.com/
 
 exports[`generateCommand url (contains query string) 1`] = `"curl 'http://example.com/?foo=bar&n=1'"`;
 
-exports[`generateCommand url (contains quote) 1`] = `"curl 'http://example.com/?quote='\\\\'"`;
+exports[`generateCommand url (contains quote) 1`] = `"curl 'http://example.com/?quote='\\'"`;
 
 exports[`generateCommand url (simple) 1`] = `"curl http://example.com"`;
