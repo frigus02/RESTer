@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`items are created on startup 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -12,12 +12,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/6",
         },
-        "data": Object {
+        "data": {
           "id": 6,
         },
         "isItem": true,
@@ -30,12 +30,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -44,10 +44,10 @@ Array [
         "title": "Create Post",
       },
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/7",
         },
-        "data": Object {
+        "data": {
           "id": 7,
         },
         "isItem": true,
@@ -56,10 +56,10 @@ Array [
         "title": "Get Post",
       },
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/1",
         },
-        "data": Object {
+        "data": {
           "id": 1,
         },
         "isItem": true,
@@ -74,7 +74,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -82,12 +82,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -95,7 +95,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -108,7 +108,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -116,7 +116,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/45",
     },
     "data": undefined,
@@ -126,7 +126,7 @@ Array [
     "title": "12:43:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/5/history/44",
     },
     "data": undefined,
@@ -136,7 +136,7 @@ Array [
     "title": "12:40:00 JSONPlaceholder / Create Post",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/43",
     },
     "data": undefined,
@@ -146,7 +146,7 @@ Array [
     "title": "12:39:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,
@@ -156,7 +156,7 @@ Array [
     "title": "15:03:00 Google / Get Profile",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/7/history/41",
     },
     "data": undefined,
@@ -169,9 +169,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -182,7 +182,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -190,12 +190,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -203,7 +203,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -216,7 +216,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -227,9 +227,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes: 1. Added 3 requests and 2 history entries 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -238,12 +238,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/6",
         },
-        "data": Object {
+        "data": {
           "id": 6,
         },
         "isItem": true,
@@ -256,12 +256,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -270,10 +270,10 @@ Array [
         "title": "Create Post",
       },
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/1",
         },
-        "data": Object {
+        "data": {
           "id": 1,
         },
         "isItem": true,
@@ -288,7 +288,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -296,12 +296,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -309,7 +309,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -322,7 +322,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -330,7 +330,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,
@@ -340,7 +340,7 @@ Array [
     "title": "15:03:00 Google / Get Profile",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/7/history/41",
     },
     "data": undefined,
@@ -353,9 +353,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes: 2. Deleted last request in collection 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -364,12 +364,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -378,10 +378,10 @@ Array [
         "title": "Create Post",
       },
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/1",
         },
-        "data": Object {
+        "data": {
           "id": 1,
         },
         "isItem": true,
@@ -396,7 +396,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -404,12 +404,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -417,7 +417,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -430,7 +430,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -438,7 +438,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,
@@ -448,7 +448,7 @@ Array [
     "title": "15:03:00 Google / Get Profile",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/7/history/41",
     },
     "data": undefined,
@@ -461,9 +461,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes: 3. Updated 1 request and added 3 history entries 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -472,12 +472,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -486,10 +486,10 @@ Array [
         "title": "Create Post",
       },
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/1",
         },
-        "data": Object {
+        "data": {
           "id": 1,
         },
         "isItem": true,
@@ -504,7 +504,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -512,12 +512,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -525,7 +525,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -538,7 +538,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -546,7 +546,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/45",
     },
     "data": undefined,
@@ -556,7 +556,7 @@ Array [
     "title": "12:43:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/5/history/44",
     },
     "data": undefined,
@@ -566,7 +566,7 @@ Array [
     "title": "12:40:00 JSONPlaceholder / Create Post",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/43",
     },
     "data": undefined,
@@ -576,7 +576,7 @@ Array [
     "title": "12:39:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,
@@ -586,7 +586,7 @@ Array [
     "title": "15:03:00 Google / Get Profile",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/7/history/41",
     },
     "data": undefined,
@@ -599,9 +599,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes: 4. Added 6th history entry 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -610,12 +610,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -624,10 +624,10 @@ Array [
         "title": "Create Post",
       },
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/1",
         },
-        "data": Object {
+        "data": {
           "id": 1,
         },
         "isItem": true,
@@ -642,7 +642,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -650,12 +650,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -663,7 +663,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -676,7 +676,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -684,7 +684,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request//history/46",
     },
     "data": undefined,
@@ -694,7 +694,7 @@ Array [
     "title": "12:50:00 ",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/45",
     },
     "data": undefined,
@@ -704,7 +704,7 @@ Array [
     "title": "12:43:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/5/history/44",
     },
     "data": undefined,
@@ -714,7 +714,7 @@ Array [
     "title": "12:40:00 JSONPlaceholder / Create Post",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/43",
     },
     "data": undefined,
@@ -724,7 +724,7 @@ Array [
     "title": "12:39:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,
@@ -737,9 +737,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes: 5. Deleted 1 request 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -748,12 +748,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -768,7 +768,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -776,12 +776,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -789,7 +789,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -802,7 +802,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -810,7 +810,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request//history/46",
     },
     "data": undefined,
@@ -820,7 +820,7 @@ Array [
     "title": "12:50:00 ",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/45",
     },
     "data": undefined,
@@ -830,7 +830,7 @@ Array [
     "title": "12:43:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/5/history/44",
     },
     "data": undefined,
@@ -840,7 +840,7 @@ Array [
     "title": "12:40:00 JSONPlaceholder / Create Post",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/43",
     },
     "data": undefined,
@@ -850,7 +850,7 @@ Array [
     "title": "12:39:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,
@@ -863,9 +863,9 @@ Array [
 `;
 
 exports[`with resolved empty data items are updated when data changes: 6. Updated environment name 1`] = `
-Array [
+[
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "add",
       "url": "#/",
     },
@@ -874,12 +874,12 @@ Array [
   },
   Group {
     "isGroup": true,
-    "items": Array [
+    "items": [
       Item {
-        "action": Object {
+        "action": {
           "url": "#/request/5",
         },
-        "data": Object {
+        "data": {
           "id": 5,
         },
         "isItem": true,
@@ -894,7 +894,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "settings",
       "url": "#/settings",
     },
@@ -902,12 +902,12 @@ Array [
     "title": "Settings",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/environments",
     },
     "data": undefined,
     "isItem": true,
-    "secondaryAction": Object {
+    "secondaryAction": {
       "handler": [Function],
       "icon": "more-vert",
     },
@@ -915,7 +915,7 @@ Array [
     "title": "Environment",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/organize",
     },
     "data": undefined,
@@ -928,7 +928,7 @@ Array [
     "isDivider": true,
   },
   Subheader {
-    "action": Object {
+    "action": {
       "icon": "history",
       "url": "#/history",
     },
@@ -936,7 +936,7 @@ Array [
     "title": "History",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request//history/46",
     },
     "data": undefined,
@@ -946,7 +946,7 @@ Array [
     "title": "12:50:00 ",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/45",
     },
     "data": undefined,
@@ -956,7 +956,7 @@ Array [
     "title": "12:43:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/5/history/44",
     },
     "data": undefined,
@@ -966,7 +966,7 @@ Array [
     "title": "12:40:00 JSONPlaceholder / Create Post",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/1/history/43",
     },
     "data": undefined,
@@ -976,7 +976,7 @@ Array [
     "title": "12:39:00 JSONPlaceholder / Get Posts",
   },
   Item {
-    "action": Object {
+    "action": {
       "url": "#/request/6/history/42",
     },
     "data": undefined,

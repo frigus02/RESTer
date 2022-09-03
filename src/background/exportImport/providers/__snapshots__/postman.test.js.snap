@@ -1,59 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`format adds history entries as responses to matching request 1`] = `
-Object {
+{
   "content": "{
-    \\"info\\": {
-        \\"name\\": \\"RESTer\\",
-        \\"schema\\": \\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\"
+    "info": {
+        "name": "RESTer",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    \\"item\\": [
+    "item": [
         {
-            \\"name\\": \\"A\\",
-            \\"item\\": [
+            "name": "A",
+            "item": [
                 {
-                    \\"request\\": {
-                        \\"url\\": \\"https://example.com\\",
-                        \\"method\\": \\"GET\\",
-                        \\"header\\": []
+                    "request": {
+                        "url": "https://example.com",
+                        "method": "GET",
+                        "header": []
                     },
-                    \\"id\\": \\"rester-1\\",
-                    \\"name\\": \\"Number 1\\",
-                    \\"response\\": [
+                    "id": "rester-1",
+                    "name": "Number 1",
+                    "response": [
                         {
-                            \\"id\\": \\"rester-1\\",
-                            \\"name\\": \\"100 To-do: come up with name\\",
-                            \\"originalRequest\\": {
-                                \\"url\\": \\"https://example.com\\",
-                                \\"method\\": \\"GET\\",
-                                \\"header\\": []
+                            "id": "rester-1",
+                            "name": "100 To-do: come up with name",
+                            "originalRequest": {
+                                "url": "https://example.com",
+                                "method": "GET",
+                                "header": []
                             },
-                            \\"responseTime\\": 20,
-                            \\"header\\": [
+                            "responseTime": 20,
+                            "header": [
                                 {
-                                    \\"key\\": \\"Content-Type\\",
-                                    \\"value\\": \\"text/html\\"
+                                    "key": "Content-Type",
+                                    "value": "text/html"
                                 }
                             ],
-                            \\"body\\": \\"<!DOCTYPE html>\\\\n<html>\\\\n</html>\\\\n\\",
-                            \\"status\\": \\"OK\\",
-                            \\"code\\": 200
+                            "body": "<!DOCTYPE html>\\n<html>\\n</html>\\n",
+                            "status": "OK",
+                            "code": 200
                         }
                     ]
                 }
             ]
         },
         {
-            \\"name\\": \\"B\\",
-            \\"item\\": [
+            "name": "B",
+            "item": [
                 {
-                    \\"request\\": {
-                        \\"url\\": \\"https://example.com\\",
-                        \\"method\\": \\"POST\\",
-                        \\"header\\": []
+                    "request": {
+                        "url": "https://example.com",
+                        "method": "POST",
+                        "header": []
                     },
-                    \\"id\\": \\"rester-2\\",
-                    \\"name\\": \\"Number 2\\"
+                    "id": "rester-2",
+                    "name": "Number 2"
                 }
             ]
         }
@@ -65,48 +65,48 @@ Object {
 `;
 
 exports[`format creates nested folder structure for requests 1`] = `
-Object {
+{
   "content": "{
-    \\"info\\": {
-        \\"name\\": \\"RESTer\\",
-        \\"schema\\": \\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\"
+    "info": {
+        "name": "RESTer",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    \\"item\\": [
+    "item": [
         {
-            \\"name\\": \\"A\\",
-            \\"item\\": [
+            "name": "A",
+            "item": [
                 {
-                    \\"name\\": \\"B\\",
-                    \\"item\\": [
+                    "name": "B",
+                    "item": [
                         {
-                            \\"name\\": \\"C\\",
-                            \\"item\\": [
+                            "name": "C",
+                            "item": [
                                 {
-                                    \\"request\\": {
-                                        \\"url\\": \\"https://example.com\\",
-                                        \\"method\\": \\"GET\\",
-                                        \\"header\\": []
+                                    "request": {
+                                        "url": "https://example.com",
+                                        "method": "GET",
+                                        "header": []
                                     },
-                                    \\"id\\": \\"rester-1\\",
-                                    \\"name\\": \\"Number 1\\"
+                                    "id": "rester-1",
+                                    "name": "Number 1"
                                 },
                                 {
-                                    \\"request\\": {
-                                        \\"url\\": \\"https://example.com\\",
-                                        \\"method\\": \\"POST\\",
-                                        \\"header\\": [
+                                    "request": {
+                                        "url": "https://example.com",
+                                        "method": "POST",
+                                        "header": [
                                             {
-                                                \\"key\\": \\"Content-Type\\",
-                                                \\"value\\": \\"application/json\\"
+                                                "key": "Content-Type",
+                                                "value": "application/json"
                                             }
                                         ],
-                                        \\"body\\": {
-                                            \\"mode\\": \\"raw\\",
-                                            \\"raw\\": \\"{\\\\\\"foo\\\\\\": \\\\\\"bar\\\\\\"}\\"
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\\"foo\\": \\"bar\\"}"
                                         }
                                     },
-                                    \\"id\\": \\"rester-2\\",
-                                    \\"name\\": \\"Number 2\\"
+                                    "id": "rester-2",
+                                    "name": "Number 2"
                                 }
                             ]
                         }
@@ -122,38 +122,38 @@ Object {
 `;
 
 exports[`format request with same name as collection 1`] = `
-Object {
+{
   "content": "{
-    \\"info\\": {
-        \\"name\\": \\"RESTer\\",
-        \\"schema\\": \\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\"
+    "info": {
+        "name": "RESTer",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    \\"item\\": [
+    "item": [
         {
-            \\"name\\": \\"A\\",
-            \\"item\\": [
+            "name": "A",
+            "item": [
                 {
-                    \\"name\\": \\"B\\",
-                    \\"item\\": [
+                    "name": "B",
+                    "item": [
                         {
-                            \\"request\\": {
-                                \\"url\\": \\"https://www.example.com\\",
-                                \\"method\\": \\"GET\\",
-                                \\"header\\": []
+                            "request": {
+                                "url": "https://www.example.com",
+                                "method": "GET",
+                                "header": []
                             },
-                            \\"id\\": \\"rester-1\\",
-                            \\"name\\": \\"C\\"
+                            "id": "rester-1",
+                            "name": "C"
                         }
                     ]
                 },
                 {
-                    \\"request\\": {
-                        \\"url\\": \\"https://www.example.com\\",
-                        \\"method\\": \\"GET\\",
-                        \\"header\\": []
+                    "request": {
+                        "url": "https://www.example.com",
+                        "method": "GET",
+                        "header": []
                     },
-                    \\"id\\": \\"rester-2\\",
-                    \\"name\\": \\"B\\"
+                    "id": "rester-2",
+                    "name": "B"
                 }
             ]
         }
@@ -165,17 +165,17 @@ Object {
 `;
 
 exports[`parse parses nested folders and rester ids 1`] = `
-Object {
-  "data": Object {
-    "requests": Array [
+{
+  "data": {
+    "requests": [
       Request {
         "body": "fruit=banana",
         "collection": "Import / A / B",
-        "headers": Array [],
+        "headers": [],
         "method": "POST",
         "title": "Food",
         "url": "https://example.com",
-        "variables": Object {},
+        "variables": {},
       },
     ],
   },
@@ -184,31 +184,31 @@ Object {
 `;
 
 exports[`parse parses part of Postman Echo collection 1`] = `
-Object {
-  "data": Object {
-    "requests": Array [
+{
+  "data": {
+    "requests": [
       Request {
         "body": "code=xWnkliVQJURqB2x1&grant_type=authorization_code&redirect_uri=https%3A%2F%2Fwww.getpostman.com%2Foauth2%2Fcallback&client_id=abc123&client_secret=ssh-secret",
         "collection": "Auth: Digest",
-        "headers": Array [],
+        "headers": [],
         "method": "GET",
         "title": "DigestAuth Request",
         "url": "https://postman-echo.com/digest-auth",
-        "variables": Object {},
+        "variables": {},
       },
       Request {
         "body": null,
         "collection": "Auth: Digest",
-        "headers": Array [
-          Object {
+        "headers": [
+          {
             "name": "Authorization",
-            "value": "Digest username=\\"postman\\", realm=\\"Users\\", nonce=\\"ni1LiL0O37PRRhofWdCLmwFsnEtH1lew\\", uri=\\"/digest-auth\\", response=\\"254679099562cf07df9b6f5d8d15db44\\", opaque=\\"\\"",
+            "value": "Digest username="postman", realm="Users", nonce="ni1LiL0O37PRRhofWdCLmwFsnEtH1lew", uri="/digest-auth", response="254679099562cf07df9b6f5d8d15db44", opaque=""",
           },
         ],
         "method": "GET",
         "title": "DigestAuth Success",
         "url": "https://postman-echo.com/digest-auth",
-        "variables": Object {},
+        "variables": {},
       },
     ],
   },
