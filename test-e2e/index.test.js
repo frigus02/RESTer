@@ -85,6 +85,15 @@ describe('with clean requests', function () {
     registerRequestTests('clean');
 });
 
+/**
+ * Get innerText of the given element.
+ *
+ * Similar to WebElement#getText, which doesn't seem to work for rester-badge.
+ */
+function getInnerText(element) {
+    return driver.executeScript((e) => e.innerText, element);
+}
+
 function registerRequestTests(mode) {
     test('GET http://127.0.0.1:7373/echo', async function () {
         await goTo('request');
@@ -110,7 +119,7 @@ function registerRequestTests(mode) {
             timeout
         );
 
-        const responseCode = await RequestElements.responseCode.getText();
+        const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
             RequestElements.responseBody
@@ -169,7 +178,7 @@ function registerRequestTests(mode) {
             timeout
         );
 
-        const responseCode = await RequestElements.responseCode.getText();
+        const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
             RequestElements.responseBody
@@ -197,7 +206,7 @@ function registerRequestTests(mode) {
             timeout
         );
 
-        const responseCode = await RequestElements.responseCode.getText();
+        const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
             RequestElements.responseBody
@@ -249,7 +258,7 @@ function registerRequestTests(mode) {
             timeout
         );
 
-        const responseCode = await RequestElements.responseCode.getText();
+        const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
             RequestElements.responseBody
