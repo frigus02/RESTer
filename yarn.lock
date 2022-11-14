@@ -1246,18 +1246,6 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
-"@jest/types@^29.3.1":
-  version "29.3.1"
-  resolved "https://registry.yarnpkg.com/@jest/types/-/types-29.3.1.tgz#7c5a80777cb13e703aeec6788d044150341147e3"
-  integrity sha512-d0S0jmmTpjnhCmNpApgX3jrUZgZ22ivKJRvL2lli5hpCRoNnp1f85r2/wpKfXuYu8E7Jjh1hGfhPyup1NM5AmA==
-  dependencies:
-    "@jest/schemas" "^29.0.0"
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    "@types/istanbul-reports" "^3.0.0"
-    "@types/node" "*"
-    "@types/yargs" "^17.0.8"
-    chalk "^4.0.0"
-
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -2235,10 +2223,10 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-ace-builds@1.12.5:
-  version "1.12.5"
-  resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.12.5.tgz#e037069148507b4b32c21f56b52a830e9a0759d3"
-  integrity sha512-2OTOZZdXVqWHfsV63n/bWLJ4uGnGNm9uwEQSECbEzMpKF2RKxD04lWu7s+eRBTZoEbqPXziyI1qamJH2OAwdwA==
+ace-builds@1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.13.0.tgz#07529463638b803c3c062126cdbc0d3e884861a7"
+  integrity sha512-KGS/bfBK+OY5unl3KDXdGvvlvKRQPllLeVsSf1gVxqL97agPxO3WzrepkuFdZSUiMcJThf3jCrZ4r51bb1ObRg==
 
 acorn-globals@^6.0.0:
   version "6.0.0"
@@ -4549,18 +4537,6 @@ jest-snapshot@^29.2.2:
     semver "^7.3.5"
 
 jest-util@^29.2.1, jest-util@^29.3.1:
-  version "29.3.1"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.3.1.tgz#1dda51e378bbcb7e3bc9d8ab651445591ed373e1"
-  integrity sha512-7YOVZaiX7RJLv76ZfHt4nbNEzzTRiMW/IiOG7ZOKmTXmoGBxUDefgMAxQubu6WPVqP5zSzAdZG0FfLcC7HOIFQ==
-  dependencies:
-    "@jest/types" "^29.3.1"
-    "@types/node" "*"
-    chalk "^4.0.0"
-    ci-info "^3.2.0"
-    graceful-fs "^4.2.9"
-    picomatch "^2.2.3"
-
-jest-util@^29.3.1:
   version "29.3.1"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.3.1.tgz#1dda51e378bbcb7e3bc9d8ab651445591ed373e1"
   integrity sha512-7YOVZaiX7RJLv76ZfHt4nbNEzzTRiMW/IiOG7ZOKmTXmoGBxUDefgMAxQubu6WPVqP5zSzAdZG0FfLcC7HOIFQ==
