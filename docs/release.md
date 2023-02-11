@@ -48,7 +48,7 @@ To release a new version of RESTer:
     ```sh
     yarn build
     yarn package
-    git archive -o .package/RESTer-$VERSION.zip $VERSION
+    git archive -o package/RESTer-$VERSION.zip $VERSION
     ```
 
 1. Upload to AMO

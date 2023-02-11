@@ -45,12 +45,12 @@ To build the add-on run:
 yarn start
 ```
 
-This will generate a working add-on in the folder _.build_. It will also watch files for changes and update the folder accordingly.
+This will generate a working add-on in the folder _build_. It will also watch files for changes and update the folder accordingly.
 
 To load the add-on in the browser:
 
--   **Firefox**: Go to [about:debugging](about:debugging), click on "Load Temporary Add-on..." and select the file _manifest.json_ inside the _.build_ folder.
--   **Chrome**: Go to [chrome://extensions](chrome://extensions), make sure "Developer mode" is turned on, click on "Load unpacked" and select the folder _.build_.
+-   **Firefox**: Go to [about:debugging](about:debugging), click on "Load Temporary Add-on..." and select the file _manifest.json_ inside the _build_ folder.
+-   **Chrome**: Go to [chrome://extensions](chrome://extensions), make sure "Developer mode" is turned on, click on "Load unpacked" and select the folder _build_.
 
 ### Package
 
@@ -64,7 +64,7 @@ yarn test:e2e
 yarn package
 ```
 
-Afterwards you will find the generated files in the folder _.package_.
+Afterwards you will find the generated files in the folder _package_.
 
 ## Contributors
 

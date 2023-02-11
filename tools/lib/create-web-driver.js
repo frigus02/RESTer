@@ -28,8 +28,8 @@ function ensureGeckoDriverInPath() {
 }
 
 async function createResterExtensionXpi() {
-    const srcDir = path.resolve(rootDir, '.build');
-    const xpiPath = path.resolve(rootDir, '.package/firefox-selenium.xpi');
+    const srcDir = path.resolve(rootDir, 'build');
+    const xpiPath = path.resolve(rootDir, 'package/firefox-selenium.xpi');
 
     try {
         await fsUnlink(xpiPath);
@@ -58,7 +58,7 @@ async function createWebDriver() {
         )
         .setPreference('xpinstall.signatures.required', false)
         .setPreference('intl.accept_languages', 'en')
-        .addExtensions(path.resolve(rootDir, '.package/firefox-selenium.xpi'));
+        .addExtensions(path.resolve(rootDir, 'package/firefox-selenium.xpi'));
 
     if (!process.env.WITH_HEAD) {
         options.headless();
