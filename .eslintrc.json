@@ -21,5 +21,6 @@
         "no-var": 2,
         "one-var": 0,
         "strict": 2
-    }
+    },
+    "ignorePatterns": ["build/"]
 }
