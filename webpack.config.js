@@ -16,7 +16,7 @@ module.exports = [
         entry: './index.js',
         output: {
             filename: 'bundle.js',
-            path: path.resolve(__dirname, '.build/background'),
+            path: path.resolve(__dirname, 'build/background'),
         },
     },
     {
@@ -25,7 +25,7 @@ module.exports = [
         entry: './index.js',
         output: {
             filename: 'scripts/bundle.js',
-            path: path.resolve(__dirname, '.build/site'),
+            path: path.resolve(__dirname, 'build/site'),
         },
         resolve: {
             alias: {

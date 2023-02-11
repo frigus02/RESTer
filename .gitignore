@@ -1,7 +1,7 @@
-.build/
-.package/
+build/
 docs/library-links.md.new
 node_modules/
+package/
 *.sublime-workspace
 *.sublime-project
 yarn-error.log

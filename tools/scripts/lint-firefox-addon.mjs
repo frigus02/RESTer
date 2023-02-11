@@ -16,7 +16,7 @@ const ignoreFileName = '.addonslinterignore';
  * Lints a Firefox addon.
  *
  * @param  {Object} options
- *     - `addonDir` Directory of the addon code (e.g. '.package/firefox-1.17.0/').
+ *     - `addonDir` Directory of the addon code (e.g. 'package/firefox-1.17.0/').
  * @return {Promise}
  */
 async function lintFirefoxAddon(options) {
