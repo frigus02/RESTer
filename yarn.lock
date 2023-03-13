@@ -1317,10 +1317,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@mdn/browser-compat-data@5.2.38":
-  version "5.2.38"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.38.tgz#38fe2bd1cd95bbbcf35f5495aa54aa1eed592645"
-  integrity sha512-hV93KGiz3WSExunjoWPHp2Z+a9gI2W+kz8IhPzeOhtMl0eDaeguYyEoE7N45wGnKyh3j2zCA7KmwZrQkpoqyxA==
+"@mdn/browser-compat-data@5.2.39":
+  version "5.2.39"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.39.tgz#7921e62a34623043c8fb9320b78196745867922d"
+  integrity sha512-m8EJuQlHl6GeBkryBfJCl9gOOw/5dCqQVzRWj6hBbDG3NTaJyypa5784lae/uklYildVwiqbP0iGl3LUEhECPg==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2274,15 +2274,15 @@ acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
   integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
 
-addons-linter@5.30.0:
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-5.30.0.tgz#e637a9272fc9f38c6c6d2203daa1b3d0a15ce89e"
-  integrity sha512-2EGddK1eyFNvT6lhBt318b49rSm5aCqGqN+WZzg8u5O7CKBBi6p9QFtKU4yeMK4JgIIvoZbtdXRXqZhXiBpdWw==
+addons-linter@5.31.0:
+  version "5.31.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-5.31.0.tgz#b777cb775b721b5fbc0a5a288ce4552bf1a6ebc3"
+  integrity sha512-7JhDrrzsggWHrwIJTxiP/9NOzXjqaZF9dbZQ5J+AXeF613a1XHHh9cUQQTlkJETELMai5kULqYNVImjyxoF6vA==
   dependencies:
     "@fluent/syntax" "0.18.1"
-    "@mdn/browser-compat-data" "5.2.38"
+    "@mdn/browser-compat-data" "5.2.39"
     addons-moz-compare "1.3.0"
-    addons-scanner-utils "8.4.0"
+    addons-scanner-utils "8.5.0"
     ajv "8.12.0"
     chalk "4.1.2"
     cheerio "1.0.0-rc.12"
@@ -2317,10 +2317,10 @@ addons-moz-compare@1.3.0:
   resolved "https://registry.yarnpkg.com/addons-moz-compare/-/addons-moz-compare-1.3.0.tgz#9074dce00291cef998c2fba6b462d041cc6b3e36"
   integrity sha512-/rXpQeaY0nOKhNx00pmZXdk5Mu+KhVlL3/pSBuAYwrxRrNiTvI/9xfQI8Lmm7DMMl+PDhtfAHY/0ibTpdeoQQQ==
 
-addons-scanner-utils@8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-8.4.0.tgz#35d8ab4924ec4c81e367c966f3636459c46e73a0"
-  integrity sha512-7ExT5BKHKcdRNzDX8wHjfKt3ycAcgtypiaWv1XaoSMcCc//HdqKywg/RQsmfFDkTx0RdTbJPeQQBWF3V2IdLkg==
+addons-scanner-utils@8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-8.5.0.tgz#372d2d6f38396505dc5c1432e4f36fcdd1394e18"
+  integrity sha512-X35SYZRdSnxx7UZuAk+DizKihQp2Ze2c5GV+5nnRr/FFyx/fOgE3Zo8jdhzSne57PENE9w1ZVocBLJTN6UDB3g==
   dependencies:
     "@types/yauzl" "2.10.0"
     common-tags "1.8.2"
