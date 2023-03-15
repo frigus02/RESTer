@@ -1,0 +1,59 @@
+{
+    "manifest_version": 3,
+    "name": "RESTer",
+    "version": "4.11.0",
+    "description": "A REST client for almost any web service.",
+    "author": "Jan Kühle",
+    "homepage_url": "https://github.com/frigus02/RESTer",
+    "icons": {
+        "48": "images/icon-dev48.png",
+        "96": "images/icon-dev96.png"
+    },
+    "permissions": [
+        "activeTab",
+        "downloads",
+        "storage",
+        "unlimitedStorage",
+        "declarativeNetRequest",
+        "declarativeNetRequestWithHostAccess"
+    ],
+    "optional_permissions": [
+        "cookies"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "scripts": ["background/bundle.js"]
+    },
+    "action": {
+        "default_icon": {
+            "16": "images/icon-dev16.png",
+            "24": "images/icon-dev24.png",
+            "32": "images/icon-dev32.png"
+        },
+        "theme_icons": [
+            {
+                "dark": "images/icon-dev16.png",
+                "light": "images/icon-light-dev16.png",
+                "size": 16
+            },
+            {
+                "dark": "images/icon-dev24.png",
+                "light": "images/icon-light-dev24.png",
+                "size": 24
+            },
+            {
+                "dark": "images/icon-dev32.png",
+                "light": "images/icon-light-dev32.png",
+                "size": 32
+            }
+        ]
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "rester@kuehle.me",
+            "strict_min_version": "110.0"
+        }
+    }
+}

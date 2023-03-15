@@ -28,7 +28,7 @@ function ensureGeckoDriverInPath() {
 }
 
 async function createResterExtensionXpi() {
-    const srcDir = path.resolve(rootDir, 'build');
+    const srcDir = path.resolve(rootDir, 'build/firefox');
     const xpiPath = path.resolve(rootDir, 'package/firefox-selenium.xpi');
 
     try {
