@@ -205,4 +205,7 @@ async function main() {
     });
 }
 
-main().catch((err) => console.error(err.stack));
+main().catch((err) => {
+    console.error(err.stack);
+    process.exitCode = 1;
+});
