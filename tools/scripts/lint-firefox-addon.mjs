@@ -47,7 +47,7 @@ async function lintFirefoxAddon(options) {
     result.count = 0;
     for (let list of lists) {
         result[list] = result[list].filter((message) => {
-            const file = resolvePath(message.file);
+            const file = message.file ? resolvePath(message.file) : '<no file>';
 
             const ignoreEntry = ignoreList.find(
                 (ignore) => ignore.file === file && ignore.code === message.code
