@@ -10,17 +10,17 @@ const packageJson = require('../../package.json');
 
 const additionalManifestEntries = {
     firefox: {
-        applications: {
+        browser_specific_settings: {
             gecko: {
                 id: 'rester@kuehle.me',
-                strict_min_version: '63.0',
+                strict_min_version: '110.0',
             },
         },
         icons: {
             48: 'images/icon48.png',
             96: 'images/icon96.png',
         },
-        browser_action: {
+        action: {
             default_icon: {
                 16: 'images/icon16.png',
                 24: 'images/icon24.png',
@@ -46,12 +46,12 @@ const additionalManifestEntries = {
         },
     },
     chrome: {
-        minimum_chrome_version: '67',
+        minimum_chrome_version: '111',
         icons: {
             48: 'images/icon48.png',
             128: 'images/icon128.png',
         },
-        browser_action: {
+        action: {
             default_icon: {
                 16: 'images/icon16.png',
                 24: 'images/icon24.png',
