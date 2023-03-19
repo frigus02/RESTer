@@ -63,3 +63,29 @@ export function truncate(str, maxLength, ellipsis = '…') {
         return str;
     }
 }
+
+export function generateFormData(body, tempVariables) {
+    const rawData = decodeQueryString(body);
+    const variableValues = tempVariables.values;
+    const formData = new FormData();
+
+    for (let key in rawData) {
+        if (Object.prototype.hasOwnProperty.call(rawData, key)) {
+            const values = Array.isArray(rawData[key])
+                ? rawData[key]
+                : [rawData[key]];
+            for (let value of values) {
+                const fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
+
+                if (fileMatch) {
+                    const file = variableValues[fileMatch[1]];
+                    formData.append(key, file, file.name);
+                } else {
+                    formData.append(key, value);
+                }
+            }
+        }
+    }
+
+    return formData;
+}

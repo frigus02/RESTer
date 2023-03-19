@@ -9,17 +9,12 @@ async function ensureCookiesPermission() {
         permissions: ['cookies'],
     };
 
-    return new Promise((resolve, reject) => {
-        chrome.permissions.request(requiredPermissions, (result) => {
-            if (result) {
-                resolve();
-            } else {
-                reject(
-                    'RESTer needs the permissions to read cookies for this.'
-                );
-            }
-        });
-    });
+    const result = await chrome.permissions.request(requiredPermissions);
+    if (!result) {
+        throw new Error(
+            'RESTer needs the permissions to read cookies for this.'
+        );
+    }
 }
 
 function filterCookies(cookies, cookieNames) {

@@ -8,8 +8,6 @@ import * as exportImport from './exportImport/index.js';
 import * as settings from './settings/index.js';
 import { select } from './utils/fields.js';
 
-// WARNING: All properties must be in quotes. Otherwise UglifyJS would ufligy
-// them and they wouldn't be reachable by name.
 const resterApi = {
     data: {
         authorizationProviderConfigurations: {
@@ -52,29 +50,28 @@ const resterApi = {
     },
 };
 
-chrome.browserAction.onClicked.addListener(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const resterUrl = chrome.runtime.getURL('site/index.html');
-        const blankUrls = ['about:blank', 'about:newtab'];
-        if (blankUrls.includes(tabs[0].url)) {
-            try {
-                chrome.tabs.update({
-                    loadReplace: true,
-                    url: resterUrl,
-                });
-            } catch (e) {
-                // Chrome does not support loadReplace and throws an exception,
-                // it is specified. Try again without loadReplace.
-                chrome.tabs.update({
-                    url: resterUrl,
-                });
-            }
-        } else {
-            chrome.tabs.create({
+chrome.action.onClicked.addListener(async () => {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true })
+    const resterUrl = chrome.runtime.getURL('site/index.html');
+    const blankUrls = ['about:blank', 'about:newtab'];
+    if (blankUrls.includes(tabs[0].url)) {
+        try {
+            chrome.tabs.update({
+                loadReplace: true,
+                url: resterUrl,
+            });
+        } catch (e) {
+            // Chrome does not support loadReplace and throws an exception,
+            // it is specified. Try again without loadReplace.
+            chrome.tabs.update({
                 url: resterUrl,
             });
         }
-    });
+    } else {
+        chrome.tabs.create({
+            url: resterUrl,
+        });
+    }
 });
 
 chrome.runtime.onConnect.addListener((port) => {

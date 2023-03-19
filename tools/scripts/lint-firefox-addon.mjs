@@ -11,6 +11,7 @@ import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 
 const ignoreFileName = '.addonslinterignore';
+const noFileToken = '<no_file>';
 
 /**
  * Lints a Firefox addon.
@@ -47,8 +48,7 @@ async function lintFirefoxAddon(options) {
     result.count = 0;
     for (let list of lists) {
         result[list] = result[list].filter((message) => {
-            const file = message.file ? resolvePath(message.file) : '<no file>';
-
+            const file = message.file ? resolvePath(message.file) : noFileToken;
             const ignoreEntry = ignoreList.find(
                 (ignore) => ignore.file === file && ignore.code === message.code
             );
@@ -100,6 +100,10 @@ function getIgnoreList() {
             // <file> <code>
             let [file, code] = line.split(' ');
 
+            if (file !== noFileToken) {
+                file = resolvePath(file);
+            }
+
             // Some codes sentences instead of short, uppercase names. In
             // this case the code should start with "_" in the ignore file
             // and all spaces should be replaced by "_".
@@ -107,10 +111,7 @@ function getIgnoreList() {
                 code = code.substr(1).replace(/_/g, ' ');
             }
 
-            ignore.push({
-                file: resolvePath(file),
-                code,
-            });
+            ignore.push({ file, code });
         });
 
         lineReader.on('close', () => {

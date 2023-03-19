@@ -104,6 +104,7 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
 
     constructor() {
         super();
+        this._initVariableHistory = this._initVariableHistory.bind(this);
         this._onDataChanges = this._onDataChanges.bind(this);
         this._updateVariables = this._updateVariables.bind(this);
     }
@@ -113,20 +114,22 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
 
         this._setLastUsedVariables({});
         this._setVariableHistory({});
-
-        getHistoryEntries(25, ['request.variables.values']).then((entries) => {
-            entries.reverse();
-            for (let entry of entries) {
-                this._addHistoryEntryToVariableHistory(entry);
-            }
-        });
+        this._initVariableHistory();
 
         resterEvents.addEventListener('dataChange', this._onDataChanges);
+        resterEvents.addEventListener(
+            'connectionReset',
+            this._initVariableHistory
+        );
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
         resterEvents.removeEventListener('dataChange', this._onDataChanges);
+        resterEvents.removeEventListener(
+            'connectionReset',
+            this._initVariableHistory
+        );
     }
 
     _updateVariablesDebounced() {
@@ -191,6 +194,15 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
         this.set(['lastUsedVariables', variable.name], newValue);
     }
 
+    _initVariableHistory() {
+        getHistoryEntries(25, ['request.variables.values']).then((entries) => {
+            entries.reverse();
+            for (let entry of entries) {
+                this._addHistoryEntryToVariableHistory(entry);
+            }
+        });
+    }
+
     _onDataChanges(e) {
         for (let change of e.detail) {
             if (change.itemType === 'HistoryEntry' && change.action === 'add') {
@@ -202,38 +214,30 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
     _addHistoryEntryToVariableHistory(entry) {
         const values = entry.request.variables.values || {};
         for (let name in values) {
-            if (Object.prototype.hasOwnProperty.call(values, name)) {
-                if (
-                    !Object.prototype.hasOwnProperty.call(
-                        this.variableHistory,
-                        name
-                    )
-                ) {
-                    this.set(['variableHistory', name], [values[name]]);
-                } else {
-                    const index = this.variableHistory[name].indexOf(
-                        values[name]
-                    );
-                    if (index > -1) {
-                        this.splice(['variableHistory', name], index, 1);
-                    }
-
-                    this.unshift(['variableHistory', name], values[name]);
+            if (!Object.hasOwn(values, name)) {
+                continue;
+            }
+            if (!Object.hasOwn(this.variableHistory, name)) {
+                this.set(['variableHistory', name], [values[name]]);
+            } else {
+                const index = this.variableHistory[name].indexOf(values[name]);
+                if (index > -1) {
+                    this.splice(['variableHistory', name], index, 1);
                 }
 
-                // Update the history property in the variable item, which is used
-                // in the dom-repeat element.
-                if (this.variables) {
-                    const index = this.variables.findIndex(
-                        (v) => v.name === name
+                this.unshift(['variableHistory', name], values[name]);
+            }
+
+            // Update the history property in the variable item, which is used
+            // in the dom-repeat element.
+            if (this.variables) {
+                const index = this.variables.findIndex((v) => v.name === name);
+                if (index > -1) {
+                    this.set(['variables', index, 'history'], []);
+                    this.set(
+                        ['variables', index, 'history'],
+                        this.variableHistory[name]
                     );
-                    if (index > -1) {
-                        this.set(['variables', index, 'history'], []);
-                        this.set(
-                            ['variables', index, 'history'],
-                            this.variableHistory[name]
-                        );
-                    }
                 }
             }
         }

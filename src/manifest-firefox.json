@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "RESTer",
     "version": "4.11.0",
     "description": "A REST client for almost any web service.",
@@ -13,20 +13,20 @@
         "activeTab",
         "downloads",
         "storage",
-        "unlimitedStorage",
-        "<all_urls>"
+        "unlimitedStorage"
     ],
     "optional_permissions": [
         "cookies",
         "webRequest",
         "webRequestBlocking"
     ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
     "background": {
-        "scripts": [
-            "background/bundle.js"
-        ]
+        "scripts": ["background/bundle.js"]
     },
-    "browser_action": {
+    "action": {
         "default_icon": {
             "16": "images/icon-dev16.png",
             "24": "images/icon-dev24.png",
@@ -49,5 +49,11 @@
                 "size": 32
             }
         ]
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "rester@kuehle.me",
+            "strict_min_version": "110.0"
+        }
     }
 }

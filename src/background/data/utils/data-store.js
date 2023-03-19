@@ -61,7 +61,7 @@ class DataStore extends CustomEventTarget {
         const actions = {};
 
         ['add', 'put', 'delete'].forEach((action) => {
-            actions[action] = function (tableName, entity) {
+            actions[action] = function(tableName, entity) {
                 if (!queue[tableName]) {
                     queue[tableName] = [];
                 }
@@ -72,7 +72,7 @@ class DataStore extends CustomEventTarget {
             };
         });
 
-        actions.execute = function () {
+        actions.execute = function() {
             return dataStore._withWriteLock((changes) => {
                 const result = [];
 
@@ -335,33 +335,26 @@ class DataStore extends CustomEventTarget {
         return this._performStorageLocalOperation('remove', keys);
     }
 
-    _performStorageLocalOperation(
+    async _performStorageLocalOperation(
         op,
         keys,
         transformSuccessResult = (arg) => arg
     ) {
-        return new Promise((resolve, reject) => {
-            const start = performance.now();
-            chrome.storage.local[op](keys, (result) => {
-                const millis = performance.now() - start;
-                if (millis > 500) {
-                    this.dispatchEvent(
-                        new CustomEvent('slowPerformance', {
-                            detail: {
-                                operation: `storage.local.${op}(...)`,
-                                duration: Math.round(millis),
-                            },
-                        })
-                    );
-                }
+        const start = performance.now();
+        const result = await chrome.storage.local[op](keys);
+        const millis = performance.now() - start;
+        if (millis > 500) {
+            this.dispatchEvent(
+                new CustomEvent('slowPerformance', {
+                    detail: {
+                        operation: `storage.local.${op}(...)`,
+                        duration: Math.round(millis),
+                    },
+                })
+            );
+        }
 
-                if (chrome.runtime.lastError) {
-                    reject(chrome.runtime.lastError);
-                } else {
-                    resolve(transformSuccessResult(result));
-                }
-            });
-        });
+        return transformSuccessResult(result);
     }
 }
 

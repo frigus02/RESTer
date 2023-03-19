@@ -1,6 +1,20 @@
-import { decodeQueryString } from './encode.js';
-import { mergeCookies, parseStatusLine } from '../../../../shared/util.js';
+// TODO: Missing features with declarativeNetRequest:
+// - Read the original resonse statusCode, statusText and headers.
+// - Read original timing-allow-origin response header.
+// - Append response header 'access-control-expose-headers' for all responses
+//   headers. Can't use '*' here because it's only a wildcard in requests
+//   without credentials.
+// - declarativeNetRequest doesn't seem to work with optional_permissions
+
+import { generateFormData } from './encode.js';
+import {
+    mergeCookies,
+    parseStatusLine,
+    getFilenameFromContentDispositionHeader,
+} from '../../../../shared/util.js';
 import { downloadBlob } from '../../../../shared/download-blob.js';
+
+const API = isFirefox() ? 'webRequest' : 'declarativeNetRequest';
 
 const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
 const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
@@ -16,48 +30,48 @@ const requestIds = new Map();
 // Maps from RESTer requestId to original response headers.
 const originalResponses = new Map();
 
-function requestWebRequestPermissions() {
-    const requiredPermissions = {
-        permissions: ['webRequest', 'webRequestBlocking'],
-    };
+const defaultRequestHeaders = [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'cache-control',
+    'cookie',
+    'origin',
+    'pragma',
+    'user-agent',
+];
 
-    return new Promise((resolve, reject) => {
-        chrome.permissions.request(requiredPermissions, (granted) => {
-            if (granted) {
-                resolve();
-            } else {
-                reject(chrome.runtime.lastError);
-            }
-        });
-    });
+function isFirefox() {
+    const manifest = chrome.runtime.getManifest();
+    return manifest.browser_specific_settings?.gecko != null;
 }
 
-function getCurrentTabId() {
-    return new Promise((resolve) => {
-        chrome.tabs.getCurrent((tab) => {
-            resolve(tab.id);
-        });
-    });
+async function getCurrentTabId() {
+    const tab = await chrome.tabs.getCurrent();
+    return tab.id;
 }
 
 let headerInterceptorPromise;
 export function ensureHeaderInterceptor() {
     if (!headerInterceptorPromise) {
         headerInterceptorPromise = (async function () {
-            try {
-                await requestWebRequestPermissions();
-                setupHeaderInterceptor(await getCurrentTabId());
-                return true;
-            } catch (e) {
+            const requiredPermissions = {
+                permissions: ['webRequest', 'webRequestBlocking'],
+            };
+            const granted = await chrome.permissions.request(
+                requiredPermissions
+            );
+            if (!granted) {
                 console.warn(
                     'RESTer could not install the header interceptor. ' +
                         'Certain features like setting cookies or the ' +
-                        '"Clean Request" mode will not work as expected. ' +
-                        'Reason: ' +
-                        e.message
+                        '"Clean Request" mode will not work as expected.'
                 );
                 return false;
             }
+
+            setupHeaderInterceptor(await getCurrentTabId());
+            return true;
         })();
     }
 
@@ -234,67 +248,77 @@ function setupHeaderInterceptor(currentTabId) {
     );
 }
 
-function generateFormData(body, tempVariables) {
-    const rawData = decodeQueryString(body);
-    const variableValues = tempVariables.values;
-    const formData = new FormData();
+function setHeadersViaHeaderInterceptor(headers, stripDefaultHeaders) {
+    const result = new Headers();
+    const requestId = String(Math.random());
+    result.append(headerCommandPrefix + 'requestid', requestId);
+    if (stripDefaultHeaders) {
+        result.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
+    }
 
-    for (let key in rawData) {
-        if (Object.prototype.hasOwnProperty.call(rawData, key)) {
-            const values = Array.isArray(rawData[key])
-                ? rawData[key]
-                : [rawData[key]];
-            for (let value of values) {
-                const fileMatch = /^\[(\$file\.[^}]*)\]$/gi.exec(value);
-
-                if (fileMatch) {
-                    const file = variableValues[fileMatch[1]];
-                    formData.append(key, file, file.name);
-                } else {
-                    formData.append(key, value);
-                }
-            }
+    for (const header of headers) {
+        if (header && header.name && header.value) {
+            result.append(
+                headerPrefix + header.name,
+                JSON.stringify({ name: header.name, value: header.value })
+            );
         }
     }
 
-    return formData;
+    return { headers: result, requestId };
 }
 
-export function getFilenameFromContentDispositionHeader(disposition) {
-    const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-.]+)(?:; ?|$)/i;
-    const asciiFilenameRegex = /filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
-
-    let fileName = null;
-    if (utf8FilenameRegex.test(disposition)) {
-        fileName = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
-    } else {
-        // Prevent ReDos attacks by anchoring the ascii regex to string start
-        // and slicing off everything before 'filename='
-        const filenameStart = disposition.toLowerCase().indexOf('filename=');
-        if (filenameStart >= 0) {
-            const partialDisposition = disposition.slice(filenameStart);
-            const matches = asciiFilenameRegex.exec(partialDisposition);
-            if (matches !== null && matches[2]) {
-                fileName = matches[2];
-            }
+async function setHeadersViaDeclarativeNetRequest(
+    headers,
+    stripDefaultHeaders
+) {
+    const tabId = await getCurrentTabId();
+    const requestHeaders = [];
+    if (stripDefaultHeaders) {
+        for (const headerName of defaultRequestHeaders) {
+            requestHeaders.push({
+                header: headerName,
+                operation: 'remove',
+            });
+        }
+    }
+    for (const header of headers) {
+        if (header && header.name && header.value) {
+            requestHeaders.push({
+                header: header.name,
+                operation: 'set',
+                value: header.value,
+            });
         }
     }
 
-    if (fileName !== null) {
-        // Sanitize filename for illegal characters
-        const illegalRe = /[/?<>\\:*|":]/g;
-        const controlRe = /[\x00-\x1f\x80-\x9f]/g;
-        const reservedRe = /^\.+/g;
-        const windowsReservedRe =
-            /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
-        fileName = fileName
-            .replace(illegalRe, '')
-            .replace(controlRe, '')
-            .replace(reservedRe, '')
-            .replace(windowsReservedRe, '');
-    }
-
-    return fileName;
+    const responseHeaders = [
+        {
+            header: 'timing-allow-origin',
+            operation: 'set',
+            value: '*',
+        },
+    ];
+    const addRules = [
+        {
+            action: {
+                type: 'modifyHeaders',
+                requestHeaders:
+                    requestHeaders.length > 0 ? requestHeaders : undefined,
+                responseHeaders,
+            },
+            condition: {
+                resourceTypes: ['xmlhttprequest'],
+                tabIds: [tabId],
+            },
+            id: tabId,
+        },
+    ];
+    const removeRuleIds = [tabId];
+    await chrome.declarativeNetRequest.updateSessionRules({
+        addRules,
+        removeRuleIds,
+    });
 }
 
 /**
@@ -319,9 +343,8 @@ export function getFilenameFromContentDispositionHeader(disposition) {
  * was successfully saved and returns the request response.
  */
 export async function send(request) {
-    const headersIntercepted = await ensureHeaderInterceptor();
-
-    const requestId = String(Math.random());
+    const headersIntercepted =
+        API === 'webRequest' && (await ensureHeaderInterceptor());
 
     // Special handling for multipart requests.
     const contentTypeIndex = request.headers.findIndex(
@@ -336,22 +359,23 @@ export async function send(request) {
     }
 
     // Create fetch request options.
-    const headers = new Headers();
-    if (headersIntercepted) {
-        headers.append(headerCommandPrefix + 'requestid', requestId);
-        if (request.stripDefaultHeaders) {
-            headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
-        }
-
-        for (const header of requestHeaders) {
-            if (header && header.name && header.value) {
-                headers.append(
-                    headerPrefix + header.name,
-                    JSON.stringify({ name: header.name, value: header.value })
-                );
-            }
-        }
+    let headers;
+    let requestId;
+    if (API === 'webRequest' && headersIntercepted) {
+        const result = setHeadersViaHeaderInterceptor(
+            requestHeaders,
+            request.stripDefaultHeaders
+        );
+        headers = result.headers;
+        requestId = result.requestId;
+    } else if (API === 'declarativeNetRequest') {
+        await setHeadersViaDeclarativeNetRequest(
+            requestHeaders,
+            request.stripDefaultHeaders
+        );
+        headers = new Headers();
     } else {
+        headers = new Headers();
         for (const header of requestHeaders) {
             if (header && header.name && header.value) {
                 headers.append(header.name, header.value);
@@ -384,7 +408,7 @@ export async function send(request) {
     const fetchResponse = await fetch(request.url, init);
     response.redirected = fetchResponse.redirected;
 
-    if (headersIntercepted) {
+    if (API === 'webRequest' && headersIntercepted) {
         const originalResponse = originalResponses.get(requestId);
         originalResponses.delete(requestId);
         response.status = originalResponse.status;

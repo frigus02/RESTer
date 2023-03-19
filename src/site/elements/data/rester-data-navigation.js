@@ -32,10 +32,9 @@ class RESTerDataNavigation extends PolymerElement {
         super.connectedCallback();
         if (this._nav.itemsCreated) {
             this._invalidateItems();
-        } else {
-            this._nav.addEventListener('itemsCreated', this._invalidateItems);
         }
 
+        this._nav.addEventListener('itemsCreated', this._invalidateItems);
         this._nav.addEventListener('itemsChanged', this._updateItems);
     }
 

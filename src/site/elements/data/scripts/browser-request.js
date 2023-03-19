@@ -1,32 +1,22 @@
-function ensureIncognitoAccess() {
-    return new Promise((resolve, reject) => {
-        chrome.extension.isAllowedIncognitoAccess((isAllowed) => {
-            if (isAllowed) {
-                resolve();
-            } else {
-                reject(
-                    "RESTer doesn't have access to incognito windows. Please allow access on the browser extension page and try again."
-                );
-            }
-        });
-    });
+async function ensureIncognitoAccess() {
+    const isAllowed = await chrome.extension.isAllowedIncognitoAccess();
+    if (isAllowed) {
+        throw new Error("RESTer doesn't have access to incognito windows. Please allow access on the browser extension page and try again.");
+    }
 }
 
-function getCookieStoreId(tab) {
-    return new Promise((resolve, reject) => {
-        if (tab.cookieStoreId) {
-            resolve(tab.cookieStoreId);
-        } else {
-            chrome.cookies.getAllCookieStores((stores) => {
-                const store = stores.find((s) => s.tabIds.includes(tab.id));
-                if (store) {
-                    resolve(store.id);
-                } else {
-                    reject();
-                }
-            });
-        }
-    });
+async function getCookieStoreId(tab) {
+    if (tab.cookieStoreId) {
+        return tab.cookieStoreId;
+    }
+
+    const stores = await chrome.cookies.getAllCookieStores();
+    const store = stores.find((s) => s.tabIds.includes(tab.id));
+    if (store) {
+        return store.id;
+    } else {
+        throw new Error('Didn\'t find any cookie store for tab ' + tab.id);
+    }
 }
 
 export function getMatchPatterns(url) {
@@ -52,7 +42,7 @@ export function getMatchPatterns(url) {
 }
 
 function sendRequest(request) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         const urlMatchPatterns = getMatchPatterns(request.targetUrl);
         let thisWindowId,
             thisTab,
