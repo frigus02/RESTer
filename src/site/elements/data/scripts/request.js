@@ -1,29 +1,26 @@
 import { decodeQueryString } from './encode.js';
-import { mergeCookies, parseStatusLine } from '../../../../shared/util.js';
 import { downloadBlob } from '../../../../shared/download-blob.js';
 
-const headerPrefix = `x-rester-49ba6c3c4d3e4c069630b903fb211cf8-`;
-const headerCommandPrefix = `x-rester-command-49ba6c3c4d3e4c069630b903fb211cf8-`;
-const requiredDefaultHeaders = {
-    host: /.*/i,
-    'content-length': /.*/i,
-    'content-type': /^multipart\/form-data.*/i,
-};
-
-// Maps from browser requestId to RESTer requestId.
-const requestIds = new Map();
-
-// Maps from RESTer requestId to original response headers.
-const originalResponses = new Map();
+const defaultRequestHeaders = [
+    "accept",
+    "accept-encoding",
+    "accept-language",
+    "cache-control",
+    "cookie",
+    "origin",
+    "pragma",
+    "user-agent",
+];
 
 async function requestDeclarativeNetRequestPermission() {
     const requiredPermissions = {
-        permissions: ['webRequest', 'webRequestBlocking'],
+        permissions: ['declarativeNetRequest', 'declarativeNetRequestWithHostAccess'],
     };
 
+    // TODO: Doesn't seem to work with optional_permissions
     const granted = await chrome.permissions.request(requiredPermissions);
     if (!granted) {
-        throw new Error('webRequest permission not granted');
+        throw new Error('declarativeNetRequestWithHostAccess permission not granted');
     }
 }
 
@@ -37,193 +34,39 @@ export function ensureHeaderInterceptor() {
     if (!headerInterceptorPromise) {
         headerInterceptorPromise = (async function() {
             try {
-                await requestWebRequestPermissions();
-                setupHeaderInterceptor(await getCurrentTabId());
-                return true;
+                await requestDeclarativeNetRequestPermission();
+                // TODO: Header interceptor needs different implementation
+                // using chrome.declarativeNetRequest.updateSessionRules();
+                // Features:
+                // - Command "requestid"
+                //   Used to read the original resonse statusCode, statusText
+                //   and headers. Not sure if that can be implemented with
+                //   declarativeNetRequest.
+                // - Command "stripdefaultheaders"
+                //   Currently uses an allowlist for default headers (host,
+                //   content-length, content-type). Now needs to be done using
+                //   a deny list passed to updateSessionRules() before making
+                //   the request.
+                // - Always append response header 'timing-allow-origin: *',
+                //   which allows RESTer to read request timing information.
+                // - Always append response header
+                //   'access-control-expose-headers'. Not sure why this is
+                //   necessary.
+                // - Only apply to current tab and xmlhttprequest
+                return await getCurrentTabId();
             } catch (e) {
                 console.warn(
                     'RESTer could not install the header interceptor. ' +
-                        'Certain features like setting cookies or the ' +
-                        '"Clean Request" mode will not work as expected. ' +
-                        'Reason: ' +
-                        e.message
+                    'Certain features like setting cookies or the ' +
+                    '"Clean Request" mode will not work as expected. ' +
+                    'Reason: ' +
+                    e.message
                 );
-                return false;
             }
         })();
     }
 
     return headerInterceptorPromise;
-}
-
-function setupHeaderInterceptor(currentTabId) {
-    function onBeforeSendHeaders(details) {
-        const commands = details.requestHeaders
-            .filter((h) => h.name.toLowerCase().startsWith(headerCommandPrefix))
-            .map((h) => ({
-                name: h.name.substr(headerCommandPrefix.length),
-                value: h.value,
-            }));
-
-        // Request ID
-        const resterRequestId = commands.find(
-            (c) => c.name === 'requestid'
-        ).value;
-        requestIds.set(details.requestId, resterRequestId);
-
-        // Headers
-        const removeDefaultHeaders = commands.some(
-            (c) => c.name === 'stripdefaultheaders'
-        );
-        const newHeaders = [];
-        const indexesToRemove = [];
-        for (let i = 0; i < details.requestHeaders.length; i++) {
-            const header = details.requestHeaders[i];
-            const lowerCaseName = header.name.toLowerCase();
-            if (lowerCaseName.startsWith(headerPrefix)) {
-                newHeaders.push(JSON.parse(header.value));
-                indexesToRemove.push(i);
-            } else if (lowerCaseName.startsWith(headerCommandPrefix)) {
-                indexesToRemove.push(i);
-            } else if (
-                removeDefaultHeaders &&
-                !(
-                    requiredDefaultHeaders[lowerCaseName] &&
-                    requiredDefaultHeaders[lowerCaseName].test(header.value)
-                )
-            ) {
-                indexesToRemove.push(i);
-            }
-        }
-
-        if (!removeDefaultHeaders) {
-            // Merge browser and manual cookie headers
-            const cookieHeaderIndex = details.requestHeaders.findIndex(
-                (h) => h.name.toLowerCase() === 'cookie'
-            );
-            const customCookieHeaderIndex = newHeaders.findIndex(
-                (h) => h.name.toLowerCase() === 'cookie'
-            );
-            if (cookieHeaderIndex > -1 && customCookieHeaderIndex > -1) {
-                const cookieHeader = details.requestHeaders[cookieHeaderIndex];
-                const customCookieHeader = newHeaders[customCookieHeaderIndex];
-
-                indexesToRemove.push(cookieHeaderIndex);
-                customCookieHeader.value = mergeCookies(
-                    cookieHeader.value,
-                    customCookieHeader.value
-                );
-            }
-
-            // Remove overridden browser headers
-            for (let i = 0; i < details.requestHeaders.length; i++) {
-                const isOverridden = newHeaders.some(
-                    (header) =>
-                        header.name.toLowerCase() ===
-                        details.requestHeaders[i].name.toLowerCase()
-                );
-                if (isOverridden && !indexesToRemove.includes(i)) {
-                    indexesToRemove.push(i);
-                }
-            }
-        }
-
-        indexesToRemove.sort((a, b) => b - a);
-        for (const index of indexesToRemove) {
-            details.requestHeaders.splice(index, 1);
-        }
-
-        for (const header of newHeaders) {
-            details.requestHeaders.push(header);
-        }
-
-        return {
-            requestHeaders: details.requestHeaders,
-        };
-    }
-
-    chrome.webRequest.onBeforeSendHeaders.addListener(
-        onBeforeSendHeaders,
-        {
-            urls: ['<all_urls>'],
-            types: ['xmlhttprequest'],
-            tabId: currentTabId,
-        },
-        [
-            'blocking',
-            'requestHeaders',
-            // Chrome requires "extraHeaders" from version 72, but adding this
-            // unconditionally causes an error in Firefox.
-            chrome.webRequest.OnBeforeSendHeadersOptions.EXTRA_HEADERS,
-        ].filter((option) => !!option)
-    );
-
-    function onHeadersReceived(details) {
-        const originalHeaders = [];
-        const newHeaders = [
-            {
-                name: 'timing-allow-origin',
-                value: '*',
-            },
-            {
-                name: 'access-control-expose-headers',
-                value: details.responseHeaders.map((h) => h.name).join(', '),
-            },
-        ];
-        const indexesToRemove = [];
-        for (let i = 0; i < details.responseHeaders.length; i++) {
-            const header = details.responseHeaders[i];
-            const lowerCaseName = header.name.toLowerCase();
-
-            originalHeaders.push(header);
-
-            if (
-                lowerCaseName === 'timing-allow-origin' ||
-                lowerCaseName === 'access-control-expose-headers'
-            ) {
-                indexesToRemove.push(i);
-            }
-        }
-
-        const resterRequestId = requestIds.get(details.requestId);
-        requestIds.delete(details.requestId);
-
-        const statusLine = parseStatusLine(details.statusLine);
-        originalResponses.set(resterRequestId, {
-            status: statusLine.statusCode,
-            statusText: statusLine.reasonPhrase,
-            headers: originalHeaders,
-        });
-
-        indexesToRemove.reverse();
-        for (let index of indexesToRemove) {
-            details.responseHeaders.splice(index, 1);
-        }
-
-        for (let header of newHeaders) {
-            details.responseHeaders.push(header);
-        }
-
-        return {
-            responseHeaders: details.responseHeaders,
-        };
-    }
-
-    chrome.webRequest.onHeadersReceived.addListener(
-        onHeadersReceived,
-        {
-            urls: ['<all_urls>'],
-            types: ['xmlhttprequest'],
-            tabId: currentTabId,
-        },
-        [
-            'blocking',
-            'responseHeaders',
-            // Chrome requires "extraHeaders" from version 72, but adding this
-            // unconditionally causes an error in Firefox.
-            chrome.webRequest.OnHeadersReceivedOptions.EXTRA_HEADERS,
-        ].filter((option) => !!option)
-    );
 }
 
 function generateFormData(body, tempVariables) {
@@ -311,9 +154,8 @@ export function getFilenameFromContentDispositionHeader(disposition) {
  * was successfully saved and returns the request response.
  */
 export async function send(request) {
-    const headersIntercepted = await ensureHeaderInterceptor();
-
-    const requestId = String(Math.random());
+    const tabId = await ensureHeaderInterceptor();
+    const headersIntercepted = tabId != null;
 
     // Special handling for multipart requests.
     const contentTypeIndex = request.headers.findIndex(
@@ -330,19 +172,48 @@ export async function send(request) {
     // Create fetch request options.
     const headers = new Headers();
     if (headersIntercepted) {
-        headers.append(headerCommandPrefix + 'requestid', requestId);
+        const requestHeaders = [];
         if (request.stripDefaultHeaders) {
-            headers.append(headerCommandPrefix + 'stripdefaultheaders', 'true');
-        }
-
-        for (const header of requestHeaders) {
-            if (header && header.name && header.value) {
-                headers.append(
-                    headerPrefix + header.name,
-                    JSON.stringify({ name: header.name, value: header.value })
-                );
+            for (const headerName of defaultRequestHeaders) {
+                requestHeaders.push({
+                    header: headerName,
+                    operation: "remove",
+                });
             }
         }
+        for (const header of requestHeaders) {
+            if (header && header.name && header.value) {
+                requestHeaders.push({
+                    header: header.name,
+                    operation: "set",
+                    value: header.value,
+                });
+            }
+        }
+
+        const responseHeaders = [{
+            // TODO: how do read the original value of this header?
+            header: "timing-allow-origin",
+            operation: "set",
+            value: "*",
+        }];
+        const addRules = [{
+            action: {
+                type: "modifyHeaders",
+                requestHeaders: requestHeaders.length > 0 ? requestHeaders : undefined,
+                responseHeaders,
+            },
+            condition: {
+                resourceTypes: ["xmlhttprequest"],
+                tabIds: [tabId],
+            },
+            id: tabId,
+        }];
+        const removeRuleIds = [tabId];
+        await chrome.declarativeNetRequest.updateSessionRules({
+            addRules,
+            removeRuleIds,
+        });
     } else {
         for (const header of requestHeaders) {
             if (header && header.name && header.value) {
@@ -376,19 +247,11 @@ export async function send(request) {
     const fetchResponse = await fetch(request.url, init);
     response.redirected = fetchResponse.redirected;
 
-    if (headersIntercepted) {
-        const originalResponse = originalResponses.get(requestId);
-        originalResponses.delete(requestId);
-        response.status = originalResponse.status;
-        response.statusText = originalResponse.statusText;
-        response.headers = [...originalResponse.headers];
-    } else {
-        response.status = fetchResponse.status;
-        response.statusText = fetchResponse.statusText;
-        response.headers = Array.from(fetchResponse.headers.entries()).map(
-            ([name, value]) => ({ name, value })
-        );
-    }
+    response.status = fetchResponse.status;
+    response.statusText = fetchResponse.statusText;
+    response.headers = Array.from(fetchResponse.headers.entries()).map(
+        ([name, value]) => ({ name, value })
+    );
 
     // Check if the responce is binary file content. If so, open file download.
     const disposition = response.headers.find(
