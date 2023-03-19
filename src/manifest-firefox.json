@@ -13,12 +13,12 @@
         "activeTab",
         "downloads",
         "storage",
-        "unlimitedStorage",
-        "declarativeNetRequest",
-        "declarativeNetRequestWithHostAccess"
+        "unlimitedStorage"
     ],
     "optional_permissions": [
-        "cookies"
+        "cookies",
+        "webRequest",
+        "webRequestBlocking"
     ],
     "host_permissions": [
         "<all_urls>"

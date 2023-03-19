@@ -170,6 +170,50 @@ export function group(arr, iteree) {
 }
 
 /**
+ * Takes a cookie string in the format a `Cookie` header would contain
+ * and returns an object where the keys are the cookie names.
+ * When a cookie exists in more than once in the string, the result will
+ * only contain the value from the last occurance.
+ * @param {string} cookieString
+ */
+export function parseCookies(cookieString) {
+    const cookies = cookieString.split(/\s*;\s*/);
+    return cookies.reduce((obj, cookie) => {
+        const name = cookie.substr(0, cookie.indexOf('='));
+        const value = cookie.substr(name.length + 1);
+        if (name) {
+            obj[name] = value;
+        }
+
+        return obj;
+    }, {});
+}
+
+/**
+ * Takes a cookie object as returned by `parseCookies` and returns a cookie
+ * string in the format a `Cookie` header would contain.
+ * @param {object} cookies
+ */
+export function stringifyCookies(cookies) {
+    return Object.keys(cookies)
+        .map((name) => `${name}=${cookies[name]}`)
+        .join('; ');
+}
+
+/**
+ * Takes cookie strings in the format a `Cookie` header would contain
+ * and returns a cookie string in the same format with cookies from all
+ * strings.
+ * When a cookie exists in more than one string, the result will only
+ * contain the value from the last string.
+ * @param {string} ...cookieStrings
+ */
+export function mergeCookies(...cookieStrings) {
+    const cookies = parseCookies(cookieStrings.join(';'));
+    return stringifyCookies(cookies);
+}
+
+/**
  * Parses the specified media type and returns an object with the type only.
  * Parameter parsing might be added later when needed.
  * See: https://tools.ietf.org/html/rfc7231#section-3.1.1.1
@@ -178,4 +222,65 @@ export function group(arr, iteree) {
 export function parseMediaType(mediaType) {
     const type = mediaType.substr(0, `${mediaType};`.indexOf(';')).trim();
     return { type };
+}
+
+/**
+ * Parses an HTTP status line and returns the status code and text.
+ * @param {String} statusLine - An HTTP status line, e.g. "HTTP/1.1 200 OK"
+ */
+export function parseStatusLine(statusLine) {
+    const firstSpace = statusLine.indexOf(' ');
+    if (firstSpace === -1) {
+        return { httpVersion: statusLine, statusCode: 0, reasonPhrase: '' };
+    }
+
+    const httpVersion = statusLine.substring(0, firstSpace);
+    let secondSpace = statusLine.indexOf(' ', firstSpace + 1);
+    if (secondSpace === -1) {
+        // Reason phrase is empty
+        secondSpace = statusLine.length;
+    }
+
+    const statusCode = Number.parseInt(
+        statusLine.substring(firstSpace + 1, secondSpace)
+    );
+    const reasonPhrase = statusLine.substring(secondSpace + 1);
+    return { httpVersion, statusCode, reasonPhrase };
+}
+
+export function getFilenameFromContentDispositionHeader(disposition) {
+    const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-.]+)(?:; ?|$)/i;
+    const asciiFilenameRegex = /filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
+
+    let fileName = null;
+    if (utf8FilenameRegex.test(disposition)) {
+        fileName = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
+    } else {
+        // Prevent ReDos attacks by anchoring the ascii regex to string start
+        // and slicing off everything before 'filename='
+        const filenameStart = disposition.toLowerCase().indexOf('filename=');
+        if (filenameStart >= 0) {
+            const partialDisposition = disposition.slice(filenameStart);
+            const matches = asciiFilenameRegex.exec(partialDisposition);
+            if (matches !== null && matches[2]) {
+                fileName = matches[2];
+            }
+        }
+    }
+
+    if (fileName !== null) {
+        // Sanitize filename for illegal characters
+        const illegalRe = /[/?<>\\:*|":]/g;
+        const controlRe = /[\x00-\x1f\x80-\x9f]/g;
+        const reservedRe = /^\.+/g;
+        const windowsReservedRe =
+            /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+        fileName = fileName
+            .replace(illegalRe, '')
+            .replace(controlRe, '')
+            .replace(reservedRe, '')
+            .replace(windowsReservedRe, '');
+    }
+
+    return fileName;
 }
