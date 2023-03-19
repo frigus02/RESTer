@@ -2,7 +2,6 @@ import CustomEventTarget from '../../../../shared/custom-event-target.js';
 
 export const e = new CustomEventTarget();
 
-const port = chrome.runtime.connect({ name: 'api' });
 const requests = {};
 const settingsKeys = [
     'activeEnvironment',
@@ -20,29 +19,57 @@ const settingsKeys = [
 ];
 const cachedSettings = {};
 
-port.onMessage.addListener((message) => {
-    if (message.action === 'apiresponse') {
-        if (message.error) {
-            requests[message.id].reject(
-                message.error && JSON.parse(message.error)
-            );
-        } else {
-            requests[message.id].resolve(
-                message.result && JSON.parse(message.result)
-            );
-        }
-
-        requests[message.id] = undefined;
-    } else if (message.action.startsWith('event.')) {
-        const eventName = message.action.split('.')[1];
-        const detail = message.detail && JSON.parse(message.detail);
-
-        if (eventName === 'settingsChange' && cachedSettings) {
-            Object.assign(cachedSettings, detail);
-        }
-
-        e.dispatchEvent(new CustomEvent(eventName, { detail }));
+let port;
+let portIsConnected = false;
+function reconnectPort() {
+    if (portIsConnected) {
+        throw new Error('Reconnect when port is already connected.');
     }
+    const isReconnect = port != null;
+
+    port = chrome.runtime.connect({ name: 'api' });
+    port.onMessage.addListener((message) => {
+        if (message.action === 'apiresponse') {
+            if (message.error) {
+                requests[message.id].reject(
+                    message.error && JSON.parse(message.error)
+                );
+            } else {
+                requests[message.id].resolve(
+                    message.result && JSON.parse(message.result)
+                );
+            }
+
+            requests[message.id] = undefined;
+        } else if (message.action.startsWith('event.')) {
+            const eventName = message.action.split('.')[1];
+            const detail = message.detail && JSON.parse(message.detail);
+
+            if (eventName === 'settingsChange' && cachedSettings) {
+                Object.assign(cachedSettings, detail);
+            }
+
+            e.dispatchEvent(new CustomEvent(eventName, { detail }));
+        }
+    });
+    port.onDisconnect.addListener(() => {
+        portIsConnected = false;
+    });
+    portIsConnected = true;
+
+    if (isReconnect) {
+        e.dispatchEvent(new CustomEvent('connectionReset'));
+    }
+}
+reconnectPort();
+
+e.addEventListener('connectionReset', () => {
+    sendApiRequest('settings.get').then((settings) => {
+        Object.assign(cachedSettings, settings);
+        e.dispatchEvent(
+            new CustomEvent('settingsChange', { detail: settings })
+        );
+    });
 });
 
 function sendApiRequest(action, args, fields) {
@@ -51,6 +78,9 @@ function sendApiRequest(action, args, fields) {
 
         requests[id] = { resolve, reject };
 
+        if (!portIsConnected) {
+            reconnectPort();
+        }
         port.postMessage({
             id,
             action: 'api.' + action,

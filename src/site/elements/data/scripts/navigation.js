@@ -154,14 +154,7 @@ function findNextRequestId(requestId, requestItems) {
 export default class Navigation extends CustomEventTarget {
     constructor() {
         super();
-        this.items = [];
-        this.itemsCreated = false;
-
-        this._requestNavItemsOffset = 0;
-        this._requestNavItemsCount = 0;
-        this._environmentNavItemIndex = 0;
-        this._historyNavItemsOffset = 0;
-        this._historyNavItemsCount = 0;
+        this._create = this._create.bind(this);
         this._updateNavigationBasedOnDataChanges =
             this._updateNavigationBasedOnDataChanges.bind(this);
         this._updateNavigationBasedOnSettingsChanges =
@@ -176,9 +169,18 @@ export default class Navigation extends CustomEventTarget {
             'settingsChange',
             this._updateNavigationBasedOnSettingsChanges
         );
+        resterEvents.addEventListener('connectionReset', this._create);
     }
 
     async _create() {
+        this.items = [];
+        this.itemsCreated = false;
+        this._requestNavItemsOffset = 0;
+        this._requestNavItemsCount = 0;
+        this._environmentNavItemIndex = 0;
+        this._historyNavItemsOffset = 0;
+        this._historyNavItemsCount = 0;
+
         const [requests, historyEntries, activeEnvironment] = await Promise.all(
             [
                 getRequests(requestFields),

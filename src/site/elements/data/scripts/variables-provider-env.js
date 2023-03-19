@@ -36,5 +36,6 @@ function updateValues() {
 settingsLoaded.then(updateValues);
 resterEvents.addEventListener('dataChange', updateValues);
 resterEvents.addEventListener('settingsChange', updateValues);
+resterEvents.addEventListener('connectionReset', updateValues);
 
 export default provider;
