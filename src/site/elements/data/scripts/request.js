@@ -16,34 +16,26 @@ const requestIds = new Map();
 // Maps from RESTer requestId to original response headers.
 const originalResponses = new Map();
 
-function requestWebRequestPermissions() {
+async function requestDeclarativeNetRequestPermission() {
     const requiredPermissions = {
         permissions: ['webRequest', 'webRequestBlocking'],
     };
 
-    return new Promise((resolve, reject) => {
-        chrome.permissions.request(requiredPermissions, (granted) => {
-            if (granted) {
-                resolve();
-            } else {
-                reject(chrome.runtime.lastError);
-            }
-        });
-    });
+    const granted = await chrome.permissions.request(requiredPermissions);
+    if (!granted) {
+        throw new Error('webRequest permission not granted');
+    }
 }
 
-function getCurrentTabId() {
-    return new Promise((resolve) => {
-        chrome.tabs.getCurrent((tab) => {
-            resolve(tab.id);
-        });
-    });
+async function getCurrentTabId() {
+    const tab = await chrome.tabs.getCurrent();
+    return tab.id;
 }
 
 let headerInterceptorPromise;
 export function ensureHeaderInterceptor() {
     if (!headerInterceptorPromise) {
-        headerInterceptorPromise = (async function () {
+        headerInterceptorPromise = (async function() {
             try {
                 await requestWebRequestPermissions();
                 setupHeaderInterceptor(await getCurrentTabId());

@@ -15,28 +15,13 @@ const DEFAULTS = {
     theme: 'dark',
 };
 
-function getSettings() {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.get('settings', (result) => {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError);
-            } else {
-                resolve(result.settings || {});
-            }
-        });
-    });
+async function getSettings() {
+    const result = await chrome.storage.local.get('settings');
+    return result.settings || {};
 }
 
-function setSettings(settings) {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.set({ settings }, () => {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError);
-            } else {
-                resolve();
-            }
-        });
-    });
+async function setSettings(settings) {
+    await chrome.storage.local.set({ settings });
 }
 
 export const e = new CustomEventTarget();
