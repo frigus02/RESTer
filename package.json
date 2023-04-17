@@ -88,7 +88,7 @@
     "jest-environment-jsdom": "29.5.0",
     "log-symbols": "5.1.0",
     "prettier": "2.8.7",
-    "rimraf": "4.4.1",
+    "rimraf": "5.0.0",
     "selenium-webdriver": "4.8.2",
     "string-replace-loader": "3.1.0",
     "webpack": "5.79.0",
