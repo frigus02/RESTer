@@ -1350,10 +1350,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@mdn/browser-compat-data@5.2.53":
-  version "5.2.53"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.53.tgz#65518146a4989a9e3d498026e2288c08b0df7a72"
-  integrity sha512-fvwtb3yAgBqY1b1OUkDkK3e4B3eqs/x+PN1bC28SkWc3Hpi6wbkfKKGSrVy49eIiSyjHPWt8+XNO8QHcAUOC7w==
+"@mdn/browser-compat-data@5.2.55":
+  version "5.2.55"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.55.tgz#1d95b6b35daeecd8143e69c382105317cef159ee"
+  integrity sha512-V5y5VhgXobwZl817zn+iAlCSTbXIXBMRHbL2WDyjJyMMgcHZoQTk6db1y3ZxBUo/H23MXgTKBo7bQ9S8aEfs2A==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2307,13 +2307,13 @@ acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
   integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
 
-addons-linter@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.2.0.tgz#5270dcb191790a005bcafe5d625d1e860e0a0dcf"
-  integrity sha512-FsF6lyTpbxD9YN+Kf2socGdjD5la+w8pPPB2EOWDvnXkWQQxGLMWNtb1NpXn1vqRGrR3M+VDj+hiqC8rH9R4WQ==
+addons-linter@6.3.1:
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.3.1.tgz#4d99ad23bf3406818585e5f653fba0b2bb23e031"
+  integrity sha512-IlgxGEaq+LdiDHEm4N3er0C+IQTxqTORE3QmkFPab0ETNqtZAKmc7zL7iDUDnTHL7/vzwM35YTABmU0N0XKgNA==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.2.53"
+    "@mdn/browser-compat-data" "5.2.55"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.1.0"
     ajv "8.12.0"
@@ -2334,7 +2334,7 @@ addons-linter@6.2.0:
     jed "1.1.1"
     json-merge-patch "1.0.2"
     os-locale "5.0.0"
-    pino "8.11.0"
+    pino "8.12.0"
     postcss "8.4.23"
     relaxed-json "1.0.3"
     semver "7.5.0"
@@ -2342,7 +2342,7 @@ addons-linter@6.2.0:
     source-map-support "0.5.21"
     tosource "1.0.0"
     upath "2.0.1"
-    yargs "17.7.1"
+    yargs "17.7.2"
     yauzl "2.10.0"
 
 addons-moz-compare@1.3.0:
@@ -5334,10 +5334,10 @@ pino-std-serializers@^6.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-6.0.0.tgz#4c20928a1bafca122fdc2a7a4a171ca1c5f9c526"
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
-pino@8.11.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.11.0.tgz#2a91f454106b13e708a66c74ebc1c2ab7ab38498"
-  integrity sha512-Z2eKSvlrl2rH8p5eveNUnTdd4AjJk8tAsLkHYZQKGHP4WTh2Gi1cOSOs3eWPqaj+niS3gj4UkoreoaWgF3ZWYg==
+pino@8.12.0:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.12.0.tgz#03039e1cbf42dee787d5f66d74ee88b16ab43990"
+  integrity sha512-qHiXP7x9hFnJb0EnrLzD4onHj82Vh91lEtx6UiPT2eNoHD7lwi50CUIz+s0Z7YXgtMc7IIjss4yIIxZu6T1Tdg==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
@@ -6499,10 +6499,10 @@ yargs-parser@^21.1.1:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
   integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
-yargs@17.7.1, yargs@^17.3.1, yargs@^17.7.1:
-  version "17.7.1"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.7.1.tgz#34a77645201d1a8fc5213ace787c220eabbd0967"
-  integrity sha512-cwiTb08Xuv5fqF4AovYacTFNxk62th7LKJ6BL9IGUpTJrWoU7/7WdQGTP2SjKf1dUNBGzDd28p/Yfs/GI6JrLw==
+yargs@17.7.2, yargs@^17.3.1, yargs@^17.7.1:
+  version "17.7.2"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.7.2.tgz#991df39aca675a192b816e1e0363f9d75d2aa269"
+  integrity sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==
   dependencies:
     cliui "^8.0.1"
     escalade "^3.1.1"
