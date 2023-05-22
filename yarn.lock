@@ -1350,10 +1350,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@mdn/browser-compat-data@5.2.56":
-  version "5.2.56"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.56.tgz#330130f40c797768bb807fcbdaaa0f8bcfad77fb"
-  integrity sha512-1Pu6qcdJ1tQApjhWONtf8XtXH4bG9qnRyry+mYzNgZhfawoO2ODJWasvDf4pgEPlaHbxxFuZFL5l3UeKCdS3Xg==
+"@mdn/browser-compat-data@5.2.57":
+  version "5.2.57"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.57.tgz#8aa713ed5bdf2686b72775623ef14ffb58c2c0f4"
+  integrity sha512-ED1+lSPglyGjBVPubg44h7nIzZK/Oc3lUI/rEZ+xDWmSY/LRKFINdJKYdGnViy/R7LXa3EGDKFSC9jXG6mfaiQ==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2307,13 +2307,13 @@ acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
   integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
 
-addons-linter@6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.4.0.tgz#fe31c0e2c6bae63269358690e610105917bd4e01"
-  integrity sha512-Jw45FEifMyTefQH9XSJA+z0ADBHtYmUUpjaz4F9wRU7VqVMFJ4UFQjnC4NTAOymZ8YfwBrRBIAOg4D+ZMoVilA==
+addons-linter@6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.5.0.tgz#f1fc5efe9a40fc10b1508b6aae785fca1e192e38"
+  integrity sha512-Exu/2AUvJzHxjmZAZ+9duRgIoGj2m6+fFiMWH4MrUp4FP6XNhOcYIUN8mI/CAKhNgWcL7oRIv4uKaxqEaMTncg==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.2.56"
+    "@mdn/browser-compat-data" "5.2.57"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.2.0"
     ajv "8.12.0"
@@ -2328,7 +2328,7 @@ addons-linter@6.4.0:
     espree "9.5.2"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
-    glob "10.2.2"
+    glob "10.2.4"
     image-size "1.0.2"
     is-mergeable-object "1.1.1"
     jed "1.1.1"
@@ -2337,7 +2337,7 @@ addons-linter@6.4.0:
     pino "8.14.1"
     postcss "8.4.23"
     relaxed-json "1.0.3"
-    semver "7.5.0"
+    semver "7.5.1"
     sha.js "2.4.11"
     source-map-support "0.5.21"
     tosource "1.0.0"
@@ -3807,15 +3807,15 @@ glob2base@0.0.12:
   dependencies:
     find-index "^0.1.1"
 
-glob@10.2.2, glob@^10.0.0:
-  version "10.2.2"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-10.2.2.tgz#ce2468727de7e035e8ecf684669dc74d0526ab75"
-  integrity sha512-Xsa0BcxIC6th9UwNjZkhrMtNo/MnyRL8jGCP+uEwhA5oFOCY1f2s1/oNKY47xQ0Bg5nkjsfAEIej1VeH62bDDQ==
+glob@10.2.4, glob@^10.0.0:
+  version "10.2.4"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-10.2.4.tgz#f5bf7ddb080e3e9039b148a9e2aef3d5ebfc0a25"
+  integrity sha512-fDboBse/sl1oXSLhIp0FcCJgzW9KmhC/q8ULTKC82zc+DL3TL7FNb8qlt5qqXN53MsKEUSIcb+7DLmEygOE5Yw==
   dependencies:
     foreground-child "^3.1.0"
     jackspeak "^2.0.3"
     minimatch "^9.0.0"
-    minipass "^5.0.0"
+    minipass "^5.0.0 || ^6.0.0"
     path-scurry "^1.7.0"
 
 glob@^7.1.3, glob@^7.1.4:
@@ -5028,6 +5028,11 @@ minipass@^5.0.0:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-5.0.0.tgz#3e9788ffb90b694a5d0ec94479a45b5d8738133d"
   integrity sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==
 
+"minipass@^5.0.0 || ^6.0.0":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-6.0.2.tgz#542844b6c4ce95b202c0995b0a471f1229de4c81"
+  integrity sha512-MzWSV5nYVT7mVyWCwn2o7JH13w2TBRmmSqSRCKzTw+lmft9X4z+3wjvs06Tzijo5z4W/kahUCDpRXTF+ZrmF/w==
+
 minizlib@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/minizlib/-/minizlib-2.1.2.tgz#e90d3466ba209b932451508a11ce3d3632145931"
@@ -5776,10 +5781,10 @@ selenium-webdriver@4.9.2:
     tmp "^0.2.1"
     ws ">=8.13.0"
 
-semver@7.5.0, semver@^7.3.5:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.0.tgz#ed8c5dc8efb6c629c88b23d41dc9bf40c1d96cd0"
-  integrity sha512-+XC0AD/R7Q2mPSRuy2Id0+CGTZ98+8f+KvwirxOKIEyid+XSx6HbC63p+O4IndTHuX5Z+JxQ0TghCkO5Cg/2HA==
+semver@7.5.1, semver@^7.3.5:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.1.tgz#c90c4d631cf74720e46b21c1d37ea07edfab91ec"
+  integrity sha512-Wvss5ivl8TMRZXXESstBA4uR5iXgEN/VC5/sOcuXdVLzcdkz4HWetIoRfG5gb5X+ij/G9rw9YoGn3QoQ8OCSpw==
   dependencies:
     lru-cache "^6.0.0"
 
