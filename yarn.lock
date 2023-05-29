@@ -2345,6 +2345,13 @@ agent-base@^7.0.2:
   dependencies:
     debug "^4.3.4"
 
+agent-base@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-7.1.0.tgz#536802b76bc0b34aa50195eb2442276d613e3434"
+  integrity sha512-o/zjMZRhJxny7OyEF+Op8X+efiELC7k7yOjMzgfzVqOzXqkBkWI79YoTdOtsuWd5BWhAGAuOY/Xa6xpiaWXiNg==
+  dependencies:
+    debug "^4.3.4"
+
 aggregate-error@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/aggregate-error/-/aggregate-error-3.1.0.tgz#92670ff50f5359bdb7a3e0d40d0ec30c5737687a"
@@ -3767,15 +3774,15 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-geckodriver@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.0.0.tgz#e078518f1b259b9c746bc4cea440dc9480abdbb2"
-  integrity sha512-1R1cuqqz+gqZ4Eux//TSbYDBpyYHHs9xLzG6BWJolORlaGkKWbg5qN3415fIi/5IkS7kTA2BEYvplB2GjH8oyw==
+geckodriver@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.0.2.tgz#87bf0db5a6e4c5a80460fea0acc14f2a08eedb76"
+  integrity sha512-TQavhcyQ0UvHK+oBOllrFNs1C71vL83kfDBnTExY2HdGSH0F5/HqmzsWgzbA4JC/YM8s1/dON2qDYigLGRyOsQ==
   dependencies:
     "@wdio/logger" "^8.6.6"
     decamelize "^6.0.0"
-    http-proxy-agent "^6.0.1"
-    https-proxy-agent "^6.1.0"
+    http-proxy-agent "^7.0.0"
+    https-proxy-agent "^7.0.0"
     node-fetch "^3.3.1"
     tar-fs "^2.1.1"
     unzipper "^0.10.14"
@@ -4010,12 +4017,12 @@ http-proxy-agent@^5.0.0:
     agent-base "6"
     debug "4"
 
-http-proxy-agent@^6.0.1:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/http-proxy-agent/-/http-proxy-agent-6.1.0.tgz#9bbaebd7d5afc8fae04a5820932b487405b95978"
-  integrity sha512-75t5ACHLOMnz/KsDAS4BdHx4J0sneT/HW+Sz070NR+n7RZ7SmYXYn2FXq6D0XwQid8hYgRVf6HZJrYuGzaEqtw==
+http-proxy-agent@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/http-proxy-agent/-/http-proxy-agent-7.0.0.tgz#e9096c5afd071a3fce56e6252bb321583c124673"
+  integrity sha512-+ZT+iBxVUQ1asugqnD6oWoRiS25AkjNfG085dKJGtGxkdwLQrMKU5wJr2bOOFAXzKcTuqq+7fZlTMgG3SRfIYQ==
   dependencies:
-    agent-base "^7.0.2"
+    agent-base "^7.1.0"
     debug "^4.3.4"
 
 https-proxy-agent@^5.0.1:
@@ -4026,10 +4033,10 @@ https-proxy-agent@^5.0.1:
     agent-base "6"
     debug "4"
 
-https-proxy-agent@^6.1.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-6.2.0.tgz#58c525a299663d958556969a8e3536dd1e007485"
-  integrity sha512-4xhCnMpxR9fupa7leh9uJK2P/qjYIeaM9uZ9c1bi1JDSwX2VH9NDk/oKSToNX4gBKa2WT31Mldne7e26ckohLQ==
+https-proxy-agent@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-7.0.0.tgz#75cb70d04811685667183b31ab158d006750418a"
+  integrity sha512-0euwPCRyAPSgGdzD1IVN9nJYHtBhJwb6XPfbpQcYbPCwrBidX6GzxmchnaF4sfF/jPb74Ojx5g4yTg3sixlyPw==
   dependencies:
     agent-base "^7.0.2"
     debug "4"
