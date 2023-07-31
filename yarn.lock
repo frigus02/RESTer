@@ -1350,10 +1350,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@mdn/browser-compat-data@5.3.3":
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.3.3.tgz#7d80203095ea6e865043794cd6ffeed589674d1b"
-  integrity sha512-89Ikx/aME3DwslhFWr4ZLhVtc7EDAuwhu5uwdwXKFIzJT1r6/9jJI2jD0ycESzVOf+0pPZq9vHe9LCE3NE7EuA==
+"@mdn/browser-compat-data@5.3.5":
+  version "5.3.5"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.3.5.tgz#24c3315248c7c522f569b48007e0ff7b8f155304"
+  integrity sha512-aGZ/OZCv96fEvUNuOoHbWN9ySODB1Xf04+TFgK3QO/PaM1NI95INaf0YUBLUbbK9lMKWqUzyJk2TPLe3ybFFXg==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2276,13 +2276,13 @@ acorn@^8.5.0, acorn@^8.7.1, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.9.0.tgz#78a16e3b2bcc198c10822786fa6679e245db5b59"
   integrity sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==
 
-addons-linter@6.10.0:
-  version "6.10.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.10.0.tgz#dfb7770065a16397389a99a1a859f63c6c3de5df"
-  integrity sha512-CST1XACQgYqy6uJIKL5GYT/hCQ7T+EYw/uLvK8NdeFan4uaG2DeEnUdVgkA8zATvkcVLgAhA8teqZtmy8yGYJg==
+addons-linter@6.11.0:
+  version "6.11.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.11.0.tgz#e4600afa2bc13a2ddad3c955d659b37dd9d3891a"
+  integrity sha512-30ILEqnOM4kHWLSfpuQhokgZ4fytZ+2fGR7Vmjm6w7oP46/wuVFNA5/ZUzKQkLcqzHAgz5ho8WeISfAxaEzt/w==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.3.3"
+    "@mdn/browser-compat-data" "5.3.5"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.3.0"
     ajv "8.12.0"
@@ -2304,7 +2304,7 @@ addons-linter@6.10.0:
     json-merge-patch "1.0.2"
     os-locale "5.0.0"
     pino "8.14.1"
-    postcss "8.4.26"
+    postcss "8.4.27"
     relaxed-json "1.0.3"
     semver "7.5.4"
     sha.js "2.4.11"
@@ -5314,10 +5314,10 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postcss@8.4.26:
-  version "8.4.26"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.26.tgz#1bc62ab19f8e1e5463d98cf74af39702a00a9e94"
-  integrity sha512-jrXHFF8iTloAenySjM/ob3gSj7pCu0Ji49hnjqzsgSRa50hkWCKD0HQ+gMNJkW38jBI68MpAAg7ZWwHwX8NMMw==
+postcss@8.4.27:
+  version "8.4.27"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.27.tgz#234d7e4b72e34ba5a92c29636734349e0d9c3057"
+  integrity sha512-gY/ACJtJPSmUFPDCHtX78+01fHa64FaU4zaaWfuh1MhGJISufJAH4cun6k/8fwsHYeK4UQmENQK+tRLCFJE8JQ==
   dependencies:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
