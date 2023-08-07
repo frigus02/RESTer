@@ -80,7 +80,7 @@
     "cpx2": "5.0.0",
     "eslint": "8.46.0",
     "eslint-config-crockford": "2.0.0",
-    "eslint-config-prettier": "8.9.0",
+    "eslint-config-prettier": "9.0.0",
     "file-loader": "6.2.0",
     "geckodriver": "4.1.3",
     "html-webpack-plugin": "5.5.3",
