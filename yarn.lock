@@ -3774,10 +3774,10 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-geckodriver@4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.1.3.tgz#4a9e25a301e53a6fb5a9e1d72e3d29b7b1815727"
-  integrity sha512-w3vZvibJnDLui3ZcyWz/CjiWET31br7ALakbfEqssSzwBFzolOj6/FnXPgcmxSkdH1iMBOc83dewLEqR8xoilA==
+geckodriver@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.2.0.tgz#a385370011ae29fa8c68351b01d054a92b92d945"
+  integrity sha512-I2BlybeMFMzpxHRrh8X4VwP4ys74JHszyUgfezOrbTR7PEybFneDcuEjKIQxKV6vFPmsdwhwF1x8AshdQo56xA==
   dependencies:
     "@wdio/logger" "^8.11.0"
     decamelize "^6.0.0"
