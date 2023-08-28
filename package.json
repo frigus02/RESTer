@@ -89,7 +89,7 @@
     "log-symbols": "5.1.0",
     "prettier": "3.0.2",
     "rimraf": "5.0.1",
-    "selenium-webdriver": "4.10.0",
+    "selenium-webdriver": "4.11.1",
     "string-replace-loader": "3.1.0",
     "webpack": "5.88.2",
     "webpack-cli": "5.1.4",
