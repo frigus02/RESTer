@@ -19,7 +19,7 @@
     "lint:firefox": "node tools/scripts/lint-firefox-addon.mjs build/",
     "format": "prettier --write \"**/*.{js,mjs,md}\" !build/**",
     "test": "jest --env jsdom \"src/.+\\.test\\.js$\"",
-    "test:e2e": "jest \"test-e2e/.+\\.test\\.js$\"",
+    "test:e2e": "jest --globalSetup ./tools/lib/download-web-driver.js \"test-e2e/.+\\.test\\.js$\"",
     "package": "yarn run clean:package && yarn run package:chrome && yarn run package:firefox",
     "package:chrome": "node tools/scripts/package-addon.mjs chrome",
     "package:firefox": "node tools/scripts/package-addon.mjs firefox"
@@ -89,7 +89,7 @@
     "log-symbols": "5.1.0",
     "prettier": "3.0.3",
     "rimraf": "5.0.1",
-    "selenium-webdriver": "4.10.0",
+    "selenium-webdriver": "4.12.0",
     "string-replace-loader": "3.1.0",
     "webpack": "5.88.2",
     "webpack-cli": "5.1.4",

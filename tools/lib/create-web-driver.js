@@ -16,16 +16,8 @@ firefox.Channel.AURORA = new firefox.Channel(
     // The path to Firefox Developer Edition has spaces in it on macOS, which was not the case in
     // https://github.com/SeleniumHQ/selenium/blob/b4b7674a8a4e2802e7e9a1c4fa85201a2413b781/javascript/node/selenium-webdriver/firefox.js#L745
     '/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox-bin',
-    'Firefox Developer Edition\\firefox.exe'
+    'Firefox Developer Edition\\firefox.exe',
 );
-
-function ensureGeckoDriverInPath() {
-    const geckodriverPath = path.resolve(rootDir, 'node_modules/geckodriver');
-    const envPath = process.env.PATH || '';
-    if (!envPath.includes(geckodriverPath)) {
-        process.env.PATH = `${geckodriverPath};${envPath}`;
-    }
-}
 
 async function createResterExtensionXpi() {
     const srcDir = path.resolve(rootDir, 'build');
@@ -47,14 +39,13 @@ async function createResterExtensionXpi() {
 }
 
 async function createWebDriver() {
-    ensureGeckoDriverInPath();
     await createResterExtensionXpi();
 
     const options = new firefox.Options()
-        .setBinary(firefox.Channel.AURORA)
+        .setBinary(await firefox.Channel.AURORA.locate())
         .setPreference(
             'extensions.webextensions.uuids',
-            '{"rester@kuehle.me":"595108c3-fc1a-46bc-a6f6-918a6b1898aa"}'
+            '{"rester@kuehle.me":"595108c3-fc1a-46bc-a6f6-918a6b1898aa"}',
         )
         .setPreference('xpinstall.signatures.required', false)
         .setPreference('intl.accept_languages', 'en')
