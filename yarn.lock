@@ -3035,10 +3035,10 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cpx2@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/cpx2/-/cpx2-6.0.0.tgz#42ba4b7abd20864c6d6a951367db8b07fc319d54"
-  integrity sha512-QS7Wtdg5zE2bMCNbCCCX2B5c+ApErTGQ++DbMYhHwpjJvI3I2SNwye4OYPccCYxWqQn0Lh3kI0HdivuSxLbF+w==
+cpx2@6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/cpx2/-/cpx2-6.0.1.tgz#9da9a23e92c8ea6d6e8f7d5877cf3df395db5f6e"
+  integrity sha512-yzeVueRl+HtxHYmaDnnFdpXkAocqtPD9STTh61m4GpX4B6+oFB/ClsoJLXwjj9lguA0Ry2EpLvWIpRJ/x0bWbw==
   dependencies:
     debounce "^1.2.0"
     debug "^4.1.1"
