@@ -2,7 +2,7 @@
 
 importScripts(
     '../../../node_modules/frigus02-vkbeautify/vkbeautify.js',
-    '../scripts/format-json.js'
+    '../scripts/format-json.js',
 );
 
 self.onmessage = function (event) {

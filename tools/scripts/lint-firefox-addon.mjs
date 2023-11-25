@@ -50,7 +50,8 @@ async function lintFirefoxAddon(options) {
             const file = message.file ? resolvePath(message.file) : '<no file>';
 
             const ignoreEntry = ignoreList.find(
-                (ignore) => ignore.file === file && ignore.code === message.code
+                (ignore) =>
+                    ignore.file === file && ignore.code === message.code,
             );
             if (ignoreEntry) {
                 ignoreEntry.used = true;
@@ -163,9 +164,9 @@ function reportResult(result) {
                 '',
                 chalk.gray(location),
                 chalk[colors[message._type]](
-                    `${message.code} ${message.message}`
+                    `${message.code} ${message.message}`,
                 ),
-            ].join(' ')
+            ].join(' '),
         );
 
         if (message.description) {
@@ -179,21 +180,21 @@ function reportResult(result) {
         if (result.summary.errors > 0) {
             console.log(
                 ' ' + logSymbols.error,
-                ' ' + result.summary.errors + ' error(s)'
+                ' ' + result.summary.errors + ' error(s)',
             );
         }
 
         if (result.summary.warnings > 0) {
             console.log(
                 ' ' + logSymbols.warning,
-                ' ' + result.summary.warnings + ' warning(s)'
+                ' ' + result.summary.warnings + ' warning(s)',
             );
         }
 
         if (result.summary.notices > 0) {
             console.log(
                 ' ' + logSymbols.info,
-                ' ' + result.summary.notices + ' notice(s)'
+                ' ' + result.summary.notices + ' notice(s)',
             );
         }
     }

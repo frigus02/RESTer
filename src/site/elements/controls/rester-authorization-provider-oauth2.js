@@ -100,5 +100,5 @@ class RESTerAuthorizationProviderOAuth2 extends PolymerElement {
 
 customElements.define(
     RESTerAuthorizationProviderOAuth2.is,
-    RESTerAuthorizationProviderOAuth2
+    RESTerAuthorizationProviderOAuth2,
 );

@@ -151,7 +151,7 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
             } else if (this.variableHistory[varName]) {
                 this.set(
                     ['lastUsedVariables', varName],
-                    this.variableHistory[varName][0]
+                    this.variableHistory[varName][0],
                 );
                 this.set(['value', varName], this.variableHistory[varName][0]);
             } else {
@@ -164,14 +164,14 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
                 name: varName,
                 value: values[varName],
                 history: this.variableHistory[varName] || [],
-            }))
+            })),
         );
 
         this._setProvidedVariables(
             providedVarNames.map((varName) => ({
                 name: varName,
                 value: this.providedVariableValues[varName],
-            }))
+            })),
         );
     }
 
@@ -206,13 +206,13 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
                 if (
                     !Object.prototype.hasOwnProperty.call(
                         this.variableHistory,
-                        name
+                        name,
                     )
                 ) {
                     this.set(['variableHistory', name], [values[name]]);
                 } else {
                     const index = this.variableHistory[name].indexOf(
-                        values[name]
+                        values[name],
                     );
                     if (index > -1) {
                         this.splice(['variableHistory', name], index, 1);
@@ -225,13 +225,13 @@ class RESTerVariablesInput extends RESTerVariablesMixin(PolymerElement) {
                 // in the dom-repeat element.
                 if (this.variables) {
                     const index = this.variables.findIndex(
-                        (v) => v.name === name
+                        (v) => v.name === name,
                     );
                     if (index > -1) {
                         this.set(['variables', index, 'history'], []);
                         this.set(
                             ['variables', index, 'history'],
-                            this.variableHistory[name]
+                            this.variableHistory[name],
                         );
                     }
                 }

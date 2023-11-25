@@ -17,7 +17,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerCurlCommandDialog extends RESTerDialogControllerMixin(
-    RESTerThemeMixin(PolymerElement)
+    RESTerThemeMixin(PolymerElement),
 ) {
     static get template() {
         return html`

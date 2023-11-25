@@ -17,7 +17,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return html`
@@ -133,5 +133,5 @@ class RESTerAuthorizationProviderBasicGenerateTokenDialog extends RESTerDialogCo
 
 customElements.define(
     RESTerAuthorizationProviderBasicGenerateTokenDialog.is,
-    RESTerAuthorizationProviderBasicGenerateTokenDialog
+    RESTerAuthorizationProviderBasicGenerateTokenDialog,
 );

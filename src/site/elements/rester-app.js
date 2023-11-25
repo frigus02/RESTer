@@ -57,7 +57,7 @@ setSuppressTemplateNotifications(true);
  * @customElement
  */
 class RESTerApp extends RESTerThemeMixin(
-    RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement))
+    RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement)),
 ) {
     static get template() {
         return html`
@@ -331,7 +331,7 @@ class RESTerApp extends RESTerThemeMixin(
             }
 
             const index = envs.findIndex(
-                (env) => env.id === this.settings.activeEnvironment
+                (env) => env.id === this.settings.activeEnvironment,
             );
             const newIndex = (index + 1) % envs.length;
             const newEnv = envs[newIndex];

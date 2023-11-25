@@ -10,7 +10,7 @@ function queryThroughShadowDOM(selectorChain) {
                 return parent.shadowRoot.querySelector(selector);
             }
         },
-        { shadowRoot: document }
+        { shadowRoot: document },
     );
 }
 

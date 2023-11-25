@@ -92,7 +92,7 @@ class RESTerPages extends PolymerElement {
 
         if (this.page) {
             this._currentElement = document.createElement(
-                `rester-page-${this.page}`
+                `rester-page-${this.page}`,
             );
             this._currentElement.classList.add('page');
 

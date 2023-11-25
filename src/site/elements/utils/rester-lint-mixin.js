@@ -42,7 +42,7 @@ const RESTerLintMixin = (superclass) =>
             super.disconnectedCallback();
             const inspections = this.constructor.resterLintInspections || [];
             const messages = this.shadowRoot.querySelector(
-                'rester-lint-messages'
+                'rester-lint-messages',
             );
 
             if (!messages) {
@@ -65,7 +65,7 @@ const RESTerLintMixin = (superclass) =>
         _runLintInspectionsImmediately() {
             const inspections = this.constructor.resterLintInspections || [];
             const messages = this.shadowRoot.querySelector(
-                'rester-lint-messages'
+                'rester-lint-messages',
             );
 
             if (!messages) {

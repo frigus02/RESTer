@@ -24,7 +24,7 @@ export class AuthorizationProviderConfiguration {
         Object.assign(
             this,
             AuthorizationProviderConfiguration.defaultProperties,
-            dbObject
+            dbObject,
         );
     }
 }
@@ -37,7 +37,7 @@ export function putAuthorizationProviderConfiguration(config) {
 export async function queryAuthorizationProviderConfigurations(providerId) {
     const configs = await db.query(
         'authProviderConfigs',
-        AuthorizationProviderConfiguration
+        AuthorizationProviderConfiguration,
     );
     return configs.filter((config) => config.providerId === providerId);
 }

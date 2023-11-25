@@ -115,7 +115,7 @@ chrome.runtime.onConnect.addListener((port) => {
         const actionPath = action.split('.').slice(1);
         const actionFunc = actionPath.reduce(
             (api, path) => api && api[path],
-            resterApi
+            resterApi,
         );
         if (!actionFunc) {
             return;

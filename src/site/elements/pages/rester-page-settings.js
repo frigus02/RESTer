@@ -21,7 +21,7 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @customElement
  */
 class RESTerPageSettings extends RESTerPageMixin(
-    RESTerSettingsMixin(PolymerElement)
+    RESTerSettingsMixin(PolymerElement),
 ) {
     static get template() {
         return html`

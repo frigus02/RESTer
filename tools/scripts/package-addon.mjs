@@ -11,14 +11,14 @@ async function main() {
     const browser = process.argv[2];
 
     const packageJson = JSON.parse(
-        await readFile(new URL('../../package.json', import.meta.url))
+        await readFile(new URL('../../package.json', import.meta.url)),
     );
     const srcDir = fileURLToPath(new URL('../../build', import.meta.url));
     const destFile = fileURLToPath(
         new URL(
             `../../package/${browser}-${packageJson.version}.zip`,
-            import.meta.url
-        )
+            import.meta.url,
+        ),
     );
 
     await createPackage({ browser, srcDir, destFile });

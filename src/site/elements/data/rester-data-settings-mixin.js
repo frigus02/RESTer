@@ -38,7 +38,7 @@ const RESTerSettingsMixin = (superclass) =>
             super.connectedCallback();
             resterEvents.addEventListener(
                 'settingsChange',
-                this._onSettingsChanged
+                this._onSettingsChanged,
             );
         }
 
@@ -46,7 +46,7 @@ const RESTerSettingsMixin = (superclass) =>
             super.disconnectedCallback();
             resterEvents.removeEventListener(
                 'settingsChange',
-                this._onSettingsChanged
+                this._onSettingsChanged,
             );
         }
 

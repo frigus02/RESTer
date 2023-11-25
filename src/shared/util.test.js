@@ -87,8 +87,8 @@ describe('sortedIndexOf', function () {
             sortedIndexOf(
                 [{ name: 'apple' }, { name: 'grape' }, { name: 'orange' }],
                 { name: 'melon' },
-                (x) => x.name
-            )
+                (x) => x.name,
+            ),
         ).toBe(2);
     });
 
@@ -100,8 +100,8 @@ describe('sortedIndexOf', function () {
                     ['posts', 'folder'],
                     ['posts', 'item'],
                 ],
-                ['comments,a', 'item']
-            )
+                ['comments,a', 'item'],
+            ),
         ).toBe(1);
     });
 });
@@ -123,7 +123,7 @@ describe('stringifyCookies', function () {
                 foo: 'baz',
                 a: 'b',
                 complex: '1=2=3',
-            })
+            }),
         ).toBe('foo=baz; a=b; complex=1=2=3');
     });
 });
@@ -131,7 +131,7 @@ describe('stringifyCookies', function () {
 describe('mergeCookies', function () {
     test('merges cookie strings', function () {
         expect(mergeCookies('foo=bar; a=b', 'complex=1=2=3;foo=baz;')).toBe(
-            'foo=baz; a=b; complex=1=2=3'
+            'foo=baz; a=b; complex=1=2=3',
         );
     });
 });
@@ -151,7 +151,7 @@ describe('parseMediaType', function () {
 
     test('multiple params', function () {
         expect(
-            parseMediaType('application/json;charset=utf-8;boundary=123')
+            parseMediaType('application/json;charset=utf-8;boundary=123'),
         ).toEqual({ type: 'application/json' });
     });
 

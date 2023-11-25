@@ -35,7 +35,7 @@ export function generateCommand(request) {
 
     for (const header of request.headers) {
         command += ` \\\n    -H ${shellescape(
-            `${header.name}: ${header.value}`
+            `${header.name}: ${header.value}`,
         )}`;
     }
 

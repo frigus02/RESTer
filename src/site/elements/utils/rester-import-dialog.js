@@ -20,7 +20,7 @@ import { importData } from '../data/scripts/rester.js';
  * @customElement
  */
 class RESTerImportDialog extends RESTerDialogControllerMixin(
-    RESTerErrorMixin(PolymerElement)
+    RESTerErrorMixin(PolymerElement),
 ) {
     static get template() {
         return html`

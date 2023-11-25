@@ -51,7 +51,7 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
                     token.title = data.title;
                     token.scheme = 'Basic';
                     token.token = window.btoa(
-                        `${data.userName}:${data.password}`
+                        `${data.userName}:${data.password}`,
                     );
                     return token;
                 } else {
@@ -63,5 +63,5 @@ class RESTerAuthorizationProviderBasic extends PolymerElement {
 
 customElements.define(
     RESTerAuthorizationProviderBasic.is,
-    RESTerAuthorizationProviderBasic
+    RESTerAuthorizationProviderBasic,
 );

@@ -17,7 +17,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return html`
@@ -105,5 +105,5 @@ class RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog extends 
 
 customElements.define(
     RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog.is,
-    RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog
+    RESTerAuthorizationProviderOAuth2GenerateTokenResourceOwnerDialog,
 );

@@ -19,7 +19,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerAuthorizationProviderCookieConfigurationDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return html`
@@ -164,5 +164,5 @@ class RESTerAuthorizationProviderCookieConfigurationDialog extends RESTerDialogC
 
 customElements.define(
     RESTerAuthorizationProviderCookieConfigurationDialog.is,
-    RESTerAuthorizationProviderCookieConfigurationDialog
+    RESTerAuthorizationProviderCookieConfigurationDialog,
 );

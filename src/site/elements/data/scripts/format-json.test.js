@@ -5,7 +5,7 @@ import { formatJson } from './format-json.js';
 describe('formatJson', function () {
     test('formats minified object', function () {
         expect(formatJson('{"foo":1,"bar":"2"}')).toEqual(
-            '{\n    "foo": 1,\n    "bar": "2"\n}'
+            '{\n    "foo": 1,\n    "bar": "2"\n}',
         );
     });
 
@@ -15,7 +15,7 @@ describe('formatJson', function () {
 
     test('formats inconsistently formatted object', function () {
         expect(formatJson(' {\n  "foo":1,\n\n\t"bar" : "2"}\n\n  \n')).toEqual(
-            '{\n    "foo": 1,\n    "bar": "2"\n}'
+            '{\n    "foo": 1,\n    "bar": "2"\n}',
         );
     });
 
@@ -23,7 +23,7 @@ describe('formatJson', function () {
         const depth = 502;
         const json = '['.repeat(depth) + ']'.repeat(depth);
         expect(() => formatJson(json)).toThrow(
-            'ParseError at 501: max depth reached'
+            'ParseError at 501: max depth reached',
         );
     });
 

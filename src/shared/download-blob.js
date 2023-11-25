@@ -14,6 +14,6 @@ export function downloadBlob(blob, downloadOptions) {
                 chrome.downloads.onChanged.removeListener(onChanged);
             }
             chrome.downloads.onChanged.addListener(onChanged);
-        }
+        },
     );
 }

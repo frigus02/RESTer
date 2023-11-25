@@ -47,7 +47,7 @@ function createListOfRequestNavItems(rawRequests) {
             .filter((request) => request.collection.length === 0)
             .map((request) => createRequestNavItem(request));
         const subcollections = createListOfRequestNavItems(
-            requests.filter((request) => request.collection.length > 0)
+            requests.filter((request) => request.collection.length > 0),
         );
         collItem.items = sort(subcollections.concat(subrequests), 'title');
 
@@ -81,7 +81,7 @@ function createHistoryNavItem(historyEntry) {
 
     const compiledRequest = replaceWithoutProvidedValues(
         historyEntry.request,
-        historyEntry.request.variables.values
+        historyEntry.request.variables.values,
     );
 
     return new Item({
@@ -170,11 +170,11 @@ export default class Navigation extends CustomEventTarget {
         this._create();
         resterEvents.addEventListener(
             'dataChange',
-            this._updateNavigationBasedOnDataChanges
+            this._updateNavigationBasedOnDataChanges,
         );
         resterEvents.addEventListener(
             'settingsChange',
-            this._updateNavigationBasedOnSettingsChanges
+            this._updateNavigationBasedOnSettingsChanges,
         );
     }
 
@@ -184,7 +184,7 @@ export default class Navigation extends CustomEventTarget {
                 getRequests(requestFields),
                 getHistoryEntries(5, historyFields),
                 settingsLoaded.then(() => getActiveEnvironment()),
-            ]
+            ],
         );
 
         this.items.push(
@@ -194,7 +194,7 @@ export default class Navigation extends CustomEventTarget {
                     icon: 'add',
                     url: '#/',
                 },
-            })
+            }),
         );
 
         this._requestNavItemsOffset = 1;
@@ -203,7 +203,7 @@ export default class Navigation extends CustomEventTarget {
                 r = clone(r);
                 r.collection = r.collection.split(/\s*\/\s*/i);
                 return r;
-            })
+            }),
         );
         this._requestNavItemsCount = requestNavItems.length;
 
@@ -216,7 +216,7 @@ export default class Navigation extends CustomEventTarget {
                     icon: 'settings',
                     url: '#/settings',
                 },
-            })
+            }),
         );
 
         this._environmentNavItemIndex =
@@ -237,12 +237,12 @@ export default class Navigation extends CustomEventTarget {
                     icon: 'history',
                     url: '#/history',
                 },
-            })
+            }),
         );
 
         this._historyNavItemsOffset = this._environmentNavItemIndex + 4;
         const historyNavItems = historyEntries.map((entry) =>
-            createHistoryNavItem(entry)
+            createHistoryNavItem(entry),
         );
         this._historyNavItemsCount = historyNavItems.length;
 
@@ -267,7 +267,7 @@ export default class Navigation extends CustomEventTarget {
                     deleteCount,
                     items,
                 },
-            })
+            }),
         );
     }
 
@@ -275,7 +275,7 @@ export default class Navigation extends CustomEventTarget {
         requestId,
         path = [],
         offset = this._requestNavItemsOffset,
-        count = this._requestNavItemsCount
+        count = this._requestNavItemsCount,
     ) {
         const requests = this._get(path);
         for (
@@ -295,7 +295,7 @@ export default class Navigation extends CustomEventTarget {
                     requestId,
                     [...path, requestIndex, 'items'],
                     0,
-                    request.items.length
+                    request.items.length,
                 )
             ) {
                 if (request.items.length === 0) {
@@ -336,26 +336,26 @@ export default class Navigation extends CustomEventTarget {
                     while (collectionParts.length > 0) {
                         const collectionItems = this._get(collectionPath).slice(
                             collectionOffset,
-                            collectionOffset + collectionCount
+                            collectionOffset + collectionCount,
                         );
                         let collectionIndex = collectionItems.findIndex(
-                            (item) => item.title === collectionParts[0]
+                            (item) => item.title === collectionParts[0],
                         );
                         if (collectionIndex === -1) {
                             const collection = createRequestCollectionNavItem(
-                                collectionParts[0]
+                                collectionParts[0],
                             );
 
                             collectionIndex = sortedIndexOf(
                                 collectionItems,
                                 { title: collectionParts[0] },
-                                'title'
+                                'title',
                             );
                             this._splice(
                                 collectionPath,
                                 collectionOffset + collectionIndex,
                                 0,
-                                collection
+                                collection,
                             );
                             if (collectionPath.length === 0) {
                                 this._requestNavItemsCount++;
@@ -365,7 +365,7 @@ export default class Navigation extends CustomEventTarget {
                         collectionParts.splice(0, 1);
                         collectionPath.push(
                             collectionOffset + collectionIndex,
-                            'items'
+                            'items',
                         );
                         collectionOffset = 0;
                         collectionCount = this._get(collectionPath).length;
@@ -375,13 +375,13 @@ export default class Navigation extends CustomEventTarget {
                     const insertAtIndex = sortedIndexOf(
                         collectionItems,
                         change.item,
-                        'title'
+                        'title',
                     );
                     this._splice(
                         collectionPath,
                         insertAtIndex,
                         0,
-                        createRequestNavItem(change.item)
+                        createRequestNavItem(change.item),
                     );
                 }
 
@@ -398,7 +398,7 @@ export default class Navigation extends CustomEventTarget {
                         [],
                         this._historyNavItemsOffset,
                         0,
-                        newHistoryItem
+                        newHistoryItem,
                     );
                     this._historyNavItemsCount++;
                     if (this._historyNavItemsCount > 5) {
@@ -412,7 +412,7 @@ export default class Navigation extends CustomEventTarget {
                         [],
                         this._environmentNavItemIndex,
                         1,
-                        createEnvironmentNavItem(change.item)
+                        createEnvironmentNavItem(change.item),
                     );
                 }
             }
@@ -425,14 +425,14 @@ export default class Navigation extends CustomEventTarget {
             [],
             this._environmentNavItemIndex,
             1,
-            createEnvironmentNavItem(env)
+            createEnvironmentNavItem(env),
         );
     }
 
     getNextRequestId(requestId) {
         const requests = this.items.slice(
             this._requestNavItemsOffset,
-            this._requestNavItemsOffset + this._requestNavItemsCount
+            this._requestNavItemsOffset + this._requestNavItemsCount,
         );
         const result = findNextRequestId(requestId, requests);
         if (result !== 'noNextInGroup') {
@@ -443,11 +443,11 @@ export default class Navigation extends CustomEventTarget {
     destroy() {
         resterEvents.removeEventListener(
             'dataChange',
-            this._updateNavigationBasedOnDataChanges
+            this._updateNavigationBasedOnDataChanges,
         );
         resterEvents.removeEventListener(
             'settingsChange',
-            this._updateNavigationBasedOnSettingsChanges
+            this._updateNavigationBasedOnSettingsChanges,
         );
     }
 }

@@ -56,7 +56,7 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
 
                     --paper-menu: {
                         width: 256px;
-                    }
+                    };
                 }
 
                 .menu-item-divider {

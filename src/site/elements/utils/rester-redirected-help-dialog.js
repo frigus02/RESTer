@@ -14,7 +14,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerRedirectedHelpDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return html`
@@ -63,5 +63,5 @@ class RESTerRedirectedHelpDialog extends RESTerDialogControllerMixin(
 
 customElements.define(
     RESTerRedirectedHelpDialog.is,
-    RESTerRedirectedHelpDialog
+    RESTerRedirectedHelpDialog,
 );

@@ -116,13 +116,13 @@ function registerRequestTests(mode) {
         await RequestElements.send.click();
         await driver.wait(
             until.elementIsVisible(RequestElements.responseSection),
-            timeout
+            timeout,
         );
 
         const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
-            RequestElements.responseBody
+            RequestElements.responseBody,
         );
         expect(responseCode).toBe('200 OK');
         expect(responseBody).toMatchSnapshot();
@@ -147,7 +147,7 @@ function registerRequestTests(mode) {
             .sendKeys(
                 'Content-Type',
                 Key.TAB,
-                'application/x-www-form-urlencoded'
+                'application/x-www-form-urlencoded',
             )
             .perform();
         await driver
@@ -175,13 +175,13 @@ function registerRequestTests(mode) {
         await RequestElements.send.click();
         await driver.wait(
             until.elementIsVisible(RequestElements.responseSection),
-            timeout
+            timeout,
         );
 
         const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
-            RequestElements.responseBody
+            RequestElements.responseBody,
         );
         expect(responseCode).toBe('200 OK');
         expect(responseBody).toMatchSnapshot();
@@ -203,18 +203,18 @@ function registerRequestTests(mode) {
         await RequestElements.send.click();
         await driver.wait(
             until.elementIsVisible(RequestElements.responseSection),
-            timeout
+            timeout,
         );
 
         const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
-            RequestElements.responseBody
+            RequestElements.responseBody,
         );
         if (mode === 'browser') {
             expect(responseCode).toBe('200 OK');
             expect(
-                await RequestElements.responseRedirectInfo.isDisplayed()
+                await RequestElements.responseRedirectInfo.isDisplayed(),
             ).toBe(true);
         } else {
             expect(responseCode).toBe('307 Temporary Redirect');
@@ -255,13 +255,13 @@ function registerRequestTests(mode) {
         await RequestElements.send.click();
         await driver.wait(
             until.elementIsVisible(RequestElements.responseSection),
-            timeout
+            timeout,
         );
 
         const responseCode = await getInnerText(RequestElements.responseCode);
         const responseBody = await driver.executeScript(
             (e) => e.value,
-            RequestElements.responseBody
+            RequestElements.responseBody,
         );
         expect(responseCode).toBe('200 OK');
         expect(responseBody).toMatchSnapshot();

@@ -55,7 +55,7 @@ class RESTerDataNavigation extends PolymerElement {
             ['items', ...e.detail.path],
             e.detail.start,
             e.detail.deleteCount,
-            ...e.detail.items
+            ...e.detail.items,
         );
     }
 }

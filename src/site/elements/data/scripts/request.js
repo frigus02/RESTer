@@ -54,7 +54,7 @@ export function ensureHeaderInterceptor() {
                         'Certain features like setting cookies or the ' +
                         '"Clean Request" mode will not work as expected. ' +
                         'Reason: ' +
-                        e.message
+                        e.message,
                 );
                 return false;
             }
@@ -75,13 +75,13 @@ function setupHeaderInterceptor(currentTabId) {
 
         // Request ID
         const resterRequestId = commands.find(
-            (c) => c.name === 'requestid'
+            (c) => c.name === 'requestid',
         ).value;
         requestIds.set(details.requestId, resterRequestId);
 
         // Headers
         const removeDefaultHeaders = commands.some(
-            (c) => c.name === 'stripdefaultheaders'
+            (c) => c.name === 'stripdefaultheaders',
         );
         const newHeaders = [];
         const indexesToRemove = [];
@@ -107,10 +107,10 @@ function setupHeaderInterceptor(currentTabId) {
         if (!removeDefaultHeaders) {
             // Merge browser and manual cookie headers
             const cookieHeaderIndex = details.requestHeaders.findIndex(
-                (h) => h.name.toLowerCase() === 'cookie'
+                (h) => h.name.toLowerCase() === 'cookie',
             );
             const customCookieHeaderIndex = newHeaders.findIndex(
-                (h) => h.name.toLowerCase() === 'cookie'
+                (h) => h.name.toLowerCase() === 'cookie',
             );
             if (cookieHeaderIndex > -1 && customCookieHeaderIndex > -1) {
                 const cookieHeader = details.requestHeaders[cookieHeaderIndex];
@@ -119,7 +119,7 @@ function setupHeaderInterceptor(currentTabId) {
                 indexesToRemove.push(cookieHeaderIndex);
                 customCookieHeader.value = mergeCookies(
                     cookieHeader.value,
-                    customCookieHeader.value
+                    customCookieHeader.value,
                 );
             }
 
@@ -128,7 +128,7 @@ function setupHeaderInterceptor(currentTabId) {
                 const isOverridden = newHeaders.some(
                     (header) =>
                         header.name.toLowerCase() ===
-                        details.requestHeaders[i].name.toLowerCase()
+                        details.requestHeaders[i].name.toLowerCase(),
                 );
                 if (isOverridden && !indexesToRemove.includes(i)) {
                     indexesToRemove.push(i);
@@ -163,7 +163,7 @@ function setupHeaderInterceptor(currentTabId) {
             // Chrome requires "extraHeaders" from version 72, but adding this
             // unconditionally causes an error in Firefox.
             chrome.webRequest.OnBeforeSendHeadersOptions.EXTRA_HEADERS,
-        ].filter((option) => !!option)
+        ].filter((option) => !!option),
     );
 
     function onHeadersReceived(details) {
@@ -230,7 +230,7 @@ function setupHeaderInterceptor(currentTabId) {
             // Chrome requires "extraHeaders" from version 72, but adding this
             // unconditionally causes an error in Firefox.
             chrome.webRequest.OnHeadersReceivedOptions.EXTRA_HEADERS,
-        ].filter((option) => !!option)
+        ].filter((option) => !!option),
     );
 }
 
@@ -325,7 +325,7 @@ export async function send(request) {
 
     // Special handling for multipart requests.
     const contentTypeIndex = request.headers.findIndex(
-        (h) => h.name.toLowerCase() === 'content-type'
+        (h) => h.name.toLowerCase() === 'content-type',
     );
     const contentType = request.headers[contentTypeIndex];
     let requestHeaders = request.headers;
@@ -347,7 +347,7 @@ export async function send(request) {
             if (header && header.name && header.value) {
                 headers.append(
                     headerPrefix + header.name,
-                    JSON.stringify({ name: header.name, value: header.value })
+                    JSON.stringify({ name: header.name, value: header.value }),
                 );
             }
         }
@@ -394,13 +394,13 @@ export async function send(request) {
         response.status = fetchResponse.status;
         response.statusText = fetchResponse.statusText;
         response.headers = Array.from(fetchResponse.headers.entries()).map(
-            ([name, value]) => ({ name, value })
+            ([name, value]) => ({ name, value }),
         );
     }
 
     // Check if the responce is binary file content. If so, open file download.
     const disposition = response.headers.find(
-        (x) => x.name.toLowerCase() === 'content-disposition'
+        (x) => x.name.toLowerCase() === 'content-disposition',
     );
 
     if (disposition && disposition.value.startsWith('attachment')) {
@@ -409,7 +409,7 @@ export async function send(request) {
         response.body =
             'body not available; it has been saved as a file because of the content-disposition header';
         const filename = getFilenameFromContentDispositionHeader(
-            disposition.value
+            disposition.value,
         );
         downloadBlob(fetchBody, { filename, saveAs: true });
     } else {

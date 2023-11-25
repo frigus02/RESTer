@@ -24,11 +24,11 @@ port.onMessage.addListener((message) => {
     if (message.action === 'apiresponse') {
         if (message.error) {
             requests[message.id].reject(
-                message.error && JSON.parse(message.error)
+                message.error && JSON.parse(message.error),
             );
         } else {
             requests[message.id].resolve(
-                message.result && JSON.parse(message.result)
+                message.result && JSON.parse(message.result),
             );
         }
 
@@ -103,7 +103,7 @@ export function deleteHistoryEntries(ids) {
 export function putAuthorizationProviderConfiguration(config) {
     return sendApiRequest(
         'data.authorizationProviderConfigurations.put',
-        config
+        config,
     );
 }
 
@@ -111,14 +111,14 @@ export function getAuthorizationProviderConfigurations(providerId, fields) {
     return sendApiRequest(
         'data.authorizationProviderConfigurations.query',
         providerId,
-        fields
+        fields,
     );
 }
 
 export function deleteAuthorizationProviderConfiguration(id) {
     return sendApiRequest(
         'data.authorizationProviderConfigurations.delete',
-        id
+        id,
     );
 }
 

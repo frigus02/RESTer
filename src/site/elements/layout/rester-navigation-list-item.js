@@ -29,7 +29,7 @@ class RESTerNavigationListItem extends PolymerElement {
                     --paper-item-body-secondary: {
                         font-size: 12px;
                         line-height: 1em;
-                    }
+                    };
                 }
 
                 :host([subitem]) {
@@ -45,7 +45,7 @@ class RESTerNavigationListItem extends PolymerElement {
                     --paper-item-body-secondary-color: var(--primary-color);
                     --paper-item-body-secondary: {
                         font-weight: bold;
-                    }
+                    };
                 }
 
                 :host([active]) paper-item-body [secondary] {
@@ -228,7 +228,7 @@ class RESTerNavigationListItem extends PolymerElement {
                     new CustomEvent('item-activated', {
                         bubbles: true,
                         composed: true,
-                    })
+                    }),
                 );
             }
         });

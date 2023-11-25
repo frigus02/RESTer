@@ -124,7 +124,7 @@
                     } else {
                         throw new ParseError(
                             'invalid escaped char in string',
-                            i
+                            i,
                         );
                     }
                     break;
@@ -134,7 +134,7 @@
                     } else {
                         throw new ParseError(
                             'invalid escaped unicode in string',
-                            i
+                            i,
                         );
                     }
                     break;
@@ -144,7 +144,7 @@
                     } else {
                         throw new ParseError(
                             'invalid escaped unicode in string',
-                            i
+                            i,
                         );
                     }
                     break;
@@ -154,7 +154,7 @@
                     } else {
                         throw new ParseError(
                             'invalid escaped unicode in string',
-                            i
+                            i,
                         );
                     }
                     break;
@@ -164,7 +164,7 @@
                     } else {
                         throw new ParseError(
                             'invalid escaped unicode in string',
-                            i
+                            i,
                         );
                     }
                     break;

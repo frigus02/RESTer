@@ -37,7 +37,7 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
 
                     --paper-menu: {
                         width: 256px;
-                    }
+                    };
                 }
 
                 .menu-item-divider {
@@ -242,8 +242,8 @@ class RESTerBodyInput extends RESTerSettingsMixin(PolymerElement) {
             (option) =>
                 option.contentTypeSearch &&
                 option.contentTypeSearch.some((search) =>
-                    lowerContentType.includes(search)
-                )
+                    lowerContentType.includes(search),
+                ),
         );
 
         if (newOption) {

@@ -40,7 +40,7 @@ async function main() {
     await writeFile(
         new URL('.icons/icon-dev.svg', rootUrl),
         builder.buildObject(iconXml),
-        { encoding: 'utf8' }
+        { encoding: 'utf8' },
     );
 
     // - Light DEV
@@ -50,18 +50,18 @@ async function main() {
     await writeFile(
         new URL('.icons/icon-light-dev.svg', rootUrl),
         builder.buildObject(iconXml),
-        { encoding: 'utf8' }
+        { encoding: 'utf8' },
     );
 
     // - Light
     const devGroupIndex = iconXml.svg.g.findIndex(
-        (node) => node.$.id === 'dev'
+        (node) => node.$.id === 'dev',
     );
     iconXml.svg.g.splice(devGroupIndex, 1);
     await writeFile(
         new URL('.icons/icon-light.svg', rootUrl),
         builder.buildObject(iconXml),
-        { encoding: 'utf8' }
+        { encoding: 'utf8' },
     );
 
     // - Dark (default)
@@ -71,17 +71,17 @@ async function main() {
     await writeFile(
         new URL('.icons/icon.svg', rootUrl),
         builder.buildObject(iconXml),
-        { encoding: 'utf8' }
+        { encoding: 'utf8' },
     );
 
     // Export PNGs
     for (const variation of variations) {
         for (const size of sizes) {
             const inputSvg = fileURLToPath(
-                new URL(`.icons/icon${variation}.svg`, rootUrl)
+                new URL(`.icons/icon${variation}.svg`, rootUrl),
             );
             const outputPng = fileURLToPath(
-                new URL(`src/images/icon${variation}${size.px}.png`, rootUrl)
+                new URL(`src/images/icon${variation}${size.px}.png`, rootUrl),
             );
             await exec(
                 [
@@ -91,7 +91,7 @@ async function main() {
                     `--export-area-page`,
                     `--export-dpi=${size.dpi}`,
                     `"${inputSvg}"`,
-                ].join(' ')
+                ].join(' '),
             );
         }
     }

@@ -27,7 +27,7 @@ function setProviderEnvValues(values) {
     mockProviderEnv.e.dispatchEvent(
         new CustomEvent('valuesChanged', {
             detail: mockProviderEnv.values,
-        })
+        }),
     );
 }
 

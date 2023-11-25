@@ -22,7 +22,7 @@ class RESTerAutocomplete extends PolymerElement {
                     --paper-item-body-secondary: {
                         font-size: 12px;
                         line-height: 1em;
-                    }
+                    };
                 }
 
                 #dropdown {
@@ -215,7 +215,7 @@ class RESTerAutocomplete extends PolymerElement {
 
         const height = Math.max(
             Math.min(preferredHeight, maxHeight),
-            minHeight
+            minHeight,
         );
 
         return `${height}px`;
@@ -235,11 +235,11 @@ class RESTerAutocomplete extends PolymerElement {
             if (value) {
                 const originalScore = Math.max(
                     item.title.score(value),
-                    item.description.score(value)
+                    item.description.score(value),
                 );
                 this.set(
                     `items.${index}.score`,
-                    Math.round(originalScore * 1000)
+                    Math.round(originalScore * 1000),
                 );
             } else {
                 this.set(`items.${index}.score`, 0);
@@ -281,7 +281,7 @@ class RESTerAutocomplete extends PolymerElement {
             this._moveSelectedIndexToNextItem();
         } else {
             const selectedItem = this._getItemByRenderedIndex(
-                this.selectedIndex
+                this.selectedIndex,
             );
             if (
                 selectedItem &&
@@ -318,7 +318,7 @@ class RESTerAutocomplete extends PolymerElement {
             case 'Tab':
                 if (this.dropdownVisible && !e.shiftKey) {
                     const item = this._getItemByRenderedIndex(
-                        this.selectedIndex
+                        this.selectedIndex,
                     );
                     if (item && this._isItemVisible(item, this.inputValue)) {
                         this._selectItem(item);
@@ -332,7 +332,7 @@ class RESTerAutocomplete extends PolymerElement {
                     e.preventDefault();
 
                     const item = this._getItemByRenderedIndex(
-                        this.selectedIndex
+                        this.selectedIndex,
                     );
                     if (item && this._isItemVisible(item, this.inputValue)) {
                         this._selectItem(item);
@@ -395,7 +395,7 @@ class RESTerAutocomplete extends PolymerElement {
         } while (
             !this._isItemVisible(
                 this._getItemByRenderedIndex(nextIndex),
-                this.inputValue
+                this.inputValue,
             ) &&
             nextIndex < maxIndex
         );
@@ -403,7 +403,7 @@ class RESTerAutocomplete extends PolymerElement {
         if (
             this._isItemVisible(
                 this._getItemByRenderedIndex(nextIndex),
-                this.inputValue
+                this.inputValue,
             )
         ) {
             this._setSelectedIndex(nextIndex);
@@ -411,7 +411,7 @@ class RESTerAutocomplete extends PolymerElement {
         } else if (
             !this._isItemVisible(
                 this._getItemByRenderedIndex(this.selectedIndex),
-                this.inputValue
+                this.inputValue,
             )
         ) {
             this._moveSelectedIndexToPreviousItem();
@@ -430,7 +430,7 @@ class RESTerAutocomplete extends PolymerElement {
         } while (
             !this._isItemVisible(
                 this._getItemByRenderedIndex(prevIndex),
-                this.inputValue
+                this.inputValue,
             ) &&
             prevIndex > minIndex
         );
@@ -495,7 +495,7 @@ class RESTerAutocomplete extends PolymerElement {
                 detail: item,
                 bubbles: true,
                 composed: true,
-            })
+            }),
         );
     }
 }

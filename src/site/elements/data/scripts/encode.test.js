@@ -36,7 +36,7 @@ describe('generateUri', function () {
         const simpleParams = { name: 'John' };
 
         expect(generateUri(baseUrl, simpleParams)).toEqual(
-            `${baseUrl}?name=John`
+            `${baseUrl}?name=John`,
         );
     });
 
@@ -45,7 +45,7 @@ describe('generateUri', function () {
         const simpleParams = { name: 'John' };
 
         expect(generateUri(baseUrl, simpleParams)).toEqual(
-            `${baseUrl}&name=John`
+            `${baseUrl}&name=John`,
         );
     });
 });
@@ -55,7 +55,7 @@ describe('encodeFormValue', function () {
         const value = '{foo}&bar{&baz}and{$env.test}';
 
         expect(encodeFormValue(value)).toEqual(
-            '{foo}%26bar{%26baz}and{$env.test}'
+            '{foo}%26bar{%26baz}and{$env.test}',
         );
     });
 });

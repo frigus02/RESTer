@@ -175,7 +175,7 @@ class RESTerHeaderInput extends PolymerElement {
         microTask.run(() => {
             this.value = this.headers.filter(
                 (header) =>
-                    header.name.trim() !== '' || header.value.trim() !== ''
+                    header.name.trim() !== '' || header.value.trim() !== '',
             );
             this._ensureEmptyHeader();
         });
@@ -185,7 +185,7 @@ class RESTerHeaderInput extends PolymerElement {
         if (
             !this.headers.some(
                 (header) =>
-                    header.name.trim() === '' && header.value.trim() === ''
+                    header.name.trim() === '' && header.value.trim() === '',
             )
         ) {
             this.push('headers', { name: '', value: '' });

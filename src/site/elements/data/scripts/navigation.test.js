@@ -134,7 +134,7 @@ beforeEach(function () {
     settingsLoadedDfd = new Deferred();
     mockRester.mockSettingsLoaded(settingsLoadedDfd.promise);
     mockVariables.replaceWithoutProvidedValues.mockImplementation((obj) =>
-        obj === fakeRequests[3] ? fakeRequest3Compiled : obj
+        obj === fakeRequests[3] ? fakeRequest3Compiled : obj,
     );
 
     nav = new Navigation();
@@ -155,7 +155,7 @@ test('items are created on startup', async function () {
 
     expect(mockRester.getEnvironment).toBeCalledWith(
         mockRester.settings.activeEnvironment,
-        environmentFields
+        environmentFields,
     );
 
     getRequestsDfd.resolve(fakeRequests);
@@ -165,7 +165,7 @@ test('items are created on startup', async function () {
 
     expect(mockVariables.replaceWithoutProvidedValues).toBeCalledWith(
         fakeRequests[3],
-        fakeRequests[3].variables.values
+        fakeRequests[3].variables.values,
     );
     expect(nav.items).toMatchSnapshot();
 });
@@ -215,7 +215,7 @@ describe('with resolved data', function () {
                         itemType: 'Request',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.getNextRequestId(fakeRequests[3].id)).toBeUndefined();
@@ -235,7 +235,7 @@ describe('with resolved empty data', function () {
     test('items are updated when data changes', function () {
         expect(mockRester.e.addEventListener).toBeCalledWith(
             'dataChange',
-            expect.any(Function)
+            expect.any(Function),
         );
 
         const changeListener = mockRester.e.addEventListener.mock.calls[0][1];
@@ -273,11 +273,11 @@ describe('with resolved empty data', function () {
                         itemType: 'HistoryEntry',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.items).toMatchSnapshot(
-            '1. Added 3 requests and 2 history entries'
+            '1. Added 3 requests and 2 history entries',
         );
 
         // Delete a request. Now the collection is empty and we should have one item less.
@@ -290,11 +290,11 @@ describe('with resolved empty data', function () {
                         itemType: 'Request',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.items).toMatchSnapshot(
-            '2. Deleted last request in collection'
+            '2. Deleted last request in collection',
         );
 
         // Change a request and add more history entries.
@@ -322,11 +322,11 @@ describe('with resolved empty data', function () {
                         itemType: 'HistoryEntry',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.items).toMatchSnapshot(
-            '3. Updated 1 request and added 3 history entries'
+            '3. Updated 1 request and added 3 history entries',
         );
 
         // Add a 6th history entry. This should remove the oldest history entry from the
@@ -340,7 +340,7 @@ describe('with resolved empty data', function () {
                         itemType: 'HistoryEntry',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.items).toMatchSnapshot('4. Added 6th history entry');
@@ -356,7 +356,7 @@ describe('with resolved empty data', function () {
                         itemType: 'Request',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.items).toMatchSnapshot('5. Deleted 1 request');
@@ -374,7 +374,7 @@ describe('with resolved empty data', function () {
                         itemType: 'Environment',
                     },
                 ],
-            })
+            }),
         );
 
         expect(nav.items).toMatchSnapshot('6. Updated environment name');
@@ -383,7 +383,7 @@ describe('with resolved empty data', function () {
     test('items are updated when settings change', async function () {
         expect(mockRester.e.addEventListener).toBeCalledWith(
             'settingsChange',
-            expect.any(Function)
+            expect.any(Function),
         );
 
         const settingsChangeListener =

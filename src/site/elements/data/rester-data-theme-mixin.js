@@ -35,7 +35,7 @@ const RESTerThemeMixin = (superclass) =>
             });
             resterEvents.addEventListener(
                 'settingsChange',
-                this._onThemeSettingsChanged
+                this._onThemeSettingsChanged,
             );
         }
 
@@ -43,7 +43,7 @@ const RESTerThemeMixin = (superclass) =>
             super.disconnectedCallback();
             resterEvents.removeEventListener(
                 'settingsChange',
-                this._onThemeSettingsChanged
+                this._onThemeSettingsChanged,
             );
         }
 

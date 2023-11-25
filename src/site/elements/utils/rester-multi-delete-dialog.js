@@ -88,7 +88,7 @@ class RESTerMultiDeleteItem extends PolymerElement {
 customElements.define(RESTerMultiDeleteItem.is, RESTerMultiDeleteItem);
 
 class RESTerMultiDeleteDialog extends RESTerDialogControllerMixin(
-    RESTerErrorMixin(PolymerElement)
+    RESTerErrorMixin(PolymerElement),
 ) {
     static get template() {
         return html`
@@ -172,10 +172,10 @@ class RESTerMultiDeleteDialog extends RESTerDialogControllerMixin(
                     r.collection
                         .split(/\s*\/\s*/i)
                         .map((_part, i, parts) =>
-                            parts.slice(0, i + 1).join(' / ')
-                        )
-                )
-            )
+                            parts.slice(0, i + 1).join(' / '),
+                        ),
+                ),
+            ),
         ).sort();
         console.log(collections);
         const items = collections.map((collection) => ({
@@ -196,7 +196,7 @@ class RESTerMultiDeleteDialog extends RESTerDialogControllerMixin(
                 if (item.title.startsWith(prevItem.title + ' / ')) {
                     items.splice(i, 1);
                     item.title = item.title.substr(
-                        (prevItem.title + ' / ').length
+                        (prevItem.title + ' / ').length,
                     );
                     prevItem.children.unshift(item);
                     break;

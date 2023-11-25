@@ -28,7 +28,7 @@ export async function exportData(options) {
     const file = new File(
         [data.content],
         `rester-export-${options.format}.${data.suffix}`,
-        { type: data.contentType }
+        { type: data.contentType },
     );
     downloadBlob(file, { filename: file.name });
 }

@@ -12,7 +12,7 @@ const optionsTime = {
 const formatTime = new Intl.DateTimeFormat(undefined, optionsTime);
 const formatDateTime = new Intl.DateTimeFormat(
     undefined,
-    Object.assign({}, optionsDate, optionsTime)
+    Object.assign({}, optionsDate, optionsTime),
 );
 
 const sizeKB = 1024;

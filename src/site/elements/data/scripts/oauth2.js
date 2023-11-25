@@ -34,7 +34,7 @@ function decodeJwt(token) {
     }
 
     const decodedPayload = window.decodeURIComponent(
-        window.escape(window.atob(payload))
+        window.escape(window.atob(payload)),
     );
     if (!decodedPayload) {
         throw new Error('Cannot decode the token');
@@ -91,7 +91,7 @@ function createToken(config, tokenResponse) {
 
     if (tokenResponse.expires_in) {
         token.expirationDate = new Date(
-            Date.now() + tokenResponse.expires_in * 1000
+            Date.now() + tokenResponse.expires_in * 1000,
         );
     }
 
@@ -176,7 +176,7 @@ function sendAccessTokenRequest(config, accessTokenRequestParams) {
     if (config.accessTokenRequestMethod === 'GET') {
         accessTokenRequest.url = generateUri(
             config.accessTokenRequestEndpoint,
-            accessTokenRequestParams
+            accessTokenRequestParams,
         );
     } else {
         accessTokenRequest.url = config.accessTokenRequestEndpoint;
@@ -202,21 +202,21 @@ function validateAuthorizationResponse(response, requiredProperties) {
         throw createError(
             `Authorization error: ${hash.error}.`,
             `Description: ${hash.error_description}`,
-            `URI: ${hash.error_uri}`
+            `URI: ${hash.error_uri}`,
         );
     } else if (search.error) {
         throw createError(
             `Authorization error: ${search.error}.`,
             `Description: ${search.error_description}`,
-            `URI: ${search.error_uri}`
+            `URI: ${search.error_uri}`,
         );
     } else {
         throw createError(
             'Invalid authorization response.',
             `Got url: ${response.url}`,
             `Expected all of these properties or the property "error" in the query or fragment component: ${requiredProperties.join(
-                ', '
-            )}`
+                ', ',
+            )}`,
         );
     }
 }
@@ -230,7 +230,7 @@ function validateAccessTokenResponse(response, validErrorStatuses) {
             throw createError(
                 'Invalid access token response.',
                 `Got body: ${response.body}`,
-                `Expected JSON object with properties: access_token, token_type`
+                `Expected JSON object with properties: access_token, token_type`,
             );
         }
     } else if (validErrorStatuses.indexOf(response.status) !== -1) {
@@ -238,12 +238,12 @@ function validateAccessTokenResponse(response, validErrorStatuses) {
             throw createError(
                 `Access token error: ${body.error}.`,
                 `Description: ${body.error_description}`,
-                `URI: ${body.error_uri}`
+                `URI: ${body.error_uri}`,
             );
         } else {
             throw createError(
                 `Unknown access token error.`,
-                `Got body: ${response.body}`
+                `Got body: ${response.body}`,
             );
         }
     } else {
@@ -251,7 +251,7 @@ function validateAccessTokenResponse(response, validErrorStatuses) {
             'Invalid access token response.',
             `Got status: ${response.status}`,
             `Got body: ${response.body}`,
-            `Expected status of: 200, ${validErrorStatuses.join(', ')}`
+            `Expected status of: 200, ${validErrorStatuses.join(', ')}`,
         );
     }
 }
@@ -280,7 +280,7 @@ async function executeCodeFlow(config) {
 
     const response = await sendAccessTokenRequest(
         config,
-        accessTokenRequestParams
+        accessTokenRequestParams,
     );
     const result = validateAccessTokenResponse(response, [400]);
     return createToken(config, result);
@@ -297,7 +297,7 @@ async function executeClientCredentialsFlow(config) {
 
     const response = await sendAccessTokenRequest(
         config,
-        accessTokenRequestParams
+        accessTokenRequestParams,
     );
     const result = validateAccessTokenResponse(response, [400, 401]);
     return createToken(config, result);
@@ -305,7 +305,7 @@ async function executeClientCredentialsFlow(config) {
 
 async function executeResourceOwnerPasswordCredentialsFlow(
     config,
-    credentials
+    credentials,
 ) {
     const accessTokenRequestParams = {
         grant_type: 'password',
@@ -319,7 +319,7 @@ async function executeResourceOwnerPasswordCredentialsFlow(
 
     const response = await sendAccessTokenRequest(
         config,
-        accessTokenRequestParams
+        accessTokenRequestParams,
     );
     const result = validateAccessTokenResponse(response, [400, 401]);
     return createToken(config, result);
@@ -339,7 +339,7 @@ export async function generateToken(config, credentials) {
         throw createError(
             'Invalid flow.',
             `Got: ${config.flow}`,
-            `Expected one of: code, implicit, resource_owner`
+            `Expected one of: code, implicit, resource_owner`,
         );
     }
 }

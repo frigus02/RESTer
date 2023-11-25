@@ -27,14 +27,14 @@ class RESTerNotifications extends PolymerElement {
                 paper-menu-button {
                     --paper-menu-button: {
                         padding: 0;
-                    }
+                    };
                 }
 
                 paper-badge {
                     --paper-badge: {
                         margin-top: 4px;
                         margin-left: -8px;
-                    }
+                    };
                 }
 
                 paper-item {
@@ -113,11 +113,11 @@ class RESTerNotifications extends PolymerElement {
         this._setNotifications([...notifications]);
         notificationEvents.addEventListener(
             'notificationAdded',
-            this._onNotificationAdded
+            this._onNotificationAdded,
         );
         notificationEvents.addEventListener(
             'notificationRemoved',
-            this._onNotificationRemoved
+            this._onNotificationRemoved,
         );
     }
 
@@ -125,11 +125,11 @@ class RESTerNotifications extends PolymerElement {
         super.disconnectedCallback();
         notificationEvents.removeEventListener(
             'notificationAdded',
-            this._onNotificationAdded
+            this._onNotificationAdded,
         );
         notificationEvents.removeEventListener(
             'notificationRemoved',
-            this._onNotificationRemoved
+            this._onNotificationRemoved,
         );
     }
 

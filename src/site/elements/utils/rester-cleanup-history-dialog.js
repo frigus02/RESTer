@@ -23,7 +23,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
-    RESTerErrorMixin(PolymerElement)
+    RESTerErrorMixin(PolymerElement),
 ) {
     static get template() {
         return html`
@@ -149,7 +149,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
             const targetSize = RESTerHistoryCleanupDialog.SIZE_1MB * 10;
             const size = this._getSizeOfEntries(entries);
             const sizeOfLargeEntries = this._getSizeOfEntries(
-                this.largeEntries
+                this.largeEntries,
             );
 
             let sizeAfterDeletion = size - sizeOfLargeEntries;
@@ -178,7 +178,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
         const fromIndex = this.entries.length - 1;
         const toIndex = Math.max(
             0,
-            this.entries.length - this.entryCountToDelete
+            this.entries.length - this.entryCountToDelete,
         );
         for (let i = fromIndex; i >= toIndex; i--) {
             const id = this.entries[i].id;
@@ -209,7 +209,7 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
     _computeCanDeleteEntries(
         deleteLargeEntries,
         entryCountToDelete,
-        isDeletingEntries
+        isDeletingEntries,
     ) {
         return (
             (deleteLargeEntries || entryCountToDelete > 0) && !isDeletingEntries
@@ -219,5 +219,5 @@ class RESTerHistoryCleanupDialog extends RESTerDialogControllerMixin(
 
 customElements.define(
     RESTerHistoryCleanupDialog.is,
-    RESTerHistoryCleanupDialog
+    RESTerHistoryCleanupDialog,
 );

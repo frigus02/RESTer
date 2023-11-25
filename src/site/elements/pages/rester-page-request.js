@@ -63,8 +63,10 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  */
 class RESTerPageRequest extends RESTerLintMixin(
     RESTerErrorMixin(
-        RESTerPageMixin(RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement)))
-    )
+        RESTerPageMixin(
+            RESTerSettingsMixin(RESTerHotkeysMixin(PolymerElement)),
+        ),
+    ),
 ) {
     static get template() {
         return html`
@@ -79,7 +81,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                     --paper-tab: {
                         padding: 0 24px;
                         text-transform: uppercase;
-                    }
+                    };
                 }
 
                 :host([request-show-variables-on-side]) [role='main'] {
@@ -653,7 +655,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                         )
                     ) {
                         this.showError(
-                            `Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`
+                            `Specified request id "${this.historyRouteData.historyId}" does not match the request id of the history entry "${historyEntry.request.id}".`,
                         );
                         window.location = '#/';
                     } else {
@@ -672,7 +674,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                         this._setRequest(historyEntry.request);
                         this._setResponse(historyEntry.response);
                     }
-                }
+                },
             );
         } else if (this.routeActive) {
             getRequest(+this.routeData.requestId).then((request) => {
@@ -743,7 +745,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         }
 
         let header = headers.base.find(
-            (h) => h.name.toLowerCase() === headerName.toLowerCase()
+            (h) => h.name.toLowerCase() === headerName.toLowerCase(),
         );
 
         return header && header.value;
@@ -824,7 +826,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             this._setRequestHeader(
                 'Authorization',
                 `${auth.scheme} ${auth.token}`,
-                flag
+                flag,
             );
             this._setRequestHeader('Cookie', null, flag);
         }
@@ -861,7 +863,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         if (!this.request.title || !this.request.collection) {
             this.showError(
                 'Please enter a Collection and Title for your request in blue bar at the top.',
-                'Missing Title'
+                'Missing Title',
             );
             return;
         }
@@ -901,7 +903,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                 obj,
                 this.requestVariableValues,
                 usedVariableValues,
-                encodeFn
+                encodeFn,
             );
         const compiledRequest = {
             ...this.request,
@@ -911,7 +913,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             url: compile(this.request.url),
             headers: compile(this.request.headers),
             body: compile(this.request.body, (value) =>
-                this.$.bodyInput.maybeEncodeVariableValue(value)
+                this.$.bodyInput.maybeEncodeVariableValue(value),
             ),
         };
 
@@ -1031,7 +1033,7 @@ class RESTerPageRequest extends RESTerLintMixin(
         replaceVariables(
             this.request,
             this.requestVariableValues,
-            usedVariableValues
+            usedVariableValues,
         );
         return variables.some((name) => !usedVariableValues[name]);
     }

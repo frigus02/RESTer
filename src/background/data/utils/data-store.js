@@ -26,13 +26,13 @@ class DataStore extends CustomEventTarget {
 
     get(tableName, ObjectConstructor, id) {
         return this._get(`${tableName}.e.${id}`).then(
-            (entity) => entity && new ObjectConstructor(entity)
+            (entity) => entity && new ObjectConstructor(entity),
         );
     }
 
     getIndexKeys(tableName, index) {
         return this._get(`${tableName}.i.${index}`).then((indexData) =>
-            indexData ? Object.keys(indexData) : []
+            indexData ? Object.keys(indexData) : [],
         );
     }
 
@@ -51,7 +51,7 @@ class DataStore extends CustomEventTarget {
         return this._get(ids).then((entities) =>
             Object.values(entities)
                 .map((entity) => new ObjectConstructor(entity))
-                .sort((a, b) => b.id - a.id)
+                .sort((a, b) => b.id - a.id),
         );
     }
 
@@ -79,17 +79,17 @@ class DataStore extends CustomEventTarget {
                 const tableNames = Object.keys(queue);
                 const promises = tableNames.map((tableName) => {
                     const table = dataStore.tables.find(
-                        (table) => table.name === tableName
+                        (table) => table.name === tableName,
                     );
                     const initialQuery = table.indexes.map(
-                        (index) => `${tableName}.i.${index}`
+                        (index) => `${tableName}.i.${index}`,
                     );
 
                     queue[tableName].forEach(({ action, entity }) => {
                         if (action === 'add' || action === 'put') {
                             const isNew = !Object.prototype.hasOwnProperty.call(
                                 entity,
-                                'id'
+                                'id',
                             );
                             if (isNew) {
                                 // New entity. Generate ID and store it in interval list.
@@ -97,35 +97,35 @@ class DataStore extends CustomEventTarget {
 
                                 dataStore._addIdToIntervals(
                                     tableName,
-                                    entity.id
+                                    entity.id,
                                 );
                             } else if (action === 'add') {
                                 throw new Error(
-                                    `add(${entity.id}): Cannot add an entity with an id.`
+                                    `add(${entity.id}): Cannot add an entity with an id.`,
                                 );
                             } else {
                                 // Existing entity. Make sure ID exists in interval list.
                                 const interval = dataStore._findIdInterval(
                                     tableName,
                                     (start, end) =>
-                                        entity.id >= start && entity.id <= end
+                                        entity.id >= start && entity.id <= end,
                                 );
                                 if (!interval) {
                                     throw new Error(
-                                        `put(${entity.id}): Entity does not exist. Cannot insert entity with specific id.`
+                                        `put(${entity.id}): Entity does not exist. Cannot insert entity with specific id.`,
                                     );
                                 }
                             }
 
                             if (!isNew) {
                                 initialQuery.push(
-                                    `${tableName}.e.${entity.id}`
+                                    `${tableName}.e.${entity.id}`,
                                 );
                             }
                         } else if (action === 'delete') {
                             dataStore._removeIdFromIntervals(
                                 tableName,
-                                entity.id
+                                entity.id,
                             );
 
                             initialQuery.push(`${tableName}.e.${entity.id}`);
@@ -162,7 +162,7 @@ class DataStore extends CustomEventTarget {
                                             ].indexOf(entity.id);
                                             indexData[oldValue].splice(
                                                 indexInIndexData,
-                                                1
+                                                1,
                                             );
                                         }
                                     }
@@ -171,7 +171,7 @@ class DataStore extends CustomEventTarget {
                                         if (
                                             !Object.prototype.hasOwnProperty.call(
                                                 indexData,
-                                                newValue
+                                                newValue,
                                             )
                                         ) {
                                             indexData[newValue] = [];
@@ -192,7 +192,7 @@ class DataStore extends CustomEventTarget {
                             queue[tableName].forEach(({ action, entity }) => {
                                 if (action === 'delete') {
                                     dataToRemove.push(
-                                        `${tableName}.e.${entity.id}`
+                                        `${tableName}.e.${entity.id}`,
                                     );
                                 }
                             });
@@ -215,7 +215,7 @@ class DataStore extends CustomEventTarget {
                 });
 
                 return Promise.all(promises).then(() =>
-                    result.length === 1 ? result[0] : result
+                    result.length === 1 ? result[0] : result,
                 );
             });
         };
@@ -232,7 +232,7 @@ class DataStore extends CustomEventTarget {
                         this.dispatchEvent(
                             new CustomEvent('change', {
                                 detail: changes,
-                            })
+                            }),
                         );
                         resolve(...args);
                     }, reject);
@@ -260,7 +260,7 @@ class DataStore extends CustomEventTarget {
         const table = this.tables.find((table) => table.name === tableName);
         const interval = this._findIdInterval(
             tableName,
-            (start, end) => id >= start && id <= end
+            (start, end) => id >= start && id <= end,
         );
         if (!interval) {
             return;
@@ -323,7 +323,7 @@ class DataStore extends CustomEventTarget {
 
     _get(keys) {
         return this._performStorageLocalOperation('get', keys, (result) =>
-            typeof keys === 'string' ? result[keys] : result
+            typeof keys === 'string' ? result[keys] : result,
         );
     }
 
@@ -338,7 +338,7 @@ class DataStore extends CustomEventTarget {
     _performStorageLocalOperation(
         op,
         keys,
-        transformSuccessResult = (arg) => arg
+        transformSuccessResult = (arg) => arg,
     ) {
         return new Promise((resolve, reject) => {
             const start = performance.now();
@@ -351,7 +351,7 @@ class DataStore extends CustomEventTarget {
                                 operation: `storage.local.${op}(...)`,
                                 duration: Math.round(millis),
                             },
-                        })
+                        }),
                     );
                 }
 

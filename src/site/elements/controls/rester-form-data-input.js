@@ -192,7 +192,7 @@ class RESTerFormDataInput extends PolymerElement {
     _ensureEmptyFormDataEntry() {
         if (
             !this.formDataEntries.some(
-                (e) => e.name.trim() === '' && e.value.trim() === ''
+                (e) => e.name.trim() === '' && e.value.trim() === '',
             )
         ) {
             this.push('formDataEntries', { name: '', value: '', type: 'text' });
@@ -261,7 +261,8 @@ class RESTerFormDataInput extends PolymerElement {
 
     _isFileNameInUse(name, ignoreIndex) {
         return this.formDataEntries.some(
-            (e, i) => i !== ignoreIndex && e.type === 'file' && e.value === name
+            (e, i) =>
+                i !== ignoreIndex && e.type === 'file' && e.value === name,
         );
     }
 }

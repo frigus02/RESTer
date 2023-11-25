@@ -27,7 +27,7 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @customElement
  */
 class RESTerPageEnvironments extends RESTerPageMixin(
-    RESTerSettingsMixin(PolymerElement)
+    RESTerSettingsMixin(PolymerElement),
 ) {
     static get template() {
         return html`
@@ -178,7 +178,7 @@ class RESTerPageEnvironments extends RESTerPageMixin(
                         'environments',
                         this._environmentInDialogIndex,
                         1,
-                        this._environmentInDialog
+                        this._environmentInDialog,
                     );
                 } else {
                     this.push('environments', this._environmentInDialog);

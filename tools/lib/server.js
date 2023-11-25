@@ -77,7 +77,7 @@ async function middleware(req, res) {
                 title: `Item ${String(i).padStart(5, '0')}`,
                 body: randomLengthLoremIpsum(),
                 image: `https://cataas.com/cat/says/${Math.ceil(
-                    Math.random() * count
+                    Math.random() * count,
                 )}`,
             });
         }

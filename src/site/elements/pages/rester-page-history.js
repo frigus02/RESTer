@@ -173,16 +173,16 @@ class RESTerPageHistory extends RESTerPageMixin(PolymerElement) {
 
                         const compiledRequest = replaceWithoutProvidedValues(
                             e.request,
-                            e.request.variables.values
+                            e.request.variables.values,
                         );
 
                         e.request.methodCompiled = compiledRequest.method;
                         e.request.urlCompiled = compiledRequest.url;
 
                         return e;
-                    })
+                    }),
                 );
-            }
+            },
         );
     }
 

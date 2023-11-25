@@ -5,7 +5,7 @@ function ensureIncognitoAccess() {
                 resolve();
             } else {
                 reject(
-                    "RESTer doesn't have access to incognito windows. Please allow access on the browser extension page and try again."
+                    "RESTer doesn't have access to incognito windows. Please allow access on the browser extension page and try again.",
                 );
             }
         });
@@ -75,16 +75,16 @@ function sendRequest(request) {
                         types: ['main_frame'],
                         tabId: thisTab.id,
                     },
-                    ['blocking']
+                    ['blocking'],
                 );
-            }
+            },
         );
 
         function onWindowRemoved(windowId) {
             if (windowId === thisWindowId) {
                 chrome.windows.onRemoved.removeListener(onWindowRemoved);
                 chrome.webRequest.onBeforeRequest.removeListener(
-                    onBeforeRequest
+                    onBeforeRequest,
                 );
 
                 if (!requestFinished) {
@@ -111,7 +111,7 @@ function sendRequest(request) {
                                     url: details.url,
                                     cookies: cookies,
                                 });
-                            }
+                            },
                         );
                     })
                     .catch(() => {

@@ -20,7 +20,7 @@ function updateValues() {
             provider.e.dispatchEvent(
                 new CustomEvent('valuesChanged', {
                     detail: provider.values,
-                })
+                }),
             );
         });
     } else {
@@ -28,7 +28,7 @@ function updateValues() {
         provider.e.dispatchEvent(
             new CustomEvent('valuesChanged', {
                 detail: provider.values,
-            })
+            }),
         );
     }
 }

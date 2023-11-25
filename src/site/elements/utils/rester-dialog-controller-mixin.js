@@ -31,7 +31,7 @@ const RESTerDialogControllerMixin = (superclass) =>
             super.connectedCallback();
             this.$.dialog.addEventListener(
                 'iron-overlay-closed',
-                this._onDialogClosed
+                this._onDialogClosed,
             );
             dialogs[this.constructor.resterDialogId] = this;
         }
@@ -40,7 +40,7 @@ const RESTerDialogControllerMixin = (superclass) =>
             dialogs[this.constructor.resterDialogId] = undefined;
             this.$.dialog.removeEventListener(
                 'iron-overlay-closed',
-                this._onDialogClosed
+                this._onDialogClosed,
             );
             super.disconnectedCallback();
         }

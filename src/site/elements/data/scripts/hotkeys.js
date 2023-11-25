@@ -85,7 +85,7 @@ export function add(hotkey) {
             nodeName === 'TEXTAREA'
         ) {
             handleEvent = pressedKeys.some(
-                (key) => safeKeysForFormControls.indexOf(key) > -1
+                (key) => safeKeysForFormControls.indexOf(key) > -1,
             );
         }
 

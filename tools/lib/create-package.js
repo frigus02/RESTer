@@ -78,7 +78,7 @@ function enhanceManifestJson(manifestJson, browser) {
     // Validate version
     if (manifest.version !== packageJson.version) {
         throw new Error(
-            `Version in manifest (${manifest.version}) does not match validated version (${packageJson.version}).`
+            `Version in manifest (${manifest.version}) does not match validated version (${packageJson.version}).`,
         );
     }
 
@@ -88,7 +88,7 @@ function enhanceManifestJson(manifestJson, browser) {
 async function createPackage({ browser, srcDir, destFile }) {
     const manifestJson = await readFile(
         path.join(srcDir, 'manifest.json'),
-        'utf8'
+        'utf8',
     );
     await mkdir(path.dirname(destFile), { recursive: true });
 

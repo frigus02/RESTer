@@ -26,7 +26,9 @@ function generateUsedLibraries(webPackFiles) {
         .sort()
         .map((lib) => {
             const usedFiles = libraries[lib];
-            const packageJson = require(`../../node_modules/${lib}/package.json`);
+            const packageJson = require(
+                `../../node_modules/${lib}/package.json`,
+            );
 
             return {
                 name: lib,
@@ -91,7 +93,7 @@ class GenerateLibraryLinksPlugin {
                             .filter((file) => file !== 'package.json')
                             .map(
                                 (file) =>
-                                    `https://unpkg.com/${name}@${version}/${file}`
+                                    `https://unpkg.com/${name}@${version}/${file}`,
                             );
                         return `${name} ${version}\n${fileUrls.join('\n')}`;
                     })
@@ -99,7 +101,7 @@ class GenerateLibraryLinksPlugin {
                 const fileContent = options.header + text + options.footer;
 
                 await writeFile(options.filename, fileContent, 'utf8');
-            }
+            },
         );
     }
 }
@@ -129,14 +131,14 @@ class GenerateAboutLibrariesPlugin {
                         name: lib.packageJson.name,
                         version: lib.packageJson.version,
                         url: `https://www.npmjs.com/package/${lib.packageJson.name}`,
-                    }))
+                    })),
                 );
 
                 compilation.assets[options.filename] = {
                     source: () => text,
                     size: () => text.length,
                 };
-            }
+            },
         );
     }
 }

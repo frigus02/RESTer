@@ -31,7 +31,7 @@ function collectProvidedValues() {
     e.dispatchEvent(
         new CustomEvent('providedValuesChanged', {
             detail: providedValues,
-        })
+        }),
     );
 }
 
@@ -87,13 +87,13 @@ export function replace(
     obj,
     values = {},
     usedValues = {},
-    mapValue = (x) => x
+    mapValue = (x) => x,
 ) {
     return replaceInternal(
         obj,
         Object.assign({}, values, providedValues),
         usedValues,
-        mapValue
+        mapValue,
     );
 }
 
@@ -101,12 +101,12 @@ export function replaceWithoutProvidedValues(
     obj,
     values = {},
     usedValues = {},
-    mapValue = (x) => x
+    mapValue = (x) => x,
 ) {
     return replaceInternal(
         obj,
         Object.assign({}, values),
         usedValues,
-        mapValue
+        mapValue,
     );
 }

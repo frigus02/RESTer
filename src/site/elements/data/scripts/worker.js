@@ -39,5 +39,5 @@ function getAbsoluteUrl(relativeUrl) {
 }
 
 export const formatCode = new SimpleWorker(
-    getAbsoluteUrl('elements/data/workers/format-code.js')
+    getAbsoluteUrl('elements/data/workers/format-code.js'),
 );

@@ -30,7 +30,7 @@ const RESTerVariablesMixin = (superclass) =>
             this._setProvidedVariableValues(providedValues);
             variablesEvents.addEventListener(
                 'providedValuesChanged',
-                this._onProvidedValuesChanged
+                this._onProvidedValuesChanged,
             );
             super.connectedCallback();
         }
@@ -39,7 +39,7 @@ const RESTerVariablesMixin = (superclass) =>
             super.disconnectedCallback();
             variablesEvents.removeEventListener(
                 'providedValuesChanged',
-                this._onProvidedValuesChanged
+                this._onProvidedValuesChanged,
             );
         }
 

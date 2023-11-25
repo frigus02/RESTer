@@ -274,7 +274,7 @@ const FIELDS_FOR_FLOW = {
 };
 
 class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return template;
@@ -318,7 +318,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
             this.data.accessTokenRequestAuthentication === 'pkce' &&
             flow &&
             !FIELDS_FOR_FLOW[flow].includes(
-                'accessTokenRequestAuthentication:pkce'
+                'accessTokenRequestAuthentication:pkce',
             )
         ) {
             this.set('data.accessTokenRequestAuthentication', null);
@@ -348,7 +348,7 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
         if (this.$.dialogForm.validate()) {
             const flowProps = FIELDS_FOR_FLOW[this.data.flow];
             const notNeededProps = Object.keys(this.data).filter(
-                (key) => !flowProps.includes(key)
+                (key) => !flowProps.includes(key),
             );
             for (const key of notNeededProps) {
                 delete this.data[key];
@@ -365,5 +365,5 @@ class RESTerAuthorizationProviderOAuth2ConfigurationDialog extends RESTerDialogC
 
 customElements.define(
     RESTerAuthorizationProviderOAuth2ConfigurationDialog.is,
-    RESTerAuthorizationProviderOAuth2ConfigurationDialog
+    RESTerAuthorizationProviderOAuth2ConfigurationDialog,
 );

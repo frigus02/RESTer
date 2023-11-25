@@ -112,7 +112,7 @@ class RESTerQuickOpenDialog extends PolymerElement {
                     description: `${r.method} ${r.url}`,
                     score: 0,
                     data: r,
-                }))
+                })),
             );
         });
 

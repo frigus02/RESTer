@@ -193,7 +193,7 @@ class RESTerRequestTitleInput extends PolymerElement {
                     value.substr(0, caretPos - 2) + value.substr(caretPos);
                 this.$.nativeInput.setSelectionRange(
                     caretPos - 2,
-                    caretPos - 2
+                    caretPos - 2,
                 );
             }
         } else if (e.keyCode === 'Delete') {
@@ -223,7 +223,7 @@ class RESTerRequestTitleInput extends PolymerElement {
                 newValue.substr(caretPos);
             this.$.nativeInput.setSelectionRange(
                 caretPos + strToInsert.length,
-                caretPos + strToInsert.length
+                caretPos + strToInsert.length,
             );
         }
     }

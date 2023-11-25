@@ -15,7 +15,7 @@ async function ensureCookiesPermission() {
                 resolve();
             } else {
                 reject(
-                    'RESTer needs the permissions to read cookies for this.'
+                    'RESTer needs the permissions to read cookies for this.',
                 );
             }
         });
@@ -41,10 +41,10 @@ function getShortestCookieExpirationDate(cookies) {
 
         const expirationDate = cookies
             .map((cookie) =>
-                cookie.session ? sessionExpirationDate : cookie.expirationDate
+                cookie.session ? sessionExpirationDate : cookie.expirationDate,
             )
             .reduce((prev, current) =>
-                !prev || prev > current ? current : prev
+                !prev || prev > current ? current : prev,
             );
         if (expirationDate) {
             // The cookie expiration date is specified in seconds while the
@@ -96,9 +96,8 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
 
     async editConfiguration(config) {
         const newConfig = clone(config);
-        const result = await dialogs.authProviderCookieConfiguration.show(
-            newConfig
-        );
+        const result =
+            await dialogs.authProviderCookieConfiguration.show(newConfig);
         if (result.reason.confirmed && result.reason.action === 'save') {
             newConfig.providerId = this.providerId;
             return newConfig;
@@ -126,7 +125,7 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
 
         const filteredCookies = filterCookies(
             response.cookies,
-            config.cookieNames
+            config.cookieNames,
         );
         const shortedExpirationDate =
             getShortestCookieExpirationDate(filteredCookies);
@@ -148,5 +147,5 @@ class RESTerAuthorizationProviderCookie extends PolymerElement {
 
 customElements.define(
     RESTerAuthorizationProviderCookie.is,
-    RESTerAuthorizationProviderCookie
+    RESTerAuthorizationProviderCookie,
 );

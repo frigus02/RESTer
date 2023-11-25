@@ -57,7 +57,7 @@ export function get() {
 export function set(newSettings) {
     // Filter for keys, which actually exist.
     const changedKeys = Object.keys(newSettings).filter((key) =>
-        Object.prototype.hasOwnProperty.call(DEFAULTS, key)
+        Object.prototype.hasOwnProperty.call(DEFAULTS, key),
     );
     const changedSettings = {};
     for (let key of changedKeys) {
@@ -73,7 +73,7 @@ export function set(newSettings) {
             e.dispatchEvent(
                 new CustomEvent('change', {
                     detail: changedSettings,
-                })
+                }),
             );
         });
 }

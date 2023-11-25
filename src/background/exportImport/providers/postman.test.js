@@ -34,7 +34,7 @@ describe('format', function () {
                     },
                 ],
                 historyEntries: [],
-            })
+            }),
         ).toMatchSnapshot();
     });
 
@@ -100,7 +100,7 @@ describe('format', function () {
                         response: {},
                     },
                 ],
-            })
+            }),
         ).toMatchSnapshot();
     });
 
@@ -130,7 +130,7 @@ describe('format', function () {
                     },
                 ],
                 historyEntries: [],
-            })
+            }),
         ).toMatchSnapshot();
     });
 });
@@ -206,7 +206,7 @@ describe('parse', function () {
         expect(
             parse(collectionJson, {
                 collectionPrefix: '',
-            })
+            }),
         ).toMatchSnapshot();
     });
 
@@ -255,7 +255,7 @@ describe('parse', function () {
         expect(
             parse(collectionJson, {
                 collectionPrefix: 'Import',
-            })
+            }),
         ).toMatchSnapshot();
     });
 });

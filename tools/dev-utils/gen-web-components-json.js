@@ -63,16 +63,16 @@ async function getWebComponentsInFile(file) {
         (statement) =>
             statement.type === 'ClassDeclaration' &&
             statement.superClass &&
-            isPolymerElement(statement.superClass)
+            isPolymerElement(statement.superClass),
     );
     const webComponents = classes.map((statement) => {
         const body = statement.body.body;
         const is = body.find((statement) => isStaticGetter(statement, 'is'));
         const name = is.body.body.find(
-            (statement) => statement.type === 'ReturnStatement'
+            (statement) => statement.type === 'ReturnStatement',
         ).argument.value;
         const properties = body.find((statement) =>
-            isStaticGetter(statement, 'properties')
+            isStaticGetter(statement, 'properties'),
         );
         const attributes = properties
             ? properties.body.body
@@ -111,7 +111,7 @@ async function main() {
     await writeFile(
         '.vscode/web-components.json',
         JSON.stringify(webComponents, null, 4),
-        'utf8'
+        'utf8',
     );
 }
 

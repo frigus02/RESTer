@@ -18,7 +18,7 @@ import RESTerSettingsMixin from '../data/rester-data-settings-mixin.js';
  * @customElement
  */
 class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
-    RESTerSettingsMixin(PolymerElement)
+    RESTerSettingsMixin(PolymerElement),
 ) {
     static get template() {
         return html`
@@ -119,5 +119,5 @@ class RESTerEnvironmentSelectDialog extends RESTerDialogControllerMixin(
 
 customElements.define(
     RESTerEnvironmentSelectDialog.is,
-    RESTerEnvironmentSelectDialog
+    RESTerEnvironmentSelectDialog,
 );

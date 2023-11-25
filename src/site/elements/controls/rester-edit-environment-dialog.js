@@ -20,7 +20,7 @@ import RESTerDialogControllerMixin from '../utils/rester-dialog-controller-mixin
  * @customElement
  */
 class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return html`
@@ -145,7 +145,7 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
                 Object.keys(newData.values).map((key) => ({
                     key,
                     value: newData.values[key],
-                }))
+                })),
             );
             this._ensureEmptyValueItem();
         }
@@ -154,7 +154,7 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
     _ensureEmptyValueItem() {
         if (
             !this.valueItems.some(
-                (value) => value.key.trim() === '' && value.value.trim() === ''
+                (value) => value.key.trim() === '' && value.value.trim() === '',
             )
         ) {
             this.push('valueItems', { key: '', value: '' });
@@ -188,5 +188,5 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
 
 customElements.define(
     RESTerEditEnvironmentDialog.is,
-    RESTerEditEnvironmentDialog
+    RESTerEditEnvironmentDialog,
 );

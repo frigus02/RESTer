@@ -15,7 +15,7 @@ import RESTerDialogControllerMixin from './rester-dialog-controller-mixin.js';
  * @customElement
  */
 class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(
-    PolymerElement
+    PolymerElement,
 ) {
     static get template() {
         return html`
@@ -91,5 +91,5 @@ class RESTerHighlightLanguageSelectDialog extends RESTerDialogControllerMixin(
 
 customElements.define(
     RESTerHighlightLanguageSelectDialog.is,
-    RESTerHighlightLanguageSelectDialog
+    RESTerHighlightLanguageSelectDialog,
 );

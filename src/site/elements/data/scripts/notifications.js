@@ -11,7 +11,7 @@ export function show(notification) {
         e.dispatchEvent(
             new CustomEvent('notificationAdded', {
                 detail: notification,
-            })
+            }),
         );
     }
 }
@@ -24,7 +24,7 @@ export function hide(notification) {
         e.dispatchEvent(
             new CustomEvent('notificationRemoved', {
                 detail: notification,
-            })
+            }),
         );
     }
 }

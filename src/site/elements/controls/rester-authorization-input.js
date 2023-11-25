@@ -184,7 +184,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
 
                 configPromises.push(
                     getAuthorizationProviderConfigurations(
-                        provider.providerId
+                        provider.providerId,
                     ).then((configurations) => {
                         configurations.forEach((configuration) => {
                             this.push('configurations', {
@@ -192,7 +192,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                                 configuration,
                             });
                         });
-                    })
+                    }),
                 );
             } else {
                 this.push('configurations', {
@@ -209,7 +209,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
         Promise.all(configPromises).then(() => {
             getAuthorizationTokens().then((tokens) => {
                 this._setTokens(
-                    tokens.map((token) => this._prepareTokenForRender(token))
+                    tokens.map((token) => this._prepareTokenForRender(token)),
                 );
                 this._updateTokenIsUsedFlag();
             });
@@ -298,7 +298,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
             const newConfig = await provider.editConfiguration(configuration);
             if (newConfig === 'delete') {
                 await deleteAuthorizationProviderConfiguration(
-                    configuration.id
+                    configuration.id,
                 );
                 const index = this.configurations.indexOf(config);
                 if (index > 0) {
@@ -336,7 +336,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
         const config = this.configurations.find(
             (c) =>
                 c.configuration.providerId === token.providerId &&
-                c.configuration.id === token.configurationId
+                c.configuration.id === token.configurationId,
         );
         return {
             token,
@@ -353,14 +353,14 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 ['tokens', i, 'isUsed'],
                 this.authorization &&
                     this.authorization.scheme === token.token.scheme &&
-                    this.authorization.token === token.token.token
+                    this.authorization.token === token.token.token,
             );
         });
     }
 
     _compareConfigurations(a, b) {
         const providerCompare = a.provider.title.localeCompare(
-            b.provider.title
+            b.provider.title,
         );
         if (providerCompare === 0) {
             return a.configuration.title.localeCompare(b.configuration.title);

@@ -26,7 +26,7 @@ const RESTerPageMixin = (superclass) =>
         ready() {
             super.ready();
             this._drawerToggle = this.shadowRoot.querySelector(
-                '[paper-drawer-toggle]'
+                '[paper-drawer-toggle]',
             );
         }
 
@@ -42,7 +42,7 @@ const RESTerPageMixin = (superclass) =>
             if (this._drawerToggle) {
                 this._drawerToggle.removeEventListener(
                     'tap',
-                    this._onDrawerTap
+                    this._onDrawerTap,
                 );
             }
         }
@@ -60,7 +60,7 @@ const RESTerPageMixin = (superclass) =>
                 new CustomEvent('drawer-toggle-tapped', {
                     bubbles: true,
                     composed: true,
-                })
+                }),
             );
         }
     };

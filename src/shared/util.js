@@ -242,7 +242,7 @@ export function parseStatusLine(statusLine) {
     }
 
     const statusCode = Number.parseInt(
-        statusLine.substring(firstSpace + 1, secondSpace)
+        statusLine.substring(firstSpace + 1, secondSpace),
     );
     const reasonPhrase = statusLine.substring(secondSpace + 1);
     return { httpVersion, statusCode, reasonPhrase };
