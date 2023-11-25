@@ -688,7 +688,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             this._setRequest({
                 collection: '',
                 title: '',
-                method: '',
+                method: 'GET',
                 url: '',
                 headers: [],
                 body: '',
