@@ -40,6 +40,7 @@ class RESTerAutocompleteInput extends PolymerElement {
                         autofocus$="[[autofocus]]"
                         required$="[[required]]"
                         disabled$="[[disabled]]"
+                        on-focus="_onFocus"
                     />
                 </iron-input>
                 <rester-autocomplete
@@ -90,11 +91,18 @@ class RESTerAutocompleteInput extends PolymerElement {
                 value: false,
             },
             disabled: Boolean,
+            selectOnFocus: Boolean,
         };
     }
 
     validate() {
         return this.$.input.validate();
+    }
+
+    _onFocus() {
+        if (this.selectOnFocus) {
+            this.$.nativeInput.select();
+        }
     }
 }
 

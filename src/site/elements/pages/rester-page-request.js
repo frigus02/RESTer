@@ -313,6 +313,7 @@ class RESTerPageRequest extends RESTerLintMixin(
                                             value="{{request.method}}"
                                             items="[[requestMethods]]"
                                             required
+                                            select-on-focus
                                         ></rester-autocomplete-input>
                                         <rester-url-input
                                             class="url-input"
@@ -688,7 +689,7 @@ class RESTerPageRequest extends RESTerLintMixin(
             this._setRequest({
                 collection: '',
                 title: '',
-                method: '',
+                method: 'GET',
                 url: '',
                 headers: [],
                 body: '',
