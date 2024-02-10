@@ -12,13 +12,6 @@ const createPackage = require('./create-package');
 const fsUnlink = promisify(fs.unlink);
 const rootDir = path.resolve(__dirname, '../../');
 
-firefox.Channel.AURORA = new firefox.Channel(
-    // The path to Firefox Developer Edition has spaces in it on macOS, which was not the case in
-    // https://github.com/SeleniumHQ/selenium/blob/b4b7674a8a4e2802e7e9a1c4fa85201a2413b781/javascript/node/selenium-webdriver/firefox.js#L745
-    '/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox-bin',
-    'Firefox Developer Edition\\firefox.exe',
-);
-
 async function createResterExtensionXpi() {
     const srcDir = path.resolve(rootDir, 'build');
     const xpiPath = path.resolve(rootDir, 'package/firefox-selenium.xpi');
@@ -42,7 +35,7 @@ async function createWebDriver() {
     await createResterExtensionXpi();
 
     const options = new firefox.Options()
-        .setBinary(await firefox.Channel.AURORA.locate())
+        .setBinary(await firefox.Channel.DEV.locate())
         .setPreference(
             'extensions.webextensions.uuids',
             '{"rester@kuehle.me":"595108c3-fc1a-46bc-a6f6-918a6b1898aa"}',
@@ -52,7 +45,7 @@ async function createWebDriver() {
         .addExtensions(path.resolve(rootDir, 'package/firefox-selenium.xpi'));
 
     if (!process.env.WITH_HEAD) {
-        options.headless();
+        options.addArguments('-headless');
     }
 
     const driver = await new Builder()
