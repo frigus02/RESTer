@@ -1,6 +1,6 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import DOMPurify from '../../../../node_modules/dompurify/dist/purify.es.js';
+import DOMPurify from '../../../../node_modules/dompurify/dist/purify.es.mjs';
 
 /**
  * @polymer
