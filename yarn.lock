@@ -2128,10 +2128,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@wdio/logger@^8.24.12":
-  version "8.24.12"
-  resolved "https://registry.yarnpkg.com/@wdio/logger/-/logger-8.24.12.tgz#03cb8bb7ce7ee443e1dcd200a3b44270ae16a1f9"
-  integrity sha512-QisOiVIWKTUCf1H7S+DOtC+gruhlpimQrUXfWMTeeh672PvAJYnTpOJDWA+BtXfsikkUYFAzAaq8SeMJk8rqKg==
+"@wdio/logger@^8.28.0":
+  version "8.28.0"
+  resolved "https://registry.yarnpkg.com/@wdio/logger/-/logger-8.28.0.tgz#ab97ee1a9f6a30305e1a07ff2b67fa23e1281e73"
+  integrity sha512-/s6zNCqwy1hoc+K4SJypis0Ud0dlJ+urOelJFO1x0G0rwDRWyFiUP6ijTaCcFxAm29jYEcEPWijl2xkVIHwOyA==
   dependencies:
     chalk "^5.1.2"
     loglevel "^1.6.0"
@@ -3779,12 +3779,12 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-geckodriver@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.3.0.tgz#8586e80ddd23e5d5cd47382d9f6897051ca12ea3"
-  integrity sha512-QfpvxFsMORwKpvnLslkHCr3NTCczHAvkte6+pQGsiUZXKBe6mO4TTb727b+9KMVSK6XZqhR6ZwImKdP+F5vS6A==
+geckodriver@4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.3.2.tgz#c23f216592689d8080d45da090d8b6fce32d8d91"
+  integrity sha512-TNOoy+ULXJWI5XOq7CXD3PAD9TJa4NjMe7nKUXjlIsf+vezuaRsFgPwcgYdEem1K7106wabYsqr7Kqn51g0sJg==
   dependencies:
-    "@wdio/logger" "^8.24.12"
+    "@wdio/logger" "^8.28.0"
     decamelize "^6.0.0"
     http-proxy-agent "^7.0.0"
     https-proxy-agent "^7.0.2"
