@@ -1413,10 +1413,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.5.7":
-  version "5.5.7"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.7.tgz#984652af52cbe7c111c376d519b5ce765d444003"
-  integrity sha512-DoHTZ/TjtNfUu9eiqJd+x3IcCQrhS+yOYU436TKUnlE36jZwNbK535D1CmTsSYdi/UcdCWNm5KRQZ9g1tlZCPw==
+"@mdn/browser-compat-data@5.5.10":
+  version "5.5.10"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.10.tgz#b7c0454a617b268b7a9ab9ca6c886abd1ec69473"
+  integrity sha512-s2GGND9oLhEuksOFtICYOBZdMWPANBXTMqAXh89q6g1Mi3+OuWEmp9WFzw2v/nmS175vqeewpC1kDJA7taaxyA==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2334,18 +2334,18 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
+acorn@^8.11.3, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   version "8.11.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.11.3.tgz#71e0b14e13a4ec160724b38fb7b0f233b1b81d7a"
   integrity sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==
 
-addons-linter@6.21.0:
-  version "6.21.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.21.0.tgz#a0e9084a68fb958488572501f67c0ffe8411f9cd"
-  integrity sha512-4GBn14BR16FZE7dog6uz+1HO6V3B+mAVxmbwxRhed2y5eyrwIW832TmEpku+5A5bbovBZ4gilXEtBsl6A1AMmg==
+addons-linter@6.22.0:
+  version "6.22.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.22.0.tgz#58e588d93959bdb67956966e59442e4105b4ae1d"
+  integrity sha512-EfEiK2gHohUG66LEE7n95mc1SOOvCBFDPqtCI1GS1LGQ131gELJCi21OiZwttSjG9W1RRm+KXHh0BUXmW4ujEA==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.5.7"
+    "@mdn/browser-compat-data" "5.5.10"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.9.0"
     ajv "8.12.0"
@@ -2357,7 +2357,7 @@ addons-linter@6.21.0:
     eslint "8.56.0"
     eslint-plugin-no-unsanitized "4.0.2"
     eslint-visitor-keys "3.4.3"
-    espree "9.6.1"
+    espree "10.0.0"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
     glob "10.3.10"
@@ -2366,10 +2366,10 @@ addons-linter@6.21.0:
     jed "1.1.1"
     json-merge-patch "1.0.2"
     os-locale "5.0.0"
-    pino "8.17.2"
-    postcss "8.4.33"
+    pino "8.18.0"
+    postcss "8.4.35"
     relaxed-json "1.0.3"
-    semver "7.5.4"
+    semver "7.6.0"
     sha.js "2.4.11"
     source-map-support "0.5.21"
     tosource "1.0.0"
@@ -3481,7 +3481,16 @@ eslint@8.56.0:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-espree@9.6.1, espree@^9.6.0, espree@^9.6.1:
+espree@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/espree/-/espree-10.0.0.tgz#ce1411bb31a514797dbd29ee360e4f3404643096"
+  integrity sha512-gdlKrfXQWv/3vubKqeQIiBUoWeknNQVEDpKD7OD3bC53g5EKISTuhcIoA1H1e+zqIuosdKrKuTDMmj8eFfhOnA==
+  dependencies:
+    acorn "^8.11.3"
+    acorn-jsx "^5.3.2"
+    eslint-visitor-keys "^3.4.1"
+
+espree@^9.6.0, espree@^9.6.1:
   version "9.6.1"
   resolved "https://registry.yarnpkg.com/espree/-/espree-9.6.1.tgz#a2a17b8e434690a5432f2f8018ce71d331a48c6f"
   integrity sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==
@@ -5318,10 +5327,10 @@ pino-std-serializers@^6.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-6.0.0.tgz#4c20928a1bafca122fdc2a7a4a171ca1c5f9c526"
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
-pino@8.17.2:
-  version "8.17.2"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.17.2.tgz#0ed20175623a69d31664a1e8a5f85476272224be"
-  integrity sha512-LA6qKgeDMLr2ux2y/YiUt47EfgQ+S9LznBWOJdN3q1dx2sv0ziDLUBeVpyVv17TEcGCBuWf0zNtg3M5m1NhhWQ==
+pino@8.18.0:
+  version "8.18.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.18.0.tgz#f2bfbb4e827ed2049ee1e88372268efdcd1505f6"
+  integrity sha512-Mz/gKiRyuXu4HnpHgi1YWdHQCoWMufapzooisvFn78zl4dZciAxS+YeRkUxXl1ee/SzU80YCz1zpECCh4oC6Aw==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
@@ -5347,10 +5356,10 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postcss@8.4.33:
-  version "8.4.33"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.33.tgz#1378e859c9f69bf6f638b990a0212f43e2aaa742"
-  integrity sha512-Kkpbhhdjw2qQs2O2DGX+8m5OVqEcbB9HRBvuYM9pgrjEFUg30A9LmXNlTAUj4S9kgtGyrMbTzVjH7E+s5Re2yg==
+postcss@8.4.35:
+  version "8.4.35"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.35.tgz#60997775689ce09011edf083a549cea44aabe2f7"
+  integrity sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA==
   dependencies:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
@@ -5770,10 +5779,10 @@ selenium-webdriver@4.17.0:
     tmp "^0.2.1"
     ws ">=8.14.2"
 
-semver@7.5.4, semver@^7.5.3, semver@^7.5.4:
-  version "7.5.4"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.4.tgz#483986ec4ed38e1c6c48c34894a9182dbff68a6e"
-  integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
+semver@7.6.0, semver@^7.5.3, semver@^7.5.4:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.0.tgz#1a46a4db4bffcccd97b743b5005c8325f23d4e2d"
+  integrity sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==
   dependencies:
     lru-cache "^6.0.0"
 
