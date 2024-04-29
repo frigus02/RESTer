@@ -5828,10 +5828,10 @@ schema-utils@^4.2.0:
     ajv-formats "^2.1.1"
     ajv-keywords "^5.1.0"
 
-selenium-webdriver@4.19.0:
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.19.0.tgz#bdd001b6e534033664d8c1310a84c0f12eeafc67"
-  integrity sha512-8XHW8m9V2XN2/SC1kr4bWzMtGvjmKUEZ6S0UBoDBqonhmwEIzKOLbzhanBd08HCOg1s1O0XrDWCD71NnA8Zt0g==
+selenium-webdriver@4.20.0:
+  version "4.20.0"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.20.0.tgz#14941ab4a59e8956a5e4b4491a8ba2bd6619d1ac"
+  integrity sha512-s/G44lGQ1xB3tmtX6NNPomlkpL6CxLdmAvp/AGWWwi4qv5Te1+qji7tPSyr6gyuoPpdYiof1rKnWe3luy0MrYA==
   dependencies:
     jszip "^3.10.1"
     tmp "^0.2.3"
