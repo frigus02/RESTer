@@ -6,11 +6,12 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: text/plain
 Accept-Language: en
-Accept-Encoding: gzip, deflate, br
+Accept-Encoding: gzip, deflate, br, zstd
 Connection: keep-alive
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
 Sec-Fetch-Site: same-origin
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
@@ -21,12 +22,13 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: */*
 Accept-Language: en
-Accept-Encoding: gzip, deflate, br
+Accept-Encoding: gzip, deflate, br, zstd
 Connection: keep-alive
 Cookie: number1=10; number2=200; number3=300
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
 Sec-Fetch-Site: same-origin
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
@@ -37,7 +39,7 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: */*
 Accept-Language: en
-Accept-Encoding: gzip, deflate, br
+Accept-Encoding: gzip, deflate, br, zstd
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 25
 Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
@@ -46,6 +48,7 @@ Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
 Sec-Fetch-Site: same-origin
 Custom-Header: **http://127.0.0.1:7373**
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache
 
@@ -58,7 +61,7 @@ Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: */*
 Accept-Language: en
-Accept-Encoding: gzip, deflate, br
+Accept-Encoding: gzip, deflate, br, zstd
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 0
 Origin: moz-extension://595108c3-fc1a-46bc-a6f6-918a6b1898aa
@@ -66,6 +69,7 @@ Connection: keep-alive
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
 Sec-Fetch-Site: same-origin
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache
 
@@ -77,6 +81,7 @@ exports[`with clean requests GET http://127.0.0.1:7373/echo 1`] = `
 Host: 127.0.0.1:7373
 User-Agent: RESTer
 Accept: text/plain
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
@@ -86,6 +91,7 @@ exports[`with clean requests GET http://127.0.0.1:7373/echo with cookie 1`] = `
 Host: 127.0.0.1:7373
 User-Agent: RESTer
 Cookie: number2=200;number3=300
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache"
 `;
@@ -97,6 +103,7 @@ User-Agent: RESTer
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 25
 Custom-Header: **http://127.0.0.1:7373**
+Priority: u=4
 Pragma: no-cache
 Cache-Control: no-cache
 
