@@ -3,13 +3,14 @@
 const { By } = require('selenium-webdriver');
 
 function queryThroughShadowDOM(selectorChain) {
-    /* eslint-env browser */
     return selectorChain.reduce(
         (parent, selector) => {
             if (parent && parent.shadowRoot) {
                 return parent.shadowRoot.querySelector(selector);
             }
         },
+        // This runs in the browser, so `document` is defined.
+        // eslint-disable-next-line no-undef
         { shadowRoot: document },
     );
 }

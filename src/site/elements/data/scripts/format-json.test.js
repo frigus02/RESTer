@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import { formatJson } from './format-json.js';
 
 describe('formatJson', function () {

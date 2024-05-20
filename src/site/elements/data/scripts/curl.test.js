@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import { generateCommand } from './curl.js';
 
 describe('generateCommand', function () {

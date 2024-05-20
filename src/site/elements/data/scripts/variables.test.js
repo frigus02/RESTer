@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import {
     providedValues,
     extract,

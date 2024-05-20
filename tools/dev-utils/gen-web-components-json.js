@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 // Generate custom data about web components in this project for the VS Code
 // HTML Language Service.
 // https://github.com/Microsoft/vscode-html-languageservice/blob/master/docs/customData.md

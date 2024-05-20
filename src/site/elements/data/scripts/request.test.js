@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import { getFilenameFromContentDispositionHeader } from './request.js';
 
 describe('getFilenameFromContentDispositionHeader', function () {

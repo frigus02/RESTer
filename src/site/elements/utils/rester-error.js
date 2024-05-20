@@ -121,7 +121,9 @@ class RESTerError extends PolymerElement {
         } else if (typeof error !== 'string') {
             try {
                 return JSON.stringify(error, null, 4);
-            } catch (e) {}
+            } catch {
+                return '';
+            }
         }
     }
 
