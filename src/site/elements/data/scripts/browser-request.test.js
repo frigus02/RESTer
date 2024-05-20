@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import { getMatchPatterns } from './browser-request';
 
 describe('getMatchPatterns', function () {

@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import { time, dateTime, expirationDate, size, duration } from './format.js';
 
 const referenceDate = new Date('October 23, 2015 11:25');

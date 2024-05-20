@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 export const getEnvironment = jest.fn();
 export const getHistoryEntries = jest.fn();
 export const getRequests = jest.fn();

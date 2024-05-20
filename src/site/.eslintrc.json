@@ -1,8 +1,0 @@
-{
-    "globals": {
-        "ace": false
-    },
-    "rules": {
-        "new-cap": [2, {"capIsNewExceptionPattern": "Mixin$"}]
-    }
-}

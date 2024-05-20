@@ -62,7 +62,7 @@ chrome.browserAction.onClicked.addListener(() => {
                     loadReplace: true,
                     url: resterUrl,
                 });
-            } catch (e) {
+            } catch {
                 // Chrome does not support loadReplace and throws an exception,
                 // it is specified. Try again without loadReplace.
                 chrome.tabs.update({

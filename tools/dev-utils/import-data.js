@@ -1,8 +1,5 @@
 'use strict';
 
-/* eslint-env browser */
-/* global chrome:false */
-
 (function () {
     const div = document.body.appendChild(document.createElement('div'));
     div.style.position = 'fixed';

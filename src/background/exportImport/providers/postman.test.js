@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import { format, parse } from './postman.js';
 
 jest.mock('../../data/utils/db.js');

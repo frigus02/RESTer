@@ -83,7 +83,10 @@ function createToken(config, tokenResponse) {
         } else if (userName || userId) {
             token.title += ` ${userName || userId}`;
         }
-    } catch (e) {}
+    } catch {
+        // TODO: I can't remember why this try-catch is here. I assume
+        // decodeJwt can fail. But why swallow the error?
+    }
 
     if (config.enableVariables && config.env) {
         token.title += ` (Environment: ${config.env.name})`;
@@ -105,7 +108,7 @@ function createError(...lines) {
 function tryParseJson(str, defaultValue) {
     try {
         return JSON.parse(str);
-    } catch (e) {
+    } catch {
         return defaultValue;
     }
 }

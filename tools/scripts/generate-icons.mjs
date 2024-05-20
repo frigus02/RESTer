@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 'use strict';
 
 import { exec as _exec } from 'child_process';

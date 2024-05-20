@@ -311,7 +311,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 const index = this.configurations.indexOf(config);
                 this.notifyPath(['configurations', index, 'configuration']);
             }
-        } catch (e) {
+        } catch {
             // User pressed cancel
         }
     }
@@ -327,7 +327,7 @@ class RESTerAuthorizationInput extends RESTerErrorMixin(PolymerElement) {
                 provider,
                 configuration: config,
             });
-        } catch (e) {
+        } catch {
             // User pressed cancel
         }
     }

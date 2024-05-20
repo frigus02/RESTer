@@ -1,5 +1,3 @@
-/* eslint-env node, jest */
-
 import Navigation from './navigation.js';
 import * as mockRester from './rester.js';
 import * as mockVariables from './variables.js';

@@ -1,5 +1,3 @@
-'use strict';
-
 const { until } = require('selenium-webdriver');
 
 const { RequestSelectors, SettingsSelectors } = require('./page-elements');
@@ -16,8 +14,6 @@ const pages = {
 };
 
 exports.goTo = function (driver, baseUrl, timeout) {
-    /* eslint-disable require-atomic-updates */
-
     let lastPage;
     let lastPageElement;
 
