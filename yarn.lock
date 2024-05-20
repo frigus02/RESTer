@@ -3521,16 +3521,6 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-crockford@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-crockford/-/eslint-config-crockford-2.0.0.tgz#e110f9b79f6fca2feb4e3235bfd0734bd8df10cf"
-  integrity sha512-v1FBYN6vEAaPeaLTtJ14poR/+plXFcuyY4/8YCPgaBkpCG+58hIvAMqtsHRAnHjx8T1XLKpgzojeXhcOpgosmQ==
-
-eslint-config-prettier@9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-9.1.0.tgz#31af3d94578645966c082fcb71a5846d3c94867f"
-  integrity sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==
-
 eslint-plugin-no-unsanitized@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-no-unsanitized/-/eslint-plugin-no-unsanitized-4.0.2.tgz#e872b302cdfb5fe1262db989ba29cfcc334b499b"
