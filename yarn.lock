@@ -1436,10 +1436,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.5.26":
-  version "5.5.26"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.26.tgz#1533323d14835aefd0ca74398c98b801a455d6a1"
-  integrity sha512-S2tqS5ElUyKhTNKIutzWkBDriFbyFJ+MQJfGA4l5UPMP6PgTBQxCkgGeh0Rb+nKbrzhxaXyBh2Zatjn9k2JKlQ==
+"@mdn/browser-compat-data@5.5.29":
+  version "5.5.29"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.29.tgz#08753b8f94efa3f9a02cd39e0de5d6d5af745e0e"
+  integrity sha512-NHdG3QOiAsxh8ygBSKMa/WaNJwpNt87uVqW+S2RlnSqgeRdk+L3foNWTX6qd0I3NHSlCFb47rgopeNCJtRDY5A==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2367,13 +2367,13 @@ acorn@^8.11.3, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.11.3.tgz#71e0b14e13a4ec160724b38fb7b0f233b1b81d7a"
   integrity sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==
 
-addons-linter@6.27.0:
-  version "6.27.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.27.0.tgz#436032033bda0a8528a95d7a9e541d13f30b10e4"
-  integrity sha512-q2y+cxc07Chxxuj4FWtyfb5mOlYDkH7VgThBk3/x0nZh+MEn36Xcp+rKJGPtZbebkn5lO5IOzo7Rkxea61nscQ==
+addons-linter@6.28.0:
+  version "6.28.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.28.0.tgz#eaae7fda20ef27acf0165d17b012816e356684fb"
+  integrity sha512-fCTjXL/yG4hwq74JG8tQdrvEu0OvGrEN9yU+Df0020RDtHl3g/tTCyMeC4G1uyk8IuyMzp4myCBNnOGC7MWSQQ==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.5.26"
+    "@mdn/browser-compat-data" "5.5.29"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.10.1"
     ajv "8.13.0"
@@ -2388,7 +2388,7 @@ addons-linter@6.27.0:
     espree "10.0.1"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
-    glob "10.3.14"
+    glob "10.4.1"
     image-size "1.1.1"
     is-mergeable-object "1.1.1"
     jed "1.1.1"
@@ -3947,16 +3947,16 @@ glob2base@0.0.12:
   dependencies:
     find-index "^0.1.1"
 
-glob@10.3.14, glob@^10.0.0, glob@^10.3.10, glob@^10.3.7:
-  version "10.3.14"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-10.3.14.tgz#36501f871d373fe197fc5794588d0aa71e69ff68"
-  integrity sha512-4fkAqu93xe9Mk7le9v0y3VrPDqLKHarNi2s4Pv7f2yOvfhWfhc7hRPHC/JyqMqb8B/Dt/eGS4n7ykwf3fOsl8g==
+glob@10.4.1, glob@^10.0.0, glob@^10.3.10, glob@^10.3.7:
+  version "10.4.1"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-10.4.1.tgz#0cfb01ab6a6b438177bfe6a58e2576f6efe909c2"
+  integrity sha512-2jelhlq3E4ho74ZyVLN03oKdAZVUa6UDZzFLVH1H7dnoax+y9qyaq8zBkfDIggjniU19z0wU18y16jMB2eyVIw==
   dependencies:
     foreground-child "^3.1.0"
-    jackspeak "^2.3.6"
-    minimatch "^9.0.1"
-    minipass "^7.0.4"
-    path-scurry "^1.11.0"
+    jackspeak "^3.1.2"
+    minimatch "^9.0.4"
+    minipass "^7.1.2"
+    path-scurry "^1.11.1"
 
 glob@^7.1.3, glob@^7.1.4:
   version "7.2.3"
@@ -4352,10 +4352,10 @@ istanbul-reports@^3.1.3:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jackspeak@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/jackspeak/-/jackspeak-2.3.6.tgz#647ecc472238aee4b06ac0e461acc21a8c505ca8"
-  integrity sha512-N3yCS/NegsOBokc8GAdM8UcmfsKiSS8cipheD/nivzr700H+nsMOxJjQnvwOcRYVuFkdH0wGUvW2WbXGmrZGbQ==
+jackspeak@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jackspeak/-/jackspeak-3.1.2.tgz#eada67ea949c6b71de50f1b09c92a961897b90ab"
+  integrity sha512-kWmLKn2tRtfYMF/BakihVVRzBKOxz4gJMiL2Rj91WnAB5TPZumSH99R/Yf1qE1u4uRimvCSJfm6hnxohXeEXjQ==
   dependencies:
     "@isaacs/cliui" "^8.0.2"
   optionalDependencies:
@@ -5089,10 +5089,17 @@ minimatch@^5.1.0:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimatch@^9.0.0, minimatch@^9.0.1:
+minimatch@^9.0.0:
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.3.tgz#a6e00c3de44c3a542bfaae70abfc22420a6da825"
   integrity sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==
+  dependencies:
+    brace-expansion "^2.0.1"
+
+minimatch@^9.0.4:
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.4.tgz#8e49c731d1749cbec05050ee5145147b32496a51"
+  integrity sha512-KqWh+VchfxcMNRAJjj2tnsSJdNbHsVgnkBhTNrW7AjVo6OvLtxw8zfT9oLw1JSohlFzJ8jCoTgaoXvJ+kHt6fw==
   dependencies:
     brace-expansion "^2.0.1"
 
@@ -5106,10 +5113,10 @@ minimist@^1.1.0:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.0.2.tgz#58a82b7d81c7010da5bd4b2c0c85ac4b4ec5131e"
   integrity sha512-eL79dXrE1q9dBbDCLg7xfn/vl7MS4F1gvJAgjJrQli/jbQWdUttuVawphqpffoIYfRdq78LHx6GP4bU/EQ2ATA==
 
-minipass@^7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.0.4.tgz#dbce03740f50a4786ba994c1fb908844d27b038c"
-  integrity sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==
+minipass@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
+  integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
 mousetrap@1.6.5:
   version "1.6.5"
@@ -5360,7 +5367,7 @@ path-parse@^1.0.7:
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
-path-scurry@^1.11.0:
+path-scurry@^1.11.1:
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/path-scurry/-/path-scurry-1.11.1.tgz#7960a668888594a0720b12a911d1a742ab9f11d2"
   integrity sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==
