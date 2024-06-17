@@ -1444,10 +1444,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.5.29":
-  version "5.5.29"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.29.tgz#08753b8f94efa3f9a02cd39e0de5d6d5af745e0e"
-  integrity sha512-NHdG3QOiAsxh8ygBSKMa/WaNJwpNt87uVqW+S2RlnSqgeRdk+L3foNWTX6qd0I3NHSlCFb47rgopeNCJtRDY5A==
+"@mdn/browser-compat-data@5.5.33":
+  version "5.5.33"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.33.tgz#c1177469bc4d39fa24c2cd3df317039e2b465b4c"
+  integrity sha512-uO4uIBFn9D4UNyUmaueIWnE/IJhBlSJ7W1rANvDdaawhTX8CSgqUX8tj9/6a+1WjpL9Bgirf67d//S2VwDsfig==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2375,16 +2375,16 @@ acorn@^8.11.3, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.11.3.tgz#71e0b14e13a4ec160724b38fb7b0f233b1b81d7a"
   integrity sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==
 
-addons-linter@6.28.0:
-  version "6.28.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.28.0.tgz#eaae7fda20ef27acf0165d17b012816e356684fb"
-  integrity sha512-fCTjXL/yG4hwq74JG8tQdrvEu0OvGrEN9yU+Df0020RDtHl3g/tTCyMeC4G1uyk8IuyMzp4myCBNnOGC7MWSQQ==
+addons-linter@6.30.0:
+  version "6.30.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.30.0.tgz#5545dd75bc4c4a5653057c7a6d98920eb92a7a55"
+  integrity sha512-DIzTPLwbIy4ZqZRewqU1jN1uTJKh/+ZLAkENLki0mIevx+8WRdAO75K6bRVVVuBFMRQrLZsyrT8n54fAniQOJQ==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.5.29"
+    "@mdn/browser-compat-data" "5.5.33"
     addons-moz-compare "1.3.0"
-    addons-scanner-utils "9.10.1"
-    ajv "8.13.0"
+    addons-scanner-utils "9.11.0"
+    ajv "8.16.0"
     chalk "4.1.2"
     cheerio "1.0.0-rc.12"
     columnify "1.6.0"
@@ -2417,10 +2417,10 @@ addons-moz-compare@1.3.0:
   resolved "https://registry.yarnpkg.com/addons-moz-compare/-/addons-moz-compare-1.3.0.tgz#9074dce00291cef998c2fba6b462d041cc6b3e36"
   integrity sha512-/rXpQeaY0nOKhNx00pmZXdk5Mu+KhVlL3/pSBuAYwrxRrNiTvI/9xfQI8Lmm7DMMl+PDhtfAHY/0ibTpdeoQQQ==
 
-addons-scanner-utils@9.10.1:
-  version "9.10.1"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-9.10.1.tgz#92d01ade79e3ac601d4a555b32dd715b697a5c68"
-  integrity sha512-Tz9OUQx9Ja0TyQ+H2GakB9KlJ50myI6ESBGRlA8N80nHBzMjjPRFGm0APADSaCd5NP74SrFtEvL4TRpDwZXETA==
+addons-scanner-utils@9.11.0:
+  version "9.11.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-9.11.0.tgz#65ff9aa8a387828db68cbdf7b13a0c6eadf65cec"
+  integrity sha512-X95V8ymnue9EHmOLz3zJTGHvHDFlWKiavlH+kJKOlv2sJDWFvD3TWeJMHJgxS9GKOqT/545mOXvX3vuuGGum+g==
   dependencies:
     "@types/yauzl" "2.10.3"
     common-tags "1.8.2"
@@ -2469,10 +2469,10 @@ ajv-keywords@^5.1.0:
   dependencies:
     fast-deep-equal "^3.1.3"
 
-ajv@8.13.0, ajv@^8.0.0, ajv@^8.9.0:
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.13.0.tgz#a3939eaec9fb80d217ddf0c3376948c023f28c91"
-  integrity sha512-PRA911Blj99jR5RMeTunVbNXMF6Lp4vZXnk5GQjcnUWUTsrXtekg/pnmFFI2u/I36Y/2bITGS30GZCXei6uNkA==
+ajv@8.16.0, ajv@^8.0.0, ajv@^8.9.0:
+  version "8.16.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.16.0.tgz#22e2a92b94f005f7e0f9c9d39652ef0b8f6f0cb4"
+  integrity sha512-F0twR8U1ZU67JIEtekUcLkXkoO5mMMmgGD8sK/xUFzJ805jxHQl92hImFAqqXMyMYjSPOyUPAwHYhB72g5sTXw==
   dependencies:
     fast-deep-equal "^3.1.3"
     json-schema-traverse "^1.0.0"
