@@ -1444,10 +1444,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.5.34":
-  version "5.5.34"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.34.tgz#ce64a095da3d216bfa55c6332f59e30ae57d634f"
-  integrity sha512-e8k7+8r3jiJuP7FMH6AL1OnmfQqLyABhTM+NmRDvFeAbMgtFcNQLHpmT7uza5cBnxI01+CAU3aSsIgcKGRdEBQ==
+"@mdn/browser-compat-data@5.5.39":
+  version "5.5.39"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.39.tgz#2be76cd55ce3eabcefa84f77ac5c57ef3a59a608"
+  integrity sha512-22awGsC5t7sGOT2u5EU1RA64L+F87GWYXHZkh0ofjJsLGObqNDDVSTlumd/+6YK3QwlOIEVWAsqmJymrrSqBlA==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2375,16 +2375,16 @@ acorn@^8.11.3, acorn@^8.12.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.12.0.tgz#1627bfa2e058148036133b8d9b51a700663c294c"
   integrity sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==
 
-addons-linter@6.31.1:
-  version "6.31.1"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.31.1.tgz#d502fd1bbad7674540c9dc4828459a001fee04c6"
-  integrity sha512-R9FCyVzqU/h5A2aB1t+jD8t4QKLuLxYqc1FjmjJ0nZrn1qNCna1jFOajt5R1T8pwt0H4WXgT+uwWSD2BdkBzqQ==
+addons-linter@6.32.1:
+  version "6.32.1"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.32.1.tgz#aac5e4c7d18dd414c1a619a8f0a89f3952288dac"
+  integrity sha512-kNUkaZ8sTa/MkV+So597DbhtfQHW18xEkcs66fjWUeSdEDvzoF9skKwO497V2lnhcBFYb71YZILJ9YwQaox4dA==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.5.34"
+    "@mdn/browser-compat-data" "5.5.39"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.11.0"
-    ajv "8.16.0"
+    ajv "8.17.1"
     chalk "4.1.2"
     cheerio "1.0.0-rc.12"
     columnify "1.6.0"
@@ -2396,7 +2396,7 @@ addons-linter@6.31.1:
     espree "10.0.1"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
-    glob "10.4.2"
+    glob "11.0.0"
     image-size "1.1.1"
     is-mergeable-object "1.1.1"
     jed "1.1.1"
@@ -2469,15 +2469,15 @@ ajv-keywords@^5.1.0:
   dependencies:
     fast-deep-equal "^3.1.3"
 
-ajv@8.16.0, ajv@^8.0.0, ajv@^8.9.0:
-  version "8.16.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.16.0.tgz#22e2a92b94f005f7e0f9c9d39652ef0b8f6f0cb4"
-  integrity sha512-F0twR8U1ZU67JIEtekUcLkXkoO5mMMmgGD8sK/xUFzJ805jxHQl92hImFAqqXMyMYjSPOyUPAwHYhB72g5sTXw==
+ajv@8.17.1, ajv@^8.0.0, ajv@^8.9.0:
+  version "8.17.1"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.17.1.tgz#37d9a5c776af6bc92d7f4f9510eba4c0a60d11a6"
+  integrity sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==
   dependencies:
     fast-deep-equal "^3.1.3"
+    fast-uri "^3.0.1"
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
-    uri-js "^4.4.1"
 
 ajv@^6.12.4, ajv@^6.12.5:
   version "6.12.6"
@@ -3734,6 +3734,11 @@ fast-redact@^3.1.1:
   resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-3.1.1.tgz#790fcff8f808c2e12fabbfb2be5cb2deda448fa0"
   integrity sha512-odVmjC8x8jNeMZ3C+rPMESzXVSEU8tSWSHv9HFxP2mm89G/1WwqhrerJDQm9Zus8X6aoRgQDThKqptdNA6bt+A==
 
+fast-uri@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.0.1.tgz#cddd2eecfc83a71c1be2cc2ef2061331be8a7134"
+  integrity sha512-MWipKbbYiYI0UC7cl8m/i/IWTqfC8YXsqjzybjddLsFjStroQzsHXkc73JutMvBiXmOvapk+axIl79ig5t55Bw==
+
 fastest-levenshtein@^1.0.12:
   version "1.0.14"
   resolved "https://registry.yarnpkg.com/fastest-levenshtein/-/fastest-levenshtein-1.0.14.tgz#9054384e4b7a78c88d01a4432dc18871af0ac859"
@@ -3969,19 +3974,7 @@ glob2base@0.0.12:
   dependencies:
     find-index "^0.1.1"
 
-glob@10.4.2, glob@^10.0.0, glob@^10.3.10:
-  version "10.4.2"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-10.4.2.tgz#bed6b95dade5c1f80b4434daced233aee76160e5"
-  integrity sha512-GwMlUF6PkPo3Gk21UxkCohOv0PLcIXVtKyLlpEI28R/cO/4eNOdmLk3CMW1wROV/WR/EsZOWAfBbBOqYvs88/w==
-  dependencies:
-    foreground-child "^3.1.0"
-    jackspeak "^3.1.2"
-    minimatch "^9.0.4"
-    minipass "^7.1.2"
-    package-json-from-dist "^1.0.0"
-    path-scurry "^1.11.1"
-
-glob@^11.0.0:
+glob@11.0.0, glob@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-11.0.0.tgz#6031df0d7b65eaa1ccb9b29b5ced16cea658e77e"
   integrity sha512-9UiX/Bl6J2yaBbxKoEBRm4Cipxgok8kQYcOPEhScPwebu2I0HoQOuYdIO6S3hLuWoZgpDpwQZMzTFxgpkyT76g==
@@ -3992,6 +3985,18 @@ glob@^11.0.0:
     minipass "^7.1.2"
     package-json-from-dist "^1.0.0"
     path-scurry "^2.0.0"
+
+glob@^10.0.0, glob@^10.3.10:
+  version "10.4.2"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-10.4.2.tgz#bed6b95dade5c1f80b4434daced233aee76160e5"
+  integrity sha512-GwMlUF6PkPo3Gk21UxkCohOv0PLcIXVtKyLlpEI28R/cO/4eNOdmLk3CMW1wROV/WR/EsZOWAfBbBOqYvs88/w==
+  dependencies:
+    foreground-child "^3.1.0"
+    jackspeak "^3.1.2"
+    minimatch "^9.0.4"
+    minipass "^7.1.2"
+    package-json-from-dist "^1.0.0"
+    path-scurry "^1.11.1"
 
 glob@^7.1.3, glob@^7.1.4:
   version "7.2.3"
@@ -6418,7 +6423,7 @@ update-browserslist-db@^1.1.0:
     escalade "^3.1.2"
     picocolors "^1.0.1"
 
-uri-js@^4.2.2, uri-js@^4.4.1:
+uri-js@^4.2.2:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
