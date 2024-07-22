@@ -3902,10 +3902,10 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-geckodriver@4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.4.1.tgz#b39b26a17f9166038702743f5722b6d83e0483f6"
-  integrity sha512-nnAdIrwLkMcDu4BitWXF23pEMeZZ0Cj7HaWWFdSpeedBP9z6ft150JYiGO2mwzw6UiR823Znk1JeIf07RyzloA==
+geckodriver@4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-4.4.2.tgz#b5b72b3e5deb905947151f214b96f52505c2dd3a"
+  integrity sha512-/JFJ7DJPJUvDhLjzQk+DwjlkAmiShddfRHhZ/xVL9FWbza5Bi3UMGmmerEKqD69JbRs7R81ZW31co686mdYZyA==
   dependencies:
     "@wdio/logger" "^8.28.0"
     "@zip.js/zip.js" "^2.7.44"
