@@ -1588,10 +1588,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.5.39":
-  version "5.5.39"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.39.tgz#2be76cd55ce3eabcefa84f77ac5c57ef3a59a608"
-  integrity sha512-22awGsC5t7sGOT2u5EU1RA64L+F87GWYXHZkh0ofjJsLGObqNDDVSTlumd/+6YK3QwlOIEVWAsqmJymrrSqBlA==
+"@mdn/browser-compat-data@5.5.40":
+  version "5.5.40"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.40.tgz#1c2e39d0a14f92c74960fee609345c9ab4b3a433"
+  integrity sha512-5hByR+TGX/iKG7Uv3Zk8f+aUftkBcHqWE3Ym229jxm+cRjeJSBZzUKPm6H+p46vaeooql72kydrqpz0B3UrErw==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2514,18 +2514,18 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.11.3, acorn@^8.12.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
+acorn@^8.12.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   version "8.12.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.12.0.tgz#1627bfa2e058148036133b8d9b51a700663c294c"
   integrity sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==
 
-addons-linter@6.32.1:
-  version "6.32.1"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.32.1.tgz#aac5e4c7d18dd414c1a619a8f0a89f3952288dac"
-  integrity sha512-kNUkaZ8sTa/MkV+So597DbhtfQHW18xEkcs66fjWUeSdEDvzoF9skKwO497V2lnhcBFYb71YZILJ9YwQaox4dA==
+addons-linter@6.33.0:
+  version "6.33.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-6.33.0.tgz#9535917dde95fc2aba3c2c192acde70a083a6c94"
+  integrity sha512-FOXyI3v4HTUFCmKdyUH2eC1a6Efekuknq7yqMEIX1pl05USZuUtVO/0Mh+ZbA28Am26S62G5RbQghK7GTxtLhQ==
   dependencies:
     "@fluent/syntax" "0.19.0"
-    "@mdn/browser-compat-data" "5.5.39"
+    "@mdn/browser-compat-data" "5.5.40"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.11.0"
     ajv "8.17.1"
@@ -2537,7 +2537,7 @@ addons-linter@6.32.1:
     eslint "8.57.0"
     eslint-plugin-no-unsanitized "4.0.2"
     eslint-visitor-keys "4.0.0"
-    espree "10.0.1"
+    espree "10.1.0"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
     glob "11.0.0"
@@ -2548,7 +2548,7 @@ addons-linter@6.32.1:
     os-locale "5.0.0"
     pino "8.20.0"
     relaxed-json "1.0.3"
-    semver "7.6.2"
+    semver "7.6.3"
     sha.js "2.4.11"
     source-map-support "0.5.21"
     tosource "1.0.0"
@@ -3720,16 +3720,7 @@ eslint@9.8.0:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-espree@10.0.1:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-10.0.1.tgz#600e60404157412751ba4a6f3a2ee1a42433139f"
-  integrity sha512-MWkrWZbJsL2UwnjxTX3gG8FneachS/Mwg7tdGXce011sJd5b0JG54vat5KHnfSBODZ3Wvzd2WnjxyzsRoVv+ww==
-  dependencies:
-    acorn "^8.11.3"
-    acorn-jsx "^5.3.2"
-    eslint-visitor-keys "^4.0.0"
-
-espree@^10.0.1, espree@^10.1.0:
+espree@10.1.0, espree@^10.0.1, espree@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/espree/-/espree-10.1.0.tgz#8788dae611574c0f070691f522e4116c5a11fc56"
   integrity sha512-M1M6CpiE6ffoigIOWYO9UDP8TMUw9kqb21tf+08IgDYjCsOvCuDt4jQcZmoYxx+w7zlKw9/N0KXfto+I8/FrXA==
@@ -6053,10 +6044,10 @@ selenium-webdriver@4.23.0:
     tmp "^0.2.3"
     ws "^8.17.1"
 
-semver@7.6.2, semver@^7.5.3, semver@^7.5.4:
-  version "7.6.2"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.2.tgz#1e3b34759f896e8f14d6134732ce798aeb0c6e13"
-  integrity sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==
+semver@7.6.3, semver@^7.5.3, semver@^7.5.4:
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143"
+  integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
 
 semver@^6.0.0, semver@^6.3.0, semver@^6.3.1:
   version "6.3.1"
