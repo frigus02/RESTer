@@ -58,7 +58,7 @@
     "@polymer/paper-tabs": "3.1.0",
     "@polymer/paper-toggle-button": "3.0.1",
     "@polymer/paper-tooltip": "3.0.1",
-    "@polymer/polymer": "3.5.1",
+    "@polymer/polymer": "3.5.2",
     "ace-builds": "1.36.2",
     "dompurify": "3.1.7",
     "frigus02-vkbeautify": "1.0.1",
