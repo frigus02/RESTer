@@ -63,4 +63,6 @@ To release a new version of RESTer:
 
     https://chrome.google.com/webstore/developer/dashboard
 
+1. Upload both .zip files to tag/release on GitHub.
+
 1. Merge pull request
