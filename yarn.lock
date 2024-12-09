@@ -1408,10 +1408,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.6.16":
-  version "5.6.16"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.6.16.tgz#36e8d9cb66e3281e42f9f7c5e82bd9a9769be8a2"
-  integrity sha512-48c0o53eGIwocPXgGwS4bAJpQ5YODPdOlus7g1F6vNP+fAv/isoVQA2Z7x+TfhftsapPYJXZVzp3hI4CjD1Dfg==
+"@mdn/browser-compat-data@5.6.21":
+  version "5.6.21"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.6.21.tgz#0c423a03d63a679df715d0eece14af38cb76e4d7"
+  integrity sha512-yFGyNC6llnRbCELh1vH5mhrdSkQCrBs+wOyFjcYa3E9K3qzz6aDKnUSlDfWx+7pMeVr/iSKIdl1P60g2Jxs5sg==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2339,14 +2339,14 @@ acorn@^8.14.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.0.tgz#063e2c70cac5fb4f6467f0b11152e04c682795b0"
   integrity sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==
 
-addons-linter@7.5.0:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.5.0.tgz#754b5a625667f30cc59b2feba605901fb55eafac"
-  integrity sha512-RQPv+0tTu+FxysmxVfwy2P1QUaKWLgv18/oDlDc60pTIa5ISc6roYZ1RhSj46au3vJrbs6/ztivDf1STAfpJqA==
+addons-linter@7.6.0:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.6.0.tgz#72ea2085b85d4a6a8eca0f5668ab3515a572cedb"
+  integrity sha512-gUO+aK2Mk1/KAiZSAOQMcy6ddPHOf6zaPSJbf6PcOCcgEYzR64GnDXrmNb3hIymWS7vS3MIi63N/HwQdqbaibg==
   dependencies:
     "@fluent/syntax" "0.19.0"
     "@fregante/relaxed-json" "2.0.0"
-    "@mdn/browser-compat-data" "5.6.16"
+    "@mdn/browser-compat-data" "5.6.21"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.12.0"
     ajv "8.17.1"
