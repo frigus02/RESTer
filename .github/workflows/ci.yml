@@ -19,7 +19,7 @@ jobs:
       - run: yarn build
       - run: yarn lint
       - run: yarn test
-      - uses: browser-actions/setup-firefox@latest
+      - uses: browser-actions/setup-firefox@063eed68fefb6e72be98fb0c0d2d106784c79634
         with:
           firefox-version: latest-devedition
       - run: yarn test:e2e
