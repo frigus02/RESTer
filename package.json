@@ -69,7 +69,7 @@
   "devDependencies": {
     "@babel/core": "7.26.0",
     "@babel/eslint-parser": "7.26.5",
-    "@babel/parser": "7.26.5",
+    "@babel/parser": "7.26.7",
     "@babel/preset-env": "7.26.0",
     "addons-linter": "7.7.0",
     "archiver": "7.0.1",
