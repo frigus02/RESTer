@@ -37,79 +37,82 @@ describe('format', function () {
     });
 
     test('adds history entries as responses to matching request', function () {
-        expect(
-            format({
-                requests: [
-                    {
+        const result = format({
+            requests: [
+                {
+                    id: 1,
+                    collection: 'A',
+                    title: 'Number 1',
+                    method: 'GET',
+                    url: 'https://example.com',
+                    headers: [],
+                    body: null,
+                },
+                {
+                    id: 2,
+                    collection: 'B',
+                    title: 'Number 2',
+                    method: 'POST',
+                    url: 'https://example.com',
+                    headers: [],
+                    body: null,
+                },
+            ],
+            historyEntries: [
+                {
+                    id: 1,
+                    time: 100,
+                    timeEnd: 120,
+                    request: {
                         id: 1,
                         collection: 'A',
-                        title: 'Number 1',
+                        title: 'To-do: come up with name',
                         method: 'GET',
                         url: 'https://example.com',
                         headers: [],
                         body: null,
                     },
-                    {
-                        id: 2,
-                        collection: 'B',
-                        title: 'Number 2',
-                        method: 'POST',
+                    response: {
+                        status: 200,
+                        statusText: 'OK',
+                        headers: [
+                            {
+                                name: 'Content-Type',
+                                value: 'text/html',
+                            },
+                        ],
+                        body: '<!DOCTYPE html>\n<html>\n</html>\n',
+                    },
+                },
+                {
+                    id: 2,
+                    time: 100,
+                    timeEnd: 120,
+                    request: {
+                        method: 'GET',
                         url: 'https://example.com',
                         headers: [],
                         body: null,
                     },
-                ],
-                historyEntries: [
-                    {
-                        id: 1,
-                        time: 100,
-                        timeEnd: 120,
-                        request: {
-                            id: 1,
-                            collection: 'A',
-                            title: 'To-do: come up with name',
-                            method: 'GET',
-                            url: 'https://example.com',
-                            headers: [],
-                            body: null,
-                        },
-                        response: {
-                            status: 200,
-                            statusText: 'OK',
-                            headers: [
-                                {
-                                    name: 'Content-Type',
-                                    value: 'text/html',
-                                },
-                            ],
-                            body: '<!DOCTYPE html>\n<html>\n</html>\n',
-                        },
+                    response: {
+                        status: 200,
+                        statusText: 'OK',
+                        headers: [
+                            {
+                                name: 'Content-Type',
+                                value: 'text/html',
+                            },
+                        ],
+                        body: '<!DOCTYPE html>\n<html>\n</html>\n',
                     },
-                    {
-                        id: 2,
-                        time: 100,
-                        timeEnd: 120,
-                        request: {
-                            method: 'GET',
-                            url: 'https://example.com',
-                            headers: [],
-                            body: null,
-                        },
-                        response: {
-                            status: 200,
-                            statusText: 'OK',
-                            headers: [
-                                {
-                                    name: 'Content-Type',
-                                    value: 'text/html',
-                                },
-                            ],
-                            body: '<!DOCTYPE html>\n<html>\n</html>\n',
-                        },
-                    },
-                ],
-            }),
-        ).toMatchSnapshot();
+                },
+            ],
+        });
+        result.content = result.content.replace(
+            /History_[a-z0-9]{8}/g,
+            'History_<random>',
+        );
+        expect(result).toMatchSnapshot();
     });
 
     test('request with same name as collection', function () {

@@ -58,7 +58,7 @@ exports[`format adds history entries as responses to matching request 1`] = `
             ]
         },
         {
-            "name": "History_laxuvs9d",
+            "name": "History_<random>",
             "item": [
                 {
                     "request": {
@@ -67,11 +67,11 @@ exports[`format adds history entries as responses to matching request 1`] = `
                         "header": []
                     },
                     "id": "rester-history-0",
-                    "name": "History_laxuvs9d 0",
+                    "name": "History_<random> 0",
                     "response": [
                         {
                             "id": "rester-2",
-                            "name": "100 History_laxuvs9d 0",
+                            "name": "100 History_<random> 0",
                             "originalRequest": {
                                 "url": "https://example.com",
                                 "method": "GET",
