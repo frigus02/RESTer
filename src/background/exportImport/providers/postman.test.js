@@ -95,7 +95,17 @@ describe('format', function () {
                             headers: [],
                             body: null,
                         },
-                        response: {},
+                        response: {
+                            status: 200,
+                            statusText: 'OK',
+                            headers: [
+                                {
+                                    name: 'Content-Type',
+                                    value: 'text/html',
+                                },
+                            ],
+                            body: '<!DOCTYPE html>\n<html>\n</html>\n',
+                        },
                     },
                 ],
             }),
