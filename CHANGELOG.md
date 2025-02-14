@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.13.0] - 2025-02-14
+
+### Added
+
+-   When exporting history entries, also export entries not attached to any saved request. Thanks [@uoyniXnaH](https://github.com/uoyniXnaH).
+
 ## [4.12.0] - 2023-11-25
 
 ### Changed
@@ -745,7 +751,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.12.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.13.0...HEAD
+[4.13.0]: https://github.com/frigus02/RESTer/compare/4.12.0...4.13.0
 [4.12.0]: https://github.com/frigus02/RESTer/compare/4.11.0...4.12.0
 [4.11.0]: https://github.com/frigus02/RESTer/compare/4.10.0...4.11.0
 [4.10.0]: https://github.com/frigus02/RESTer/compare/4.9.1...4.10.0
