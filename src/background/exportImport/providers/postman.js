@@ -275,9 +275,16 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
         return currentFolder;
     }
 
+    function genRandomId() {
+        return Math.random().toString(36).substring(2, 10);
+    }
+
     for (const request of requests) {
         const requestHistory = historyEntries.filter(
             (entry) => entry.request.id === request.id,
+        );
+        historyEntries = historyEntries.filter(
+            (entry) => entry.request.id !== request.id,
         );
         const folder = ensureFolder(request.collection);
         const item = PostmanItem.fromResterRequest(request, requestHistory);
@@ -285,6 +292,17 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
         const index = sortedIndexOfItemsAndFolders(folder.item, item);
         folder.item.splice(index, 0, item);
     }
+
+    const randomId = genRandomId();
+    historyEntries.map((historyEntry, historyEntryIndex) => {
+        const folder = ensureFolder(`History_${randomId}`);
+        historyEntry.request.id = `history-${historyEntryIndex}`;
+        historyEntry.request.title = `History_${randomId} ${historyEntryIndex}`;
+        const item = PostmanItem.fromResterRequest(historyEntry.request, [historyEntry]);
+
+        const index = sortedIndexOfItemsAndFolders(folder.item, item);
+        folder.item.splice(index, 0, item);
+    })
 
     return rootFolder.item;
 }
