@@ -67,7 +67,7 @@
     "web-animations-js": "2.3.2"
   },
   "devDependencies": {
-    "@babel/core": "7.26.8",
+    "@babel/core": "7.26.9",
     "@babel/eslint-parser": "7.26.8",
     "@babel/parser": "7.26.8",
     "@babel/preset-env": "7.26.8",
