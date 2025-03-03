@@ -5685,10 +5685,10 @@ schema-utils@^4.2.0, schema-utils@^4.3.0:
     ajv-formats "^2.1.1"
     ajv-keywords "^5.1.0"
 
-selenium-webdriver@4.28.1:
-  version "4.28.1"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.28.1.tgz#0f6cc4fbc83cee3fdf8b116257656892957b72da"
-  integrity sha512-TwbTpu/NUQkorBODGAkGowJ8sar63bvqi66/tjqhS05rBl34HkVp8DoRg1cOv2iSnNonVSbkxazS3wjbc+NRtg==
+selenium-webdriver@4.29.0:
+  version "4.29.0"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.29.0.tgz#32d32fb60df488bbc399b9dd58728a5cd570210e"
+  integrity sha512-8XPGtDoji5xk7ZUCzFT1rqHmCp67DCzESsttId7DzmrJmlTRmRLF6X918rbwclcH89amcBNM4zB3lVPj404I0g==
   dependencies:
     "@bazel/runfiles" "^6.3.1"
     jszip "^3.10.1"
