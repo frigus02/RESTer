@@ -9,6 +9,7 @@ const settingsKeys = [
     'stripDefaultHeaders',
     'enableRequestLintInspections',
     'pinSidenav',
+    'expandSidenav',
     'requestBodyFullSize',
     'responseBodyWrap',
     'responseBodyPrettyPrint',

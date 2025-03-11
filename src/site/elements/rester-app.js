@@ -152,6 +152,11 @@ class RESTerApp extends RESTerThemeMixin(
                                     on-tap="_toggleDrawerLockOpen"
                                     hidden$="[[!showDrawerLock]]"
                                 ></paper-icon-button>
+                                <paper-icon-button
+                                    icon="[[_getDrawerExpandToggleIcon(settings.expandSidenav)]]"
+                                    on-tap="_toggleDrawerExpand"
+                                    hidden$="[[showDrawerLock]]"
+                                ></paper-icon-button>
                                 <rester-notifications></rester-notifications>
                             </app-toolbar>
                         </app-header>
@@ -243,11 +248,23 @@ class RESTerApp extends RESTerThemeMixin(
                 computed:
                     '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)',
             },
+            appDrawerDefaultWidth: {
+                type: String,
+                value: '320px',
+            },
+            appDrawerExpandedWidth: {
+                type: String,
+                value: '640px',
+            },
         };
     }
 
     static get observers() {
-        return ['_routePageChanged(routeData.page)'];
+        return [
+            '_routePageChanged(routeData.page)',
+            '_expandSidenavChanged(settings.expandSidenav)',
+            '_showDrawerLockChanged(showDrawerLock)',
+        ];
     }
 
     static get resterHotkeys() {
@@ -291,8 +308,16 @@ class RESTerApp extends RESTerThemeMixin(
         return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
     }
 
+    _getDrawerExpandToggleIcon() {
+        return this.settings.expandSidenav ? 'close-fullscreen' : 'open-in-full';
+    }
+
     _toggleDrawerLockOpen() {
         this.set('settings.pinSidenav', !this.settings.pinSidenav);
+    }
+
+    _toggleDrawerExpand() {
+        this.set('settings.expandSidenav', !this.settings.expandSidenav);
     }
 
     _onDrawerToggleTapped() {
@@ -343,6 +368,20 @@ class RESTerApp extends RESTerThemeMixin(
     _showEnvironmentSelectDialog() {
         dialogs.environmentSelect.show();
     }
+
+    _expandSidenavChanged(expandSidenav) {
+        let width = this.showDrawerLock ? this.appDrawerDefaultWidth : (expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
+        let page = this.page || 'request';
+        this.updateStyles({'--app-drawer-width': width});
+        this.page = '';
+        this.page = page;
+    }
+
+    _showDrawerLockChanged(showDrawerLock) {
+        let width = showDrawerLock ? this.appDrawerDefaultWidth : (this.settings.expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
+        this.updateStyles({'--app-drawer-width': width});
+    }
+
 }
 
 customElements.define(RESTerApp.is, RESTerApp);

@@ -5,6 +5,7 @@ const DEFAULTS = {
     stripDefaultHeaders: false,
     enableRequestLintInspections: true,
     pinSidenav: false,
+    expandSidenav: false,
     requestBodyFullSize: false,
     responseBodyWrap: true,
     responseBodyPrettyPrint: true,
