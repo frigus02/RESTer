@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.14.0] - 2025-03-16
+
+### Added
+
+-   Add button to make sidebar wider on wide screens. Thanks [@uoyniXnaH](https://github.com/uoyniXnaH).
+
 ## [4.13.0] - 2025-02-14
 
 ### Added
@@ -751,7 +757,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.13.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.14.0...HEAD
+[4.13.0]: https://github.com/frigus02/RESTer/compare/4.13.0...4.14.0
 [4.13.0]: https://github.com/frigus02/RESTer/compare/4.12.0...4.13.0
 [4.12.0]: https://github.com/frigus02/RESTer/compare/4.11.0...4.12.0
 [4.11.0]: https://github.com/frigus02/RESTer/compare/4.10.0...4.11.0
