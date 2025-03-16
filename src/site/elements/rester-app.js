@@ -136,6 +136,7 @@ class RESTerApp extends RESTerThemeMixin(
             <app-drawer-layout
                 responsive-width="[[responsiveWidth]]"
                 narrow="{{drawerIsNarrow}}"
+                id="drawerLayout"
             >
                 <!-- Navigation -->
                 <app-drawer slot="drawer" id="drawer">
@@ -147,6 +148,10 @@ class RESTerApp extends RESTerThemeMixin(
                                     query="[[showDrawerLockMediaQuery]]"
                                     query-matches="{{showDrawerLock}}"
                                 ></iron-media-query>
+                                <iron-media-query
+                                    query="[[showDrawerExpandMediaQuery]]"
+                                    query-matches="{{showDrawerExpand}}"
+                                ></iron-media-query>
                                 <paper-icon-button
                                     icon="[[_getDrawerToggleIcon(settings.pinSidenav)]]"
                                     on-tap="_toggleDrawerLockOpen"
@@ -155,7 +160,7 @@ class RESTerApp extends RESTerThemeMixin(
                                 <paper-icon-button
                                     icon="[[_getDrawerExpandToggleIcon(settings.expandSidenav)]]"
                                     on-tap="_toggleDrawerExpand"
-                                    hidden$="[[showDrawerLock]]"
+                                    hidden$="[[!showDrawerExpand]]"
                                 ></paper-icon-button>
                                 <rester-notifications></rester-notifications>
                             </app-toolbar>
@@ -247,6 +252,10 @@ class RESTerApp extends RESTerThemeMixin(
                 type: String,
                 computed:
                     '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)',
+            },
+            showDrawerExpandMediaQuery: {
+                type: String,
+                value: '(min-width: 1280px)',
             },
             appDrawerDefaultWidth: {
                 type: String,
@@ -370,15 +379,13 @@ class RESTerApp extends RESTerThemeMixin(
     }
 
     _expandSidenavChanged(expandSidenav) {
-        let width = this.showDrawerLock ? this.appDrawerDefaultWidth : (expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
-        let page = this.page || 'request';
+        const width = this.showDrawerLock ? this.appDrawerDefaultWidth : (expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
         this.updateStyles({'--app-drawer-width': width});
-        this.page = '';
-        this.page = page;
+        this.$.drawerLayout.resetLayout();
     }
 
     _showDrawerLockChanged(showDrawerLock) {
-        let width = showDrawerLock ? this.appDrawerDefaultWidth : (this.settings.expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
+        const width = showDrawerLock ? this.appDrawerDefaultWidth : (this.settings.expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
         this.updateStyles({'--app-drawer-width': width});
     }
 
