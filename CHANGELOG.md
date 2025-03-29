@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.14.1] - 2025-03-16
+
+### Fixed
+
+- Fixed version of dependencies.
+
 ## [4.14.0] - 2025-03-16
+
+**Note:** Accidentally published 4.14.0 with ace-builds 1.37.5, even though package.json said 1.39.0. It never got published on addons.mozilla.org.
 
 ### Added
 
@@ -757,8 +765,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.14.0...HEAD
-[4.13.0]: https://github.com/frigus02/RESTer/compare/4.13.0...4.14.0
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.14.1...HEAD
+[4.14.1]: https://github.com/frigus02/RESTer/compare/4.14.0...4.14.1
+[4.14.0]: https://github.com/frigus02/RESTer/compare/4.13.0...4.14.0
 [4.13.0]: https://github.com/frigus02/RESTer/compare/4.12.0...4.13.0
 [4.12.0]: https://github.com/frigus02/RESTer/compare/4.11.0...4.12.0
 [4.11.0]: https://github.com/frigus02/RESTer/compare/4.10.0...4.11.0
