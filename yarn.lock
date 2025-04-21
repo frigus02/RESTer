@@ -2283,10 +2283,10 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-ace-builds@1.39.1:
-  version "1.39.1"
-  resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.39.1.tgz#28af141e58fe1a0f945b98f56fe9f8aaa6245f73"
-  integrity sha512-HcJbBzx8qY66t9gZo/sQu7pi0wO/CFLdYn1LxQO1WQTfIkMfyc7LRnBpsp/oNCSSU/LL83jXHN1fqyOTuIhUjg==
+ace-builds@1.40.0:
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.40.0.tgz#9c8aed6db7c189219fcf25412cf0f18494258af6"
+  integrity sha512-wOCyJfNRsq/yLTR7z2KpwcjaInuUs/mosu/OFLGGUA+g+ApD9OJ1AToHDIp0Xpa2koHJ79bmOya73oWjCNbjlA==
 
 acorn-globals@^6.0.0:
   version "6.0.0"
