@@ -1390,10 +1390,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@5.7.3":
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.7.3.tgz#1c4abb3a0ff9e631dd23eed1435d388ccc999f4b"
-  integrity sha512-ckygcngv0i7Qe0yOzzge/K7Gr5dnk2jNm/AYdqUd1ZTGa9pIEdDuVyWmL3bDU/NdJ8FtdSAjng98YfUuou9Csw==
+"@mdn/browser-compat-data@6.0.6":
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-6.0.6.tgz#e302acf8aa909fdc7078b4185b97068a3b996aed"
+  integrity sha512-awlDnCGbtdkyLieMpIKJQEgK7mxnL3he4UHm5AGn+asofiemlx4LVHM0FsYmp6O1irAClPNS135zZLhD2SZi+A==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2316,14 +2316,14 @@ acorn@^8.14.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.0.tgz#063e2c70cac5fb4f6467f0b11152e04c682795b0"
   integrity sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==
 
-addons-linter@7.9.0:
-  version "7.9.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.9.0.tgz#922b3e5729aefa966d313b6099c9628f69fa9765"
-  integrity sha512-ehoh43VG+DGOVxdT0XsO6camSMaHRCJf7shHX2qtKMRQo/29M1fGwZ+ssRTL0SucqLCvsmu3hmv13fEhC+79aA==
+addons-linter@7.11.0:
+  version "7.11.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.11.0.tgz#bdc3f75641c299d06b00b0044f1651f5b54ed97b"
+  integrity sha512-SW9J4eWom7U1RVh2Zzb73uzYf9TYVII0+zRRGtFskz3TTidhuSTErHAIZe2UgUq890LHSGgv6hAWsDHftYJ/7A==
   dependencies:
     "@fluent/syntax" "0.19.0"
     "@fregante/relaxed-json" "2.0.0"
-    "@mdn/browser-compat-data" "5.7.3"
+    "@mdn/browser-compat-data" "6.0.6"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.12.0"
     ajv "8.17.1"
@@ -2338,7 +2338,7 @@ addons-linter@7.9.0:
     espree "10.3.0"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
-    image-size "2.0.1"
+    image-size "2.0.2"
     json-merge-patch "1.0.2"
     pino "8.20.0"
     semver "7.7.1"
@@ -4022,10 +4022,10 @@ ignore@^6.0.2:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-6.0.2.tgz#77cccb72a55796af1b6d2f9eb14fa326d24f4283"
   integrity sha512-InwqeHHN2XpumIkMvpl/DCJVrAHgCsG5+cn1XlnLWGwtZBm8QJfSusItfrwx81CTp5agNZqpKU2J/ccC5nGT4A==
 
-image-size@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.1.tgz#80f06046b8facf8d63d78e1d350873fea375f0eb"
-  integrity sha512-NI6NK/2zchlZopsQrcVIS7jxA0/rtIy74B+/rx5s7rKQyFebmQjZVhzxXgRZJROk+WhhOq+S6sUaODxp0L5hfg==
+image-size@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.2.tgz#84a7b43704db5736f364bf0d1b029821299b4bdc"
+  integrity sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==
 
 immediate@~3.0.5:
   version "3.0.6"
