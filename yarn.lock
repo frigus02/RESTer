@@ -1447,10 +1447,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@6.0.6":
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-6.0.6.tgz#e302acf8aa909fdc7078b4185b97068a3b996aed"
-  integrity sha512-awlDnCGbtdkyLieMpIKJQEgK7mxnL3he4UHm5AGn+asofiemlx4LVHM0FsYmp6O1irAClPNS135zZLhD2SZi+A==
+"@mdn/browser-compat-data@6.0.16":
+  version "6.0.16"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-6.0.16.tgz#48359e1f2adee8e227e1b77e8b1b79afc459ce6d"
+  integrity sha512-j8VB83nzHFhRyu48V3DRpWySUfMuvbbJ1Cu/yIMadfnn5ZhfC45+NxAKGq3CntSSGTLOsSwbujbFxmFRJekasQ==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2373,16 +2373,16 @@ acorn@^8.14.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.2, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.0.tgz#063e2c70cac5fb4f6467f0b11152e04c682795b0"
   integrity sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==
 
-addons-linter@7.11.0:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.11.0.tgz#bdc3f75641c299d06b00b0044f1651f5b54ed97b"
-  integrity sha512-SW9J4eWom7U1RVh2Zzb73uzYf9TYVII0+zRRGtFskz3TTidhuSTErHAIZe2UgUq890LHSGgv6hAWsDHftYJ/7A==
+addons-linter@7.13.0:
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.13.0.tgz#c125b994fdd8c6ec7fe8ca0cbbf02848d7e70f23"
+  integrity sha512-PCtnZtFfMw+7NSwHEsXPxlUC37ixvx4WBMUbT3T2WQ4N002lATRJQD4ixIXYbRNMDESrC8H2H91ReEE5jmS+Qg==
   dependencies:
     "@fluent/syntax" "0.19.0"
     "@fregante/relaxed-json" "2.0.0"
-    "@mdn/browser-compat-data" "6.0.6"
+    "@mdn/browser-compat-data" "6.0.16"
     addons-moz-compare "1.3.0"
-    addons-scanner-utils "9.12.0"
+    addons-scanner-utils "9.13.0"
     ajv "8.17.1"
     chalk "4.1.2"
     cheerio "1.0.0-rc.12"
@@ -2398,7 +2398,7 @@ addons-linter@7.11.0:
     image-size "2.0.2"
     json-merge-patch "1.0.2"
     pino "8.20.0"
-    semver "7.7.1"
+    semver "7.7.2"
     source-map-support "0.5.21"
     upath "2.0.1"
     yargs "17.7.2"
@@ -2409,10 +2409,10 @@ addons-moz-compare@1.3.0:
   resolved "https://registry.yarnpkg.com/addons-moz-compare/-/addons-moz-compare-1.3.0.tgz#9074dce00291cef998c2fba6b462d041cc6b3e36"
   integrity sha512-/rXpQeaY0nOKhNx00pmZXdk5Mu+KhVlL3/pSBuAYwrxRrNiTvI/9xfQI8Lmm7DMMl+PDhtfAHY/0ibTpdeoQQQ==
 
-addons-scanner-utils@9.12.0:
-  version "9.12.0"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-9.12.0.tgz#f42ecaf422c1e0cb218622d654814fc584624516"
-  integrity sha512-Nn+mOgJhdSZKkycXd5GYfSfoyT1lEGbCVoCBKriEFceuP0dJxVBuFwuRD8+PuXegQQBw7COTS5DwM4nj+bK8Mg==
+addons-scanner-utils@9.13.0:
+  version "9.13.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-9.13.0.tgz#bbd9a5656ac04c76dd4ccdb5a2dfbf0aa24a5a82"
+  integrity sha512-8OnHK/pbvgbCejGlnEYw+V3URSTVHLkMZmV270QtNh8N9pAgK10IaiJ9DcL0FsrufZ9HxRcR8/wkavh1FgK6Kg==
   dependencies:
     "@types/yauzl" "2.10.3"
     common-tags "1.8.2"
@@ -5710,10 +5710,10 @@ selenium-webdriver@4.32.0:
     tmp "^0.2.3"
     ws "^8.18.0"
 
-semver@7.7.1, semver@^7.5.3, semver@^7.5.4:
-  version "7.7.1"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.1.tgz#abd5098d82b18c6c81f6074ff2647fd3e7220c9f"
-  integrity sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==
+semver@7.7.2, semver@^7.5.3, semver@^7.5.4:
+  version "7.7.2"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.2.tgz#67d99fdcd35cec21e6f8b87a7fd515a33f982b58"
+  integrity sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==
 
 semver@^6.0.0, semver@^6.3.0, semver@^6.3.1:
   version "6.3.1"
