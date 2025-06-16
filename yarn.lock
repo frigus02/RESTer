@@ -5621,7 +5621,7 @@ schema-utils@^3.0.0:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
-schema-utils@^4.2.0, schema-utils@^4.3.0, schema-utils@^4.3.2:
+schema-utils@^4, schema-utils@^4.2.0, schema-utils@^4.3.0, schema-utils@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-4.3.2.tgz#0c10878bf4a73fd2b1dfd14b9462b26788c806ae"
   integrity sha512-Gn/JaSk/Mt9gYubxTtSn/QCV4em9mpAPiR1rqy/Ocu19u/G9J5WWdNoUT4SiV6mFC3y6cxyFcFwdzPM3FgxGAQ==
@@ -5778,13 +5778,12 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-string-replace-loader@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/string-replace-loader/-/string-replace-loader-3.1.0.tgz#11ac6ee76bab80316a86af358ab773193dd57a4f"
-  integrity sha512-5AOMUZeX5HE/ylKDnEa/KKBqvlnFmRZudSOjVJHxhoJg9QYTwl1rECx7SLR8BBH7tfxb4Rp7EM2XVfQFxIhsbQ==
+string-replace-loader@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/string-replace-loader/-/string-replace-loader-3.2.0.tgz#1a4affa9a1ce5ef43f4f04de750772f834a156fc"
+  integrity sha512-q7+F4DC6MAKkszF3ZQEuZ3dDH25wXPxFA0maTLk3TOTAYPLDgwqCeCKIvOd8xJhYYYl+EXusYRCyKIJliT/olg==
   dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+    schema-utils "^4"
 
 "string-width-cjs@npm:string-width@^4.2.0":
   version "4.2.3"
