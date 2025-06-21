@@ -145,13 +145,13 @@ afterEach(function () {
 
 test('items are created on startup', async function () {
     expect(nav.items).toEqual([]);
-    expect(mockRester.getRequests).toBeCalledWith(requestFields);
-    expect(mockRester.getHistoryEntries).toBeCalledWith(5, historyFields);
+    expect(mockRester.getRequests).toHaveBeenCalledWith(requestFields);
+    expect(mockRester.getHistoryEntries).toHaveBeenCalledWith(5, historyFields);
 
     settingsLoadedDfd.resolve();
     await Deferred.flush();
 
-    expect(mockRester.getEnvironment).toBeCalledWith(
+    expect(mockRester.getEnvironment).toHaveBeenCalledWith(
         mockRester.settings.activeEnvironment,
         environmentFields,
     );
@@ -161,7 +161,7 @@ test('items are created on startup', async function () {
     getEnvironmentDfd.resolve(fakeEnvironments[0]);
     await Deferred.flush();
 
-    expect(mockVariables.replaceWithoutProvidedValues).toBeCalledWith(
+    expect(mockVariables.replaceWithoutProvidedValues).toHaveBeenCalledWith(
         fakeRequests[3],
         fakeRequests[3].variables.values,
     );
@@ -231,7 +231,7 @@ describe('with resolved empty data', function () {
     });
 
     test('items are updated when data changes', function () {
-        expect(mockRester.e.addEventListener).toBeCalledWith(
+        expect(mockRester.e.addEventListener).toHaveBeenCalledWith(
             'dataChange',
             expect.any(Function),
         );
@@ -379,7 +379,7 @@ describe('with resolved empty data', function () {
     });
 
     test('items are updated when settings change', async function () {
-        expect(mockRester.e.addEventListener).toBeCalledWith(
+        expect(mockRester.e.addEventListener).toHaveBeenCalledWith(
             'settingsChange',
             expect.any(Function),
         );
