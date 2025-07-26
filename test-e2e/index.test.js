@@ -164,7 +164,7 @@ function registerRequestTests(mode) {
             .click(RequestElements.lastBodyFormInputName)
             .sendKeys('token', Key.TAB, '{token}')
             .perform();
-        await delay(100); // Pause seems necessary so RESTer can recognize the {token} variable
+        await delay(500); // Pause seems necessary so RESTer can recognize the {token} variable
         await switchRequestTab('variables');
         await driver
             .actions()
