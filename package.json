@@ -81,7 +81,7 @@
     "eslint": "9.32.0",
     "file-loader": "6.2.0",
     "geckodriver": "5.0.0",
-    "globals": "^16.2.0",
+    "globals": "^16.3.0",
     "html-webpack-plugin": "5.6.3",
     "jest": "30.0.5",
     "jest-environment-jsdom": "30.0.2",
