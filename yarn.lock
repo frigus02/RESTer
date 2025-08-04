@@ -1335,13 +1335,6 @@
     string-length "^4.0.2"
     v8-to-istanbul "^9.0.1"
 
-"@jest/schemas@30.0.1":
-  version "30.0.1"
-  resolved "https://registry.yarnpkg.com/@jest/schemas/-/schemas-30.0.1.tgz#27c00d707d480ece0c19126af97081a1af3bc46e"
-  integrity sha512-+g/1TKjFuGrf1Hh0QPCv0gISwBxJ+MQSNXmG9zjHy7BmFhtoJ9fdNhWJp3qUKRi93AOZHXtdxZgJ1vAtz6z65w==
-  dependencies:
-    "@sinclair/typebox" "^0.34.0"
-
 "@jest/schemas@30.0.5":
   version "30.0.5"
   resolved "https://registry.yarnpkg.com/@jest/schemas/-/schemas-30.0.5.tgz#7bdf69fc5a368a5abdb49fd91036c55225846473"
@@ -1408,19 +1401,6 @@
     pirates "^4.0.7"
     slash "^3.0.0"
     write-file-atomic "^5.0.1"
-
-"@jest/types@30.0.1":
-  version "30.0.1"
-  resolved "https://registry.yarnpkg.com/@jest/types/-/types-30.0.1.tgz#a46df6a99a416fa685740ac4264b9f9cd7da1598"
-  integrity sha512-HGwoYRVF0QSKJu1ZQX0o5ZrUrrhj0aOOFA8hXrumD7SIzjouevhawbTjmXdwOmURdGluU9DM/XvGm3NyFoiQjw==
-  dependencies:
-    "@jest/pattern" "30.0.1"
-    "@jest/schemas" "30.0.1"
-    "@types/istanbul-lib-coverage" "^2.0.6"
-    "@types/istanbul-reports" "^3.0.4"
-    "@types/node" "*"
-    "@types/yargs" "^17.0.33"
-    chalk "^4.1.2"
 
 "@jest/types@30.0.5":
   version "30.0.5"
@@ -1530,10 +1510,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@6.0.32":
-  version "6.0.32"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-6.0.32.tgz#34b85634d4c2d43cb592087547727b5ca5fc146e"
-  integrity sha512-XXZ0RbkrIw8mr71WbVYmtZk+zWYutS71+/8/E+gyPE3yt/ZNiW4UU5/NcrpgLO4NfIB+VBuWhPzSN6Pb1VxAWA==
+"@mdn/browser-compat-data@6.0.36":
+  version "6.0.36"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-6.0.36.tgz#3b7936679098404716465c27e2ca612075a13f3f"
+  integrity sha512-bvPldvzuJ5FrIYPuXpoX7WedcBQzdia3rQpUbASxJ89ggzdh6Hxisfx3R5b4UwFOUEj3Qps9CAcToxhCrZI0Nw==
 
 "@napi-rs/wasm-runtime@^0.2.11":
   version "0.2.11"
@@ -2549,14 +2529,14 @@ acorn@^8.15.0, acorn@^8.5.0, acorn@^8.8.2, acorn@^8.9.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.15.0.tgz#a360898bc415edaac46c8241f6383975b930b816"
   integrity sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==
 
-addons-linter@7.18.0:
-  version "7.18.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.18.0.tgz#9403e93e87832c394cc79a5cd76d31888ca961cc"
-  integrity sha512-XJ2FiBjwuprKaFte/5KEOPgym3OuBJw1sutUipeYtQ8q2StVzXqwKY+Fwp0wciDlFkmiQmxP9AMeDiKrc0MdRw==
+addons-linter@7.19.0:
+  version "7.19.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-7.19.0.tgz#c8296cc0a14b09561fc2542ae7e2e4c4fa4ed234"
+  integrity sha512-h3w/qp11FGXhrCU/WNhUalwBGghjrBrTG9N72kzyja9bS9b8RVF4B6Dcvko7qdj2bnxt+E+3fgU4rKIHFEbSrA==
   dependencies:
     "@fluent/syntax" "0.19.0"
     "@fregante/relaxed-json" "2.0.0"
-    "@mdn/browser-compat-data" "6.0.32"
+    "@mdn/browser-compat-data" "6.0.36"
     addons-moz-compare "1.3.0"
     addons-scanner-utils "9.13.0"
     ajv "8.17.1"
@@ -4738,18 +4718,6 @@ jest-snapshot@30.0.5:
     pretty-format "30.0.5"
     semver "^7.7.2"
     synckit "^0.11.8"
-
-jest-util@30.0.2:
-  version "30.0.2"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-30.0.2.tgz#1bd8411f81e6f5e2ca8b31bb2534ebcd7cbac065"
-  integrity sha512-8IyqfKS4MqprBuUpZNlFB5l+WFehc8bfCe1HSZFHzft2mOuND8Cvi9r1musli+u6F3TqanCZ/Ik4H4pXUolZIg==
-  dependencies:
-    "@jest/types" "30.0.1"
-    "@types/node" "*"
-    chalk "^4.1.2"
-    ci-info "^4.2.0"
-    graceful-fs "^4.2.11"
-    picomatch "^4.0.2"
 
 jest-util@30.0.5:
   version "30.0.5"
