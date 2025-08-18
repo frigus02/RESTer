@@ -76,7 +76,7 @@
     "babel-jest": "30.0.5",
     "chalk": "5.5.0",
     "concurrently": "9.2.0",
-    "copy-webpack-plugin": "13.0.0",
+    "copy-webpack-plugin": "13.0.1",
     "cpx2": "8.0.0",
     "eslint": "9.33.0",
     "file-loader": "6.2.0",
