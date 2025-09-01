@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`with browser requests GET http://127.0.0.1:7373/echo 1`] = `
 "GET /echo HTTP/1.1
