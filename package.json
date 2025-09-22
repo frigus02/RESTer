@@ -78,7 +78,7 @@
     "concurrently": "9.2.1",
     "copy-webpack-plugin": "13.0.1",
     "cpx2": "8.0.0",
-    "eslint": "9.35.0",
+    "eslint": "9.36.0",
     "file-loader": "6.2.0",
     "geckodriver": "6.0.1",
     "globals": "^16.4.0",
