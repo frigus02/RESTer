@@ -4,7 +4,7 @@
 
 ### Sizes
 
-As the [documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/icons) states, Firefox recommends at least an icon in 48x48. For higher resoltion displays, you should provide double-sized versions of all your icons though. So we use these sizes:
+As the [documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/icons) states, Firefox recommends at least an icon in 48x48. For higher resoltion displays, you should provide double-sized versions of all your icons though. So we use these sizes:
 
 -   48x48
 -   96x96
@@ -18,7 +18,7 @@ This results in:
 }
 ```
 
-For the browser action, Firefox allows to use an SVG icon ([documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json/browser_action#Choosing_icon_sizes)). This would be the best option. However Firefox also supports `theme_icons`, which let you specify light icons for dark themes. Here you can only specify fixed sized PNGs. Theme matching icons are more important to me, so we opt for PNGs and make use of the `theme_icons`:
+For the browser action, Firefox allows to use an SVG icon ([documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_action#Choosing_icon_sizes)). This would be the best option. However Firefox also supports `theme_icons`, which let you specify light icons for dark themes. Here you can only specify fixed sized PNGs. Theme matching icons are more important to me, so we opt for PNGs and make use of the `theme_icons`:
 
 ```json
 "browser_action": {
