@@ -2,7 +2,7 @@
 
 A REST client for almost any web service.
 
-Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Chrome](https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
+Download for: [Firefox](https://addons.mozilla.org/firefox/addon/rester) | [Chrome](https://chromewebstore.google.com/detail/rester/eejfoncpjfgmeleakejdcanedmefagga)
 
 ![](docs/preview.png)
 
