@@ -150,6 +150,7 @@ class RESTerPageEnvironments extends RESTerPageMixin(
     _addEnvironment() {
         this._environmentInDialog = {
             name: '',
+            color: '#808080',
             values: {},
         };
         this._environmentInDialogIndex = -1;

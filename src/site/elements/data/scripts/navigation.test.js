@@ -16,7 +16,6 @@ const historyFields = [
     'request.url',
     'request.variables',
 ];
-const environmentFields = ['id', 'name'];
 
 const fakeRequests = [
     {
@@ -92,10 +91,6 @@ const fakeHistoryEntries = [
         request: fakeRequests[3],
     },
 ];
-const fakeEnvironments = [
-    { id: 1, name: 'dev', values: {} },
-    { id: 3, name: 'prod', values: {} },
-];
 
 class Deferred {
     constructor() {
@@ -118,19 +113,11 @@ class Deferred {
 
 let getRequestsDfd;
 let getHistoryEntriesDfd;
-let getEnvironmentDfd;
-let settingsLoadedDfd;
 let nav;
 
 beforeEach(function () {
     getRequestsDfd = Deferred.mock(mockRester.getRequests);
     getHistoryEntriesDfd = Deferred.mock(mockRester.getHistoryEntries);
-    getEnvironmentDfd = Deferred.mock(mockRester.getEnvironment);
-    mockRester.mockSettings({
-        activeEnvironment: 1,
-    });
-    settingsLoadedDfd = new Deferred();
-    mockRester.mockSettingsLoaded(settingsLoadedDfd.promise);
     mockVariables.replaceWithoutProvidedValues.mockImplementation((obj) =>
         obj === fakeRequests[3] ? fakeRequest3Compiled : obj,
     );
@@ -148,17 +135,10 @@ test('items are created on startup', async function () {
     expect(mockRester.getRequests).toHaveBeenCalledWith(requestFields);
     expect(mockRester.getHistoryEntries).toHaveBeenCalledWith(5, historyFields);
 
-    settingsLoadedDfd.resolve();
     await Deferred.flush();
-
-    expect(mockRester.getEnvironment).toHaveBeenCalledWith(
-        mockRester.settings.activeEnvironment,
-        environmentFields,
-    );
 
     getRequestsDfd.resolve(fakeRequests);
     getHistoryEntriesDfd.resolve(fakeHistoryEntries.slice(1));
-    getEnvironmentDfd.resolve(fakeEnvironments[0]);
     await Deferred.flush();
 
     expect(mockVariables.replaceWithoutProvidedValues).toHaveBeenCalledWith(
@@ -170,10 +150,8 @@ test('items are created on startup', async function () {
 
 describe('with resolved data', function () {
     beforeEach(async function () {
-        settingsLoadedDfd.resolve();
         getRequestsDfd.resolve(fakeRequests);
         getHistoryEntriesDfd.resolve(fakeHistoryEntries.slice(1));
-        getEnvironmentDfd.resolve(fakeEnvironments[0]);
 
         await Deferred.flush();
     });
@@ -222,10 +200,8 @@ describe('with resolved data', function () {
 
 describe('with resolved empty data', function () {
     beforeEach(async function () {
-        settingsLoadedDfd.resolve();
         getRequestsDfd.resolve([]);
         getHistoryEntriesDfd.resolve([]);
-        getEnvironmentDfd.resolve(fakeEnvironments[0]);
 
         await Deferred.flush();
     });
@@ -358,47 +334,5 @@ describe('with resolved empty data', function () {
         );
 
         expect(nav.items).toMatchSnapshot('5. Deleted 1 request');
-
-        // Should handle name changes of the active environment
-        const changedEnvironment = Object.assign({}, fakeEnvironments[0], {
-            name: 'prod',
-        });
-        changeListener(
-            new CustomEvent('dataChange', {
-                detail: [
-                    {
-                        action: 'put',
-                        item: changedEnvironment,
-                        itemType: 'Environment',
-                    },
-                ],
-            }),
-        );
-
-        expect(nav.items).toMatchSnapshot('6. Updated environment name');
-    });
-
-    test('items are updated when settings change', async function () {
-        expect(mockRester.e.addEventListener).toHaveBeenCalledWith(
-            'settingsChange',
-            expect.any(Function),
-        );
-
-        const settingsChangeListener =
-            mockRester.e.addEventListener.mock.calls[1][1];
-
-        // Check preconditions.
-        expect(nav.items.length).toEqual(7);
-        const envItem1 = nav.items.find((item) => item.title === 'Environment');
-        expect(envItem1.subtitle).toBe('dev');
-
-        // Should handle change of active environment
-        mockRester.settings.activeEnvironment = null;
-        settingsChangeListener();
-
-        await Deferred.flush();
-
-        const envItem2 = nav.items.find((item) => item.title === 'Environment');
-        expect(envItem2.subtitle).toBeUndefined();
     });
 });

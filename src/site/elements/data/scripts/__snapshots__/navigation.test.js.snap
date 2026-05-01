@@ -91,7 +91,7 @@ exports[`items are created on startup 1`] = `
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
+    "subtitle": undefined,
     "title": "Environment",
   },
   Item {
@@ -199,7 +199,7 @@ exports[`with resolved empty data items are updated when data changes 1`] = `
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
+    "subtitle": undefined,
     "title": "Environment",
   },
   Item {
@@ -305,7 +305,7 @@ exports[`with resolved empty data items are updated when data changes: 1. Added 
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
+    "subtitle": undefined,
     "title": "Environment",
   },
   Item {
@@ -413,7 +413,7 @@ exports[`with resolved empty data items are updated when data changes: 2. Delete
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
+    "subtitle": undefined,
     "title": "Environment",
   },
   Item {
@@ -521,7 +521,7 @@ exports[`with resolved empty data items are updated when data changes: 3. Update
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
+    "subtitle": undefined,
     "title": "Environment",
   },
   Item {
@@ -659,7 +659,7 @@ exports[`with resolved empty data items are updated when data changes: 4. Added 
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
+    "subtitle": undefined,
     "title": "Environment",
   },
   Item {
@@ -785,133 +785,7 @@ exports[`with resolved empty data items are updated when data changes: 5. Delete
       "handler": [Function],
       "icon": "more-vert",
     },
-    "subtitle": "dev",
-    "title": "Environment",
-  },
-  Item {
-    "action": {
-      "url": "#/organize",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": undefined,
     "subtitle": undefined,
-    "title": "Organize",
-  },
-  Divider {
-    "isDivider": true,
-  },
-  Subheader {
-    "action": {
-      "icon": "history",
-      "url": "#/history",
-    },
-    "isSubheader": true,
-    "title": "History",
-  },
-  Item {
-    "action": {
-      "url": "#/request//history/46",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": undefined,
-    "subtitle": "GET http://google.com",
-    "title": "12:50:00 ",
-  },
-  Item {
-    "action": {
-      "url": "#/request/1/history/45",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": undefined,
-    "subtitle": "GET http://jsonplaceholder.com/posts",
-    "title": "12:43:00 JSONPlaceholder / Get Posts",
-  },
-  Item {
-    "action": {
-      "url": "#/request/5/history/44",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": undefined,
-    "subtitle": "POST http://jsonplaceholder.com/posts",
-    "title": "12:40:00 JSONPlaceholder / Create Post",
-  },
-  Item {
-    "action": {
-      "url": "#/request/1/history/43",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": undefined,
-    "subtitle": "GET http://jsonplaceholder.com/posts",
-    "title": "12:39:00 JSONPlaceholder / Get Posts",
-  },
-  Item {
-    "action": {
-      "url": "#/request/6/history/42",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": undefined,
-    "subtitle": "GET https://api.googleapis.com/profile",
-    "title": "15:03:00 Google / Get Profile",
-  },
-]
-`;
-
-exports[`with resolved empty data items are updated when data changes: 6. Updated environment name 1`] = `
-[
-  Subheader {
-    "action": {
-      "icon": "add",
-      "url": "#/",
-    },
-    "isSubheader": true,
-    "title": "Requests",
-  },
-  Group {
-    "isGroup": true,
-    "items": [
-      Item {
-        "action": {
-          "url": "#/request/5",
-        },
-        "data": {
-          "id": 5,
-        },
-        "isItem": true,
-        "secondaryAction": undefined,
-        "subtitle": undefined,
-        "title": "Create Post",
-      },
-    ],
-    "title": "JSONPlaceholder",
-  },
-  Divider {
-    "isDivider": true,
-  },
-  Subheader {
-    "action": {
-      "icon": "settings",
-      "url": "#/settings",
-    },
-    "isSubheader": true,
-    "title": "Settings",
-  },
-  Item {
-    "action": {
-      "url": "#/environments",
-    },
-    "data": undefined,
-    "isItem": true,
-    "secondaryAction": {
-      "handler": [Function],
-      "icon": "more-vert",
-    },
-    "subtitle": "prod",
     "title": "Environment",
   },
   Item {

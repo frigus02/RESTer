@@ -56,6 +56,39 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
                     margin-left: -8px;
                     margin-right: auto;
                 }
+
+                .name-line {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-end;
+                    margin-bottom: 8px;
+                }
+
+                .name-line paper-input {
+                    flex: 1;
+                    margin-right: 16px;
+                }
+
+                .color-picker-container {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 4px;
+                }
+
+                .color-picker-container label {
+                    font-size: 12px;
+                    color: var(--secondary-text-color);
+                    margin-bottom: 4px;
+                }
+
+                .color-picker-container input[type='color'] {
+                    cursor: pointer;
+                    border: none;
+                    padding: 0;
+                    width: 32px;
+                    height: 32px;
+                    background: none;
+                }
             </style>
 
             <paper-dialog
@@ -67,13 +100,22 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
                 <paper-dialog-scrollable>
                     <iron-form id="dialogForm">
                         <form>
-                            <paper-input
-                                label="Environment"
-                                value="{{data.name}}"
-                                required
-                                error-message="This is required!"
-                                autofocus
-                            ></paper-input>
+                            <div class="name-line">
+                                <paper-input
+                                    label="Environment"
+                                    value="{{data.name}}"
+                                    required
+                                    error-message="This is required!"
+                                    autofocus
+                                ></paper-input>
+                                <div class="color-picker-container">
+                                    <label>Color</label>
+                                    <input
+                                        type="color"
+                                        value="{{data.color::input}}"
+                                    />
+                                </div>
+                            </div>
                             <template is="dom-repeat" items="[[valueItems]]">
                                 <div class="value-line">
                                     <paper-input
@@ -141,6 +183,10 @@ class RESTerEditEnvironmentDialog extends RESTerDialogControllerMixin(
         if (newData === undefined) {
             this._setValueItems([]);
         } else {
+            if (!newData.color) {
+                this.set('data.color', '#808080');
+            }
+
             this._setValueItems(
                 Object.keys(newData.values).map((key) => ({
                     key,

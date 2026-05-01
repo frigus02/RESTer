@@ -17,6 +17,7 @@ export class Environment {
     static get defaultProperties() {
         return {
             name: '',
+            color: '#808080',
             values: {},
         };
     }

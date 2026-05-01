@@ -2,14 +2,7 @@ import CustomEventTarget from '../../../../shared/custom-event-target.js';
 import dialogs from './dialogs.js';
 import { time as formatTime } from './format.js';
 import { Divider, Group, Item, Subheader } from './navigation-item-types.js';
-import {
-    e as resterEvents,
-    getEnvironment,
-    getHistoryEntries,
-    getRequests,
-    settings,
-    settingsLoaded,
-} from './rester.js';
+import { e as resterEvents, getHistoryEntries, getRequests } from './rester.js';
 import { clone, group, sort, sortedIndexOf } from '../../../../shared/util.js';
 import { replaceWithoutProvidedValues } from './variables.js';
 
@@ -24,7 +17,6 @@ const historyFields = [
     'request.url',
     'request.variables',
 ];
-const environmentFields = ['id', 'name'];
 
 function createListOfRequestNavItems(rawRequests) {
     const collGroups = group(rawRequests, (request) => request.collection[0]);
@@ -95,10 +87,9 @@ function createHistoryNavItem(historyEntry) {
     });
 }
 
-function createEnvironmentNavItem(activeEnvironment) {
+function createEnvironmentNavItem() {
     return new Item({
         title: 'Environment',
-        subtitle: activeEnvironment && activeEnvironment.name,
         action: {
             url: '#/environments',
         },
@@ -109,13 +100,6 @@ function createEnvironmentNavItem(activeEnvironment) {
             },
         },
     });
-}
-
-async function getActiveEnvironment() {
-    const envId = settings.activeEnvironment;
-    if (envId) {
-        return await getEnvironment(envId, environmentFields);
-    }
 }
 
 function findNextRequestId(requestId, requestItems) {
@@ -164,28 +148,19 @@ export default class Navigation extends CustomEventTarget {
         this._historyNavItemsCount = 0;
         this._updateNavigationBasedOnDataChanges =
             this._updateNavigationBasedOnDataChanges.bind(this);
-        this._updateNavigationBasedOnSettingsChanges =
-            this._updateNavigationBasedOnSettingsChanges.bind(this);
 
         this._create();
         resterEvents.addEventListener(
             'dataChange',
             this._updateNavigationBasedOnDataChanges,
         );
-        resterEvents.addEventListener(
-            'settingsChange',
-            this._updateNavigationBasedOnSettingsChanges,
-        );
     }
 
     async _create() {
-        const [requests, historyEntries, activeEnvironment] = await Promise.all(
-            [
-                getRequests(requestFields),
-                getHistoryEntries(5, historyFields),
-                settingsLoaded.then(() => getActiveEnvironment()),
-            ],
-        );
+        const [requests, historyEntries] = await Promise.all([
+            getRequests(requestFields),
+            getHistoryEntries(5, historyFields),
+        ]);
 
         this.items.push(
             new Subheader({
@@ -223,7 +198,7 @@ export default class Navigation extends CustomEventTarget {
             this._requestNavItemsOffset + this._requestNavItemsCount + 2;
 
         this.items.push(
-            createEnvironmentNavItem(activeEnvironment),
+            createEnvironmentNavItem(),
             new Item({
                 title: 'Organize',
                 action: {
@@ -406,27 +381,8 @@ export default class Navigation extends CustomEventTarget {
                         this._historyNavItemsCount--;
                     }
                 }
-            } else if (change.itemType === 'Environment') {
-                if (change.item.id === settings.activeEnvironment) {
-                    this._splice(
-                        [],
-                        this._environmentNavItemIndex,
-                        1,
-                        createEnvironmentNavItem(change.item),
-                    );
-                }
             }
         }
-    }
-
-    async _updateNavigationBasedOnSettingsChanges() {
-        const env = await getActiveEnvironment();
-        this._splice(
-            [],
-            this._environmentNavItemIndex,
-            1,
-            createEnvironmentNavItem(env),
-        );
     }
 
     getNextRequestId(requestId) {
@@ -444,10 +400,6 @@ export default class Navigation extends CustomEventTarget {
         resterEvents.removeEventListener(
             'dataChange',
             this._updateNavigationBasedOnDataChanges,
-        );
-        resterEvents.removeEventListener(
-            'settingsChange',
-            this._updateNavigationBasedOnSettingsChanges,
         );
     }
 }
