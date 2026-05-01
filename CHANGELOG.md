@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.15.0] - 2026-05-01
+
+### Added/Changed
+
+- Added color to environments and moved the environment indicator from the "Environment" navigation item to the top of the sidebar. Thanks [@rafaroseira](https://github.com/rafaroseira).
+
 ## [4.14.1] - 2025-03-16
 
 ### Fixed
@@ -765,7 +771,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.14.1...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.15.0...HEAD
+[4.15.0]: https://github.com/frigus02/RESTer/compare/4.14.1...4.15.0
 [4.14.1]: https://github.com/frigus02/RESTer/compare/4.14.0...4.14.1
 [4.14.0]: https://github.com/frigus02/RESTer/compare/4.13.0...4.14.0
 [4.13.0]: https://github.com/frigus02/RESTer/compare/4.12.0...4.13.0
