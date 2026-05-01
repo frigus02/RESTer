@@ -55,10 +55,6 @@ To release a new version of RESTer:
 
     https://addons.mozilla.org/en-US/developers/addon/rester/versions/submit/
 
-1. Update AMO _Whiteboard_ with new library versions
-
-    https://addons.mozilla.org/en-US/developers/addon/rester/edit#edit-addon-technical
-
 1. Upload to Chrome Web Store
 
     https://chrome.google.com/webstore/developer/dashboard
