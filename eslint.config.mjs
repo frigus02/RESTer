@@ -67,7 +67,11 @@ export default [
         },
     },
     {
-        files: ['test-e2e/**/*.{js,mjs}', '**/*.test.js', '**/__mocks__/**/*.js'],
+        files: [
+            'test-e2e/**/*.{js,mjs}',
+            '**/*.test.js',
+            '**/__mocks__/**/*.js',
+        ],
         languageOptions: {
             globals: {
                 ...globals.node,

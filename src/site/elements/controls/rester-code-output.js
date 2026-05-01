@@ -13,7 +13,8 @@ class RESTerCodeOutput extends RESTerThemeMixin(PolymerElement) {
             <style>
                 :host {
                     display: block;
-                    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas',
+                    font-family:
+                        'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas',
                         'source-code-pro', monospace;
                     font-size: 12px;
                     font-weight: 400;

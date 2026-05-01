@@ -298,11 +298,13 @@ function createPostmanCollectionItems({ requests, historyEntries }) {
         const folder = ensureFolder(`History_${randomId}`);
         historyEntry.request.id = `history-${historyEntryIndex}`;
         historyEntry.request.title = `History_${randomId} ${historyEntryIndex}`;
-        const item = PostmanItem.fromResterRequest(historyEntry.request, [historyEntry]);
+        const item = PostmanItem.fromResterRequest(historyEntry.request, [
+            historyEntry,
+        ]);
 
         const index = sortedIndexOfItemsAndFolders(folder.item, item);
         folder.item.splice(index, 0, item);
-    })
+    });
 
     return rootFolder.item;
 }
