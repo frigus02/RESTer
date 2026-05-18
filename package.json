@@ -83,7 +83,7 @@
     "geckodriver": "6.1.0",
     "globals": "^17.6.0",
     "html-webpack-plugin": "5.6.7",
-    "jest": "30.3.0",
+    "jest": "30.4.2",
     "jest-environment-jsdom": "30.4.1",
     "log-symbols": "7.0.1",
     "prettier": "3.8.3",
