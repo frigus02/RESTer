@@ -91,7 +91,7 @@
     "selenium-webdriver": "4.44.0",
     "string-replace-loader": "3.3.0",
     "webpack": "5.107.1",
-    "webpack-cli": "7.0.2",
+    "webpack-cli": "7.0.3",
     "xml2js": "0.6.2"
   },
   "engines": {
