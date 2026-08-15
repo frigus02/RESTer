@@ -2,7 +2,7 @@
 
 const { Key, until } = require('selenium-webdriver');
 
-const createDriver = require('../tools/lib/create-web-driver');
+const { createDriver } = require('../tools/lib/create-web-driver.mjs');
 const Server = require('../tools/lib/server');
 const {
     MainSelectors,

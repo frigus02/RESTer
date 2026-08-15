@@ -3,7 +3,7 @@
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 
-import createPackage from '../lib/create-package.js';
+import { createPackage } from '../lib/create-package.mjs';
 
 async function main() {
     const browser = process.argv[2];

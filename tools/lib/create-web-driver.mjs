@@ -1,23 +1,19 @@
-'use strict';
+import { unlink } from 'fs/promises';
+import * as path from 'path';
 
-const fs = require('fs');
-const path = require('path');
-const { promisify } = require('util');
+import { Builder } from 'selenium-webdriver';
+import * as firefox from 'selenium-webdriver/firefox';
 
-const { Builder } = require('selenium-webdriver');
-const firefox = require('selenium-webdriver/firefox');
+import { createPackage } from './create-package.mjs';
 
-const createPackage = require('./create-package');
-
-const fsUnlink = promisify(fs.unlink);
-const rootDir = path.resolve(__dirname, '../../');
+const rootDir = path.resolve(import.meta.dirname, '../../');
 
 async function createResterExtensionXpi() {
     const srcDir = path.resolve(rootDir, 'build');
     const xpiPath = path.resolve(rootDir, 'package/firefox-selenium.xpi');
 
     try {
-        await fsUnlink(xpiPath);
+        await unlink(xpiPath);
     } catch (e) {
         if (e.code !== 'ENOENT') {
             throw e;
@@ -31,7 +27,7 @@ async function createResterExtensionXpi() {
     });
 }
 
-async function createWebDriver() {
+export async function createWebDriver() {
     await createResterExtensionXpi();
 
     const options = new firefox.Options()
@@ -48,8 +44,9 @@ async function createWebDriver() {
         options.addArguments('-headless');
     }
 
-    const serviceBuilder = new firefox.ServiceBuilder()
-        .addArguments('--allow-system-access');
+    const serviceBuilder = new firefox.ServiceBuilder().addArguments(
+        '--allow-system-access',
+    );
 
     const driver = await new Builder()
         .forBrowser('firefox')
@@ -59,5 +56,3 @@ async function createWebDriver() {
 
     return driver;
 }
-
-module.exports = createWebDriver;

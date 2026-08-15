@@ -1,12 +1,8 @@
-'use strict';
+import { createWriteStream } from 'fs';
+import { readFile, mkdir } from 'fs/promises';
+import * as path from 'path';
 
-const { createWriteStream } = require('fs');
-const { readFile, mkdir } = require('fs/promises');
-const path = require('path');
-
-const archiver = require('archiver');
-
-const packageJson = require('../../package.json');
+import { ZipArchive } from 'archiver';
 
 const additionalManifestEntries = {
     firefox: {
@@ -69,23 +65,28 @@ const usedImages = {
     chrome: ['images/icon{16,24,32,48,128}.png'],
 };
 
-function enhanceManifestJson(manifestJson, browser) {
+function enhanceManifestJson(packageJson, manifestJson, browser) {
+    const { version } = JSON.parse(packageJson);
     const manifest = JSON.parse(manifestJson);
 
     // Add additional keys.
     Object.assign(manifest, additionalManifestEntries[browser]);
 
     // Validate version
-    if (manifest.version !== packageJson.version) {
+    if (manifest.version !== version) {
         throw new Error(
-            `Version in manifest (${manifest.version}) does not match validated version (${packageJson.version}).`,
+            `Version in manifest (${manifest.version}) does not match validated version (${version}).`,
         );
     }
 
     return JSON.stringify(manifest, null, 4);
 }
 
-async function createPackage({ browser, srcDir, destFile }) {
+export async function createPackage({ browser, srcDir, destFile }) {
+    const packageJson = await readFile(
+        path.join(srcDir, '../package.json'),
+        'utf8',
+    );
     const manifestJson = await readFile(
         path.join(srcDir, 'manifest.json'),
         'utf8',
@@ -94,7 +95,7 @@ async function createPackage({ browser, srcDir, destFile }) {
 
     return await new Promise((resolve, reject) => {
         const output = createWriteStream(destFile);
-        const archive = archiver('zip', {
+        const archive = new ZipArchive({
             zlib: { level: 9 },
         });
 
@@ -119,12 +120,13 @@ async function createPackage({ browser, srcDir, destFile }) {
             });
         }
 
-        archive.append(enhanceManifestJson(manifestJson, browser), {
-            name: 'manifest.json',
-        });
+        archive.append(
+            enhanceManifestJson(packageJson, manifestJson, browser),
+            {
+                name: 'manifest.json',
+            },
+        );
 
         archive.finalize();
     });
 }
-
-module.exports = createPackage;
