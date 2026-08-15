@@ -42,16 +42,19 @@ async function createWebDriver() {
         )
         .setPreference('xpinstall.signatures.required', false)
         .setPreference('intl.accept_languages', 'en')
-        .addExtensions(path.resolve(rootDir, 'package/firefox-selenium.xpi'))
-        .addArguments('--allow-system-access');
+        .addExtensions(path.resolve(rootDir, 'package/firefox-selenium.xpi'));
 
     if (!process.env.WITH_HEAD) {
         options.addArguments('-headless');
     }
 
+    const serviceBuilder = new firefox.ServiceBuilder()
+        .addArguments('--allow-system-access');
+
     const driver = await new Builder()
         .forBrowser('firefox')
         .setFirefoxOptions(options)
+        .setFirefoxService(serviceBuilder)
         .build();
 
     return driver;
