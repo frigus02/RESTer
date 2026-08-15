@@ -26,7 +26,7 @@ It requires a few permissions to do this. [Which permissions and why?](./docs/pe
 
 The project requires:
 
-- `node` >= 20
+- `node` >= 24
 - `yarn` >= 1
 
 Install all other dependencies with the command:
