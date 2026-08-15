@@ -1,12 +1,15 @@
 'use strict';
 
 import { createReadStream } from 'fs';
-import { resolve as resolvePath } from 'path';
+import { writeFile } from 'fs/promises';
+import { resolve as resolvePath, join as joinPath } from 'path';
 import { createInterface } from 'readline';
 
 import { createInstance } from 'addons-linter';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
+
+import { enhanceManifestJson } from '../lib/create-package.mjs';
 
 const ignoreFileName = '.addonslinterignore';
 
@@ -18,6 +21,16 @@ const ignoreFileName = '.addonslinterignore';
  * @return {Promise}
  */
 async function lintFirefoxAddon(options) {
+    const enhancedManifestJson = await enhanceManifestJson(
+        options.addonDir,
+        'firefox',
+    );
+    await writeFile(
+        joinPath(options.addonDir, 'manifest.json'),
+        enhancedManifestJson,
+        'utf8',
+    );
+
     const ignoreList = await getIgnoreList();
 
     const linter = createInstance({

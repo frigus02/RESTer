@@ -6,9 +6,12 @@ import { ZipArchive } from 'archiver';
 
 const additionalManifestEntries = {
     firefox: {
-        applications: {
+        browser_specific_settings: {
             gecko: {
                 id: 'rester@kuehle.me',
+                data_collection_permissions: {
+                    required: ['none'],
+                },
                 strict_min_version: '148.0',
             },
         },
@@ -65,17 +68,26 @@ const usedImages = {
     chrome: ['images/icon{16,24,32,48,128}.png'],
 };
 
-function enhanceManifestJson(packageJson, manifestJson, browser) {
-    const { version } = JSON.parse(packageJson);
+export async function enhanceManifestJson(srcDir, browser) {
+    const packageJson = JSON.parse(
+        await readFile(
+            path.join(import.meta.dirname, '../../package.json'),
+            'utf8',
+        ),
+    );
+    const manifestJson = await readFile(
+        path.join(srcDir, 'manifest.json'),
+        'utf8',
+    );
     const manifest = JSON.parse(manifestJson);
 
     // Add additional keys.
     Object.assign(manifest, additionalManifestEntries[browser]);
 
     // Validate version
-    if (manifest.version !== version) {
+    if (manifest.version !== packageJson.version) {
         throw new Error(
-            `Version in manifest (${manifest.version}) does not match validated version (${version}).`,
+            `Version in manifest (${manifest.version}) does not match validated version (${packageJson.version}).`,
         );
     }
 
@@ -83,14 +95,7 @@ function enhanceManifestJson(packageJson, manifestJson, browser) {
 }
 
 export async function createPackage({ browser, srcDir, destFile }) {
-    const packageJson = await readFile(
-        path.join(srcDir, '../package.json'),
-        'utf8',
-    );
-    const manifestJson = await readFile(
-        path.join(srcDir, 'manifest.json'),
-        'utf8',
-    );
+    const enhancedManifestJson = await enhanceManifestJson(srcDir, browser);
     await mkdir(path.dirname(destFile), { recursive: true });
 
     return await new Promise((resolve, reject) => {
@@ -120,12 +125,7 @@ export async function createPackage({ browser, srcDir, destFile }) {
             });
         }
 
-        archive.append(
-            enhanceManifestJson(packageJson, manifestJson, browser),
-            {
-                name: 'manifest.json',
-            },
-        );
+        archive.append(enhancedManifestJson, { name: 'manifest.json' });
 
         archive.finalize();
     });
