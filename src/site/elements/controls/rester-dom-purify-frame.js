@@ -61,8 +61,7 @@ class RESTerDOMPurifyIFrame extends PolymerElement {
             doc.body.children[0].remove();
         }
 
-        const divEl = doc.body.appendChild(doc.createElement('div'));
-        divEl.innerHTML = DOMPurify.sanitize(this.html);
+        doc.body.setHTML(this.html);
 
         this.$.frame.contentWindow.setTimeout(() => {
             const htmlEl = doc.querySelector('html');
