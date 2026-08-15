@@ -2,7 +2,7 @@
 
 const { Key, until } = require('selenium-webdriver');
 
-const createDriver = require('../tools/lib/create-web-driver');
+const { createWebDriver } = require('../tools/lib/create-web-driver.mjs');
 const Server = require('../tools/lib/server');
 const {
     MainSelectors,
@@ -28,7 +28,7 @@ let goTo;
 let switchRequestTab;
 
 beforeAll(async function () {
-    driver = await createDriver();
+    driver = await createWebDriver();
     await driver.get(baseUrl);
     MainElements = wrapped(MainSelectors, driver);
     RequestElements = wrapped(RequestSelectors, driver);
