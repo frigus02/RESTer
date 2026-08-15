@@ -9,7 +9,7 @@ import '../../../../node_modules/@polymer/paper-menu-button/paper-menu-button.js
 import '../../../../node_modules/@polymer/paper-progress/paper-progress.js';
 import '../styles/rester-icons.js';
 import './rester-ace-input.js';
-import './rester-dom-purify-frame.js';
+import './rester-sanitized-iframe.js';
 import dialogs from '../data/scripts/dialogs.js';
 import { debounce, cancelDebounce } from '../../../shared/util.js';
 import { formatCode } from '../data/scripts/worker.js';
@@ -85,7 +85,7 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
                     z-index: 11;
                 }
 
-                rester-dom-purify-frame {
+                rester-sanitized-iframe {
                     background-color: white;
                 }
             </style>
@@ -186,9 +186,9 @@ class RESTerHighlightBody extends RESTerSettingsMixin(PolymerElement) {
                 </template>
 
                 <template is="dom-if" if="[[renderPreview]]">
-                    <rester-dom-purify-frame
+                    <rester-sanitized-iframe
                         html="[[body]]"
-                    ></rester-dom-purify-frame>
+                    ></rester-sanitized-iframe>
                 </template>
             </div>
         `;

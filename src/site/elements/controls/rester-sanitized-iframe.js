@@ -1,12 +1,11 @@
 import { PolymerElement } from '../../../../node_modules/@polymer/polymer/polymer-element.js';
 import { html } from '../../../../node_modules/@polymer/polymer/lib/utils/html-tag.js';
-import DOMPurify from '../../../../node_modules/dompurify/dist/purify.es.mjs';
 
 /**
  * @polymer
  * @customElement
  */
-class RESTerDOMPurifyIFrame extends PolymerElement {
+class RESTerSanitizedIFrame extends PolymerElement {
     static get template() {
         return html`
             <style>
@@ -29,7 +28,7 @@ class RESTerDOMPurifyIFrame extends PolymerElement {
     }
 
     static get is() {
-        return 'rester-dom-purify-frame';
+        return 'rester-sanitized-iframe';
     }
 
     static get properties() {
@@ -70,4 +69,4 @@ class RESTerDOMPurifyIFrame extends PolymerElement {
     }
 }
 
-customElements.define(RESTerDOMPurifyIFrame.is, RESTerDOMPurifyIFrame);
+customElements.define(RESTerSanitizedIFrame.is, RESTerSanitizedIFrame);
