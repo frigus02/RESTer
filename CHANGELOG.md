@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.15.1] - 2026-08-15
+
+### Changed
+
+- Update dependencies and replace DOMPurify dependency with native browser API.
+
 ## [4.15.0] - 2026-05-01
 
 ### Added/Changed
@@ -771,7 +777,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - First release.
 
-[unreleased]: https://github.com/frigus02/RESTer/compare/4.15.0...HEAD
+[unreleased]: https://github.com/frigus02/RESTer/compare/4.15.1...HEAD
+[4.15.1]: https://github.com/frigus02/RESTer/compare/4.15.0...4.15.1
 [4.15.0]: https://github.com/frigus02/RESTer/compare/4.14.1...4.15.0
 [4.14.1]: https://github.com/frigus02/RESTer/compare/4.14.0...4.14.1
 [4.14.0]: https://github.com/frigus02/RESTer/compare/4.13.0...4.14.0
