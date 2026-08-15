@@ -48,9 +48,13 @@ async function createWebDriver() {
         options.addArguments('-headless');
     }
 
+    const serviceBuilder = new firefox.ServiceBuilder()
+        .addArguments('--allow-system-access');
+
     const driver = await new Builder()
         .forBrowser('firefox')
         .setFirefoxOptions(options)
+        .setFirefoxService(serviceBuilder)
         .build();
 
     return driver;
