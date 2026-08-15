@@ -3244,10 +3244,10 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cpx2@8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/cpx2/-/cpx2-8.0.2.tgz#da67dcf44677a63706b1ba6cbf103e18621fdf83"
-  integrity sha512-exLFEIh8XgWthEtrEq8hs+S6jxM5ZHpjQnRH6D7VU+2uAYS3amLSVOUSuirfx3HeN7WBCq+xFygHpt7l+gQtUA==
+cpx2@9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/cpx2/-/cpx2-9.0.0.tgz#ffb7c3c05b6f8c2fbef6933c6fcee2a3963a7d55"
+  integrity sha512-KRZGQCmHrM10xfLjrCBTQHpEIJgKtZyOOO5fygu9KE00IjQOL76FHjeON62R5PWS/W2J5ofgRJKF8rpUlEuLPQ==
   dependencies:
     debounce "^3.0.0"
     glob "^13.0.0"
@@ -3255,7 +3255,6 @@ cpx2@8.0.2:
     ignore "^7.0.5"
     minimatch "^10.0.1"
     p-map "^7.0.0"
-    resolve "^1.12.0"
     shell-quote "^1.8.0"
     subarg "^1.0.0"
 
@@ -5672,7 +5671,7 @@ resolve-from@^5.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
   integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
-resolve@^1.12.0, resolve@^1.20.0, resolve@^1.22.11:
+resolve@^1.20.0, resolve@^1.22.11:
   version "1.22.11"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.11.tgz#aad857ce1ffb8bfa9b0b1ac29f1156383f68c262"
   integrity sha512-RfqAvLnMl313r7c9oclB1HhUEAezcpLjz95wFH4LVuhk9JF/r22qmVP9AMmOU4vMX7Q8pN8jwNg/CSpdFnMjTQ==
