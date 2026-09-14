@@ -76,7 +76,7 @@
     "chalk": "6.0.0",
     "concurrently": "10.0.5",
     "copy-webpack-plugin": "14.0.0",
-    "cpx2": "9.0.0",
+    "cpx2": "9.0.3",
     "eslint": "9.39.2",
     "file-loader": "6.2.0",
     "geckodriver": "6.1.1",
