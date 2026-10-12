@@ -3912,17 +3912,17 @@ function-bind@^1.1.2:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.2.tgz#2c02d864d97f3ea6c8830c464cbd11ab6eab7a1c"
   integrity sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==
 
-geckodriver@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-6.1.1.tgz#4097fd95cf49e1f8cc93b46b5eb8e8dda2abcd4d"
-  integrity sha512-/AcCyc9o9o6hUbudaSJM2iOtXbxSLqQPOb4GrPvEN40cjraUeaX/j5kH3mSgwiroyMn7qzx2wM61AQ2XY8j3sA==
+geckodriver@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-7.0.0.tgz#411471fad5e891f6d1e49a9ccfb1bbdd6cdc9476"
+  integrity sha512-RypjU7cNcyjWK3ruEriCkWMRa9nroCT3y2qwkPynGzKTK1wG0UCWubb4AfVDTXzG9BhzRTwg29DoeK7PCRnK1w==
   dependencies:
     "@wdio/logger" "^9.18.0"
     "@zip.js/zip.js" "^2.8.11"
     decamelize "^6.0.1"
     http-proxy-agent "^7.0.2"
     https-proxy-agent "^7.0.6"
-    modern-tar "^0.7.3"
+    modern-tar "^0.8.5"
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -5062,10 +5062,10 @@ minipass@^7.1.3:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.3.tgz#79389b4eb1bb2d003a9bba87d492f2bd37bdc65b"
   integrity sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==
 
-modern-tar@^0.7.3:
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/modern-tar/-/modern-tar-0.7.7.tgz#ca71d79603630076b10733b0751ccab284bbc1ef"
-  integrity sha512-t9VmxaqrmANnEOBhpSDI6HD192Ge48k8vmWqQQL7hSFEqHEYwZbbsu49+aKLWZeRvFs3j1pMhXOqqF4kPlvjkQ==
+modern-tar@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/modern-tar/-/modern-tar-0.8.5.tgz#64f5eff1fafc1875f45bf0899452c09bf428cdb3"
+  integrity sha512-snEhs+6G5Tjd4I7tLCDOaoln2RgE0bD19RzEKgvgK2hZ5VKy3MpLhLTZ2fWpXSTg4K2cyPwp+VHATFJhxfnOeA==
 
 mousetrap@1.6.5:
   version "1.6.5"
