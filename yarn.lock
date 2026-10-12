@@ -260,10 +260,10 @@
     "@babel/template" "^7.29.7"
     "@babel/types" "^7.29.7"
 
-"@babel/parser@8.0.6":
-  version "8.0.6"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-8.0.6.tgz#5de0b4f9899dae7497f1aea6a6c81bd0863f04df"
-  integrity sha512-LpGDIYJAzc3Y3PT9x+FxBrGYu2PlWxLmyN7SwPTzaX0LSwEmFJBsRnPBqmaXF2r1v+Zhz6lNiEJ+7yKtM5+Ugg==
+"@babel/parser@8.0.7":
+  version "8.0.7"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-8.0.7.tgz#9230a40e3c9b3f2e72282f582f669ada4e645af2"
+  integrity sha512-UkDwEbPO1px2JQSrdh4qIgaH1JgG7GO/pFeJkpxhDxIETkT/QvGpnigXIw75ViHYPtIgKITmVUJqLjiO+JuWjA==
   dependencies:
     "@babel/types" "^8.0.6"
 
