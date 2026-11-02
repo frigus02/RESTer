@@ -79,7 +79,7 @@
     "cpx2": "9.0.3",
     "eslint": "9.39.2",
     "file-loader": "6.2.0",
-    "geckodriver": "6.1.1",
+    "geckodriver": "7.0.0",
     "globals": "^17.13.0",
     "html-webpack-plugin": "5.6.8",
     "jest": "30.5.2",
