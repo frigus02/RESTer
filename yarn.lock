@@ -1588,10 +1588,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@8.1.4":
-  version "8.1.4"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-8.1.4.tgz#bff58f46c6a5a062f46279a574a839d2996a15a2"
-  integrity sha512-Cgp3OP3u9x57kT1sZPI115SP5H1IyaBhdDPnvnHRYZ1988kW83wuqcIdcMinLJXlMKOL5Y2cufWHzngh5cVtow==
+"@mdn/browser-compat-data@8.1.6":
+  version "8.1.6"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-8.1.6.tgz#3b779c6e9676eb75d00c2f85c54de0957b76f1b5"
+  integrity sha512-bTP5c58cBsgMOokwa/ECLcAxTkIwBe9csIts92Nq2wviediIJadh9iHI4Ezn2q6RiZhy7b54SNRn/tZpPKtTsA==
 
 "@napi-rs/wasm-runtime@^1.1.4":
   version "1.2.3"
@@ -2642,14 +2642,14 @@ acorn@^8.15.0, acorn@^8.16.0, acorn@^8.5.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.16.0.tgz#4ce79c89be40afe7afe8f3adb902a1f1ce9ac08a"
   integrity sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==
 
-addons-linter@10.14.0:
-  version "10.14.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-10.14.0.tgz#82d85483a397796278b6a45fb86964cb3fe3bbe1"
-  integrity sha512-lVwnr27l7L7RNj/POvTEZzjV2106BX6rciSKM8O0zE4oabncXW4mURrz3xXfqDZIkPZ/NbQgwdCxQhwiP2mGMw==
+addons-linter@10.15.0:
+  version "10.15.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-10.15.0.tgz#2ec3c17fc2bb7aec3d5d86c1c1cc3b12bff23e2d"
+  integrity sha512-XYUcJckE9Z0/C77MvchBQrodrRTMH9rh1ZWqZFJihHnlo7QNLw13Xij/BGZBWRhTwvLVep3p3wvhpCqRGafj3A==
   dependencies:
     "@fluent/syntax" "0.19.0"
     "@fregante/relaxed-json" "2.0.0"
-    "@mdn/browser-compat-data" "8.1.4"
+    "@mdn/browser-compat-data" "8.1.6"
     addons-moz-compare "1.4.0"
     addons-scanner-utils "16.0.0"
     ajv "8.20.0"
@@ -2666,7 +2666,7 @@ addons-linter@10.14.0:
     fast-json-patch "3.1.1"
     image-size "2.0.4"
     json-merge-patch "1.0.2"
-    pino "10.3.1"
+    pino "10.4.0"
     semver "7.8.5"
     source-map-support "0.5.21"
     upath "3.0.8"
@@ -5341,10 +5341,10 @@ pino-std-serializers@^7.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-7.0.0.tgz#7c625038b13718dbbd84ab446bd673dc52259e3b"
   integrity sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA==
 
-pino@10.3.1:
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-10.3.1.tgz#6552c8f8d8481844c9e452e7bf0be90bff1939ce"
-  integrity sha512-r34yH/GlQpKZbU1BvFFqOjhISRo1MNx1tWYsYvmj6KIRHSPMT2+yHOEb1SG6NMvRoHRF0a07kCOox/9yakl1vg==
+pino@10.4.0:
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-10.4.0.tgz#8371a2633094100be30b6bf73fd69e29749588d5"
+  integrity sha512-bk1ZMTwG/Vymx+zPoa28MhNzucFvXJWp3csrSuxuHPSMeUettaCoQ5Jvg07mtC4JGNpcfTwz41oVCnNgBK9+vA==
   dependencies:
     "@pinojs/redact" "^0.4.0"
     atomic-sleep "^1.0.0"
@@ -5353,7 +5353,7 @@ pino@10.3.1:
     pino-std-serializers "^7.0.0"
     process-warning "^5.0.0"
     quick-format-unescaped "^4.0.3"
-    real-require "^0.2.0"
+    real-require "^1.0.0"
     safe-stable-stringify "^2.3.1"
     sonic-boom "^4.0.1"
     thread-stream "^4.0.0"
@@ -5459,11 +5459,6 @@ readdir-glob@^3.0.0:
   integrity sha512-AhNB2KgKeVJr16nK9LLZbJNWnYoT23ZrumNKFDebHBdkC8KHSqWo871JAUhoWC/RtjEVdqNMFpM6qrwRbaUqpw==
   dependencies:
     minimatch "^10.2.2"
-
-real-require@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.2.0.tgz#209632dea1810be2ae063a6ac084fee7e33fba78"
-  integrity sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==
 
 real-require@^1.0.0:
   version "1.0.0"
