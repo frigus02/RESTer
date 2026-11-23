@@ -1667,10 +1667,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mdn/browser-compat-data@8.1.6":
-  version "8.1.6"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-8.1.6.tgz#3b779c6e9676eb75d00c2f85c54de0957b76f1b5"
-  integrity sha512-bTP5c58cBsgMOokwa/ECLcAxTkIwBe9csIts92Nq2wviediIJadh9iHI4Ezn2q6RiZhy7b54SNRn/tZpPKtTsA==
+"@mdn/browser-compat-data@8.1.8":
+  version "8.1.8"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-8.1.8.tgz#5604db355f1532106c9e82b81ca8c53798772209"
+  integrity sha512-+RK7inkLeZ70kr9Mo+Y81JjZMpQIt0Sx40tHHU0hXGDSdf9YvlawH+4WlUpP3SE8rFLmjqGiTzL+qPPPnncWDw==
 
 "@napi-rs/wasm-runtime@^1.1.4":
   version "1.2.3"
@@ -2721,16 +2721,16 @@ acorn@^8.15.0, acorn@^8.16.0, acorn@^8.5.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.16.0.tgz#4ce79c89be40afe7afe8f3adb902a1f1ce9ac08a"
   integrity sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==
 
-addons-linter@10.15.0:
-  version "10.15.0"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-10.15.0.tgz#2ec3c17fc2bb7aec3d5d86c1c1cc3b12bff23e2d"
-  integrity sha512-XYUcJckE9Z0/C77MvchBQrodrRTMH9rh1ZWqZFJihHnlo7QNLw13Xij/BGZBWRhTwvLVep3p3wvhpCqRGafj3A==
+addons-linter@10.16.0:
+  version "10.16.0"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-10.16.0.tgz#4d15c06c2ee9d0bd880d5818cdeec8adb26d43bb"
+  integrity sha512-27o/0gqUqnbiZ2gBxqhHp1PyGkMmCrkHrXEsPIf3o5D2Hof++Wdil3N/Fxd3IMm1CRgbx9zhWeSaaEOZQasElg==
   dependencies:
     "@fluent/syntax" "0.19.0"
     "@fregante/relaxed-json" "2.0.0"
-    "@mdn/browser-compat-data" "8.1.6"
+    "@mdn/browser-compat-data" "8.1.8"
     addons-moz-compare "1.4.0"
-    addons-scanner-utils "16.0.0"
+    addons-scanner-utils "16.1.0"
     ajv "8.20.0"
     cheerio "1.2.0"
     columnify "1.6.0"
@@ -2743,10 +2743,10 @@ addons-linter@10.15.0:
     espree "11.2.0"
     esprima "4.0.1"
     fast-json-patch "3.1.1"
-    image-size "2.0.4"
+    image-size "2.1.0"
     json-merge-patch "1.0.2"
     pino "10.4.0"
-    semver "7.8.5"
+    semver "7.8.6"
     source-map-support "0.5.21"
     upath "3.0.8"
     yargs "17.7.3"
@@ -2757,10 +2757,10 @@ addons-moz-compare@1.4.0:
   resolved "https://registry.yarnpkg.com/addons-moz-compare/-/addons-moz-compare-1.4.0.tgz#14af93c30f1c1bc4f670008df33fbe622f798dc3"
   integrity sha512-uAM48cRt09id5+A2M11f1iDYebISjrIKyFYHfBI3GzqqC5BoOLFMSAFqHRaRvChL07qYPmcVme6VMoCKo19d6Q==
 
-addons-scanner-utils@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-16.0.0.tgz#9b98d08709200b1591bd3b2a9d379c7e1f83dc88"
-  integrity sha512-BFBWOR3p2/M0E6i1kYZNk2JNyM5f1a4PyKpBCWc3E9CQgFjpmIiuMEI8ZohpvsZgfdsOY9YXdWyCFPJ6m6C6zg==
+addons-scanner-utils@16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/addons-scanner-utils/-/addons-scanner-utils-16.1.0.tgz#f5f2fe21890754a354ebf50448edf908c6fec9a4"
+  integrity sha512-ppL/WxCt4e3AeK0AonYq9vBi3o0Bz8fC11V90DhDMChEZU3KLPnUKYTtbw5oYRAGZDyL7p4Dov3nvd3b9JrEtw==
   dependencies:
     common-tags "1.8.2"
     first-chunk-stream "3.0.0"
@@ -4205,10 +4205,10 @@ ignore@^7.0.5:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-7.0.5.tgz#4cb5f6cd7d4c7ab0365738c7aea888baa6d7efd9"
   integrity sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==
 
-image-size@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.4.tgz#bbc1933173e4ee1adbbdf9d4958ded15fdb710e3"
-  integrity sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==
+image-size@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.1.0.tgz#744768cd32be19583c5adb7491e265ccca03ecc8"
+  integrity sha512-6Dbisa46RsgeAh3TMSFL2i8+uIFG+/LRmz6Q2oscSJJvXo1sOw3EgNO4M8jPl1P+gR1atJLDPrpclX4IHz63sA==
 
 immediate@~3.0.5:
   version "3.0.6"
@@ -5776,10 +5776,10 @@ selenium-webdriver@4.49.0:
     tmp "^0.2.7"
     ws "^8.21.3"
 
-semver@7.8.5, semver@^7.5.4, semver@^7.7.2:
-  version "7.8.5"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.5.tgz#39b646037dd50c14fb451e7e4cac58ed8b863f69"
-  integrity sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==
+semver@7.8.6, semver@^7.5.4, semver@^7.7.2:
+  version "7.8.6"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.6.tgz#67c0cda133a3ceb6f70b803e67625bf969000424"
+  integrity sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==
 
 semver@^6.0.0, semver@^6.3.1:
   version "6.3.1"
